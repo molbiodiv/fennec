@@ -33,6 +33,10 @@
                 <include name="smarty/smarty" />
                 <include name="smarty/smarty/**" />
             </fileset>
+            <fileset dir="${srcdir}/">
+                <include name="smarty" />
+                <include name="smarty/**" />
+            </fileset>
         </copy>
     </target>
         

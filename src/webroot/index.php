@@ -8,7 +8,7 @@ require_once 'smarty/smarty/libs/Smarty.class.php';
 
 //initialize smarty
 $smarty = new Smarty();
-$smarty->setTemplateDir(SHARE_DIR . DIRECTORY_SEPARATOR . 'fennec-web' . DIRECTORY_SEPARATOR . 'smarty' . DIRECTORY_SEPARATOR . 'templates');
+$smarty->setTemplateDir(SHARE_DIR . DIRECTORY_SEPARATOR . 'smarty' . DIRECTORY_SEPARATOR . 'templates');
 $smarty->setCompileDir(VAR_DIR . DIRECTORY_SEPARATOR . 'smarty' . DIRECTORY_SEPARATOR . 'templates_c');
 $smarty->setCacheDir(VAR_DIR . DIRECTORY_SEPARATOR . 'cache');
 $smarty->left_delimiter = '{#';
