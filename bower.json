@@ -15,5 +15,8 @@
     "bower_components",
     "test",
     "tests"
-  ]
+  ],
+  "dependencies": {
+    "startbootstrap-sb-admin-2": "^1.0.8"
+  }
 }
