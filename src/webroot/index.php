@@ -4,7 +4,7 @@
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'config.php';
 
 //required libs
-require_once 'smarty/libs/Smarty.class.php';
+require_once 'smarty/smarty/libs/Smarty.class.php';
 
 //initialize smarty
 $smarty = new Smarty();

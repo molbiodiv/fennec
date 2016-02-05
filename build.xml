@@ -49,7 +49,7 @@
         
         <mkdir dir="${share_path}"/>
         <copy todir="${share_path}" >
-            <fileset dir="${builddir}/web/includes">
+            <fileset dir="${builddir}/includes">
                 <include name="**" />
                 <include name="**/**" />
             </fileset>
