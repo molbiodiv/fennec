@@ -21,6 +21,12 @@
                 <exclude name="config.php"/>
             </fileset>
         </copy>
+        <copy todir="${builddir}/webroot/bower_components" >
+            <fileset dir="${project.basedir}/bower_components">
+                <include name="**" />
+                <include name="**/**" />
+            </fileset>
+        </copy>
         <copy file="${srcdir}/webroot/config.php" todir="${builddir}/webroot" overwrite="true">
             <filterchain>
                 <expandproperties />
