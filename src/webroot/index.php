@@ -15,7 +15,7 @@ $smarty->left_delimiter = '{#';
 $smarty->right_delimiter = '#}';
 
 $smarty->assign('fennec_version', '0.0.1');
-$smarty->display('sbadmin2.tpl');
+$smarty->display('startpage.tpl');
 
 ?>
 
