@@ -1,6 +1,6 @@
-prefix = /opt
+prefix = 
 config_dir = ${prefix}/etc/fennec-web
-www_root = ${prefix}/var/www/fennec-web
+www_root = ${prefix}/var/www/html
 share_path = ${prefix}/share/fennec-web
 var_path = ${prefix}/var/fennec-web
 www_user = www-data
