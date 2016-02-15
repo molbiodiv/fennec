@@ -77,6 +77,20 @@
         <fail message="Please call phing with a target. To see all available targets, call 'phing -l'" />
     </target>
     
+    <target name="config" description="generate config file">
+        <mkdir dir="${builddir}/config"/>
+        <copy todir="${builddir}/config" overwrite="true">
+            <fileset dir="${srcdir}/config">
+                <include name="config.php" />
+            </fileset>
+            <filterchain>
+                <expandproperties />
+            </filterchain>
+        </copy>
+        <copy file="${builddir}/database/cvterms/config.php" tofile="${config_dir}/config.php.generated" overwrite="true"/>
+        <echo msg="Copied file config.php.generated to ${config_dir}. Please rename to config.php and customize it to your needs." />
+    </target>
+    
     <target name="clean">
         <delete dir="${builddir}" includeemptydirs="true" verbose="true" failonerror="true" />
     </target>
