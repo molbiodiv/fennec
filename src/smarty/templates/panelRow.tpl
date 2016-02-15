@@ -1,8 +1,8 @@
 <!-- The panel row for showing projects, communities, organisms and traits -->
 <div class="row">
     <div class="col-lg-3 col-md-6">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
+        <div class="panel panel-primary" style="border-color: #006100;">
+            <div class="panel-heading" style="background-color: #037203; border-color: #006100">
                 <div class="row">
                     <div class="col-xs-3">
                         <i class="fa fa-book fa-5x"></i>
@@ -15,16 +15,16 @@
             </div>
             <a href="#">
                 <div class="panel-footer">
-                    <span class="pull-left">View Details</span>
-                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <span class="pull-left" style="color: #005500">View Details</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right" style="color: #005500;"></i></span>
                     <div class="clearfix"></div>
                 </div>
             </a>
         </div>
     </div>
     <div class="col-lg-3 col-md-6">
-        <div class="panel panel-green">
-            <div class="panel-heading">
+        <div class="panel panel-green" style="border-color: #793700;">
+            <div class="panel-heading" style="background-color: #8f4304; border-color: #793700;">
                 <div class="row">
                     <div class="col-xs-3">
                         <i class="fa fa-tasks fa-5x"></i>
@@ -37,16 +37,16 @@
             </div>
             <a href="#">
                 <div class="panel-footer">
-                    <span class="pull-left">View Details</span>
-                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <span class="pull-left" style="color: #6a3000;">View Details</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right" style="color: #6a3000;"></i></span>
                     <div class="clearfix"></div>
                 </div>
             </a>
         </div>
     </div>
     <div class="col-lg-3 col-md-6">
-        <div class="panel panel-yellow">
-            <div class="panel-heading">
+        <div class="panel panel-yellow" style="border-color: #004848;">
+            <div class="panel-heading" style="background-color: #035656; border-color: #004848;">
                 <div class="row">
                     <div class="col-xs-3">
                         <i class="fa fa-linux fa-5x"></i>
@@ -59,16 +59,16 @@
             </div>
             <a href="#">
                 <div class="panel-footer">
-                    <span class="pull-left">View Details</span>
-                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <span class="pull-left" style="color: #004040;">View Details</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right" style="color: #004040;"></i></span>
                     <div class="clearfix"></div>
                 </div>
             </a>
         </div>
     </div>
     <div class="col-lg-3 col-md-6">
-        <div class="panel panel-red">
-            <div class="panel-heading">
+        <div class="panel panel-red" style="border-color: #790000;">
+            <div class="panel-heading" style="background-color: #8f0404; border-color: #790000;">
                 <div class="row">
                     <div class="col-xs-3">
                         <i class="fa fa-globe fa-5x"></i>
@@ -81,8 +81,8 @@
             </div>
             <a href="#">
                 <div class="panel-footer">
-                    <span class="pull-left">View Details</span>
-                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <span class="pull-left" style="color: #5f0000;">View Details</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right" style="color: #5f0000;"></i></span>
                     <div class="clearfix"></div>
                 </div>
             </a>
