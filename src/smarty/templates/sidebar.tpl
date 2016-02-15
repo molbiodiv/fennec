@@ -1,0 +1,1 @@
+<!-- Template of the sidebar for navigation -->
