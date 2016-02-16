@@ -1,6 +1,7 @@
 <!-- Navigation -->
 <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0; background-color: #856304;">
     <div class="navbar-header">
+        <img src="css/img/animal.png" height="50px" style="color: #ffe499"/>
         <a class="navbar-brand" href="/" style="color: #e7c568;">Fennec {#$fennec_version#}</a>
     </div>
     <!-- /.navbar-header -->

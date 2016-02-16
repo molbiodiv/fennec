@@ -24,7 +24,8 @@
         <link href="/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
         
         <!-- Custom Fonts -->
-        <link href="../../webroot/css/panels.css" rel="stylesheet" type="text/css">
+        <link href="/css/panels.css" rel="stylesheet" type="text/css">
+        
         {#block name='head'#}{#/block#}
     </head>
     <body>
