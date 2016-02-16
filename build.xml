@@ -42,6 +42,8 @@
             <fileset dir="${srcdir}/">
                 <include name="smarty" />
                 <include name="smarty/**" />
+                <include name="webservice" />
+                <include name="webservice/**" />
             </fileset>
         </copy>
     </target>
