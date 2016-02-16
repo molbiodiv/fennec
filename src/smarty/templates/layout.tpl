@@ -65,7 +65,8 @@
                 ykeys: ['value'],
                 // Labels for the ykeys -- will be displayed when you hover over the
                 // chart.
-                labels: ['Value']
+                labels: ['Value'],
+                lineColors: ['#037203']
             });
             
             Morris.Bar({
@@ -81,7 +82,8 @@
                 ],
                 xkey: 'y',
                 ykeys: ['a', 'b'],
-                labels: ['Series A', 'Series B']
+                labels: ['Series A', 'Series B'],
+                barColors: ['#A17F20', '#c4a03f']
             });
             
             Morris.Donut({
@@ -90,7 +92,8 @@
                     {label: "Download Sales", value: 12},
                     {label: "In-Store Sales", value: 30},
                     {label: "Mail-Order Sales", value: 20}
-                ]
+                ], 
+                colors: ['#8F0404', '#6A0000', '#AF1b1b']
             });
         </script>
     </body>
