@@ -1,6 +1,6 @@
 <!-- The panel row for showing projects, communities, organisms and traits -->
 <div class="row">
-    <div class="col-lg-3 col-md-6">
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
         <div class="panel panel-primary" style="border-color: #006100;">
             <div class="panel-heading" style="background-color: #037203; border-color: #006100">
                 <div class="row">
@@ -22,7 +22,7 @@
             </a>
         </div>
     </div>
-    <div class="col-lg-3 col-md-6">
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
         <div class="panel panel-green" style="border-color: #793700;">
             <div class="panel-heading" style="background-color: #8f4304; border-color: #793700;">
                 <div class="row">
@@ -44,7 +44,7 @@
             </a>
         </div>
     </div>
-    <div class="col-lg-3 col-md-6">
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
         <div class="panel panel-yellow" style="border-color: #004848;">
             <div class="panel-heading" style="background-color: #035656; border-color: #004848;">
                 <div class="row">
@@ -66,7 +66,7 @@
             </a>
         </div>
     </div>
-    <div class="col-lg-3 col-md-6">
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
         <div class="panel panel-red" style="border-color: #790000;">
             <div class="panel-heading" style="background-color: #8f0404; border-color: #790000;">
                 <div class="row">
