@@ -40,18 +40,6 @@
                     </li>
                 </ul>
             </li>
-            <!-- <li>
-                <a href="#" style="color: #856304"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow" style="color: #856304"></span></a>
-                <ul class="nav nav-second-level">
-                    <li>
-                        <a href="flot.html" style="color: #856304">Flot Charts</a>
-                    </li>
-                    <li>
-                        <a href="morris.html" style="color: #856304">Morris.js Charts</a>
-                    </li>
-                </ul>-->
-                <!-- /.nav-second-level
-            </li> -->
         </ul>
     </div>
     <!-- /.sidebar-collapse -->
