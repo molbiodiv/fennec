@@ -36,6 +36,5 @@
         <!-- /.dropdown -->
     </ul>
     <!-- /.navbar-top-links -->
-    
     {#include file='sidebar.tpl'#}
 </nav>

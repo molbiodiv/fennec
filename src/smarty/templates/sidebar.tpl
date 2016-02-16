@@ -22,13 +22,16 @@
                 <a href="index.html" style="color: #856304"><i class="fa fa-tasks fa-fw" style="color: #856304"></i> Communities</a>
             </li>
             <li>
-                <a href="index.html" style="color: #856304"><i class="fa fa-linux fa-fw" style="color: #856304"></i> Organisms<span class="fa arrow" style="color: #856304"></span></a>
+                <a href="index.html" style="color: #856304"><i class="fa fa-paw fa-fw" style="color: #856304"></i> Organisms<span class="fa arrow" style="color: #856304"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
                         <a href="flot.html" style="color: #856304">My Organisms</a>
                     </li>
                     <li>
-                        <a href="morris.html" style="color: #856304">Browse for Organisms</a>
+                        <a href="morris.html" style="color: #856304">Browse</a>
+                    </li>
+                    <li>
+                        <a href="morris.html" style="color: #856304">Search</a>
                     </li>
                 </ul>
             </li>
