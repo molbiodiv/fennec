@@ -97,17 +97,18 @@
                                 </tbody>
                             </table>
                         </div>
-                        <!-- /.table-responsive -->
                     </div>
-                    <!-- /.col-lg-4 (nested) -->
-                    <div class="col-lg-8">
-                        <div id="morris-bar-chart"></div>
+                    <div class="col-lg-12">
+                        <div id="simpleLineChart"></div>
                     </div>
-                    <!-- /.col-lg-8 (nested) -->
+                    <div class="col-lg-12">
+                        <div id="simpleBarChart"></div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div id="simpleDonutChart"></div>
+                    </div>
                 </div>
-                <!-- /.row -->
             </div>
-            <!-- /.panel-body -->
         </div>
     </div>
     <div class="col-lg-4">
