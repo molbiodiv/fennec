@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "6baa685b8022ffb24da12f63f055b091",
-    "content-hash": "4db42e545cb3a6e700e9f3eb8b8716fe",
+    "hash": "73cf7fc6fa610db105628a4d81bd573f",
+    "content-hash": "fe96c9e9c1d28030e8f1b426c0ad8e7d",
     "packages": [
         {
             "name": "phing/phing",
@@ -98,6 +98,36 @@
             "time": "2015-12-04 09:45:44"
         },
         {
+            "name": "phryneas/logged-pdo",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/iimog/loggedPDO.git",
+                "reference": "0b9c599869d350b027ccef1f2dc95d98f1d5aaf2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/iimog/loggedPDO/zipball/0b9c599869d350b027ccef1f2dc95d98f1d5aaf2",
+                "reference": "0b9c599869d350b027ccef1f2dc95d98f1d5aaf2",
+                "shasum": ""
+            },
+            "type": "library",
+            "license": [
+                "The MIT License (MIT)"
+            ],
+            "authors": [
+                {
+                    "name": "Lorenz Weber",
+                    "email": "mail@phryneas.de"
+                }
+            ],
+            "description": "Class extending the php PDO Class for logging purpose",
+            "support": {
+                "source": "https://github.com/iimog/loggedPDO/tree/master"
+            },
+            "time": "2016-02-16 09:41:41"
+        },
+        {
             "name": "smarty/smarty",
             "version": "v3.1.29",
             "source": {
@@ -156,7 +186,9 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "phryneas/logged-pdo": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
