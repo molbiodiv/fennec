@@ -14,7 +14,7 @@ $smarty->setCacheDir(VAR_DIR . DIRECTORY_SEPARATOR . 'smarty' . DIRECTORY_SEPARA
 $smarty->left_delimiter = '{#';
 $smarty->right_delimiter = '#}';
 
-$smarty->assign('AppPath', APPPATH);
+$smarty->assign('WebRoot', WEBROOT);
 $smarty->assign('ServicePath', SERVICEPATH);
 
 $smarty->assign('fennec_version', '0.0.1');

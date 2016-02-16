@@ -2,7 +2,7 @@
 // the path to your web site. 
 // if you are at the root dir of your domain, this can be an empty string.
 // otherwise, use an url like http://example.com
-define('APPPATH', '');
+define('WEBROOT', '');
 //just like above, just for the subfolder /ajax.
 //either /ajax 
 //or http://example.com/ajax
