@@ -8,11 +8,6 @@
             <!-- /.row -->
             {#include file='title.tpl'#}
             
-            <!-- /.row -->
-            {#include file='panelRow.tpl'#}
-            
-            <!-- /.row -->
-            {#include file='chart.tpl'#}
         <!-- /#page-wrapper -->
         </div>
 
