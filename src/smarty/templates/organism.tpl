@@ -7,6 +7,7 @@
         <div id="page-wrapper">
             <!-- /.row -->
             {#include file='title.tpl'#}
+            {#include file='searchForm.tpl'#}
             
             {#include file='grid.tpl'#}
             
