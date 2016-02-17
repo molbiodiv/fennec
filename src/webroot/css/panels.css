@@ -1,25 +1,9 @@
-/*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
-/* 
-    Created on : 16.02.2016, 09:45:11
-    Author     : sonja
-*/
-
 .panel-projects {
-    
-}
+  background-color: #098709;
+  border-color: #076f07;
+  color: #fff; }
 
-.panel-communities {
-    
-}
+.info-projects {
+  color: #076f07; }
 
-.panel-organisms {
-    
-}
-
-.panel-traits {
-    
-}
+/*# sourceMappingURL=panels.css.map */
