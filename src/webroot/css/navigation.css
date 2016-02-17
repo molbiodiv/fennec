@@ -1,20 +1,17 @@
 .navbar-startpage {
-    margin-bottom: 0;
-    background-color: #856304;
-    color: #e7c568;
-}
+  margin-bottom: 0;
+  background-color: #A6750E;
+  color: #ebc677; }
 
 .navbar-icon-startpage:hover, .navbar-icon:active, navbar-icon:link {
-    color: #e7c568;
-}
+  color: #ebc677; }
 
 .navbar-organism {
-    margin-bottom: 0;
-    background-color: #035656;
-    color: #31879f;
-}
+  margin-bottom: 0;
+  background-color: #076565;
+  color: #41b1b1; }
 
 .navbar-icon-organism:hover, .navbar-icon:active, navbar-icon:link {
-    color: #31879f;
-}
+  color: #41b1b1; }
 
+/*# sourceMappingURL=navigation.css.map */
