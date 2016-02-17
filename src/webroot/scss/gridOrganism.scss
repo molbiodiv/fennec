@@ -1,5 +1,15 @@
 $organism-2: #138080;
+$organism-1: #338C8C;
 
 .grid-organism {
     background-color: $organism-2;
+    color: #fff;
+}
+.grid-info-organism {
+    background-color: #fff;
+    color: darken($organism-2, 5%);
+}
+
+.grid-details-organism {
+    color: darken($organism-2, 5%);
 }
