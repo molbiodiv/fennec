@@ -1,14 +1,14 @@
 <!-- Navigation -->
-<nav class="navbar navbar-static-top navbar-{#$navbar_type#}" role="navigation">
+<nav class="navbar navbar-static-top navbar-{#$type#}" role="navigation">
     <div class="navbar-header">
-        <img src="css/img/animal.png" height="50px"/>
-        <a class="navbar-brand navbar-{#$navbar_type#}" href="/">Fennec {#$fennec_version#}</a>
+        <img src="css/img/animal-{#$type#}.png" height="50px"/>
+        <a class="navbar-brand navbar-{#$type#}" href="/">Fennec {#$fennec_version#}</a>
     </div>
     <!-- /.navbar-header -->
 
     <ul class="nav navbar-top-links navbar-right">
         <li class="dropdown">
-            <a class="dropdown-toggle navbar-{#$navbar_type#} navbar-icon-{#$navbar_type#}" data-toggle="dropdown" href="#">
+            <a class="dropdown-toggle navbar-{#$type#} navbar-icon-{#$type#}" data-toggle="dropdown" href="#">
                 <i class="fa fa-question-circle"></i> <i class="fa fa-caret-down"></i>
             </a>
             <ul class="dropdown-menu">
@@ -19,7 +19,7 @@
         </li>
         
         <li class="dropdown">
-            <a class="dropdown-toggle navbar-{#$navbar_type#} navbar-icon-{#$navbar_type#}" data-toggle="dropdown" href="#">
+            <a class="dropdown-toggle navbar-{#$type#} navbar-icon-{#$type#}" data-toggle="dropdown" href="#">
                 <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
             </a>
             <ul class="dropdown-menu dropdown-user">
