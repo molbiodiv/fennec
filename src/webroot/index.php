@@ -23,10 +23,12 @@ $page = requestVal('page', '/^[a-z-_\.]*$/', '');
 switch ($page) {
     case 'organism':
         $smarty->assign('navbar_type', 'organism');
+        $smarty->assign('sidebar_type', 'organism');
         $smarty->display('organism.tpl');
         die();
 }
 $smarty->assign('navbar_type', 'startpage');
+$smarty->assign('sidebar_type', 'startpage');
 $smarty->display('startpage.tpl');
 
 /**
