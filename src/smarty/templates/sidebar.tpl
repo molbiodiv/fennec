@@ -13,33 +13,33 @@
                 </div>
             </li>
             <li>
-                <a href="index.html" style="color: #856304"><i class="fa fa-home fa-fw" style="color: #856304"></i> Home</a>
+                <a href="index.html"><i class="fa fa-home fa-fw"></i> Home</a>
             </li>
             <li>
-                <a href="index.html" style="color: #856304"><i class="fa fa-book fa-fw" style="color: #856304"></i> Projects</a>
+                <a href="index.html"><i class="fa fa-book fa-fw"></i> Projects</a>
             </li>
             <li>
-                <a href="index.html" style="color: #856304"><i class="fa fa-tasks fa-fw" style="color: #856304"></i> Communities</a>
+                <a href="index.html"><i class="fa fa-tasks fa-fw"></i> Communities</a>
             </li>
             <li>
-                <a href="index.html" style="color: #856304"><i class="fa fa-paw fa-fw" style="color: #856304"></i> Organisms<span class="fa arrow" style="color: #856304"></span></a>
+                <a href="index.html"><i class="fa fa-paw fa-fw"></i> Organisms<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="flot.html" style="color: #856304">My Organisms</a>
+                        <a href="flot.html">My Organisms</a>
                     </li>
                     <li>
-                        <a href="morris.html" style="color: #856304">Browse</a>
+                        <a href="morris.html">Browse</a>
                     </li>
                     <li>
-                        <a href="morris.html" style="color: #856304">Search</a>
+                        <a href="morris.html">Search</a>
                     </li>
                 </ul>
             </li>
             <li>
-                <a href="index.html" style="color: #856304"><i class="fa fa-globe fa-fw" style="color: #856304"></i> Traits<span class="fa arrow" style="color: #856304"></span></a>
+                <a href="index.html"><i class="fa fa-globe fa-fw"></i> Traits<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="flot.html" style="color: #856304">Search</a>
+                        <a href="flot.html">Search</a>
                     </li>
                 </ul>
             </li>
