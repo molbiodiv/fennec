@@ -29,6 +29,9 @@
         <!-- Navbar style -->
         <link href="{#$WebRoot#}/css/navigation.css" rel="stylesheet" type="text/css">
         
+        <!-- Sidebar style -->
+        <link href="{#$WebRoot#}/css/sidebar.css" rel="stylesheet" type="text/css">
+        
         {#block name='head'#}{#/block#}
     </head>
     <body>
