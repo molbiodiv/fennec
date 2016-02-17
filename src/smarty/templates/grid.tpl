@@ -1,24 +1,28 @@
 <div class="row">
-    <div class="col-lg-4">
-        <div class="panel panel-projects">
+    <div class="col-lg-3">
+        <div class="panel grid-organism">
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-3">
-                        <i class="fa fa-book fa-5x"></i>
+                        <i class="fa fa-paw fa-2x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                        <div class="huge">26</div>
-                        <div>Projects</div>
+                        <div style="font-style: italic">Vulpes zerda</div>
                     </div>
                 </div>
             </div>
-            <a href="#">
-                <div class="panel-footer info-projects">
-                    <span class="pull-left">View Details</span>
-                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                    <div class="clearfix"></div>
+            <div class="panel-footer grid-info-organism">
+                <div class="row">
+                    <div class="col-xs-10 text-left">
+                        Hier steht info
+                    </div>
+                    <a class="grid-details-organism">
+                        <div class="col-xs-2 text-right">
+                            <span class="pull-right"><i class="fa fa-arrow-circle-right fa-2x"></i></span>
+                        </div>
+                    </a>
                 </div>
-            </a>
+            </div>
         </div>
     </div>
 </div>
