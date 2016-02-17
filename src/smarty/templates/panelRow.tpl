@@ -23,8 +23,8 @@
         </div>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
-        <div class="panel panel-green" style="border-color: #793700;">
-            <div class="panel-heading" style="background-color: #8f4304; border-color: #793700;">
+        <div class="panel panel-communities">
+            <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-3">
                         <i class="fa fa-tasks fa-5x"></i>
@@ -37,8 +37,8 @@
             </div>
             <a href="#">
                 <div class="panel-footer">
-                    <span class="pull-left" style="color: #6a3000;">View Details</span>
-                    <span class="pull-right"><i class="fa fa-arrow-circle-right" style="color: #6a3000;"></i></span>
+                    <span class="pull-left">View Details</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                     <div class="clearfix"></div>
                 </div>
             </a>
