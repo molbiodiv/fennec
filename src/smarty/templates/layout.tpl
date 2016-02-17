@@ -26,6 +26,9 @@
         <!-- Custom Fonts -->
         <link href="{#$WebRoot#}/css/panels.css" rel="stylesheet" type="text/css">
         
+        <!-- Navbar style -->
+        <link href="{#$WebRoot#}/css/navigation.css" rel="stylesheet" type="text/css">
+        
         {#block name='head'#}{#/block#}
     </head>
     <body>

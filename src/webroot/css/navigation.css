@@ -4,3 +4,17 @@
     color: #e7c568;
 }
 
+.navbar-icon-startpage:hover, .navbar-icon:active, navbar-icon:link {
+    color: #e7c568;
+}
+
+.navbar-organism {
+    margin-bottom: 0;
+    background-color: #035656;
+    color: #31879f;
+}
+
+.navbar-icon-organism:hover, .navbar-icon:active, navbar-icon:link {
+    color: #31879f;
+}
+
