@@ -8,6 +8,8 @@
             <!-- /.row -->
             {#include file='title.tpl'#}
             
+            {#include file='grid.tpl'#}
+            
         <!-- /#page-wrapper -->
         </div>
 
