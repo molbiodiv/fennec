@@ -1,0 +1,25 @@
+$startpage-0: #A6750E;
+$startpage-1: #E5B34A;
+$organism-0: #076565;
+$organism-1: #338C8C;
+
+.navbar-startpage {
+    margin-bottom: 0;
+    background-color: $startpage-0;
+    color: lighten($startpage-1, 10%);
+}
+
+.navbar-icon-startpage:hover, .navbar-icon:active, navbar-icon:link {
+    color: lighten($startpage-1, 10%);
+}
+
+.navbar-organism {
+    margin-bottom: 0;
+    background-color: $organism-0;
+    color: lighten($organism-1, 10%);
+}
+
+.navbar-icon-organism:hover, .navbar-icon:active, navbar-icon:link {
+    color: lighten($organism-1, 10%);
+}
+
