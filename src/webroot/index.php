@@ -24,13 +24,13 @@ switch ($page) {
     case 'organism':
         $smarty->assign('navbar_type', 'organism');
         $smarty->assign('sidebar_type', 'organism');
-        $smarty->assign('title', 'organism');
+        $smarty->assign('title', 'Organisms');
         $smarty->display('organism.tpl');
         die();
 }
 $smarty->assign('navbar_type', 'startpage');
 $smarty->assign('sidebar_type', 'startpage');
-$smarty->assign('title', 'startpage');
+$smarty->assign('title', 'Welcome');
 $smarty->display('startpage.tpl');
 
 /**
