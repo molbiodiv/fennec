@@ -18,8 +18,30 @@ $smarty->assign('WebRoot', WEBROOT);
 $smarty->assign('ServicePath', SERVICEPATH);
 
 $smarty->assign('fennec_version', '0.0.1');
+
+$page = requestVal('page', '/^[a-z-_\.]*$/', '');
+switch ($page) {
+    case 'organism':
+        $smarty->assign('navbar_type', 'organism');
+        $smarty->display('organism.tpl');
+        die();
+}
+$smarty->assign('navbar_type', 'startpage');
 $smarty->display('startpage.tpl');
 
+/**
+ * returns $_REQUEST[$key] value if it matches $regexp, else return $defaultvalue
+ * @param String $key
+ * @param String $regexp
+ * @param String $defaultvalue
+ * @return String
+ */
+function requestVal($key, $regexp = "/^.*$/", $defaultvalue = "") {
+    if (!isset($_REQUEST[$key]) || !preg_match($regexp, $_REQUEST[$key]))
+        return $defaultvalue;
+    else
+        return $_REQUEST[$key];
+}
 ?>
 
 
