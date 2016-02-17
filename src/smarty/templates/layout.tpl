@@ -46,5 +46,8 @@
 
         <!-- Custom Theme JavaScript -->
         <script src="{#$WebRoot#}/bower_components/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
+        
+        <!-- Call morris charts -->
+        <script src="{#$WebRoot#}/js/morrisCharts.js"></script>
     </body>
 </html>
