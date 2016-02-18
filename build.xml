@@ -35,13 +35,9 @@
         
         <mkdir dir="${builddir}/includes"/>
         <copy todir="${builddir}/includes" >
-            <fileset dir="${project.basedir}/vendor">
-                <include name="smarty/smarty" />
-                <include name="smarty/smarty/**" />
-                <include name="phryneas/" />
-                <include name="phryneas/**" />
-                <include name="pear" />
-                <include name="pear/**" />
+            <fileset dir="${project.basedir}">
+                <include name="vendor" />
+                <include name="vendor/**" />
             </fileset>
             <fileset dir="${srcdir}/">
                 <include name="smarty" />

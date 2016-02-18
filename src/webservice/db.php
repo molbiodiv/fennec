@@ -18,8 +18,6 @@ function connect_queue_db() {
 function get_db_connection($connstr, $username, $password) {
     try {
         if (defined('DEBUG') && DEBUG) {
-            require_once 'phryneas/logged-pdo/PDO.php';
-            require_once 'phryneas/logged-pdo/Log_firebugJSON.php';
 
             if (PHP_SAPI == 'cli') {
                 $logtype = 'console';
