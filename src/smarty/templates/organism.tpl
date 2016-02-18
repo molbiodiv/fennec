@@ -1,19 +1,5 @@
-{#extends file='layout.tpl'#}
-{#block name='body'#}
-    <div id="wrapper">
-        
-        {#include file='navigation.tpl'#}
-
-        <div id="page-wrapper">
-            <!-- /.row -->
-            {#include file='title.tpl'#}
-            {#include file='searchForm.tpl'#}
-            
-            {#include file='grid.tpl'#}
-            
-        <!-- /#page-wrapper -->
-        </div>
-
-    </div>
-    <!-- /#wrapper -->
+{#extends file='layoutWithBars.tpl'#}
+{#block name='content'#}
+    {#include file='searchForm.tpl'#}
+    {#include file='grid.tpl'#}
 {#/block#}
