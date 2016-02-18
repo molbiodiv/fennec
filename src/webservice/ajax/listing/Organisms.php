@@ -39,6 +39,21 @@ EOF;
         
         return $data;
     }
+    
+    public function getAllOrganisms(){
+        global $db;
+        
+        $query = "SELECT * FROM organism";
+        $stm_get_organisms = $db->prepare($query);
+        $stm_get_organisms->execute();
+        $stm_get_organisms->setFetchMode(\PDO::FETCH_OBJ);
+        
+        $result = array();
+        while ($row = $stm_get_organisms->fetch()) {
+            $result[] = $this->abbreviation;
+        }
+        return $result;
+    }
 
 }
 
