@@ -19,8 +19,8 @@ error_reporting(E_ALL ^ E_STRICT ^ E_NOTICE);
 ini_set('display_errors', '0');
 
 //uncomment for debugging
-//if (isset($_REQUEST['DEBUG']))
-//    define('DEBUG', true);
-//error_reporting(E_ALL );
-//ini_set('display_errors', '1');
+if (isset($_REQUEST['DEBUG']))
+    define('DEBUG', true);
+error_reporting(E_ALL );
+ini_set('display_errors', '1');
 ?>
