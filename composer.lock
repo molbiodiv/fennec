@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "08fb0a3bd9598be3ea49cd7e2efb223a",
-    "content-hash": "046d45a08e2c60bcc551727cd61b17c0",
+    "hash": "f7f5e1dc454749605601284721231d53",
+    "content-hash": "71ccc62a805316c12ab6b904577d8ed5",
     "packages": [
         {
             "name": "pear/log",
@@ -210,13 +210,13 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/iimog/loggedPDO.git",
-                "reference": "4b7281b25f01a45a56a15312663fc38009f2958f"
+                "url": "https://github.com/phryneas/loggedPDO.git",
+                "reference": "8ee1264d65439200cb1b5478852f8012deef7921"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/iimog/loggedPDO/zipball/4b7281b25f01a45a56a15312663fc38009f2958f",
-                "reference": "4b7281b25f01a45a56a15312663fc38009f2958f",
+                "url": "https://api.github.com/repos/phryneas/loggedPDO/zipball/8ee1264d65439200cb1b5478852f8012deef7921",
+                "reference": "8ee1264d65439200cb1b5478852f8012deef7921",
                 "shasum": ""
             },
             "require": {
@@ -228,8 +228,9 @@
                     "LoggedPDO\\": ""
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "The MIT License (MIT)"
+                "MIT"
             ],
             "authors": [
                 {
@@ -238,10 +239,7 @@
                 }
             ],
             "description": "Class extending the php PDO Class for logging purpose",
-            "support": {
-                "source": "https://github.com/iimog/loggedPDO/tree/master"
-            },
-            "time": "2016-02-17 13:19:13"
+            "time": "2016-02-17 21:21:11"
         },
         {
             "name": "smarty/smarty",

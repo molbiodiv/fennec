@@ -1,10 +1,4 @@
 {
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/iimog/loggedPDO"
-        }
-    ],
     "require": {
         "phryneas/logged-pdo": "dev-master",
         "smarty/smarty": "~3.1",
