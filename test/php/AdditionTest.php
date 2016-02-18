@@ -3,7 +3,6 @@ class AdditionTest extends PHPUnit_Framework_TestCase
 {
     public function testAddition()
     {
-        include_once 'Addition.php';
         $add = new Addition();
         $this->assertEquals(0, $add->add(0,0));
         $this->assertEquals(1, $add->add(0,1));

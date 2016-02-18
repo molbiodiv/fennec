@@ -38,12 +38,12 @@
             <fileset dir="${project.basedir}">
                 <include name="vendor" />
                 <include name="vendor/**" />
+                <include name="src/webservice" />
+                <include name="src/webservice/**" />
             </fileset>
             <fileset dir="${srcdir}/">
                 <include name="smarty" />
                 <include name="smarty/**" />
-                <include name="webservice" />
-                <include name="webservice/**" />
             </fileset>
         </copy>
     </target>

@@ -1,6 +1,6 @@
 <?php
 
-require_once 'webservice/db.php';
+require_once 'db.php';
 
 /**
  * Abstract Base class for all web services.
