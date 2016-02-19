@@ -8,13 +8,13 @@ class OrganismsTest extends PHPUnit_Framework_TestCase
         list($service) = \WebService::factory('listing/Organisms');
         
         $results = ($service->execute(array('limit' => 2)));
-        $this->assertEquals(1, count($results));
+        $this->assertEquals(2, count($results));
         
         $results = ($service->execute(array()));
-        $this->assertEquals(1, count($results));
+        $this->assertEquals(5, count($results));
         
         $results = ($service->execute(array('limit' => 10000000)));
-        $this->assertEquals(1, count($results));
+        $this->assertEquals(12, count($results));
 
     }
 }
