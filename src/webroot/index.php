@@ -23,6 +23,11 @@ switch ($page) {
         $smarty->assign('title', 'Organisms');
         $smarty->display('organism.tpl');
         die();
+    case 'project':
+        $smarty->assign('type', 'project');
+        $smarty->assign('title', 'Projects');
+        $smarty->display('project.tpl');
+        die();
 }
 $smarty->assign('type', 'startpage');
 $smarty->assign('title', 'Welcome');
