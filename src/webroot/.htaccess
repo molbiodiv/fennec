@@ -4,3 +4,4 @@ RewriteCond %{REQUEST_FILENAME} !-f
 
 RewriteRule ^sbadmin2$    index.php?page=sbadmin2 [L,NC,QSA]
 RewriteRule ^organism$    index.php?page=organism [L,NC,QSA]
+RewriteRule ^project$    index.php?page=project [L,NC,QSA]
