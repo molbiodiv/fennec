@@ -1,5 +1,5 @@
 {#extends file='layoutWithBars.tpl'#}
 {#block name='content'#}
-    {#include file='panelRow.tpl'#}
-    {#include file='startpageContent.tpl'#}
+    {#include file='components/panelRow.tpl'#}
+    {#include file='content/startpageContent.tpl'#}
 {#/block#}

@@ -3,11 +3,11 @@
 {#block name='body'#}
     <div id="wrapper">
         
-        {#include file='navigation.tpl'#}
+        {#include file='components/navigation.tpl'#}
 
         <div id="page-wrapper">
             <!-- /.row -->
-            {#include file='title.tpl'#}
+            {#include file='components/title.tpl'#}
             
             {#block name='content'#}{#/block#}
         <!-- /#page-wrapper -->
