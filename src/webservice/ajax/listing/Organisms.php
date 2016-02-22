@@ -23,7 +23,7 @@ class Organisms extends \WebService {
         }
         $query_get_organisms = <<<EOF
 SELECT *
-    FROM organism LIMIT $limit
+    FROM organism LIMIT ?
 EOF;
         
         $stm_get_organisms = $db->prepare($query_get_organisms);
