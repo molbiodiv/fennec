@@ -18,7 +18,7 @@ class Organisms extends \WebService {
         global $db;
         
         $limit = 5;
-        if(in_array('limit', $querydata)){
+        if(in_array('limit', array_keys($querydata))){
             $limit = $querydata['limit'];
         }
         $query_get_organisms = <<<EOF
@@ -30,7 +30,7 @@ EOF;
 
         $data = array();
 
-        $stm_get_organisms->execute($limit);
+        $stm_get_organisms->execute(array($limit));
         
         while ($row = $stm_get_organisms->fetch(PDO::FETCH_ASSOC)) {
             $data[] = $row;
