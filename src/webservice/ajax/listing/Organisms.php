@@ -17,21 +17,20 @@ class Organisms extends \WebService {
     public function execute($querydata) {
         global $db;
         
-        $organism_ids = $querydata['ids'];
-
-        $place_holders = implode(',', array_fill(0, count($organism_ids), '?'));
-        
+        $limit = 5;
+        if(in_array('limit', $querydata)){
+            $limit = $querydata['limit'];
+        }
         $query_get_organisms = <<<EOF
 SELECT *
-    FROM organism
-    WHERE organism_id IN ($place_holders)
+    FROM organism LIMIT $limit
 EOF;
         
         $stm_get_organisms = $db->prepare($query_get_organisms);
 
         $data = array();
 
-        $stm_get_organisms->execute($organism_ids);
+        $stm_get_organisms->execute($limit);
         
         while ($row = $stm_get_organisms->fetch(PDO::FETCH_ASSOC)) {
             $data[] = $row;
