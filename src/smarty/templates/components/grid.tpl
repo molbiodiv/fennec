@@ -1,3 +1,4 @@
+{#call_webservice path="ajax/listing/Organisms" data=["query1"=>$limit] assign='data'#}
 <div class="col-lg-3">
     <div class="panel grid-organism">
         <div class="panel-heading">
@@ -6,7 +7,7 @@
                     <i class="fa fa-paw fa-2x"></i>
                 </div>
                 <div class="col-xs-9 text-right">
-                    <div style="font-style: italic">Vulpes zerda</div>
+                    <div style="font-style: italic">Viech</div>
                 </div>
             </div>
         </div>
@@ -24,3 +25,4 @@
         </div>
     </div>
 </div>
+

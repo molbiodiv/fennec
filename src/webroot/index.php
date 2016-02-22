@@ -28,6 +28,16 @@ switch ($page) {
         $smarty->assign('title', 'Projects');
         $smarty->display('project.tpl');
         die();
+    case 'trait':
+        $smarty->assign('type', 'trait');
+        $smarty->assign('title', 'Traits');
+        $smarty->display('trait.tpl');
+        die();
+    case 'community':
+        $smarty->assign('type', 'community');
+        $smarty->assign('title', 'Communities');
+        $smarty->display('community.tpl');
+        die();
 }
 $smarty->assign('type', 'startpage');
 $smarty->assign('title', 'Welcome');
