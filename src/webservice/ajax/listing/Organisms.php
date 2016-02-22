@@ -16,7 +16,7 @@ class Organisms extends \WebService {
      */
     public function execute($querydata) {
         global $db;
-        
+        var_dump($querydata);
         $limit = 5;
         if(in_array('limit', array_keys($querydata))){
             $limit = $querydata['limit'];
