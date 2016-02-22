@@ -22,6 +22,7 @@ switch ($page) {
     case 'organism':
         $smarty->assign('type', 'organism');
         $smarty->assign('title', 'Organisms');
+        $smarty->assign('limit', '10');
         $smarty->display('organism.tpl');
         die();
     case 'project':
