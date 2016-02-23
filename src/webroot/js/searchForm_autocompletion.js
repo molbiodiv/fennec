@@ -7,14 +7,14 @@
         var $search = request.term;
         $.ajax({
             url: $servicePath.concat("/ajax/listing/Organisms"),
-            data: {term:  request.term, limit: 10, search: $search},
+            data: {term:  request.term, limit: 500, search: $search},
             dataType: "json",
             success: function (data) {
                 response(data);
             }
         });
     },
-    minLength: 5
+    minLength: 4
 });
 
 $("#search_organism").data("ui-autocomplete")._renderItem = function (ul, item) {

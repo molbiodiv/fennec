@@ -35,6 +35,8 @@
         <!-- Grid style for organism page -->
         <link href="{#$WebRoot#}/css/gridOrganism.css" rel="stylesheet" type="text/css">
         
+        <link href="{#$WebRoot#}/css/autocomplete.css" rel="stylesheet" type="text/css">
+        
         <!-- jQuery UI Theme Style -->
         <link href="{#$WebRoot#}/bower_components/jquery-ui/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css">
         
