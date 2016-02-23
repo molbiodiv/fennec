@@ -17,17 +17,16 @@ class Organisms extends \WebService {
     public function execute($querydata) {
         global $db;
         $limit = 5;
+        var_dump($querydata);
         if(in_array('limit', array_keys($querydata))){
             $limit = $querydata['limit'];
         }
         
         $search = $querydata['search'];
-        var_dump($search);
         $query_get_organisms = <<<EOF
 SELECT *
     FROM organism WHERE organism.genus LIKE '$search' LIMIT ?
 EOF;
-        var_dump($query_get_organisms);
         $stm_get_organisms = $db->prepare($query_get_organisms);
 
         $data = array();
