@@ -9,11 +9,7 @@
                 </div>
                 <div class="col-xs-9 text-right">
                     <div style="font-style: italic">
-                        {#if $organism.abbreviation == null #}
-                            {#$organism.genus#}
-                        {#else#}
-                            {#$organism.abbreviation#}
-                        {#/if#}
+                        {#$organism.scientific_name#}
                     </div>
                 </div>
             </div>
@@ -21,10 +17,7 @@
         <div class="panel-footer grid-info-organism" style='height: 80px;'>
             <div class="row">
                 <div class="col-xs-10 text-left">
-                    Genus: {#$organism.genus#}
-                </div>
-                <div class="col-xs-10 text-left">
-                    Species: {#$organism.species#}
+                    rank: {#$organism.rank#}
                 </div>
                 <a class="grid-details-organism">
                     <div class="col-xs-2 text-right">
