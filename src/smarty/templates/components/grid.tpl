@@ -16,6 +16,11 @@
         </div>
         <div class="panel-footer grid-info-organism" style='height: 80px;'>
             <div class="row">
+                {#if $organism.common_name != null #}
+                    <div class="col-xs-10 text-left">
+                        common name: {#$organism.common_name#}
+                    </div>
+                {#/if#}
                 <div class="col-xs-10 text-left">
                     rank: {#$organism.rank#}
                 </div>
