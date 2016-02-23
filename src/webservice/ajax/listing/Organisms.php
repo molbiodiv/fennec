@@ -20,11 +20,14 @@ class Organisms extends \WebService {
         if(in_array('limit', array_keys($querydata))){
             $limit = $querydata['limit'];
         }
+        
+        $search = $querydata['search'];
+        var_dump($search);
         $query_get_organisms = <<<EOF
 SELECT *
-    FROM organism LIMIT ?
+    FROM organism WHERE organism.genus LIKE '$search' LIMIT ?
 EOF;
-        
+        var_dump($query_get_organisms);
         $stm_get_organisms = $db->prepare($query_get_organisms);
 
         $data = array();
@@ -34,7 +37,7 @@ EOF;
         while ($row = $stm_get_organisms->fetch(PDO::FETCH_ASSOC)) {
             if($row["abbreviation"]==null){
                 $row['genus']=$row['species'];
-                $row['species']="Unknown";
+                $row['species']="unknown";
             }
             $data[] = $row;
         }
