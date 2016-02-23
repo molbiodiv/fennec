@@ -17,7 +17,6 @@ class Organisms extends \WebService {
     public function execute($querydata) {
         global $db;
         $limit = 5;
-        var_dump($querydata);
         if(in_array('limit', array_keys($querydata))){
             $limit = $querydata['limit'];
         }
@@ -25,7 +24,7 @@ class Organisms extends \WebService {
         $search = $querydata['search'];
         $query_get_organisms = <<<EOF
 SELECT *
-    FROM organism WHERE organism.genus LIKE '$search' LIMIT ?
+    FROM organism WHERE organism.genus LIKE '%$search%' LIMIT ?
 EOF;
         $stm_get_organisms = $db->prepare($query_get_organisms);
 
@@ -34,11 +33,15 @@ EOF;
         $stm_get_organisms->execute(array($limit));
         
         while ($row = $stm_get_organisms->fetch(PDO::FETCH_ASSOC)) {
-            if($row["abbreviation"]==null){
-                $row['genus']=$row['species'];
-                $row['species']="unknown";
+            $result = array();
+            $result['organism_id'] = $row['organism_id'];
+            $result['scientific_name'] = $row['species'];
+            $result['rank'] = $row['genus'];
+            $result['common_name'] = $row['common_name'];
+            if($row["abbreviation"]!=null){
+                $result['rank']='species';
             }
-            $data[] = $row;
+            $data[] = $result;
         }
         
         return $data;
