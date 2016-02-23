@@ -38,4 +38,8 @@
 .navbar-icon-community:hover, .navbar-icon:active, navbar-icon:link {
   color: #efb381; }
 
+.form-control:focus {
+  border-color: #076565;
+  box-shadow: #338C8C; }
+
 /*# sourceMappingURL=navigation.css.map */

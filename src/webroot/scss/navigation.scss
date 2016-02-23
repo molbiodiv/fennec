@@ -59,3 +59,8 @@ $community-1: #E99854;
     color: lighten($community-1, 10%);
 }
 
+.form-control:focus {
+    border-color: $organism-0;
+    box-shadow: $organism-1;
+}
+
