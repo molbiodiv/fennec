@@ -35,14 +35,22 @@
         <!-- Grid style for organism page -->
         <link href="{#$WebRoot#}/css/gridOrganism.css" rel="stylesheet" type="text/css">
         
+        <!-- jQuery UI Theme Style -->
+        <link href="{#$WebRoot#}/bower_components/jquery-ui/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css">
+        
         {#block name='head'#}{#/block#}
     </head>
     <body>
-        {#block name='body'#}{#/block#}
-
+        <script>
+            var $servicePath = "{#$WebRoot#}";
+            var $resultLimit = "{#$limit#}}";
+        </script>
         <!-- jQuery -->
         <script src="{#$WebRoot#}/bower_components/jquery/dist/jquery.min.js"></script>
-
+        
+        <!-- jQuery UI -->
+        <script src="{#$WebRoot#}/bower_components/jquery-ui/jquery-ui.min.js"></script>
+        
         <!-- Bootstrap Core JavaScript -->
         <script src="{#$WebRoot#}/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
@@ -58,5 +66,9 @@
         
         <!-- Call morris charts -->
         <script src="{#$WebRoot#}/js/morrisCharts.js"></script>
+        
+        {#block name='body'#}{#/block#}
+        
+        <script src="{#$WebRoot#}/js/searchForm_autocompletion.js"></script>
     </body>
 </html>
