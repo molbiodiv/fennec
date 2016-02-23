@@ -1,12 +1,10 @@
 <div class="row">
-    <div class="col-md-9" style="margin-bottom: 20px;">
+    <div class="col-md-5" style="margin-bottom: 20px;">
         <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search...">
-            <span class="input-group-btn">
-                <button class="btn btn-default" type="button">
+            <span class="input-group-addon">
                     <i class="fa fa-search grid-details-organism"></i>
-                </button>
             </span>
+            <input id="search_organism" class="form-control" placeholder="Search...">
         </div>
     </div>
 </div>
