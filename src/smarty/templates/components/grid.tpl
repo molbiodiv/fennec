@@ -8,14 +8,23 @@
                     <i class="fa fa-paw fa-2x"></i>
                 </div>
                 <div class="col-xs-9 text-right">
-                    <div style="font-style: italic">{#$organism.genus#} {#$organism.species#}</div>
+                    <div style="font-style: italic">
+                        {#if $organism.abbreviation == null #}
+                            {#$organism.genus#}
+                        {#else#}
+                            {#$organism.abbreviation#}
+                        {#/if#}
+                    </div>
                 </div>
             </div>
         </div>
         <div class="panel-footer grid-info-organism" style='height: 80px;'>
             <div class="row">
                 <div class="col-xs-10 text-left">
-                    Common name: {#$organism.common_name#}
+                    Genus: {#$organism.genus#}
+                </div>
+                <div class="col-xs-10 text-left">
+                    Species: {#$organism.species#}
                 </div>
                 <a class="grid-details-organism">
                     <div class="col-xs-2 text-right">
