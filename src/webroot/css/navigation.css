@@ -42,4 +42,7 @@
   border-color: #076565;
   box-shadow: #338C8C; }
 
+a:focus, a:hover {
+  color: #076565; }
+
 /*# sourceMappingURL=navigation.css.map */
