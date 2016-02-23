@@ -24,7 +24,7 @@ class Organisms extends \WebService {
         $search = $querydata['search'];
         $query_get_organisms = <<<EOF
 SELECT *
-    FROM organism WHERE organism.genus LIKE '%$search%' LIMIT ?
+    FROM organism WHERE organism.species LIKE '%$search%' LIMIT ?
 EOF;
         $stm_get_organisms = $db->prepare($query_get_organisms);
 
