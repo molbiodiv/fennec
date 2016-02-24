@@ -40,6 +40,9 @@
         <!-- jQuery UI Theme Style -->
         <link href="{#$WebRoot#}/bower_components/jquery-ui/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css">
         
+        <!-- Lightbox -->
+        <link href="{#$WebRoot#}/bower_components/lightbox2/dist/css/lightbox.min.css" rel="stylesheet" type="text/css">
+        
         {#block name='head'#}{#/block#}
     </head>
     <body>
@@ -65,6 +68,9 @@
 
         <!-- Custom Theme JavaScript -->
         <script src="{#$WebRoot#}/bower_components/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
+        
+        <!-- Lightbox -->
+        <script src="{#$WebRoot#}/bower_components/lightbox2/dist/js/lightbox.min.js"></script>
         
         <!-- Call morris charts -->
         <script src="{#$WebRoot#}/js/morrisCharts.js"></script>

@@ -36,7 +36,7 @@
         <!-- /.dropdown -->
     </ul>
     <!-- /.navbar-top-links -->
-</nav>
+
 <!-- Sidebar for navigation -->
  <div class="navbar-default sidebar" role="navigation">
     <div class="sidebar-nav navbar-collapse">
@@ -77,3 +77,4 @@
     <!-- /.sidebar-collapse -->
 </div>
 <!-- /.navbar-static-side -->
+</nav>
