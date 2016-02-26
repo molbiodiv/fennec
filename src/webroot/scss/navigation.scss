@@ -72,3 +72,6 @@ a {
     color: $organism-0
 }
 
+.sidebar ul li a.active {
+    background-color: #eee;
+}
