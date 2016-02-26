@@ -8,5 +8,11 @@
         "phpunit/phpunit": "5.0.*",
         "phpunit/php-invoker": "*",
         "phpunit/dbunit": ">=1.2"
-    }
+    },
+    "autoload": {
+        "psr-4": { "": "src/webservice/",
+                   "ajax\\": "src/webservice/ajax"
+        }
+    },
+    "include-path": ["src/webservice/"]
 }

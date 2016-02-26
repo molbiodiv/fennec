@@ -6,8 +6,7 @@ header('Content-type: application/json');
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . '../config.php';
 
-require_once 'webservice/WebService.php';
-require_once 'webservice/db.php';
+require_once 'db.php';
  
 
 if (defined('DEBUG') && DEBUG) {

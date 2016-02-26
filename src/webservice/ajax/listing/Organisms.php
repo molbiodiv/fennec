@@ -46,7 +46,6 @@ EOF;
         
         return $data;
     }
-
 }
 
 ?>
