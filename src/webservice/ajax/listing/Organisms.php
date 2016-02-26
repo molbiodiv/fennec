@@ -20,17 +20,17 @@ class Organisms extends \WebService {
         if(in_array('limit', array_keys($querydata))){
             $limit = $querydata['limit'];
         }
-        
-        $search = $querydata['search'];
+            $search = "%".$querydata['search']."%";
         $query_get_organisms = <<<EOF
 SELECT *
-    FROM organism WHERE organism.species LIKE '%$search%' LIMIT ?
+    FROM organism WHERE organism.species LIKE :search LIMIT :limit
 EOF;
         $stm_get_organisms = $db->prepare($query_get_organisms);
+        $stm_get_organisms->bindValue('search', $search);
+        $stm_get_organisms->bindValue('limit', $limit);
+        $stm_get_organisms->execute();
 
         $data = array();
-
-        $stm_get_organisms->execute(array($limit));
         
         while ($row = $stm_get_organisms->fetch(PDO::FETCH_ASSOC)) {
             $result = array();
