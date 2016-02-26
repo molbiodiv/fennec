@@ -40,6 +40,9 @@ switch ($page) {
         $smarty->assign('title', 'Communities');
         $smarty->display('community.tpl');
         die();
+    case 'detail':
+        $smarty->display('detail.tpl');
+        die();
 }
 $smarty->assign('type', 'startpage');
 $smarty->assign('title', 'Welcome');
