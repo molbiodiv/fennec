@@ -1,4 +1,9 @@
+/test/php/config.php
+/nbproject
 vendor/
 *~
 build.properties
 bower_components/
+/nbproject/private/
+src/webroot/css/*.map
+src/webroot/.sass-cache

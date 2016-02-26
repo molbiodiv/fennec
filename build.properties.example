@@ -1,6 +1,6 @@
-prefix = /opt
+prefix = 
 config_dir = ${prefix}/etc/fennec-web
-www_root = ${prefix}/var/www/fennec-web
+www_root = ${prefix}/var/www/html
 share_path = ${prefix}/share/fennec-web
 var_path = ${prefix}/var/fennec-web
 www_user = www-data
@@ -10,3 +10,8 @@ www_mode = 0777
 srcdir = ${project.basedir}/src
 builddir = /tmp/build/fennec-web
 
+chado_db_host = localhost
+chado_db_name = chado
+chado_db_port = 5432
+chado_db_username = fennec
+chado_db_password = fennec

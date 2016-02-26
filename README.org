@@ -1,0 +1,11 @@
+* Fennec Web
+** Changes
+*** 0.0.2 <2016-02-26 Fr>
+ - create layout for organism details
+ - add autocompletion for organism search form
+ - present organisms from database
+ - add organism listing webservice
+ - define general layout
+ - setup general framework
+*** 0.0.1 <2016-02-15 Mo>
+ - Initial release

@@ -35,9 +35,11 @@
         
         <mkdir dir="${builddir}/includes"/>
         <copy todir="${builddir}/includes" >
-            <fileset dir="${project.basedir}/vendor">
-                <include name="smarty/smarty" />
-                <include name="smarty/smarty/**" />
+            <fileset dir="${project.basedir}">
+                <include name="vendor" />
+                <include name="vendor/**" />
+                <include name="src/webservice" />
+                <include name="src/webservice/**" />
             </fileset>
             <fileset dir="${srcdir}/">
                 <include name="smarty" />
@@ -46,7 +48,7 @@
         </copy>
     </target>
         
-    <target name="install" depends="prepare" description="installs the fennec web interface to www_root, share_path and var_path and sets file permissions">
+    <target name="install" depends="prepare,config" description="installs the fennec web interface to www_root, share_path and var_path and sets file permissions">
         <mkdir dir="${www_root}"/>
         <copy todir="${www_root}" >
             <fileset dir="${builddir}/webroot">
@@ -75,6 +77,20 @@
     
     <target name="dummy-notarget">
         <fail message="Please call phing with a target. To see all available targets, call 'phing -l'" />
+    </target>
+    
+    <target name="config" description="generate config file">
+        <mkdir dir="${builddir}/config"/>
+        <copy todir="${builddir}/config" overwrite="true">
+            <fileset dir="${srcdir}/config">
+                <include name="config.php" />
+            </fileset>
+            <filterchain>
+                <expandproperties />
+            </filterchain>
+        </copy>
+        <copy file="${builddir}/config/config.php" tofile="${config_dir}/config.php.generated" overwrite="true"/>
+        <echo msg="Copied file config.php.generated to ${config_dir}. Please rename to config.php and customize it to your needs." />
     </target>
     
     <target name="clean">

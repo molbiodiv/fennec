@@ -6,43 +6,81 @@
 
         <!-- Startbootstrap SBAdmin2 template -->
         <!-- Bootstrap Core CSS -->
-        <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="{#$WebRoot#}/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
         <!-- MetisMenu CSS -->
-        <link href="/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+        <link href="{#$WebRoot#}/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
 
         <!-- Timeline CSS -->
-        <link href="/bower_components/startbootstrap-sb-admin-2/dist/css/timeline.css" rel="stylesheet">
+        <link href="{#$WebRoot#}/bower_components/startbootstrap-sb-admin-2/dist/css/timeline.css" rel="stylesheet">
 
         <!-- Custom CSS -->
-        <link href="/bower_components/startbootstrap-sb-admin-2/dist/css/sb-admin-2.css" rel="stylesheet">
+        <link href="{#$WebRoot#}/bower_components/startbootstrap-sb-admin-2/dist/css/sb-admin-2.css" rel="stylesheet">
 
         <!-- Morris Charts CSS -->
-        <link href="/bower_components/morrisjs/morris.css" rel="stylesheet">
+        <link href="{#$WebRoot#}/bower_components/morrisjs/morris.css" rel="stylesheet">
 
         <!-- Custom Fonts -->
-        <link href="/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
+        <link href="{#$WebRoot#}/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        
+        <!-- Custom Fonts -->
+        <link href="{#$WebRoot#}/css/panels.css" rel="stylesheet" type="text/css">
+        
+        <!-- Navbar style -->
+        <link href="{#$WebRoot#}/css/navigation.css" rel="stylesheet" type="text/css">
+        
+        <!-- Sidebar style -->
+        <link href="{#$WebRoot#}/css/sidebar.css" rel="stylesheet" type="text/css">
+        
+        <!-- Grid style for organism page -->
+        <link href="{#$WebRoot#}/css/gridOrganism.css" rel="stylesheet" type="text/css">
+        
+        <link href="{#$WebRoot#}/css/autocomplete.css" rel="stylesheet" type="text/css">
+        
+        <!-- jQuery UI Theme Style -->
+        <link href="{#$WebRoot#}/bower_components/jquery-ui/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css">
+        
+        <!-- Lightbox -->
+        <link href="{#$WebRoot#}/bower_components/fancybox/source/jquery.fancybox.css" rel="stylesheet" type="text/css">
+        
         {#block name='head'#}{#/block#}
     </head>
     <body>
-        {#block name='body'#}{#/block#}
-
+        <script>
+            var $servicePath = "{#$WebRoot#}";
+            var $resultLimit = "{#$limit#}}";
+        </script>
+       
         <!-- jQuery -->
-        <script src="/bower_components/jquery/dist/jquery.min.js"></script>
-
+        <script src="{#$WebRoot#}/bower_components/jquery/dist/jquery.min.js"></script>
+        
+        <!-- jQuery UI -->
+        <script src="{#$WebRoot#}/bower_components/jquery-ui/jquery-ui.min.js"></script>
+        
         <!-- Bootstrap Core JavaScript -->
-        <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="{#$WebRoot#}/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
         <!-- Metis Menu Plugin JavaScript -->
-        <script src="/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+        <script src="{#$WebRoot#}/bower_components/metisMenu/dist/metisMenu.min.js"></script>
 
         <!-- Morris Charts JavaScript -->
-        <script src="/bower_components/raphael/raphael-min.js"></script>
-        <script src="/bower_components/morrisjs/morris.min.js"></script>
+        <script src="{#$WebRoot#}/bower_components/raphael/raphael-min.js"></script>
+        <script src="{#$WebRoot#}/bower_components/morrisjs/morris.min.js"></script>
 
         <!-- Custom Theme JavaScript -->
-        <script src="/bower_components/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
-
+        <script src="{#$WebRoot#}/bower_components/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
+        
+        <!-- Lightbox -->
+        <script src="{#$WebRoot#}/bower_components/fancybox/source/jquery.fancybox.js"></script>
+        
+        <!-- Call morris charts -->
+        <script src="{#$WebRoot#}/js/morrisCharts.js"></script>
+        
+        {#block name='body'#}{#/block#}
+        
+        <script src="{#$WebRoot#}/js/searchForm_autocompletion.js"></script>
+        
+        <!-- Call fancybox -->
+        <script src="{#$WebRoot#}/js/fancybox.js"></script>
     </body>
 </html>
