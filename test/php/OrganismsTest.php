@@ -16,8 +16,8 @@ class OrganismsTest extends PHPUnit_Framework_TestCase
         $organism = 'Thermopsis';
         $results = ($service->execute(array('limit' => 1, 'search' => $organism)));
         $this->assertEquals(1, count($results));
-        $pos = strpos($organism, $results);
-        $this->assertEquals(1, $pos);
+        $pos = strpos($results['scientific_name'], $organism);
+        $this->assertEquals(0, $pos);
 
     }
 }
