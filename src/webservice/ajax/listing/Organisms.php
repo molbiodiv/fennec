@@ -20,7 +20,10 @@ class Organisms extends \WebService {
         if(in_array('limit', array_keys($querydata))){
             $limit = $querydata['limit'];
         }
+        $search = "%%";
+        if(in_array('search', array_keys($querydata))){
             $search = "%".$querydata['search']."%";
+        }
         $query_get_organisms = <<<EOF
 SELECT *
     FROM organism WHERE organism.species LIKE :search LIMIT :limit
