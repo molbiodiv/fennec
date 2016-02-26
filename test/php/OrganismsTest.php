@@ -13,8 +13,11 @@ class OrganismsTest extends PHPUnit_Framework_TestCase
         $results = ($service->execute(array()));
         $this->assertEquals(5, count($results));
         
-        $results = ($service->execute(array('limit' => 10000000)));
-        $this->assertEquals(12, count($results));
+        $organism = 'Thermopsis';
+        $results = ($service->execute(array('limit' => 1, 'search' => $organism)));
+        $this->assertEquals(1, count($results));
+        $pos = strpos($organism, $results);
+        $this->assertEquals(1, $pos);
 
     }
 }
