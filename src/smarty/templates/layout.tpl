@@ -47,7 +47,7 @@
     </head>
     <body>
         <script>
-            var $servicePath = "{#$WebRoot#}";
+            var WebRoot = "{#$WebRoot#}";
             var $resultLimit = "{#$limit#}}";
         </script>
        

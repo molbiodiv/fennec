@@ -6,7 +6,7 @@
     source: function (request, response) {
         var $search = request.term;
         $.ajax({
-            url: $servicePath.concat("/ajax/listing/Organisms"),
+            url: WebRoot.concat("/ajax/listing/Organisms"),
             data: {term:  request.term, limit: 500, search: $search},
             dataType: "json",
             success: function (data) {
@@ -19,7 +19,7 @@
 
 $("#search_organism").data("ui-autocomplete")._renderItem = function (ul, item) {
     var li = $("<li>")
-            .append("<a href='"+$servicePath+"/details/byId/"+item.organism_id+"' class='fancybox' data-fancybox-type='ajax'><span style='display:inline-block; width: 100%; font-style: italic;'>" + item.scientific_name + "</span><span style='color: #338C8C'>" + item.rank + "</span></a>")
+            .append("<a href='"+WebRoot+"/details/byId/"+item.organism_id+"' class='fancybox' data-fancybox-type='ajax'><span style='display:inline-block; width: 100%; font-style: italic;'>" + item.scientific_name + "</span><span style='color: #338C8C'>" + item.rank + "</span></a>")
             .appendTo(ul);
     return li;
 };
