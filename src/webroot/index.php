@@ -41,8 +41,9 @@ switch ($page) {
         $smarty->display('community.tpl');
         die();
     case 'organism-byid':
-        $smarty->display('detail.tpl');
-        die();
+        if (displayOrganismById(requestVal('organismId', '/^[0-9]+$/', '')))
+            die();
+        break;
 }
 $smarty->assign('type', 'startpage');
 $smarty->assign('title', 'Welcome');
