@@ -8,30 +8,23 @@ use \PDO as PDO;
  * Web Service.
  * Returns Organisms with given ids
  */
-class Organisms extends \WebService {
+class Details extends \WebService {
 
     /**
-     * @param $querydata[ids] array of organism ids
-     * @returns array of organisms
+     * @param $querydata[ids] array of ids
+     * @returns array of details
      */
     public function execute($querydata) {
         global $db;
-        $limit = 5;
-        if(in_array('limit', array_keys($querydata))){
-            $limit = $querydata['limit'];
-        }
-        $search = "%%";
-        if(in_array('search', array_keys($querydata))){
-            $search = "%".$querydata['search']."%";
-        }
+        $id = $querydata['id'];
+        $placeholders = implode(',', array_fill(0, count($id), '?'));
+        var_dump($placeholders);
         $query_get_organisms = <<<EOF
 SELECT *
-    FROM organism WHERE organism.species LIKE :search LIMIT :limit
+    FROM organism WHERE organism_id IN ($placeholders)
 EOF;
         $stm_get_organisms = $db->prepare($query_get_organisms);
-        $stm_get_organisms->bindValue('search', $search);
-        $stm_get_organisms->bindValue('limit', $limit);
-        $stm_get_organisms->execute();
+        $stm_get_organisms->execute(array($id));
 
         $data = array();
         
@@ -46,8 +39,11 @@ EOF;
             }
             $data[] = $result;
         }
+        
+        var_dump($data);
         return $data;
     }
 }
 
 ?>
+
