@@ -43,6 +43,9 @@
         <!-- Lightbox -->
         <link href="{#$WebRoot#}/bower_components/fancybox/source/jquery.fancybox.css" rel="stylesheet" type="text/css">
         
+        <!-- Bootstrap image viewer using lightbox -->
+        <link href="{#$WebRoot#}/bower_components/ekko-lightbox/dist/ekko-lightbox.min.css" rel="stylesheet" type="text/css">
+        
         {#block name='head'#}{#/block#}
     </head>
     <body>
@@ -72,6 +75,9 @@
         
         <!-- Lightbox -->
         <script src="{#$WebRoot#}/bower_components/fancybox/source/jquery.fancybox.js"></script>
+        
+        <!-- Lightbox -->
+        <script src="{#$WebRoot#}/bower_components/ekko-lightbox/dist/ekko-lightbox.min.js"></script>
         
         <!-- Call morris charts -->
         <script src="{#$WebRoot#}/js/morrisCharts.js"></script>
