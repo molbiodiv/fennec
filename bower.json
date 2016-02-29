@@ -20,6 +20,7 @@
     "startbootstrap-sb-admin-2": "^1.0.8",
     "lightbox2": "^2.8.2",
     "jquery-ui": "^1.11.4",
-    "fancybox": "^2.1.5"
+    "fancybox": "^2.1.5",
+    "ekko-lightbox": "^4.0.1"
   }
 }
