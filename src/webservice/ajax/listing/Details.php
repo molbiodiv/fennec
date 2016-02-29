@@ -18,7 +18,6 @@ class Details extends \WebService {
         global $db;
         $id = $querydata['id'];
         $placeholders = implode(',', array_fill(0, count($id), '?'));
-        var_dump($placeholders);
         $query_get_organisms = <<<EOF
 SELECT *
     FROM organism WHERE organism_id IN ($placeholders)
@@ -40,7 +39,6 @@ EOF;
             $data[] = $result;
         }
         
-        var_dump($data);
         return $data;
     }
 }
