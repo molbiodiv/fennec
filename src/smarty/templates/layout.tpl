@@ -78,7 +78,7 @@
         
         {#block name='body'#}{#/block#}
         
-        <script src="{#$WebRoot#}/js/searchForm_autocompletion.js"></script>
+        <script src="{#$WebRoot#}/js/quickSearch.js"></script>
         
         <!-- Call fancybox -->
         <script src="{#$WebRoot#}/js/fancybox.js"></script>
