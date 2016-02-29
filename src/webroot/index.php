@@ -40,7 +40,7 @@ switch ($page) {
         $smarty->assign('title', 'Communities');
         $smarty->display('community.tpl');
         die();
-    case 'detail':
+    case 'organism-byid':
         $smarty->display('detail.tpl');
         die();
 }
