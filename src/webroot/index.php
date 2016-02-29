@@ -62,6 +62,19 @@ function requestVal($key, $regexp = "/^.*$/", $defaultvalue = "") {
     else
         return $_REQUEST[$key];
 }
-?>
 
+/**
+ * displays organism based on $organismId
+ * @global Smarty $smarty
+ * @param type $organismId
+ * @return boolean false on failure
+ */
+function displayOrganismById($organismId){
+    global $smarty;
+    $smarty->assign('organismId', $organismId);
+    $smarty->display('organismDetails.tpl');
+    return true;
+}
+
+?>
 
