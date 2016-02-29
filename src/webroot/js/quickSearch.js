@@ -14,7 +14,7 @@
             }
         });
     },
-    minLength: 4
+    minLength: 3
 });
 
 $("#search_organism").data("ui-autocomplete")._renderItem = function (ul, item) {
