@@ -72,10 +72,11 @@ EOF;
             
             $query_get_NCBI_Accession = <<<EOF
 SELECT accession 
-    FROM dbxref, organism_dbxref WHERE db_id = :ncbi_id AND organism_dbxref.dbxref_id = dbxref.dbxref_id;
+    FROM dbxref, organism_dbxref WHERE db_id = :ncbi_id AND organism_dbxref.dbxref_id = dbxref.dbxref_id AND organism_id = :organism_id;
 EOF;
             $stm_get_NCBI_accession = $db->prepare($query_get_NCBI_Accession);
             $stm_get_NCBI_accession->bindValue('ncbi_id', $ncbi_id);
+            $stm_get_NCBI_accession->bindValue('organism_id', $result['organism_id']);
             $stm_get_NCBI_accession->execute();
             while ($row = $stm_get_NCBI_accession->fetch(PDO::FETCH_ASSOC)) {
                 $ncbi_accession = $row['accession'];
