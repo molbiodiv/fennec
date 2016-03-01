@@ -51,9 +51,6 @@
                             more
                         </div>
                 </div>
-                <div class="col-md-6">
-                    <h4 class="page-header">Classification</h4>
-                </div>
             </div>
             <div role="tabpanel" class="tab-pane" id="detail"></div>
             <div role="tabpanel" class="tab-pane" id="traits"></div>
