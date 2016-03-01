@@ -37,7 +37,20 @@ EOF;
                 $result['rank']='species';
             }
             
-            $query_get_EOL_DB_Id = <<<EOF
+            $result['eol_accession'] = $this->get_EOL_Accession($result['organism_id']);
+            $result['ncbi_accession'] = $this->get_NCBI_Accession($result['organism_id']);
+            
+        }
+        return $result;
+    }
+    
+    /**
+     * @param type $organism_id id of the organism
+     * @return $eol_accession eol accession of the current organism
+     */
+    private function get_EOL_Accession($organism_id) {
+        global $db;
+        $query_get_EOL_DB_Id = <<<EOF
 SELECT db_id
     FROM db WHERE name = 'EOL'  
 EOF;
@@ -53,14 +66,25 @@ SELECT accession
 EOF;
             $stm_get_EOL_accession = $db->prepare($query_get_EOL_Accession);
             $stm_get_EOL_accession->bindValue('eol_id', $eol_id);
-            $stm_get_EOL_accession->bindValue('organism_id', $result['organism_id']);
+            $stm_get_EOL_accession->bindValue('organism_id', $organism_id);
             $stm_get_EOL_accession->execute();
             while ($row = $stm_get_EOL_accession->fetch(PDO::FETCH_ASSOC)) {
                 $eol_accession = $row['accession'];
             }
-            $result["eol_accession"] = $eol_accession;
-            
-            $query_get_NCBI_DB_Id = <<<EOF
+            if(!isset($eol_accession)){
+                $eol_accession = "";
+            }
+            return $eol_accession;
+    }
+    
+    /**
+     * 
+     * @param $organsim_id id of the organism
+     * @return $ncbi_accession ncbi accession of the current organism
+     */
+    private function get_NCBI_Accession($organsim_id) {
+        global $db;
+        $query_get_NCBI_DB_Id = <<<EOF
 SELECT db_id
     FROM db WHERE name = 'DB:NCBI_taxonomy'  
 EOF;
