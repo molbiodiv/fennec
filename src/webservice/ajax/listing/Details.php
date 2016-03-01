@@ -49,10 +49,11 @@ EOF;
             
             $query_get_EOL_Accession = <<<EOF
 SELECT accession 
-    FROM dbxref, organism_dbxref WHERE db_id = :eol_id AND organism_dbxref.dbxref_id = dbxref.dbxref_id;
+    FROM dbxref, organism_dbxref WHERE db_id = :eol_id AND organism_dbxref.dbxref_id = dbxref.dbxref_id AND organism_id = :organism_id;
 EOF;
             $stm_get_EOL_accession = $db->prepare($query_get_EOL_Accession);
             $stm_get_EOL_accession->bindValue('eol_id', $eol_id);
+            $stm_get_EOL_accession->bindValue('organism_id', $result['organism_id']);
             $stm_get_EOL_accession->execute();
             while ($row = $stm_get_EOL_accession->fetch(PDO::FETCH_ASSOC)) {
                 $eol_accession = $row['accession'];
