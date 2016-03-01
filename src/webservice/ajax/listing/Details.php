@@ -105,6 +105,9 @@ EOF;
             while ($row = $stm_get_NCBI_accession->fetch(PDO::FETCH_ASSOC)) {
                 $ncbi_accession = $row['accession'];
             }
+            if(!isset($ncbi_accession)){
+                $ncbi_accession = "";
+            }
             return $ncbi_accession;
     }
     
