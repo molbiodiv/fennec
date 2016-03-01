@@ -100,16 +100,14 @@ SELECT accession
 EOF;
             $stm_get_NCBI_accession = $db->prepare($query_get_NCBI_Accession);
             $stm_get_NCBI_accession->bindValue('ncbi_id', $ncbi_id);
-            $stm_get_NCBI_accession->bindValue('organism_id', $result['organism_id']);
+            $stm_get_NCBI_accession->bindValue('organism_id', $organsim_id);
             $stm_get_NCBI_accession->execute();
             while ($row = $stm_get_NCBI_accession->fetch(PDO::FETCH_ASSOC)) {
                 $ncbi_accession = $row['accession'];
             }
-            $result["ncbi_accession"] = $ncbi_accession;
-            
-        }
-        return $result;
+            return $ncbi_accession;
     }
+    
 }
 
 ?>
