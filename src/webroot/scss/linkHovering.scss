@@ -2,11 +2,44 @@ $project-0: #098709;
 $community-0: #A9530C;
 $organism-0: #076565;
 $trait-0: #A90C0C;
+$startpage-0: #A6750E;
 
 .organism-link {
     color: $organism-0;
 }
 
-.organism-link:hover {
-    color: $organism-0;
+.organism-link:hover, .organism-link:active {
+    color: darken($organism-0, 10%);
+}
+
+.project-link {
+    color: $project-0;
+}
+
+.project-link:hover, .project-link:active {
+    color: darken($project-0, 10%);
+}
+
+.community-link {
+    color: $community-0;
+}
+
+.community-link:hover, .community-link:active {
+    color: darken($community-0, 10%);
+}
+
+.trait-link {
+    color: $trait-0;
+}
+
+.trait-link:hover, .trait-link:active {
+    color: darken($trait-0, 10%);
+}
+
+.startpage-link {
+    color: $startpage-0;
+}
+
+.startpage-link:hover, .startpage-link:active{
+    color: darken($startpage-0, 10%);
 }

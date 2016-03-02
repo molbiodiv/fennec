@@ -1,7 +1,31 @@
 .organism-link {
   color: #076565; }
 
-.organism-link:hover {
-  color: #076565; }
+.organism-link:hover, .organism-link:active {
+  color: #043535; }
+
+.project-link {
+  color: #098709; }
+
+.project-link:hover, .project-link:active {
+  color: #065706; }
+
+.community-link {
+  color: #A9530C; }
+
+.community-link:hover, .community-link:active {
+  color: #793c09; }
+
+.trait-link {
+  color: #A90C0C; }
+
+.trait-link:hover, .trait-link:active {
+  color: #790909; }
+
+.startpage-link {
+  color: #A6750E; }
+
+.startpage-link:hover, .startpage-link:active {
+  color: #77540a; }
 
 /*# sourceMappingURL=linkHovering.css.map */
