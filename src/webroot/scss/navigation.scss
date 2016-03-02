@@ -63,15 +63,3 @@ $community-1: #E99854;
     border-color: $organism-0;
     box-shadow: $organism-1;
 }
-
-a:focus, a:hover {
-    color: $organism-0;
-}
-
-a {
-    color: $organism-0
-}
-
-.sidebar ul li a.active {
-    background-color: #eee;
-}
