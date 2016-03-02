@@ -1,5 +1,20 @@
 $organism-1: #338C8C;
+$organism-0: #076565;
 
-.button-organism {
+.btn-organism {
+    color: #fff;
+    background-color: $organism-1;
+    border-color: darken($organism-1, 5%);
+}
+
+.btn-organism:hover {
     color: $organism-1;
+    background-color: #eee;
+    border-color: darken($organism-1, 5%);
+}
+
+.btn-organism:focus {
+    color: $organism-1;
+    background-color: #eee;
+    border-color: darken($organism-1, 5%);
 }

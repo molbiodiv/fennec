@@ -1,4 +1,16 @@
-.button-organism {
-  color: #338C8C; }
+.btn-organism {
+  color: #fff;
+  background-color: #338C8C;
+  border-color: #2c7979; }
+
+.btn-organism:hover {
+  color: #338C8C;
+  background-color: #eee;
+  border-color: #2c7979; }
+
+.btn-organism:focus {
+  color: #338C8C;
+  background-color: #eee;
+  border-color: #2c7979; }
 
 /*# sourceMappingURL=button.css.map */
