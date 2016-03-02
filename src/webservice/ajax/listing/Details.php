@@ -27,8 +27,8 @@ EOF;
 
         $data = array();
         
+        $result = array();
         while ($row = $stm_get_organisms->fetch(PDO::FETCH_ASSOC)) {
-            $result = array();
             $result['organism_id'] = $row['organism_id'];
             $result['scientific_name'] = $row['species'];
             $result['rank'] = $row['genus'];
