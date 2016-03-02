@@ -2,7 +2,7 @@
 <nav class="navbar navbar-static-top navbar-{#$type#}" role="navigation">
     <div class="navbar-header">
         <img src="css/img/animal-{#$type#}.png" height="50px"/>
-        <a class="navbar-brand navbar-{#$type#}" href="/">Fennec {#$fennec_version#}</a>
+        <font class="navbar-brand navbar-{#$type#}">Fennec {#$fennec_version#}</font>
     </div>
     <!-- /.navbar-header -->
 
