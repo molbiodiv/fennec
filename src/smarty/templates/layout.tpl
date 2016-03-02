@@ -32,8 +32,11 @@
         <!-- Sidebar style -->
         <link href="{#$WebRoot#}/css/sidebar.css" rel="stylesheet" type="text/css">
         
-        <!-- Sidebar style -->
+        <!-- Style of hovered links -->
         <link href="{#$WebRoot#}/css/linkHovering.css" rel="stylesheet" type="text/css">
+        
+        <!-- Button style -->
+        <link href="{#$WebRoot#}/css/button.css" rel="stylesheet" type="text/css">
         
         <!-- Grid style for organism page -->
         <link href="{#$WebRoot#}/css/gridOrganism.css" rel="stylesheet" type="text/css">
