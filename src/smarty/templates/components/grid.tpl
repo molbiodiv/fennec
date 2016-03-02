@@ -26,7 +26,7 @@
                 </div>
                 <a class="grid-details-organism">
                     <div class="col-xs-2 text-right">
-                        <a href="{#$WebRoot#}/details/byId/{#$organism.organism_id#}" class='fancybox' data-fancybox-type='ajax'><span class="pull-right"><i class="fa fa-arrow-circle-right fa-2x"></i></span></a>
+                        <a href="{#$WebRoot#}/details/byId/{#$organism.organism_id#}" class='fancybox' data-fancybox-type='ajax'><span class="pull-right"><i class="fa fa-arrow-circle-right fa-2x {#$type#}-link"></i></span></a>
                     </div>
                 </a>
             </div>
