@@ -25,3 +25,16 @@ $("#search_organism").data("ui-autocomplete")._renderItem = function (ul, item) 
 };
 
 
+$("#btn_search_organism").click(function(){
+    $searchTerm = $("#search_organism").val();
+    $.ajax({
+        url: WebRoot.concat("/ajax/listing/Organisms"),
+        data: {limit: 500, search: $searchTerm},
+        dataType: "json",
+        success: function (data) {
+            console.log(data);e
+        }
+    });
+});
+
+
