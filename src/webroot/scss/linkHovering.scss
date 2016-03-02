@@ -8,7 +8,7 @@ $startpage-0: #A6750E;
     color: $organism-0;
 }
 
-.organism-link:hover, .organism-link:active {
+.organism-link:hover .organism-link:focus {
     color: darken($organism-0, 10%);
 }
 

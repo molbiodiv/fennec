@@ -5,12 +5,12 @@
 <div class="col-md-12">
     <div>
         <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active"><a href="#overview" role="tab" data-toggle="tab">Overview</a></li>
-            <li role="presentation"><a href="#detail" aria-controls="detail" role="tab" data-toggle="tab">Detail</a></li>
-            <li role="presentation"><a href="#traits" aria-controls="traits" role="tab" data-toggle="tab">Traits</a></li>
-            <li role="presentation"><a href="#taxonomy" aria-controls="taxonomy" role="tab" data-toggle="tab">Taxonomy</a></li>
-            <li role="presentation"><a href="#community" aria-controls="community" role="tab" data-toggle="tab">Community</a></li>
-            <li role="presentation"><a href="#literature" aria-controls="literature" role="tab" data-toggle="tab">Literature</a></li>
+            <li role="presentation" class="active"><a class="organism-link" href="#overview" role="tab" data-toggle="tab">Overview</a></li>
+            <li role="presentation"><a class="organism-link" href="#detail" aria-controls="detail" role="tab" data-toggle="tab">Detail</a></li>
+            <li role="presentation"><a class="organism-link" href="#traits" aria-controls="traits" role="tab" data-toggle="tab">Traits</a></li>
+            <li role="presentation"><a class="organism-link" href="#taxonomy" aria-controls="taxonomy" role="tab" data-toggle="tab">Taxonomy</a></li>
+            <li role="presentation"><a class="organism-link" href="#community" aria-controls="community" role="tab" data-toggle="tab">Community</a></li>
+            <li role="presentation"><a class="organism-link" href="#literature" aria-controls="literature" role="tab" data-toggle="tab">Literature</a></li>
         </ul>
 
         <div class="tab-content">
