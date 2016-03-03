@@ -1,16 +1,34 @@
 .btn-organism {
   color: #fff;
-  background-color: #338C8C;
-  border-color: #2c7979; }
+  background-color: #076565;
+  border-color: #054d4d; }
 
 .btn-organism:hover {
-  color: #338C8C;
+  color: #076565;
   background-color: #eee;
-  border-color: #2c7979; }
+  border-color: #054d4d; }
 
 .btn-organism:focus {
-  color: #338C8C;
+  color: #076565;
   background-color: #eee;
-  border-color: #2c7979; }
+  border-color: #054d4d; }
+
+.btn-trait-search {
+  color: #fff;
+  background-color: #A90C0C;
+  border-color: #910a0a;
+  width: 100%; }
+
+.btn-trait-search:hover {
+  color: #A90C0C;
+  background-color: #fff;
+  border-color: #910a0a;
+  width: 100%; }
+
+.btn-trait-search:focus {
+  color: #A90C0C;
+  background-color: #fff;
+  border-color: #910a0a;
+  width: 100%; }
 
 /*# sourceMappingURL=button.css.map */

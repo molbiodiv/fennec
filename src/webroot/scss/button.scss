@@ -1,20 +1,41 @@
-$organism-1: #338C8C;
 $organism-0: #076565;
+$trait-0: #A90C0C;
 
 .btn-organism {
     color: #fff;
-    background-color: $organism-1;
-    border-color: darken($organism-1, 5%);
+    background-color: $organism-0;
+    border-color: darken($organism-0, 5%);
 }
 
 .btn-organism:hover {
-    color: $organism-1;
+    color: $organism-0;
     background-color: #eee;
-    border-color: darken($organism-1, 5%);
+    border-color: darken($organism-0, 5%);
 }
 
 .btn-organism:focus {
-    color: $organism-1;
+    color: $organism-0;
     background-color: #eee;
-    border-color: darken($organism-1, 5%);
+    border-color: darken($organism-0, 5%);
+}
+
+.btn-trait-search {
+    color: #fff;
+    background-color: $trait-0;
+    border-color: darken($trait-0, 5%);
+    width: 100%;
+}
+
+.btn-trait-search:hover {
+    color: $trait-0;
+    background-color: #fff;
+    border-color: darken($trait-0, 5%);
+    width: 100%;
+}
+
+.btn-trait-search:focus {
+    color: $trait-0;
+    background-color: #fff;
+    border-color: darken($trait-0, 5%);
+    width: 100%;
 }
