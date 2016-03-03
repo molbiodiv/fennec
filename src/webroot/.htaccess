@@ -4,7 +4,8 @@ RewriteCond %{REQUEST_FILENAME} !-f
 
 RewriteRule ^sbadmin2$    index.php?page=sbadmin2 [L,NC,QSA]
 RewriteRule ^organism$    index.php?page=organism [L,NC,QSA]
+RewriteRule ^details/byId/(.*)?$  index.php?page=organism-byid&organismId=$1 [L,NC,QSA]
 RewriteRule ^project$    index.php?page=project [L,NC,QSA]
 RewriteRule ^trait$    index.php?page=trait [L,NC,QSA]
+RewriteRule ^trait/search$    index.php?page=trait-search [L,NC,QSA]
 RewriteRule ^community$    index.php?page=community [L,NC,QSA]
-RewriteRule ^details/byId/(.*)?$  index.php?page=organism-byid&organismId=$1 [L,NC,QSA]
