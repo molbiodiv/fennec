@@ -17,9 +17,9 @@ class Taxonomy extends \WebService {
      */
     public function execute($querydata) {
         global $db;
-        $organism_id = $querydata['id'];
+        $child_organism_id = $querydata['id'];
         $result['lineage'] = array();
-        array_unshift($result['lineage'], $this->getParent($organism_id));
+        array_unshift($result['lineage'], $this->getParent($child_organism_id));
         while($this->getParent($result['lineage'][0]) != NULL){
             array_unshift($result['lineage'], $this->getParent($result['lineage'][0]));
         }
@@ -27,6 +27,7 @@ class Taxonomy extends \WebService {
         foreach($result['lineage'] as $organism_id){
             array_push($data['lineage'], $this->getOrganismName($organism_id)." =>");
         }
+        array_push($data['lineage'], $this->getOrganismName($child_organism_id));
         return $data;
         
     }
