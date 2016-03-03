@@ -32,7 +32,7 @@ $("#btn_search_organism").click(function(){
         data: {limit: 500, search: $searchTerm},
         dataType: "json",
         success: function (data) {
-            console.log(data);e
+            console.log(data);
         }
     });
 });
