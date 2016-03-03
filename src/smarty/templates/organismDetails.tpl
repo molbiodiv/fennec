@@ -1,4 +1,5 @@
 {#call_webservice path="listing/Details" data=["id"=>$organismId] assign='data'#}
+{#call_webservice path="listing/Taxonomy" data=["id"=>$organismId] assign='taxonomy'#}
 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="background-color: #076565; margin-bottom: 10px; border-radius: 5px; ">
     <h1 class="page-header" style="color: #fff;">{#$data['scientific_name']#}</h1>
 </div>
