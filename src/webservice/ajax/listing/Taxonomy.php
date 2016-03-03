@@ -18,18 +18,16 @@ class Taxonomy extends \WebService {
     public function execute($querydata) {
         global $db;
         $organism_id = $querydata['id'];
-        $result = array();
         $result['lineage'] = array();
         array_unshift($result['lineage'], $this->getParent($organism_id));
         while($this->getParent($result['lineage'][0]) != NULL){
             array_unshift($result['lineage'], $this->getParent($result['lineage'][0]));
         }
-        $data = array();
         $data['lineage'] = array();
         foreach($result['lineage'] as $organism_id){
-            array_unshift($data['lineage'], $this->getOrganismName($organism_id));
+            array_unshift($data['lineage'], $this->getOrganismName($organism_id)." ->");
         }
-        var_dump($data);
+        return $data;
         
     }
     
