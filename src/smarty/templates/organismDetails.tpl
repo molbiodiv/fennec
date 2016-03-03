@@ -51,6 +51,10 @@
                             desert<br>
                             more
                         </div>
+                    <h4 class="page-header">Lineage</h4>
+                        {#foreach $taxonomy['lineage'] as $organism#}
+                            {#$organism#}
+                        {#/foreach#}
                 </div>
             </div>
             <div role="tabpanel" class="tab-pane" id="detail"></div>
