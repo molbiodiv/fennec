@@ -1,4 +1,6 @@
-<h3 class="page-header">Popular types</h3>
+<h3 class="page-header">
+    Popular trait types
+</h3>
 <div class="row">
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
         <div class="panel panel-trait">
