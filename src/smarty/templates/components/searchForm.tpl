@@ -8,6 +8,6 @@
         </div>
     </div>
     <div class="col-md-1" style="margin-bottom: 20px;">
-        <button class="btn btn-organism" type="submit" id="btn_search_organism">Get organisms</button>
+        <a class="btn btn-organism" href="{#$WebRoot#}/organism/search" role="button">Get organism</a>
     </div>
 </div>
