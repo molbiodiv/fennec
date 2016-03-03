@@ -35,6 +35,11 @@ switch ($page) {
         $smarty->assign('title', 'Traits');
         $smarty->display('trait.tpl');
         die();
+    case 'trait-search':
+        $smarty->assign('type', 'trait');
+        $smarty->assign('title', 'Search for Traits');
+        $smarty->display('traitSearch.tpl');
+        die();
     case 'community':
         $smarty->assign('type', 'community');
         $smarty->assign('title', 'Communities');
