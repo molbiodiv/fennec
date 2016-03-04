@@ -32,7 +32,7 @@ switch ($page) {
         $smarty->display('organismSearch.tpl');
         die();
     case 'organism-results':
-        if(displayOrganismSearchResults(requestVal('searchTerm', '/^[0-9]+$/', '')))
+        if(displayOrganismSearchResults(requestVal('searchTerm', '/^[a-zA-Z-\.]*$/', '')))
             die();
         break;
     case 'project':
@@ -72,10 +72,12 @@ $smarty->display('startpage.tpl');
  * @return String
  */
 function requestVal($key, $regexp = "/^.*$/", $defaultvalue = "") {
-    if (!isset($_REQUEST[$key]) || !preg_match($regexp, $_REQUEST[$key]))
+    if (!isset($_REQUEST[$key]) || !preg_match($regexp, $_REQUEST[$key])){
         return $defaultvalue;
-    else
+    }
+    else {
         return $_REQUEST[$key];
+    }
 }
 
 /**
