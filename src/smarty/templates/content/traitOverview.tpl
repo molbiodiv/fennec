@@ -140,6 +140,6 @@
 <h4 class="page-header"></h4>
 <div class="row">
     <div class="col-lg-12">
-        <a class="btn btn-lg btn-trait-search" href="{#$WebRoot#}/trait/search" role="button">Search for Traits</a>
+        <a class="btn btn-lg btn-trait" href="{#$WebRoot#}/trait/search" role="button">Search for Traits</a>
     </div>
 </div>
