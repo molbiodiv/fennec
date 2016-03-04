@@ -98,7 +98,7 @@ function displayOrganismSearchResults($searchTerm){
     $smarty->assign('type', 'organism');
     $smarty->assign('title', 'Search for organisms');
     $smarty->assign('searchTerm', $searchTerm);
-    $smarty->assign('limit', '100');
+    $smarty->assign('limit', '1000');
     $smarty->display('organismResults.tpl');
     return true;
 }
