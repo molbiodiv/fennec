@@ -25,6 +25,16 @@ switch ($page) {
         $smarty->assign('limit', '100');
         $smarty->display('organism.tpl');
         die();
+    case 'organism-search':
+        $smarty->assign('type', 'organism');
+        $smarty->assign('title', 'Search for organisms');
+        $smarty->assign('limit', '100');
+        $smarty->display('organismSearch.tpl');
+        die();
+    case 'organism-results':
+        if(displayOrganismSearchResults(requestVal('searchTerm', '/^[0-9]+$/', '')))
+            die();
+        break;
     case 'project':
         $smarty->assign('type', 'project');
         $smarty->assign('title', 'Projects');
