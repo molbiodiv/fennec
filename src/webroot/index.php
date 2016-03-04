@@ -91,5 +91,15 @@ function displayOrganismById($organismId){
     return true;
 }
 
+function displayOrganismSearchResults($searchTerm){
+    global $smarty;
+    $smarty->assign('type', 'organism');
+    $smarty->assign('title', 'Search for organisms');
+    $smarty->assign('searchTerm', $searchTerm);
+    $smarty->assign('limit', '100');
+    $smarty->display('organismResults.tpl');
+    return true;
+}
+
 ?>
 
