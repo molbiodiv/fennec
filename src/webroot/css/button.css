@@ -5,27 +5,27 @@
 
 .btn-organism:hover {
   color: #076565;
-  background-color: #eee;
+  background-color: #fff;
   border-color: #054d4d; }
 
 .btn-organism:focus {
   color: #076565;
-  background-color: #eee;
+  background-color: #fff;
   border-color: #054d4d; }
 
-.btn-trait-search {
+.btn-trait {
   color: #fff;
   background-color: #A90C0C;
   border-color: #910a0a;
   width: 100%; }
 
-.btn-trait-search:hover {
+.btn-trait:hover {
   color: #A90C0C;
   background-color: #fff;
   border-color: #910a0a;
   width: 100%; }
 
-.btn-trait-search:focus {
+.btn-trait:focus {
   color: #A90C0C;
   background-color: #fff;
   border-color: #910a0a;

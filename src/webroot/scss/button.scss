@@ -9,31 +9,31 @@ $trait-0: #A90C0C;
 
 .btn-organism:hover {
     color: $organism-0;
-    background-color: #eee;
+    background-color: #fff;
     border-color: darken($organism-0, 5%);
 }
 
 .btn-organism:focus {
     color: $organism-0;
-    background-color: #eee;
+    background-color: #fff;
     border-color: darken($organism-0, 5%);
 }
 
-.btn-trait-search {
+.btn-trait {
     color: #fff;
     background-color: $trait-0;
     border-color: darken($trait-0, 5%);
     width: 100%;
 }
 
-.btn-trait-search:hover {
+.btn-trait:hover {
     color: $trait-0;
     background-color: #fff;
     border-color: darken($trait-0, 5%);
     width: 100%;
 }
 
-.btn-trait-search:focus {
+.btn-trait:focus {
     color: $trait-0;
     background-color: #fff;
     border-color: darken($trait-0, 5%);
