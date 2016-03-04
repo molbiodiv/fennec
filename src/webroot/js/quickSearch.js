@@ -23,3 +23,7 @@ $("#search_organism").data("ui-autocomplete")._renderItem = function (ul, item) 
             .appendTo(ul);
     return li;
 };
+
+$("#btn_search_organism").click(function(){
+    var searchTerm = $("#search_organism").val();
+});
