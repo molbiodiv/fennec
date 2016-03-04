@@ -38,8 +38,8 @@
         <!-- Button style -->
         <link href="{#$WebRoot#}/css/button.css" rel="stylesheet" type="text/css">
         
-        <!-- Grid style for organism page -->
-        <link href="{#$WebRoot#}/css/gridOrganism.css" rel="stylesheet" type="text/css">
+        <!-- Grid style -->
+        <link href="{#$WebRoot#}/css/grid.css" rel="stylesheet" type="text/css">
         
         <link href="{#$WebRoot#}/css/autocomplete.css" rel="stylesheet" type="text/css">
         
