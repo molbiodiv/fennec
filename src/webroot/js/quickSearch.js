@@ -26,4 +26,6 @@ $("#search_organism").data("ui-autocomplete")._renderItem = function (ul, item) 
 
 $("#btn_search_organism").click(function(){
     var searchTerm = $("#search_organism").val();
+    var resultPage =  WebRoot+"/organism/results/"+searchTerm;
+    window.location.href = resultPage;
 });
