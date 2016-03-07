@@ -94,5 +94,10 @@
         
         <!-- Call fancybox -->
         <script src="{#$WebRoot#}/js/fancybox.js"></script>
+        
+        <script src="{#$WebRoot#}/js/callEolApi.js"></script>
+        
+        <script src="{#$WebRoot#}/js/interactiveTraitBrowse.js"></script>
+        <script>callEolApi();</script>
     </body>
 </html>
