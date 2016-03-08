@@ -10,4 +10,5 @@ RewriteRule ^organism/details/byId/(.*)?$  index.php?page=organism-byid&organism
 RewriteRule ^project$    index.php?page=project [L,NC,QSA]
 RewriteRule ^trait$    index.php?page=trait [L,NC,QSA]
 RewriteRule ^trait/search$    index.php?page=trait-search [L,NC,QSA]
+RewriteRule ^trait/search/forest$    index.php?page=trait-search-forest [L,NC,QSA]
 RewriteRule ^community$    index.php?page=community [L,NC,QSA]
