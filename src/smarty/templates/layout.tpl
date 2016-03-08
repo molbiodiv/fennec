@@ -57,7 +57,6 @@
     <body>
         <script>
             var WebRoot = "{#$WebRoot#}";
-            var $resultLimit = "{#$limit#}}";
         </script>
        
         <!-- jQuery -->
