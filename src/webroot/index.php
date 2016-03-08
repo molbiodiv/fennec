@@ -48,6 +48,13 @@ switch ($page) {
     case 'trait-search':
         $smarty->assign('type', 'trait');
         $smarty->assign('title', 'Search for Traits');
+        $smarty->assign('searchLevel', 'start');
+        $smarty->display('traitSearch.tpl');
+        die();
+    case 'trait-search-forest':
+        $smarty->assign('type', 'trait');
+        $smarty->assign('title', 'Search for Traits');
+        $smarty->assign('searchLevel', 'forest');
         $smarty->display('traitSearch.tpl');
         die();
     case 'community':

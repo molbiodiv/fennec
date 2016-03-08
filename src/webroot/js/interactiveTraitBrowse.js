@@ -146,3 +146,8 @@ function remove_Tooltip(){
         .duration(200)
         .style("opacity", 0);
 }
+
+function displayPage(name){
+    var resultPage =  WebRoot+"/trait/search/"+name;
+    window.location.href = resultPage;
+}
