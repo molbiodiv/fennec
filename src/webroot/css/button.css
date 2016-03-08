@@ -34,13 +34,15 @@
 div.tooltip {
   position: absolute;
   text-align: center;
-  width: 60px;
-  height: 28px;
-  padding: 2px;
-  font: 12px sans-serif;
-  background: lightsteelblue;
-  border: 0px;
+  width: 120px;
+  height: 40px;
+  padding: 10px;
+  font: 14px sans-serif;
+  background: #fff;
+  border: 2px;
+  border-color: #A90C0C;
   border-radius: 8px;
-  pointer-events: none; }
+  pointer-events: none;
+  color: #A90C0C; }
 
 /*# sourceMappingURL=button.css.map */
