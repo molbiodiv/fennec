@@ -150,6 +150,9 @@ var circle = interactiveBrowse_woodland.append("circle")
         })
         .on("mouseout", function(){
             remove_Tooltip();
+        })
+        .on("click", function(){
+            displayPage(d3.select(this).attr("id"));
         });
         
 var circle = interactiveBrowse_woodland.append("circle")
