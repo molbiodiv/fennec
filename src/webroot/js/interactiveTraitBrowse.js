@@ -1,13 +1,13 @@
-var interactiveBrowse_start  = d3.select("#interactiveBrowse_start");
+var interactiveBrowse_habitat  = d3.select("#interactiveBrowse_habitat");
 var div = d3.select("body").append("div")
         .attr("class", "tooltip")
         .style("opacity", 0);
 
-var circle = interactiveBrowse_start.append("circle")
+var circle = interactiveBrowse_habitat.append("circle")
         .attr("cx", 100)
         .attr("cy", 700)
         .attr("r", 10)
-        .attr("id", "desert")
+        .attr("id", "sand, dune, desert")
         .style("opacity", 1)
         .style("fill", "#A90C0C")
         .on("mouseover", function(){
@@ -17,11 +17,11 @@ var circle = interactiveBrowse_start.append("circle")
             remove_Tooltip();
         });
         
-var circle = interactiveBrowse_start.append("circle")
+var circle = interactiveBrowse_habitat.append("circle")
         .attr("cx", 400)
         .attr("cy", 525)
         .attr("r", 10)
-        .attr("id", "salt water")
+        .attr("id", "marine habitat, brackish habitat")
         .style("opacity", 1)
         .style("fill", "#A90C0C")
         .on("mouseover", function(){
@@ -31,11 +31,11 @@ var circle = interactiveBrowse_start.append("circle")
             remove_Tooltip();
         });
         
-var circle = interactiveBrowse_start.append("circle")
+var circle = interactiveBrowse_habitat.append("circle")
         .attr("cx", 800)
         .attr("cy", 470)
         .attr("r", 10)
-        .attr("id", "fresh water")
+        .attr("id", "freshwater habitat, lake habitat, river")
         .style("opacity", 1)
         .style("fill", "#A90C0C")
         .on("mouseover", function(){
@@ -45,11 +45,11 @@ var circle = interactiveBrowse_start.append("circle")
             remove_Tooltip();
         });
         
-var circle = interactiveBrowse_start_start.append("circle")
+var circle = interactiveBrowse_habitat.append("circle")
         .attr("cx", 700)
         .attr("cy", 380)
         .attr("r", 10)
-        .attr("id", "forest")
+        .attr("id", "woodland")
         .style("opacity", 1)
         .style("fill", "#A90C0C")
         .on("mouseover", function(){
@@ -62,11 +62,11 @@ var circle = interactiveBrowse_start_start.append("circle")
             displayPage(d3.select(this).attr("id"));
         });
         
-var circle = interactiveBrowse_start.append("circle")
+var circle = interactiveBrowse_habitat.append("circle")
         .attr("cx", 750)
         .attr("cy", 680)
         .attr("r", 10)
-        .attr("id", "grassland")
+        .attr("id", "grassland, meadow, prairie, savanna")
         .style("opacity", 1)
         .style("fill", "#A90C0C")
         .on("mouseover", function(){
@@ -76,11 +76,11 @@ var circle = interactiveBrowse_start.append("circle")
             remove_Tooltip();
         });
         
-var circle = interactiveBrowse_start.append("circle")
+var circle = interactiveBrowse_habitat.append("circle")
         .attr("cx", 900)
         .attr("cy", 90)
         .attr("r", 10)
-        .attr("id", "mountain")
+        .attr("id", "mountain, peak")
         .style("opacity", 1)
         .style("fill", "#A90C0C")
         .on("mouseover", function(){
@@ -90,7 +90,7 @@ var circle = interactiveBrowse_start.append("circle")
             remove_Tooltip();
         });
         
-var circle = interactiveBrowse_start.append("circle")
+var circle = interactiveBrowse_habitat.append("circle")
         .attr("cx", 300)
         .attr("cy", 220)
         .attr("r", 10)
@@ -104,11 +104,11 @@ var circle = interactiveBrowse_start.append("circle")
             remove_Tooltip();
         });
         
-var circle = interactiveBrowse_start.append("circle")
-        .attr("cx", 250)
-        .attr("cy", 50)
+var circle = interactiveBrowse_habitat.append("circle")
+        .attr("cx", 600)
+        .attr("cy", 175)
         .attr("r", 10)
-        .attr("id", "sky")
+        .attr("id", "plain, plateau")
         .style("opacity", 1)
         .style("fill", "#A90C0C")
         .on("mouseover", function(){
