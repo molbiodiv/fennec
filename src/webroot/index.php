@@ -63,6 +63,12 @@ switch ($page) {
         $smarty->assign('searchLevel', 'geographicalZone');
         $smarty->display('traitSearch.tpl');
         die();
+    case 'trait-search-plant':
+        $smarty->assign('type', 'trait');
+        $smarty->assign('title', 'Search for Traits');
+        $smarty->assign('searchLevel', 'plant');
+        $smarty->display('traitSearch.tpl');
+        die();
     case 'community':
         $smarty->assign('type', 'community');
         $smarty->assign('title', 'Communities');
