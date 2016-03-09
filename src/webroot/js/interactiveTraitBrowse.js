@@ -241,6 +241,134 @@ var circle = interactiveBrowse_geographicalZone.append("circle")
         .on("mouseout", function(){
             remove_Tooltip();
         });
+        
+var interactiveBrowse_plant = d3.select("#interactiveBrowse_plant");
+
+var circle = interactiveBrowse_plant.append("circle")
+        .attr("cx", 330)
+        .attr("cy", 350)
+        .attr("r", 10)
+        .attr("id", "fruit type")
+        .style("opacity", 1)
+        .style("fill", "#052cff")
+        .on("mouseover", function(){
+            add_Tooltip(d3.select(this).attr("id"));
+        })
+        .on("mouseout", function(){
+            remove_Tooltip();
+        });
+        
+var circle = interactiveBrowse_plant.append("circle")
+        .attr("cx", 500)
+        .attr("cy", 420)
+        .attr("r", 10)
+        .attr("id", "fruit/seed color")
+        .style("opacity", 1)
+        .style("fill", "#052cff")
+        .on("mouseover", function(){
+            add_Tooltip(d3.select(this).attr("id"));
+        })
+        .on("mouseout", function(){
+            remove_Tooltip();
+        });
+        
+var circle = interactiveBrowse_plant.append("circle")
+        .attr("cx", 850)
+        .attr("cy", 160)
+        .attr("r", 10)
+        .attr("id", "leaf color")
+        .style("opacity", 1)
+        .style("fill", "#052cff")
+        .on("mouseover", function(){
+            add_Tooltip(d3.select(this).attr("id"));
+        })
+        .on("mouseout", function(){
+            remove_Tooltip();
+        });
+        
+var circle = interactiveBrowse_plant.append("circle")
+        .attr("cx", 820)
+        .attr("cy", 200)
+        .attr("r", 10)
+        .attr("id", "leaf shape")
+        .style("opacity", 1)
+        .style("fill", "#052cff")
+        .on("mouseover", function(){
+            add_Tooltip(d3.select(this).attr("id"));
+        })
+        .on("mouseout", function(){
+            remove_Tooltip();
+        });
+        
+var circle = interactiveBrowse_plant.append("circle")
+        .attr("cx", 860)
+        .attr("cy", 190)
+        .attr("r", 10)
+        .attr("id", "leaf area")
+        .style("opacity", 1)
+        .style("fill", "#052cff")
+        .on("mouseover", function(){
+            add_Tooltip(d3.select(this).attr("id"));
+        })
+        .on("mouseout", function(){
+            remove_Tooltip();
+        });
+        
+var circle = interactiveBrowse_plant.append("circle")
+        .attr("cx", 100)
+        .attr("cy", 720)
+        .attr("r", 10)
+        .attr("id", "rooting depth")
+        .style("opacity", 1)
+        .style("fill", "#052cff")
+        .on("mouseover", function(){
+            add_Tooltip(d3.select(this).attr("id"));
+        })
+        .on("mouseout", function(){
+            remove_Tooltip();
+        });
+        
+var circle = interactiveBrowse_plant.append("circle")
+        .attr("cx", 380)
+        .attr("cy", 30)
+        .attr("r", 10)
+        .attr("id", "plant height")
+        .style("opacity", 1)
+        .style("fill", "#052cff")
+        .on("mouseover", function(){
+            add_Tooltip(d3.select(this).attr("id"));
+        })
+        .on("mouseout", function(){
+            remove_Tooltip();
+        });
+        
+var circle = interactiveBrowse_plant.append("circle")
+        .attr("cx", 880)
+        .attr("cy", 450)
+        .attr("r", 10)
+        .attr("id", "flower color")
+        .style("opacity", 1)
+        .style("fill", "#052cff")
+        .on("mouseover", function(){
+            add_Tooltip(d3.select(this).attr("id"));
+        })
+        .on("mouseout", function(){
+            remove_Tooltip();
+        });
+        
+var circle = interactiveBrowse_plant.append("circle")
+        .attr("cx", 870)
+        .attr("cy", 620)
+        .attr("r", 10)
+        .attr("id", "plant growth habit")
+        .style("opacity", 1)
+        .style("fill", "#052cff")
+        .on("mouseover", function(){
+            add_Tooltip(d3.select(this).attr("id"));
+        })
+        .on("mouseout", function(){
+            remove_Tooltip();
+        });
             
 function add_Tooltip(text){
     div.transition()
