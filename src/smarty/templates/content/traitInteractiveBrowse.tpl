@@ -49,4 +49,20 @@
         </div>
     </div>
 </div>
+{#elseif $searchLevel == 'plant' #}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-trait" style="width: 1040px;">
+            <div class="panel-heading">
+                <div class="row">
+                    <h4 style="margin-left: 10px">plant</h4>
+                    <p style="margin-left: 10px;">Broad geographical regions separated by latitude. Polar, subpolar, temperate, subtropical, tropical, boreal, arctoboreal, cosmopolitan, etc. </p>
+                </div>
+            </div>
+            <div class="panel-footer info-trait">
+                <svg width='1000' height='750' style='background-image: url("{#$WebRoot#}/css/img/traitInteractiveBrowse_{#$searchLevel#}.png")' id='interactiveBrowse_{#$searchLevel#}'/>
+            </div>
+        </div>
+    </div>
+</div>
 {#/if#}
