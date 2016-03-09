@@ -45,16 +45,22 @@ switch ($page) {
         $smarty->assign('title', 'Traits');
         $smarty->display('trait.tpl');
         die();
-    case 'trait-search':
+    case 'trait-search-habitat':
         $smarty->assign('type', 'trait');
         $smarty->assign('title', 'Search for Traits');
-        $smarty->assign('searchLevel', 'start');
+        $smarty->assign('searchLevel', 'habitat');
         $smarty->display('traitSearch.tpl');
         die();
-    case 'trait-search-forest':
+    case 'trait-search-woodland':
         $smarty->assign('type', 'trait');
         $smarty->assign('title', 'Search for Traits');
-        $smarty->assign('searchLevel', 'forest');
+        $smarty->assign('searchLevel', 'woodland');
+        $smarty->display('traitSearch.tpl');
+        die();
+    case 'trait-search-zone':
+        $smarty->assign('type', 'trait');
+        $smarty->assign('title', 'Search for Traits');
+        $smarty->assign('searchLevel', 'geographicalZone');
         $smarty->display('traitSearch.tpl');
         die();
     case 'community':
