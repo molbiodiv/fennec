@@ -142,11 +142,12 @@ var circle = interactiveBrowse_woodland.append("circle")
         .attr("cx", 850)
         .attr("cy", 470)
         .attr("r", 10)
-        .attr("id", "leaf")
+        .attr("id", "plant")
+        .attr("text", "leaf")
         .style("opacity", 1)
         .style("fill", "#1c25da")
         .on("mouseover", function(){
-            add_Tooltip(d3.select(this).attr("id"));
+            add_Tooltip(d3.select(this).attr("text"));
         })
         .on("mouseout", function(){
             remove_Tooltip();
