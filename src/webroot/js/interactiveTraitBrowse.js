@@ -118,13 +118,119 @@ var circle = interactiveBrowse_habitat.append("circle")
             remove_Tooltip();
         });
         
-var circle = interactiveBrowse_start.append("circle")
-        .attr("cx", 600)
-        .attr("cy", 175)
+var circle = interactiveBrowse_habitat.append("circle")
+        .attr("cx", 200)
+        .attr("cy", 125)
         .attr("r", 10)
-        .attr("id", "snow and ice region")
+        .attr("text", "geographical zone")
+        .attr("id", "zone")
         .style("opacity", 1)
         .style("fill", "#A90C0C")
+        .on("mouseover", function(){
+            add_Tooltip(d3.select(this).attr("text"));
+        })
+        .on("mouseout", function(){
+            remove_Tooltip();
+        })
+        .on("click", function(){
+            displayPage(d3.select(this).attr("id"));
+        });
+        
+var interactiveBrowse_woodland = d3.select("#interactiveBrowse_woodland");
+
+var circle = interactiveBrowse_woodland.append("circle")
+        .attr("cx", 850)
+        .attr("cy", 470)
+        .attr("r", 10)
+        .attr("id", "leaf")
+        .style("opacity", 1)
+        .style("fill", "#1c25da")
+        .on("mouseover", function(){
+            add_Tooltip(d3.select(this).attr("id"));
+        })
+        .on("mouseout", function(){
+            remove_Tooltip();
+        });
+        
+var circle = interactiveBrowse_woodland.append("circle")
+        .attr("cx", 560)
+        .attr("cy", 700)
+        .attr("r", 10)
+        .attr("id", "mushroom cap shape, stipe")
+        .style("opacity", 1)
+        .style("fill", "#1c25da")
+        .on("mouseover", function(){
+            add_Tooltip(d3.select(this).attr("id"));
+        })
+        .on("mouseout", function(){
+            remove_Tooltip();
+        });
+        
+var circle = interactiveBrowse_woodland.append("circle")
+        .attr("cx", 920)
+        .attr("cy", 150)
+        .attr("r", 10)
+        .attr("id", "temperature tolerance")
+        .style("opacity", 1)
+        .style("fill", "#1c25da")
+        .on("mouseover", function(){
+            add_Tooltip(d3.select(this).attr("id"));
+        })
+        .on("mouseout", function(){
+            remove_Tooltip();
+        });
+        
+var circle = interactiveBrowse_woodland.append("circle")
+        .attr("cx", 200)
+        .attr("cy", 650)
+        .attr("r", 10)
+        .attr("id", "shade tolerance")
+        .style("opacity", 1)
+        .style("fill", "#1c25da")
+        .on("mouseover", function(){
+            add_Tooltip(d3.select(this).attr("id"));
+        })
+        .on("mouseout", function(){
+            remove_Tooltip();
+        });
+        
+var circle = interactiveBrowse_woodland.append("circle")
+        .attr("cx", 800)
+        .attr("cy", 600)
+        .attr("r", 10)
+        .attr("id", "behavior")
+        .style("opacity", 1)
+        .style("fill", "#1c25da")
+        .on("mouseover", function(){
+            add_Tooltip(d3.select(this).attr("id"));
+        })
+        .on("mouseout", function(){
+            remove_Tooltip();
+        });
+        
+var circle = interactiveBrowse_woodland.append("circle")
+        .attr("cx", 220)
+        .attr("cy", 300)
+        .attr("r", 10)
+        .attr("id", "wood density")
+        .style("opacity", 1)
+        .style("fill", "#1c25da")
+        .on("mouseover", function(){
+            add_Tooltip(d3.select(this).attr("id"));
+        })
+        .on("mouseout", function(){
+            remove_Tooltip();
+        });
+        
+var interactiveBrowse_geographicalZone = d3.select("#interactiveBrowse_geographicalZone");
+
+var circle = interactiveBrowse_geographicalZone.append("circle")
+        .attr("cx", 500)
+        .attr("cy", 20)
+        .attr("r", 10)
+        .attr("id", "polar")
+        .style("opacity", 1)
+        .style("fill", "#f0c700")
         .on("mouseover", function(){
             add_Tooltip(d3.select(this).attr("id"));
         })
