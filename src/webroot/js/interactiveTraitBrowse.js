@@ -143,7 +143,7 @@ var circle = interactiveBrowse_woodland.append("circle")
         .attr("cy", 470)
         .attr("r", 10)
         .attr("id", "plant")
-        .attr("text", "leaf")
+        .attr("text", "physical description of plants")
         .style("opacity", 1)
         .style("fill", "#1c25da")
         .on("mouseover", function(){
