@@ -46,7 +46,6 @@ EOF;
             }
             $data[] = $result;
         }
-        
         return $data;
     }
 }

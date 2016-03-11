@@ -1,0 +1,31 @@
+.grid-organism {
+  background-color: #138080;
+  color: #fff;
+  font-style: italic;
+  font-weight: bold; }
+
+.grid-info-organism {
+  background-color: #fff;
+  color: #000;
+  font-style: normal;
+  font-weight: normal; }
+
+.grid-details-organism {
+  color: #106a6a; }
+
+.grid-trait {
+  background-color: #D52020;
+  color: #fff;
+  font-style: italic;
+  font-weight: bold; }
+
+.grid-info-trait {
+  background-color: #fff;
+  color: #000;
+  font-style: normal;
+  font-weight: normal; }
+
+.grid-details-trait {
+  color: #bf1d1d; }
+
+/*# sourceMappingURL=grid.css.map */

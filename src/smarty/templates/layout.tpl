@@ -32,8 +32,14 @@
         <!-- Sidebar style -->
         <link href="{#$WebRoot#}/css/sidebar.css" rel="stylesheet" type="text/css">
         
-        <!-- Grid style for organism page -->
-        <link href="{#$WebRoot#}/css/gridOrganism.css" rel="stylesheet" type="text/css">
+        <!-- Style of hovered links -->
+        <link href="{#$WebRoot#}/css/linkHovering.css" rel="stylesheet" type="text/css">
+        
+        <!-- Button style -->
+        <link href="{#$WebRoot#}/css/button.css" rel="stylesheet" type="text/css">
+        
+        <!-- Grid style -->
+        <link href="{#$WebRoot#}/css/grid.css" rel="stylesheet" type="text/css">
         
         <link href="{#$WebRoot#}/css/autocomplete.css" rel="stylesheet" type="text/css">
         
@@ -43,12 +49,14 @@
         <!-- Lightbox -->
         <link href="{#$WebRoot#}/bower_components/fancybox/source/jquery.fancybox.css" rel="stylesheet" type="text/css">
         
+        <!-- Bootstrap image viewer using lightbox -->
+        <link href="{#$WebRoot#}/bower_components/ekko-lightbox/dist/ekko-lightbox.min.css" rel="stylesheet" type="text/css">
+        
         {#block name='head'#}{#/block#}
     </head>
     <body>
         <script>
-            var $servicePath = "{#$WebRoot#}";
-            var $resultLimit = "{#$limit#}}";
+            var WebRoot = "{#$WebRoot#}";
         </script>
        
         <!-- jQuery -->
@@ -73,14 +81,20 @@
         <!-- Lightbox -->
         <script src="{#$WebRoot#}/bower_components/fancybox/source/jquery.fancybox.js"></script>
         
-        <!-- Call morris charts -->
-        <script src="{#$WebRoot#}/js/morrisCharts.js"></script>
+        <!-- Lightbox -->
+        <script src="{#$WebRoot#}/bower_components/ekko-lightbox/dist/ekko-lightbox.min.js"></script>
+        
+        <!-- D3 -->
+        <script src="{#$WebRoot#}/bower_components/d3/d3.min.js"></script>
         
         {#block name='body'#}{#/block#}
         
-        <script src="{#$WebRoot#}/js/searchForm_autocompletion.js"></script>
         
-        <!-- Call fancybox -->
         <script src="{#$WebRoot#}/js/fancybox.js"></script>
+        
+        <script src="{#$WebRoot#}/js/callEolApi.js"></script>
+        
+        <script src="{#$WebRoot#}/js/interactiveTraitBrowse.js"></script>
+        <script>callEolApi();</script>
     </body>
 </html>

@@ -25,6 +25,16 @@ switch ($page) {
         $smarty->assign('limit', '100');
         $smarty->display('organism.tpl');
         die();
+    case 'organism-search':
+        $smarty->assign('type', 'organism');
+        $smarty->assign('title', 'Search for organisms');
+        $smarty->assign('limit', '100');
+        $smarty->display('organismSearch.tpl');
+        die();
+    case 'organism-results':
+        if(displayOrganismSearchResults(requestVal('searchTerm', '/^[a-zA-Z-\.]*$/', '')))
+            die();
+        break;
     case 'project':
         $smarty->assign('type', 'project');
         $smarty->assign('title', 'Projects');
@@ -35,14 +45,39 @@ switch ($page) {
         $smarty->assign('title', 'Traits');
         $smarty->display('trait.tpl');
         die();
+    case 'trait-search-habitat':
+        $smarty->assign('type', 'trait');
+        $smarty->assign('title', 'Search for Traits');
+        $smarty->assign('searchLevel', 'habitat');
+        $smarty->display('traitSearch.tpl');
+        die();
+    case 'trait-search-woodland':
+        $smarty->assign('type', 'trait');
+        $smarty->assign('title', 'Search for Traits');
+        $smarty->assign('searchLevel', 'woodland');
+        $smarty->display('traitSearch.tpl');
+        die();
+    case 'trait-search-zone':
+        $smarty->assign('type', 'trait');
+        $smarty->assign('title', 'Search for Traits');
+        $smarty->assign('searchLevel', 'geographicalZone');
+        $smarty->display('traitSearch.tpl');
+        die();
+    case 'trait-search-plant':
+        $smarty->assign('type', 'trait');
+        $smarty->assign('title', 'Search for Traits');
+        $smarty->assign('searchLevel', 'plant');
+        $smarty->display('traitSearch.tpl');
+        die();
     case 'community':
         $smarty->assign('type', 'community');
         $smarty->assign('title', 'Communities');
         $smarty->display('community.tpl');
         die();
-    case 'detail':
-        $smarty->display('detail.tpl');
-        die();
+    case 'organism-byid':
+        if (displayOrganismById(requestVal('organismId', '/^[0-9]+$/', '')))
+            die();
+        break;
 }
 $smarty->assign('type', 'startpage');
 $smarty->assign('title', 'Welcome');
@@ -56,11 +91,36 @@ $smarty->display('startpage.tpl');
  * @return String
  */
 function requestVal($key, $regexp = "/^.*$/", $defaultvalue = "") {
-    if (!isset($_REQUEST[$key]) || !preg_match($regexp, $_REQUEST[$key]))
+    if (!isset($_REQUEST[$key]) || !preg_match($regexp, $_REQUEST[$key])){
         return $defaultvalue;
-    else
+    }
+    else {
         return $_REQUEST[$key];
+    }
 }
-?>
 
+/**
+ * displays organism based on $organismId
+ * @global Smarty $smarty
+ * @param type $organismId
+ * @return boolean false on failure
+ */
+function displayOrganismById($organismId){
+    global $smarty;
+    $smarty->assign('organismId', $organismId);
+    $smarty->display('organismDetails.tpl');
+    return true;
+}
+
+function displayOrganismSearchResults($searchTerm){
+    global $smarty;
+    $smarty->assign('type', 'organism');
+    $smarty->assign('title', 'Search for organisms');
+    $smarty->assign('searchTerm', $searchTerm);
+    $smarty->assign('limit', '1000');
+    $smarty->display('organismResults.tpl');
+    return true;
+}
+
+?>
 

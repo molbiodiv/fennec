@@ -42,13 +42,4 @@
   border-color: #076565;
   box-shadow: #338C8C; }
 
-a:focus, a:hover {
-  color: #076565; }
-
-a {
-  color: #076565; }
-
-.sidebar ul li a.active {
-  background-color: none; }
-
 /*# sourceMappingURL=navigation.css.map */

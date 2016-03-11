@@ -1,5 +1,7 @@
 $organism-2: #138080;
 $organism-1: #338C8C;
+$trait-1: #E95454;
+$trait-2: #D52020;
 
 .grid-organism {
     background-color: $organism-2;
@@ -16,4 +18,21 @@ $organism-1: #338C8C;
 
 .grid-details-organism {
     color: darken($organism-2, 5%);
+}
+
+.grid-trait {
+    background-color: $trait-2;
+    color: #fff;
+    font-style: italic;
+    font-weight: bold;
+}
+.grid-info-trait {
+    background-color: #fff;
+    color: #000;
+    font-style: normal;
+    font-weight: normal;
+}
+
+.grid-details-trait {
+    color: darken($trait-2, 5%);
 }

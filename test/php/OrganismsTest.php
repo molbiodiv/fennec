@@ -10,6 +10,9 @@ class OrganismsTest extends PHPUnit_Framework_TestCase
         $results = ($service->execute(array('limit' => 2)));
         $this->assertEquals(2, count($results));
         
+        $results = ($service->execute(array('limit' => 7)));
+        $this->assertEquals(7, count($results));
+        
         $results = ($service->execute(array()));
         $this->assertEquals(5, count($results));
         

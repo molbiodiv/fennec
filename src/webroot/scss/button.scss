@@ -1,0 +1,56 @@
+$organism-0: #076565;
+$trait-0: #A90C0C;
+
+.btn-organism {
+    color: #fff;
+    background-color: $organism-0;
+    border-color: darken($organism-0, 5%);
+}
+
+.btn-organism:hover {
+    color: $organism-0;
+    background-color: #fff;
+    border-color: darken($organism-0, 5%);
+}
+
+.btn-organism:focus {
+    color: $organism-0;
+    background-color: #fff;
+    border-color: darken($organism-0, 5%);
+}
+
+.btn-trait {
+    color: #fff;
+    background-color: $trait-0;
+    border-color: darken($trait-0, 5%);
+    width: 100%;
+}
+
+.btn-trait:hover {
+    color: $trait-0;
+    background-color: #fff;
+    border-color: darken($trait-0, 5%);
+    width: 100%;
+}
+
+.btn-trait:focus {
+    color: $trait-0;
+    background-color: #fff;
+    border-color: darken($trait-0, 5%);
+    width: 100%;
+}
+
+div.tooltip {   
+  position: absolute;           
+  text-align: center;           
+  width: auto;                  
+  height: auto;                 
+  padding: 10px;             
+  font: 14px sans-serif;        
+  background: #fff;   
+  border: 2px;  
+  border-color: #A90C0C;
+  border-radius: 8px;           
+  pointer-events: none;
+  color: #A90C0C
+}

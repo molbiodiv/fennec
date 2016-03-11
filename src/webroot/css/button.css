@@ -1,0 +1,48 @@
+.btn-organism {
+  color: #fff;
+  background-color: #076565;
+  border-color: #054d4d; }
+
+.btn-organism:hover {
+  color: #076565;
+  background-color: #fff;
+  border-color: #054d4d; }
+
+.btn-organism:focus {
+  color: #076565;
+  background-color: #fff;
+  border-color: #054d4d; }
+
+.btn-trait {
+  color: #fff;
+  background-color: #A90C0C;
+  border-color: #910a0a;
+  width: 100%; }
+
+.btn-trait:hover {
+  color: #A90C0C;
+  background-color: #fff;
+  border-color: #910a0a;
+  width: 100%; }
+
+.btn-trait:focus {
+  color: #A90C0C;
+  background-color: #fff;
+  border-color: #910a0a;
+  width: 100%; }
+
+div.tooltip {
+  position: absolute;
+  text-align: center;
+  width: auto;
+  height: auto;
+  padding: 10px;
+  font: 14px sans-serif;
+  background: #fff;
+  border: 2px;
+  border-color: #A90C0C;
+  border-radius: 8px;
+  pointer-events: none;
+  color: #A90C0C; }
+
+/*# sourceMappingURL=button.css.map */
