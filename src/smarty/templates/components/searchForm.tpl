@@ -1,3 +1,4 @@
+<script src="{#$WebRoot#}/js/quickSearch_{#$type#}.js"></script>
 <div class="row">
     <div class="col-md-5" style="margin-bottom: 20px;">
         <div class="input-group">

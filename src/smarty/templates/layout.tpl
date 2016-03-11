@@ -87,14 +87,9 @@
         <!-- D3 -->
         <script src="{#$WebRoot#}/bower_components/d3/d3.min.js"></script>
         
-        <!-- Call morris charts -->
-        <script src="{#$WebRoot#}/js/morrisCharts.js"></script>
-        
         {#block name='body'#}{#/block#}
         
-        <script src="{#$WebRoot#}/js/quickSearch.js"></script>
         
-        <!-- Call fancybox -->
         <script src="{#$WebRoot#}/js/fancybox.js"></script>
         
         <script src="{#$WebRoot#}/js/callEolApi.js"></script>
