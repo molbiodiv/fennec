@@ -3,6 +3,7 @@ var div = d3.select("body").append("div")
         .attr("class", "tooltip")
         .style("opacity", 0);
 
+//All interactive dots of habitat
 var circle = interactiveBrowse_habitat.append("circle")
         .attr("cx", 100)
         .attr("cy", 700)
@@ -123,9 +124,12 @@ var circle = interactiveBrowse_habitat.append("circle")
         .attr("cy", 125)
         .attr("r", 10)
         .attr("text", "geographical zone")
+        .attr("type", "link")
         .attr("id", "zone")
         .style("opacity", 1)
-        .style("fill", "#A90C0C")
+        .style("fill", function(){
+            return "#A90C0C";
+        })
         .on("mouseover", function(){
             add_Tooltip(d3.select(this).attr("text"));
         })
@@ -234,7 +238,7 @@ var circle = interactiveBrowse_geographicalZone.append("circle")
         .attr("r", 10)
         .attr("id", "polar")
         .style("opacity", 1)
-        .style("fill", "#f0c700")
+        .style("fill", "#fff")
         .on("mouseover", function(){
             add_Tooltip(d3.select(this).attr("id"));
         })
@@ -372,7 +376,7 @@ var circle = interactiveBrowse_plant.append("circle")
             
 function add_Tooltip(text){
     div.transition()
-        .duration(200)
+        .duration(10)
         .style("opacity", .9)
         .text(text)
         .style("left", (d3.event.pageX) + "px")     
@@ -381,7 +385,7 @@ function add_Tooltip(text){
 
 function remove_Tooltip(){
     div.transition()
-        .duration(200)
+        .duration(10)
         .style("opacity", 0);
 }
 
