@@ -22,16 +22,16 @@ class Traits extends \WebService {
             $search = "%".$querydata['search']."%";
         }
         $query_get_traits = <<<EOF
-SELECT *
-    FROM trait_entry LIMIT 10;
+SELECT name, tci.type_cvterm_id FROM (SELECT DISTINCT type_cvterm_id FROM trait_entry) AS tci, trait_cvterm WHERE tci.type_cvterm_id=trait_cvterm.trait_cvterm_id;
 EOF;
         $stm_get_traits = $db->prepare($query_get_traits);
         $stm_get_traits->execute();
         
         while ($row = $stm_get_traits->fetch(PDO::FETCH_ASSOC)) {   
-            var_dump($row);
+            $result=array();
+            $result['name']=$row['name'];
+            $data[]=$result;
         }
-        
         return data;
     }
 }
