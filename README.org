@@ -1,5 +1,10 @@
 * Fennec Web
 ** Changes
+*** 0.0.3 <2016-03-11 Fr>
+ - add dynamic organism view
+ - create layout for trait overview page
+ - create layout for trait search page
+ - add autocompletion for trait search form
 *** 0.0.2 <2016-02-26 Fr>
  - create layout for organism details
  - add autocompletion for organism search form
@@ -9,3 +14,4 @@
  - setup general framework
 *** 0.0.1 <2016-02-15 Mo>
  - Initial release
+   
