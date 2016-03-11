@@ -9,6 +9,6 @@
         </div>
     </div>
     <div class="col-md-1" style="margin-bottom: 20px;">
-        <a class="btn btn-{#$type#}" href="#" role="button" id="btn_search_organism">Get {#$type#}</a>
+        <a class="btn btn-{#$type#}" href="#" role="button" id="btn_search_{#$type#}">Get {#$type#}</a>
     </div>
 </div>
