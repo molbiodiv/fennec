@@ -65,3 +65,48 @@
         </div>
     </div>
 </div>
+
+{#if isset($data.eol_accession) and !empty($data.eol_accession)#}
+<script type="text/javascript">
+    var eol_id = {#$data.eol_accession#};
+    $.ajax({
+        method: "GET",
+        url: "http://eol.org/api/pages/1.0.json",
+        data: { 
+            id: eol_id,
+            batch: false,
+            images_per_page: 3,
+            images_page: 1,
+            videos_per_page: 0,
+            videos_page: 1,
+            sounds_per_page: 0,
+            sounds_page: 1,
+            maps_per_page: 0,
+            maps_page: 1,
+            texts_per_page: 3,
+            texts_page: 1,
+            iucn: true,
+            subjects: "overview",
+            licenses: "cc-by|cc-by-nc|cc-by-sa|cc-by-nc-sa|pd",
+            details: true,
+            common_names: true,
+            synonyms: true,
+            references: true,
+            taxonomy: true,
+            vetted: 0,
+            cache_ttl: 60,
+            language: "en"
+        },
+        success: function(result){
+            console.log(result);
+            var imgCounter = 1;
+            for(dob in result["dataObjects"]){
+                if(result["dataObjects"][dob]["dataType"] === "http://purl.org/dc/dcmitype/StillImage"){
+                    $("#img"+imgCounter).attr("src", result["dataObjects"][dob]["eolMediaURL"]);
+                    imgCounter++;
+                }
+            }
+        }
+    });
+</script>
+{#/if#}
