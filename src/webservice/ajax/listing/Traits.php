@@ -31,7 +31,7 @@ EOF;
         while ($row = $stm_get_traits->fetch(PDO::FETCH_ASSOC)) {   
             $result = array();
             $result['name'] = $row['name'];
-            $result['cv_term_id'] = $row['type_cvterm_id'];
+            $result['type_cvterm_id'] = $row['type_cvterm_id'];
             $data[] = $result;
         }
         return $data;
