@@ -25,8 +25,6 @@ EOF;
         $stm_get_organisms = $db->prepare($query_get_organisms);
         $stm_get_organisms->execute(array($id));
 
-        $data = array();
-        
         $result = array();
         while ($row = $stm_get_organisms->fetch(PDO::FETCH_ASSOC)) {
             $result['organism_id'] = $row['organism_id'];
