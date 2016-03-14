@@ -59,6 +59,27 @@ EOF;
         }
         return $result;
     }
+    
+    private function get_value_by_id($value_cvterm_id){
+        global $db;
+        $value = $value_cvterm_id;
+        
+        $query_get_value = <<<EOF
+SELECT * 
+    FROM trait_cvterm WHERE trait_cvterm_id = :value_cvterm_id
+EOF;
+        $stm_get_value = $db->prepare($query_get_value);
+        $stm_get_value->bindValue('value_cvterm_id', $value_cvterm_id);
+        $stm_get_value->execute();
+        while($row = $stm_get_value->fetch(PDO::FETCH_ASSOC)){
+            if($row['name']){
+                $value = $row['name'];
+            } else {
+                $value = $row['definition'];
+            }
+        }
+        return $value;
+    }
 }
 
 ?>
