@@ -2,16 +2,19 @@ RewriteEngine On
 Options -MultiViews
 RewriteCond %{REQUEST_FILENAME} !-f
 
-RewriteRule ^sbadmin2$    index.php?page=sbadmin2 [L,NC,QSA]
 RewriteRule ^organism$    index.php?page=organism [L,NC,QSA]
 RewriteRule ^organism/search$    index.php?page=organism-search [L,NC,QSA]
 RewriteRule ^organism/results/(.*)?$    index.php?page=organism-results&searchTerm=$1 [L,NC,QSA]
 RewriteRule ^organism/details/byId/(.*)?$  index.php?page=organism-byid&organismId=$1 [L,NC,QSA]
+
 RewriteRule ^project$    index.php?page=project [L,NC,QSA]
+
 RewriteRule ^trait$    index.php?page=trait [L,NC,QSA]
 RewriteRule ^trait/search$    index.php?page=trait-search-overview [L,NC,QSA]
 RewriteRule ^trait/search/ecology$    index.php?page=trait-search-ecology [L,NC,QSA]
 RewriteRule ^trait/search/woodland$    index.php?page=trait-search-woodland [L,NC,QSA]
 RewriteRule ^trait/search/zone$    index.php?page=trait-search-zone [L,NC,QSA]
 RewriteRule ^trait/search/plant$    index.php?page=trait-search-plant [L,NC,QSA]
+RewriteRule ^trait/details/byCvTermId/(.*)?$    index.php?page=trait-byid&cv_term_id=$1 [L,NC,QSA]
+
 RewriteRule ^community$    index.php?page=community [L,NC,QSA]
