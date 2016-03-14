@@ -1,6 +1,6 @@
 <?php
 
-namespace ajax\listing;
+namespace ajax\details;
 
 use \PDO as PDO;
 
@@ -8,7 +8,7 @@ use \PDO as PDO;
  * Web Service.
  * Returns Organisms with given ids
  */
-class Details extends \WebService {
+class Organisms extends \WebService {
 
     /**
      * @param $querydata[ids] array of ids
