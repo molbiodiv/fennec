@@ -15,6 +15,6 @@ RewriteRule ^trait/search/ecology$    index.php?page=trait-search-ecology [L,NC,
 RewriteRule ^trait/search/woodland$    index.php?page=trait-search-woodland [L,NC,QSA]
 RewriteRule ^trait/search/zone$    index.php?page=trait-search-zone [L,NC,QSA]
 RewriteRule ^trait/search/plant$    index.php?page=trait-search-plant [L,NC,QSA]
-RewriteRule ^trait/details/byId/(.*)?$    index.php?page=trait-byid&trait_cvterm_id=$1 [L,NC,QSA]
+RewriteRule ^trait/details/byId/(.*)?$    index.php?page=trait-byid&type_cvterm_id=$1 [L,NC,QSA]
 
 RewriteRule ^community$    index.php?page=community [L,NC,QSA]

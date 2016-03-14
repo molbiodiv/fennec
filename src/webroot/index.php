@@ -80,7 +80,7 @@ switch ($page) {
         $smarty->display('traitSearch.tpl');
         die();
     case 'trait-byid':
-        if (displayTraitsById(requestVal('trait_cvterm_id', '/^[0-9]+$/', '')))
+        if (displayTraitsById(requestVal('type_cvterm_id', '/^[0-9]+$/', '')))
             die();
         break;
     case 'community':
@@ -132,9 +132,9 @@ function displayOrganismSearchResults($searchTerm){
     return true;
 }
 
-function displayTraitsById($trait_cvterm_id){
+function displayTraitsById($type_cvterm_id){
     global $smarty;
-    $smarty->assign('trait_cvterm_id', $trait_cvterm_id);
+    $smarty->assign('type_cvterm_id', $type_cvterm_id);
     $smarty->display('traitDetails.tpl');
     return true;
 }
