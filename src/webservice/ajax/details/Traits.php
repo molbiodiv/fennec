@@ -30,6 +30,33 @@ EOF;
             $result = $row;
             
         }
+        
+        $query_count_organisms_by_trait = <<<EOF
+SELECT count(DISTINCT organism_id) 
+    FROM trait_entry WHERE type_cvterm_id = :type_cvterm_id
+EOF;
+        $stm_count_organisms_by_trait = $db->prepare($query_count_organisms_by_trait);
+        $stm_count_organisms_by_trait->bindValue('type_cvterm_id', $type_cvterm_id);
+        $stm_count_organisms_by_trait->execute();
+        while($row = $stm_count_organisms_by_trait->fetch(PDO::FETCH_ASSOC)){
+            $result['all_organisms'] = $row['count'];
+        }
+        
+        $query_get_value_range = <<<EOF
+SELECT DISTINCT value, value_cvterm_id 
+    FROM trait_entry WHERE type_cvterm_id = :type_cvterm_id
+EOF;
+        $stm_get_value_range = $db->prepare($query_get_value_range);
+        $stm_get_value_range->bindValue('type_cvterm_id', $type_cvterm_id);
+        $stm_get_value_range->execute();
+        $result['value_range'] = array();
+        while($row = $stm_get_value_range->fetch(PDO::FETCH_ASSOC)){
+            if($row['value']!=NULL){
+                array_push($result['value_range'], $row['value']);
+            } else {
+                array_push($result['value_range'], $this->get_value_by_id($row['value_cvterm_id']));
+            }
+        }
         return $result;
     }
 }
