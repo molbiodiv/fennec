@@ -20,7 +20,7 @@ $(document).ready(function(){
             });
 
     function displayPage(traitId){
-        var resultPage =  WebRoot+"/trait/details/byCvTermId/"+traitId;
+        var resultPage =  WebRoot+"/trait/details/byId/"+traitId;
         window.location.href = resultPage;
     }
 });
