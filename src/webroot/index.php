@@ -35,6 +35,10 @@ switch ($page) {
         if(displayOrganismSearchResults(requestVal('searchTerm', '/^[a-zA-Z-\.]*$/', '')))
             die();
         break;
+    case 'organism-byid':
+        if (displayOrganismById(requestVal('organismId', '/^[0-9]+$/', '')))
+            die();
+        break;
     case 'project':
         $smarty->assign('type', 'project');
         $smarty->assign('title', 'Projects');
@@ -75,15 +79,15 @@ switch ($page) {
         $smarty->assign('searchLevel', 'plant');
         $smarty->display('traitSearch.tpl');
         die();
+    case 'trait-byid':
+        if (displayTraitsById(requestVal('trait_cvterm_id', '/^[0-9]+$/', '')))
+            die();
+        break;
     case 'community':
         $smarty->assign('type', 'community');
         $smarty->assign('title', 'Communities');
         $smarty->display('community.tpl');
         die();
-    case 'organism-byid':
-        if (displayOrganismById(requestVal('organismId', '/^[0-9]+$/', '')))
-            die();
-        break;
 }
 $smarty->assign('type', 'startpage');
 $smarty->assign('title', 'Welcome');
@@ -125,6 +129,13 @@ function displayOrganismSearchResults($searchTerm){
     $smarty->assign('searchTerm', $searchTerm);
     $smarty->assign('limit', '1000');
     $smarty->display('organismResults.tpl');
+    return true;
+}
+
+function displayTraitsById($trait_cvterm_id){
+    global $smarty;
+    $smarty->assign('trait_cvterm_id', $trait_cvterm_id);
+    $smarty->display('traitDetails.tpl');
     return true;
 }
 
