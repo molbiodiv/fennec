@@ -77,7 +77,7 @@
             <div class="panel-footer info-trait">
                 <svg width='1000' height='524' style='background-image: url("{#$WebRoot#}/css/img/traitInteractiveBrowse_{#$searchLevel#}.png")' id='interactiveBrowse_{#$searchLevel#}'>
                 <a xlink:href="https://freevectormaps.com/world-maps" target="_blank">
-                    <text x="800" y="510">Map by FreeVectorMaps.com</text>
+                    <text x="800" y="510">Copyright by FreeVectorMaps.com</text>
                 </a>
                 </svg>
             </div>
