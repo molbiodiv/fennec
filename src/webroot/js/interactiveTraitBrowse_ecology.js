@@ -11,15 +11,16 @@ $(document).ready(function(){
             .attr("width", 120)
             .attr("height", 50)
             .attr("id", "habitat")
+            .attr("type_cvterm_id", "27")
             .style("opacity", 0.01)
             .style("fill", "#fff")
             .style("cursor", "pointer")
             .on("click", function(){
-                displayPage(d3.select(this).attr("id"));
+                displayPage(d3.select(this).attr("type_cvterm_id"));
             });
 
     function displayPage(traitId){
-        var resultPage =  WebRoot+"/trait/details/byId"+traitId;
+        var resultPage =  WebRoot+"/trait/details/byCvTermId/"+traitId;
         window.location.href = resultPage;
     }
 });
