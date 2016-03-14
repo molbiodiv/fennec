@@ -18,13 +18,13 @@
             <div role="tabpanel" class="tab-pane active" id="overview">
                 <div class="col-md-4" style="margin-top: 10px;">
                     <a href="{#$WebRoot#}/css/img/test2.jpg" class="thumbnail fancybox" data-fancybox-type='iframe'>
-                        <img src="{#$WebRoot#}/css/img/test2.jpg">
+                        <img id="img1" src="{#$WebRoot#}/css/img/test2.jpg">
                     </a>
                     <a href="{#$WebRoot#}/css/img/test1.jpg" class="thumbnail">
-                        <img src="{#$WebRoot#}/css/img/test1.jpg">
+                        <img id="img2" src="{#$WebRoot#}/css/img/test1.jpg">
                     </a>
                     <a href="{#$WebRoot#}/css/img/test2.jpg" class="thumbnail">
-                        <img src="{#$WebRoot#}/css/img/test2.jpg">
+                        <img id="img3" src="{#$WebRoot#}/css/img/test2.jpg">
                     </a>
                 </div>
                 <div class="col-md-6">
