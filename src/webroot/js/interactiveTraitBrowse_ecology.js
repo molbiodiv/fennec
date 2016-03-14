@@ -21,6 +21,13 @@ $(document).ready(function(){
 
     function displayPage(traitId){
         var resultPage =  WebRoot+"/trait/details/byId/"+traitId;
-        window.location.href = resultPage;
+        $.fancybox.open({
+           type: 'iframe',
+           href: resultPage,
+           minWidth: 1000,
+            maxWidth: 1000,
+            maxHeight: 800,
+            minHeight: 800
+        });
     }
 });
