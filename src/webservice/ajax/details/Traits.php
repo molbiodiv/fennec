@@ -49,10 +49,25 @@ EOF;
         $stm_get_value_range = $db->prepare($query_get_value_range);
         $stm_get_value_range->bindValue('type_cvterm_id', $type_cvterm_id);
         $stm_get_value_range->execute();
-        $result['value_range'] = array();
+        
         while($row = $stm_get_value_range->fetch(PDO::FETCH_ASSOC)){
-            if($row['value']!=NULL){
-                array_push($result['value_range'], $row['value']);
+            if($row['value'] == NULL){
+                $result['value_type'] = 'cvterm';
+                $query_get_cvterm_ids = <<<EOF
+SELECT value_cvterm_id, COUNT(value_cvterm_id) AS count FROM trait_entry WHERE type_cvterm_id = :type_cvterm_id GROUP BY value_cvterm_id;
+EOF;
+                $stm_get_cvterm_ids = $db->prepare($query_get_cvterm_ids);
+                $stm_get_cvterm_ids->bindValue('type_cvterm_id', $type_cvterm_id);
+                $stm_get_cvterm_ids->execute();
+                $value_cvterm_ids = array();
+                
+                while ($row = $stm_get_cvterm_ids->fetch(PDO::FETCH_ASSOC)){
+                    $tmp_result = array();
+                    $tmp_result['count'] = $row['count'];
+                    $tmp_result['value_cvterm_id'] = $row['value_cvterm_id'];
+                    array_push($value_cvterm_ids, $tmp_result);
+                }
+                $result['value_cvterm_ids'] = $value_cvterm_ids;
             } else {
                 array_push($result['value_range'], $this->get_value_by_id($row['value_cvterm_id']));
             }
