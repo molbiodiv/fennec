@@ -43,8 +43,8 @@ EOF;
         }
         
         $query_get_value_range = <<<EOF
-SELECT DISTINCT value, value_cvterm_id 
-    FROM trait_entry WHERE type_cvterm_id = :type_cvterm_id
+SELECT value, value_cvterm_id
+    FROM trait_entry WHERE type_cvterm_id = :type_cvterm_id LIMIT 1
 EOF;
         $stm_get_value_range = $db->prepare($query_get_value_range);
         $stm_get_value_range->bindValue('type_cvterm_id', $type_cvterm_id);
