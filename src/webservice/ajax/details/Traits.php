@@ -69,7 +69,32 @@ EOF;
                 }
                 $result['value_cvterm_ids'] = $value_cvterm_ids;
             } else {
-                array_push($result['value_range'], $this->get_value_by_id($row['value_cvterm_id']));
+                $result['value_type'] = 'value';
+                $query_get_values = <<<EOF
+SELECT name AS measurement_unit, tmp2.value 
+    FROM trait_cvterm, (SELECT value_cvterm_id, tmp.value FROM trait_metadata, 
+        (SELECT trait_entry_id, value FROM trait_entry WHERE type_cvterm_id=:type_cvterm_id) AS tmp 
+            WHERE trait_metadata.trait_entry_id=tmp.trait_entry_id AND subject_cvterm_id=5) AS tmp2 
+                WHERE tmp2.value_cvterm_id=trait_cvterm.trait_cvterm_id;
+EOF;
+                        
+                $stm_get_values = $db->prepare($query_get_values);
+                $stm_get_values->bindValue('type_cvterm_id', $type_cvterm_id);
+                $stm_get_values->execute();
+                $values = array();
+                
+                $row = $stm_get_values->fetch(PDO::FETCH_ASSOC);
+                $tmp_result[$row['measurement_unit']] = array();
+                array_push($tmp_result[$row['measurement_unit']], $row['value']);
+                while($row = $stm_get_values->fetch(PDO::FETCH_ASSOC)){
+                    if(array_key_exists($row['measurement_unit'], $tmp_result)){
+                        array_push($tmp_result[$row['measurement_unit']], $row['value']);
+                    } else {
+                        $tmp_result[$row['measurement_unit']] = array();
+                        array_push($tmp_result[$row['measurement_unit']], $row['value']);
+                    }
+                }
+                $result['value'] = $tmp_result;
             }
         }
         return $result;
