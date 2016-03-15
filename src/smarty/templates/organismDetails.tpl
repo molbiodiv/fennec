@@ -16,6 +16,7 @@
 
         <div class="tab-content">
             <div role="tabpanel" class="tab-pane active" id="overview">
+                <h2 id="vernacularName"></h2>
                 <div class="col-md-4" style="margin-top: 10px;">
                     <a href="{#$WebRoot#}/css/img/test2.jpg" class="thumbnail fancybox" data-fancybox-type='iframe'>
                         <img id="img1" src="{#$WebRoot#}/css/img/test2.jpg">
@@ -106,6 +107,7 @@
                     imgCounter++;
                 }
             }
+            $("#vernacularName").text(result["vernacularNames"][0]["vernacularName"]);
         }
     });
 </script>
