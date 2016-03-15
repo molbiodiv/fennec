@@ -109,10 +109,16 @@
         success: function(result){
             console.log(result);
             var imgCounter = 1;
+            var txtCounter = 1;
             for(dob in result["dataObjects"]){
                 if(result["dataObjects"][dob]["dataType"] === "http://purl.org/dc/dcmitype/StillImage"){
                     $("#img"+imgCounter).attr("src", result["dataObjects"][dob]["eolMediaURL"]);
                     imgCounter++;
+                }
+                if(result["dataObjects"][dob]["dataType"] === "http://purl.org/dc/dcmitype/Text"){
+                    $("#title"+txtCounter).text(result["dataObjects"][dob]["title"]);
+                    $("#txt"+txtCounter).html(result["dataObjects"][dob]["description"]);
+                    txtCounter++;
                 }
             }
             $("#vernacularName").text(result["vernacularNames"][0]["vernacularName"]);
