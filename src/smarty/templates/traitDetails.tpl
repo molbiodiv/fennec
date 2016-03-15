@@ -31,12 +31,11 @@
     </div>
 </div>
 <div class='row'>
-    <div class='col-xs-8'>
-        value_range: 
-        <ul>
-            {#foreach $data['value_range'] as $value#}
-            <li>{#$value#}</li>
-            {#/foreach#}
-        </ul>
+    <div class='col-xs-12'>
+        <div id='barChart'></div>
+        <input type='hidden' value='{#$data['trait_cvterm_id']#}' id='cvterm_id'/>
+        <script src="{#$WebRoot#}/bower_components/plotly.js/dist/plotly.min.js"></script>
+        <script src='{#$WebRoot#}/js/drawBarChart.js'></script>
+        <script>drawBarChart();</script>
     </div>
 </div>
