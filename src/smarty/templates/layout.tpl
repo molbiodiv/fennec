@@ -71,10 +71,6 @@
         <!-- Metis Menu Plugin JavaScript -->
         <script src="{#$WebRoot#}/bower_components/metisMenu/dist/metisMenu.min.js"></script>
 
-        <!-- Morris Charts JavaScript -->
-        <script src="{#$WebRoot#}/bower_components/raphael/raphael-min.js"></script>
-        <script src="{#$WebRoot#}/bower_components/morrisjs/morris.min.js"></script>
-
         <!-- Custom Theme JavaScript -->
         <script src="{#$WebRoot#}/bower_components/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
         
