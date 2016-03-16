@@ -4,3 +4,9 @@ php:
 
 install:
   - composer install
+
+services:
+  - postgresql
+
+addons:
+  postgresql: "9.3"
