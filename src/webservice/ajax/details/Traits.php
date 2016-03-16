@@ -59,15 +59,15 @@ EOF;
                 $stm_get_cvterm_ids = $db->prepare($query_get_cvterm_ids);
                 $stm_get_cvterm_ids->bindValue('type_cvterm_id', $type_cvterm_id);
                 $stm_get_cvterm_ids->execute();
-                $value_cvterm_ids = array();
+                $labels = array();
+                $frequency = array();
                 
                 while ($row = $stm_get_cvterm_ids->fetch(PDO::FETCH_ASSOC)){
-                    $tmp_result = array();
-                    $tmp_result['count'] = $row['count'];
-                    $tmp_result['value_cvterm_id'] = $row['value_cvterm_id'];
-                    array_push($value_cvterm_ids, $tmp_result);
+                    array_push($frequency, $row['count']);
+                    array_push($labels, $this->get_value_by_id($row['value_cvterm_id']));
                 }
-                $result['value_cvterm_ids'] = $value_cvterm_ids;
+                $result['value']['labels'] = $labels;
+                $result['value']['frequency'] = $frequency;
             } else {
                 $result['value_type'] = 'value';
                 $query_get_values = <<<EOF
@@ -81,7 +81,6 @@ EOF;
                 $stm_get_values = $db->prepare($query_get_values);
                 $stm_get_values->bindValue('type_cvterm_id', $type_cvterm_id);
                 $stm_get_values->execute();
-                $values = array();
                 
                 $row = $stm_get_values->fetch(PDO::FETCH_ASSOC);
                 $tmp_result[$row['measurement_unit']] = array();
