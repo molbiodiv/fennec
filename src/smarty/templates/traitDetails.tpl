@@ -31,6 +31,7 @@
         </div>
     </div>
 </div>
+<h4 class="page-header">Data</h4>
 <div class='row'>
     <div class='col-xs-12'>
         <div id='barChart'></div>
