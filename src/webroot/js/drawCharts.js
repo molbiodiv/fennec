@@ -1,4 +1,4 @@
-function drawBarChart(cvterm_id){
+function drawHistogram(){
     var cvterm_id = $("#cvterm_id").val();
     $.ajax({
         url: WebRoot.concat("/ajax/details/Traits"),
@@ -12,7 +12,7 @@ function drawBarChart(cvterm_id){
                             x: value,
                             type: 'histogram'
                         }];
-                    Plotly.newPlot('barChart', plot_data);
+                    Plotly.newPlot('histogram', plot_data);
                 });
             }
         }
