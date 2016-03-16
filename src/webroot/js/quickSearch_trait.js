@@ -6,7 +6,6 @@ $(document).ready(function(){
         },
         source: function (request, response) {
             var search = request.term;
-            console.log(search);
             $.ajax({
                 url: WebRoot.concat("/ajax/listing/Traits"),
                 data: {term:  request.term, search: search},
