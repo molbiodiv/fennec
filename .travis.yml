@@ -10,3 +10,6 @@ services:
 
 addons:
   postgresql: "9.3"
+
+before_script:
+  - cp test/php/.travis.config.php test/php/config.php
