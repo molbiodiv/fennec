@@ -3,9 +3,10 @@
 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="background-color: #a90c0c; margin-bottom: 10px; border-radius: 5px; ">
     <h1 class="page-header" style="color: #fff;">{#$data['name']#}</h1>
 </div>
+<h4 class="page-header">Definition</h4>
 <div class="row">
     <div class='col-xs-8'>
-        <a href='{#$data['definition']#}' target='_blank'>Definition</a>
+        <a href='{#$data['definition']#}' target='_blank'>Go to EOL definition</a>
     </div>
     <div class="col-xs-4">
         <div class="panel panel-trait">
