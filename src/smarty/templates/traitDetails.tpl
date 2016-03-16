@@ -33,11 +33,36 @@
 </div>
 <h4 class="page-header">Data</h4>
 <div class='row'>
-    <div class='col-xs-12'>
-        <div id='barChart'></div>
-        <input type='hidden' value='{#$data['trait_cvterm_id']#}' id='cvterm_id'/>
-        <script src="{#$WebRoot#}/bower_components/plotly.js/dist/plotly.min.js"></script>
-        <script src='{#$WebRoot#}/js/drawBarChart.js'></script>
-        <script>drawBarChart();</script>
-    </div>
+    {#if $data['value_type'] == 'value' #}
+        <div class='col-xs-12'>
+            <div id='histogram'></div>
+            <input type='hidden' value='{#$data['trait_cvterm_id']#}' id='cvterm_id'/>
+            <script src="{#$WebRoot#}/bower_components/plotly.js/dist/plotly.min.js"></script>
+            <script src='{#$WebRoot#}/js/drawCharts.js'></script>
+            <script>drawHistogram();</script>
+        </div>
+    {#elseif $data['value_type'] == 'cvterm' #}
+        {#if $data['name'] != 'geographic distribution' #}
+            <div class='col-xs-12'>
+                <div id='pieChart'></div>
+                <input type='hidden' value='{#$data['trait_cvterm_id']#}' id='cvterm_id'/>
+                <script src="{#$WebRoot#}/bower_components/plotly.js/dist/plotly.min.js"></script>
+                <script src='{#$WebRoot#}/js/drawCharts.js'></script>
+                <script>drawPieChart();</script>
+            </div>
+            <div class="col-xs-12" id="displayValueRange">
+                <svg width='1000' height='750' style='background-image: url("{#$WebRoot#}/css/img/traitInteractiveBrowse_{#$data['name']#}.png")'/>
+            </div>
+        {#else#}
+            <div class='col-xs-12'>
+                <div id='map'></div>
+                <input type='hidden' value='{#$data['trait_cvterm_id']#}' id='cvterm_id'/>
+                <script src='{#$WebRoot#}/js/json_to_csv.js'></script>
+                <script src='{#$WebRoot#}/bower_components/file-saver.js/FileSaver.js'></script>
+                <script src="{#$WebRoot#}/bower_components/plotly.js/dist/plotly.min.js"></script>
+                <script src='{#$WebRoot#}/js/drawCharts.js'></script>
+                <script>drawMap();</script>
+            </div>
+        {#/if#}
+    {#/if#}
 </div>
