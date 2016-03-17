@@ -57,7 +57,7 @@
             <div class='col-xs-12'>
                 <div id='map'></div>
                 <input type='hidden' value='{#$data['trait_cvterm_id']#}' id='cvterm_id'/>
-                <script src='{#$WebRoot#}/js/json_to_csv.js'></script>
+                <script src='{#$WebRoot#}/js/createCSV.js'></script>
                 <script src='{#$WebRoot#}/bower_components/file-saver.js/FileSaver.js'></script>
                 <script src="{#$WebRoot#}/bower_components/plotly.js/dist/plotly.min.js"></script>
                 <script src='{#$WebRoot#}/js/drawCharts.js'></script>
