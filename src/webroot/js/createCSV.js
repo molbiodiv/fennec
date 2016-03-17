@@ -1,4 +1,7 @@
-function generateGeographicMap(data) {
+//function which generates the csv layout of php data
+//at the moment the result is saved via filesaver.js
+//for preventing permanent blob events this function is only called once (by drawChart.js) for creating the geographicDistribution.csv
+function generateCSV(data) {
     var map = '';
     var values = {};
     

@@ -47,7 +47,10 @@ function drawMap(){
         data: {type_cvterm_id: cvterm_id},
         dataType: "json",
         success: function (data) {
-//            generateGeographicMap(data);
+            //this function is only called when you expected changes of geographicDistribution.csv
+            //As an enhancement the function  should be called every time when data is displayed as a map
+            //and the csv file is updated by this function
+//            generateCSV(data);
             Plotly.d3.csv(WebRoot.concat("/geographicDistribution.csv"), function(err, rows){
                 function unpack(rows, key) {
                     return rows.map(function(row) { return row[key]; });
