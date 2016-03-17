@@ -47,8 +47,8 @@ function drawMap(){
         data: {type_cvterm_id: cvterm_id},
         dataType: "json",
         success: function (data) {
-//           csvMap = generateGeographicMap(data);
-            Plotly.d3.csv(WebRoot.concat("/test.csv"), function(err, rows){
+//            generateGeographicMap(data);
+            Plotly.d3.csv(WebRoot.concat("/geographicDistribution.csv"), function(err, rows){
                 function unpack(rows, key) {
                     return rows.map(function(row) { return row[key]; });
                 }
