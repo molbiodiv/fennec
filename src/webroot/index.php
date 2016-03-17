@@ -47,6 +47,7 @@ switch ($page) {
     case 'trait':
         $smarty->assign('type', 'trait');
         $smarty->assign('title', 'Traits');
+        $smarty->assign('max', 6);
         $smarty->display('trait.tpl');
         die();
     case 'trait-search-overview':
