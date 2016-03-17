@@ -1,44 +1,26 @@
 function generateGeographicMap(data) {
-    var csvMap;
-    var map = [];
-    var line = {};
+    var map = '';
+    var values = {};
     
     $.each(data['value']['labels'], function(key, value) {
         var distribution = value.split(" - ");
         var country = distribution[1];
-        line = {
-            "label": country,
-            "frequency": data['value']['frequency'][key]
+        if($.inArray(country, _.allKeys(values)) > -1){
+            values[country] = values[country] + data['value']['frequency'][key];
+        } else {
+            values[country] = data['value']['frequency'][key];
         }
-        map.push(line);
     });
-    csvMap = JSON2CSV(map);
-    return csvMap;
-}
-
-function JSON2CSV(objArray) {
-    var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
-
-    var str = '';
-    var line = '';
-    for (var index in array[0]) {
-        line += index + ',';
-    }
-
-    line = line.slice(0, -1);
-    str += line + '\r\n';
-
-    for (var i = 0; i < array.length; i++) {
-        var line = '';
-
-        for (var index in array[i]) {
-            line += array[i][index] + ',';
-        }
-				
-        line = line.slice(0, -1);
-        str += line + '\r\n';
-    }
-    return str;
+    
+    map += '"labels","frequency"\r\n';
+    $.each(values, function(key, value){
+        map += '"' +key+ '","' +value+ '"\r\n';
+    });
+    
+    var csvMap = new Blob([map], {type: "text/plain;charset=utf-8"});
+    saveAs(csvMap, "geographicDistribution.csv");
+    
+    return true;
 }
 
 
