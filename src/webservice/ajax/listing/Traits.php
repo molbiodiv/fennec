@@ -32,9 +32,28 @@ EOF;
             $result = array();
             $result['name'] = $row['name'];
             $result['type_cvterm_id'] = $row['type_cvterm_id'];
+            $result['frequency'] = $this->count_frequency_of_trait($row['type_cvterm_id']);
             $data[] = $result;
         }
         return $data;
+    }
+    
+    /**
+     * This function counts the frequency of apperance of a specifi trait
+     * @param $type_cvterm_id Id of trait
+     * @returns the count of its appearance in the databse
+     */
+    private function count_frequency_of_trait($type_cvterm_id){
+        global $db;
+        $query_count_frequency = <<<EOF
+SELECT count(type_cvterm_id) FROM trait_entry WHERE type_cvterm_id = :type_cvterm_id
+EOF;
+        $stm_count_frequency = $db->prepare($query_count_frequency);
+        $stm_count_frequency->bindValue('type_cvterm_id', $type_cvterm_id);
+        $stm_count_frequency->execute();
+        
+        $result = $stm_count_frequency->fetch(PDO::FETCH_ASSOC);
+        return $result['count'];
     }
 }
 
