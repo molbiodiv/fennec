@@ -63,14 +63,22 @@ function drawMap(){
                 }];
 
                 var layout = {
-                  title: 'Geographic distribution',
-                  geo: {
-                      projection: {
-                          type: 'robinson'
-                      }
-                  },
-                  height: 700,
-                  width: 1000
+                    title: data['name'],
+                    geo: {
+                          projection: {
+                              type: 'orthographic'
+                          },
+                          bgcolor:"rgb(255, 255, 255)",
+                          showocean:true,
+                          showland:false,
+                          showlakes:true,
+                          showrivers:true,
+                          showcountries:false,
+                          oceancolor:"rgba(51, 153, 255, 0.30)",
+                          lakecolor:"rgb(34, 144, 255)"
+                    },
+                    height: 700,
+                    width: 1000
                 };
 
                 Plotly.plot(map, plot, layout, {showLink: false});
