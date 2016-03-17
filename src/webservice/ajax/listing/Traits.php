@@ -35,6 +35,7 @@ EOF;
             $result['frequency'] = $this->count_frequency_of_trait($row['type_cvterm_id']);
             $data[] = $result;
         }
+        usort($data, array($this, 'cmp'));
         return $data;
     }
     
@@ -54,6 +55,18 @@ EOF;
         
         $result = $stm_count_frequency->fetch(PDO::FETCH_ASSOC);
         return $result['count'];
+    }
+    
+    /**
+     * Functions which sorts the php result by its frequency
+     * @param type $a, $b Values of frequency
+     * @return int
+     */
+    public static function cmp($a, $b){
+        if($a['frequency'] == $b['frequency']){
+            return 0;
+        }
+        return ($a['frequency'] > $b['frequency']) ? -1 : 1;
     }
 }
 
