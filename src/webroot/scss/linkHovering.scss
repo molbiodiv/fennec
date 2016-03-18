@@ -3,6 +3,7 @@ $community-0: #A9530C;
 $organism-0: #076565;
 $trait-0: #A90C0C;
 $startpage-0: #A6750E;
+$trait-details-0: #78a00b;
 
 .organism-link {
     color: $organism-0;
@@ -34,6 +35,14 @@ $startpage-0: #A6750E;
 
 .trait-link:hover, .trait-link:active {
     color: darken($trait-0, 10%);
+}
+
+.trait-details-link {
+    color: $trait-details-0;
+}
+
+.trait-details-link:hover, .trait-details-link:active {
+    color: darken($trait-details-0, 10%);
 }
 
 .startpage-link {
