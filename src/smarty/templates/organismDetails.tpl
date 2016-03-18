@@ -7,11 +7,8 @@
     <div>
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active"><a class="organism-link" href="#overview" role="tab" data-toggle="tab">Overview</a></li>
-            <li role="presentation"><a class="organism-link" href="#detail" aria-controls="detail" role="tab" data-toggle="tab">Detail</a></li>
             <li role="presentation"><a class="organism-link" href="#traits" aria-controls="traits" role="tab" data-toggle="tab">Traits</a></li>
             <li role="presentation"><a class="organism-link" href="#taxonomy" aria-controls="taxonomy" role="tab" data-toggle="tab">Taxonomy</a></li>
-            <li role="presentation"><a class="organism-link" href="#community" aria-controls="community" role="tab" data-toggle="tab">Community</a></li>
-            <li role="presentation"><a class="organism-link" href="#literature" aria-controls="literature" role="tab" data-toggle="tab">Literature</a></li>
         </ul>
 
         <div class="tab-content">
@@ -29,7 +26,6 @@
                     <div id="txt3"></div>
                 </div>
             </div>
-            <div role="tabpanel" class="tab-pane" id="detail"></div>
             <div role="tabpanel" class="tab-pane" id="traits">
             <h4 class="page-header">Characteristics</h4>
                 <div class="col-md-6 text-left" style="font-weight: bold">
@@ -61,8 +57,6 @@
                     {#$organism#}
                 {#/foreach#}
             </div>
-            <div role="tabpanel" class="tab-pane" id="community"></div>
-            <div role="tabpanel" class="tab-pane" id="literature"></div>
         </div>
     </div>
 </div>
