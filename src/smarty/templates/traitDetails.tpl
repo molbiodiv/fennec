@@ -6,10 +6,10 @@
 <h4 class="page-header">Definition</h4>
 <div class="row">
     <div class='col-xs-8'>
-        <a href='{#$data['definition']#}' target='_blank'>Go to EOL definition</a>
+        <a class='trait-details-link' href='{#$data['definition']#}' target='_blank'>Go to EOL definition</a>
     </div>
     <div class="col-xs-4">
-        <div class="panel panel-trait">
+        <div class="panel panel-trait-details">
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-3">
@@ -22,7 +22,7 @@
                 </div>
             </div>
             <a href="{#$WebRoot#}/organism">
-                <div class="panel-footer info-trait">
+                <div class="panel-footer info-trait-details">
                     <span class="pull-left">View all organisms with this trait</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                     <div class="clearfix"></div>
