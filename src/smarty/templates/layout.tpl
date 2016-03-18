@@ -86,6 +86,9 @@
         
         <!-- D3 -->
         <script src="{#$WebRoot#}/bower_components/d3/d3.min.js"></script>
+
+        <!-- underscore.js -->
+        <script src="{#$WebRoot#}/bower_components/underscore/underscore-min.js"></script>
         
         {#block name='body'#}{#/block#}
         
