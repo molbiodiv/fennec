@@ -6,13 +6,29 @@ function drawHistogram(){
         dataType: "json",
         success: function (data) {
             if(data['value_type'] === 'value'){
+                var name = data['name'];
                 var data = data['value'];
+            
                 $.each(data, function(key, value){
+                    d3.select("#histogram").append("div")
+                        .attr("id", key);
                     var plot_data = [{
                             x: value,
-                            type: 'histogram'
+                            type: 'histogram',
+                            marker: {
+                                color: "#78a00b"
+                            },
+                            opacity: 0.9
                         }];
-                    Plotly.newPlot('histogram', plot_data);
+                    var layout = {
+                        xaxis: {
+                            title: name+ ' in ' +key
+                        },
+                        yaxis: {
+                            title: "frequency"
+                        }
+                    }
+                    Plotly.newPlot(key, plot_data, layout);
                 });
             }
         }
