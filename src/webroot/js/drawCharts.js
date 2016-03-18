@@ -78,7 +78,17 @@ function drawMap(){
                     locations: unpack(rows, 'labels'),
                     z: unpack(rows, 'frequency'),
                     text: unpack(rows, 'labels'),
-                    autocolorscale: true
+                    autocolorscale: false,
+                    colorscale: [
+                        [
+                            0,
+                            "rgb(224, 224, 224)"
+                        ],
+                        [
+                            1,
+                            "rgb(120, 160, 11)"
+                        ]
+                    ]
                 }];
 
                 var layout = {
