@@ -18,6 +18,34 @@ $(document).ready(function(){
             .on("click", function(){
                 displayPage(d3.select(this).attr("type_cvterm_id"));
             });
+            
+    var shadeTolerance = interactiveBrowse_ecology.append("rect")
+            .attr("x", 860)
+            .attr("y", 660)
+            .attr("width", 120)
+            .attr("height", 50)
+            .attr("id", "shade tolerance")
+            .attr("type_cvterm_id", "504")
+            .style("opacity", 0.01)
+            .style("fill", "#fff")
+            .style("cursor", "pointer")
+            .on("click", function(){
+                displayPage(d3.select(this).attr("type_cvterm_id"));
+            });
+            
+    var elevation = interactiveBrowse_ecology.append("rect")
+            .attr("x", 450)
+            .attr("y", 10)
+            .attr("width", 120)
+            .attr("height", 50)
+            .attr("id", "elevation")
+            .attr("type_cvterm_id", "102")
+            .style("opacity", 0.01)
+            .style("fill", "#fff")
+            .style("cursor", "pointer")
+            .on("click", function(){
+                displayPage(d3.select(this).attr("type_cvterm_id"));
+            });
 
     function displayPage(traitId){
         var resultPage =  WebRoot+"/trait/details/byId/"+traitId;
