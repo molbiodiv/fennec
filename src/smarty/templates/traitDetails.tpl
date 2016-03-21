@@ -21,7 +21,7 @@
                     </div>
                 </div>
             </div>
-            <a href="{#$WebRoot#}/organism/details/byTraitId/{#$data['trait_cvterm_id']#}">
+            <a href="{#$WebRoot#}/organism/details/byTrait/{#$data['trait_cvterm_id']#}" onclick="parent.$.fancybox.close();">
                 <div class="panel-footer info-trait-details">
                     <span class="pull-left">View all organisms with this trait</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>

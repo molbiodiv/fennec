@@ -5,5 +5,6 @@
         minWidth: 1200,
         maxWidth: 1200,
         maxHeight: 800,
-        minHeight: 800
+        minHeight: 800,
+        loop: false
     });
