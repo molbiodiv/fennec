@@ -16,13 +16,18 @@ class Organisms_to_traits extends \WebService {
      */
     public function execute($querydata) {
         global $db;
-        $type_cvterm_id = $querydata['trait_id'];
+        $type_cvterm_id = $querydata['type_cvterm_id'];
+        $limit = 5;
+        if(in_array('limit', array_keys($querydata))){
+            $limit = $querydata['limit'];
+        }
         
         $query_get_organism_by_trait = <<<EOF
-SELECT * FROM organism, (SELECT DISTINCT organism_id FROM trait_entry WHERE type_cvterm_id = :type_cvterm_id) AS ids WHERE organism.organism_id = ids.organism_id
+SELECT * FROM organism, (SELECT DISTINCT organism_id FROM trait_entry WHERE type_cvterm_id = :type_cvterm_id) AS ids WHERE organism.organism_id = ids.organism_id LIMIT :limit
 EOF;
         $stm_get_organism_by_trait = $db->prepare($query_get_organism_by_trait);
         $stm_get_organism_by_trait->bindValue('type_cvterm_id', $type_cvterm_id);
+        $stm_get_organism_by_trait->bindValue('limit', $limit);
         $stm_get_organism_by_trait->execute();
         
         $data = array();
