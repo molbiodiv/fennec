@@ -126,8 +126,12 @@
                     txtCounter++;
                 }
             }
-            $("#vernacularName").text(result["vernacularNames"][0]["vernacularName"]);
+            if((result['vernacularNames']).length > 0){
+                $("#vernacularName").text(result["vernacularNames"][0]["vernacularName"]);
+            }
         }
+    }).done(function(){
+        progress.progressTimer('complete');
     });
 </script>
 {#/if#}
