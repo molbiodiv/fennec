@@ -30,6 +30,11 @@
                     <div id="txt3"></div>
                 </div>
             </div>
+            <div class='row'>
+                <div class='col-xs-12'>
+                    <div class='loading-progress'></div>
+                </div>
+            </div>
             <div role="tabpanel" class="tab-pane" id="traits">
             <h4 class="page-header">Characteristics</h4>
                 <div class="col-md-6 text-left" style="font-weight: bold">
