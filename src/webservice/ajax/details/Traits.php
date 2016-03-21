@@ -17,13 +17,20 @@ class Traits extends \WebService {
     public function execute($querydata) {
         global $db;
         $type_cvterm_id = $querydata['type_cvterm_id'];
+        $group = "%%";
+        if(in_array('group', array_keys($querydata))){
+            $group = "%".$querydata['group']."%";
+        }
         $placeholders = implode(',', array_fill(0, count($type_cvterm_id), '?'));
         $query_get_trait = <<<EOF
-SELECT *
-    FROM trait_cvterm WHERE trait_cvterm_id IN ($placeholders)
+SELECT * FROM trait_cvterm, (SELECT * FROM trait_entry, (SELECT organism_id FROM organism WHERE species LIKE :group) AS names 
+    WHERE names.organism_id = trait_entry.organism_id) AS names2 
+        WHERE names2.type_cvterm_id=trait_cvterm.trait_cvterm_id AND trait_cvterm.trait_cvterm_id = :type_cvterm_id;
 EOF;
         $stm_get_trait= $db->prepare($query_get_trait);
-        $stm_get_trait->execute(array($type_cvterm_id));
+        $stm_get_trait->bindValue('group', $group);
+        $stm_get_trait->bindValue('type_cvterm_id', $type_cvterm_id);
+        $stm_get_trait->execute();
 
         $result = array();
         while ($row = $stm_get_trait->fetch(PDO::FETCH_ASSOC)) {
