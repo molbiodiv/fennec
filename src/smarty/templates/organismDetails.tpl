@@ -73,7 +73,13 @@
 {#if isset($data.eol_accession) and !empty($data.eol_accession)#}
 <script type="text/javascript">
     var eol_id = {#$data.eol_accession#};
-    var img_template = '<a class="thumbnail" href="<%= href %>"><img src="<%= src %>"/></a><a href="<%= source %>"><div>(c) <%= rightsHolder %> <%= license %></div></a>'
+    var img_template = '<a class="thumbnail" href="<%= href %>"><img src="<%= src %>"/></a><a href="<%= source %>"><div>(c) <%= rightsHolder %> <%= license %></div></a>';
+    var progress = $(".loading-progress").progressTimer({
+        timeLimit: 60,
+        onFinish: function(){
+            $(".loading-progress").remove();
+        }
+    });
     $.ajax({
         method: "GET",
         url: "http://eol.org/api/pages/1.0.json",
