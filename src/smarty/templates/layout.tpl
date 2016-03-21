@@ -82,6 +82,9 @@
         
         <!-- D3 -->
         <script src="{#$WebRoot#}/bower_components/d3/d3.min.js"></script>
+
+        <!-- underscore.js -->
+        <script src="{#$WebRoot#}/bower_components/underscore/underscore-min.js"></script>
         
         <!-- Underscore.js -->
         <script src="{#$WebRoot#}/bower_components/underscore/underscore-min.js"></script>
@@ -90,8 +93,6 @@
         
         
         <script src="{#$WebRoot#}/js/fancybox.js"></script>
-        
-        <script src="{#$WebRoot#}/js/callEolApi.js"></script>
         
         <script src="{#$WebRoot#}/js/interactiveTraitBrowse.js"></script>
     </body>
