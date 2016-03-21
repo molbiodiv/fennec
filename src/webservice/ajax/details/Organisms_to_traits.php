@@ -16,6 +16,29 @@ class Organisms_to_traits extends \WebService {
      */
     public function execute($querydata) {
         global $db;
+        $type_cvterm_id = $querydata['trait_id'];
+        
+        $query_get_organism_by_trait = <<<EOF
+SELECT * FROM organism, (SELECT DISTINCT organism_id FROM trait_entry WHERE type_cvterm_id = :type_cvterm_id) AS ids WHERE organism.organism_id = ids.organism_id
+EOF;
+        $stm_get_organism_by_trait = $db->prepare($query_get_organism_by_trait);
+        $stm_get_organism_by_trait->bindValue('type_cvterm_id', $type_cvterm_id);
+        $stm_get_organism_by_trait->execute();
+        
+        $data = array();
+        
+        while ($row = $stm_get_organism_by_trait->fetch(PDO::FETCH_ASSOC)) {
+            $result = array();
+            $result['organism_id'] = $row['organism_id'];
+            $result['scientific_name'] = $row['species'];
+            $result['rank'] = $row['genus'];
+            $result['common_name'] = $row['common_name'];
+            if($row["abbreviation"]!=null){
+                $result['rank']='species';
+            }
+            $data[] = $result;
+        }
+        return $data;
         
     }
     
