@@ -39,6 +39,10 @@ switch ($page) {
         if (displayOrganismById(requestVal('organismId', '/^[0-9]+$/', '')))
             die();
         break;
+    case 'organism-by-trait':
+        if (displayOrganismByTrait(requestVal('type_cvterm_id', '/^[0-9]+$/', '')))
+            die();
+        break;
     case 'project':
         $smarty->assign('type', 'project');
         $smarty->assign('title', 'Projects');
