@@ -1,5 +1,10 @@
 * Fennec Web
 ** Changes
+*** 0.0.4 <2016-03-21 Mo>
+ - add plotly graphs
+ - add trait webservice for displaying trait information
+ - display eol organism info (via API)
+ - add db test fixtures
 *** 0.0.3 <2016-03-11 Fr>
  - add dynamic organism view
  - create layout for trait overview page
