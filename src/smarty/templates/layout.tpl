@@ -41,6 +41,9 @@
         <!-- Grid style -->
         <link href="{#$WebRoot#}/css/grid.css" rel="stylesheet" type="text/css">
         
+        <!-- Alert style -->
+        <link href="{#$WebRoot#}/css/alert.css" rel="stylesheet" type="text/css">
+        
         <link href="{#$WebRoot#}/css/autocomplete.css" rel="stylesheet" type="text/css">
         
         <!-- jQuery UI Theme Style -->

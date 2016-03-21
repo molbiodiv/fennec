@@ -13,7 +13,11 @@
 
         <div class="tab-content">
             <div role="tabpanel" class="tab-pane active" id="overview">
-                <div>Content on this page is dynamically included from <a href="http://eol.org">EOL</a> via its <a href="http://eol.org/api">API</a>. <a href="http://eol.org/pages/{#$data.eol_accession#}">Visit full page at EOL for this organism (id {#$data.eol_accession#})</a>.</div>
+                <div class="alert alert-success alert-dismissable" role="alert" style="margin-top: 10px;">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    Content on this page is dynamically included from <a href="http://eol.org">EOL</a> via its <a href="http://eol.org/api">API</a>. <a href="http://eol.org/pages/{#$data.eol_accession#}">Visit full page at EOL for this organism (id {#$data.eol_accession#})</a>.</div>
                 <h2 id="vernacularName"></h2>
                 <div class="col-md-4" style="margin-top: 10px;" id="organism-img-column">
                 </div>
