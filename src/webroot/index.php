@@ -15,7 +15,7 @@ $smarty->right_delimiter = '#}';
 $smarty->assign('WebRoot', WEBROOT);
 $smarty->assign('ServicePath', SERVICEPATH);
 
-$smarty->assign('fennec_version', '0.0.3');
+$smarty->assign('fennec_version', '0.0.4');
 
 $page = requestVal('page', '/^[a-z-_\.]*$/', '');
 switch ($page) {
@@ -35,6 +35,10 @@ switch ($page) {
         if(displayOrganismSearchResults(requestVal('searchTerm', '/^[a-zA-Z-\.]*$/', '')))
             die();
         break;
+    case 'organism-byid':
+        if (displayOrganismById(requestVal('organismId', '/^[0-9]+$/', '')))
+            die();
+        break;
     case 'project':
         $smarty->assign('type', 'project');
         $smarty->assign('title', 'Projects');
@@ -43,12 +47,19 @@ switch ($page) {
     case 'trait':
         $smarty->assign('type', 'trait');
         $smarty->assign('title', 'Traits');
+        $smarty->assign('max', 6);
         $smarty->display('trait.tpl');
         die();
-    case 'trait-search-habitat':
+    case 'trait-search-overview':
         $smarty->assign('type', 'trait');
         $smarty->assign('title', 'Search for Traits');
-        $smarty->assign('searchLevel', 'habitat');
+        $smarty->assign('searchLevel', 'overview');
+        $smarty->display('traitSearch.tpl');
+        die();
+    case 'trait-search-ecology':
+        $smarty->assign('type', 'trait');
+        $smarty->assign('title', 'Search for Traits');
+        $smarty->assign('searchLevel', 'ecology');
         $smarty->display('traitSearch.tpl');
         die();
     case 'trait-search-woodland':
@@ -69,15 +80,15 @@ switch ($page) {
         $smarty->assign('searchLevel', 'plant');
         $smarty->display('traitSearch.tpl');
         die();
+    case 'trait-byid':
+        if (displayTraitsById(requestVal('type_cvterm_id', '/^[0-9]+$/', '')))
+            die();
+        break;
     case 'community':
         $smarty->assign('type', 'community');
         $smarty->assign('title', 'Communities');
         $smarty->display('community.tpl');
         die();
-    case 'organism-byid':
-        if (displayOrganismById(requestVal('organismId', '/^[0-9]+$/', '')))
-            die();
-        break;
 }
 $smarty->assign('type', 'startpage');
 $smarty->assign('title', 'Welcome');
@@ -119,6 +130,13 @@ function displayOrganismSearchResults($searchTerm){
     $smarty->assign('searchTerm', $searchTerm);
     $smarty->assign('limit', '1000');
     $smarty->display('organismResults.tpl');
+    return true;
+}
+
+function displayTraitsById($type_cvterm_id){
+    global $smarty;
+    $smarty->assign('type_cvterm_id', $type_cvterm_id);
+    $smarty->display('traitDetails.tpl');
     return true;
 }
 

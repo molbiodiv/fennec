@@ -30,4 +30,12 @@
 .info-trait {
   color: #910a0a; }
 
+.panel-trait-details {
+  background-color: #0b5468;
+  border-color: #094151;
+  color: #fff; }
+
+.info-trait-details {
+  color: #094151; }
+
 /*# sourceMappingURL=panels.css.map */

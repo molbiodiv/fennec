@@ -71,10 +71,6 @@
         <!-- Metis Menu Plugin JavaScript -->
         <script src="{#$WebRoot#}/bower_components/metisMenu/dist/metisMenu.min.js"></script>
 
-        <!-- Morris Charts JavaScript -->
-        <script src="{#$WebRoot#}/bower_components/raphael/raphael-min.js"></script>
-        <script src="{#$WebRoot#}/bower_components/morrisjs/morris.min.js"></script>
-
         <!-- Custom Theme JavaScript -->
         <script src="{#$WebRoot#}/bower_components/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
         
@@ -86,15 +82,18 @@
         
         <!-- D3 -->
         <script src="{#$WebRoot#}/bower_components/d3/d3.min.js"></script>
+
+        <!-- underscore.js -->
+        <script src="{#$WebRoot#}/bower_components/underscore/underscore-min.js"></script>
+        
+        <!-- Underscore.js -->
+        <script src="{#$WebRoot#}/bower_components/underscore/underscore-min.js"></script>
         
         {#block name='body'#}{#/block#}
         
         
         <script src="{#$WebRoot#}/js/fancybox.js"></script>
         
-        <script src="{#$WebRoot#}/js/callEolApi.js"></script>
-        
         <script src="{#$WebRoot#}/js/interactiveTraitBrowse.js"></script>
-        <script>callEolApi();</script>
     </body>
 </html>

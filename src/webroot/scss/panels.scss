@@ -2,6 +2,7 @@ $project-0: #098709;
 $community-0: #A9530C;
 $organism-0: #076565;
 $trait-0: #A90C0C;
+$trait-details-0: #0b5468;
 
 .panel-projects {
     background-color: $project-0;
@@ -40,5 +41,15 @@ $trait-0: #A90C0C;
 
 .info-trait {
     color: darken($trait-0, 5%);
+}
+
+.panel-trait-details {
+    background-color: $trait-details-0;
+    border-color: darken($trait-details-0, 5%);
+    color: #fff;
+}
+
+.info-trait-details {
+    color: darken($trait-details-0, 5%);
 }
 

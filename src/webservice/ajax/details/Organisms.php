@@ -1,6 +1,6 @@
 <?php
 
-namespace ajax\listing;
+namespace ajax\details;
 
 use \PDO as PDO;
 
@@ -8,7 +8,7 @@ use \PDO as PDO;
  * Web Service.
  * Returns Organisms with given ids
  */
-class Details extends \WebService {
+class Organisms extends \WebService {
 
     /**
      * @param $querydata[ids] array of ids
@@ -25,8 +25,6 @@ EOF;
         $stm_get_organisms = $db->prepare($query_get_organisms);
         $stm_get_organisms->execute(array($id));
 
-        $data = array();
-        
         $result = array();
         while ($row = $stm_get_organisms->fetch(PDO::FETCH_ASSOC)) {
             $result['organism_id'] = $row['organism_id'];
