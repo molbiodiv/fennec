@@ -5,7 +5,10 @@
 
 //chado test database
 define('DB_ADAPTER','pgsql');
-define('DB_CONNSTR', 'pgsql:host=TESTDB;dbname=testchado;port=5432');
+define('DB_HOST','TESTDB');
+define('DB_PORT','5432');
+define('DB_DBNAME','testchado');
+define('DB_CONNSTR', 'pgsql:host='.DB_HOST.';dbname='.DB_DBNAME.';port='.DB_PORT);
 define('DB_USERNAME', 'fennectest');
 define('DB_PASSWORD', 'fennectest');
 ?>
