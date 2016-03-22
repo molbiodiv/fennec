@@ -16,7 +16,7 @@ class Traits extends \WebService {
      */
     public function execute($querydata) {
         global $db;
-        $limit = 5;
+        $limit = 1000;
         if(in_array('limit', array_keys($querydata))){
             $limit = $querydata['limit'];
         }

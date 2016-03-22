@@ -8,7 +8,7 @@ $(document).ready(function(){
             var search = request.term;
             $.ajax({
                 url: WebRoot.concat("/ajax/listing/Traits"),
-                data: {term:  request.term, search: search, limit: 5},
+                data: {term:  request.term, search: search, limit: 500},
                 dataType: "json",
                 success: function (data) {
                     response(data);
