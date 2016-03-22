@@ -40,7 +40,12 @@ EOF;
         return $result;
     }
     
-    private function get_cvterm($cvterm_id){
+    /**
+     * Function which returns the cvterm accoring to a trait_entry_id
+     * @param $trait_entry_id
+     * @return cvterm to a given trait_entry_id
+     */
+    private function get_cvterm($trait_entry_id){
         global $db;
         $query_get_cvterm = <<<EOF
 SELECT name, definition FROM trait_cvterm WHERE trait_cvterm_id = :cvterm_id
