@@ -38,28 +38,9 @@
             </div>
             <div role="tabpanel" class="tab-pane" id="traits">
             <h4 class="page-header">Characteristics</h4>
-                <div class="col-md-6 text-left" style="font-weight: bold">
-                    metabolic rate
-                </div> 
-                <div class="col-md-6 text-right">
-                    467.97 mL/hr O2
-                </div>
-                <div class="col-md-6 text-left" style="font-weight: bold; margin-top: 5px;">
-                    body length (VT)
-                </div> 
-                <div class="col-md-6 text-right" style="margin-top: 5px;">
-                    111.7 mm newborn animal<br>
-                    374.23 mm adult
-                </div>
-                <div class="col-md-6 text-left" style="font-weight: bold; margin-top: 5px;">
-                    habitat
-                </div> 
-                <div class="col-md-6 text-right" style="margin-top: 5px;">
-                    arid<br>
-                    coast<br>
-                    desert<br>
-                    more
-                </div>
+                {#foreach $traits as $current#}
+                    {#$current['type']#} = {#$current['value']#}
+                {#/foreach#}
             </div>
             <div role="tabpanel" class="tab-pane" id="taxonomy">
                 <h4 class="page-header">Lineage</h4>
