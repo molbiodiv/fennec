@@ -13,3 +13,9 @@ addons:
 
 before_script:
   - cp test/php/.travis.config.php test/php/config.php
+  - npm install
+  - bower install
+
+script:
+  - phpunit
+  - grunt jasmine
