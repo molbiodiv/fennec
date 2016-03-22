@@ -1,0 +1,28 @@
+{
+  "name": "fennec-web",
+  "version": "0.0.4",
+  "description": "Fennec",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "jasmine"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iimog/fennec-web.git"
+  },
+  "keywords": [
+    "ecology",
+    "community",
+    "trait"
+  ],
+  "author": "Markus Ankenbrand, Sonja Hohlfeld",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/iimog/fennec-web/issues"
+  },
+  "devDependencies": {
+    "jasmine": "^2.4.1"
+  }
+}
