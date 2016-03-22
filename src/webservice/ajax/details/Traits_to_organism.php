@@ -32,7 +32,7 @@ EOF;
             if($row['value'] != NULL){
                 $this_trait['value'] = $row['value'];
             } else {
-                $this_trait['value_cvterm_id'] = $this->get_cvterm($row['value_cvterm_id']);
+                $this_trait['value'] = $this->get_cvterm($row['value_cvterm_id']);
             }
             array_push($result, $this_trait);
             
