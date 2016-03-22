@@ -48,10 +48,10 @@ EOF;
     private function get_cvterm($trait_entry_id){
         global $db;
         $query_get_cvterm = <<<EOF
-SELECT name, definition FROM trait_cvterm WHERE trait_cvterm_id = :cvterm_id
+SELECT name, definition FROM trait_cvterm WHERE trait_cvterm_id = :trait_entry_id
 EOF;
         $stm_get_cvterm = $db->prepare($query_get_cvterm);
-        $stm_get_cvterm->bindValue('cvterm_id', $cvterm_id);
+        $stm_get_cvterm->bindValue('trait_entry_id', $trait_entry_id);
         $stm_get_cvterm->execute();
         $result = $stm_get_cvterm->fetch(PDO::FETCH_ASSOC);
         
