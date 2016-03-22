@@ -23,6 +23,7 @@
     "url": "https://github.com/iimog/fennec-web/issues"
   },
   "devDependencies": {
-    "jasmine": "^2.4.1"
+    "grunt": "^0.4.5",
+    "grunt-contrib-jasmine": "^1.0.0"
   }
 }
