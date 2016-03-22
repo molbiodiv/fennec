@@ -19,6 +19,11 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                     Content on this page is dynamically included from <a href="http://eol.org">EOL</a> via its <a href="http://eol.org/api">API</a>. <a href="http://eol.org/pages/{#$data.eol_accession#}">Visit full page at EOL for this organism (id {#$data.eol_accession#})</a>.</div>
+                <div class='row'>
+                    <div class='col-xs-12'>
+                        <div class='loading-progress'></div>
+                    </div>
+                </div>
                 <h2 id="vernacularName"></h2>
                 <div class="col-md-4" style="margin-top: 10px;" id="organism-img-column">
                 </div>
@@ -31,15 +36,10 @@
                     <div id="txt3"></div>
                 </div>
             </div>
-            <div class='row'>
-                <div class='col-xs-12'>
-                    <div class='loading-progress'></div>
-                </div>
-            </div>
             <div role="tabpanel" class="tab-pane" id="traits">
-            <h4 class="page-header">Characteristics</h4>
                 {#foreach $traits as $current#}
-                    {#$current['type']#} = {#$current['value']#}
+                    <h4 class='page-header'>{#$current['type']#}</h4>
+                    {#$current['value']#}
                 {#/foreach#}
             </div>
             <div role="tabpanel" class="tab-pane" id="taxonomy">
