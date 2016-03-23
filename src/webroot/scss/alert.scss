@@ -1,0 +1,8 @@
+$organism-0: #076565;
+$organism-1: #338C8C;
+
+.alert-organism {
+    background-color: lighten($organism-1, 20%);
+    border-color: darken($organism-1, 5%);
+    color: $organism-0;
+}

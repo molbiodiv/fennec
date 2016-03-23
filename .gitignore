@@ -3,6 +3,7 @@
 vendor/
 *~
 build.properties
+node_modules/
 bower_components/
 /nbproject/private/
 src/webroot/css/*.map

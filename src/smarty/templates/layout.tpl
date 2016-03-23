@@ -41,6 +41,9 @@
         <!-- Grid style -->
         <link href="{#$WebRoot#}/css/grid.css" rel="stylesheet" type="text/css">
         
+        <!-- Alert style -->
+        <link href="{#$WebRoot#}/css/alert.css" rel="stylesheet" type="text/css">
+        
         <link href="{#$WebRoot#}/css/autocomplete.css" rel="stylesheet" type="text/css">
         
         <!-- jQuery UI Theme Style -->
@@ -51,6 +54,9 @@
         
         <!-- Bootstrap image viewer using lightbox -->
         <link href="{#$WebRoot#}/bower_components/ekko-lightbox/dist/ekko-lightbox.min.css" rel="stylesheet" type="text/css">
+        
+        <!-- jQuery progress bar -->
+        <link href="{#$WebRoot#}/bower_components/jquery-progresstimer/dist/css/jquery.progresstimer.min.css" rel="stylesheet" type="text/css">
         
         {#block name='head'#}{#/block#}
     </head>
@@ -82,12 +88,12 @@
         
         <!-- D3 -->
         <script src="{#$WebRoot#}/bower_components/d3/d3.min.js"></script>
-
-        <!-- underscore.js -->
-        <script src="{#$WebRoot#}/bower_components/underscore/underscore-min.js"></script>
         
         <!-- Underscore.js -->
         <script src="{#$WebRoot#}/bower_components/underscore/underscore-min.js"></script>
+        
+        <!-- jQuery progress bar -->
+        <script src="{#$WebRoot#}/bower_components/jquery-progresstimer/dist/js/jquery.progresstimer.min.js"></script>
         
         {#block name='body'#}{#/block#}
         

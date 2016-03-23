@@ -6,6 +6,7 @@ RewriteRule ^organism$    index.php?page=organism [L,NC,QSA]
 RewriteRule ^organism/search$    index.php?page=organism-search [L,NC,QSA]
 RewriteRule ^organism/results/(.*)?$    index.php?page=organism-results&searchTerm=$1 [L,NC,QSA]
 RewriteRule ^organism/details/byId/(.*)?$  index.php?page=organism-byid&organismId=$1 [L,NC,QSA]
+RewriteRule ^organism/details/byTrait/(.*)?$  index.php?page=organism-by-trait&type_cvterm_id=$1 [L,NC,QSA]
 
 RewriteRule ^project$    index.php?page=project [L,NC,QSA]
 

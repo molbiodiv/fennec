@@ -15,7 +15,7 @@ $smarty->right_delimiter = '#}';
 $smarty->assign('WebRoot', WEBROOT);
 $smarty->assign('ServicePath', SERVICEPATH);
 
-$smarty->assign('fennec_version', '0.0.4');
+$smarty->assign('fennec_version', '0.0.5');
 
 $page = requestVal('page', '/^[a-z-_\.]*$/', '');
 switch ($page) {
@@ -37,6 +37,10 @@ switch ($page) {
         break;
     case 'organism-byid':
         if (displayOrganismById(requestVal('organismId', '/^[0-9]+$/', '')))
+            die();
+        break;
+    case 'organism-by-trait':
+        if (displayOrganismByTrait(requestVal('type_cvterm_id', '/^[0-9]+$/', '')))
             die();
         break;
     case 'project':
@@ -120,6 +124,16 @@ function displayOrganismById($organismId){
     global $smarty;
     $smarty->assign('organismId', $organismId);
     $smarty->display('organismDetails.tpl');
+    return true;
+}
+
+function displayOrganismByTrait($type_cvterm_id){
+    global $smarty;
+    $smarty->assign('type', 'organism');
+    $smarty->assign('title', 'Search for organisms');
+    $smarty->assign('limit', '1000');
+    $smarty->assign('type_cvterm_id', $type_cvterm_id);
+    $smarty->display('organismByTrait.tpl');
     return true;
 }
 

@@ -1,5 +1,6 @@
 {#call_webservice path="details/Organisms" data=["id"=>$organismId] assign='data'#}
 {#call_webservice path="listing/Taxonomy" data=["id"=>$organismId] assign='taxonomy'#}
+{#call_webservice path="details/Traits_to_organism" data=["organism_id"=>$organismId] assign='traits'#}
 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="background-color: #076565; margin-bottom: 10px; border-radius: 5px; ">
     <h1 class="page-header" style="color: #fff;">{#$data['scientific_name']#}</h1>
 </div>
@@ -13,7 +14,16 @@
 
         <div class="tab-content">
             <div role="tabpanel" class="tab-pane active" id="overview">
-                <div>Content on this page is dynamically included from <a href="http://eol.org">EOL</a> via its <a href="http://eol.org/api">API</a>. <a href="http://eol.org/pages/{#$data.eol_accession#}">Visit full page at EOL for this organism (id {#$data.eol_accession#})</a>.</div>
+                <div class="alert alert-success alert-dismissable" role="alert" style="margin-top: 10px;">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    Content on this page is dynamically included from <a href="http://eol.org">EOL</a> via its <a href="http://eol.org/api">API</a>. <a href="http://eol.org/pages/{#$data.eol_accession#}">Visit full page at EOL for this organism (id {#$data.eol_accession#})</a>.</div>
+                <div class='row'>
+                    <div class='col-xs-12'>
+                        <div class='loading-progress'></div>
+                    </div>
+                </div>
                 <h2 id="vernacularName"></h2>
                 <div class="col-md-4" style="margin-top: 10px;" id="organism-img-column">
                 </div>
@@ -27,29 +37,10 @@
                 </div>
             </div>
             <div role="tabpanel" class="tab-pane" id="traits">
-            <h4 class="page-header">Characteristics</h4>
-                <div class="col-md-6 text-left" style="font-weight: bold">
-                    metabolic rate
-                </div> 
-                <div class="col-md-6 text-right">
-                    467.97 mL/hr O2
-                </div>
-                <div class="col-md-6 text-left" style="font-weight: bold; margin-top: 5px;">
-                    body length (VT)
-                </div> 
-                <div class="col-md-6 text-right" style="margin-top: 5px;">
-                    111.7 mm newborn animal<br>
-                    374.23 mm adult
-                </div>
-                <div class="col-md-6 text-left" style="font-weight: bold; margin-top: 5px;">
-                    habitat
-                </div> 
-                <div class="col-md-6 text-right" style="margin-top: 5px;">
-                    arid<br>
-                    coast<br>
-                    desert<br>
-                    more
-                </div>
+                {#foreach $traits as $current#}
+                    <h4 class='page-header'>{#$current['type']#}</h4>
+                    {#$current['value']#}
+                {#/foreach#}
             </div>
             <div role="tabpanel" class="tab-pane" id="taxonomy">
                 <h4 class="page-header">Lineage</h4>
@@ -64,7 +55,13 @@
 {#if isset($data.eol_accession) and !empty($data.eol_accession)#}
 <script type="text/javascript">
     var eol_id = {#$data.eol_accession#};
-    var img_template = '<a class="thumbnail" href="<%= href %>"><img src="<%= src %>"/></a><a href="<%= source %>"><div>(c) <%= rightsHolder %> <%= license %></div></a>'
+    var img_template = '<a class="thumbnail" href="<%= href %>"><img src="<%= src %>"/></a><a href="<%= source %>"><div>(c) <%= rightsHolder %> <%= license %></div></a>';
+    var progress = $(".loading-progress").progressTimer({
+        timeLimit: 60,
+        onFinish: function(){
+            $(".loading-progress").remove();
+        }
+    });
     $.ajax({
         method: "GET",
         url: "http://eol.org/api/pages/1.0.json",
@@ -111,8 +108,11 @@
                     txtCounter++;
                 }
             }
-            $("#vernacularName").text(result["vernacularNames"][0]["vernacularName"]);
+            $("#vernacularName").text(getBestName(result));
         }
+    }).done(function(){
+        progress.progressTimer('complete');
     });
 </script>
+<script src="{#$WebRoot#}/js/organismDetails.js"></script>
 {#/if#}

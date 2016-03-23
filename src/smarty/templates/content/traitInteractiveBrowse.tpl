@@ -1,12 +1,17 @@
 <h3 class="page-header">
     Not sure where to start? Explore our database with the following interactive search tool:
 </h3>
+<div class='row'>
+    <div class='col-xs-12'>
+        
+    </div>
+</div>
 {#if $searchLevel == 'overview' #}
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-trait" style="width: 1040px;">
             <div class="panel-heading">
-                <div class="row">
+                <div class="row" id='traitBrowseHistory'>
                     <h4 style="margin-left: 10px">overview</h4>
                 </div>
             </div>
