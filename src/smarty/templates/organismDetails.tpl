@@ -108,12 +108,11 @@
                     txtCounter++;
                 }
             }
-            if((result['vernacularNames']).length > 0){
-                $("#vernacularName").text(result["vernacularNames"][0]["vernacularName"]);
-            }
+            $("#vernacularName").text(getBestName(result));
         }
     }).done(function(){
         progress.progressTimer('complete');
     });
 </script>
+<script src="{#$WebRoot#}/js/organismDetails.js"></script>
 {#/if#}

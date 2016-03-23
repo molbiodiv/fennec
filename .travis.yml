@@ -4,6 +4,8 @@ php:
 
 install:
   - composer install
+  - npm install
+  - node_modules/bower/bin/bower install
 
 services:
   - postgresql
@@ -13,3 +15,7 @@ addons:
 
 before_script:
   - cp test/php/.travis.config.php test/php/config.php
+
+script:
+  - phpunit
+  - grunt jasmine
