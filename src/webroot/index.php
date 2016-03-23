@@ -15,7 +15,7 @@ $smarty->right_delimiter = '#}';
 $smarty->assign('WebRoot', WEBROOT);
 $smarty->assign('ServicePath', SERVICEPATH);
 
-$smarty->assign('fennec_version', '0.0.4');
+$smarty->assign('fennec_version', '0.0.5');
 
 $page = requestVal('page', '/^[a-z-_\.]*$/', '');
 switch ($page) {
