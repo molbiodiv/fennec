@@ -69,7 +69,7 @@ switch ($page) {
     case 'trait-search-eco':
         $smarty->assign('type', 'trait');
         $smarty->assign('title', 'Search for Traits');
-        $smarty->assign('searchLevel', 'relevance to humans and ecosystems');
+        $smarty->assign('searchLevel', 'humanAndEcosystems');
         $smarty->display('traitSearch.tpl');
         die();
     case 'trait-search-woodland':
