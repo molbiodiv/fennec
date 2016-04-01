@@ -18,6 +18,20 @@ $(document).ready(function(){
             .on("click", function(){
                 displayPage(d3.select(this).attr("type_cvterm_id"));
             });
+            
+    var plantPropMethod = interactiveBrowse_humanAndEcosystems.append("rect")
+            .attr("x", 200)
+            .attr("y", 650)
+            .attr("width", 220)
+            .attr("height", 70)
+            .attr("id", "plant propagation method")
+            .attr("type_cvterm_id", "515")
+            .style("opacity", 0.01)
+            .style("fill", "#fff")
+            .style("cursor", "pointer")
+            .on("click", function(){
+                displayPage(d3.select(this).attr("type_cvterm_id"));
+            });
 
     function displayPage(traitId){
         var resultPage =  WebRoot+"/trait/details/byId/"+traitId;
