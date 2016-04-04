@@ -25,7 +25,7 @@ class Taxonomy extends \WebService {
         }
         $data['lineage'] = array();
         foreach($result['lineage'] as $organism_id){
-            array_push($data['lineage'], $this->getOrganismName($organism_id)." =>");
+            array_push($data['lineage'], $this->getOrganismName($organism_id)." &#8594;");
         }
         array_push($data['lineage'], $this->getOrganismName($child_organism_id));
         return $data;
