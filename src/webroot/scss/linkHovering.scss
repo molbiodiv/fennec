@@ -7,10 +7,12 @@ $trait-details-0: #78a00b;
 
 .organism-link {
     color: $organism-0;
+    text-decoration: none;
 }
 
 .organism-link:hover .organism-link:focus {
     color: darken($organism-0, 10%);
+    text-decoration: none;
 }
 
 .project-link {

@@ -1,8 +1,10 @@
 .organism-link {
-  color: #076565; }
+  color: #076565;
+  text-decoration: none; }
 
 .organism-link:hover .organism-link:focus {
-  color: #043535; }
+  color: #043535;
+  text-decoration: none; }
 
 .project-link {
   color: #098709; }
