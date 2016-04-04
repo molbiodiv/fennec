@@ -61,7 +61,7 @@
         <!-- Data tables CSS -->
         <link href="{#$WebRoot#}/bower_components/datatables/media/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
         
-        <!-- Responsive Data tables CSS -->
+        <!-- Data tables CSS, Bootstrap Design -->
         <link href="{#$WebRoot#}/bower_components/datatables/media/css/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
         
         {#block name='head'#}{#/block#}
