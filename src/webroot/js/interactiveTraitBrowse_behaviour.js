@@ -3,15 +3,15 @@ $(document).ready(function(){
             .attr("class", "tooltip")
             .style("opacity", 0);
 
-    var interactiveBrowse_ecology = d3.select("#interactiveBrowse_ecology");
+    var interactiveBrowse_behaviour = d3.select("#interactiveBrowse_behaviour");
 
-    var habitat = interactiveBrowse_ecology.append("rect")
-            .attr("x", 370)
-            .attr("y", 260)
+    var bloomPeriod = interactiveBrowse_behaviour.append("rect")
+            .attr("x", 320)
+            .attr("y", 400)
             .attr("width", 120)
-            .attr("height", 50)
-            .attr("id", "habitat")
-            .attr("type_cvterm_id", "27")
+            .attr("height", 80)
+            .attr("id", "bloom period")
+            .attr("type_cvterm_id", "438")
             .style("opacity", 0.01)
             .style("fill", "#fff")
             .style("cursor", "pointer")
@@ -19,13 +19,13 @@ $(document).ready(function(){
                 displayPage(d3.select(this).attr("type_cvterm_id"));
             });
             
-    var shadeTolerance = interactiveBrowse_ecology.append("rect")
-            .attr("x", 860)
-            .attr("y", 660)
-            .attr("width", 120)
-            .attr("height", 50)
-            .attr("id", "shade tolerance")
-            .attr("type_cvterm_id", "504")
+    var lifeSpan = interactiveBrowse_behaviour.append("rect")
+            .attr("x", 760)
+            .attr("y", 600)
+            .attr("width", 140)
+            .attr("height", 60)
+            .attr("id", "life span")
+            .attr("type_cvterm_id", "472")
             .style("opacity", 0.01)
             .style("fill", "#fff")
             .style("cursor", "pointer")
@@ -33,13 +33,13 @@ $(document).ready(function(){
                 displayPage(d3.select(this).attr("type_cvterm_id"));
             });
             
-    var elevation = interactiveBrowse_ecology.append("rect")
-            .attr("x", 450)
-            .attr("y", 10)
-            .attr("width", 120)
-            .attr("height", 50)
-            .attr("id", "elevation")
-            .attr("type_cvterm_id", "102")
+    var growthRate = interactiveBrowse_behaviour.append("rect")
+            .attr("x", 350)
+            .attr("y", 600)
+            .attr("width", 160)
+            .attr("height", 40)
+            .attr("id", "growth rate")
+            .attr("type_cvterm_id", "450")
             .style("opacity", 0.01)
             .style("fill", "#fff")
             .style("cursor", "pointer")
