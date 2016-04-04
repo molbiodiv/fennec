@@ -58,9 +58,6 @@
         <!-- jQuery progress bar -->
         <link href="{#$WebRoot#}/bower_components/jquery-progresstimer/dist/css/jquery.progresstimer.min.css" rel="stylesheet" type="text/css">
         
-        <!-- Data tables CSS -->
-        <link href="{#$WebRoot#}/bower_components/datatables/media/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
-        
         <!-- Data tables CSS, Bootstrap Design -->
         <link href="{#$WebRoot#}/bower_components/datatables/media/css/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
         
