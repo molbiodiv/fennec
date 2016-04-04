@@ -134,6 +134,8 @@ function requestVal($key, $regexp = "/^.*$/", $defaultvalue = "") {
  */
 function displayOrganismById($organismId){
     global $smarty;
+    $smarty->assign('type', 'organism');
+    $smarty->assign('limit', 1000);
     $smarty->assign('organismId', $organismId);
     $smarty->display('organismDetails.tpl');
     return true;
