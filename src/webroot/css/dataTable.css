@@ -7,6 +7,12 @@ table.dataTable thead .sorting_desc_disabled {
   background: #098709;
   color: #f8f8f8; }
 
+.table-striped > tbody > tr:nth-of-type(2n) {
+  background-color: #dffddf; }
+
+.table-striped > tbody > tr:hover {
+  background-color: #eee; }
+
 .project-table sorting_asc {
   color: #f8f8f8; }
 
