@@ -1,48 +1,40 @@
 .btn-organism {
   color: #fff;
   background-color: #076565;
-  border-color: #054d4d; }
+  border-color: #076565;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5), 0 1px rgba(255, 255, 255, 0.3) inset, 0 10px rgba(255, 255, 255, 0.2) inset, 0 10px 20px rgba(255, 255, 255, 0.25) inset, 0 -15px 30px rgba(0, 0, 0, 0.3) inset; }
 
 .btn-organism:hover {
-  color: #076565;
-  background-color: #fff;
-  border-color: #054d4d; }
+  color: #fff;
+  background-color: #043535;
+  border-color: #043535;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5), 0 1px rgba(255, 255, 255, 0.3) inset, 0 10px rgba(255, 255, 255, 0.2) inset, 0 10px 20px rgba(255, 255, 255, 0.25) inset, 0 -15px 30px rgba(0, 0, 0, 0.3) inset; }
 
 .btn-organism:focus {
-  color: #076565;
-  background-color: #fff;
-  border-color: #054d4d; }
+  color: #fff;
+  background-color: #043535;
+  border-color: #043535;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5), 0 1px rgba(255, 255, 255, 0.3) inset, 0 10px rgba(255, 255, 255, 0.2) inset, 0 10px 20px rgba(255, 255, 255, 0.25) inset, 0 -15px 30px rgba(0, 0, 0, 0.3) inset; }
 
 .btn-trait {
   color: #fff;
   background-color: #A90C0C;
-  border-color: #910a0a;
-  width: 100%; }
+  border-color: #A90C0C;
+  width: 100%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5), 0 1px rgba(255, 255, 255, 0.3) inset, 0 10px rgba(255, 255, 255, 0.2) inset, 0 10px 20px rgba(255, 255, 255, 0.25) inset, 0 -15px 30px rgba(0, 0, 0, 0.3) inset; }
 
 .btn-trait:hover {
-  color: #A90C0C;
-  background-color: #fff;
-  border-color: #910a0a;
-  width: 100%; }
+  color: #fff;
+  background-color: #790909;
+  border-color: #790909;
+  width: 100%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5), 0 1px rgba(255, 255, 255, 0.3) inset, 0 10px rgba(255, 255, 255, 0.2) inset, 0 10px 20px rgba(255, 255, 255, 0.25) inset, 0 -15px 30px rgba(0, 0, 0, 0.3) inset; }
 
 .btn-trait:focus {
-  color: #A90C0C;
-  background-color: #fff;
-  border-color: #910a0a;
-  width: 100%; }
-
-div.tooltip {
-  position: absolute;
-  text-align: center;
-  width: auto;
-  height: auto;
-  padding: 10px;
-  font: 14px sans-serif;
-  background: #fff;
-  border: 2px;
-  border-color: #A90C0C;
-  border-radius: 8px;
-  pointer-events: none;
-  color: #A90C0C; }
+  color: #fff;
+  background-color: #790909;
+  border-color: #790909;
+  width: 100%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5), 0 1px rgba(255, 255, 255, 0.3) inset, 0 10px rgba(255, 255, 255, 0.2) inset, 0 10px 20px rgba(255, 255, 255, 0.25) inset, 0 -15px 30px rgba(0, 0, 0, 0.3) inset; }
 
 /*# sourceMappingURL=button.css.map */
