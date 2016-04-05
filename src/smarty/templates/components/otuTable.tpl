@@ -2,7 +2,7 @@
 <script src="{#$WebRoot#}/bower_components/datatables/media/js/dataTables.bootstrap.min.js"></script>
 <script src="{#$WebRoot#}/js/dataTables.js"></script>
 <h3 class="page-header">OTU table</h3>
-<table id="otu" class="table table-striped table-bordered" width="100%" cellspacing="0">
+<table id="otu" class="table project-table table-striped table-bordered" width="100%" cellspacing="0">
     <thead>
         <tr>
             <th>OTU</th>
@@ -28,7 +28,7 @@
     <tbody>
         <tr>
             <td>OTU 1</td>
-            <td><a class="organism-link" href="{#$WebRoot#}/organism/details/byId/13">T. macrophylla</a></td>
+            <td><a class="project-link" href="{#$WebRoot#}/organism/details/byId/13">T. macrophylla</a></td>
             <td>320</td>
             <td>480</td>
             <td>768</td>
@@ -37,7 +37,7 @@
         </tr>
         <tr>
             <td>OTU 2</td>
-            <td><a class="organism-link" href="{#$WebRoot#}/organism/details/byId/27">R. ecae</a></td>
+            <td><a class="project-link" href="{#$WebRoot#}/organism/details/byId/27">R. ecae</a></td>
             <td>117</td>
             <td>57</td>
             <td>11</td>
@@ -46,7 +46,7 @@
         </tr>
         <tr>
             <td>OTU 3</td>
-            <td><a class="organism-link" href="{#$WebRoot#}/organism/details/byId/26">T. uniflora</a></td>
+            <td><a class="project-link" href="{#$WebRoot#}/organism/details/byId/26">T. uniflora</a></td>
             <td>43</td>
             <td>154</td>
             <td>652</td>
@@ -55,7 +55,7 @@
         </tr>
         <tr>
             <td>OTU 4</td>
-            <td><a class="organism-link" href="{#$WebRoot#}/organism/details/byId/37">D. tysonii</a></td>
+            <td><a class="project-link" href="{#$WebRoot#}/organism/details/byId/37">D. tysonii</a></td>
             <td>43</td>
             <td>154</td>
             <td>652</td>
@@ -64,7 +64,7 @@
         </tr>
         <tr>
             <td>OTU 5</td>
-            <td><a class="organism-link" href="{#$WebRoot#}/organism/details/byId/71">E. recurvata</a></td>
+            <td><a class="project-link" href="{#$WebRoot#}/organism/details/byId/71">E. recurvata</a></td>
             <td>117</td>
             <td>57</td>
             <td>11</td>
@@ -73,7 +73,7 @@
         </tr>
         <tr>
             <td>OTU 6</td>
-            <td><a class="organism-link" href="{#$WebRoot#}/organism/details/byId/124">S. aliena</a></td>
+            <td><a class="project-link" href="{#$WebRoot#}/organism/details/byId/124">S. aliena</a></td>
             <td>320</td>
             <td>480</td>
             <td>768</td>
@@ -82,7 +82,7 @@
         </tr>
         <tr>
             <td>OTU 7</td>
-            <td><a class="organism-link" href="{#$WebRoot#}/organism/details/byId/869">R. mexicana</a></td>
+            <td><a class="project-link" href="{#$WebRoot#}/organism/details/byId/869">R. mexicana</a></td>
             <td>117</td>
             <td>57</td>
             <td>11</td>

@@ -2,7 +2,7 @@
 <script src="{#$WebRoot#}/bower_components/datatables/media/js/dataTables.bootstrap.min.js"></script>
 <script src="{#$WebRoot#}/js/dataTables.js"></script>
 <h3 class="page-header">metadata table</h3>
-<table id="metadata" class="table table-striped table-bordered" width="100%" cellspacing="0">
+<table id="metadata" class="table project-table table-striped table-bordered" width="100%" cellspacing="0">
     <thead>
         <tr>
             <th>metadata</th>
