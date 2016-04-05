@@ -26,7 +26,7 @@ class Organisms extends \WebService {
         }
         $query_get_organisms = <<<EOF
 SELECT *
-    FROM organism WHERE organism.species LIKE :search LIMIT :limit
+    FROM organism WHERE organism.species ILIKE :search LIMIT :limit
 EOF;
         $stm_get_organisms = $db->prepare($query_get_organisms);
         $stm_get_organisms->bindValue('search', $search);
