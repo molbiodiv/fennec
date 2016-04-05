@@ -27,6 +27,7 @@
     "file-saver.js": "^1.20150507.2",
     "underscore": "^1.8.3",
     "jquery-progresstimer": "^1.0.7",
-    "datatables": "^1.10.11"
+    "datatables": "^1.10.11",
+    "bootstrap-select": "^1.10.0"
   }
 }
