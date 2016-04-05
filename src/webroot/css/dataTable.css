@@ -1,0 +1,40 @@
+/* Project color */
+table.dataTable thead .sorting,
+table.dataTable thead .sorting_asc,
+table.dataTable thead .sorting_desc,
+table.dataTable thead .sorting_asc_disabled,
+table.dataTable thead .sorting_desc_disabled {
+  background: #098709;
+  color: #f8f8f8; }
+
+.project-table sorting_asc {
+  color: #f8f8f8; }
+
+/* Footer cells */
+.project-table tfoot th {
+  background: #098709;
+  color: #f8f8f8; }
+
+/* Define custom hover effect on links */
+.project-table a:focus, a:hover {
+  text-decoration: none; }
+
+.pagination > .active > a,
+.pagination > .active > a:focus {
+  color: #fff;
+  cursor: pointer;
+  background-color: #098709;
+  border-color: #098709;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5), 0 1px rgba(255, 255, 255, 0.3) inset, 0 10px rgba(255, 255, 255, 0.2) inset, 0 10px 20px rgba(255, 255, 255, 0.25) inset, 0 -15px 30px rgba(0, 0, 0, 0.3) inset; }
+
+.pagination > .active > a:hover {
+  color: #fff;
+  cursor: pointer;
+  background-color: #065706;
+  border-color: #065706;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5), 0 1px rgba(255, 255, 255, 0.3) inset, 0 10px rgba(255, 255, 255, 0.2) inset, 0 10px 20px rgba(255, 255, 255, 0.25) inset, 0 -15px 30px rgba(0, 0, 0, 0.3) inset; }
+
+.pagination > .disabled > a, .pagination > .disabled > a:focus {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5), 0 1px rgba(255, 255, 255, 0.3) inset, 0 10px rgba(255, 255, 255, 0.2) inset, 0 10px 20px rgba(255, 255, 255, 0.25) inset, 0 -15px 30px rgba(0, 0, 0, 0.3) inset; }
+
+/*# sourceMappingURL=dataTable.css.map */
