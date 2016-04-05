@@ -64,6 +64,9 @@
         <!-- Data tables CSS, Bootstrap Design -->
         <link href="{#$WebRoot#}/css/dataTable.css" rel="stylesheet" type="text/css">
         
+        <!-- Bootstrap selectpicker -->
+        <link href="{#$WebRoot#}/bower_components/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet" type="text/css">
+        
         {#block name='head'#}{#/block#}
     </head>
     <body>
@@ -100,6 +103,9 @@
         
         <!-- jQuery progress bar -->
         <script src="{#$WebRoot#}/bower_components/jquery-progresstimer/dist/js/jquery.progresstimer.min.js"></script>
+        
+        <!-- Bootstrap selectpicker -->
+        <script src="{#$WebRoot#}/bower_components/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
         
         {#block name='body'#}{#/block#}
         
