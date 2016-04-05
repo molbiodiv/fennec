@@ -8,7 +8,7 @@
             <input id="search_{#$type#}" class="form-control" placeholder="Type in a {#$type#}">
         </div>
     </div>
-    <div class="col-md-1" style="margin-bottom: 20px;">
+    <div class="col-md-2" style="margin-bottom: 20px;">
         <a class="btn btn-{#$type#}" href="#" role="button" id="btn_search_{#$type#}">Get {#$type#}</a>
     </div>
 </div>
