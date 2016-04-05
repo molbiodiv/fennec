@@ -61,6 +61,9 @@
         <!-- Data tables CSS, Bootstrap Design -->
         <link href="{#$WebRoot#}/bower_components/datatables/media/css/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
         
+        <!-- Data tables CSS, Bootstrap Design -->
+        <link href="{#$WebRoot#}/css/dataTable.css" rel="stylesheet" type="text/css">
+        
         {#block name='head'#}{#/block#}
     </head>
     <body>
