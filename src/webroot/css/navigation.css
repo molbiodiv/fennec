@@ -1,7 +1,7 @@
 .navbar-startpage {
   margin-bottom: 0;
   background-color: #A6750E;
-  color: #ebc677; }
+  color: #f5e2b9; }
 
 .navbar-icon-startpage:hover, .navbar-icon:active, navbar-icon:link {
   color: #ebc677; }
@@ -9,7 +9,7 @@
 .navbar-organism {
   margin-bottom: 0;
   background-color: #076565;
-  color: #41b1b1; }
+  color: #73cccc; }
 
 .navbar-icon-organism:hover, .navbar-icon:active, navbar-icon:link {
   color: #41b1b1; }
@@ -17,7 +17,7 @@
 .navbar-project {
   margin-bottom: 0;
   background-color: #098709;
-  color: #68c868; }
+  color: #a0dda0; }
 
 .navbar-icon-project:hover, .navbar-icon:active, navbar-icon:link {
   color: #68c868; }
@@ -25,7 +25,7 @@
 .navbar-trait {
   margin-bottom: 0;
   background-color: #A90C0C;
-  color: #ef8181; }
+  color: #f8c5c5; }
 
 .navbar-icon-trait:hover, .navbar-icon:active, navbar-icon:link {
   color: #ef8181; }
@@ -33,7 +33,7 @@
 .navbar-community {
   margin-bottom: 0;
   background-color: #A9530C;
-  color: #efb381; }
+  color: #f8dcc5; }
 
 .navbar-icon-community:hover, .navbar-icon:active, navbar-icon:link {
   color: #efb381; }
