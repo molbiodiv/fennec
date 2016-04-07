@@ -1,8 +1,14 @@
 $(document).ready(function() {
-    $('#otu').DataTable();
+    $('#otu_project').DataTable();
 } );
 $(document).ready(function() {
-    $('#metadata').DataTable();
+    $('#otu_community').DataTable();
+} );
+$(document).ready(function() {
+    $('#metadata_project').DataTable();
+} );
+$(document).ready(function() {
+    $('#metadata_community').DataTable();
 } );
 
 
