@@ -77,12 +77,6 @@
                 <a class="sidebar-{#$type#} {#$type#}-link"><i class="fa fa-paw fa-fw"></i> Organisms<span class="fa arrow sidebar-{#$type#}"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a class="sidebar-{#$type#} {#$type#}-link">My Organisms</a>
-                    </li>
-                    <li>
-                        <a class="sidebar-{#$type#} {#$type#}-link">Browse</a>
-                    </li>
-                    <li>
                         <a href="{#$WebRoot#}/organism" class="sidebar-{#$type#} {#$type#}-link">Search</a>
                     </li>
                 </ul>
