@@ -6,7 +6,7 @@ use \PDO as PDO;
 
 /**
  * Web Service.
- * Returns Organisms with given ids
+ * Returns Organisms up to a limit in the given db version (matching a search criterion if supplied)
  */
 class Organisms extends \WebService {
 
