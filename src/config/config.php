@@ -9,6 +9,7 @@ define('WEBROOT', '');
 define('SERVICEPATH', '/ajax');
 
 //chado database
+define('DEFAULT_DBVERSION', '1.0');
 define('DATABASE', serialize(array('1.0' => array(
     'DB_ADAPTER' => 'pgsql',
     'DB_CONNSTR' => 'pgsql:host=${chado_db_host};dbname=${chado_db_name};port=${chado_db_port}',
