@@ -63,3 +63,33 @@ $community-1: #E99854;
     border-color: $organism-0;
     box-shadow: $organism-1;
 }
+
+.btn-default {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
+    color: inherit;
+}
+
+.btn-default:hover, 
+.btn-default:active, 
+.btn-default:focus, 
+.btn-default.active.focus, 
+.btn-default.active:focus, 
+.btn-default.active:hover, 
+.btn-default.focus:active, 
+.btn-default:active:focus, 
+.btn-default:active:hover, 
+.open > .dropdown-toggle.btn-default.focus, 
+.open > .dropdown-toggle.btn-default:focus, 
+.open > .dropdown-toggle.btn-default:hover,
+.btn-default.active, 
+.btn-default:active, 
+.open > .dropdown-toggle.btn-default{
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: inherit;
+}
+
+a:focus {
+    color:inherit;
+}

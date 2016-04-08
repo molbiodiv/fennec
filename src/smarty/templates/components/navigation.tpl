@@ -8,27 +8,17 @@
     <!-- /.navbar-header -->
 
     <ul class="nav navbar-top-links navbar-right">
-        <li class="dropdown">
-            <a class="dropdown-toggle navbar-{#$type#} navbar-icon-{#$type#}" data-toggle="dropdown" href="#" style="background-color: transparent;">
-                <i class="fa fa-tags"></i> release <i class="fa fa-caret-down"></i>
-            </a>
-            <ul class="dropdown-menu">
-                <li><a href="#"><i class="fa fa-tag"></i> 0.1.0</a></li>
-            </ul>
-            <!-- /.dropdown-help -->
-        </li>
-        
-        <li class="dropdown">
-            <a class="dropdown-toggle navbar-{#$type#} navbar-icon-{#$type#}" data-toggle="dropdown" href="#" style="background-color: transparent;">
-                <i class="fa fa-paw"></i> organism <i class="fa fa-caret-down"></i>
-            </a>
-            <ul class="dropdown-menu">
-                <li><a href="#"><i class="fa fa-tree"></i>  viridiplantae</a></li>
-                <li role="seperator" class="divider"></li>
-                <li><a href="#"> all organisms</a></li>
-            </ul>
-            <!-- /.dropdown-help -->
-        </li>
+        <font style="margin-right: 5px; font-size: 18px;">release: </font> 
+        <select class="selectpicker" id="release">
+            <option data-icon="glyphicon-tag"> v0.1.0</option>
+        </select>
+        <font style="margin-left: 20px; margin-right: 5px; font-size: 18px;">organism: </font>
+        <select class="selectpicker">
+            <option data-icon="glyphicon-star">all organisms</option>
+            <optgroup>
+                <option data-icon="glyphicon-tree-deciduous">viridiplantae</option>
+            </optgroup>
+        </select>
         
         <li class="dropdown">
             <a class="dropdown-toggle navbar-{#$type#} navbar-icon-{#$type#}" data-toggle="dropdown" href="#" style="background-color: transparent;">
