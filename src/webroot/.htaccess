@@ -19,3 +19,5 @@ RewriteRule ^([A-Za-z-_\.0-9]+)/trait/search/plant$    index.php?page=trait-sear
 RewriteRule ^([A-Za-z-_\.0-9]+)/trait/details/byId/(.*)?$    index.php?page=trait-byid&type_cvterm_id=$2&dbversion=$1 [L,NC,QSA]
 
 RewriteRule ^([A-Za-z-_\.0-9]+)/community$    index.php?page=community&dbversion=$1 [L,NC,QSA]
+
+RewriteRule ^([A-Za-z-_\.0-9]+)/startpage$    index.php?page=startpage&dbversion=$1 [L,NC,QSA]
