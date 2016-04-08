@@ -13,7 +13,7 @@
                     </div>
                 </div>
             </div>
-            <a href="{#$WebRoot#}/{#$dbversion#}/project">
+            <a href="{#$WebRoot#}/{#$DbVersion#}/project">
                 <div class="panel-footer info-projects">
                     <span class="pull-left">View Details</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -35,7 +35,7 @@
                     </div>
                 </div>
             </div>
-            <a href="{#$WebRoot#}/{#$dbversion#}/community">
+            <a href="{#$WebRoot#}/{#$DbVersion#}/community">
                 <div class="panel-footer info-communities">
                     <span class="pull-left">View Details</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -57,7 +57,7 @@
                     </div>
                 </div>
             </div>
-            <a href="{#$WebRoot#}/{#$dbversion#}/organism">
+            <a href="{#$WebRoot#}/{#$DbVersion#}/organism">
                 <div class="panel-footer info-organism">
                     <span class="pull-left">View Details</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -79,7 +79,7 @@
                     </div>
                 </div>
             </div>
-            <a href="{#$WebRoot#}/{#$dbversion#}/trait">
+            <a href="{#$WebRoot#}/{#$DbVersion#}/trait">
                 <div class="panel-footer info-trait">
                     <span class="pull-left">View Details</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>

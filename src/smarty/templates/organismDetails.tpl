@@ -1,6 +1,6 @@
-{#call_webservice path="details/Organisms" data=["id"=>$organismId, "dbversion"=>$dbversion] assign='data'#}
-{#call_webservice path="listing/Taxonomy" data=["id"=>$organismId, "dbversion"=>$dbversion] assign='taxonomy'#}
-{#call_webservice path="details/Traits_to_organism" data=["organism_id"=>$organismId, "dbversion"=>$dbversion] assign='traits'#}
+{#call_webservice path="details/Organisms" data=["id"=>$organismId, "dbversion"=>$DbVersion] assign='data'#}
+{#call_webservice path="listing/Taxonomy" data=["id"=>$organismId, "dbversion"=>$DbVersion] assign='taxonomy'#}
+{#call_webservice path="details/Traits_to_organism" data=["organism_id"=>$organismId, "dbversion"=>$DbVersion] assign='traits'#}
 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="background-color: #076565; margin-bottom: 10px; border-radius: 5px; ">
     <h1 class="page-header" style="color: #fff;">{#$data['scientific_name']#}</h1>
 </div>

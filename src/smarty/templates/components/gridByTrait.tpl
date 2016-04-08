@@ -1,5 +1,5 @@
-{#call_webservice path="details/Organisms_to_traits" data=["type_cvterm_id"=>$type_cvterm_id, "limit"=>$limit, "dbversion"=>$dbversion] assign='data'#}
-{#call_webservice path="details/Traits" data=["type_cvterm_id"=>$type_cvterm_id, "dbversion"=>$dbversion] assign='trait'#}
+{#call_webservice path="details/Organisms_to_traits" data=["type_cvterm_id"=>$type_cvterm_id, "limit"=>$limit, "dbversion"=>$DbVersion] assign='data'#}
+{#call_webservice path="details/Traits" data=["type_cvterm_id"=>$type_cvterm_id, "dbversion"=>$DbVersion] assign='trait'#}
 <div class="row">
     <div class="col-lg-12">
         <h3 class='page-header'>All organisms which have trait information to <font style='font-style: italic'>{#$trait['name']#}</font></h3>
@@ -32,7 +32,7 @@
                 </div>
                 <a class="grid-details-organism">
                     <div class="col-xs-2 text-right">
-                        <a href="{#$WebRoot#}/{#$dbversion#}/organism/details/byId/{#$organism.organism_id#}" class='fancybox' data-fancybox-type='ajax'><span class="pull-right"><i class="fa fa-arrow-circle-right fa-2x {#$type#}-link"></i></span></a>
+                        <a href="{#$WebRoot#}/{#$DbVersion#}/organism/details/byId/{#$organism.organism_id#}" class='fancybox' data-fancybox-type='ajax'><span class="pull-right"><i class="fa fa-arrow-circle-right fa-2x {#$type#}-link"></i></span></a>
                     </div>
                 </a>
             </div>

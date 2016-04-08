@@ -45,10 +45,10 @@
                 <a class="sidebar-{#$type#} {#$type#}-link" href="{#$WebRoot#}/{#$DbVersion#}/startpage"><i class="fa fa-home fa-fw sidebar-{#$type#}"></i> Home</a>
             </li>
             <li>
-                <a href="{#$WebRoot#}/{#$dbversion#}/project" class="sidebar-{#$type#} {#$type#}-link"><i class="fa fa-book fa-fw sidebar-{#$type#}"></i> Projects</a>
+                <a href="{#$WebRoot#}/{#$DbVersion#}/project" class="sidebar-{#$type#} {#$type#}-link"><i class="fa fa-book fa-fw sidebar-{#$type#}"></i> Projects</a>
             </li>
             <li>
-                <a href="{#$WebRoot#}/{#$dbversion#}/community" class="sidebar-{#$type#} {#$type#}-link"><i class="fa fa-tasks fa-fw sidebar-{#$type#}"></i> Communities</a>
+                <a href="{#$WebRoot#}/{#$DbVersion#}/community" class="sidebar-{#$type#} {#$type#}-link"><i class="fa fa-tasks fa-fw sidebar-{#$type#}"></i> Communities</a>
             </li>
             <li>
                 <a class="sidebar-{#$type#} {#$type#}-link"><i class="fa fa-paw fa-fw"></i> Organisms<span class="fa arrow sidebar-{#$type#}"></span></a>
@@ -60,15 +60,15 @@
                         <a class="sidebar-{#$type#} {#$type#}-link">Browse</a>
                     </li>
                     <li>
-                        <a href="{#$WebRoot#}/{#$dbversion#}/organism" class="sidebar-{#$type#} {#$type#}-link">Search</a>
+                        <a href="{#$WebRoot#}/{#$DbVersion#}/organism" class="sidebar-{#$type#} {#$type#}-link">Search</a>
                     </li>
                 </ul>
             </li>
             <li>
-                <a href="{#$WebRoot#}/{#$dbversion#}/trait" class="sidebar-{#$type#} {#$type#}-link"><i class="fa fa-globe fa-fw sidebar-{#$type#}"></i> Traits<span class="fa arrow"></span></a>
+                <a href="{#$WebRoot#}/{#$DbVersion#}/trait" class="sidebar-{#$type#} {#$type#}-link"><i class="fa fa-globe fa-fw sidebar-{#$type#}"></i> Traits<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="{#$WebRoot#}/{#$dbversion#}/trait" class="sidebar-{#$type#} {#$type#}-link">Search</a>
+                        <a href="{#$WebRoot#}/{#$DbVersion#}/trait" class="sidebar-{#$type#} {#$type#}-link">Search</a>
                     </li>
                 </ul>
             </li>
