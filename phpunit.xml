@@ -4,4 +4,14 @@
       <directory>test/php</directory>
     </testsuite>
   </testsuites>
+  <filter>
+    <whitelist processUncoveredFilesFromWhitelist="true">
+      <directory suffix=".php">src/webservice</directory>
+    </whitelist>
+  </filter>
+  <logging>
+    <log type="coverage-html" target="test/php/cover" lowUpperBound="35"
+         highLowerBound="70"/>
+    <log type="coverage-clover" target="test/php/cover/coverage.xml"/>
+  </logging>
 </phpunit>
