@@ -6,6 +6,9 @@ $( document ).ready(function(){
         var path = window.location.pathname;
         path = path.replace(WebRoot, "");
         path = path.replace(DbVersion+"/", "");
+        if(path.length <= 1){
+            path = "/startpage";
+        }
         resultPage += path;
         window.location.href = resultPage;
     });
