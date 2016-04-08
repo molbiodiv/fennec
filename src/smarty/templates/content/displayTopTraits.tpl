@@ -1,4 +1,4 @@
-{#call_webservice path="listing/Traits" data=["search"=>"", limit=>6] assign='data'#}
+{#call_webservice path="listing/Traits" data=["search"=>"", limit=>6, "dbversion"=>$dbversion] assign='data'#}
 {#foreach $data as $trait#}
     {#if $trait@iteration > $max#}{#break#}{#/if#} 
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">

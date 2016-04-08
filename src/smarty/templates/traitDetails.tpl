@@ -1,5 +1,5 @@
 {#include file='layout.tpl'#}
-{#call_webservice path="details/Traits" data=["type_cvterm_id"=>$type_cvterm_id] assign='data'#}
+{#call_webservice path="details/Traits" data=["type_cvterm_id"=>$type_cvterm_id, "dbversion"=>$dbversion] assign='data'#}
 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="background-color: #a90c0c; margin-bottom: 10px; border-radius: 5px; ">
     <h1 class="page-header" style="color: #fff;">{#$data['name']#}</h1>
 </div>

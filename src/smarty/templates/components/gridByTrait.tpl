@@ -1,5 +1,5 @@
-{#call_webservice path="details/Organisms_to_traits" data=["type_cvterm_id"=>$type_cvterm_id, "limit"=>$limit] assign='data'#}
-{#call_webservice path="details/Traits" data=["type_cvterm_id"=>$type_cvterm_id] assign='trait'#}
+{#call_webservice path="details/Organisms_to_traits" data=["type_cvterm_id"=>$type_cvterm_id, "limit"=>$limit, "dbversion"=>$dbversion] assign='data'#}
+{#call_webservice path="details/Traits" data=["type_cvterm_id"=>$type_cvterm_id, "dbversion"=>$dbversion] assign='trait'#}
 <div class="row">
     <div class="col-lg-12">
         <h3 class='page-header'>All organisms which have trait information to <font style='font-style: italic'>{#$trait['name']#}</font></h3>
