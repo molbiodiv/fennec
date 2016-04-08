@@ -1,5 +1,19 @@
 <?php
 
+/**
+ * connects to databse using $version
+ * if DEBUG is set to true, use loggedPDO, not PDO
+ * @param String $version the database version to use (has to be defined in config.php)
+ * @return \PDO
+ */
+function get_db_for_version($version){
+    $database = unserialize(DATABASE);
+    if(!array_key_exists($version, $database)){
+        print "Error!: The requested database version ".$version." does not exist.<br/>";
+        die();
+    }
+    $db = get_db_connection($database[$version]['DB_CONNSTR'], $database[$version]['DB_USERNAME'], $database[$version]['DB_PASSWORD']);
+    return $db;
 }
 
 /**
