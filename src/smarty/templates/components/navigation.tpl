@@ -8,11 +8,11 @@
     <!-- /.navbar-header -->
 
     <ul class="nav navbar-top-links navbar-right">
-        <font style="margin-right: 5px; font-size: 18px;">release: </font> 
+        <font style="margin-right: 5px; font-size: 16px;">release: </font> 
         <select class="selectpicker" id="release">
             <option data-icon="glyphicon-tag"> v0.1.0</option>
         </select>
-        <font style="margin-left: 20px; margin-right: 5px; font-size: 18px;">organism: </font>
+        <font style="margin-left: 20px; margin-right: 5px; font-size: 16px;">organism: </font>
         <select class="selectpicker">
             <option data-icon="glyphicon-star">all organisms</option>
             <optgroup>
