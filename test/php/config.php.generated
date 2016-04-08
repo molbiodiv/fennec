@@ -9,6 +9,9 @@ define('DATABASE', serialize(array('test' => array(
     'DB_ADAPTER' => 'pgsql',
     'DB_CONNSTR' => 'pgsql:host=TESTDB;dbname=testchado;port=5432',
     'DB_USERNAME' => 'fennectest',
-    'DB_PASSWORD' => 'fennectest'
+    'DB_PASSWORD' => 'fennectest',
+    'DB_HOST' => 'TESTDB',
+    'DB_PORT' => 5432,
+    'DB_DBNAME' => 'testchado'
 ))));
 ?>
