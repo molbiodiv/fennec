@@ -67,6 +67,6 @@ function remove_Tooltip(){
 }
 
 function displayPage(name){
-    var resultPage =  WebRoot+"/trait/search/"+name;
+    var resultPage =  WebRoot+"/"+DbVersion+"/trait/search/"+name;
     window.location.href = resultPage;
 }

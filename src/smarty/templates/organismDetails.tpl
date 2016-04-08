@@ -1,8 +1,8 @@
 {#extends file='layoutWithBars.tpl'#}
 {#block name='content'#}
-    {#call_webservice path="details/Organisms" data=["id"=>$organismId] assign='data'#}
-    {#call_webservice path="listing/Taxonomy" data=["id"=>$organismId] assign='taxonomy'#}
-    {#call_webservice path="details/Traits_to_organism" data=["organism_id"=>$organismId] assign='traits'#}
+    {#call_webservice path="details/Organisms" data=["id"=>$organismId, "dbversion"=>$DbVersion] assign='data'#}
+    {#call_webservice path="listing/Taxonomy" data=["id"=>$organismId, "dbversion"=>$DbVersion] assign='taxonomy'#}
+    {#call_webservice path="details/Traits_to_organism" data=["organism_id"=>$organismId, "dbversion"=>$DbVersion] assign='traits'#}
     <h1 class="page-header">{#$data['scientific_name']#}</h1>
     <div class="col-md-12">
         <div>
@@ -11,7 +11,6 @@
                 <li role="presentation"><a class="organism-link" href="#traits" aria-controls="traits" role="tab" data-toggle="tab">Traits</a></li>
                 <li role="presentation"><a class="organism-link" href="#taxonomy" aria-controls="taxonomy" role="tab" data-toggle="tab">Taxonomy</a></li>
             </ul>
-
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane active" id="overview">
                     <div class="alert alert-success alert-dismissable" role="alert" style="margin-top: 10px;">

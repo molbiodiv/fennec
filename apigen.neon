@@ -1,0 +1,5 @@
+source:
+  - ./src/webservice/ajax/listing/Organisms.php
+
+destination: ./doc/webservice
+templateTheme: bootstrap

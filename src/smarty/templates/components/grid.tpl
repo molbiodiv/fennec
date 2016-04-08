@@ -1,4 +1,4 @@
-{#call_webservice path="listing/Organisms" data=["limit"=>$limit, "search"=>$searchTerm] assign='data'#}
+{#call_webservice path="listing/Organisms" data=["limit"=>$limit, "search"=>$searchTerm, "dbversion"=>$DbVersion] assign='data'#}
 {#foreach $data as $organism#}
 <div class="col-lg-3">
     <div class="panel grid-organism" organism_id='{#$organism.organism_id#}'>
@@ -26,7 +26,7 @@
                 </div>
                 <a class="grid-details-organism">
                     <div class="col-xs-2 text-right">
-                        <a href="{#$WebRoot#}/organism/details/byId/{#$organism.organism_id#}"><span class="pull-right"><i class="fa fa-arrow-circle-right fa-2x {#$type#}-link"></i></span></a>
+                        <a href="{#$WebRoot#}/{#$DbVersion#}/organism/details/byId/{#$organism.organism_id#}"><span class="pull-right"><i class="fa fa-arrow-circle-right fa-2x {#$type#}-link"></i></span></a>
                     </div>
                 </a>
             </div>

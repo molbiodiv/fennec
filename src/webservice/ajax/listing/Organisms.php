@@ -6,16 +6,33 @@ use \PDO as PDO;
 
 /**
  * Web Service.
- * Returns Organisms with given ids
+ * Returns Organisms up to a limit in the given db version (matching a search criterion if supplied)
  */
 class Organisms extends \WebService {
 
     /**
-     * @param $querydata[ids] array of organism ids
-     * @returns array of organisms
+     * @param array  $querydata  array of parameters:
+     * <code>
+     * $querydata = array(
+     *   'dbversion' => '1.0', // the version of the database (required)
+     *   'limit'     => 5,     // the maximum number of organisms to return (default: 5)
+     *   'search'    => 'test' // a search term which is used to filter species names (optional)
+     * );
+     * </code>
+     * @return array
+     * <code>
+     * $result = array(
+     *   array(
+     *     'organism_id'     => 1,                   // internal db organism id
+     *     'scientific_name' => 'Dionaea muscipula',
+     *     'rank'            => 'species',
+     *     'common_name'     => 'Venus flytrap',
+     *     'abbreviation'    => 'D. muscipula'
+     * );
+     * </code>
      */
     public function execute($querydata) {
-        global $db;
+        $db = $this->open_db_connection($querydata);
         $limit = 5;
         if(in_array('limit', array_keys($querydata))){
             $limit = $querydata['limit'];
