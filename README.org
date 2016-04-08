@@ -1,5 +1,13 @@
 * Fennec Web
 ** Changes
+*** 0.1.0 <2016-04-08 Fr>
+ - add version picker
+ - add support for multiple db versions
+ - add project page design
+ - add community page design
+ - clean pages
+ - add new level to interactive browse
+ - add apigen documentation for webservices
 *** 0.0.5 <2016-03-23 Mi>
  - display all traits of an organism
  - add progress bar on organism page

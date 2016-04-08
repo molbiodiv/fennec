@@ -15,9 +15,13 @@ $smarty->right_delimiter = '#}';
 $smarty->assign('WebRoot', WEBROOT);
 $smarty->assign('ServicePath', SERVICEPATH);
 
-$smarty->assign('fennec_version', '0.0.5');
+$smarty->assign('fennec_version', '0.1.0');
 
-$page = requestVal('page', '/^[a-z-_\.]*$/', '');
+$dbversion = requestVal('dbversion', '/^[A-Za-z-_\.0-9]*$/', DEFAULT_DBVERSION);
+$smarty->assign('DbVersion', $dbversion);
+$allDbVersions = array_keys(unserialize(DATABASE));
+$smarty->assign('allDbVersions', $allDbVersions);
+$page = requestVal('page', '/^[A-Za-z-_\.]*$/', '');
 switch ($page) {
     case 'organism':
         $smarty->assign('type', 'organism');
@@ -64,6 +68,18 @@ switch ($page) {
         $smarty->assign('type', 'trait');
         $smarty->assign('title', 'Search for Traits');
         $smarty->assign('searchLevel', 'ecology');
+        $smarty->display('traitSearch.tpl');
+        die();
+    case 'trait-search-eco':
+        $smarty->assign('type', 'trait');
+        $smarty->assign('title', 'Search for Traits');
+        $smarty->assign('searchLevel', 'humanAndEcosystems');
+        $smarty->display('traitSearch.tpl');
+        die();
+    case 'trait-search-behaviour':
+        $smarty->assign('type', 'trait');
+        $smarty->assign('title', 'Search for Traits');
+        $smarty->assign('searchLevel', 'behaviour');
         $smarty->display('traitSearch.tpl');
         die();
     case 'trait-search-woodland':
@@ -122,6 +138,8 @@ function requestVal($key, $regexp = "/^.*$/", $defaultvalue = "") {
  */
 function displayOrganismById($organismId){
     global $smarty;
+    $smarty->assign('type', 'organism');
+    $smarty->assign('limit', 1000);
     $smarty->assign('organismId', $organismId);
     $smarty->display('organismDetails.tpl');
     return true;

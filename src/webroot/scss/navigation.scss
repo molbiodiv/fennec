@@ -12,7 +12,7 @@ $community-1: #E99854;
 .navbar-startpage {
     margin-bottom: 0;
     background-color: $startpage-0;
-    color: lighten($startpage-1, 10%);
+    color: lighten($startpage-1, 25%);
 }
 
 .navbar-icon-startpage:hover, .navbar-icon:active, navbar-icon:link {
@@ -22,7 +22,7 @@ $community-1: #E99854;
 .navbar-organism {
     margin-bottom: 0;
     background-color: $organism-0;
-    color: lighten($organism-1, 10%);
+    color: lighten($organism-1, 25%);
 }
 
 .navbar-icon-organism:hover, .navbar-icon:active, navbar-icon:link {
@@ -32,7 +32,7 @@ $community-1: #E99854;
 .navbar-project {
     margin-bottom: 0;
     background-color: $project-0;
-    color: lighten($project-1, 10%);
+    color: lighten($project-1, 25%);
 }
 
 .navbar-icon-project:hover, .navbar-icon:active, navbar-icon:link {
@@ -42,7 +42,7 @@ $community-1: #E99854;
 .navbar-trait {
     margin-bottom: 0;
     background-color: $trait-0;
-    color: lighten($trait-1, 10%);
+    color: lighten($trait-1, 25%);
 }
 
 .navbar-icon-trait:hover, .navbar-icon:active, navbar-icon:link {
@@ -52,7 +52,7 @@ $community-1: #E99854;
 .navbar-community {
     margin-bottom: 0;
     background-color: $community-0;
-    color: lighten($community-1, 10%);
+    color: lighten($community-1, 25%);
 }
 
 .navbar-icon-community:hover, .navbar-icon:active, navbar-icon:link {
@@ -62,4 +62,34 @@ $community-1: #E99854;
 .form-control:focus {
     border-color: $organism-0;
     box-shadow: $organism-1;
+}
+
+.btn-default {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
+    color: inherit;
+}
+
+.btn-default:hover, 
+.btn-default:active, 
+.btn-default:focus, 
+.btn-default.active.focus, 
+.btn-default.active:focus, 
+.btn-default.active:hover, 
+.btn-default.focus:active, 
+.btn-default:active:focus, 
+.btn-default:active:hover, 
+.open > .dropdown-toggle.btn-default.focus, 
+.open > .dropdown-toggle.btn-default:focus, 
+.open > .dropdown-toggle.btn-default:hover,
+.btn-default.active, 
+.btn-default:active, 
+.open > .dropdown-toggle.btn-default{
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: inherit;
+}
+
+a:focus {
+    color:inherit;
 }

@@ -9,7 +9,7 @@ $(document).ready(function(){
             var search = request.term;
             $.ajax({
                 url: WebRoot.concat("/ajax/listing/Organisms"),
-                data: {term:  request.term, limit: 500, search: search},
+                data: {term:  request.term, limit: 500, search: search, dbversion: DbVersion},
                 dataType: "json",
                 success: function (data) {
                     response(data);
@@ -21,14 +21,14 @@ $(document).ready(function(){
 
     $("#search_organism").data("ui-autocomplete")._renderItem = function (ul, item) {
         var li = $("<li>")
-                .append("<a href='"+WebRoot+"/organism/details/byId/"+item.organism_id+"' class='fancybox' data-fancybox-type='ajax'><span style='display:inline-block; width: 100%; font-style: italic;'>" + item.scientific_name + "</span><span style='color: #338C8C'>" + item.rank + "</span></a>")
+                .append("<a href='"+WebRoot+"/"+DbVersion+"/organism/details/byId/"+item.organism_id+"'><span style='display:inline-block; width: 100%; font-style: italic;'>" + item.scientific_name + "</span><span style='color: #338C8C'>" + item.rank + "</span></a>")
                 .appendTo(ul);
         return li;
     };
 
     $("#btn_search_organism").click(function(){
         var searchTerm = $("#search_organism").val();
-        var resultPage =  WebRoot+"/organism/results/"+searchTerm;
+        var resultPage =  WebRoot+"/"+DbVersion+"/organism/results/"+searchTerm;
         window.location.href = resultPage;
     });
 });

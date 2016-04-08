@@ -72,6 +72,13 @@ abstract class WebService {
         return array(new $class, $args);
     }
 
+    public static function open_db_connection($querydata){
+        if(!array_key_exists('dbversion', $querydata)){
+            print "Error!: No database version supplied via 'dbversion'.<br/>";
+            die();
+        }
+        return get_db_for_version($querydata['dbversion']);
+    }
 
 }
 

@@ -15,7 +15,7 @@ class Traits extends \WebService {
      * @returns array of traits
      */
     public function execute($querydata) {
-        global $db;
+        $db = $this->open_db_connection($querydata);
         $limit = 1000;
         if(in_array('limit', array_keys($querydata))){
             $limit = $querydata['limit'];
@@ -27,7 +27,7 @@ class Traits extends \WebService {
         $query_get_traits = <<<EOF
 SELECT name, tci.type_cvterm_id, count 
     FROM (SELECT type_cvterm_id, count(type_cvterm_id) AS count FROM trait_entry GROUP BY type_cvterm_id ORDER BY count DESC LIMIT :limit) AS tci, trait_cvterm 
-        WHERE tci.type_cvterm_id=trait_cvterm.trait_cvterm_id AND name LIKE :search             
+        WHERE tci.type_cvterm_id=trait_cvterm.trait_cvterm_id AND name ILIKE :search             
 EOF;
         $stm_get_traits = $db->prepare($query_get_traits);
         $stm_get_traits->bindValue('search', $search);

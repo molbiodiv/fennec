@@ -1,15 +1,23 @@
 <!-- Navigation -->
+<script src="{#$WebRoot#}/js/selectpicker.js"></script>
 <nav class="navbar navbar-static-top navbar-{#$type#}" role="navigation">
     <div class="navbar-header">
         <img src="{#$WebRoot#}/css/img/animal-{#$type#}.png" height="50px"/>
         <font class="navbar-brand navbar-{#$type#}">Fennec {#$fennec_version#}</font>
-    </div>
+    </div
     <!-- /.navbar-header -->
 
     <ul class="nav navbar-top-links navbar-right">
+        <font style="margin-right: 5px; font-size: 16px;">version: </font> 
+        <select class="selectpicker" id="dbVersionPicker">
+            {#foreach $allDbVersions as $thisVersion#}
+                <option data-icon="glyphicon-tag" value="{#$thisVersion#}" > {#$thisVersion#} </option>
+            {#/foreach#}
+        </select>
+        
         <li class="dropdown">
-            <a class="dropdown-toggle navbar-{#$type#} navbar-icon-{#$type#}" data-toggle="dropdown" href="#">
-                <i class="fa fa-question-circle"></i> <i class="fa fa-caret-down"></i>
+            <a class="dropdown-toggle navbar-{#$type#} navbar-icon-{#$type#}" data-toggle="dropdown" href="#" style="background-color: transparent;">
+                <i class="fa fa-question-circle"></i> help <i class="fa fa-caret-down"></i>
             </a>
             <ul class="dropdown-menu">
                 <li><a href="#"><i class="fa fa-book"></i> Manual</a>
@@ -19,8 +27,8 @@
         </li>
         
         <li class="dropdown">
-            <a class="dropdown-toggle navbar-{#$type#} navbar-icon-{#$type#}" data-toggle="dropdown" href="#">
-                <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+            <a class="dropdown-toggle navbar-{#$type#} navbar-icon-{#$type#}" data-toggle="dropdown" href="#" style="background-color: transparent;">
+                <i class="fa fa-user fa-fw"></i>  login <i class="fa fa-caret-down"></i>
             </a>
             <ul class="dropdown-menu dropdown-user">
                 <li><a href="#"><i class="fa fa-user fa-fw"></i> My Profile</a>
@@ -42,33 +50,27 @@
     <div class="sidebar-nav navbar-collapse">
         <ul class="nav" id="side-menu">
             <li>
-                <a class="sidebar-{#$type#} {#$type#}-link" href="{#$WebRoot#}/"><i class="fa fa-home fa-fw sidebar-{#$type#}"></i> Home</a>
+                <a class="sidebar-{#$type#} {#$type#}-link" href="{#$WebRoot#}/{#$DbVersion#}/startpage"><i class="fa fa-home fa-fw sidebar-{#$type#}"></i> Home</a>
             </li>
             <li>
-                <a href="{#$WebRoot#}/project" class="sidebar-{#$type#} {#$type#}-link"><i class="fa fa-book fa-fw sidebar-{#$type#}"></i> Projects</a>
+                <a href="{#$WebRoot#}/{#$DbVersion#}/project" class="sidebar-{#$type#} {#$type#}-link"><i class="fa fa-book fa-fw sidebar-{#$type#}"></i> Projects</a>
             </li>
             <li>
-                <a href="{#$WebRoot#}/community" class="sidebar-{#$type#} {#$type#}-link"><i class="fa fa-tasks fa-fw sidebar-{#$type#}"></i> Communities</a>
+                <a href="{#$WebRoot#}/{#$DbVersion#}/community" class="sidebar-{#$type#} {#$type#}-link"><i class="fa fa-tasks fa-fw sidebar-{#$type#}"></i> Communities</a>
             </li>
             <li>
                 <a class="sidebar-{#$type#} {#$type#}-link"><i class="fa fa-paw fa-fw"></i> Organisms<span class="fa arrow sidebar-{#$type#}"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a class="sidebar-{#$type#} {#$type#}-link">My Organisms</a>
-                    </li>
-                    <li>
-                        <a class="sidebar-{#$type#} {#$type#}-link">Browse</a>
-                    </li>
-                    <li>
-                        <a href="{#$WebRoot#}/organism" class="sidebar-{#$type#} {#$type#}-link">Search</a>
+                        <a href="{#$WebRoot#}/{#$DbVersion#}/organism" class="sidebar-{#$type#} {#$type#}-link">Search</a>
                     </li>
                 </ul>
             </li>
             <li>
-                <a href="{#$WebRoot#}/trait" class="sidebar-{#$type#} {#$type#}-link"><i class="fa fa-globe fa-fw sidebar-{#$type#}"></i> Traits<span class="fa arrow"></span></a>
+                <a href="{#$WebRoot#}/{#$DbVersion#}/trait" class="sidebar-{#$type#} {#$type#}-link"><i class="fa fa-globe fa-fw sidebar-{#$type#}"></i> Traits<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="{#$WebRoot#}/trait" class="sidebar-{#$type#} {#$type#}-link">Search</a>
+                        <a href="{#$WebRoot#}/{#$DbVersion#}/trait" class="sidebar-{#$type#} {#$type#}-link">Search</a>
                     </li>
                 </ul>
             </li>

@@ -58,11 +58,21 @@
         <!-- jQuery progress bar -->
         <link href="{#$WebRoot#}/bower_components/jquery-progresstimer/dist/css/jquery.progresstimer.min.css" rel="stylesheet" type="text/css">
         
+        <!-- Data tables CSS, Bootstrap Design -->
+        <link href="{#$WebRoot#}/bower_components/datatables/media/css/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
+        
+        <!-- Data tables CSS, Bootstrap Design -->
+        <link href="{#$WebRoot#}/css/dataTable.css" rel="stylesheet" type="text/css">
+        
+        <!-- Bootstrap selectpicker -->
+        <link href="{#$WebRoot#}/bower_components/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet" type="text/css">
+        
         {#block name='head'#}{#/block#}
     </head>
     <body>
         <script>
-            var WebRoot = "{#$WebRoot#}";
+            const WebRoot = "{#$WebRoot#}";
+            const DbVersion = "{#$DbVersion#}";
         </script>
        
         <!-- jQuery -->
@@ -94,6 +104,9 @@
         
         <!-- jQuery progress bar -->
         <script src="{#$WebRoot#}/bower_components/jquery-progresstimer/dist/js/jquery.progresstimer.min.js"></script>
+        
+        <!-- Bootstrap selectpicker -->
+        <script src="{#$WebRoot#}/bower_components/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
         
         {#block name='body'#}{#/block#}
         

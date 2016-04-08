@@ -2,20 +2,24 @@ RewriteEngine On
 Options -MultiViews
 RewriteCond %{REQUEST_FILENAME} !-f
 
-RewriteRule ^organism$    index.php?page=organism [L,NC,QSA]
-RewriteRule ^organism/search$    index.php?page=organism-search [L,NC,QSA]
-RewriteRule ^organism/results/(.*)?$    index.php?page=organism-results&searchTerm=$1 [L,NC,QSA]
-RewriteRule ^organism/details/byId/(.*)?$  index.php?page=organism-byid&organismId=$1 [L,NC,QSA]
-RewriteRule ^organism/details/byTrait/(.*)?$  index.php?page=organism-by-trait&type_cvterm_id=$1 [L,NC,QSA]
+RewriteRule ^([A-Za-z-_\.0-9]+)/organism$    index.php?page=organism&dbversion=$1 [L,NC,QSA]
+RewriteRule ^([A-Za-z-_\.0-9]+)/organism/search$    index.php?page=organism-search&dbversion=$1 [L,NC,QSA]
+RewriteRule ^([A-Za-z-_\.0-9]+)/organism/results/(.*)?$    index.php?page=organism-results&searchTerm=$2&dbversion=$1 [L,NC,QSA]
+RewriteRule ^([A-Za-z-_\.0-9]+)/organism/details/byId/(.*)?$  index.php?page=organism-byid&organismId=$2&dbversion=$1 [L,NC,QSA]
+RewriteRule ^([A-Za-z-_\.0-9]+)/organism/details/byTrait/(.*)?$  index.php?page=organism-by-trait&type_cvterm_id=$2&dbversion=$1 [L,NC,QSA]
 
-RewriteRule ^project$    index.php?page=project [L,NC,QSA]
+RewriteRule ^([A-Za-z-_\.0-9]+)/project$    index.php?page=project&dbversion=$1 [L,NC,QSA]
 
-RewriteRule ^trait$    index.php?page=trait [L,NC,QSA]
-RewriteRule ^trait/search$    index.php?page=trait-search-overview [L,NC,QSA]
-RewriteRule ^trait/search/ecology$    index.php?page=trait-search-ecology [L,NC,QSA]
-RewriteRule ^trait/search/woodland$    index.php?page=trait-search-woodland [L,NC,QSA]
-RewriteRule ^trait/search/zone$    index.php?page=trait-search-zone [L,NC,QSA]
-RewriteRule ^trait/search/plant$    index.php?page=trait-search-plant [L,NC,QSA]
-RewriteRule ^trait/details/byId/(.*)?$    index.php?page=trait-byid&type_cvterm_id=$1 [L,NC,QSA]
+RewriteRule ^([A-Za-z-_\.0-9]+)/trait/search/humanAndEcosystems$    index.php?page=trait-search-eco [L,NC,QSA]
+RewriteRule ^([A-Za-z-_\.0-9]+)/trait/search/behaviour$    index.php?page=trait-search-behaviour [L,NC,QSA]
+RewriteRule ^([A-Za-z-_\.0-9]+)/trait$    index.php?page=trait&dbversion=$1 [L,NC,QSA]
+RewriteRule ^([A-Za-z-_\.0-9]+)/trait/search$    index.php?page=trait-search-overview&dbversion=$1 [L,NC,QSA]
+RewriteRule ^([A-Za-z-_\.0-9]+)/trait/search/ecology$    index.php?page=trait-search-ecology&dbversion=$1 [L,NC,QSA]
+RewriteRule ^([A-Za-z-_\.0-9]+)/trait/search/woodland$    index.php?page=trait-search-woodland&dbversion=$1 [L,NC,QSA]
+RewriteRule ^([A-Za-z-_\.0-9]+)/trait/search/zone$    index.php?page=trait-search-zone&dbversion=$1 [L,NC,QSA]
+RewriteRule ^([A-Za-z-_\.0-9]+)/trait/search/plant$    index.php?page=trait-search-plant&dbversion=$1 [L,NC,QSA]
+RewriteRule ^([A-Za-z-_\.0-9]+)/trait/details/byId/(.*)?$    index.php?page=trait-byid&type_cvterm_id=$2&dbversion=$1 [L,NC,QSA]
 
-RewriteRule ^community$    index.php?page=community [L,NC,QSA]
+RewriteRule ^([A-Za-z-_\.0-9]+)/community$    index.php?page=community&dbversion=$1 [L,NC,QSA]
+
+RewriteRule ^([A-Za-z-_\.0-9]+)/startpage$    index.php?page=startpage&dbversion=$1 [L,NC,QSA]

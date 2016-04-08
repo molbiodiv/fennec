@@ -4,53 +4,74 @@ $trait-0: #A90C0C;
 .btn-organism {
     color: #fff;
     background-color: $organism-0;
-    border-color: darken($organism-0, 5%);
+    border-color: $organism-0;
+    box-shadow: 
+        0 2px 6px rgba(0, 0, 0, 0.5),
+        0 1px rgba(255, 255, 255, 0.3) inset,
+        0 10px rgba(255, 255, 255, 0.2) inset,
+        0 10px 20px rgba(255, 255, 255, 0.25) inset,
+        0 -15px 30px rgba(0, 0, 0, 0.3) inset;
 }
 
 .btn-organism:hover {
-    color: $organism-0;
-    background-color: #fff;
-    border-color: darken($organism-0, 5%);
+    color: #fff;
+    background-color: darken($organism-0, 10%);
+    border-color: darken($organism-0, 10%);
+    box-shadow: 
+        0 2px 6px rgba(0, 0, 0, 0.5),
+        0 1px rgba(255, 255, 255, 0.3) inset,
+        0 10px rgba(255, 255, 255, 0.2) inset,
+        0 10px 20px rgba(255, 255, 255, 0.25) inset,
+        0 -15px 30px rgba(0, 0, 0, 0.3) inset;
 }
 
 .btn-organism:focus {
-    color: $organism-0;
-    background-color: #fff;
-    border-color: darken($organism-0, 5%);
+    color: #fff;
+    background-color: darken($organism-0, 10%);
+    border-color: darken($organism-0, 10%);
+    box-shadow: 
+        0 2px 6px rgba(0, 0, 0, 0.5),
+        0 1px rgba(255, 255, 255, 0.3) inset,
+        0 10px rgba(255, 255, 255, 0.2) inset,
+        0 10px 20px rgba(255, 255, 255, 0.25) inset,
+        0 -15px 30px rgba(0, 0, 0, 0.3) inset;
 }
 
 .btn-trait {
     color: #fff;
     background-color: $trait-0;
-    border-color: darken($trait-0, 5%);
+    border-color: $trait-0;
     width: 100%;
+    box-shadow: 
+        0 2px 6px rgba(0, 0, 0, 0.5),
+        0 1px rgba(255, 255, 255, 0.3) inset,
+        0 10px rgba(255, 255, 255, 0.2) inset,
+        0 10px 20px rgba(255, 255, 255, 0.25) inset,
+        0 -15px 30px rgba(0, 0, 0, 0.3) inset;
 }
 
 .btn-trait:hover {
-    color: $trait-0;
-    background-color: #fff;
-    border-color: darken($trait-0, 5%);
+    color: #fff;
+    background-color: darken($trait-0, 10%);
+    border-color: darken($trait-0, 10%);
     width: 100%;
+    box-shadow: 
+        0 2px 6px rgba(0, 0, 0, 0.5),
+        0 1px rgba(255, 255, 255, 0.3) inset,
+        0 10px rgba(255, 255, 255, 0.2) inset,
+        0 10px 20px rgba(255, 255, 255, 0.25) inset,
+        0 -15px 30px rgba(0, 0, 0, 0.3) inset;
 }
 
 .btn-trait:focus {
-    color: $trait-0;
-    background-color: #fff;
-    border-color: darken($trait-0, 5%);
+    color: #fff;
+    background-color: darken($trait-0, 10%);
+    border-color: darken($trait-0, 10%);
     width: 100%;
-}
-
-div.tooltip {   
-  position: absolute;           
-  text-align: center;           
-  width: auto;                  
-  height: auto;                 
-  padding: 10px;             
-  font: 14px sans-serif;        
-  background: #fff;   
-  border: 2px;  
-  border-color: #A90C0C;
-  border-radius: 8px;           
-  pointer-events: none;
-  color: #A90C0C
+    box-shadow: 
+        0 2px 6px rgba(0, 0, 0, 0.5),
+        0 1px rgba(255, 255, 255, 0.3) inset,
+        0 10px rgba(255, 255, 255, 0.2) inset,
+        0 10px 20px rgba(255, 255, 255, 0.25) inset,
+        0 -15px 30px rgba(0, 0, 0, 0.3) inset;
 }

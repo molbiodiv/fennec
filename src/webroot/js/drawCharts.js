@@ -2,7 +2,8 @@ function drawHistogram(){
     var cvterm_id = $("#cvterm_id").val();
     $.ajax({
         url: WebRoot.concat("/ajax/details/Traits"),
-        data: {type_cvterm_id: cvterm_id},
+        data: {type_cvterm_id: cvterm_id,
+               dbversion: DbVersion},
         dataType: "json",
         success: function (data) {
             if(data['value_type'] === 'value'){
@@ -39,7 +40,8 @@ function drawPieChart(){
     var cvterm_id = $("#cvterm_id").val();
     $.ajax({
         url: WebRoot.concat("/ajax/details/Traits"),
-        data: {type_cvterm_id: cvterm_id},
+        data: {type_cvterm_id: cvterm_id,
+               dbversion: DbVersion},
         dataType: "json",
         success: function (data) {
             var plot = [{
@@ -60,7 +62,8 @@ function drawMap(){
     var cvterm_id = $("#cvterm_id").val();
     $.ajax({
         url: WebRoot.concat("/ajax/details/Traits"),
-        data: {type_cvterm_id: cvterm_id},
+        data: {type_cvterm_id: cvterm_id,
+               dbversion: DbVersion},
         dataType: "json",
         success: function (data) {
             //this function is only called when you expected changes of geographicDistribution.csv

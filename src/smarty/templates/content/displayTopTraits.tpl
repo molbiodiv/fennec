@@ -1,4 +1,4 @@
-{#call_webservice path="listing/Traits" data=["search"=>"", limit=>6] assign='data'#}
+{#call_webservice path="listing/Traits" data=["search"=>"", limit=>6, "dbversion"=>$DbVersion] assign='data'#}
 {#foreach $data as $trait#}
     {#if $trait@iteration > $max#}{#break#}{#/if#} 
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
@@ -14,7 +14,7 @@
                     </div>
                 </div>
             </div>
-             <a href="{#$WebRoot#}/trait/details/byId/{#$trait['type_cvterm_id']#}" class='fancybox' data-fancybox-type='ajax'>
+             <a href="{#$WebRoot#}/{#$DbVersion#}/trait/details/byId/{#$trait['type_cvterm_id']#}" class='fancybox' data-fancybox-type='ajax'>
                 <div class="panel-footer info-trait">
                     <span class="pull-left">View Details</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>

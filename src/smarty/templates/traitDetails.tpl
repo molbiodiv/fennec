@@ -1,5 +1,5 @@
 {#include file='layout.tpl'#}
-{#call_webservice path="details/Traits" data=["type_cvterm_id"=>$type_cvterm_id] assign='data'#}
+{#call_webservice path="details/Traits" data=["type_cvterm_id"=>$type_cvterm_id, "dbversion"=>$DbVersion] assign='data'#}
 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="background-color: #a90c0c; margin-bottom: 10px; border-radius: 5px; ">
     <h1 class="page-header" style="color: #fff;">{#$data['name']#}</h1>
 </div>
@@ -21,7 +21,7 @@
                     </div>
                 </div>
             </div>
-            <a href="{#$WebRoot#}/organism/details/byTrait/{#$data['trait_cvterm_id']#}" onclick="parent.$.fancybox.close();">
+            <a href="{#$WebRoot#}/{#$DbVersion#}/organism/details/byTrait/{#$data['trait_cvterm_id']#}" onclick="parent.$.fancybox.close();">
                 <div class="panel-footer info-trait-details">
                     <span class="pull-left">View all organisms with this trait</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
