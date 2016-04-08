@@ -15,7 +15,7 @@ class Organisms extends \WebService {
      * @returns array of organisms
      */
     public function execute($querydata) {
-        global $db;
+        $db = $this->open_db_connection($querydata);
         $limit = 5;
         if(in_array('limit', array_keys($querydata))){
             $limit = $querydata['limit'];
