@@ -1,4 +1,4 @@
-{#call_webservice path="listing/Organisms" data=["limit"=>$limit, "search"=>$searchTerm] assign='data'#}
+{#call_webservice path="listing/Organisms" data=["limit"=>$limit, "search"=>$searchTerm, "dbversion"=>$dbversion] assign='data'#}
 {#foreach $data as $organism#}
 <div class="col-lg-3">
     <div class="panel grid-organism" organism_id='{#$organism.organism_id#}'>
