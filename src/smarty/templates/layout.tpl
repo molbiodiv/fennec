@@ -62,7 +62,8 @@
     </head>
     <body>
         <script>
-            var WebRoot = "{#$WebRoot#}";
+            const WebRoot = "{#$WebRoot#}";
+            const DbVersion = "{#$dbversion#}";
         </script>
        
         <!-- jQuery -->
