@@ -8,8 +8,8 @@
     <!-- /.navbar-header -->
 
     <ul class="nav navbar-top-links navbar-right">
-        <font style="margin-right: 5px; font-size: 16px;">release: </font> 
-        <select class="selectpicker" id="release">
+        <font style="margin-right: 5px; font-size: 16px;">version: </font> 
+        <select class="selectpicker" id="dbVersionPicker">
             {#foreach $allDbVersions as $thisVersion#}
                 <option data-icon="glyphicon-tag" value="{#$thisVersion#}" > {#$thisVersion#} </option>
             {#/foreach#}
