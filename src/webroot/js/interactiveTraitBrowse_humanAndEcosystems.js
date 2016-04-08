@@ -90,7 +90,7 @@ $(document).ready(function(){
             });
 
     function displayPage(traitId){
-        var resultPage =  WebRoot+"/trait/details/byId/"+traitId;
+        var resultPage =  WebRoot+"/"+DbVersion+"/trait/details/byId/"+traitId;
         $.fancybox.open({
            type: 'iframe',
            href: resultPage,
