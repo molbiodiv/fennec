@@ -10,7 +10,7 @@ use \PDO as PDO;
  */
 class Organisms extends \WebService {
 
-    var $db;
+    private $db;
     /**
      * @param $querydata[ids] array of ids
      * @returns array of details
