@@ -1,9 +1,5 @@
 <?php
 
-global $db;
-$db = get_db_connection(DB_CONNSTR, DB_USERNAME, DB_PASSWORD);
-function connect_queue_db() {
-    return get_db_connection(QUEUE_DB_CONNSTR, QUEUE_DB_USERNAME, QUEUE_DB_PASSWORD);
 }
 
 /**
