@@ -17,6 +17,8 @@ $smarty->assign('ServicePath', SERVICEPATH);
 
 $smarty->assign('fennec_version', '0.0.5');
 
+$dbversion = requestVal('dbversion', '/^[a-z-_\.0-9]*$/', DEFAULT_DBVERSION);
+$smarty->assign('dbversion', $dbversion);
 $page = requestVal('page', '/^[a-z-_\.]*$/', '');
 switch ($page) {
     case 'organism':
