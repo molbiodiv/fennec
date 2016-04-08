@@ -9,12 +9,12 @@ define('WEBROOT', '');
 define('SERVICEPATH', '/ajax');
 
 //chado database
-const DATABASE = array("1.0" => array(
+define('DATABASE', serialize(array('1.0' => array(
     'DB_ADAPTER' => 'pgsql',
     'DB_CONNSTR' => 'pgsql:host=${chado_db_host};dbname=${chado_db_name};port=${chado_db_port}',
     'DB_USERNAME' => '${chado_db_username}',
     'DB_PASSWORD' => '${chado_db_password}'
-    ));
+))));
 
 //set error reporting to a level that suits you
 error_reporting(E_ALL ^ E_STRICT ^ E_NOTICE);
