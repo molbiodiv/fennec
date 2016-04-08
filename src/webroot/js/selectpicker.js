@@ -1,5 +1,12 @@
 $( document ).ready(function(){
     $('.selectpicker').selectpicker();
-    $('.selectpicker').selectpicker('val', DbVersion);
+    $('#release').selectpicker('val', DbVersion);
+    $('#release').on('changed.bs.select', function (e) {
+        var resultPage =  WebRoot + "/" + $('#release').val();
+        var path = window.location.pathname;
+        path = path.replace(WebRoot, "");
+        path = path.replace(DbVersion+"/", "");
+        resultPage += path;
+        window.location.href = resultPage;
+    });
 });
-
