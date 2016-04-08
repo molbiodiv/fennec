@@ -4,11 +4,12 @@
 // make sure to never set the constants to your production database (otherwise it will be cleared)
 
 //chado test database
-define('DB_ADAPTER','pgsql');
-define('DB_HOST','localhost');
-define('DB_PORT','5432');
-define('DB_DBNAME','testchado');
-define('DB_CONNSTR', 'pgsql:host='.DB_HOST.';dbname='.DB_DBNAME.';port='.DB_PORT);
-define('DB_USERNAME', 'postgres');
-define('DB_PASSWORD', '');
+define('DEFAULT_DBVERSION', 'test');
+define('DATABASE', serialize(array('test' => array(
+       'DB_ADAPTER' => 'pgsql',
+       'DB_CONNSTR' => 'pgsql:host=localhost;dbname=testchado;port=5432',
+       'DB_USERNAME' => 'postgres',
+       'DB_PASSWORD' => ''
+))));
+
 ?>
