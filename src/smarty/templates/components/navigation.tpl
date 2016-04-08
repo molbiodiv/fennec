@@ -14,13 +14,6 @@
                 <option data-icon="glyphicon-tag" value="{#$thisVersion#}" > {#$thisVersion#} </option>
             {#/foreach#}
         </select>
-        <font style="margin-left: 20px; margin-right: 5px; font-size: 16px;">organism: </font>
-        <select class="selectpicker">
-            <option data-icon="glyphicon-star">all organisms</option>
-            <optgroup>
-                <option data-icon="glyphicon-tree-deciduous">viridiplantae</option>
-            </optgroup>
-        </select>
         
         <li class="dropdown">
             <a class="dropdown-toggle navbar-{#$type#} navbar-icon-{#$type#}" data-toggle="dropdown" href="#" style="background-color: transparent;">
