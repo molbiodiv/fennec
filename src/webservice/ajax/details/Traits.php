@@ -10,12 +10,14 @@ use \PDO as PDO;
  */
 class Traits extends \WebService {
 
+    var $db;
+
     /**
      * @param $querydata[]
      * @returns array of traits
      */
     public function execute($querydata) {
-        global $db;
+        $this->db = $this->open_db_connection($querydata);
         $type_cvterm_id = $querydata['type_cvterm_id'];
         $group = "%%";
         if(in_array('group', array_keys($querydata))){
@@ -27,7 +29,7 @@ SELECT * FROM trait_cvterm, (SELECT * FROM trait_entry, (SELECT organism_id FROM
     WHERE names.organism_id = trait_entry.organism_id) AS names2 
         WHERE names2.type_cvterm_id=trait_cvterm.trait_cvterm_id AND trait_cvterm.trait_cvterm_id = :type_cvterm_id;
 EOF;
-        $stm_get_trait= $db->prepare($query_get_trait);
+        $stm_get_trait= $this->db->prepare($query_get_trait);
         $stm_get_trait->bindValue('group', $group);
         $stm_get_trait->bindValue('type_cvterm_id', $type_cvterm_id);
         $stm_get_trait->execute();
@@ -42,7 +44,7 @@ EOF;
 SELECT count(DISTINCT organism_id) 
     FROM trait_entry WHERE type_cvterm_id = :type_cvterm_id
 EOF;
-        $stm_count_organisms_by_trait = $db->prepare($query_count_organisms_by_trait);
+        $stm_count_organisms_by_trait = $this->db->prepare($query_count_organisms_by_trait);
         $stm_count_organisms_by_trait->bindValue('type_cvterm_id', $type_cvterm_id);
         $stm_count_organisms_by_trait->execute();
         while($row = $stm_count_organisms_by_trait->fetch(PDO::FETCH_ASSOC)){
@@ -53,7 +55,7 @@ EOF;
 SELECT value, value_cvterm_id
     FROM trait_entry WHERE type_cvterm_id = :type_cvterm_id LIMIT 1
 EOF;
-        $stm_get_value_range = $db->prepare($query_get_value_range);
+        $stm_get_value_range = $this->db->prepare($query_get_value_range);
         $stm_get_value_range->bindValue('type_cvterm_id', $type_cvterm_id);
         $stm_get_value_range->execute();
         
@@ -63,7 +65,7 @@ EOF;
                 $query_get_cvterm_ids = <<<EOF
 SELECT value_cvterm_id, COUNT(value_cvterm_id) AS count FROM trait_entry WHERE type_cvterm_id = :type_cvterm_id GROUP BY value_cvterm_id;
 EOF;
-                $stm_get_cvterm_ids = $db->prepare($query_get_cvterm_ids);
+                $stm_get_cvterm_ids = $this->db->prepare($query_get_cvterm_ids);
                 $stm_get_cvterm_ids->bindValue('type_cvterm_id', $type_cvterm_id);
                 $stm_get_cvterm_ids->execute();
                 $labels = array();
@@ -85,7 +87,7 @@ SELECT name AS measurement_unit, tmp2.value
                 WHERE tmp2.value_cvterm_id=trait_cvterm.trait_cvterm_id;
 EOF;
                         
-                $stm_get_values = $db->prepare($query_get_values);
+                $stm_get_values = $this->db->prepare($query_get_values);
                 $stm_get_values->bindValue('type_cvterm_id', $type_cvterm_id);
                 $stm_get_values->execute();
                 
@@ -107,14 +109,13 @@ EOF;
     }
     
     private function get_value_by_id($value_cvterm_id){
-        global $db;
         $value = $value_cvterm_id;
         
         $query_get_value = <<<EOF
 SELECT * 
     FROM trait_cvterm WHERE trait_cvterm_id = :value_cvterm_id
 EOF;
-        $stm_get_value = $db->prepare($query_get_value);
+        $stm_get_value = $this->db->prepare($query_get_value);
         $stm_get_value->bindValue('value_cvterm_id', $value_cvterm_id);
         $stm_get_value->execute();
         while($row = $stm_get_value->fetch(PDO::FETCH_ASSOC)){
