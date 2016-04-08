@@ -9,7 +9,10 @@ define('DATABASE', serialize(array('test' => array(
        'DB_ADAPTER' => 'pgsql',
        'DB_CONNSTR' => 'pgsql:host=localhost;dbname=testchado;port=5432',
        'DB_USERNAME' => 'postgres',
-       'DB_PASSWORD' => ''
+       'DB_PASSWORD' => '',
+       'DB_HOST' => 'localhost',
+       'DB_PORT' => 5432,
+       'DB_DBNAME' => 'testchado'
 ))));
 
 ?>
