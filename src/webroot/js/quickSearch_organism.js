@@ -9,7 +9,7 @@ $(document).ready(function(){
             var search = request.term;
             $.ajax({
                 url: WebRoot.concat("/ajax/listing/Organisms"),
-                data: {term:  request.term, limit: 500, search: search},
+                data: {term:  request.term, limit: 500, search: search, dbversion: DbVersion},
                 dataType: "json",
                 success: function (data) {
                     response(data);
