@@ -11,7 +11,7 @@
         <font style="margin-right: 5px; font-size: 16px;">release: </font> 
         <select class="selectpicker" id="release">
             {#foreach $allDbVersions as $thisVersion#}
-                <option data-icon="glyphicon-tag"> {#$thisVersion#} </option>
+                <option data-icon="glyphicon-tag" value="{#$thisVersion#}" > {#$thisVersion#} </option>
             {#/foreach#}
         </select>
         <font style="margin-left: 20px; margin-right: 5px; font-size: 16px;">organism: </font>
