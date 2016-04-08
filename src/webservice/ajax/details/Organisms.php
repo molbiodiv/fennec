@@ -10,12 +10,13 @@ use \PDO as PDO;
  */
 class Organisms extends \WebService {
 
+    var $db;
     /**
      * @param $querydata[ids] array of ids
      * @returns array of details
      */
     public function execute($querydata) {
-        global $db;
+        $db = $this->open_db_connection($querydata);
         $id = $querydata['id'];
         $placeholders = implode(',', array_fill(0, count($id), '?'));
         $query_get_organisms = <<<EOF
@@ -47,7 +48,6 @@ EOF;
      * @return $eol_accession eol accession of the current organism
      */
     private function get_EOL_Accession($organism_id) {
-        global $db;
         $query_get_EOL_DB_Id = <<<EOF
 SELECT db_id
     FROM db WHERE name = 'EOL'  
@@ -81,7 +81,6 @@ EOF;
      * @return $ncbi_accession ncbi accession of the current organism
      */
     private function get_NCBI_Accession($organsim_id) {
-        global $db;
         $query_get_NCBI_DB_Id = <<<EOF
 SELECT db_id
     FROM db WHERE name = 'DB:NCBI_taxonomy'  
