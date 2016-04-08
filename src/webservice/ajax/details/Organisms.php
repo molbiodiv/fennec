@@ -16,14 +16,14 @@ class Organisms extends \WebService {
      * @returns array of details
      */
     public function execute($querydata) {
-        $db = $this->open_db_connection($querydata);
+        $this->db = $this->open_db_connection($querydata);
         $id = $querydata['id'];
         $placeholders = implode(',', array_fill(0, count($id), '?'));
         $query_get_organisms = <<<EOF
 SELECT *
     FROM organism WHERE organism_id IN ($placeholders)
 EOF;
-        $stm_get_organisms = $db->prepare($query_get_organisms);
+        $stm_get_organisms = $this->db->prepare($query_get_organisms);
         $stm_get_organisms->execute(array($id));
 
         $result = array();
@@ -52,7 +52,7 @@ EOF;
 SELECT db_id
     FROM db WHERE name = 'EOL'  
 EOF;
-            $stm_get_EOL_DB_Id = $db->prepare($query_get_EOL_DB_Id);
+            $stm_get_EOL_DB_Id = $this->db->prepare($query_get_EOL_DB_Id);
             $stm_get_EOL_DB_Id->execute();
             while ($row = $stm_get_EOL_DB_Id->fetch(PDO::FETCH_ASSOC)) {
                 $eol_id = $row['db_id'];
@@ -62,7 +62,7 @@ EOF;
 SELECT accession 
     FROM dbxref, organism_dbxref WHERE db_id = :eol_id AND organism_dbxref.dbxref_id = dbxref.dbxref_id AND organism_id = :organism_id;
 EOF;
-            $stm_get_EOL_accession = $db->prepare($query_get_EOL_Accession);
+            $stm_get_EOL_accession = $this->db->prepare($query_get_EOL_Accession);
             $stm_get_EOL_accession->bindValue('eol_id', $eol_id);
             $stm_get_EOL_accession->bindValue('organism_id', $organism_id);
             $stm_get_EOL_accession->execute();
@@ -85,7 +85,7 @@ EOF;
 SELECT db_id
     FROM db WHERE name = 'DB:NCBI_taxonomy'  
 EOF;
-            $stm_get_NCBI_DB_Id = $db->prepare($query_get_NCBI_DB_Id);
+            $stm_get_NCBI_DB_Id = $this->db->prepare($query_get_NCBI_DB_Id);
             $stm_get_NCBI_DB_Id->execute();
             while ($row = $stm_get_NCBI_DB_Id->fetch(PDO::FETCH_ASSOC)) {
                 $ncbi_id = $row['db_id'];
@@ -95,7 +95,7 @@ EOF;
 SELECT accession 
     FROM dbxref, organism_dbxref WHERE db_id = :ncbi_id AND organism_dbxref.dbxref_id = dbxref.dbxref_id AND organism_id = :organism_id;
 EOF;
-            $stm_get_NCBI_accession = $db->prepare($query_get_NCBI_Accession);
+            $stm_get_NCBI_accession = $this->db->prepare($query_get_NCBI_Accession);
             $stm_get_NCBI_accession->bindValue('ncbi_id', $ncbi_id);
             $stm_get_NCBI_accession->bindValue('organism_id', $organsim_id);
             $stm_get_NCBI_accession->execute();
