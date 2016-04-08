@@ -15,7 +15,7 @@ class Organisms_to_traits extends \WebService {
      * @returns array of organisms accoring to a specific trait type
      */
     public function execute($querydata) {
-        global $db;
+        $db = $this->open_db_connection($querydata);
         $type_cvterm_id = $querydata['type_cvterm_id'];
         $limit = 5;
         if(in_array('limit', array_keys($querydata))){
