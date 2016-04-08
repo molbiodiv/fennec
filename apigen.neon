@@ -1,0 +1,5 @@
+source:
+  - ./src/webservice
+
+destination: ./doc/webservice
+templateTheme: bootstrap
