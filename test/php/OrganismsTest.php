@@ -2,8 +2,6 @@
 
 namespace fennecweb;
 
-require_once __DIR__ . DIRECTORY_SEPARATOR . 'config.php';
-
 class OrganismsTest extends \PHPUnit_Framework_TestCase
 {
     public function testExecute()
