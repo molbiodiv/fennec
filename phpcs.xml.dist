@@ -5,6 +5,7 @@
  <file>src/webservice</file>
  <file>test/php</file>
 
+ <arg name="extensions" value="php"/>
  <arg name="report" value="summary"/>
  <arg value="p"/>
 
