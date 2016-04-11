@@ -14,4 +14,3 @@ class DetailsTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(13, $results['organism_id']);
     }
 }
-?>
