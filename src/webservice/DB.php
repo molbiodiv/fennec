@@ -2,6 +2,8 @@
 
 namespace fennecweb;
 
+use \PDO as PDO;
+
 class DB
 {
 /**
