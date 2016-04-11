@@ -32,11 +32,11 @@ EOF;
         $result = array();
         while ($row = $stm_get_traits_to_organism->fetch(PDO::FETCH_ASSOC)) {
             $this_trait = [];
-            $this_trait['type'] = $this->get_cvterm($row['type_cvterm_id']);
+            $this_trait['type'] = $this->getCvterm($row['type_cvterm_id']);
             if ($row['value'] != null) {
                 $this_trait['value'] = $row['value'];
             } else {
-                $this_trait['value'] = $this->get_cvterm($row['value_cvterm_id']);
+                $this_trait['value'] = $this->getCvterm($row['value_cvterm_id']);
             }
             array_push($result, $this_trait);
         }
@@ -48,7 +48,7 @@ EOF;
      * @param $trait_entry_id
      * @return cvterm to a given trait_entry_id
      */
-    private function get_cvterm($trait_entry_id)
+    private function getCvterm($trait_entry_id)
     {
         $query_get_cvterm = <<<EOF
 SELECT name, definition FROM trait_cvterm WHERE trait_cvterm_id = :trait_entry_id
