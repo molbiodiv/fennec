@@ -18,7 +18,7 @@ class Organisms extends \fennecweb\WebService
      */
     public function execute($querydata)
     {
-        $this->db = $this->open_db_connection($querydata);
+        $this->db = $this->openDbConnection($querydata);
         $id = $querydata['id'];
         $placeholders = implode(',', array_fill(0, count($id), '?'));
         $query_get_organisms = <<<EOF

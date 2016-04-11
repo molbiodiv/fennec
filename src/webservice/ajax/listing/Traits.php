@@ -17,7 +17,7 @@ class Traits extends \fennecweb\WebService
      */
     public function execute($querydata)
     {
-        $db = $this->open_db_connection($querydata);
+        $db = $this->openDbConnection($querydata);
         $limit = 1000;
         if (in_array('limit', array_keys($querydata))) {
             $limit = $querydata['limit'];

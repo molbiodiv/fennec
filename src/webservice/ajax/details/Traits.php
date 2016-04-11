@@ -19,7 +19,7 @@ class Traits extends \fennecweb\WebService
      */
     public function execute($querydata)
     {
-        $this->db = $this->open_db_connection($querydata);
+        $this->db = $this->openDbConnection($querydata);
         $type_cvterm_id = $querydata['type_cvterm_id'];
         $group = "%%";
         if (in_array('group', array_keys($querydata))) {

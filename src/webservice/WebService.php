@@ -75,7 +75,7 @@ abstract class WebService
         return array(new $class, $args);
     }
 
-    public static function open_db_connection($querydata)
+    public static function openDbConnection($querydata)
     {
         if (!array_key_exists('dbversion', $querydata)) {
             print "Error!: No database version supplied via 'dbversion'.<br/>";

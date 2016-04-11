@@ -19,7 +19,7 @@ class Traits_to_organism extends \fennecweb\WebService
      */
     public function execute($querydata)
     {
-        $this->db = $this->open_db_connection($querydata);
+        $this->db = $this->openDbConnection($querydata);
         $organism_id = $querydata['organism_id'];
         $query_get_traits_to_organism = <<<EOF
 SELECT *

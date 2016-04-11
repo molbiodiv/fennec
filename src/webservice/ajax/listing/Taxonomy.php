@@ -19,7 +19,7 @@ class Taxonomy extends \fennecweb\WebService
      */
     public function execute($querydata)
     {
-        $this->db = $this->open_db_connection($querydata);
+        $this->db = $this->openDbConnection($querydata);
         $child_organism_id = $querydata['id'];
         $result['lineage'] = array();
         array_unshift($result['lineage'], $this->getParent($child_organism_id));

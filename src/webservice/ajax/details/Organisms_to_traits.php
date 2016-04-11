@@ -17,7 +17,7 @@ class Organisms_to_traits extends \fennecweb\WebService
      */
     public function execute($querydata)
     {
-        $db = $this->open_db_connection($querydata);
+        $db = $this->openDbConnection($querydata);
         $type_cvterm_id = $querydata['type_cvterm_id'];
         $limit = 5;
         if (in_array('limit', array_keys($querydata))) {
