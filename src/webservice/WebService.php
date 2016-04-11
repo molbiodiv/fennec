@@ -1,6 +1,6 @@
 <?php
 
-require_once 'db.php';
+namespace fennecweb;
 
 /**
  * Abstract Base class for all web services.
