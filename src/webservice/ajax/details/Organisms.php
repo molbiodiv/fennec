@@ -8,7 +8,7 @@ use \PDO as PDO;
  * Web Service.
  * Returns Organisms with given ids
  */
-class Organisms extends \WebService
+class Organisms extends \fennecweb\WebService
 {
 
     private $db;

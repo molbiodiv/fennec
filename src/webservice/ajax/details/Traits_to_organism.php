@@ -8,7 +8,7 @@ use \PDO as PDO;
  * Web Service.
  * Returns Trait information to an organism by its id
  */
-class Traits_to_organism extends \WebService
+class Traits_to_organism extends \fennecweb\WebService
 {
 
     private $db;

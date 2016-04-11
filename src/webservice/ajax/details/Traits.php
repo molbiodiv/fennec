@@ -8,7 +8,7 @@ use \PDO as PDO;
  * Web Service.
  * Returns Trait informatio
  */
-class Traits extends \WebService
+class Traits extends \fennecweb\WebService
 {
 
     var $db;

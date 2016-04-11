@@ -8,7 +8,7 @@ use \PDO as PDO;
  * Web Service.
  * Returns Taxonomy information for a given organism_id
  */
-class Taxonomy extends \WebService
+class Taxonomy extends \fennecweb\WebService
 {
 
     private $db;
