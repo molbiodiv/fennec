@@ -1,4 +1,7 @@
 <?php
+
+namespace fennecweb;
+
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'config.php';
 
 /**
