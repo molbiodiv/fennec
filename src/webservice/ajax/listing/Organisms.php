@@ -8,7 +8,8 @@ use \PDO as PDO;
  * Web Service.
  * Returns Organisms up to a limit in the given db version (matching a search criterion if supplied)
  */
-class Organisms extends \WebService {
+class Organisms extends \WebService
+{
 
     /**
      * @param array  $querydata  array of parameters:
@@ -31,14 +32,15 @@ class Organisms extends \WebService {
      * );
      * </code>
      */
-    public function execute($querydata) {
+    public function execute($querydata)
+    {
         $db = $this->open_db_connection($querydata);
         $limit = 5;
-        if(in_array('limit', array_keys($querydata))){
+        if (in_array('limit', array_keys($querydata))) {
             $limit = $querydata['limit'];
         }
         $search = "%%";
-        if(in_array('search', array_keys($querydata))){
+        if (in_array('search', array_keys($querydata))) {
             $search = "%".$querydata['search']."%";
         }
         $query_get_organisms = <<<EOF
@@ -58,7 +60,7 @@ EOF;
             $result['scientific_name'] = $row['species'];
             $result['rank'] = $row['genus'];
             $result['common_name'] = $row['common_name'];
-            if($row["abbreviation"]!=null){
+            if ($row["abbreviation"]!=null) {
                 $result['rank']='species';
             }
             $data[] = $result;
@@ -66,5 +68,3 @@ EOF;
         return $data;
     }
 }
-
-?>

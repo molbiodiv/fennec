@@ -8,20 +8,22 @@ use \PDO as PDO;
  * Web Service.
  * Returns Trait informatio
  */
-class Traits extends \WebService {
+class Traits extends \WebService
+{
 
     /**
      * @param $querydata[]
      * @returns array of traits
      */
-    public function execute($querydata) {
+    public function execute($querydata)
+    {
         $db = $this->open_db_connection($querydata);
         $limit = 1000;
-        if(in_array('limit', array_keys($querydata))){
+        if (in_array('limit', array_keys($querydata))) {
             $limit = $querydata['limit'];
         }
         $search = "%%";
-        if(in_array('search', array_keys($querydata))){
+        if (in_array('search', array_keys($querydata))) {
             $search = "%".$querydata['search']."%";
         }
         $query_get_traits = <<<EOF
@@ -35,7 +37,7 @@ EOF;
         $stm_get_traits->execute();
         
         $data = array();
-        while ($row = $stm_get_traits->fetch(PDO::FETCH_ASSOC)) {   
+        while ($row = $stm_get_traits->fetch(PDO::FETCH_ASSOC)) {
             $result = array();
             $result['name'] = $row['name'];
             $result['type_cvterm_id'] = $row['type_cvterm_id'];
@@ -45,6 +47,3 @@ EOF;
         return $data;
     }
 }
-
-?>
-

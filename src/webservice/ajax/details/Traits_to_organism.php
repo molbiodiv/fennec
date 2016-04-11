@@ -8,7 +8,8 @@ use \PDO as PDO;
  * Web Service.
  * Returns Trait information to an organism by its id
  */
-class Traits_to_organism extends \WebService {
+class Traits_to_organism extends \WebService
+{
 
     private $db;
 
@@ -16,7 +17,8 @@ class Traits_to_organism extends \WebService {
      * @param $querydata[]
      * @returns organism id
      */
-    public function execute($querydata) {
+    public function execute($querydata)
+    {
         $this->db = $this->open_db_connection($querydata);
         $organism_id = $querydata['organism_id'];
         $query_get_traits_to_organism = <<<EOF
@@ -31,13 +33,12 @@ EOF;
         while ($row = $stm_get_traits_to_organism->fetch(PDO::FETCH_ASSOC)) {
             $this_trait = [];
             $this_trait['type'] = $this->get_cvterm($row['type_cvterm_id']);
-            if($row['value'] != NULL){
+            if ($row['value'] != null) {
                 $this_trait['value'] = $row['value'];
             } else {
                 $this_trait['value'] = $this->get_cvterm($row['value_cvterm_id']);
             }
             array_push($result, $this_trait);
-            
         }
         return $result;
     }
@@ -47,7 +48,8 @@ EOF;
      * @param $trait_entry_id
      * @return cvterm to a given trait_entry_id
      */
-    private function get_cvterm($trait_entry_id){
+    private function get_cvterm($trait_entry_id)
+    {
         $query_get_cvterm = <<<EOF
 SELECT name, definition FROM trait_cvterm WHERE trait_cvterm_id = :trait_entry_id
 EOF;
@@ -56,9 +58,6 @@ EOF;
         $stm_get_cvterm->execute();
         $result = $stm_get_cvterm->fetch(PDO::FETCH_ASSOC);
         
-        return ($result['name'] == NULL) ? $result['definition'] : $result['name'];
+        return ($result['name'] == null) ? $result['definition'] : $result['name'];
     }
 }
-
-?>
-

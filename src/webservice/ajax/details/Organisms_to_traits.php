@@ -8,17 +8,19 @@ use \PDO as PDO;
  * Web Service.
  * Returns Organisms with given ids
  */
-class Organisms_to_traits extends \WebService {
+class Organisms_to_traits extends \WebService
+{
 
     /**
      * @param $querydata[type_cvterm_id] array of trait type_cvterm_id
      * @returns array of organisms accoring to a specific trait type
      */
-    public function execute($querydata) {
+    public function execute($querydata)
+    {
         $db = $this->open_db_connection($querydata);
         $type_cvterm_id = $querydata['type_cvterm_id'];
         $limit = 5;
-        if(in_array('limit', array_keys($querydata))){
+        if (in_array('limit', array_keys($querydata))) {
             $limit = $querydata['limit'];
         }
         
@@ -38,7 +40,7 @@ EOF;
             $result['scientific_name'] = $row['species'];
             $result['rank'] = $row['genus'];
             $result['common_name'] = $row['common_name'];
-            if($row["abbreviation"]!=null){
+            if ($row["abbreviation"]!=null) {
                 $result['rank']='species';
             }
             $data[] = $result;
@@ -46,8 +48,4 @@ EOF;
         return $data;
         
     }
-    
 }
-
-?>
-

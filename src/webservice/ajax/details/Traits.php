@@ -8,7 +8,8 @@ use \PDO as PDO;
  * Web Service.
  * Returns Trait informatio
  */
-class Traits extends \WebService {
+class Traits extends \WebService
+{
 
     var $db;
 
@@ -16,11 +17,12 @@ class Traits extends \WebService {
      * @param $querydata[]
      * @returns array of traits
      */
-    public function execute($querydata) {
+    public function execute($querydata)
+    {
         $this->db = $this->open_db_connection($querydata);
         $type_cvterm_id = $querydata['type_cvterm_id'];
         $group = "%%";
-        if(in_array('group', array_keys($querydata))){
+        if (in_array('group', array_keys($querydata))) {
             $group = "%".$querydata['group']."%";
         }
         $placeholders = implode(',', array_fill(0, count($type_cvterm_id), '?'));
@@ -37,7 +39,6 @@ EOF;
         $result = array();
         while ($row = $stm_get_trait->fetch(PDO::FETCH_ASSOC)) {
             $result = $row;
-            
         }
         
         $query_count_organisms_by_trait = <<<EOF
@@ -47,7 +48,7 @@ EOF;
         $stm_count_organisms_by_trait = $this->db->prepare($query_count_organisms_by_trait);
         $stm_count_organisms_by_trait->bindValue('type_cvterm_id', $type_cvterm_id);
         $stm_count_organisms_by_trait->execute();
-        while($row = $stm_count_organisms_by_trait->fetch(PDO::FETCH_ASSOC)){
+        while ($row = $stm_count_organisms_by_trait->fetch(PDO::FETCH_ASSOC)) {
             $result['all_organisms'] = $row['count'];
         }
         
@@ -59,8 +60,8 @@ EOF;
         $stm_get_value_range->bindValue('type_cvterm_id', $type_cvterm_id);
         $stm_get_value_range->execute();
         
-        while($row = $stm_get_value_range->fetch(PDO::FETCH_ASSOC)){
-            if($row['value'] == NULL){
+        while ($row = $stm_get_value_range->fetch(PDO::FETCH_ASSOC)) {
+            if ($row['value'] == null) {
                 $result['value_type'] = 'cvterm';
                 $query_get_cvterm_ids = <<<EOF
 SELECT value_cvterm_id, COUNT(value_cvterm_id) AS count FROM trait_entry WHERE type_cvterm_id = :type_cvterm_id GROUP BY value_cvterm_id;
@@ -71,7 +72,7 @@ EOF;
                 $labels = array();
                 $frequency = array();
                 
-                while ($row = $stm_get_cvterm_ids->fetch(PDO::FETCH_ASSOC)){
+                while ($row = $stm_get_cvterm_ids->fetch(PDO::FETCH_ASSOC)) {
                     array_push($frequency, $row['count']);
                     array_push($labels, $this->get_value_by_id($row['value_cvterm_id']));
                 }
@@ -94,8 +95,8 @@ EOF;
                 $row = $stm_get_values->fetch(PDO::FETCH_ASSOC);
                 $tmp_result[$row['measurement_unit']] = array();
                 array_push($tmp_result[$row['measurement_unit']], $row['value']);
-                while($row = $stm_get_values->fetch(PDO::FETCH_ASSOC)){
-                    if(array_key_exists($row['measurement_unit'], $tmp_result)){
+                while ($row = $stm_get_values->fetch(PDO::FETCH_ASSOC)) {
+                    if (array_key_exists($row['measurement_unit'], $tmp_result)) {
                         array_push($tmp_result[$row['measurement_unit']], $row['value']);
                     } else {
                         $tmp_result[$row['measurement_unit']] = array();
@@ -108,7 +109,8 @@ EOF;
         return $result;
     }
     
-    private function get_value_by_id($value_cvterm_id){
+    private function get_value_by_id($value_cvterm_id)
+    {
         $value = $value_cvterm_id;
         
         $query_get_value = <<<EOF
@@ -118,8 +120,8 @@ EOF;
         $stm_get_value = $this->db->prepare($query_get_value);
         $stm_get_value->bindValue('value_cvterm_id', $value_cvterm_id);
         $stm_get_value->execute();
-        while($row = $stm_get_value->fetch(PDO::FETCH_ASSOC)){
-            if($row['name']){
+        while ($row = $stm_get_value->fetch(PDO::FETCH_ASSOC)) {
+            if ($row['name']) {
                 $value = $row['name'];
             } else {
                 $value = $row['definition'];
@@ -128,5 +130,3 @@ EOF;
         return $value;
     }
 }
-
-?>
