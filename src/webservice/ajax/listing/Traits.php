@@ -28,8 +28,12 @@ class Traits extends \fennecweb\WebService
         }
         $query_get_traits = <<<EOF
 SELECT name, tci.type_cvterm_id, count 
-    FROM (SELECT type_cvterm_id, count(type_cvterm_id) AS count FROM trait_entry GROUP BY type_cvterm_id ORDER BY count DESC LIMIT :limit) AS tci, trait_cvterm 
-        WHERE tci.type_cvterm_id=trait_cvterm.trait_cvterm_id AND name ILIKE :search             
+    FROM 
+        (
+            SELECT type_cvterm_id, count(type_cvterm_id) AS count
+                FROM trait_entry GROUP BY type_cvterm_id ORDER BY count DESC LIMIT :limit
+        ) AS tci, trait_cvterm
+            WHERE tci.type_cvterm_id=trait_cvterm.trait_cvterm_id AND name ILIKE :search
 EOF;
         $stm_get_traits = $db->prepare($query_get_traits);
         $stm_get_traits->bindValue('search', $search);
