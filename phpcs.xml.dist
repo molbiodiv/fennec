@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<ruleset name="PHP_CodeSniffer">
+ <description>The coding standard for fennec-web PHP files.</description>
+
+ <file>src/webservice</file>
+
+ <arg name="report" value="summary"/>
+ <arg value="p"/>
+
+ <rule ref="PSR2"/>
+</ruleset>
