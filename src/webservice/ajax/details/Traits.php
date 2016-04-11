@@ -74,7 +74,7 @@ EOF;
                 
                 while ($row = $stm_get_cvterm_ids->fetch(PDO::FETCH_ASSOC)) {
                     array_push($frequency, $row['count']);
-                    array_push($labels, $this->get_value_by_id($row['value_cvterm_id']));
+                    array_push($labels, $this->getValueById($row['value_cvterm_id']));
                 }
                 $result['value']['labels'] = $labels;
                 $result['value']['frequency'] = $frequency;
@@ -109,7 +109,7 @@ EOF;
         return $result;
     }
     
-    private function get_value_by_id($value_cvterm_id)
+    private function getValueById($value_cvterm_id)
     {
         $value = $value_cvterm_id;
         
