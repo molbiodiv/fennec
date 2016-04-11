@@ -6,13 +6,18 @@
  * @param String $version the database version to use (has to be defined in config.php)
  * @return \PDO
  */
-function get_db_for_version($version){
+function get_db_for_version($version)
+{
     $database = unserialize(DATABASE);
-    if(!array_key_exists($version, $database)){
+    if (!array_key_exists($version, $database)) {
         print "Error!: The requested database version ".$version." does not exist.<br/>";
         die();
     }
-    $db = get_db_connection($database[$version]['DB_CONNSTR'], $database[$version]['DB_USERNAME'], $database[$version]['DB_PASSWORD']);
+    $db = get_db_connection(
+        $database[$version]['DB_CONNSTR'],
+        $database[$version]['DB_USERNAME'],
+        $database[$version]['DB_PASSWORD']
+    );
     return $db;
 }
 
@@ -24,10 +29,10 @@ function get_db_for_version($version){
  * @param String $password
  * @return \PDO
  */
-function get_db_connection($connstr, $username, $password) {
+function get_db_connection($connstr, $username, $password)
+{
     try {
         if (defined('DEBUG') && DEBUG) {
-
             if (PHP_SAPI == 'cli') {
                 $logtype = 'console';
             } else {
@@ -41,7 +46,12 @@ function get_db_connection($connstr, $username, $password) {
             $db = new \LoggedPDO\PDO($connstr, $username, $password, null, $logger);
             //$db->log_replace_params = false;
         } else {
-            $db = new PDO($connstr, $username, $password, array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_EMULATE_PREPARES => false));
+            $db = new PDO(
+                $connstr,
+                $username,
+                $password,
+                array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_EMULATE_PREPARES => false)
+            );
         }
         #usually stop execution on DB error
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -52,5 +62,3 @@ function get_db_connection($connstr, $username, $password) {
         die();
     }
 }
-
-?>
