@@ -38,8 +38,8 @@ EOF;
                 $result['rank']='species';
             }
             
-            $result['eol_accession'] = $this->get_EOL_Accession($result['organism_id']);
-            $result['ncbi_accession'] = $this->get_NCBI_Accession($result['organism_id']);
+            $result['eol_accession'] = $this->getEolAccession($result['organism_id']);
+            $result['ncbi_accession'] = $this->getNcbiAccession($result['organism_id']);
         }
         return $result;
     }
@@ -48,7 +48,7 @@ EOF;
      * @param type $organism_id id of the organism
      * @return $eol_accession eol accession of the current organism
      */
-    private function get_EOL_Accession($organism_id)
+    private function getEolAccession($organism_id)
     {
         $query_get_EOL_DB_Id = <<<EOF
 SELECT db_id
@@ -82,7 +82,7 @@ EOF;
      * @param $organsim_id id of the organism
      * @return $ncbi_accession ncbi accession of the current organism
      */
-    private function get_NCBI_Accession($organsim_id)
+    private function getNcbiAccession($organsim_id)
     {
         $query_get_NCBI_DB_Id = <<<EOF
 SELECT db_id
