@@ -25,7 +25,9 @@ class OrganismsWithTrait extends \fennecweb\WebService
         }
         
         $query_get_organism_by_trait = <<<EOF
-SELECT * FROM organism, (SELECT DISTINCT organism_id FROM trait_entry WHERE type_cvterm_id = :type_cvterm_id) AS ids WHERE organism.organism_id = ids.organism_id LIMIT :limit
+SELECT *
+    FROM organism, (SELECT DISTINCT organism_id FROM trait_entry WHERE type_cvterm_id = :type_cvterm_id) AS ids
+    WHERE organism.organism_id = ids.organism_id LIMIT :limit
 EOF;
         $stm_get_organism_by_trait = $db->prepare($query_get_organism_by_trait);
         $stm_get_organism_by_trait->bindValue('type_cvterm_id', $type_cvterm_id);

@@ -27,9 +27,12 @@ class Traits extends \fennecweb\WebService
         }
         $placeholders = implode(',', array_fill(0, count($type_cvterm_id), '?'));
         $query_get_trait = <<<EOF
-SELECT * FROM trait_cvterm, (SELECT * FROM trait_entry, (SELECT organism_id FROM organism WHERE species LIKE :group) AS names 
-    WHERE names.organism_id = trait_entry.organism_id) AS names2 
-        WHERE names2.type_cvterm_id=trait_cvterm.trait_cvterm_id AND trait_cvterm.trait_cvterm_id = :type_cvterm_id;
+SELECT *
+    FROM trait_cvterm,
+    (SELECT * FROM trait_entry,
+        (SELECT organism_id FROM organism WHERE species LIKE :group) AS names
+        WHERE names.organism_id = trait_entry.organism_id) AS names2
+    WHERE names2.type_cvterm_id=trait_cvterm.trait_cvterm_id AND trait_cvterm.trait_cvterm_id = :type_cvterm_id;
 EOF;
         $stm_get_trait= $this->db->prepare($query_get_trait);
         $stm_get_trait->bindValue('group', $group);
@@ -64,7 +67,10 @@ EOF;
             if ($row['value'] == null) {
                 $result['value_type'] = 'cvterm';
                 $query_get_cvterm_ids = <<<EOF
-SELECT value_cvterm_id, COUNT(value_cvterm_id) AS count FROM trait_entry WHERE type_cvterm_id = :type_cvterm_id GROUP BY value_cvterm_id;
+SELECT value_cvterm_id, COUNT(value_cvterm_id) AS count
+    FROM trait_entry
+    WHERE type_cvterm_id = :type_cvterm_id
+    GROUP BY value_cvterm_id;
 EOF;
                 $stm_get_cvterm_ids = $this->db->prepare($query_get_cvterm_ids);
                 $stm_get_cvterm_ids->bindValue('type_cvterm_id', $type_cvterm_id);
