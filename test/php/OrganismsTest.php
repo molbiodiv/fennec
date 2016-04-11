@@ -2,9 +2,6 @@
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'config.php';
 
-/**
- * @backupGlobals disabled
- */
 class OrganismsTest extends PHPUnit_Framework_TestCase
 {
     public function testExecute()
