@@ -6,8 +6,6 @@ header('Content-type: application/json');
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . '../config.php';
 
-require_once 'db.php';
- 
 
 if (defined('DEBUG') && DEBUG) {
     error_reporting(E_ALL);
