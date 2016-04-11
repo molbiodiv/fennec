@@ -42,7 +42,7 @@ abstract class WebService
         //search in ./$path[0]/.../($path[x])/ for ucfirst($path[x+1]).php.
         $path = explode('/', $servicePath);
         $filepath = $serviceBasePath . DIRECTORY_SEPARATOR . $path[0];
-        $serviceNamespace = '\\ajax\\' . $path[0];
+        $serviceNamespace = '\\fennecweb\\ajax\\' . $path[0];
         $args = array();
         for ($i = 1; $i < count($path); $i++) {
             $classname = ucfirst($path[$i]);

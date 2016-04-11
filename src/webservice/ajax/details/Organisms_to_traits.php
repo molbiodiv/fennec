@@ -1,6 +1,6 @@
 <?php
 
-namespace ajax\details;
+namespace fennecweb\ajax\details;
 
 use \PDO as PDO;
 

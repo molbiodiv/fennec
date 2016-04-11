@@ -1,6 +1,6 @@
 <?php
 
-namespace ajax\listing;
+namespace fennecweb\ajax\listing;
 
 use \PDO as PDO;
 
