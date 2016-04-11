@@ -10,7 +10,9 @@ abstract class WebService
 
     /**
      * Executes the web service.
-     * @param Array $data User-specified parameters. Usually, url parameters are included as $data[query1], $data[query2],... and $_GET and _POST are merged in
+     * @param Array $data User-specified parameters.
+     * Usually, url parameters are included as $data[query1], $data[query2], ...
+     * and $_GET and _POST are merged in
      */
     abstract public function execute($data);
 
@@ -25,7 +27,8 @@ abstract class WebService
 
     /**
      * factory method for all web services
-     * creates an instance of the class called by querystring. additional parameters are returned in $parameters as query1, query2, etc.
+     * creates an instance of the class called by querystring.
+     * additional parameters are returned in $parameters as query1, query2, etc.
      * e.g.
      * <code>
      * WebService::factory('details/organism/12345');
