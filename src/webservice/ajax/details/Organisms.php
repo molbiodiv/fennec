@@ -62,7 +62,8 @@ EOF;
             
             $query_get_EOL_Accession = <<<EOF
 SELECT accession 
-    FROM dbxref, organism_dbxref WHERE db_id = :eol_id AND organism_dbxref.dbxref_id = dbxref.dbxref_id AND organism_id = :organism_id;
+    FROM dbxref, organism_dbxref
+    WHERE db_id = :eol_id AND organism_dbxref.dbxref_id = dbxref.dbxref_id AND organism_id = :organism_id;
 EOF;
             $stm_get_EOL_accession = $this->db->prepare($query_get_EOL_Accession);
             $stm_get_EOL_accession->bindValue('eol_id', $eol_id);
@@ -96,7 +97,8 @@ EOF;
             
             $query_get_NCBI_Accession = <<<EOF
 SELECT accession 
-    FROM dbxref, organism_dbxref WHERE db_id = :ncbi_id AND organism_dbxref.dbxref_id = dbxref.dbxref_id AND organism_id = :organism_id;
+    FROM dbxref, organism_dbxref
+    WHERE db_id = :ncbi_id AND organism_dbxref.dbxref_id = dbxref.dbxref_id AND organism_id = :organism_id;
 EOF;
             $stm_get_NCBI_accession = $this->db->prepare($query_get_NCBI_Accession);
             $stm_get_NCBI_accession->bindValue('ncbi_id', $ncbi_id);
