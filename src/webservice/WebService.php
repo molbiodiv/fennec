@@ -81,6 +81,6 @@ abstract class WebService
             print "Error!: No database version supplied via 'dbversion'.<br/>";
             die();
         }
-        return get_db_for_version($querydata['dbversion']);
+        return DB::getDbForVersion($querydata['dbversion']);
     }
 }
