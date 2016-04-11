@@ -11,7 +11,7 @@ use \PDO as PDO;
 class Traits extends \fennecweb\WebService
 {
 
-    var $db;
+    private $db;
 
     /**
      * @param $querydata[]
