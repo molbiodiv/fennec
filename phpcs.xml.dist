@@ -3,6 +3,7 @@
  <description>The coding standard for fennec-web PHP files.</description>
 
  <file>src/webservice</file>
+ <file>test/php</file>
 
  <arg name="report" value="summary"/>
  <arg value="p"/>
