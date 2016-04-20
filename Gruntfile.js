@@ -18,11 +18,24 @@ module.exports = function(grunt) {
           ]
         }
       }
+    },
+    'phpunit-runner': {
+      all: {
+        options: {
+          phpunit: 'vendor/bin/phpunit',
+          configuration: 'phpunit.xml'
+        },
+        files: {
+          testFiles: 'test/php/'
+        }
+      }
     }
   });
 
   // Load the plugin that provides the "jasmine" task.
   grunt.loadNpmTasks('grunt-contrib-jasmine');
+  // Load the plugin that provides the "phpunit-runner" task.
+  grunt.loadNpmTasks('grunt-phpunit-runner');
 
   // Default task(s).
   grunt.registerTask('default', []);
