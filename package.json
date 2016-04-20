@@ -28,6 +28,7 @@
     "grunt-contrib-jasmine": "^1.0.0",
     "grunt-phpcs": "^0.4.0",
     "grunt-phpunit-runner": "^0.1.9",
-    "gulp": "^3.9.1"
+    "gulp": "^3.9.1",
+    "gulp-apigen": "^0.1.4"
   }
 }
