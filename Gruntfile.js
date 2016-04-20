@@ -29,13 +29,21 @@ module.exports = function(grunt) {
           testFiles: 'test/php/'
         }
       }
+    },
+    'phpcs': {
+      application: {
+      },
+      options: {
+        bin: 'vendor/bin/phpcs',
+        verbose: true
+      }
     }
   });
 
-  // Load the plugin that provides the "jasmine" task.
+  // Load the plugins that provide the required tasks.
   grunt.loadNpmTasks('grunt-contrib-jasmine');
-  // Load the plugin that provides the "phpunit-runner" task.
   grunt.loadNpmTasks('grunt-phpunit-runner');
+  grunt.loadNpmTasks('grunt-phpcs');
 
   // Default task(s).
   grunt.registerTask('default', []);
