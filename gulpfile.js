@@ -3,6 +3,7 @@ var apigen = require('gulp-apigen');
 var phpunit = require('gulp-phpunit');
 var spawn = require('child_process').spawn;
 var jasmine = require('gulp-jasmine');
+var cover = require('gulp-coverage');
 
 gulp.task('apigen', function() {
   gulp.src('apigen.neon').pipe(apigen('./vendor/bin/apigen'));
@@ -21,7 +22,14 @@ gulp.task('php', ['phpcs','apigen','phpunit'], function () {
 
 gulp.task('jasmine', function() {
     gulp.src('test/js/*Spec.js')
-        .pipe(jasmine());
+        .pipe(cover.instrument({
+            pattern: ['src/webroot/js/*.js']//,
+//            debugDirectory: 'debug'
+        }))
+        .pipe(jasmine())
+        .pipe(cover.gather())
+        .pipe(cover.format())
+        .pipe(gulp.dest('test/js/cover'));;
 });
 
 gulp.task('default', function() {
