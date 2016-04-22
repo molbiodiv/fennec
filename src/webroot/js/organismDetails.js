@@ -5,7 +5,7 @@ getBestName = function(result){
     }
     if(typeof result["vernacularNames"] !== "undefined" && result["vernacularNames"].length > 0){
         var preferred = false;
-        $.each(result["vernacularNames"], function(key, value){
+        result["vernacularNames"].forEach(function(value){
             if(value.language === "en"){
                 if(typeof value["eol_preferred"] !== "undefined" && value["eol_preferred"]){
                     preferred = true;
