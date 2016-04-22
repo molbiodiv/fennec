@@ -27,7 +27,7 @@ gulp.task('jasmine', function() {
         }))
         .pipe(jasmine({'config': {
           'spec_dir': './',
-          'helpers': ['src/webroot/js/organismDetails.js']
+          'helpers': ['src/webroot/js/helpers/*.js']
         }}))
         .pipe(cover.gather())
         .pipe(cover.format())

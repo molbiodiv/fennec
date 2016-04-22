@@ -6,7 +6,7 @@ module.exports = function(grunt) {
     jasmine: {
       js: {
         src: [
-          'src/webroot/js/organismDetails.js'
+          'src/webroot/js/helpers/organismDetails.js'
         ],
         options: {
           specs: 'test/js/*Spec.js',

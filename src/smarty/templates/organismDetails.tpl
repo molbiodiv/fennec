@@ -113,6 +113,6 @@
             progress.progressTimer('complete');
         });
     </script>
-    <script src="{#$WebRoot#}/js/organismDetails.js"></script>
+    <script src="{#$WebRoot#}/js/helpers/organismDetails.js"></script>
     {#/if#}
 {#/block#}
