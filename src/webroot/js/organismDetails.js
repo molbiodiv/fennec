@@ -18,4 +18,4 @@ getBestName = function(result){
         });
     }
     return bestName;
-}
+};
