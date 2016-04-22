@@ -30,6 +30,7 @@
     "grunt-phpunit-runner": "^0.1.9",
     "gulp": "^3.9.1",
     "gulp-apigen": "^0.1.4",
+    "gulp-phpcs": "^1.0.0",
     "gulp-phpunit": "^0.14.0",
     "gulp-util": "^3.0.7"
   }
