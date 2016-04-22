@@ -25,7 +25,10 @@ gulp.task('jasmine', function() {
         .pipe(cover.instrument({
             pattern: ['src/webroot/js/*.js']
         }))
-        .pipe(jasmine({'config': {'spec_dir': './', 'helpers': ['src/webroot/js/organismDetails.js']}}))
+        .pipe(jasmine({'config': {
+          'spec_dir': './',
+          'helpers': ['src/webroot/js/organismDetails.js']
+        }}))
         .pipe(cover.gather())
         .pipe(cover.format())
         .pipe(gulp.dest('test/js/cover'));;
