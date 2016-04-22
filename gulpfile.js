@@ -15,6 +15,9 @@ gulp.task('phpcs', function () {
   spawn('vendor/bin/phpcs', [], {stdio: 'inherit'});
 });
 
+gulp.task('php', ['phpcs','apigen','phpunit'], function () {
+});
+
 gulp.task('default', function() {
   // place code for your default task here
 });
