@@ -23,7 +23,7 @@ gulp.task('php', ['phpcs','apigen','phpunit'], function () {
 gulp.task('jasmine', function() {
     gulp.src(['test/js/*Spec.js'])
         .pipe(cover.instrument({
-            pattern: ['src/webroot/js/*.js']
+            pattern: ['src/webroot/js/helpers/*.js']
         }))
         .pipe(jasmine({'config': {
           'spec_dir': './',
