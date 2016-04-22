@@ -1,9 +1,6 @@
-describe("A suite is just a function", function() {
-  var a;
+describe("Test the organismDetails file", function() {
 
-  it("and so is a spec", function() {
-    a = true;
-
-    expect(a).toBe(true);
+  it("Test for getBestName", function() {
+    expect(getBestName({})).toBe('');
   });
 });

@@ -1,4 +1,4 @@
-function getBestName(result){
+getBestName = function(result){
     var bestName = "";
     if(typeof result["scientificName"] !== "undefined"){
         bestName = result["scientificName"];
