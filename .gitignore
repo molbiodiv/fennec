@@ -10,3 +10,5 @@ src/webroot/css/*.map
 src/webroot/.sass-cache
 /.sass-cache
 test/php/cover/
+test/js/cover/
+.coverrun
