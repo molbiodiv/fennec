@@ -32,10 +32,11 @@ module.exports = function(grunt) {
     },
     'phpcs': {
       application: {
+        src: ['src/webservice/*.php','src/webservice/**/*.php']
       },
       options: {
         bin: 'vendor/bin/phpcs',
-        verbose: true
+        standard: 'PSR2'
       }
     }
   });
