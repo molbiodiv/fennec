@@ -1,7 +1,7 @@
 var gulp = require('gulp');
 var apigen = require('gulp-apigen');
 var phpunit = require('gulp-phpunit');
-var phpcs = require('gulp-phpcs');
+var spawn = require('child_process').spawn;
 
 gulp.task('apigen', function() {
   gulp.src('apigen.neon').pipe(apigen('./vendor/bin/apigen'));
@@ -12,9 +12,7 @@ gulp.task('phpunit', function() {
 });
 
 gulp.task('phpcs', function () {
-  return gulp.src(['src/webservice/*.php','src/webservice/**/*.php'])
-             .pipe(phpcs({ bin: 'vendor/bin/phpcs', standard: 'PSR2' }))
-             .pipe(phpcs.reporter('log'));
+  spawn('vendor/bin/phpcs', [], {stdio: 'inherit'});
 });
 
 gulp.task('default', function() {
