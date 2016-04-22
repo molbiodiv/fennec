@@ -12,3 +12,4 @@ src/webroot/.sass-cache
 test/php/cover/
 test/js/cover/
 .coverrun
+.coverdata/
