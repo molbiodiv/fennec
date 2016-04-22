@@ -21,12 +21,11 @@ gulp.task('php', ['phpcs','apigen','phpunit'], function () {
 });
 
 gulp.task('jasmine', function() {
-    gulp.src('test/js/*Spec.js')
+    gulp.src(['test/js/*Spec.js'])
         .pipe(cover.instrument({
-            pattern: ['src/webroot/js/*.js']//,
-//            debugDirectory: 'debug'
+            pattern: ['src/webroot/js/*.js']
         }))
-        .pipe(jasmine())
+        .pipe(jasmine({'config': {'spec_dir': './', 'helpers': ['src/webroot/js/organismDetails.js']}}))
         .pipe(cover.gather())
         .pipe(cover.format())
         .pipe(gulp.dest('test/js/cover'));;
