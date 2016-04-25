@@ -31,6 +31,9 @@ cp test/php/config.php.generated test/php/config.php
 # modify the config.php
 gulp phpunit
 
+# check js files for lints
+gulp jshint
+       
 # javascript testing with jasmine
 gulp jasmine
 
