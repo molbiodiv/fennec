@@ -8,6 +8,7 @@ var jasmine = require('gulp-jasmine');
 var cover = require('gulp-coverage');
 var sass = require('gulp-sass');
 var sourcemaps = require('gulp-sourcemaps');
+var jshint = require('gulp-jshint');
 
 gulp.task('apigen', function() {
   gulp.src('apigen.neon').pipe(apigen('./vendor/bin/apigen'));
@@ -44,6 +45,12 @@ gulp.task('sass', function () {
     .pipe(sass().on('error', sass.logError))
     .pipe(sourcemaps.write('.', {includeContent: false}))
     .pipe(gulp.dest('src/webroot/css'));
+});
+
+gulp.task('jshint', function() {
+  return gulp.src(['src/webroot/js/*.js','src/webroot/js/**/*.js'])
+    .pipe(jshint())
+    .pipe(jshint.reporter('default'));
 });
 
 gulp.task('default', function() {
