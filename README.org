@@ -37,6 +37,9 @@ gulp jshint
 # javascript testing with jasmine
 gulp jasmine
 
+# check scss files for lints
+gulp sassLint
+
 # generate css files from scss
 gulp sass
 
