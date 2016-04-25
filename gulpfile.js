@@ -7,6 +7,7 @@ var spawn = require('child_process').spawn;
 var jasmine = require('gulp-jasmine');
 var cover = require('gulp-coverage');
 var sass = require('gulp-sass');
+var sassLint = require('gulp-sass-lint');
 var sourcemaps = require('gulp-sourcemaps');
 var jshint = require('gulp-jshint');
 
@@ -45,6 +46,13 @@ gulp.task('sass', function () {
     .pipe(sass().on('error', sass.logError))
     .pipe(sourcemaps.write('.', {includeContent: false}))
     .pipe(gulp.dest('src/webroot/css'));
+});
+
+gulp.task('sassLint', function() {
+  gulp.src('src/webroot/scss/*.s+(a|c)ss')
+    .pipe(sassLint())
+    .pipe(sassLint.format())
+    .pipe(sassLint.failOnError());
 });
 
 gulp.task('jshint', function() {
