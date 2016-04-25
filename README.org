@@ -33,6 +33,18 @@ gulp phpunit
 
 # javascript testing with jasmine
 gulp jasmine
+
+# generate css files from scss
+gulp sass
+
+# run a performance test with artillery
+# npm install -g artillery
+artillery run test/artillery/simple.json
+# artillery report artillery_report_<timestamp>.json
+
+# run a ui test with selenium
+# pip install -U selenium
+python test/selenium/simple.py
 #+END_SRC
 ** Changes
 *** 0.1.1 <2016-04-08 Fr>
