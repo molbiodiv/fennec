@@ -1,0 +1,30 @@
+{
+  "config": {
+    "target": "http://132.187.21.191",
+    "phases": [
+      {"duration": 15, "arrivalRate": 1},
+      {"duration": 30, "arrivalRate": 1, "rampTo": 15},
+      {"duration": 15, "arrivalRate": 15}
+    ],
+    "payload": [{
+      "path": "./organisms.csv",
+      "fields": ["organism","id"]
+    }]
+  },
+  "scenarios": [
+    {
+      "name": "Search and click",
+      "flow": [
+        {"get": {
+          "url": "/plants/organism/results/{{ organism }}"
+         }
+        },
+        {"think": 3},
+        {"get": {
+          "url": "/plants/organism/details/byId/{{ id }}"
+         }
+        }
+      ]
+    }
+  ]
+}
