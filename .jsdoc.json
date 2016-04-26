@@ -1,0 +1,11 @@
+{
+    "opts": {
+        "template": "templates/default",
+        "encoding": "utf8",
+        "destination": "./doc/js/",
+        "recurse": true
+    },
+    "templates": {
+        "includeDate": false
+    }
+}
