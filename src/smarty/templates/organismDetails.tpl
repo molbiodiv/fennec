@@ -107,7 +107,7 @@
                         txtCounter++;
                     }
                 }
-                $("#vernacularName").text(getBestName(result));
+                $("#vernacularName").text(getBestVernacularNameEOL(result));
             }
         }).done(function(){
             progress.progressTimer('complete');

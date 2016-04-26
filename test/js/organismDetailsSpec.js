@@ -1,17 +1,17 @@
 describe("Test the organismDetails file", function() {
 
-  it("Test for getBestName on empty set", function() {
-    expect(getBestName({})).toBe('');
+  it("Test for getBestVernacularNameEOL on empty set", function() {
+    expect(getBestVernacularNameEOL({})).toBe('');
   });
-  it("Test for getBestName with only sciname", function() {
-    expect(getBestName({'scientificName': 'Mus musculus'})).toBe('Mus musculus');
-    expect(getBestName({'scientificName': 'Vulpes zerda', 'vernacularNames': []})).toBe('Vulpes zerda');
+  it("Test for getBestVernacularNameEOL with only sciname", function() {
+    expect(getBestVernacularNameEOL({'scientificName': 'Mus musculus'})).toBe('Mus musculus');
+    expect(getBestVernacularNameEOL({'scientificName': 'Vulpes zerda', 'vernacularNames': []})).toBe('Vulpes zerda');
   });
-  it("Test for getBestName with common names (no preffered name)", function() {
-    expect(getBestName({'scientificName': 'Vulpes zerda', 'vernacularNames': [{'language': 'en', 'vernacularName': 'Fennec'}]})).toBe('Fennec');
+  it("Test for getBestVernacularNameEOL with common names (no preffered name)", function() {
+    expect(getBestVernacularNameEOL({'scientificName': 'Vulpes zerda', 'vernacularNames': [{'language': 'en', 'vernacularName': 'Fennec'}]})).toBe('Fennec');
   });
-  it("Test for getBestName with common names (preffered name)", function() {
-    expect(getBestName({'scientificName': 'Vulpes zerda', 'vernacularNames': [
+  it("Test for getBestVernacularNameEOL with common names (preffered name)", function() {
+    expect(getBestVernacularNameEOL({'scientificName': 'Vulpes zerda', 'vernacularNames': [
         { vernacularName:"Fennec",  language:"en"},
         { vernacularName:"Fennec fox",  language:"en", eol_preferred:true},
         { vernacularName:"Fennekki",  language:"fi",  eol_preferred:true},
