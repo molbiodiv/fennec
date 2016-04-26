@@ -10,6 +10,7 @@ var sass = require('gulp-sass');
 var sassLint = require('gulp-sass-lint');
 var sourcemaps = require('gulp-sourcemaps');
 var jshint = require('gulp-jshint');
+var jsdoc = require('gulp-jsdoc3');
 
 gulp.task('apigen', function() {
   gulp.src('apigen.neon').pipe(apigen('./vendor/bin/apigen'));
@@ -59,6 +60,12 @@ gulp.task('jshint', function() {
   return gulp.src(['src/webroot/js/*.js','src/webroot/js/**/*.js'])
     .pipe(jshint())
     .pipe(jshint.reporter('default'));
+});
+
+gulp.task('jsdoc', function (cb) {
+  var config = require('./.jsdoc.json');
+  gulp.src(['src/webroot/js/helpers/*.js'], {read: false})
+      .pipe(jsdoc(config, cb));
 });
 
 gulp.task('default', function() {
