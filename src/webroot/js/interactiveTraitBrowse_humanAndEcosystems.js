@@ -1,6 +1,7 @@
 $(document).ready(function(){
     d3.select("body").append("div")
             .attr("class", "tooltip")
+            .attr("id", "traitBrowseTooltip")
             .style("opacity", 0);
 
     var interactiveBrowse_humanAndEcosystems = d3.select("#interactiveBrowse_humanAndEcosystems");

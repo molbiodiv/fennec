@@ -1,11 +1,13 @@
 $(document).ready(function(){
-    var div = d3.select("body").append("div")
+    d3.select("body").append("div")
             .attr("class", "tooltip")
+            .attr("id", "traitBrowseTooltip")
             .style("opacity", 0);
 
     var interactiveBrowse_behaviour = d3.select("#interactiveBrowse_behaviour");
 
-    var bloomPeriod = interactiveBrowse_behaviour.append("rect")
+    // bloomPeriod
+    interactiveBrowse_behaviour.append("rect")
             .attr("x", 320)
             .attr("y", 400)
             .attr("width", 120)
@@ -19,7 +21,8 @@ $(document).ready(function(){
                 displayPage(d3.select(this).attr("type_cvterm_id"));
             });
             
-    var lifeSpan = interactiveBrowse_behaviour.append("rect")
+    // lifeSpan
+    interactiveBrowse_behaviour.append("rect")
             .attr("x", 760)
             .attr("y", 600)
             .attr("width", 140)
@@ -33,7 +36,8 @@ $(document).ready(function(){
                 displayPage(d3.select(this).attr("type_cvterm_id"));
             });
             
-    var growthRate = interactiveBrowse_behaviour.append("rect")
+    // growthRate
+    interactiveBrowse_behaviour.append("rect")
             .attr("x", 350)
             .attr("y", 600)
             .attr("width", 160)
