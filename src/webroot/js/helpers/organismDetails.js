@@ -1,3 +1,4 @@
+/* jshint undef: false */
 /**
  * Selects the best vernacularName from the object returned by the eol pages API.
  * It only considers english names (language: en) and preferes those with eol_preferred: true.
@@ -7,14 +8,14 @@
  */
 getBestVernacularNameEOL = function(eolObject){
     var bestName = "";
-    if(typeof eolObject["scientificName"] !== "undefined"){
-        bestName = eolObject["scientificName"];
+    if(typeof eolObject.scientificName !== "undefined"){
+        bestName = eolObject.scientificName;
     }
-    if(typeof eolObject["vernacularNames"] !== "undefined" && eolObject["vernacularNames"].length > 0){
+    if(typeof eolObject.vernacularNames !== "undefined" && eolObject.vernacularNames.length > 0){
         var preferred = false;
-        eolObject["vernacularNames"].forEach(function(value){
+        eolObject.vernacularNames.forEach(function(value){
             if(value.language === "en"){
-                if(typeof value["eol_preferred"] !== "undefined" && value["eol_preferred"]){
+                if(typeof value.eol_preferred !== "undefined" && value.eol_preferred){
                     preferred = true;
                     bestName = value.vernacularName;
                 }
