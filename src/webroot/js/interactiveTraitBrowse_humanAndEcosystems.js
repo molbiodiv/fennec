@@ -1,11 +1,12 @@
 $(document).ready(function(){
-    var div = d3.select("body").append("div")
+    d3.select("body").append("div")
             .attr("class", "tooltip")
             .style("opacity", 0);
 
     var interactiveBrowse_humanAndEcosystems = d3.select("#interactiveBrowse_humanAndEcosystems");
 
-    var toxicity = interactiveBrowse_humanAndEcosystems.append("rect")
+    // toxicity
+    interactiveBrowse_humanAndEcosystems.append("rect")
             .attr("x", 590)
             .attr("y", 180)
             .attr("width", 220)
@@ -19,7 +20,8 @@ $(document).ready(function(){
                 displayPage(d3.select(this).attr("type_cvterm_id"));
             });
             
-    var plantPropMethod = interactiveBrowse_humanAndEcosystems.append("rect")
+    // plantPropMethod
+    interactiveBrowse_humanAndEcosystems.append("rect")
             .attr("x", 200)
             .attr("y", 650)
             .attr("width", 220)
@@ -33,7 +35,8 @@ $(document).ready(function(){
                 displayPage(d3.select(this).attr("type_cvterm_id"));
             });
             
-    var horticulture = interactiveBrowse_humanAndEcosystems.append("rect")
+    // horticulture
+    interactiveBrowse_humanAndEcosystems.append("rect")
             .attr("x", 150)
             .attr("y", 400)
             .attr("width", 180)
@@ -47,7 +50,8 @@ $(document).ready(function(){
                 displayPage(d3.select(this).attr("type_cvterm_id"));
             });
             
-    var commercialAvailability = interactiveBrowse_humanAndEcosystems.append("rect")
+    // commercialAvailability
+    interactiveBrowse_humanAndEcosystems.append("rect")
             .attr("x", 250)
             .attr("y", 60)
             .attr("width", 180)
@@ -61,7 +65,8 @@ $(document).ready(function(){
                 displayPage(d3.select(this).attr("type_cvterm_id"));
             });
             
-    var grazeAnimal = interactiveBrowse_humanAndEcosystems.append("rect")
+    // grazeAnimal
+    interactiveBrowse_humanAndEcosystems.append("rect")
             .attr("x", 820)
             .attr("y", 540)
             .attr("width", 160)
@@ -75,7 +80,8 @@ $(document).ready(function(){
                 displayPage(d3.select(this).attr("type_cvterm_id"));
             });
             
-    var grainType = interactiveBrowse_humanAndEcosystems.append("rect")
+    // grainType
+    interactiveBrowse_humanAndEcosystems.append("rect")
             .attr("x", 540)
             .attr("y", 300)
             .attr("width", 80)

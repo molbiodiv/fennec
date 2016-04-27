@@ -1,7 +1,7 @@
 $( document ).ready(function(){
     $('.selectpicker').selectpicker();
     $('#dbVersionPicker').selectpicker('val', DbVersion);
-    $('#dbVersionPicker').on('changed.bs.select', function (e) {
+    $('#dbVersionPicker').on('changed.bs.select', function () {
         var resultPage =  WebRoot + "/" + $('#dbVersionPicker').val();
         var path = window.location.pathname;
         path = path.replace(WebRoot, "");
