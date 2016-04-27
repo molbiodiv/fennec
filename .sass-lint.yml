@@ -33,6 +33,8 @@ rules:
     -
       style: '1tbs'
       allow-single-line: true
+  no-trailing-whitespace:
+    - 2
 #  extends-before-mixins: 2
 #  extends-before-declarations: 2
 #  placeholder-in-extend: 2
