@@ -16,6 +16,16 @@ files:
 #    - 'sass/vendor/**/*.*'              
 # Rule Configuration
 rules:
+  hex-notation:
+    - 2
+    -
+      style: uppercase
+  indentation:
+    - 1
+    -
+      size: 4
+  final-newline:
+    - 1
 #  extends-before-mixins: 2
 #  extends-before-declarations: 2
 #  placeholder-in-extend: 2
@@ -30,14 +40,6 @@ rules:
 #  no-debug: 1
 #  no-ids: 2
 #  no-important: 2
-  hex-notation:
-    - 2
-    -
-      style: uppercase
-  indentation:
-    - 1
-    -
-      size: 4
 #  property-sort-order:
 #    - 1
 #    -
