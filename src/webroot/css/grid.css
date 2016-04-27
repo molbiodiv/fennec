@@ -1,11 +1,11 @@
 .grid-organism {
   background-color: #138080;
-  color: #fff;
+  color: #FFF;
   font-style: italic;
   font-weight: bold; }
 
 .grid-info-organism {
-  background-color: #fff;
+  background-color: #FFF;
   color: #000;
   font-style: normal;
   font-weight: normal; }
@@ -15,12 +15,12 @@
 
 .grid-trait {
   background-color: #D52020;
-  color: #fff;
+  color: #FFF;
   font-style: italic;
   font-weight: bold; }
 
 .grid-info-trait {
-  background-color: #fff;
+  background-color: #FFF;
   color: #000;
   font-style: normal;
   font-weight: normal; }
