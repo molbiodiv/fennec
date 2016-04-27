@@ -26,6 +26,13 @@ rules:
       size: 4
   final-newline:
     - 1
+    -
+      include: true
+  brace-style:
+    - 2
+    -
+      style: '1tbs'
+      allow-single-line: true
 #  extends-before-mixins: 2
 #  extends-before-declarations: 2
 #  placeholder-in-extend: 2
