@@ -3,6 +3,10 @@
 //config file
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'config.php';
 
+if (!isset($_SESSION)){
+    session_start();
+}
+
 //initialize smarty
 $smarty = new Smarty();
 $smarty->setTemplateDir(SHARE_DIR . DIRECTORY_SEPARATOR . 'smarty' . DIRECTORY_SEPARATOR . 'templates');
@@ -21,6 +25,11 @@ $dbversion = requestVal('dbversion', '/^[A-Za-z-_\.0-9]*$/', DEFAULT_DBVERSION);
 $smarty->assign('DbVersion', $dbversion);
 $allDbVersions = array_keys(unserialize(DATABASE));
 $smarty->assign('allDbVersions', $allDbVersions);
+
+if(isset($_SESSION['user'])){
+    $smarty->assign('user', $_SESSION['user']->getNickName());
+}
+
 $page = requestVal('page', '/^[A-Za-z-_\.]*$/', '');
 switch ($page) {
     case 'organism':
