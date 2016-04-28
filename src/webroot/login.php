@@ -53,4 +53,4 @@ if(!isset($_SESSION['user'])){
         }
     }
 }
-header('Location:http://' . $_SERVER['HTTP_HOST']);
+header('Location:http://' . filter_input(INPUT_SERVER, 'HTTP_HOST', FILTER_SANITIZE_STRING));
