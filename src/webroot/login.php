@@ -54,5 +54,5 @@ if(!isset($_SESSION['user'])){
         }
     }
 } else {
-    printf('Hello %s!\nYou are already logged in.', $_SESSION['user']->getNickname());
+    printf("Hello %s!\nYou are already logged in.", $_SESSION['user']->getNickname());
 }
