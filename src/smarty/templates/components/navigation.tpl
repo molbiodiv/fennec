@@ -28,7 +28,13 @@
         
         <li class="dropdown">
             <a class="dropdown-toggle navbar-{#$type#} navbar-icon-{#$type#}" data-toggle="dropdown" href="#" style="background-color: transparent;">
-                <i class="fa fa-user fa-fw"></i>  login <i class="fa fa-caret-down"></i>
+                <i class="fa fa-user fa-fw"></i>
+                {#if isset($user)#}
+                {#$user#}
+                {#else#}
+                login
+                {#/if#}
+                <i class="fa fa-caret-down"></i>
             </a>
             <ul class="dropdown-menu dropdown-user">
                 <li><a href="#"><i class="fa fa-user fa-fw"></i> My Profile</a>
