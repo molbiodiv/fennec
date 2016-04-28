@@ -9,6 +9,10 @@ $provider = new League\OAuth2\Client\Provider\Github([
     'redirectUri'       => GITHUB_REDIRECT_URI,
 ]);
 
+if (!isset($_SESSION)){
+    session_start();
+}
+
 if (!isset($_GET['code'])) {
 
     // If we don't have an authorization code then get one
