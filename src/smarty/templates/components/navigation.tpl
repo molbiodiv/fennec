@@ -40,7 +40,7 @@
                 {#if isset($user)#}
                 <li><a href="/logout.php"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
                 {#else#}
-                <li><a href="/login.php"><i class="fa fa-sign-out fa-fw"></i> Login with GitHub</a></li>
+                <li><a href="/login.php"><i class="fa fa-github fa-fw"></i> Login with GitHub</a></li>
                 {#/if#}
             </ul>
             <!-- /.dropdown-user -->
