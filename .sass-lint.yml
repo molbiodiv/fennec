@@ -1,0 +1,65 @@
+#########################
+## Adjusted Sample Sass Lint File from https://github.com/sasstools/sass-lint/blob/master/docs/sass-lint.yml
+#########################
+# Linter Options
+options:
+  # Don't merge default rules
+  merge-default-rules: false
+  # Set the formatter to 'html'
+  #formatter: html
+  # Output file instead of logging results
+  #output-file: 'linters/sass-lint.html'
+# File Options
+files:
+  include: 'src/webroot/scss/*.s+(a|c)ss'
+#  ignore:
+#    - 'sass/vendor/**/*.*'              
+# Rule Configuration
+rules:
+  hex-notation:
+    - 2
+    -
+      style: uppercase
+  indentation:
+    - 1
+    -
+      size: 4
+  final-newline:
+    - 1
+    -
+      include: true
+  brace-style:
+    - 2
+    -
+      style: '1tbs'
+      allow-single-line: true
+  no-trailing-whitespace: 2
+  space-after-colon: 2
+  space-before-colon: 2
+#  extends-before-mixins: 2
+#  extends-before-declarations: 2
+#  placeholder-in-extend: 2
+#  mixins-before-declarations:
+#    - 2
+#    -
+#      exclude:
+#        - breakpoint
+#        - mq
+#
+#  no-warn: 1
+#  no-debug: 1
+#  no-ids: 2
+#  no-important: 2
+#  property-sort-order:
+#    - 1
+#    -
+#      order:
+#        - display
+#        - margin
+#      ignore-custom-properties: true
+#  variable-for-property:
+#    - 2
+#    -
+#      properties:
+#        - margin
+#        - content

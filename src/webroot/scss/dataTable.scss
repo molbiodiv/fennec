@@ -2,40 +2,40 @@ $project-0: #098709;	/* Project color */
 
 $community-0: #A9530C;	/* Community color */
 
-table.dataTable[id="otu_project"] thead .sorting, 
-table.dataTable[id="otu_project"] thead .sorting_asc, 
-table.dataTable[id="otu_project"] thead .sorting_desc, 
-table.dataTable[id="otu_project"] thead .sorting_asc_disabled, 
+table.dataTable[id="otu_project"] thead .sorting,
+table.dataTable[id="otu_project"] thead .sorting_asc,
+table.dataTable[id="otu_project"] thead .sorting_desc,
+table.dataTable[id="otu_project"] thead .sorting_asc_disabled,
 table.dataTable[id="otu_project"] thead .sorting_desc_disabled {
     background: $project-0;
-    color: #f8f8f8;
+    color: #F8F8F8;
 }
 
-table.dataTable[id="metadata_project"] thead .sorting, 
-table.dataTable[id="metadata_project"] thead .sorting_asc, 
-table.dataTable[id="metadata_project"] thead .sorting_desc, 
-table.dataTable[id="metadata_project"] thead .sorting_asc_disabled, 
+table.dataTable[id="metadata_project"] thead .sorting,
+table.dataTable[id="metadata_project"] thead .sorting_asc,
+table.dataTable[id="metadata_project"] thead .sorting_desc,
+table.dataTable[id="metadata_project"] thead .sorting_asc_disabled,
 table.dataTable[id="metadata_project"] thead .sorting_desc_disabled {
     background: $project-0;
-    color: #f8f8f8;
+    color: #F8F8F8;
 }
 
-table.dataTable[id="metadata_community"] thead .sorting, 
-table.dataTable[id="metadata_community"] thead .sorting_asc, 
-table.dataTable[id="metadata_community"] thead .sorting_desc, 
-table.dataTable[id="metadata_community"] thead .sorting_asc_disabled, 
+table.dataTable[id="metadata_community"] thead .sorting,
+table.dataTable[id="metadata_community"] thead .sorting_asc,
+table.dataTable[id="metadata_community"] thead .sorting_desc,
+table.dataTable[id="metadata_community"] thead .sorting_asc_disabled,
 table.dataTable[id="metadata_community"] thead .sorting_desc_disabled {
     background: $community-0;
-    color: #f8f8f8;
+    color: #F8F8F8;
 }
 
-table.dataTable[id="otu_community"] thead .sorting, 
-table.dataTable[id="otu_community"] thead .sorting_asc, 
-table.dataTable[id="otu_community"] thead .sorting_desc, 
-table.dataTable[id="otu_community"] thead .sorting_asc_disabled, 
+table.dataTable[id="otu_community"] thead .sorting,
+table.dataTable[id="otu_community"] thead .sorting_asc,
+table.dataTable[id="otu_community"] thead .sorting_desc,
+table.dataTable[id="otu_community"] thead .sorting_asc_disabled,
 table.dataTable[id="otu_community"] thead .sorting_desc_disabled {
     background: $community-0;
-    color: #f8f8f8;
+    color: #F8F8F8;
 }
 
 .project-table-striped > tbody > tr:nth-of-type(2n){
@@ -43,17 +43,17 @@ table.dataTable[id="otu_community"] thead .sorting_desc_disabled {
 }
 
 .project-table-striped > tbody > tr:hover{
-    background-color: #eee;
+    background-color: #EEE;
 }
 
 .project-table sorting_asc {
-    color: #f8f8f8;
+    color: #F8F8F8;
 }
 
 /* Footer cells */
 .project-table tfoot th {
     background: $project-0;
-    color: #f8f8f8;
+    color: #F8F8F8;
 }
 
 /* Define custom hover effect on links */
@@ -66,17 +66,17 @@ table.dataTable[id="otu_community"] thead .sorting_desc_disabled {
 }
 
 .community-table-striped > tbody > tr:hover{
-    background-color: #eee;
+    background-color: #EEE;
 }
 
 .community-table sorting_asc {
-    color: #f8f8f8;
+    color: #F8F8F8;
 }
 
 /* Footer cells */
 .community-table tfoot th {
     background: $community-0;
-    color: #f8f8f8;
+    color: #F8F8F8;
 }
 
 /* Define custom hover effect on links */
@@ -85,112 +85,112 @@ table.dataTable[id="otu_community"] thead .sorting_desc_disabled {
 }
 
 
-div#otu_project_paginate > .pagination > .active > a, 
+div#otu_project_paginate > .pagination > .active > a,
 div#otu_project_paginate > .pagination > .active > a:focus {
-    color: #fff;
+    color: #FFF;
     cursor: pointer;
     background-color: $project-0;
     border-color: $project-0;
-    box-shadow: 
-        0 2px 6px rgba(0, 0, 0, 0.5),
-        0 1px rgba(255, 255, 255, 0.3) inset,
-        0 10px rgba(255, 255, 255, 0.2) inset,
-        0 10px 20px rgba(255, 255, 255, 0.25) inset,
-        0 -15px 30px rgba(0, 0, 0, 0.3) inset;
+    box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.5),
+    0 1px rgba(255, 255, 255, 0.3) inset,
+    0 10px rgba(255, 255, 255, 0.2) inset,
+    0 10px 20px rgba(255, 255, 255, 0.25) inset,
+    0 -15px 30px rgba(0, 0, 0, 0.3) inset;
 }
 
 div#otu_project_paginate > .pagination > .active > a:hover {
-    color: #fff;
+    color: #FFF;
     cursor: pointer;
     background-color: darken($project-0, 10%);
     border-color: darken($project-0, 10%);
-    box-shadow: 
-        0 2px 6px rgba(0, 0, 0, 0.5),
-        0 1px rgba(255, 255, 255, 0.3) inset,
-        0 10px rgba(255, 255, 255, 0.2) inset,
-        0 10px 20px rgba(255, 255, 255, 0.25) inset,
-        0 -15px 30px rgba(0, 0, 0, 0.3) inset;
+    box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.5),
+    0 1px rgba(255, 255, 255, 0.3) inset,
+    0 10px rgba(255, 255, 255, 0.2) inset,
+    0 10px 20px rgba(255, 255, 255, 0.25) inset,
+    0 -15px 30px rgba(0, 0, 0, 0.3) inset;
 }
 
-div#metadata_project_paginate > .pagination > .active > a, 
+div#metadata_project_paginate > .pagination > .active > a,
 div#metadata_project_paginate > .pagination > .active > a:focus {
-    color: #fff;
+    color: #FFF;
     cursor: pointer;
     background-color: $project-0;
     border-color: $project-0;
-    box-shadow: 
-        0 2px 6px rgba(0, 0, 0, 0.5),
-        0 1px rgba(255, 255, 255, 0.3) inset,
-        0 10px rgba(255, 255, 255, 0.2) inset,
-        0 10px 20px rgba(255, 255, 255, 0.25) inset,
-        0 -15px 30px rgba(0, 0, 0, 0.3) inset;
+    box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.5),
+    0 1px rgba(255, 255, 255, 0.3) inset,
+    0 10px rgba(255, 255, 255, 0.2) inset,
+    0 10px 20px rgba(255, 255, 255, 0.25) inset,
+    0 -15px 30px rgba(0, 0, 0, 0.3) inset;
 }
 
 div#metadata_project_paginate > .pagination > .active > a:hover {
-    color: #fff;
+    color: #FFF;
     cursor: pointer;
     background-color: darken($project-0, 10%);
     border-color: darken($project-0, 10%);
-    box-shadow: 
-        0 2px 6px rgba(0, 0, 0, 0.5),
-        0 1px rgba(255, 255, 255, 0.3) inset,
-        0 10px rgba(255, 255, 255, 0.2) inset,
-        0 10px 20px rgba(255, 255, 255, 0.25) inset,
-        0 -15px 30px rgba(0, 0, 0, 0.3) inset;
+    box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.5),
+    0 1px rgba(255, 255, 255, 0.3) inset,
+    0 10px rgba(255, 255, 255, 0.2) inset,
+    0 10px 20px rgba(255, 255, 255, 0.25) inset,
+    0 -15px 30px rgba(0, 0, 0, 0.3) inset;
 }
 
-div#metadata_community_paginate > .pagination > .active > a, 
+div#metadata_community_paginate > .pagination > .active > a,
 div#metadata_community_paginate > .pagination > .active > a:focus {
-    color: #fff;
+    color: #FFF;
     cursor: pointer;
     background-color: $community-0;
     border-color: $community-0;
-    box-shadow: 
-        0 2px 6px rgba(0, 0, 0, 0.5),
-        0 1px rgba(255, 255, 255, 0.3) inset,
-        0 10px rgba(255, 255, 255, 0.2) inset,
-        0 10px 20px rgba(255, 255, 255, 0.25) inset,
-        0 -15px 30px rgba(0, 0, 0, 0.3) inset;
+    box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.5),
+    0 1px rgba(255, 255, 255, 0.3) inset,
+    0 10px rgba(255, 255, 255, 0.2) inset,
+    0 10px 20px rgba(255, 255, 255, 0.25) inset,
+    0 -15px 30px rgba(0, 0, 0, 0.3) inset;
 }
 
 div#metadata_community_paginate > .pagination > .active > a:hover {
-    color: #fff;
+    color: #FFF;
     cursor: pointer;
     background-color: darken($community-0, 10%);
     border-color: darken($community-0, 10%);
-    box-shadow: 
-        0 2px 6px rgba(0, 0, 0, 0.5),
-        0 1px rgba(255, 255, 255, 0.3) inset,
-        0 10px rgba(255, 255, 255, 0.2) inset,
-        0 10px 20px rgba(255, 255, 255, 0.25) inset,
-        0 -15px 30px rgba(0, 0, 0, 0.3) inset;
+    box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.5),
+    0 1px rgba(255, 255, 255, 0.3) inset,
+    0 10px rgba(255, 255, 255, 0.2) inset,
+    0 10px 20px rgba(255, 255, 255, 0.25) inset,
+    0 -15px 30px rgba(0, 0, 0, 0.3) inset;
 }
 
-div#otu_community_paginate > .pagination > .active > a, 
+div#otu_community_paginate > .pagination > .active > a,
 div#otu_community_paginate > .pagination > .active > a:focus {
-    color: #fff;
+    color: #FFF;
     cursor: pointer;
     background-color: $community-0;
     border-color: $community-0;
-    box-shadow: 
-        0 2px 6px rgba(0, 0, 0, 0.5),
-        0 1px rgba(255, 255, 255, 0.3) inset,
-        0 10px rgba(255, 255, 255, 0.2) inset,
-        0 10px 20px rgba(255, 255, 255, 0.25) inset,
-        0 -15px 30px rgba(0, 0, 0, 0.3) inset;
+    box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.5),
+    0 1px rgba(255, 255, 255, 0.3) inset,
+    0 10px rgba(255, 255, 255, 0.2) inset,
+    0 10px 20px rgba(255, 255, 255, 0.25) inset,
+    0 -15px 30px rgba(0, 0, 0, 0.3) inset;
 }
 
 div#otu_community_paginate > .pagination > .active > a:hover {
-    color: #fff;
+    color: #FFF;
     cursor: pointer;
     background-color: darken($community-0, 10%);
     border-color: darken($community-0, 10%);
-    box-shadow: 
-        0 2px 6px rgba(0, 0, 0, 0.5),
-        0 1px rgba(255, 255, 255, 0.3) inset,
-        0 10px rgba(255, 255, 255, 0.2) inset,
-        0 10px 20px rgba(255, 255, 255, 0.25) inset,
-        0 -15px 30px rgba(0, 0, 0, 0.3) inset;
+    box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.5),
+    0 1px rgba(255, 255, 255, 0.3) inset,
+    0 10px rgba(255, 255, 255, 0.2) inset,
+    0 10px 20px rgba(255, 255, 255, 0.25) inset,
+    0 -15px 30px rgba(0, 0, 0, 0.3) inset;
 }
 
 .pagination > li > a,
@@ -200,24 +200,24 @@ div#otu_community_paginate > .pagination > .active > a:hover {
 .pagination > li > span:focus,
 .pagination > li > span:hover {
     color: #777;
-    box-shadow: 
-        0 2px 6px rgba(0, 0, 0, 0.5),
-        0 1px rgba(255, 255, 255, 0.3) inset,
-        0 10px rgba(255, 255, 255, 0.2) inset,
-        0 10px 20px rgba(255, 255, 255, 0.25) inset,
-        0 -15px 30px rgba(0, 0, 0, 0.3) inset;
+    box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.5),
+    0 1px rgba(255, 255, 255, 0.3) inset,
+    0 10px rgba(255, 255, 255, 0.2) inset,
+    0 10px 20px rgba(255, 255, 255, 0.25) inset,
+    0 -15px 30px rgba(0, 0, 0, 0.3) inset;
 }
 
-.pagination > .disabled > a, 
+.pagination > .disabled > a,
 .pagination > .disabled > a:focus,
-.pagination > .disabled > a:hover, 
-.pagination > .disabled > span, 
-.pagination > .disabled > span:focus, 
+.pagination > .disabled > a:hover,
+.pagination > .disabled > span,
+.pagination > .disabled > span:focus,
 .pagination > .disabled > span:hover {
-    box-shadow: 
-        0 2px 6px rgba(0, 0, 0, 0.5),
-        0 1px rgba(255, 255, 255, 0.3) inset,
-        0 10px rgba(255, 255, 255, 0.2) inset,
-        0 10px 20px rgba(255, 255, 255, 0.25) inset,
-        0 -15px 30px rgba(0, 0, 0, 0.3) inset;
+    box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.5),
+    0 1px rgba(255, 255, 255, 0.3) inset,
+    0 10px rgba(255, 255, 255, 0.2) inset,
+    0 10px 20px rgba(255, 255, 255, 0.25) inset,
+    0 -15px 30px rgba(0, 0, 0, 0.3) inset;
 }

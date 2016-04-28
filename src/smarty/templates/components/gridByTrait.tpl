@@ -1,4 +1,4 @@
-{#call_webservice path="details/Organisms_to_traits" data=["type_cvterm_id"=>$type_cvterm_id, "limit"=>$limit, "dbversion"=>$DbVersion] assign='data'#}
+{#call_webservice path="details/OrganismsWithTrait" data=["type_cvterm_id"=>$type_cvterm_id, "limit"=>$limit, "dbversion"=>$DbVersion] assign='data'#}
 {#call_webservice path="details/Traits" data=["type_cvterm_id"=>$type_cvterm_id, "dbversion"=>$DbVersion] assign='trait'#}
 <div class="row">
     <div class="col-lg-12">

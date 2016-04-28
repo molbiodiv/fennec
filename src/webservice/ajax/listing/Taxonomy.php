@@ -1,6 +1,6 @@
 <?php
 
-namespace ajax\listing;
+namespace fennecweb\ajax\listing;
 
 use \PDO as PDO;
 
@@ -8,7 +8,8 @@ use \PDO as PDO;
  * Web Service.
  * Returns Taxonomy information for a given organism_id
  */
-class Taxonomy extends \WebService {
+class Taxonomy extends \fennecweb\WebService
+{
 
     private $db;
     /**
@@ -16,16 +17,17 @@ class Taxonomy extends \WebService {
      * @returns array of taxonomy information for a given organism id
      * array('lineage' => [grandgrandparent, grandparent, parent])
      */
-    public function execute($querydata) {
-        $this->db = $this->open_db_connection($querydata);
+    public function execute($querydata)
+    {
+        $this->db = $this->openDbConnection($querydata);
         $child_organism_id = $querydata['id'];
         $result['lineage'] = array();
         array_unshift($result['lineage'], $this->getParent($child_organism_id));
-        while($this->getParent($result['lineage'][0]) != NULL){
+        while ($this->getParent($result['lineage'][0]) != null) {
             array_unshift($result['lineage'], $this->getParent($result['lineage'][0]));
         }
         $data['lineage'] = array();
-        foreach($result['lineage'] as $organism_id){
+        foreach ($result['lineage'] as $organism_id) {
             array_push($data['lineage'], $this->getOrganismName($organism_id)." &#8594;");
         }
         array_push($data['lineage'], $this->getOrganismName($child_organism_id));
@@ -37,7 +39,8 @@ class Taxonomy extends \WebService {
      * @param $organism_id id of organism
      * @return $parent_name parents name of the corresponding organism
      */
-    private function getParent($organism_id) {
+    private function getParent($organism_id)
+    {
         $query_get_parent_phylonode_id = <<<EOF
 SELECT parent_phylonode_id 
     FROM phylonode, phylonode_organism 
@@ -63,7 +66,8 @@ EOF;
         return $parent_organism_id;
     }
     
-    private function getOrganismName($organism_id){
+    private function getOrganismName($organism_id)
+    {
         $query_get_organism_name = <<<EOF
 SELECT species FROM organism WHERE organism_id = :organism_id
 EOF;
@@ -76,6 +80,3 @@ EOF;
         
     }
 }
-
-?>
-

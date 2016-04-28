@@ -1,14 +1,12 @@
 <?php
-require_once __DIR__ . DIRECTORY_SEPARATOR . 'config.php';
 
-/**
- * @backupGlobals disabled
- */
-class OrganismsTest extends PHPUnit_Framework_TestCase
+namespace fennecweb;
+
+class OrganismsTest extends \PHPUnit_Framework_TestCase
 {
     public function testExecute()
     {
-        list($service) = \WebService::factory('listing/Organisms');
+        list($service) = WebService::factory('listing/Organisms');
         
         $results = ($service->execute(array('limit' => 2, 'dbversion' => DEFAULT_DBVERSION)));
         $this->assertEquals(2, count($results));
@@ -27,4 +25,3 @@ class OrganismsTest extends PHPUnit_Framework_TestCase
 
     }
 }
-?>

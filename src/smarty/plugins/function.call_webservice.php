@@ -1,6 +1,6 @@
 <?php
 function smarty_function_call_webservice($params, &$smarty) {
-    $service = WebService::factory($params['path']);
+    $service = fennecweb\WebService::factory($params['path']);
     if ($service[0] != null) {
         $ret = $service[0]->execute($params['data']);
         $smarty->assign($params['assign'], $ret);

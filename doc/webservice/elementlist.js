@@ -1,3 +1,3 @@
 
 var ApiGen = ApiGen || {};
-ApiGen.elements = [["c","ajax\\listing\\Organisms"]];
+ApiGen.elements = [["c","fennecweb\\ajax\\listing\\Organisms"]];

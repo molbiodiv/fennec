@@ -1,3 +1,6 @@
+/* exported drawHistogram */
+/* exported drawPieChart */
+/* exported drawMap */
 function drawHistogram(){
     var cvterm_id = $("#cvterm_id").val();
     $.ajax({
@@ -6,11 +9,10 @@ function drawHistogram(){
                dbversion: DbVersion},
         dataType: "json",
         success: function (data) {
-            if(data['value_type'] === 'value'){
-                var name = data['name'];
-                var data = data['value'];
+            if(data.value_type === 'value'){
+                var name = data.name;
             
-                $.each(data, function(key, value){
+                $.each(data.value, function(key, value){
                     d3.select("#histogram").append("div")
                         .attr("id", key);
                     var plot_data = [{
@@ -28,7 +30,7 @@ function drawHistogram(){
                         yaxis: {
                             title: "frequency"
                         }
-                    }
+                    };
                     Plotly.newPlot(key, plot_data, layout);
                 });
             }
@@ -45,8 +47,8 @@ function drawPieChart(){
         dataType: "json",
         success: function (data) {
             var plot = [{
-                    values: data['value']['frequency'],
-                    labels: data['value']['labels'],
+                    values: data.value.frequency,
+                    labels: data.value.labels,
                     type: 'pie'
             }];
             var layout = {
@@ -95,7 +97,7 @@ function drawMap(){
                 }];
 
                 var layout = {
-                    title: data['name'],
+                    title: data.name,
                     geo: {
                           projection: {
                               type: 'orthographic'
@@ -112,12 +114,9 @@ function drawMap(){
                     height: 700,
                     width: 1000
                 };
-
+                /* global map */
                 Plotly.plot(map, plot, layout, {showLink: false});
             });
         }
     });
 }
-
-
-
