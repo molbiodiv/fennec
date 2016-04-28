@@ -37,11 +37,11 @@ if (!isset($_GET['code'])) {
     // Optional: Now you have a token you can look up a users profile data
     try {
 
-        // We got an access token, let's now get the user's details
-        $user = $provider->getResourceOwner($token);
+            // We got an access token, let's now get the user's details
+            $user = $provider->getResourceOwner($token);
+            $user['token'] = $token->getToken();
 
-        // Use these details to create a new profile
-        printf('Hello %s!', $user->getNickname());
+            $_SESSION['user'] = $user;
 
     } catch (Exception $e) {
 
@@ -52,6 +52,3 @@ if (!isset($_GET['code'])) {
     // Use this to interact with an API on the users behalf
     echo $token->getToken();
 }
-
-?>
-
