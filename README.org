@@ -43,16 +43,24 @@ gulp sassLint
 # generate css files from scss
 gulp sass
 
-# run a performance test with artillery
+# run a performance test with artillery (make sure to set the appropriate host)
 # npm install -g artillery
 artillery run test/artillery/simple.json
 # artillery report artillery_report_<timestamp>.json
 
-# run a ui test with selenium
+# run a ui test with selenium (make sure to set the appropriate host)
 # pip install -U selenium
 python test/selenium/simple.py
 #+END_SRC
 ** Changes
+*** 0.1.2 <2016-04-28 Do>
+ - Add gulp as build system
+ - Add style-checks (phpcs, sassLint, jshint)
+ - Add docu generation (apigen, jsdoc)
+ - Add unit tests (phpunit, jasmine)
+ - Add performance test (artillery)
+ - Add ui test (selenium)
+ - Add contribution guidelines
 *** 0.1.1 <2016-04-08 Fr>
  - Fix redirect on startpage
 *** 0.1.0 <2016-04-08 Fr>
