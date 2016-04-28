@@ -41,6 +41,21 @@ gulp.task('jasmine', function() {
         .pipe(gulp.dest('test/js/cover'));;
 });
 
+gulp.task('jshint', function() {
+  return gulp.src(['src/webroot/js/*.js','src/webroot/js/**/*.js'])
+    .pipe(jshint())
+    .pipe(jshint.reporter('default'));
+});
+
+gulp.task('jsdoc', function (cb) {
+  var config = require('./.jsdoc.json');
+  gulp.src(['src/webroot/js/helpers/*.js'], {read: false})
+      .pipe(jsdoc(config, cb));
+});
+
+gulp.task('js', ['jshint','jsdoc','jasmine'], function () {
+});
+
 gulp.task('sass', function () {
   return gulp.src('src/webroot/scss/*.scss')
     .pipe(sourcemaps.init())
@@ -56,19 +71,10 @@ gulp.task('sassLint', function() {
     .pipe(sassLint.failOnError());
 });
 
-gulp.task('jshint', function() {
-  return gulp.src(['src/webroot/js/*.js','src/webroot/js/**/*.js'])
-    .pipe(jshint())
-    .pipe(jshint.reporter('default'));
+gulp.task('css', ['sassLint','sass'], function () {
 });
 
-gulp.task('jsdoc', function (cb) {
-  var config = require('./.jsdoc.json');
-  gulp.src(['src/webroot/js/helpers/*.js'], {read: false})
-      .pipe(jsdoc(config, cb));
-});
-
-gulp.task('default', function() {
+gulp.task('default', ['css', 'js', 'php'], function() {
   // place code for your default task here
 });
 
