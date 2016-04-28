@@ -2,12 +2,12 @@ $project-0: #098709;
 $community-0: #A9530C;
 $organism-0: #076565;
 $trait-0: #A90C0C;
-$trait-details-0: #0b5468;
+$trait-details-0: #0B5468;
 
 .panel-projects {
     background-color: $project-0;
     border-color: darken($project-0, 5%);
-    color: #fff;
+    color: #FFF;
 }
 
 .info-projects {
@@ -17,7 +17,7 @@ $trait-details-0: #0b5468;
 .panel-communities {
     background-color: $community-0;
     border-color: darken($community-0, 5%);
-    color: #fff;
+    color: #FFF;
 }
 
 .info-communities {
@@ -27,7 +27,7 @@ $trait-details-0: #0b5468;
 .panel-organism {
     background-color: $organism-0;
     border-color: darken($organism-0, 5%);
-    color: #fff;
+    color: #FFF;
 }
 
 .info-organism {
@@ -36,7 +36,7 @@ $trait-details-0: #0b5468;
 .panel-trait {
     background-color: $trait-0;
     border-color: darken($trait-0, 5%);
-    color: #fff;
+    color: #FFF;
 }
 
 .info-trait {
@@ -46,7 +46,7 @@ $trait-details-0: #0b5468;
 .panel-trait-details {
     background-color: $trait-details-0;
     border-color: darken($trait-details-0, 5%);
-    color: #fff;
+    color: #FFF;
 }
 
 .info-trait-details {

@@ -1,37 +1,37 @@
 .btn-organism {
-  color: #fff;
+  color: #FFF;
   background-color: #076565;
   border-color: #076565;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5), 0 1px rgba(255, 255, 255, 0.3) inset, 0 10px rgba(255, 255, 255, 0.2) inset, 0 10px 20px rgba(255, 255, 255, 0.25) inset, 0 -15px 30px rgba(0, 0, 0, 0.3) inset; }
 
 .btn-organism:hover {
-  color: #fff;
+  color: #FFF;
   background-color: #043535;
   border-color: #043535;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5), 0 1px rgba(255, 255, 255, 0.3) inset, 0 10px rgba(255, 255, 255, 0.2) inset, 0 10px 20px rgba(255, 255, 255, 0.25) inset, 0 -15px 30px rgba(0, 0, 0, 0.3) inset; }
 
 .btn-organism:focus {
-  color: #fff;
+  color: #FFF;
   background-color: #043535;
   border-color: #043535;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5), 0 1px rgba(255, 255, 255, 0.3) inset, 0 10px rgba(255, 255, 255, 0.2) inset, 0 10px 20px rgba(255, 255, 255, 0.25) inset, 0 -15px 30px rgba(0, 0, 0, 0.3) inset; }
 
 .btn-trait {
-  color: #fff;
+  color: #FFF;
   background-color: #A90C0C;
   border-color: #A90C0C;
   width: 100%;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5), 0 1px rgba(255, 255, 255, 0.3) inset, 0 10px rgba(255, 255, 255, 0.2) inset, 0 10px 20px rgba(255, 255, 255, 0.25) inset, 0 -15px 30px rgba(0, 0, 0, 0.3) inset; }
 
 .btn-trait:hover {
-  color: #fff;
+  color: #FFF;
   background-color: #790909;
   border-color: #790909;
   width: 100%;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5), 0 1px rgba(255, 255, 255, 0.3) inset, 0 10px rgba(255, 255, 255, 0.2) inset, 0 10px 20px rgba(255, 255, 255, 0.25) inset, 0 -15px 30px rgba(0, 0, 0, 0.3) inset; }
 
 .btn-trait:focus {
-  color: #fff;
+  color: #FFF;
   background-color: #790909;
   border-color: #790909;
   width: 100%;

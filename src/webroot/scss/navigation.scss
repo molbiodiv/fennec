@@ -70,20 +70,20 @@ $community-1: #E99854;
     color: inherit;
 }
 
-.btn-default:hover, 
-.btn-default:active, 
-.btn-default:focus, 
-.btn-default.active.focus, 
-.btn-default.active:focus, 
-.btn-default.active:hover, 
-.btn-default.focus:active, 
-.btn-default:active:focus, 
-.btn-default:active:hover, 
-.open > .dropdown-toggle.btn-default.focus, 
-.open > .dropdown-toggle.btn-default:focus, 
+.btn-default:hover,
+.btn-default:active,
+.btn-default:focus,
+.btn-default.active.focus,
+.btn-default.active:focus,
+.btn-default.active:hover,
+.btn-default.focus:active,
+.btn-default:active:focus,
+.btn-default:active:hover,
+.open > .dropdown-toggle.btn-default.focus,
+.open > .dropdown-toggle.btn-default:focus,
 .open > .dropdown-toggle.btn-default:hover,
-.btn-default.active, 
-.btn-default:active, 
+.btn-default.active,
+.btn-default:active,
 .open > .dropdown-toggle.btn-default{
     background-color: rgba(255, 255, 255, 0.1);
     border-color: rgba(255, 255, 255, 0.3);
@@ -91,5 +91,6 @@ $community-1: #E99854;
 }
 
 a:focus {
-    color:inherit;
+    color: inherit;
 }
+

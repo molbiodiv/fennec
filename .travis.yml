@@ -18,4 +18,4 @@ before_script:
 
 script:
   - phpunit
-  - grunt jasmine
+  - npm test

@@ -1,15 +1,18 @@
 <?php
 
-require_once 'db.php';
+namespace fennecweb;
 
 /**
  * Abstract Base class for all web services.
  */
-abstract class WebService {
+abstract class WebService
+{
 
     /**
      * Executes the web service.
-     * @param Array $data User-specified parameters. Usually, url parameters are included as $data[query1], $data[query2],... and $_GET and _POST are merged in
+     * @param Array $data User-specified parameters.
+     * Usually, url parameters are included as $data[query1], $data[query2], ...
+     * and $_GET and _POST are merged in
      */
     abstract public function execute($data);
 
@@ -17,29 +20,32 @@ abstract class WebService {
      * ouputs $dataArray as (on php>=5.4 pretty) JSON
      * @param Array $dataArray
      */
-    public static function output($dataArray) {
+    public static function output($dataArray)
+    {
         echo json_encode($dataArray, defined('JSON_PRETTY_PRINT')?JSON_PRETTY_PRINT:0);
     }
 
     /**
      * factory method for all web services
-     * creates an instance of the class called by querystring. additional parameters are returned in $parameters as query1, query2, etc.
-     * e.g. 
+     * creates an instance of the class called by querystring.
+     * additional parameters are returned in $parameters as query1, query2, etc.
+     * e.g.
      * <code>
      * WebService::factory('details/organism/12345');
-     * // => 
+     * // =>
      * return array(new \ajax\details\Organism(), array('query1'=>'12345'));
      * </code>
      * @param String $servicePath
      * @return list($instance, $parameters)
      */
-    public static function factory($servicePath) {
+    public static function factory($servicePath)
+    {
         $serviceBasePath = __DIR__ . DIRECTORY_SEPARATOR . 'ajax';
 
         //search in ./$path[0]/.../($path[x])/ for ucfirst($path[x+1]).php.
         $path = explode('/', $servicePath);
         $filepath = $serviceBasePath . DIRECTORY_SEPARATOR . $path[0];
-        $serviceNamespace = '\\ajax\\' . $path[0];
+        $serviceNamespace = '\\fennecweb\\ajax\\' . $path[0];
         $args = array();
         for ($i = 1; $i < count($path); $i++) {
             $classname = ucfirst($path[$i]);
@@ -63,7 +69,7 @@ abstract class WebService {
             return array(null, null);
         }
         require_once $filename;
-        //case: file does not contain web service class        
+        //case: file does not contain web service class
         $class = $serviceNamespace . '\\' . $classname;
         if (!class_exists($class)) {
             return array(null, null);
@@ -72,14 +78,12 @@ abstract class WebService {
         return array(new $class, $args);
     }
 
-    public static function open_db_connection($querydata){
-        if(!array_key_exists('dbversion', $querydata)){
+    public static function openDbConnection($querydata)
+    {
+        if (!array_key_exists('dbversion', $querydata)) {
             print "Error!: No database version supplied via 'dbversion'.<br/>";
             die();
         }
-        return get_db_for_version($querydata['dbversion']);
+        return DB::getDbForVersion($querydata['dbversion']);
     }
-
 }
-
-?>

@@ -1,6 +1,7 @@
 var interactiveBrowse_overview = d3.select("#interactiveBrowse_overview");
 
-var ecology = interactiveBrowse_overview.append("rect")
+// ecology
+interactiveBrowse_overview.append("rect")
         .attr("x", 680)
         .attr("y", 90)
         .attr("width", 600)
@@ -20,7 +21,8 @@ var ecology = interactiveBrowse_overview.append("rect")
             displayPage(d3.select(this).attr("id"));
         });
         
-var humanEco = interactiveBrowse_overview.append("rect")
+// humanEco
+interactiveBrowse_overview.append("rect")
         .attr("x", 500)
         .attr("y", 430)
         .attr("width", 600)
@@ -40,7 +42,8 @@ var humanEco = interactiveBrowse_overview.append("rect")
             displayPage(d3.select(this).attr("id"));
         });
         
-var behaviour = interactiveBrowse_overview.append("rect")
+// behaviour
+interactiveBrowse_overview.append("rect")
         .attr("x", 350)
         .attr("y", 30)
         .attr("width", 300)
@@ -61,7 +64,7 @@ var behaviour = interactiveBrowse_overview.append("rect")
         });
 
 function remove_Tooltip(){
-    div.transition()
+    d3.select("traitBrowseTooltip").transition()
         .duration(10)
         .style("opacity", 0);
 }

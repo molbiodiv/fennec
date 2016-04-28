@@ -1,4 +1,57 @@
 * Fennec Web
+** About
+Fennec - Functional Exploration of Natural Networks and Ecological Communities.
+** Getting started
+To get started with the development do the following:
+*** Install prerequisits
+ - [[https://getcomposer.org/download/][composer]]
+ - [[https://nodejs.org/en/download/][node.js]]
+ - [[http://bower.io/#install-bower][bower]] (~npm install -g bower~)
+ - [[https://github.com/gulpjs/gulp/blob/master/docs/getting-started.md][gulp]] (~npm install -g gulp-cli~)
+*** Clone source code and initialize packages
+#+BEGIN_SRC sh
+git clone https://github.com/iimog/fennec-web
+cd fennec-web
+npm install
+bower install
+composer install
+#+END_SRC
+*** Test, LINT, generate API, ...
+Use gulp for all those things:
+#+BEGIN_SRC sh
+# PHP Code Sniffer
+gulp phpcs
+
+# apigen API generator
+gulp apigen
+
+# phpunit testing
+# before testing php you need to set up a database and configure it
+cp test/php/config.php.generated test/php/config.php
+# modify the config.php
+gulp phpunit
+
+# check js files for lints
+gulp jshint
+       
+# javascript testing with jasmine
+gulp jasmine
+
+# check scss files for lints
+gulp sassLint
+
+# generate css files from scss
+gulp sass
+
+# run a performance test with artillery
+# npm install -g artillery
+artillery run test/artillery/simple.json
+# artillery report artillery_report_<timestamp>.json
+
+# run a ui test with selenium
+# pip install -U selenium
+python test/selenium/simple.py
+#+END_SRC
 ** Changes
 *** 0.1.1 <2016-04-08 Fr>
  - Fix redirect on startpage

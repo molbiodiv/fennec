@@ -2,7 +2,7 @@
 {#block name='content'#}
     {#call_webservice path="details/Organisms" data=["id"=>$organismId, "dbversion"=>$DbVersion] assign='data'#}
     {#call_webservice path="listing/Taxonomy" data=["id"=>$organismId, "dbversion"=>$DbVersion] assign='taxonomy'#}
-    {#call_webservice path="details/Traits_to_organism" data=["organism_id"=>$organismId, "dbversion"=>$DbVersion] assign='traits'#}
+    {#call_webservice path="details/TraitsOfOrganism" data=["organism_id"=>$organismId, "dbversion"=>$DbVersion] assign='traits'#}
     <h1 class="page-header">{#$data['scientific_name']#}</h1>
     <div class="col-md-12">
         <div>
@@ -107,12 +107,12 @@
                         txtCounter++;
                     }
                 }
-                $("#vernacularName").text(getBestName(result));
+                $("#vernacularName").text(getBestVernacularNameEOL(result));
             }
         }).done(function(){
             progress.progressTimer('complete');
         });
     </script>
-    <script src="{#$WebRoot#}/js/organismDetails.js"></script>
+    <script src="{#$WebRoot#}/js/helpers/organismDetails.js"></script>
     {#/if#}
 {#/block#}
