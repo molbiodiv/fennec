@@ -45,7 +45,6 @@ if(!isset($_SESSION['user'])){
             $_SESSION['user'] = $user;
 
             // Use these details to create a new profile
-            printf('Hello %s!', $user->getNickname());
 
         } catch (Exception $e) {
 
@@ -53,6 +52,5 @@ if(!isset($_SESSION['user'])){
             exit('Oh dear...');
         }
     }
-} else {
-    printf("Hello %s!\nYou are already logged in.", $_SESSION['user']->getNickname());
 }
+header('Location:'.realpath($_SERVER['HTTP_HOST']));
