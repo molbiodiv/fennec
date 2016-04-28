@@ -40,7 +40,7 @@ if(!isset($_SESSION['user'])){
 
             // We got an access token, let's now get the user's details
             $user = $provider->getResourceOwner($token);
-            $user['token'] = $token->getToken();
+            $_SESSION['user_token'] = $token->getToken();
 
             $_SESSION['user'] = $user;
 
