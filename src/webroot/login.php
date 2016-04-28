@@ -53,4 +53,6 @@ if(!isset($_SESSION['user'])){
             exit('Oh dear...');
         }
     }
+} else {
+    printf('Hello %s!\nYou are already logged in.', $_SESSION['user']->getNickname());
 }
