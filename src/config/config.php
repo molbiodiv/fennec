@@ -17,6 +17,11 @@ define('DATABASE', serialize(array('1.0' => array(
     'DB_PASSWORD' => '${chado_db_password}'
 ))));
 
+//oauth2 settings to login with github
+define('GITHUB_CLIENT_ID', '');
+define('GITHUB_CLIENT_SECRET', '');
+define('GITHUB_REDIRECT_URI', '');
+
 //set error reporting to a level that suits you
 error_reporting(E_ALL ^ E_STRICT ^ E_NOTICE);
 ini_set('display_errors', '0');
