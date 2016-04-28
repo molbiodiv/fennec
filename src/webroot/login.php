@@ -53,4 +53,4 @@ if(!isset($_SESSION['user'])){
         }
     }
 }
-header('Location:'.realpath($_SERVER['HTTP_HOST']));
+header('Location:http://' . $_SERVER['HTTP_HOST']);
