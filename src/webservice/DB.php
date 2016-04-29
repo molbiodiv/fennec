@@ -42,7 +42,12 @@ class DB
     {
         try {
             if (defined('DEBUG') && DEBUG) {
-                $logger = \Log::factory('firebug', '', 'PDO');
+                if (in_array('Content-type: application/json', headers_list())) {
+                    $logtype = 'console';
+                } else {
+                    $logtype = 'firebug';
+                }
+                $logger = \Log::factory($logtype, '', 'PDO');
                 $db = new \LoggedPDO\PDO($connstr, $username, $password, null, $logger);
             } else {
                 $db = new PDO(
