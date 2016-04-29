@@ -28,16 +28,20 @@
         
         <li class="dropdown">
             <a class="dropdown-toggle navbar-{#$type#} navbar-icon-{#$type#}" data-toggle="dropdown" href="#" style="background-color: transparent;">
-                <i class="fa fa-user fa-fw"></i>  login <i class="fa fa-caret-down"></i>
+                <i class="fa fa-user fa-fw"></i>
+                {#if isset($user)#}
+                {#$user#}
+                {#else#}
+                login
+                {#/if#}
+                <i class="fa fa-caret-down"></i>
             </a>
             <ul class="dropdown-menu dropdown-user">
-                <li><a href="#"><i class="fa fa-user fa-fw"></i> My Profile</a>
-                </li>
-                <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
-                </li>
-                <li class="divider"></li>
-                <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-                </li>
+                {#if isset($user)#}
+                <li><a href="/logout.php"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
+                {#else#}
+                <li><a href="/login.php"><i class="fa fa-github fa-fw"></i> Login with GitHub</a></li>
+                {#/if#}
             </ul>
             <!-- /.dropdown-user -->
         </li>
