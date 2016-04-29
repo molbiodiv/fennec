@@ -5,7 +5,7 @@ namespace fennecweb;
 use \PDO as PDO;
 
 /**
- * database class provides access to the various databases by static functions
+ * provides access to the various databases by static functions
  */
 class DB
 {
