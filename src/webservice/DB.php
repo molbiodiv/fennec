@@ -42,18 +42,8 @@ class DB
     {
         try {
             if (defined('DEBUG') && DEBUG) {
-                if (PHP_SAPI == 'cli') {
-                    $logtype = 'console';
-                } else {
-                    if (in_array('Content-type: application/json', headers_list())) {
-                        $logtype = 'console';
-                    } else {
-                        $logtype = 'firebugJSON';
-                    }
-                }
-                $logger = \Log::factory($logtype, '', 'PDO');
+                $logger = \Log::factory('firebug', '', 'PDO');
                 $db = new \LoggedPDO\PDO($connstr, $username, $password, null, $logger);
-                //$db->log_replace_params = false;
             } else {
                 $db = new PDO(
                     $connstr,
