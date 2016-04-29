@@ -51,7 +51,7 @@ class DB
                         $logtype = 'firebugJSON';
                     }
                 }
-                $logger = Log::factory($logtype, '', 'PDO');
+                $logger = \Log::factory($logtype, '', 'PDO');
                 $db = new \LoggedPDO\PDO($connstr, $username, $password, null, $logger);
                 //$db->log_replace_params = false;
             } else {
