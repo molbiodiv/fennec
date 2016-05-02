@@ -1,5 +1,5 @@
 source:
-  - ./src/webservice/ajax/listing/Organisms.php
+  - ./src/webservice/
 
 destination: ./doc/webservice
 templateTheme: bootstrap

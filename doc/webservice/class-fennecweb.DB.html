@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>Class fennecweb\DB</title>
+
+	<link rel="stylesheet" href="resources/bootstrap.min.css?973e37a8502921d56bc02bb55321f45b072b6f71">
+	<link rel="stylesheet" href="resources/style.css?70c1d062672daa3f906b72e4f5d03d4bc5c4174d">
+
+</head>
+
+<body>
+	<nav id="navigation" class="navbar navbar-default navbar-fixed-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a href="index.html" class="navbar-brand">Overview</a>
+			</div>
+			<div class="collapse navbar-collapse">
+
+                <form id="search" class="navbar-form navbar-left" role="search">
+                    <input type="hidden" name="cx" value="">
+                    <input type="hidden" name="ie" value="UTF-8">
+                    <div class="form-group">
+                        <input type="text" name="q" class="search-query form-control" placeholder="Search">
+					</div>
+				</form>
+
+				<ul class="nav navbar-nav">
+					<li>
+						<a href="namespace-fennecweb.html" title="Summary of fennecweb"><span>Namespace</span></a>
+					</li>
+					<li class="active">
+<span>Class</span>					</li>
+
+
+
+
+
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<div id="left">
+	<div id="menu">
+
+		<div id="groups">
+				<h3>Namespaces</h3>
+			<ul>
+					<li class="active">
+						<a href="namespace-fennecweb.html">
+							fennecweb<span></span>
+						</a>
+							<ul>
+					<li>
+						<a href="namespace-fennecweb.ajax.html">
+							ajax<span></span>
+						</a>
+							<ul>
+					<li>
+						<a href="namespace-fennecweb.ajax.details.html">
+							details						</a>
+							</li>
+					<li>
+						<a href="namespace-fennecweb.ajax.listing.html">
+							listing						</a>
+							</li>
+								</ul></li></ul></li>
+			</ul>
+		</div>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li class="active"><a href="class-fennecweb.DB.html">DB</a></li>
+				<li><a href="class-fennecweb.WebService.html">WebService</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+	<div id="rightInner">
+<div id="content" class="class">
+	<h1>Class DB</h1>
+
+
+	<div class="description">
+	<p>provides access to the various databases by static functions</p>
+	</div>
+
+
+
+
+
+
+
+
+
+	<div class="alert alert-info">
+		
+		
+		<b>Namespace:</b> <a href="namespace-fennecweb.html">fennecweb</a><br>
+		
+
+			<b>Located at</b> <a href="source-class-fennecweb.DB.html#7-69" title="Go to source code">DB.php</a>
+		<br>
+	</div>
+
+
+
+		<div class="panel panel-default">
+			<div class="panel-heading"><h2>Methods summary</h2></div>
+			<table class="summary table table-bordered table-striped methods" id="methods">
+		<tr data-order="getDbForVersion" id="_getDbForVersion">
+
+			<td class="attributes"><code>
+				 public static
+				PDO
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_getDbForVersion">#</a>
+			<code><a href="source-class-fennecweb.DB.html#12-31" title="Go to source code">getDbForVersion</a>( <span>String <var>$version</var></span> )</code>
+
+			<div class="description short">
+				<p>connects to databse using $version
+if DEBUG is set to true, use loggedPDO, not PDO</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>connects to databse using $version
+if DEBUG is set to true, use loggedPDO, not PDO</p>
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$version</var></dt>
+						<dd>the database version to use (has to be defined in config.php)</dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						PDO
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="getDbConnection" id="_getDbConnection">
+
+			<td class="attributes"><code>
+				 public static
+				PDO
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_getDbConnection">#</a>
+			<code><a href="source-class-fennecweb.DB.html#33-68" title="Go to source code">getDbConnection</a>( <span>String <var>$connstr</var></span>, <span>String <var>$username</var></span>, <span>String <var>$password</var></span> )</code>
+
+			<div class="description short">
+				<p>connects to databse using $connstr, $username, $password
+if DEBUG is set to true, use loggedPDO, not PDO</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>connects to databse using $connstr, $username, $password
+if DEBUG is set to true, use loggedPDO, not PDO</p>
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$connstr</var></dt>
+						<dd></dd>
+						<dt><var>$username</var></dt>
+						<dd></dd>
+						<dt><var>$password</var></dt>
+						<dd></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						PDO
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+			</table>
+		</div>
+
+
+
+
+
+
+
+
+
+
+
+</div>
+	</div>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen</a>
+	</div>
+</div>
+<script src="resources/combined.js"></script>
+<script src="elementlist.js"></script>
+</body>
+</html>

@@ -4,6 +4,9 @@ namespace fennecweb;
 
 use \PDO as PDO;
 
+/**
+ * provides access to the various databases by static functions
+ */
 class DB
 {
 /**
@@ -39,18 +42,13 @@ class DB
     {
         try {
             if (defined('DEBUG') && DEBUG) {
-                if (PHP_SAPI == 'cli') {
+                if (in_array('Content-type: application/json', headers_list())) {
                     $logtype = 'console';
                 } else {
-                    if (in_array('Content-type: application/json', headers_list())) {
-                        $logtype = 'console';
-                    } else {
-                        $logtype = 'firebugJSON';
-                    }
+                    $logtype = 'firebug';
                 }
-                $logger = Log::factory($logtype, '', 'PDO');
+                $logger = \Log::factory($logtype, '', 'PDO');
                 $db = new \LoggedPDO\PDO($connstr, $username, $password, null, $logger);
-                //$db->log_replace_params = false;
             } else {
                 $db = new PDO(
                     $connstr,

@@ -23,5 +23,8 @@ class OrganismsTest extends \PHPUnit_Framework_TestCase
         $pos = strpos($results[0]['scientific_name'], $organism);
         $this->assertEquals(0, $pos);
 
+        define("DEBUG", true);
+        $this->expectOutputRegex("/.*time.*query.*method.*/");
+        $results = ($service->execute(array('limit' => 2, 'dbversion' => DEFAULT_DBVERSION)));
     }
 }
