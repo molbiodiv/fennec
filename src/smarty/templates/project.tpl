@@ -1,6 +1,6 @@
 {#extends file='layoutWithBars.tpl'#}
 {#block name='content'#}
-    <input id="fileupload" type="file" name="files[]" data-url="/upload/" multiple>
+    <input id="fileupload" type="file" name="files[]" data-url="{#$WebRoot#}/ajax/upload/Project?dbversion={#$DbVersion#}" multiple>
         <script src="/bower_components/jquery/dist/jquery.min.js"></script>
         <script src="/bower_components/blueimp-file-upload/js/vendor/jquery.ui.widget.js"></script>
         <script src="/bower_components/blueimp-file-upload/js/jquery.iframe-transport.js"></script>
