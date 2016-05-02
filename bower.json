@@ -28,6 +28,7 @@
     "underscore": "^1.8.3",
     "jquery-progresstimer": "^1.0.7",
     "datatables": "^1.10.11",
-    "bootstrap-select": "^1.10.0"
+    "bootstrap-select": "^1.10.0",
+    "blueimp-file-upload": "jquery-file-upload#^9.12.3"
   }
 }
