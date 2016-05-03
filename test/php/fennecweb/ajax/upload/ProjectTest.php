@@ -4,8 +4,6 @@ namespace fennecweb;
 
 class ProjectTest extends \PHPUnit_Framework_TestCase
 {
-    protected $noBiomFormatError = "Error. File is not in biom (json) format.";
-    
     public function testExecute()
     {
         // Test for error returned by empty file
@@ -20,7 +18,7 @@ class ProjectTest extends \PHPUnit_Framework_TestCase
         );
         list($service) = WebService::factory('upload/Project');
         $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION)));
-        $expected = array("files"=>array(array("name" => "empty", "size" => 0, "error" => $this->noBiomFormatError)));
+        $expected = array("files"=>array(array("name" => "empty", "size" => 0, "error" => \fennecweb\ajax\upload\Project::ERROR_NOT_BIOM)));
         $this->assertEquals($expected, $results);
 
         // Test for error returned by non json file
@@ -34,7 +32,7 @@ class ProjectTest extends \PHPUnit_Framework_TestCase
             )
         );
         $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION)));
-        $expected = array("files"=>array(array("name" => "noJson", "size" => 71, "error" => $this->noBiomFormatError)));
+        $expected = array("files"=>array(array("name" => "noJson", "size" => 71, "error" => \fennecweb\ajax\upload\Project::ERROR_NOT_JSON)));
         $this->assertEquals($expected, $results);
 
         // Test for error returned by non biom json file
@@ -49,7 +47,7 @@ class ProjectTest extends \PHPUnit_Framework_TestCase
         );
         $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION)));
         $expected = array(
-            "files"=>array(array("name" => "noBiom.json", "size" => 71, "error" => $this->noBiomFormatError))
+            "files"=>array(array("name" => "noBiom.json", "size" => 71, "error" => \fennecweb\ajax\upload\Project::ERROR_NOT_BIOM))
         );
         $this->assertEquals($expected, $results);
 
