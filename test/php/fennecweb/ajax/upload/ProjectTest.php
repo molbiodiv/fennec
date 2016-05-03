@@ -48,7 +48,9 @@ class ProjectTest extends \PHPUnit_Framework_TestCase
             )
         );
         $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION)));
-        $expected = array("files"=>array(array("name" => "noBiom.json", "size" => 71, "error" => $this->noBiomFormatError)));
+        $expected = array(
+            "files"=>array(array("name" => "noBiom.json", "size" => 71, "error" => $this->noBiomFormatError))
+        );
         $this->assertEquals($expected, $results);
 
         // Test for success returned by simple biom file
