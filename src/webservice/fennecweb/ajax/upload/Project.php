@@ -15,6 +15,21 @@ class Project extends \fennecweb\WebService
     const ERROR_NOT_JSON = "Error. Not a json file.";
     const ERROR_NOT_BIOM = "Error. Not a biom file.";
 
+    public $required_biom1_toplevel_keys = array(
+        'id',
+        'format',
+        'format_url',
+        'type',
+        'generated_by',
+        'date',
+        'rows',
+        'columns',
+        'matrix_type',
+        'matrix_element_type',
+        'shape',
+        'data'
+    );
+
     /**
      * @param $querydata[]
      * @returns result of file upload
@@ -43,15 +58,23 @@ class Project extends \fennecweb\WebService
     protected function validateFile($filename)
     {
         if (!is_uploaded_file($filename)) {
-            return ERROR_IN_REQUEST;
+            return Project::ERROR_IN_REQUEST;
         }
         $contents = file_get_contents($filename);
         if ($contents === false) {
-            return ERROR_NOT_TEXT;
+            return Project::ERROR_NOT_TEXT;
         }
         $json = json_decode($contents);
         if (json_last_error() !== JSON_ERROR_NONE) {
-            return ERROR_NOT_JSON;
+            return Project::ERROR_NOT_JSON;
+        }
+        if (!is_object($json)) {
+            return Project::ERROR_NOT_BIOM;
+        }
+        foreach ($this->required_biom1_toplevel_keys as $key) {
+            if (!array_key_exists($key, $json)) {
+                return Project::ERROR_NOT_BIOM;
+            }
         }
         return true;
     }
