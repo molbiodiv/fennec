@@ -41,5 +41,9 @@ class Project extends \fennecweb\WebService
         if (!is_uploaded_file($filename)) {
             return "Error. There was an error in your request.";
         }
+        $contents = file_get_contents($filename);
+        if ($contents === false) {
+            return "Error. Not a text file.";
+        }
     }
 }
