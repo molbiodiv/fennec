@@ -34,7 +34,7 @@ class Project extends \fennecweb\WebService
     /**
      * Function that checks the uploaded file for validity
      * @param String $filename the uploaded file to check
-     * @returns Either TRUE if the file is valid or a String containing the error message
+     * @returns Either true if the file is valid or a String containing the error message
      */
     protected function validateFile($filename)
     {
@@ -45,5 +45,10 @@ class Project extends \fennecweb\WebService
         if ($contents === false) {
             return "Error. Not a text file.";
         }
+        $json = json_decode($contents);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            return "Error. Not a json file.";
+        }
+        return true;
     }
 }
