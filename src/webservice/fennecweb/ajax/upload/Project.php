@@ -10,6 +10,10 @@ use \PDO as PDO;
  */
 class Project extends \fennecweb\WebService
 {
+    const ERROR_IN_REQUEST = "Error. There was an error in your request.";
+    const ERROR_NOT_TEXT = "Error. Not a text file.";
+    const ERROR_NOT_JSON = "Error. Not a json file.";
+    const ERROR_NOT_BIOM = "Error. Not a biom file.";
 
     /**
      * @param $querydata[]
@@ -39,15 +43,15 @@ class Project extends \fennecweb\WebService
     protected function validateFile($filename)
     {
         if (!is_uploaded_file($filename)) {
-            return "Error. There was an error in your request.";
+            return ERROR_IN_REQUEST;
         }
         $contents = file_get_contents($filename);
         if ($contents === false) {
-            return "Error. Not a text file.";
+            return ERROR_NOT_TEXT;
         }
         $json = json_decode($contents);
         if (json_last_error() !== JSON_ERROR_NONE) {
-            return "Error. Not a json file.";
+            return ERROR_NOT_JSON;
         }
         return true;
     }
