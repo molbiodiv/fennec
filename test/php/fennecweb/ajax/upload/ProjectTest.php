@@ -18,7 +18,7 @@ class ProjectTest extends \PHPUnit_Framework_TestCase
         );
         list($service) = WebService::factory('upload/Project');
         $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION)));
-        $expected = array("files"=>array(array("name" => "empty", "size" => 0, "error" => null)));
+        $expected = array("files"=>array(array("name" => "empty", "size" => 0, "error" => "Error. File is not in biom (json) format.")));
         $this->assertEquals($expected, $results);
 
         // Test for error returned by non json file
@@ -32,7 +32,7 @@ class ProjectTest extends \PHPUnit_Framework_TestCase
             )
         );
         $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION)));
-        $expected = array("files"=>array(array("name" => "noJson", "size" => 71, "error" => null)));
+        $expected = array("files"=>array(array("name" => "noJson", "size" => 71, "error" => "Error. File is not in biom (json) format.")));
         $this->assertEquals($expected, $results);
 
         // Test for error returned by non biom json file
@@ -46,7 +46,7 @@ class ProjectTest extends \PHPUnit_Framework_TestCase
             )
         );
         $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION)));
-        $expected = array("files"=>array(array("name" => "noBiom.json", "size" => 71, "error" => null)));
+        $expected = array("files"=>array(array("name" => "noBiom.json", "size" => 71, "error" => "Error. File is not in biom (json) format.")));
         $this->assertEquals($expected, $results);
 
         // Test for success returned by simple biom file
