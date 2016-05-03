@@ -24,7 +24,7 @@ class Project extends \fennecweb\WebService
             $file = array(
                 "name" => $_FILES['files']['names'][$i],
                 "size" => $_FILES['files']['sizes'][$i],
-                "error" => null
+                "error" => ($valid === true ? null : $valid)
             );
             $files[] = $file;
         }
