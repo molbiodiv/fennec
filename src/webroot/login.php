@@ -37,7 +37,7 @@ if (!isset($_SESSION['user'])) {
             $user = $provider->getResourceOwner($token);
             // Use these details to create a new profile
             $_SESSION['user'] = array(
-                'nichname' => $user->getNickName(),
+                'nickname' => $user->getNickName(),
                 'id' => $user->getId(),
                 'provider' => 'github',
                 'token' => $token->getToken()
