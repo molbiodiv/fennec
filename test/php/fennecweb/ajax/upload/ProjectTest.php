@@ -85,8 +85,8 @@ class ProjectTest extends \PHPUnit_Framework_TestCase
 SELECT project
     FROM webuser_data WHERE webuser_id =
         (SELECT webuser_id FROM webuser WHERE oauth_provider_id =
-            (SELECT oauth_provider_id FROM oauth_provider WHERE provider = {$constant('fennecweb\ProjectTest::PROVIDER')})
-            AND oauth_id = {$constant('fennecweb\ProjectTest::USERID')}
+            (SELECT oauth_provider_id FROM oauth_provider WHERE provider = '{$constant('fennecweb\ProjectTest::PROVIDER')}')
+            AND oauth_id = '{$constant('fennecweb\ProjectTest::USERID')}'
         )
         AND project::jsonb = '{$jsonContent}'::jsonb
 EOF;
