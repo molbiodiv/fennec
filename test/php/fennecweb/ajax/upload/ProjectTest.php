@@ -4,6 +4,16 @@ namespace fennecweb;
 
 class ProjectTest extends \PHPUnit_Framework_TestCase
 {
+    public function setUp()
+    {
+        $_SESSION['user'] = array(
+            'nickname' => $user->getNickName(),
+            'id' => $user->getId(),
+            'provider' => 'github',
+            'token' => $token->getToken()
+        );
+    }
+
     public function testExecute()
     {
         // Test for error returned by empty file
