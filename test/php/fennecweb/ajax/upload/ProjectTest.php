@@ -32,7 +32,15 @@ class ProjectTest extends \PHPUnit_Framework_TestCase
         );
         list($service) = WebService::factory('upload/Project');
         $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION)));
-        $expected = array("files"=>array(array("name" => "empty", "size" => 0, "error" => \fennecweb\ajax\upload\Project::ERROR_NOT_BIOM)));
+        $expected = array(
+            "files"=>array(
+                array(
+                    "name" => "empty",
+                    "size" => 0,
+                    "error" => \fennecweb\ajax\upload\Project::ERROR_NOT_BIOM
+                )
+            )
+        );
         $this->assertEquals($expected, $results);
 
         // Test for error returned by non json file
