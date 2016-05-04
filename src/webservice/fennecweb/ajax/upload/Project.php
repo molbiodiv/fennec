@@ -15,6 +15,7 @@ class Project extends \fennecweb\WebService
     const ERROR_NOT_TEXT = "Error. Not a text file.";
     const ERROR_NOT_JSON = "Error. Not a json file.";
     const ERROR_NOT_BIOM = "Error. Not a biom file.";
+    const ERROR_DB_INSERT = "Error. Could not insert into database.";
 
     public $required_biom1_toplevel_keys = array(
         'id',
@@ -31,6 +32,10 @@ class Project extends \fennecweb\WebService
         'data'
     );
 
+    private $query_insert_project_into_db = <<<EOF
+INSERT INTO full_webuser_data (project, oauth_id, provider) VALUES (:project, :user, :provider);
+EOF;
+
     /**
      * @param $querydata[]
      * @returns result of file upload
@@ -44,6 +49,15 @@ class Project extends \fennecweb\WebService
         } else {
             for ($i=0; $i<sizeof($_FILES['files']['tmp_names']); $i++) {
                 $valid = $this->validateFile($_FILES['files']['tmp_names'][$i]);
+                if ($valid === true) {
+                    $stm_get_organisms = $db->prepare($this->query_insert_project_into_db);
+                    $stm_get_organisms->bindValue('project', file_get_contents($_FILES['files']['tmp_names'][$i]));
+                    $stm_get_organisms->bindValue('user', $_SESSION['user']['id']);
+                    $stm_get_organisms->bindValue('provider', $_SESSION['user']['provider']);
+                    if (! $stm_get_organisms->execute()) {
+                        $valid = Project::ERROR_DB_INSERT;
+                    }
+                }
                 $file = array(
                     "name" => $_FILES['files']['names'][$i],
                     "size" => $_FILES['files']['sizes'][$i],
