@@ -54,7 +54,15 @@ class ProjectTest extends \PHPUnit_Framework_TestCase
             )
         );
         $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION)));
-        $expected = array("files"=>array(array("name" => "noJson", "size" => 71, "error" => \fennecweb\ajax\upload\Project::ERROR_NOT_JSON)));
+        $expected = array(
+            "files"=>array(
+                array(
+                    "name" => "noJson",
+                    "size" => 71,
+                    "error" => \fennecweb\ajax\upload\Project::ERROR_NOT_JSON
+                )
+            )
+        );
         $this->assertEquals($expected, $results);
 
         // Test for error returned by non biom json file
@@ -69,7 +77,13 @@ class ProjectTest extends \PHPUnit_Framework_TestCase
         );
         $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION)));
         $expected = array(
-            "files"=>array(array("name" => "noBiom.json", "size" => 71, "error" => \fennecweb\ajax\upload\Project::ERROR_NOT_BIOM))
+            "files"=>array(
+                array(
+                    "name" => "noBiom.json",
+                    "size" => 71,
+                    "error" => \fennecweb\ajax\upload\Project::ERROR_NOT_BIOM
+                )
+            )
         );
         $this->assertEquals($expected, $results);
 
@@ -93,7 +107,9 @@ class ProjectTest extends \PHPUnit_Framework_TestCase
 SELECT project
     FROM webuser_data WHERE webuser_id =
         (SELECT webuser_id FROM webuser WHERE oauth_provider_id =
-            (SELECT oauth_provider_id FROM oauth_provider WHERE provider = '{$constant('fennecweb\ProjectTest::PROVIDER')}')
+            (SELECT oauth_provider_id FROM oauth_provider
+                WHERE provider = '{$constant('fennecweb\ProjectTest::PROVIDER')}'
+            )
             AND oauth_id = '{$constant('fennecweb\ProjectTest::USERID')}'
         )
         AND project::jsonb = '{$jsonContent}'::jsonb
