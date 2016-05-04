@@ -10,6 +10,7 @@ use \PDO as PDO;
  */
 class Project extends \fennecweb\WebService
 {
+    const ERROR_NOT_LOGGED_IN = "Error. Not logged in.";
     const ERROR_IN_REQUEST = "Error. There was an error in your request.";
     const ERROR_NOT_TEXT = "Error. Not a text file.";
     const ERROR_NOT_JSON = "Error. Not a json file.";
@@ -36,16 +37,23 @@ class Project extends \fennecweb\WebService
      */
     public function execute($querydata)
     {
+        if (!isset($_SESSION)) {
+            session_start();
+        }
         $db = $this->openDbConnection($querydata);
         $files = array();
-        for ($i=0; $i<sizeof($_FILES['files']['tmp_names']); $i++) {
-            $valid = $this->validateFile($_FILES['files']['tmp_names'][$i]);
-            $file = array(
-                "name" => $_FILES['files']['names'][$i],
-                "size" => $_FILES['files']['sizes'][$i],
-                "error" => ($valid === true ? null : $valid)
-            );
-            $files[] = $file;
+        if (!isset($_SESSION['user'])) {
+            $files = array("error" => Project::ERROR_NOT_LOGGED_IN);
+        } else {
+            for ($i=0; $i<sizeof($_FILES['files']['tmp_names']); $i++) {
+                $valid = $this->validateFile($_FILES['files']['tmp_names'][$i]);
+                $file = array(
+                    "name" => $_FILES['files']['names'][$i],
+                    "size" => $_FILES['files']['sizes'][$i],
+                    "error" => ($valid === true ? null : $valid)
+                );
+                $files[] = $file;
+            }
         }
         return array("files" => $files);
     }
