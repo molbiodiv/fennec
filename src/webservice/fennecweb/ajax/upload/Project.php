@@ -37,9 +37,6 @@ class Project extends \fennecweb\WebService
      */
     public function execute($querydata)
     {
-        if (!isset($_SESSION)) {
-            session_start();
-        }
         $db = $this->openDbConnection($querydata);
         $files = array();
         if (!isset($_SESSION['user'])) {
