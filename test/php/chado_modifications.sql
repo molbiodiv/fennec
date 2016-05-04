@@ -79,7 +79,7 @@ CREATE OR REPLACE FUNCTION full_webuser_data_insert_row() RETURNS TRIGGER AS $$
 $$ LANGUAGE plpgsql;
 -- Trigger: full_webuser_data_insert
 
-DROP TRIGGER IF EXISTS full_webuser_data_insert;
+DROP TRIGGER IF EXISTS full_webuser_data_insert ON full_webuser_data;
 
 CREATE TRIGGER full_webuser_data_insert INSTEAD OF INSERT ON full_webuser_data FOR EACH ROW EXECUTE PROCEDURE full_webuser_data_insert_row()
 
