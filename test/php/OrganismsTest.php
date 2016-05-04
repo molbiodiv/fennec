@@ -4,10 +4,6 @@ namespace fennecweb;
 
 class OrganismsTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     */
     public function testExecute()
     {
         list($service) = WebService::factory('listing/Organisms');
@@ -26,9 +22,5 @@ class OrganismsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, count($results));
         $pos = strpos($results[0]['scientific_name'], $organism);
         $this->assertEquals(0, $pos);
-
-        define("DEBUG", true);
-        $this->expectOutputRegex("/.*time.*query.*method.*/");
-        $results = ($service->execute(array('limit' => 2, 'dbversion' => DEFAULT_DBVERSION)));
     }
 }
