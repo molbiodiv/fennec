@@ -116,6 +116,6 @@ SELECT project
 EOF;
         $stm_get_project_from_db = $db->prepare($query_get_project_from_db);
         $stm_get_project_from_db->execute();
-        $this->assertTrue($stm_get_project_from_db->fetch(\PDO::FETCH_ASSOC));
+        $this->assertEquals(1, $stm_get_project_from_db->rowCount());
     }
 }
