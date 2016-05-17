@@ -72,7 +72,7 @@ CREATE OR REPLACE FUNCTION full_webuser_data_insert_row() RETURNS TRIGGER AS $$
         WHERE NOT EXISTS (
         SELECT webuser_id FROM webuser WHERE oauth_provider_id = (SELECT oauth_provider_id FROM oauth_provider WHERE provider = NEW.provider) AND oauth_id = NEW.oauth_id
         );
-        INSERT INTO webuser_data (webuser_id, project) VALUES ((SELECT webuser_id FROM webuser WHERE oauth_provider_id = (SELECT oauth_provider_id FROM oauth_provider WHERE provider = NEW.provider) AND oauth_id = NEW.oauth_id), NEW.project);
+        INSERT INTO webuser_data (webuser_id, project,import_date) VALUES ((SELECT webuser_id FROM webuser WHERE oauth_provider_id = (SELECT oauth_provider_id FROM oauth_provider WHERE provider = NEW.provider) AND oauth_id = NEW.oauth_id), NEW.project, NEW.import_date);
         RETURN NEW;
       END IF;
    END;
@@ -81,5 +81,4 @@ $$ LANGUAGE plpgsql;
 
 DROP TRIGGER IF EXISTS full_webuser_data_insert ON full_webuser_data;
 
-CREATE TRIGGER full_webuser_data_insert INSTEAD OF INSERT ON full_webuser_data FOR EACH ROW EXECUTE PROCEDURE full_webuser_data_insert_row()
-
+CREATE TRIGGER full_webuser_data_insert INSTEAD OF INSERT ON full_webuser_data FOR EACH ROW EXECUTE PROCEDURE full_webuser_data_insert_row();
