@@ -19,7 +19,7 @@ echo exec('PGPASSWORD='.$database['DB_PASSWORD'].
         ' -p '.$database['DB_PORT'].
         ' -d '.$database['DB_DBNAME'].'\'');
 echo exec('PGPASSWORD='.$database['DB_PASSWORD'].
-        ' bash -c \'cat '.__DIR__.'/chado_modifications.sql | psql -U '.
+        ' bash -c \'cat '.__DIR__.'/chado_modifications.sql '.__DIR__.'/userData.sql | psql -U '.
         $database['DB_USERNAME'].
         ' -h '.$database['DB_HOST'].
         ' -p '.$database['DB_PORT'].
