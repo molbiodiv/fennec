@@ -37,7 +37,7 @@ class ProjectTest extends \PHPUnit_Framework_TestCase
                 array(
                     "name" => "empty",
                     "size" => 0,
-                    "error" => \fennecweb\ajax\upload\Project::ERROR_NOT_BIOM
+                    "error" => \fennecweb\ajax\upload\Project::ERROR_NOT_JSON
                 )
             )
         );
