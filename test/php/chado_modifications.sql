@@ -64,6 +64,9 @@ CREATE VIEW full_webuser_data AS
 CREATE OR REPLACE FUNCTION full_webuser_data_insert_row() RETURNS TRIGGER AS $$
    BEGIN
       IF (TG_OP = 'INSERT') THEN
+        IF NEW.import_date IS NULL THEN
+            NEW.import_date := now();
+        END IF;
         INSERT INTO oauth_provider (provider) SELECT NEW.provider
         WHERE NOT EXISTS (
         SELECT oauth_provider_id FROM oauth_provider WHERE provider = NEW.provider
