@@ -8,18 +8,23 @@ class ProjectsTest extends \PHPUnit_Framework_TestCase
     const USERID = 'listingProjectsTestUser';
     const PROVIDER = 'listingProjectsTestUser';
 
-    public function setUp()
+    public function testExecute()
     {
+        //Test for error returned by user is not logged in
+        $_SESSION['user'] = array();
+        list($service) = WebService::factory('listing/Projects');
+        $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION)));
+        $expected = array("error" => \fennecweb\ajax\listing\Projects::ERROR_NOT_LOGGED_IN);
+        
+        $this->assertEquals($expected, $results);
+        
+        //Test for correct project
         $_SESSION['user'] = array(
             'nickname' => ProjectTest::NICKNAME,
             'id' => ProjectTest::USERID,
             'provider' => ProjectTest::PROVIDER,
             'token' => 'listingProjectsTestUserToken'
         );
-    }
-
-    public function testExecute()
-    {
         list($service) = WebService::factory('listing/Projects');
         $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION)));
         $expected = array(

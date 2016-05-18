@@ -10,7 +10,6 @@ class Projects extends \fennecweb\WebService
     
     public function execute($querydata)
     {
-        
         $result = array();
         return $result;
     }
