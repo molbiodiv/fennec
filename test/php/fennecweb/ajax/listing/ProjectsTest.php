@@ -2,7 +2,7 @@
 
 namespace fennecweb;
 
-class ProjectTest extends \PHPUnit_Framework_TestCase
+class ProjectsTest extends \PHPUnit_Framework_TestCase
 {
     const NICKNAME = 'listingProjectsTestUser';
     const USERID = 'listingProjectsTestUser';
@@ -33,4 +33,3 @@ class ProjectTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $results);
     }
 }
-
