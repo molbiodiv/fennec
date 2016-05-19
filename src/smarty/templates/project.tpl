@@ -1,3 +1,4 @@
+{#call_webservice path="listing/Projects" data=["dbversion"=>$DbVersion] assign='data'#}
 {#extends file='layoutWithBars.tpl'#}
 {#block name='content'#}
     <input id="fileupload" type="file" name="files[]" data-url="{#$WebRoot#}/ajax/upload/Project?dbversion={#$DbVersion#}" multiple>
