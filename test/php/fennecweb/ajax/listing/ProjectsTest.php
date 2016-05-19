@@ -19,9 +19,9 @@ class ProjectsTest extends \PHPUnit_Framework_TestCase
         
         //Test for correct project
         $_SESSION['user'] = array(
-            'nickname' => ProjectTest::NICKNAME,
-            'id' => ProjectTest::USERID,
-            'provider' => ProjectTest::PROVIDER,
+            'nickname' => ProjectsTest::NICKNAME,
+            'id' => ProjectsTest::USERID,
+            'provider' => ProjectsTest::PROVIDER,
             'token' => 'listingProjectsTestUserToken'
         );
         list($service) = WebService::factory('listing/Projects');
