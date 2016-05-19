@@ -27,6 +27,4 @@ $(function () {
         <div id="progress">
             <div class="bar" style="width: 0%;height: 18px; background: green;"></div>
         </div>
-    {#include file='components/otuTable.tpl'#}
-    {#include file='components/metadataTable.tpl'#}
 {#/block#}
