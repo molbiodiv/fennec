@@ -28,4 +28,17 @@ $(function () {
         <div id="progress">
             <div class="bar" style="width: 0%;height: 18px; background: green;"></div>
         </div>
+        
+        <div class="col-lg-12">
+            {#if isset($data.error)#}
+                {#$data.error#}
+            {#else#}
+                {#foreach $data as $project#}
+                    id: {#$project.id#} <br>
+                    import_date: {#$project.import_date#} <br>
+                    columns: {#$project.columns#} <br>
+                    rows: {#$project.rows#} <br>
+                {#/foreach#}
+            {#/if#}
+        </div>
 {#/block#}
