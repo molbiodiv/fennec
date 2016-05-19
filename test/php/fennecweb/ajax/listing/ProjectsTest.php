@@ -17,7 +17,7 @@ class ProjectsTest extends \PHPUnit_Framework_TestCase
         
         $this->assertEquals($expected, $results);
         
-        //Test for correct project
+        //Test of correct project if the user has only one project
         $_SESSION['user'] = array(
             'nickname' => ProjectsTest::NICKNAME,
             'id' => ProjectsTest::USERID,
