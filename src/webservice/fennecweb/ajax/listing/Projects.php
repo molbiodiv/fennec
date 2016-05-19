@@ -22,7 +22,7 @@ class Projects extends \fennecweb\WebService
     */
     public function execute($querydata)
     {
-        $this->db = $this->openDbConnection($querydata);
+        $db = $this->openDbConnection($querydata);
         $result = array();
         if (!isset($_SESSION['user'])) {
             $result = array("error" => Projects::ERROR_NOT_LOGGED_IN);
