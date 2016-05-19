@@ -12,7 +12,6 @@ class Projects extends \fennecweb\WebService
 {
     const ERROR_NOT_LOGGED_IN = "Error. Not logged in.";
     
-    private $db;
     /**
     * @param $querydata[]
     * @returns Array $result
