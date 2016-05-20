@@ -1,4 +1,3 @@
-{#call_webservice path="listing/Projects" data=["dbversion"=>$DbVersion] assign='data'#}
 {#extends file='layoutWithBars.tpl'#}
 {#block name='content'#}
     <h4> Upload projects in <a href="http://biom-format.org/documentation/format_versions/biom-1.0.html">biom format (version 1.0)</a></h4>
@@ -8,18 +7,26 @@
     </form>
     <script src="{#$WebRoot#}/js/uploadProject.js" type="text/javascript"></script>
     <i class="fa fa-refresh fa-spin" style="font-size:24px; display:none" id="project-upload-busy-indicator"></i>
-    <div class="col-lg-12">
-        {#if isset($data.error)#}
-            {#$data.error#}
-        {#else#}
-            {#foreach $data as $project#}
-                id: {#$project.id#} <br>
-                import_date: {#$project.import_date#} <br>
-                columns: {#$project.columns#} <br>
-                rows: {#$project.rows#} <br>
-            {#/foreach#}
-        {#/if#}
-    </div>
+
+    <table id="project-table" class="table project-table project-table-striped table-bordered" width="100%" cellspacing="0">
+        <thead>
+            <tr><th>ID</th><th>Import Date</th><th># OTUs</th><th># Samples</th></tr>
+        </thead>
+    </table>
+    <script type="text/javascript">
+        var table = $('#project-table').DataTable( {
+            ajax: {
+                url: '{#$ServicePath#}/listing/projects?dbversion={#$DbVersion#}',
+                dataSrc: ''
+            },
+            columns: [
+                { data: 'id' },
+                { data: 'import_date' },
+                { data: 'rows' },
+                { data: 'columns' }
+            ]
+        } );
+    </script>
     {#include file='components/otuTable.tpl'#}
     {#include file='components/metadataTable.tpl'#}
 {#/block#}
