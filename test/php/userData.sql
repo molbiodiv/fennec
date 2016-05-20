@@ -1,6 +1,6 @@
 -- custom input data
 INSERT INTO full_webuser_data (project,oauth_id,provider,import_date) VALUES ('{
-    "id": "This is a Table ID",
+    "id": "table_1",
     "format": "Biological Observation Matrix 2.1.0",
     "format_url": "http://biom-format.org",
     "matrix_type": "sparse",
