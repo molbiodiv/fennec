@@ -1,5 +1,6 @@
 {#extends file='layoutWithBars.tpl'#}
 {#block name='content'#}
+    <h4> Upload projects in <a href="http://biom-format.org/documentation/format_versions/biom-1.0.html">biom format (version 1.0)</a></h4>
     <div id="project-upload-message-area"></div>
     <form>
         <input class="btn" id="project-fileupload" type="file" name="files[]" multiple>
