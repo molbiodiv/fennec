@@ -6,6 +6,7 @@
         <input class="btn" id="project-fileupload" type="file" name="files[]" multiple>
     </form>
     <script src="{#$WebRoot#}/js/uploadProject.js" type="text/javascript"></script>
+    <i class="fa fa-refresh fa-spin" style="font-size:24px; display:none" id="project-upload-busy-indicator"></i>
     {#include file='components/otuTable.tpl'#}
     {#include file='components/metadataTable.tpl'#}
 {#/block#}
