@@ -26,13 +26,22 @@ function startProjectFileUpload(event)
         contentType: false, // Set content type to false as jQuery will tell the server its a query string request
         success: function(data, textStatus, jqXHR)
         {
-            console.log(data);
+            var successfulUploads = 0;
+            $.each(data.files, function(key, value){
+                if(value.error !== null){
+                    showProjectUploadDialog("Error uploading "+value.name+": "+value.error, 'alert-danger');
+                } else {
+                    successfulUploads++;
+                }
+            });
+            if(successfulUploads > 0){
+                showProjectUploadDialog(successfulUploads+" project"+(successfulUploads > 1 ? "s" : "")+" uploaded successfully", 'alert-success');
+            }
             // STOP LOADING SPINNER
         },
         error: function(jqXHR, textStatus, errorThrown)
         {
-            // Handle errors here
-            console.log('ERRORS: ' + textStatus);
+            showProjectUploadDialog("There was an error: "+textStatus, 'alert-danger');
             // STOP LOADING SPINNER
         }
     });
