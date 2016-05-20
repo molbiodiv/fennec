@@ -43,8 +43,7 @@ CREATE TABLE webuser_data
       CONSTRAINT webuser_data_id_pkey PRIMARY KEY (webuser_data_id),
       CONSTRAINT webuser_id_fkey FOREIGN KEY (webuser_id)
           REFERENCES webuser (webuser_id) MATCH SIMPLE
-          ON UPDATE NO ACTION ON DELETE NO ACTION,
-      CONSTRAINT webuser_id_project_uniq UNIQUE (webuser_id, project)
+          ON UPDATE NO ACTION ON DELETE NO ACTION
 )
 WITH (
       OIDS=FALSE
