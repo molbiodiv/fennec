@@ -1,5 +1,6 @@
 {#extends file='layoutWithBars.tpl'#}
 {#block name='content'#}
+    <div id="project-upload-message-area"></div>
     <form>
         <input class="btn" id="project-fileupload" type="file" name="files[]" multiple>
     </form>
