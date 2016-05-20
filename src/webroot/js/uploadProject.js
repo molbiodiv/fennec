@@ -37,6 +37,9 @@ function startProjectFileUpload(event)
             if(successfulUploads > 0){
                 showProjectUploadDialog(successfulUploads+" project"+(successfulUploads > 1 ? "s" : "")+" uploaded successfully", 'alert-success');
             }
+            $('#project-table').DataTable({
+                retrieve: true
+            }).ajax.reload();
             $('#project-upload-busy-indicator').hide();
         },
         error: function(jqXHR, textStatus, errorThrown)
