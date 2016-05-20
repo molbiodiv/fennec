@@ -15,6 +15,8 @@ if (!isset($_SESSION)) {
 
 if (!isset($_SESSION['user'])) {
     if (!isset($_GET['code'])) {
+        // Store referrer for proper redirect after successful login
+        $_SESSION['redirectAfterLogin'] = filter_input(INPUT_SERVER, 'HTTP_REFERER', FILTER_SANITIZE_STRING);
         // If we don't have an authorization code then get one
         $authUrl = $provider->getAuthorizationUrl();
         $_SESSION['oauth2state'] = $provider->getState();
@@ -48,4 +50,9 @@ if (!isset($_SESSION['user'])) {
         }
     }
 }
-header('Location:http://' . filter_input(INPUT_SERVER, 'HTTP_HOST', FILTER_SANITIZE_STRING).'/');
+if (isset($_SESSION['redirectAfterLogin'])) {
+    header('Location:' . $_SESSION['redirectAfterLogin']);
+    unset($_SESSION['redirectAfterLogin']);
+} else {
+    header('Location:http://' . filter_input(INPUT_SERVER, 'HTTP_HOST', FILTER_SANITIZE_STRING).'/');
+}
