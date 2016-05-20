@@ -1,5 +1,8 @@
 {#extends file='layoutWithBars.tpl'#}
 {#block name='content'#}
+{#if !isset($user)#}
+    <h3> Please log in to see your projects or add new ones. </h3>
+{#else#}
     <h3> Upload projects in <a href="http://biom-format.org/documentation/format_versions/biom-1.0.html">biom format (version 1.0)</a></h3>
     <div id="project-upload-message-area"></div>
     <form>
@@ -28,4 +31,5 @@
             ]
         } );
     </script>
+{#/if#}
 {#/block#}
