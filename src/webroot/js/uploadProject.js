@@ -8,7 +8,7 @@ $('#project-fileupload').on('change', startProjectFileUpload);
 // Grab the files and set them to our variable
 function startProjectFileUpload(event)
 {
-    // START LOADING SPINNER
+    $('#project-upload-busy-indicator').show();
     var files = event.target.files;
     var data = new FormData();
     $.each(files, function(key, value)
@@ -37,12 +37,12 @@ function startProjectFileUpload(event)
             if(successfulUploads > 0){
                 showProjectUploadDialog(successfulUploads+" project"+(successfulUploads > 1 ? "s" : "")+" uploaded successfully", 'alert-success');
             }
-            // STOP LOADING SPINNER
+            $('#project-upload-busy-indicator').hide();
         },
         error: function(jqXHR, textStatus, errorThrown)
         {
             showProjectUploadDialog("There was an error: "+textStatus, 'alert-danger');
-            // STOP LOADING SPINNER
+            $('#project-upload-busy-indicator').hide();
         }
     });
 }
