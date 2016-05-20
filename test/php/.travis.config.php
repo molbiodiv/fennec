@@ -1,8 +1,5 @@
 <?php
 
-require_once __DIR__ . '/../../vendor/autoload.php';
-require_once __DIR__ . '/fennecweb/ajax/upload/overload_is_uploaded_file.php';
-
 // this is the default file
 // please copy to config.php and adjust carefully before executing tests
 // make sure to never set the constants to your production database (otherwise it will be cleared)

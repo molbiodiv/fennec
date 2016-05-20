@@ -1,14 +1,13 @@
 <?php
 
-namespace fennecweb\ajax\upload;
+namespace fennecweb\ajax\listing;
 
 /**
- * Override is_uploaded_file() in fennecweb\ajax\upload namespace for testing
- * Rather than checking wether the file was uploaded via POST it is just checked wether the file exists
- * @param String $filename file to check for existence
- * @return boolean indicating wether the requested file exists
+ * Override session_start() in fennecweb\ajax\listing namespace for testing
+ * Rather than starting a session it just returns true
+ * @return boolean - always true as this is a dummy
  */
-function is_uploaded_file($filename)
+function session_start()
 {
-    return file_exists($filename);
+    return true;
 }
