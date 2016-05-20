@@ -28,6 +28,4 @@
             ]
         } );
     </script>
-    {#include file='components/otuTable.tpl'#}
-    {#include file='components/metadataTable.tpl'#}
 {#/block#}
