@@ -22,12 +22,12 @@ class Projects extends \fennecweb\WebService
     public function execute($querydata)
     {
         $db = $this->openDbConnection($querydata);
-        $result = array();
+        $result = array('data' => array());
         if (!isset($_SESSION)) {
             session_start();
         }
         if (!isset($_SESSION['user'])) {
-            $result = array("error" => Projects::ERROR_NOT_LOGGED_IN);
+            $result['error'] = Projects::ERROR_NOT_LOGGED_IN;
         } else {
             $query_get_user_projects = <<<EOF
 SELECT webuser_data_id,import_date,project->>'id' AS id,project->'shape'->>0 AS rows,project->'shape'->>1 AS columns 
@@ -45,7 +45,7 @@ EOF;
                 $project['import_date'] = $row['import_date'];
                 $project['rows'] = $row['rows'];
                 $project['columns'] = $row['columns'];
-                $result[] = $project;
+                $result['data'][] = $project;
             }
         }
         return $result;

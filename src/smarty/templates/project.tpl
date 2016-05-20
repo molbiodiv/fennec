@@ -18,7 +18,7 @@
         var table = $('#project-table').DataTable( {
             ajax: {
                 url: '{#$ServicePath#}/listing/projects?dbversion={#$DbVersion#}',
-                dataSrc: ''
+                dataSrc: 'data'
             },
             columns: [
                 { data: 'id' },

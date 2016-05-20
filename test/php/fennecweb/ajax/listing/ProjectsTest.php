@@ -13,7 +13,7 @@ class ProjectsTest extends \PHPUnit_Framework_TestCase
         //Test for error returned by user is not logged in
         list($service) = WebService::factory('listing/Projects');
         $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION)));
-        $expected = array("error" => \fennecweb\ajax\listing\Projects::ERROR_NOT_LOGGED_IN);
+        $expected = array("error" => \fennecweb\ajax\listing\Projects::ERROR_NOT_LOGGED_IN, "data" => array());
         
         $this->assertEquals($expected, $results);
         
@@ -26,12 +26,13 @@ class ProjectsTest extends \PHPUnit_Framework_TestCase
         );
         list($service) = WebService::factory('listing/Projects');
         $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION)));
-        $expected = array(
-            array(
-                "id" => "table_1",
-                "import_date" => "2016-05-17 10:00:52.627236+00",
-                "rows" => 10,
-                "columns" => 5
+        $expected = array("data" => array(
+                array(
+                    "id" => "table_1",
+                    "import_date" => "2016-05-17 10:00:52.627236+00",
+                    "rows" => 10,
+                    "columns" => 5
+                )
             )
         );
         $this->assertArraySubset($expected, $results);
