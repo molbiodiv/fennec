@@ -5,7 +5,12 @@
 // Upload files on change of file selector
 $('#project-fileupload').on('change', startProjectFileUpload);
 
-// Grab the files and set them to our variable
+/* globals FormData */
+/**
+ * Start upload of selected files to the server
+ * @param {event} event
+ * @returns {void}
+ */
 function startProjectFileUpload(event)
 {
     $('#project-upload-busy-indicator').show();
@@ -24,6 +29,7 @@ function startProjectFileUpload(event)
         dataType: 'json',
         processData: false, // Don't process the files
         contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+        /* jshint unused:vars */
         success: function(data, textStatus, jqXHR)
         {
             var successfulUploads = 0;
