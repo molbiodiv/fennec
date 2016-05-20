@@ -5,18 +5,6 @@
 // Upload files on change of file selector
 $('#project-fileupload').on('change', startProjectFileUpload);
 
-var dialogTemplate = '<div class="alert <%= type %> alert-dismissable" role="alert" style="margin-top: 10px;">';
-dialogTemplate += '<button type="button" class="close" data-dismiss="alert" aria-label="Close">';
-dialogTemplate += '<span aria-hidden="true">&times;</span>';
-dialogTemplate += '</button>';
-dialogTemplate += '<%= message %>';
-dialogTemplate += '</div>';
-dialogTemplate = _.template(dialogTemplate);
-$('#project-upload-message-area').append(dialogTemplate({type: 'alert-success', message: 'bla bla bla'}));
-$('#project-upload-message-area').append(dialogTemplate({type: 'alert-warning', message: 'bla bla bla'}));
-$('#project-upload-message-area').append(dialogTemplate({type: 'alert-danger', message: 'bla bla bla'}));
-$('#project-upload-message-area').append(dialogTemplate({type: 'alert-info', message: 'bla bla bla'}));
-
 // Grab the files and set them to our variable
 function startProjectFileUpload(event)
 {
@@ -48,4 +36,25 @@ function startProjectFileUpload(event)
             // STOP LOADING SPINNER
         }
     });
+}
+
+/**
+ * This function appends a bootstrap dialog to the project message area with the given message and type
+ * @param {type} message - The text that should be shown in the dialog
+ * @param {type} type - The type (color) of the dialog. Possible values: alert-success, alert-warning, alert-danger, alert-info (default)
+ * @returns {void}
+ */
+function showProjectUploadDialog(message, type){
+    var knownTypes = ['alert-success', 'alert-warning', 'alert-danger', 'alert-info'];
+    if(knownTypes.indexOf(type) === -1){
+        type = 'alert-info';
+    }
+    var dialogTemplate = '<div class="alert <%= type %> alert-dismissable" role="alert" style="margin-top: 10px;">';
+    dialogTemplate += '<button type="button" class="close" data-dismiss="alert" aria-label="Close">';
+    dialogTemplate += '<span aria-hidden="true">&times;</span>';
+    dialogTemplate += '</button>';
+    dialogTemplate += '<%= message %>';
+    dialogTemplate += '</div>';
+    dialogTemplate = _.template(dialogTemplate);
+    $('#project-upload-message-area').append(dialogTemplate({type: type, message: message}));
 }
