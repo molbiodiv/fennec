@@ -30,7 +30,7 @@ class Projects extends \fennecweb\WebService
             $result = array("error" => Projects::ERROR_NOT_LOGGED_IN);
         } else {
             $query_get_user_projects = <<<EOF
-SELECT import_date,project->>'id' AS id,project->'shape'->>0 AS rows,project->'shape'->>1 AS columns 
+SELECT webuser_data_id,import_date,project->>'id' AS id,project->'shape'->>0 AS rows,project->'shape'->>1 AS columns 
     FROM full_webuser_data WHERE provider = :provider AND oauth_id = :oauth_id
 EOF;
             $stm_get_user_projects = $db->prepare($query_get_user_projects);
@@ -40,6 +40,7 @@ EOF;
         
             while ($row = $stm_get_user_projects->fetch(PDO::FETCH_ASSOC)) {
                 $project = array();
+                $project['internal_project_id'] = $row['webuser_data_id'];
                 $project['id'] = $row['id'];
                 $project['import_date'] = $row['import_date'];
                 $project['rows'] = $row['rows'];
