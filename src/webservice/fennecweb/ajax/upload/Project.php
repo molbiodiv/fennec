@@ -44,14 +44,18 @@ EOF;
     {
         $db = $this->openDbConnection($querydata);
         $files = array();
+        if (!isset($_SESSION)) {
+            session_start();
+        }
         if (!isset($_SESSION['user'])) {
             $files = array("error" => Project::ERROR_NOT_LOGGED_IN);
         } else {
-            for ($i=0; $i<sizeof($_FILES['files']['tmp_names']); $i++) {
-                $valid = $this->validateFile($_FILES['files']['tmp_names'][$i]);
+            // var_dump($_FILES);
+            for ($i=0; $i<sizeof($_FILES); $i++) {
+                $valid = $this->validateFile($_FILES[$i]['tmp_name']);
                 if ($valid === true) {
                     $stm_get_organisms = $db->prepare($this->query_insert_project_into_db);
-                    $stm_get_organisms->bindValue('project', file_get_contents($_FILES['files']['tmp_names'][$i]));
+                    $stm_get_organisms->bindValue('project', file_get_contents($_FILES[$i]['tmp_name']));
                     $stm_get_organisms->bindValue('user', $_SESSION['user']['id']);
                     $stm_get_organisms->bindValue('provider', $_SESSION['user']['provider']);
                     if (! $stm_get_organisms->execute()) {
@@ -59,8 +63,8 @@ EOF;
                     }
                 }
                 $file = array(
-                    "name" => $_FILES['files']['names'][$i],
-                    "size" => $_FILES['files']['sizes'][$i],
+                    "name" => $_FILES[$i]['name'],
+                    "size" => $_FILES[$i]['size'],
                     "error" => ($valid === true ? null : $valid)
                 );
                 $files[] = $file;
