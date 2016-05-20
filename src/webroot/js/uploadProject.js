@@ -5,6 +5,18 @@
 // Upload files on change of file selector
 $('#project-fileupload').on('change', startProjectFileUpload);
 
+var dialogTemplate = '<div class="alert <%= type %> alert-dismissable" role="alert" style="margin-top: 10px;">';
+dialogTemplate += '<button type="button" class="close" data-dismiss="alert" aria-label="Close">';
+dialogTemplate += '<span aria-hidden="true">&times;</span>';
+dialogTemplate += '</button>';
+dialogTemplate += '<%= message %>';
+dialogTemplate += '</div>';
+dialogTemplate = _.template(dialogTemplate);
+$('#project-upload-message-area').append(dialogTemplate({type: 'alert-success', message: 'bla bla bla'}));
+$('#project-upload-message-area').append(dialogTemplate({type: 'alert-warning', message: 'bla bla bla'}));
+$('#project-upload-message-area').append(dialogTemplate({type: 'alert-danger', message: 'bla bla bla'}));
+$('#project-upload-message-area').append(dialogTemplate({type: 'alert-info', message: 'bla bla bla'}));
+
 // Grab the files and set them to our variable
 function startProjectFileUpload(event)
 {
