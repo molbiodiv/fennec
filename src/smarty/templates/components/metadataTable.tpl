@@ -1,6 +1,3 @@
-<script src="{#$WebRoot#}/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
-<script src="{#$WebRoot#}/bower_components/datatables/media/js/dataTables.bootstrap.min.js"></script>
-<script src="{#$WebRoot#}/js/dataTables.js"></script>
 <h3 class="page-header">metadata table</h3>
 <table id="metadata_{#$type#}" class="table {#$type#}-table {#$type#}-table-striped table-bordered" width="100%" cellspacing="0">
     <thead>
