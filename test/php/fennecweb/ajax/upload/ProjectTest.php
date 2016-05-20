@@ -22,12 +22,12 @@ class ProjectTest extends \PHPUnit_Framework_TestCase
     {
         // Test for error returned by empty file
         $_FILES = array(
-            'files' => array(
-                'names' => array('empty'),
-                'types' => array('text/plain'),
-                'sizes' => array(0),
-                'tmp_names' => array(__DIR__ . '/testFiles/empty'),
-                'errors' => 0
+            array(
+                'name' => 'empty',
+                'type' => 'text/plain',
+                'size' => 0,
+                'tmp_name' => __DIR__ . '/testFiles/empty',
+                'error' => 0
             )
         );
         list($service) = WebService::factory('upload/Project');
@@ -45,12 +45,12 @@ class ProjectTest extends \PHPUnit_Framework_TestCase
 
         // Test for error returned by non json file
         $_FILES = array(
-            'files' => array(
-                'names' => array('noJson'),
-                'types' => array('text/plain'),
-                'sizes' => array(71),
-                'tmp_names' => array(__DIR__ . '/testFiles/noJson'),
-                'errors' => 0
+            array(
+                'name' => 'noJson',
+                'type' => 'text/plain',
+                'size' => 71,
+                'tmp_name' => __DIR__ . '/testFiles/noJson',
+                'error' => 0
             )
         );
         $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION)));
@@ -67,12 +67,12 @@ class ProjectTest extends \PHPUnit_Framework_TestCase
 
         // Test for error returned by non biom json file
         $_FILES = array(
-            'files' => array(
-                'names' => array('noBiom.json'),
-                'types' => array('text/plain'),
-                'sizes' => array(71),
-                'tmp_names' => array(__DIR__ . '/testFiles/noBiom.json'),
-                'errors' => 0
+            array(
+                'name' => 'noBiom.json',
+                'type' => 'text/plain',
+                'size' => 71,
+                'tmp_name' => __DIR__ . '/testFiles/noBiom.json',
+                'error' => 0
             )
         );
         $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION)));
@@ -89,18 +89,18 @@ class ProjectTest extends \PHPUnit_Framework_TestCase
 
         // Test for success returned by simple biom file
         $_FILES = array(
-            'files' => array(
-                'names' => array('simpleBiom.json'),
-                'types' => array('text/plain'),
-                'sizes' => array(1067),
-                'tmp_names' => array(__DIR__ . '/testFiles/simpleBiom.json'),
-                'errors' => 0
+            array(
+                'name' => 'simpleBiom.json',
+                'type' => 'text/plain',
+                'size' => 1067,
+                'tmp_name' => __DIR__ . '/testFiles/simpleBiom.json',
+                'error' => 0
             )
         );
         $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION)));
         $expected = array("files"=>array(array("name" => "simpleBiom.json", "size" => 1067, "error" => null)));
         $this->assertEquals($expected, $results);
-        $jsonContent = file_get_contents($_FILES['files']['tmp_names'][0]);
+        $jsonContent = file_get_contents($_FILES[0]['tmp_name']);
         $db = DB::getDbForVersion(DEFAULT_DBVERSION);
         $constant = 'constant';
         $query_get_project_from_db = <<<EOF
