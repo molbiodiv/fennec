@@ -34,6 +34,6 @@ class ProjectsTest extends \PHPUnit_Framework_TestCase
                 "columns" => 5
             )
         );
-        $this->assertEquals($expected, $results);
+        $this->assertArraySubset($expected, $results);
     }
 }
