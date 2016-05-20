@@ -22,6 +22,5 @@ class OrganismsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, count($results));
         $pos = strpos($results[0]['scientific_name'], $organism);
         $this->assertEquals(0, $pos);
-
     }
 }

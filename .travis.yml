@@ -1,6 +1,6 @@
 language: php
 php:
-  - '5.6'
+  - '7.0'
 
 install:
   - composer install
@@ -11,7 +11,7 @@ services:
   - postgresql
 
 addons:
-  postgresql: "9.3"
+  postgresql: "9.4"
 
 before_script:
   - cp test/php/.travis.config.php test/php/config.php

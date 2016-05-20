@@ -53,6 +53,10 @@ artillery run test/artillery/simple.json
 python test/selenium/simple.py
 #+END_SRC
 ** Changes
+*** 0.1.4 <2016-05-20 Fr>
+ - Add proper redirects on login and logout
+ - Add project upload capability
+ - Add project overview table
 *** 0.1.3 <2016-04-29 Fr>
  - Add login with GitHub
 *** 0.1.2 <2016-04-28 Do>

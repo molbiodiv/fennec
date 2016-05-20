@@ -3,7 +3,7 @@
 //config file
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'config.php';
 
-if (!isset($_SESSION)){
+if (!isset($_SESSION)) {
     session_start();
 }
 
@@ -19,15 +19,15 @@ $smarty->right_delimiter = '#}';
 $smarty->assign('WebRoot', WEBROOT);
 $smarty->assign('ServicePath', SERVICEPATH);
 
-$smarty->assign('fennec_version', '0.1.3');
+$smarty->assign('fennec_version', '0.1.4');
 
 $dbversion = requestVal('dbversion', '/^[A-Za-z-_\.0-9]*$/', DEFAULT_DBVERSION);
 $smarty->assign('DbVersion', $dbversion);
 $allDbVersions = array_keys(unserialize(DATABASE));
 $smarty->assign('allDbVersions', $allDbVersions);
 
-if(isset($_SESSION['user'])){
-    $smarty->assign('user', $_SESSION['user']->getNickName());
+if (isset($_SESSION['user']) && array_key_exists('nickname', $_SESSION['user'])) {
+    $smarty->assign('user', $_SESSION['user']['nickname']);
 }
 
 $page = requestVal('page', '/^[A-Za-z-_\.]*$/', '');
@@ -45,7 +45,7 @@ switch ($page) {
         $smarty->display('organismSearch.tpl');
         die();
     case 'organism-results':
-        if(displayOrganismSearchResults(requestVal('searchTerm', '/^[a-zA-Z-\.]*$/', '')))
+        if (displayOrganismSearchResults(requestVal('searchTerm', '/^[a-zA-Z-\.]*$/', '')))
             die();
         break;
     case 'organism-byid':
@@ -130,11 +130,11 @@ $smarty->display('startpage.tpl');
  * @param String $defaultvalue
  * @return String
  */
-function requestVal($key, $regexp = "/^.*$/", $defaultvalue = "") {
-    if (!isset($_REQUEST[$key]) || !preg_match($regexp, $_REQUEST[$key])){
+function requestVal($key, $regexp = "/^.*$/", $defaultvalue = "")
+{
+    if (!isset($_REQUEST[$key]) || !preg_match($regexp, $_REQUEST[$key])) {
         return $defaultvalue;
-    }
-    else {
+    } else {
         return $_REQUEST[$key];
     }
 }

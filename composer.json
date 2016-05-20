@@ -13,6 +13,6 @@
         "squizlabs/php_codesniffer": "*"
     },
     "autoload": {
-        "psr-4": { "fennecweb\\": "src/webservice/"}
+        "psr-4": { "fennecweb\\": "src/webservice/fennecweb/"}
     }
 }

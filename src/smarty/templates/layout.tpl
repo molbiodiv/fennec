@@ -74,13 +74,13 @@
             const WebRoot = "{#$WebRoot#}";
             const DbVersion = "{#$DbVersion#}";
         </script>
-       
+
         <!-- jQuery -->
         <script src="{#$WebRoot#}/bower_components/jquery/dist/jquery.min.js"></script>
-        
+
         <!-- jQuery UI -->
         <script src="{#$WebRoot#}/bower_components/jquery-ui/jquery-ui.min.js"></script>
-        
+
         <!-- Bootstrap Core JavaScript -->
         <script src="{#$WebRoot#}/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
@@ -89,30 +89,35 @@
 
         <!-- Custom Theme JavaScript -->
         <script src="{#$WebRoot#}/bower_components/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
-        
+
         <!-- Lightbox -->
         <script src="{#$WebRoot#}/bower_components/fancybox/source/jquery.fancybox.js"></script>
-        
+
         <!-- Lightbox -->
         <script src="{#$WebRoot#}/bower_components/ekko-lightbox/dist/ekko-lightbox.min.js"></script>
-        
+
         <!-- D3 -->
         <script src="{#$WebRoot#}/bower_components/d3/d3.min.js"></script>
-        
+
         <!-- Underscore.js -->
         <script src="{#$WebRoot#}/bower_components/underscore/underscore-min.js"></script>
-        
+
         <!-- jQuery progress bar -->
         <script src="{#$WebRoot#}/bower_components/jquery-progresstimer/dist/js/jquery.progresstimer.min.js"></script>
-        
+
         <!-- Bootstrap selectpicker -->
         <script src="{#$WebRoot#}/bower_components/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
-        
+
+        <!-- DataTables -->
+        <script src="{#$WebRoot#}/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
+        <script src="{#$WebRoot#}/bower_components/datatables/media/js/dataTables.bootstrap.min.js"></script>
+        <script src="{#$WebRoot#}/js/dataTables.js"></script>
+
         {#block name='body'#}{#/block#}
-        
-        
+
+
         <script src="{#$WebRoot#}/js/fancybox.js"></script>
-        
+
         <script src="{#$WebRoot#}/js/interactiveTraitBrowse.js"></script>
     </body>
 </html>

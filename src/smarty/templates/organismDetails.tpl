@@ -17,7 +17,8 @@
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        Content on this page is dynamically included from <a href="http://eol.org">EOL</a> via its <a href="http://eol.org/api">API</a>. <a href="http://eol.org/pages/{#$data.eol_accession#}">Visit full page at EOL for this organism (id {#$data.eol_accession#})</a>.</div>
+                        Content on this page is dynamically included from <a href="http://eol.org">EOL</a> via its <a href="http://eol.org/api">API</a>. <a href="http://eol.org/pages/{#$data.eol_accession#}">Visit full page at EOL for this organism (id {#$data.eol_accession#})</a>.
+                    </div>
                     <div class='row'>
                         <div class='col-xs-12'>
                             <div class='loading-progress'></div>
