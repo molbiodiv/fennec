@@ -58,9 +58,9 @@ CREATE VIEW full_webuser_data AS
     WHERE webuser.oauth_provider_id = oauth_provider.oauth_provider_id
     AND webuser_data.webuser_id = webuser.webuser_id;
 
--- Function: full_webuser_data_insert_row
+-- Function: full_webuser_data_manage_row
 
-CREATE OR REPLACE FUNCTION full_webuser_data_insert_row() RETURNS TRIGGER AS $$
+CREATE OR REPLACE FUNCTION full_webuser_data_manage_row() RETURNS TRIGGER AS $$
    BEGIN
       IF (TG_OP = 'INSERT') THEN
         IF NEW.import_date IS NULL THEN
@@ -76,11 +76,24 @@ CREATE OR REPLACE FUNCTION full_webuser_data_insert_row() RETURNS TRIGGER AS $$
         );
         INSERT INTO webuser_data (webuser_id, project,import_date) VALUES ((SELECT webuser_id FROM webuser WHERE oauth_provider_id = (SELECT oauth_provider_id FROM oauth_provider WHERE provider = NEW.provider) AND oauth_id = NEW.oauth_id), NEW.project, NEW.import_date);
         RETURN NEW;
+      ELSIF (TG_OP = 'DELETE') THEN
+        DELETE FROM webuser_data WHERE webuser_data_id=OLD.webuser_data_id;
+        IF NOT FOUND THEN
+          RETURN NULL;
+        END IF;
+        RETURN OLD;
       END IF;
    END;
 $$ LANGUAGE plpgsql;
+
+-- Trigger: full_webuser_data_delete
+
+DROP TRIGGER IF EXISTS full_webuser_data_delete ON full_webuser_data;
+
+CREATE TRIGGER full_webuser_data_delete INSTEAD OF DELETE ON full_webuser_data FOR EACH ROW EXECUTE PROCEDURE full_webuser_data_manage_row();
+
 -- Trigger: full_webuser_data_insert
 
 DROP TRIGGER IF EXISTS full_webuser_data_insert ON full_webuser_data;
 
-CREATE TRIGGER full_webuser_data_insert INSTEAD OF INSERT ON full_webuser_data FOR EACH ROW EXECUTE PROCEDURE full_webuser_data_insert_row();
+CREATE TRIGGER full_webuser_data_insert INSTEAD OF INSERT ON full_webuser_data FOR EACH ROW EXECUTE PROCEDURE full_webuser_data_manage_row();
