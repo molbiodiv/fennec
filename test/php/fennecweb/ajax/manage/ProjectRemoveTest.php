@@ -23,12 +23,14 @@ class ProjectRemoveTest extends \PHPUnit_Framework_TestCase
         // Test for error returned by empty file
         list($service) = WebService::factory('listing/Projects');
         $entries = ($service->execute(array('dbversion' => DEFAULT_DBVERSION)));
-        $this->assertEquals(count($entries['data']), 1);
+        $this->assertEquals(1, count($entries['data']));
         $id = $entries['data'][0]['internal_project_id'];
         list($service) = WebService::factory('manage/ProjectRemove');
+        $expected = array("deletedProjects"=>1);
         $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION, 'ids' => array($id))));
+        $this->assertEquals($expected, $results);
         list($service) = WebService::factory('listing/Projects');
         $entries = ($service->execute(array('dbversion' => DEFAULT_DBVERSION)));
-        $this->assertEquals(count($entries['data']), 0);
+        $this->assertEquals(0, count($entries['data']));
     }
 }
