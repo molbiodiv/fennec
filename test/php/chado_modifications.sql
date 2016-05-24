@@ -1,7 +1,5 @@
 -- Table: oauth_provider
 
-DROP TABLE IF EXISTS oauth_provider;
-
 CREATE TABLE oauth_provider
 (
       oauth_provider_id serial NOT NULL,
@@ -13,8 +11,6 @@ WITH (
       OIDS=FALSE
 );
 -- Table: webuser
-
-DROP TABLE IF EXISTS webuser;
 
 CREATE TABLE webuser
 (
@@ -32,8 +28,6 @@ WITH (
 );
 -- Table: webuser_data
 
-DROP TABLE IF EXISTS webuser_data;
-
 CREATE TABLE webuser_data
 (
       webuser_data_id serial NOT NULL,
@@ -49,8 +43,6 @@ WITH (
       OIDS=FALSE
 );
 -- View: full_webuser_data
-
-DROP VIEW IF EXISTS full_webuser_data;
 
 CREATE VIEW full_webuser_data AS
     SELECT webuser_data.webuser_data_id, webuser_data.project, webuser.oauth_id, oauth_provider.provider, webuser_data.import_date
@@ -88,12 +80,8 @@ $$ LANGUAGE plpgsql;
 
 -- Trigger: full_webuser_data_delete
 
-DROP TRIGGER IF EXISTS full_webuser_data_delete ON full_webuser_data;
-
 CREATE TRIGGER full_webuser_data_delete INSTEAD OF DELETE ON full_webuser_data FOR EACH ROW EXECUTE PROCEDURE full_webuser_data_manage_row();
 
 -- Trigger: full_webuser_data_insert
-
-DROP TRIGGER IF EXISTS full_webuser_data_insert ON full_webuser_data;
 
 CREATE TRIGGER full_webuser_data_insert INSTEAD OF INSERT ON full_webuser_data FOR EACH ROW EXECUTE PROCEDURE full_webuser_data_manage_row();
