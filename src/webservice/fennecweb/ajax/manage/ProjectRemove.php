@@ -23,7 +23,7 @@ class ProjectRemove extends \fennecweb\WebService
     public function execute($querydata)
     {
         $db = $this->openDbConnection($querydata);
-        $result = array('deletedProjects' => 0);
+        $result = array('removedProjects' => 0);
         if (!isset($_SESSION)) {
             session_start();
         }
@@ -38,7 +38,7 @@ EOF;
             $stm_get_user_projects = $db->prepare($query_get_user_projects);
             $stm_get_user_projects->execute(array_merge(array($_SESSION['user']['provider'], $_SESSION['user']['id']), $ids));
         
-            $result['deletedProjects'] = $stm_get_user_projects->rowCount();
+            $result['removedProjects'] = $stm_get_user_projects->rowCount();
         }
         return $result;
     }
