@@ -19,11 +19,8 @@ class ProjectDetailsTest extends \PHPUnit_Framework_TestCase
         );
         list($service) = WebService::factory('details/Project');
         $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION)));
-        $expected = array("data" => array(
-                array(
+        $expected = array(
                       'table_1' 
-                )
-            )
         );
         $this->assertArraySubset($expected, $results);
     }
