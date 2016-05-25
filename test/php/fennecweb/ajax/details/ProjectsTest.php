@@ -18,9 +18,9 @@ class ProjectsTest extends \PHPUnit_Framework_TestCase
             'token' => 'detailsProjectTestUserToken'
         );
         list($service) = \fennecweb\WebService::factory('details/Projects');
-        $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION, 'id' => 'table_1')));
+        $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION, 'id' => 2)));
         $expected = array(
-            "table_1" => '{'
+            2 => '{'
             . '"id": "table_1", '
             . '"data": [[0, 0, 120.0], [3, 1, 12.0], [5, 2, 20.0], [7, 3, 12.7], [8, 4, 16.0]], '
             . '"date": "2016-05-03T08:13:41.848780", '
