@@ -17,8 +17,8 @@ class ProjectsTest extends \PHPUnit_Framework_TestCase
             'provider' => ProjectsTest::PROVIDER,
             'token' => 'detailsProjectTestUserToken'
         );
-        list($service) = WebService::factory('details/Project');
-        $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION)));
+        list($service) = \fennecweb\WebService::factory('details/Projects');
+        $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION, 'id' => 'table_1')));
         $expected = array(
                       'table_1' 
         );
