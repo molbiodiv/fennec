@@ -23,6 +23,12 @@
             { data: 'import_date' },
             { data: 'rows' },
             { data: 'columns' }
-        ]
+        ],
+        columnDefs: [{
+            targets: 0,
+            render: function (data, type, full, meta) {
+                return '<a href="'+full.internal_project_id+'">'+full.id+'</a>';
+            }
+          }]
     } );
 </script>
