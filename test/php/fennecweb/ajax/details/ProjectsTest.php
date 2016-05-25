@@ -1,8 +1,8 @@
 <?php
 
-namespace fennecweb;
+namespace fennecweb\ajax\details;
 
-class ProjectDetailsTest extends \PHPUnit_Framework_TestCase
+class ProjectsTest extends \PHPUnit_Framework_TestCase
 {
     const NICKNAME = 'listingProjectsTestUser';
     const USERID = 'listingProjectsTestUser';

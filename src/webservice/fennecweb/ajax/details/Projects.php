@@ -8,7 +8,7 @@ use \PDO as PDO;
  * Web Service.
  * Returns a project according to the project ID.
  */
-class Project extends \fennecweb\WebService
+class Projects extends \fennecweb\WebService
 {
     /**
     * @param $querydata[]
