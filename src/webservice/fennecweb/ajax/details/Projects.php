@@ -27,7 +27,7 @@ class Projects extends \fennecweb\WebService
         }
         $query_get_project_details = <<<EOF
 SELECT project FROM full_webuser_data 
-    WHERE project->>'id' = :project_id AND provider = :provider AND oauth_id = :oauth_id
+    WHERE webuser_data_id = :project_id AND provider = :provider AND oauth_id = :oauth_id
 EOF;
         $stm_get_project_details = $db->prepare($query_get_project_details);
         $stm_get_project_details->bindValue('project_id', $project_id);
