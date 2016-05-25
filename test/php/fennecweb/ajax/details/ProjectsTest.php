@@ -4,9 +4,9 @@ namespace fennecweb\ajax\details;
 
 class ProjectsTest extends \PHPUnit_Framework_TestCase
 {
-    const NICKNAME = 'listingProjectsTestUser';
-    const USERID = 'listingProjectsTestUser';
-    const PROVIDER = 'listingProjectsTestUser';
+    const NICKNAME = 'detailsProjectsTestUser';
+    const USERID = 'detailsProjectsTestUser';
+    const PROVIDER = 'detailsProjectsTestUser';
 
     public function testExecute()
     {
