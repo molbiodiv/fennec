@@ -10,7 +10,7 @@ class ProjectsTest extends \PHPUnit_Framework_TestCase
 
     public function testExecute()
     {
-        //Test if the selected project contains the correct information
+        //Test if the details of one project are returned correctly
         $_SESSION['user'] = array(
             'nickname' => ProjectsTest::NICKNAME,
             'id' => ProjectsTest::USERID,
