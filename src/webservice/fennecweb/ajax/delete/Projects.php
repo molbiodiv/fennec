@@ -6,7 +6,7 @@ use \PDO as PDO;
 
 /**
  * Web Service.
- * Remove Project with given internal_ids from the database (user has to be logged in and owner)
+ * Delete Project with given internal_ids from the database (user has to be logged in and owner)
  */
 class Projects extends \fennecweb\WebService
 {

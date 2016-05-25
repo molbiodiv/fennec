@@ -25,8 +25,8 @@ class ProjectRemoveTest extends \PHPUnit_Framework_TestCase
         $entries = ($service->execute(array('dbversion' => DEFAULT_DBVERSION)));
         $this->assertEquals(1, count($entries['data']));
         $id = $entries['data'][0]['internal_project_id'];
-        list($service) = WebService::factory('manage/ProjectRemove');
-        $expected = array("removedProjects"=>1);
+        list($service) = WebService::factory('delete/Projects');
+        $expected = array("deletedProjects"=>1);
         $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION, 'ids' => array($id))));
         $this->assertEquals($expected, $results);
         list($service) = WebService::factory('listing/Projects');

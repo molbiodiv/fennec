@@ -41,8 +41,8 @@ function addProjectTableActionButtonFunctionality(){
                 /* jshint unused:vars */
                 success: function(data, textStatus, jqXHR)
                 {
-                    var removed = data.removedProjects;
-                    showMessageDialog(removed+" project"+(removed > 1 ? "s" : "")+" removed successfully", 'alert-success');
+                    var deleted = data.deletedProjects;
+                    showMessageDialog(deleted+" project"+(deleted > 1 ? "s" : "")+" deleted successfully", 'alert-success');
                     $('#project-table').DataTable({
                         retrieve: true
                     }).ajax.reload();
