@@ -71,6 +71,7 @@
     </head>
     <body>
         <script>
+            const ServicePath = "{#$ServicePath#}";
             const WebRoot = "{#$WebRoot#}";
             const DbVersion = "{#$DbVersion#}";
         </script>
