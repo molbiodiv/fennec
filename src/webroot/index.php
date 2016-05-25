@@ -185,5 +185,13 @@ function displayTraitsById($type_cvterm_id){
     return true;
 }
 
+function displayProjectById($internal_project_id){
+    global $smarty;
+    $smarty->assign('type', 'project');
+    $smarty->assign('internal_project_id', $internal_project_id);
+    $smarty->display('projectDetails.tpl');
+    return true;
+}
+
 ?>
 
