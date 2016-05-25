@@ -62,14 +62,14 @@
                         success: function(data, textStatus, jqXHR)
                         {
                             var removed = data.removedProjects;
-                            showProjectUploadDialog(removed+" project"+(removed > 1 ? "s" : "")+" removed successfully", 'alert-success');
+                            showMessageDialog(removed+" project"+(removed > 1 ? "s" : "")+" removed successfully", 'alert-success');
                             $('#project-table').DataTable({
                                 retrieve: true
                             }).ajax.reload();
                         },
                         error: function(jqXHR, textStatus, errorThrown)
                         {
-                            showProjectUploadDialog("There was an error: "+textStatus, 'alert-danger');
+                            showMessageDialog("There was an error: "+textStatus, 'alert-danger');
                         }
                     });
                 }

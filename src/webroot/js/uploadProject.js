@@ -35,13 +35,13 @@ function startProjectFileUpload(event)
             var successfulUploads = 0;
             $.each(data.files, function(key, value){
                 if(value.error !== null){
-                    showProjectUploadDialog("Error uploading "+value.name+": "+value.error, 'alert-danger');
+                    showMessageDialog("Error uploading "+value.name+": "+value.error, 'alert-danger');
                 } else {
                     successfulUploads++;
                 }
             });
             if(successfulUploads > 0){
-                showProjectUploadDialog(successfulUploads+" project"+(successfulUploads > 1 ? "s" : "")+" uploaded successfully", 'alert-success');
+                showMessageDialog(successfulUploads+" project"+(successfulUploads > 1 ? "s" : "")+" uploaded successfully", 'alert-success');
             }
             $('#project-table').DataTable({
                 retrieve: true
@@ -50,29 +50,8 @@ function startProjectFileUpload(event)
         },
         error: function(jqXHR, textStatus, errorThrown)
         {
-            showProjectUploadDialog("There was an error: "+textStatus, 'alert-danger');
+            showMessageDialog("There was an error: "+textStatus, 'alert-danger');
             $('#project-upload-busy-indicator').hide();
         }
     });
-}
-
-/**
- * This function appends a bootstrap dialog to the project message area with the given message and type
- * @param {type} message - The text that should be shown in the dialog
- * @param {type} type - The type (color) of the dialog. Possible values: alert-success, alert-warning, alert-danger, alert-info (default)
- * @returns {void}
- */
-function showProjectUploadDialog(message, type){
-    var knownTypes = ['alert-success', 'alert-warning', 'alert-danger', 'alert-info'];
-    if(knownTypes.indexOf(type) === -1){
-        type = 'alert-info';
-    }
-    var dialogTemplate = '<div class="alert <%= type %> alert-dismissable" role="alert" style="margin-top: 10px;">';
-    dialogTemplate += '<button type="button" class="close" data-dismiss="alert" aria-label="Close">';
-    dialogTemplate += '<span aria-hidden="true">&times;</span>';
-    dialogTemplate += '</button>';
-    dialogTemplate += '<%= message %>';
-    dialogTemplate += '</div>';
-    dialogTemplate = _.template(dialogTemplate);
-    $('#project-upload-message-area').append(dialogTemplate({type: type, message: message}));
 }
