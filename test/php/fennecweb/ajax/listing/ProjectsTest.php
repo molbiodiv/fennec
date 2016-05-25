@@ -1,6 +1,6 @@
 <?php
 
-namespace fennecweb;
+namespace fennecweb\ajax\listing;
 
 class ProjectsTest extends \PHPUnit_Framework_TestCase
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace fennecweb;
+namespace fennecweb\ajax\upload;
 
 class ProjectsTest extends \PHPUnit_Framework_TestCase
 {

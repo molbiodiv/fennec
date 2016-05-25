@@ -1,8 +1,8 @@
 <?php
 
-namespace fennecweb;
+namespace fennecweb\ajax\delete;
 
-class ProjectRemoveTest extends \PHPUnit_Framework_TestCase
+class ProjectsTest extends \PHPUnit_Framework_TestCase
 {
     const NICKNAME = 'ProjectRemoveTestUser';
     const USERID = 'ProjectRemoveTestUser';

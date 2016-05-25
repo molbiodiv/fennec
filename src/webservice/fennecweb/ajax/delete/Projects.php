@@ -1,6 +1,6 @@
 <?php
 
-namespace fennecweb\ajax\manage;
+namespace fennecweb\ajax\delete;
 
 use \PDO as PDO;
 
