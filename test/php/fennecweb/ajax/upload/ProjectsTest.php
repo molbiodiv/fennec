@@ -2,7 +2,7 @@
 
 namespace fennecweb;
 
-class ProjectTest extends \PHPUnit_Framework_TestCase
+class ProjectsTest extends \PHPUnit_Framework_TestCase
 {
     const NICKNAME = 'UploadProjectTestUser';
     const USERID = 'UploadProjectTestUser';

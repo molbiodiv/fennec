@@ -8,7 +8,7 @@ use \PDO as PDO;
  * Web Service.
  * Uploads Project biom files and save them in the database
  */
-class Project extends \fennecweb\WebService
+class Projects extends \fennecweb\WebService
 {
     const ERROR_NOT_LOGGED_IN = "Error. Not logged in.";
     const ERROR_IN_REQUEST = "Error. There was an error in your request.";

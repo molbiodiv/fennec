@@ -8,7 +8,7 @@ use \PDO as PDO;
  * Web Service.
  * Remove Project with given internal_ids from the database (user has to be logged in and owner)
  */
-class ProjectRemove extends \fennecweb\WebService
+class Projects extends \fennecweb\WebService
 {
     /**
     * @param $querydata[]
@@ -23,7 +23,7 @@ class ProjectRemove extends \fennecweb\WebService
     public function execute($querydata)
     {
         $db = $this->openDbConnection($querydata);
-        $result = array('removedProjects' => 0);
+        $result = array('deletedProjects' => 0);
         if (!isset($_SESSION)) {
             session_start();
         }
@@ -38,7 +38,7 @@ EOF;
             $stm_get_user_projects = $db->prepare($query_get_user_projects);
             $stm_get_user_projects->execute(array_merge(array($_SESSION['user']['provider'], $_SESSION['user']['id']), $ids));
         
-            $result['removedProjects'] = $stm_get_user_projects->rowCount();
+            $result['deletedProjects'] = $stm_get_user_projects->rowCount();
         }
         return $result;
     }
