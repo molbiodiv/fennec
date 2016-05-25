@@ -4,11 +4,11 @@
     <div id="wrapper">
         
         {#include file='components/navigation.tpl'#}
-
         <div id="page-wrapper">
             <!-- /.row -->
             {#include file='components/title.tpl'#}
-            
+            <div id="global-message-area"></div>
+            <script src="{#$WebRoot#}/js/message.js"></script>
             {#block name='content'#}{#/block#}
         <!-- /#page-wrapper -->
         </div>
