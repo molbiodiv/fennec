@@ -37,40 +37,42 @@
                 {
                     "targets": -1,
                     "data": null,
-                    "defaultContent": "<button class=\"fa fa-trash project-remove-button\"></button>"
+                    "defaultContent": "<a class=\"btn fa fa-trash project-remove-button\" data-toggle=\"confirmation\"></a>"
                 }
             ]
         } );
         
         function addFunctionality(){
-            $('.project-remove-button').on( 'click', function () {
-                var table = $('#project-table').DataTable({
-                    retrieve: true
-                });
-                var data = table.row( $(this).parents('tr') ).data();
-                $.ajax({
-                    url: WebRoot+'/ajax/manage/ProjectRemove',
-                    type: 'POST',
-                    data: {
-                        'dbversion': DbVersion,
-                        'ids': [data.internal_project_id]
-                    },
-                    cache: false,
-                    dataType: 'json',
-                    /* jshint unused:vars */
-                    success: function(data, textStatus, jqXHR)
-                    {
-                        var removed = data.removedProjects;
-                        showProjectUploadDialog(removed+" project"+(removed > 1 ? "s" : "")+" removed successfully", 'alert-success');
-                        $('#project-table').DataTable({
-                            retrieve: true
-                        }).ajax.reload();
-                    },
-                    error: function(jqXHR, textStatus, errorThrown)
-                    {
-                        showProjectUploadDialog("There was an error: "+textStatus, 'alert-danger');
-                    }
-                });
+            $('.project-remove-button').confirmation({
+                onConfirm: function(event, element){
+                    var table = $('#project-table').DataTable({
+                        retrieve: true
+                    });
+                    var data = table.row( element.parents('tr') ).data();
+                    $.ajax({
+                        url: WebRoot+'/ajax/manage/ProjectRemove',
+                        type: 'POST',
+                        data: {
+                            'dbversion': DbVersion,
+                            'ids': [data.internal_project_id]
+                        },
+                        cache: false,
+                        dataType: 'json',
+                        /* jshint unused:vars */
+                        success: function(data, textStatus, jqXHR)
+                        {
+                            var removed = data.removedProjects;
+                            showProjectUploadDialog(removed+" project"+(removed > 1 ? "s" : "")+" removed successfully", 'alert-success');
+                            $('#project-table').DataTable({
+                                retrieve: true
+                            }).ajax.reload();
+                        },
+                        error: function(jqXHR, textStatus, errorThrown)
+                        {
+                            showProjectUploadDialog("There was an error: "+textStatus, 'alert-danger');
+                        }
+                    });
+                }
             });
         }
     </script>
