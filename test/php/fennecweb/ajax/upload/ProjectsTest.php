@@ -30,7 +30,7 @@ class ProjectsTest extends \PHPUnit_Framework_TestCase
                 'error' => 0
             )
         );
-        list($service) = WebService::factory('upload/Project');
+        list($service) = WebService::factory('upload/Projects');
         $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION)));
         $expected = array(
             "files"=>array(

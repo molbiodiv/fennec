@@ -22,7 +22,7 @@ function startProjectFileUpload(event)
     });
 
     $.ajax({
-        url: WebRoot+'/ajax/upload/Project?dbversion='+DbVersion,
+        url: WebRoot+'/ajax/upload/Projects?dbversion='+DbVersion,
         type: 'POST',
         data: data,
         cache: false,

@@ -30,7 +30,7 @@ function addProjectTableActionButtonFunctionality(){
             });
             var data = table.row( element.parents('tr') ).data();
             $.ajax({
-                url: WebRoot+'/ajax/manage/ProjectRemove',
+                url: WebRoot+'/ajax/delete/Projects',
                 type: 'POST',
                 data: {
                     'dbversion': DbVersion,
