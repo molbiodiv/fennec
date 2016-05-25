@@ -27,7 +27,7 @@
         columnDefs: [{
             targets: 0,
             render: function (data, type, full, meta) {
-                return '<a href="'+full.internal_project_id+'">'+full.id+'</a>';
+                return '<a href="'+WebRoot+"/"+DbVersion+"/project/details/byid/"+full.internal_project_id+'">'+full.id+'</a>';
             }
           }]
     } );
