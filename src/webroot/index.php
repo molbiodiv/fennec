@@ -61,6 +61,10 @@ switch ($page) {
         $smarty->assign('title', 'Projects');
         $smarty->display('project.tpl');
         die();
+    case 'project-byid':
+        if (displayProjectById(requestVal('internal_project_id', '/^[0-9]+$/', '')))
+            die();
+        break;
     case 'trait':
         $smarty->assign('type', 'trait');
         $smarty->assign('title', 'Traits');
