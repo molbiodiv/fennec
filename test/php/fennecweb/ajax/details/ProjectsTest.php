@@ -15,7 +15,7 @@ class ProjectsTest extends \PHPUnit_Framework_TestCase
             'nickname' => ProjectsTest::NICKNAME,
             'id' => ProjectsTest::USERID,
             'provider' => ProjectsTest::PROVIDER,
-            'token' => 'listingProjectsTestUserToken'
+            'token' => 'detailsProjectTestUserToken'
         );
         list($service) = WebService::factory('details/Project');
         $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION)));
