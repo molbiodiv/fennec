@@ -23,7 +23,7 @@ class ProjectsTest extends \PHPUnit_Framework_TestCase
         $entries = ($service->execute(array('dbversion' => DEFAULT_DBVERSION)));
         $id = $entries['data'][0]['internal_project_id'];
         list($service) = WebService::factory('details/Projects');
-        $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION, 'id' => $id)));
+        $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION, 'ids' => array($id))));
         $expected = array(
             $id => '{'
             . '"id": "table_1", '
