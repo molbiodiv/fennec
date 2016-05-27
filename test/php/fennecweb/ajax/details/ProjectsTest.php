@@ -2,6 +2,8 @@
 
 namespace fennecweb\ajax\details;
 
+use \fennecweb\WebService as WebService;
+
 class ProjectsTest extends \PHPUnit_Framework_TestCase
 {
     const NICKNAME = 'detailsProjectsTestUser';
@@ -17,10 +19,13 @@ class ProjectsTest extends \PHPUnit_Framework_TestCase
             'provider' => ProjectsTest::PROVIDER,
             'token' => 'detailsProjectTestUserToken'
         );
-        list($service) = \fennecweb\WebService::factory('details/Projects');
-        $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION, 'id' => 2)));
+        list($service) = WebService::factory('listing/Projects');
+        $entries = ($service->execute(array('dbversion' => DEFAULT_DBVERSION)));
+        $id = $entries['data'][0]['internal_project_id'];
+        list($service) = WebService::factory('details/Projects');
+        $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION, 'id' => $id)));
         $expected = array(
-            2 => '{'
+            $id => '{'
             . '"id": "table_1", '
             . '"data": [[0, 0, 120.0], [3, 1, 12.0], [5, 2, 20.0], [7, 3, 12.7], [8, 4, 16.0]], '
             . '"date": "2016-05-03T08:13:41.848780", '
