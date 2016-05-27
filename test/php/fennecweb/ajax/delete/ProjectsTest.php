@@ -2,6 +2,8 @@
 
 namespace fennecweb\ajax\delete;
 
+use \fennecweb\WebService as WebService;
+
 class ProjectsTest extends \PHPUnit_Framework_TestCase
 {
     const NICKNAME = 'ProjectRemoveTestUser';

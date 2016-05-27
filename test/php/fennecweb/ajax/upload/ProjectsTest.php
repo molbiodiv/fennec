@@ -2,6 +2,8 @@
 
 namespace fennecweb\ajax\upload;
 
+use \fennecweb\WebService as WebService;
+
 class ProjectsTest extends \PHPUnit_Framework_TestCase
 {
     const NICKNAME = 'UploadProjectTestUser';
