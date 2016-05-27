@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="robots" content="noindex">
+
+	<title>File fennecweb/ajax/upload/Projects.php</title>
+
+	<link rel="stylesheet" href="resources/bootstrap.min.css?973e37a8502921d56bc02bb55321f45b072b6f71">
+	<link rel="stylesheet" href="resources/style.css?70c1d062672daa3f906b72e4f5d03d4bc5c4174d">
+
+</head>
+
+<body>
+	<nav id="navigation" class="navbar navbar-default navbar-fixed-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a href="index.html" class="navbar-brand">Overview</a>
+			</div>
+			<div class="collapse navbar-collapse">
+
+                <form id="search" class="navbar-form navbar-left" role="search">
+                    <input type="hidden" name="cx" value="">
+                    <input type="hidden" name="ie" value="UTF-8">
+                    <div class="form-group">
+                        <input type="text" name="q" class="search-query form-control" placeholder="Search">
+					</div>
+				</form>
+
+				<ul class="nav navbar-nav">
+					<li>
+<span>Namespace</span>					</li>
+					<li>
+<span>Class</span>					</li>
+
+
+
+
+
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<div id="left">
+	<div id="menu">
+
+		<div id="groups">
+				<h3>Namespaces</h3>
+			<ul>
+					<li>
+						<a href="namespace-fennecweb.html">
+							fennecweb<span></span>
+						</a>
+							<ul>
+					<li>
+						<a href="namespace-fennecweb.ajax.html">
+							ajax<span></span>
+						</a>
+							<ul>
+					<li>
+						<a href="namespace-fennecweb.ajax.delete.html">
+							delete						</a>
+							</li>
+					<li>
+						<a href="namespace-fennecweb.ajax.details.html">
+							details						</a>
+							</li>
+					<li>
+						<a href="namespace-fennecweb.ajax.listing.html">
+							listing						</a>
+							</li>
+					<li>
+						<a href="namespace-fennecweb.ajax.upload.html">
+							upload						</a>
+							</li>
+								</ul></li></ul></li>
+			</ul>
+		</div>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-fennecweb.ajax.delete.Projects.html">fennecweb\ajax\delete\Projects</a></li>
+				<li><a href="class-fennecweb.ajax.details.Organisms.html">fennecweb\ajax\details\Organisms</a></li>
+				<li><a href="class-fennecweb.ajax.details.OrganismsWithTrait.html">fennecweb\ajax\details\OrganismsWithTrait</a></li>
+				<li><a href="class-fennecweb.ajax.details.Traits.html">fennecweb\ajax\details\Traits</a></li>
+				<li><a href="class-fennecweb.ajax.details.TraitsOfOrganism.html">fennecweb\ajax\details\TraitsOfOrganism</a></li>
+				<li><a href="class-fennecweb.ajax.listing.Organisms.html">fennecweb\ajax\listing\Organisms</a></li>
+				<li><a href="class-fennecweb.ajax.listing.Projects.html">fennecweb\ajax\listing\Projects</a></li>
+				<li><a href="class-fennecweb.ajax.listing.Taxonomy.html">fennecweb\ajax\listing\Taxonomy</a></li>
+				<li><a href="class-fennecweb.ajax.listing.Traits.html">fennecweb\ajax\listing\Traits</a></li>
+				<li><a href="class-fennecweb.ajax.upload.Projects.html">fennecweb\ajax\upload\Projects</a></li>
+				<li><a href="class-fennecweb.DB.html">fennecweb\DB</a></li>
+				<li><a href="class-fennecweb.WebService.html">fennecweb\WebService</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+	<div id="rightInner">
+<div id="source">
+	<pre class="numbers"><code><span class="l"><a href="#1">  1 </a></span><span class="l"><a href="#2">  2 </a></span><span class="l"><a href="#3">  3 </a></span><span class="l"><a href="#4">  4 </a></span><span class="l"><a href="#5">  5 </a></span><span class="l"><a href="#6">  6 </a></span><span class="l"><a href="#7">  7 </a></span></span><span class="l"><a href="#8">  8 </a></span></span><span class="l"><a href="#9">  9 </a></span></span><span class="l"><a href="#10"> 10 </a></span><span class="l"><a href="#11"> 11 </a></span><span class="l"><a href="#12"> 12 </a></span><span class="l"><a href="#13"> 13 </a></span><span class="l"><a href="#14"> 14 </a></span><span class="l"><a href="#15"> 15 </a></span><span class="l"><a href="#16"> 16 </a></span><span class="l"><a href="#17"> 17 </a></span><span class="l"><a href="#18"> 18 </a></span><span class="l"><a href="#19"> 19 </a></span><span class="l"><a href="#20"> 20 </a></span><span class="l"><a href="#21"> 21 </a></span><span class="l"><a href="#22"> 22 </a></span><span class="l"><a href="#23"> 23 </a></span><span class="l"><a href="#24"> 24 </a></span><span class="l"><a href="#25"> 25 </a></span><span class="l"><a href="#26"> 26 </a></span><span class="l"><a href="#27"> 27 </a></span><span class="l"><a href="#28"> 28 </a></span><span class="l"><a href="#29"> 29 </a></span><span class="l"><a href="#30"> 30 </a></span><span class="l"><a href="#31"> 31 </a></span><span class="l"><a href="#32"> 32 </a></span><span class="l"><a href="#33"> 33 </a></span><span class="l"><a href="#34"> 34 </a></span><span class="l"><a href="#35"> 35 </a></span></span><span class="l"><a href="#36"> 36 </a></span></span><span class="l"><a href="#37"> 37 </a></span></span><span class="l"><a href="#38"> 38 </a></span><span class="l"><a href="#39"> 39 </a></span></span><span class="l"><a href="#40"> 40 </a></span></span><span class="l"><a href="#41"> 41 </a></span></span><span class="l"><a href="#42"> 42 </a></span><span class="l"><a href="#43"> 43 </a></span><span class="l"><a href="#44"> 44 </a></span><span class="l"><a href="#45"> 45 </a></span><span class="l"><a href="#46"> 46 </a></span><span class="l"><a href="#47"> 47 </a></span><span class="l"><a href="#48"> 48 </a></span><span class="l"><a href="#49"> 49 </a></span><span class="l"><a href="#50"> 50 </a></span><span class="l"><a href="#51"> 51 </a></span><span class="l"><a href="#52"> 52 </a></span><span class="l"><a href="#53"> 53 </a></span><span class="l"><a href="#54"> 54 </a></span><span class="l"><a href="#55"> 55 </a></span><span class="l"><a href="#56"> 56 </a></span><span class="l"><a href="#57"> 57 </a></span><span class="l"><a href="#58"> 58 </a></span><span class="l"><a href="#59"> 59 </a></span><span class="l"><a href="#60"> 60 </a></span><span class="l"><a href="#61"> 61 </a></span><span class="l"><a href="#62"> 62 </a></span><span class="l"><a href="#63"> 63 </a></span><span class="l"><a href="#64"> 64 </a></span><span class="l"><a href="#65"> 65 </a></span><span class="l"><a href="#66"> 66 </a></span><span class="l"><a href="#67"> 67 </a></span><span class="l"><a href="#68"> 68 </a></span><span class="l"><a href="#69"> 69 </a></span><span class="l"><a href="#70"> 70 </a></span><span class="l"><a href="#71"> 71 </a></span><span class="l"><a href="#72"> 72 </a></span><span class="l"><a href="#73"> 73 </a></span><span class="l"><a href="#74"> 74 </a></span><span class="l"><a href="#75"> 75 </a></span><span class="l"><a href="#76"> 76 </a></span></span><span class="l"><a href="#77"> 77 </a></span></span><span class="l"><a href="#78"> 78 </a></span></span><span class="l"><a href="#79"> 79 </a></span></span><span class="l"><a href="#80"> 80 </a></span><span class="l"><a href="#81"> 81 </a></span><span class="l"><a href="#82"> 82 </a></span><span class="l"><a href="#83"> 83 </a></span><span class="l"><a href="#84"> 84 </a></span><span class="l"><a href="#85"> 85 </a></span><span class="l"><a href="#86"> 86 </a></span><span class="l"><a href="#87"> 87 </a></span><span class="l"><a href="#88"> 88 </a></span><span class="l"><a href="#89"> 89 </a></span><span class="l"><a href="#90"> 90 </a></span><span class="l"><a href="#91"> 91 </a></span><span class="l"><a href="#92"> 92 </a></span><span class="l"><a href="#93"> 93 </a></span><span class="l"><a href="#94"> 94 </a></span><span class="l"><a href="#95"> 95 </a></span><span class="l"><a href="#96"> 96 </a></span><span class="l"><a href="#97"> 97 </a></span><span class="l"><a href="#98"> 98 </a></span><span class="l"><a href="#99"> 99 </a></span><span class="l"><a href="#100">100 </a></span><span class="l"><a href="#101">101 </a></span><span class="l"><a href="#102">102 </a></span><span class="l"><a href="#103">103 </a></span><span class="l"><a href="#104">104 </a></span><span class="l"><a href="#105">105 </a></span></code></pre>
+	<pre class="code"><code><span id="1" class="l"><span class="xlang">&lt;?php</span>
+</span><span id="2" class="l">
+</span><span id="3" class="l"><span class="php-keyword1">namespace</span> fennecweb\ajax\upload;
+</span><span id="4" class="l">
+</span><span id="5" class="l"><span class="php-keyword1">use</span> \PDO <span class="php-keyword1">as</span> PDO;
+</span><span id="6" class="l">
+</span><span id="7" class="l"><span class="php-comment">/**
+</span></span><span id="8" class="l"><span class="php-comment"> * Web Service.
+</span></span><span id="9" class="l"><span class="php-comment"> * Uploads Project biom files and save them in the database
+</span></span><span id="10" class="l"><span class="php-comment"> */</span>
+</span><span id="11" class="l"><span class="php-keyword1">class</span> Projects <span class="php-keyword1">extends</span> \fennecweb\WebService
+</span><span id="12" class="l">{
+</span><span id="13" class="l">    <span class="php-keyword1">const</span> ERROR_NOT_LOGGED_IN = <span class="php-quote">&quot;Error. Not logged in.&quot;</span>;
+</span><span id="14" class="l">    <span class="php-keyword1">const</span> ERROR_IN_REQUEST = <span class="php-quote">&quot;Error. There was an error in your request.&quot;</span>;
+</span><span id="15" class="l">    <span class="php-keyword1">const</span> ERROR_NOT_TEXT = <span class="php-quote">&quot;Error. Not a text file.&quot;</span>;
+</span><span id="16" class="l">    <span class="php-keyword1">const</span> ERROR_NOT_JSON = <span class="php-quote">&quot;Error. Not a json file.&quot;</span>;
+</span><span id="17" class="l">    <span class="php-keyword1">const</span> ERROR_NOT_BIOM = <span class="php-quote">&quot;Error. Not a biom file.&quot;</span>;
+</span><span id="18" class="l">    <span class="php-keyword1">const</span> ERROR_DB_INSERT = <span class="php-quote">&quot;Error. Could not insert into database.&quot;</span>;
+</span><span id="19" class="l">
+</span><span id="20" class="l">    <span class="php-keyword1">public</span> <span class="php-var">$required_biom1_toplevel_keys</span> = <span class="php-keyword1">array</span>(
+</span><span id="21" class="l">        <span class="php-quote">'id'</span>,
+</span><span id="22" class="l">        <span class="php-quote">'format'</span>,
+</span><span id="23" class="l">        <span class="php-quote">'format_url'</span>,
+</span><span id="24" class="l">        <span class="php-quote">'type'</span>,
+</span><span id="25" class="l">        <span class="php-quote">'generated_by'</span>,
+</span><span id="26" class="l">        <span class="php-quote">'date'</span>,
+</span><span id="27" class="l">        <span class="php-quote">'rows'</span>,
+</span><span id="28" class="l">        <span class="php-quote">'columns'</span>,
+</span><span id="29" class="l">        <span class="php-quote">'matrix_type'</span>,
+</span><span id="30" class="l">        <span class="php-quote">'matrix_element_type'</span>,
+</span><span id="31" class="l">        <span class="php-quote">'shape'</span>,
+</span><span id="32" class="l">        <span class="php-quote">'data'</span>
+</span><span id="33" class="l">    );
+</span><span id="34" class="l">
+</span><span id="35" class="l">    <span class="php-keyword1">private</span> <span class="php-var">$query_insert_project_into_db</span> = <span class="php-quote">&lt;&lt;&lt;EOF
+</span></span><span id="36" class="l"><span class="php-quote">INSERT INTO full_webuser_data (project, oauth_id, provider) VALUES (:project, :user, :provider);
+</span></span><span id="37" class="l"><span class="php-quote">EOF;
+</span></span><span id="38" class="l">
+</span><span id="39" class="l">    <span class="php-comment">/**
+</span></span><span id="40" class="l"><span class="php-comment">     * @param $querydata[]
+</span></span><span id="41" class="l"><span class="php-comment">     * @returns result of file upload
+</span></span><span id="42" class="l"><span class="php-comment">     */</span>
+</span><span id="43" class="l">    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> execute(<span class="php-var">$querydata</span>)
+</span><span id="44" class="l">    {
+</span><span id="45" class="l">        <span class="php-var">$db</span> = <span class="php-var">$this</span>-&gt;openDbConnection(<span class="php-var">$querydata</span>);
+</span><span id="46" class="l">        <span class="php-var">$files</span> = <span class="php-keyword1">array</span>();
+</span><span id="47" class="l">        <span class="php-keyword1">if</span> (!<span class="php-keyword1">isset</span>(<span class="php-var">$_SESSION</span>)) {
+</span><span id="48" class="l">            <span class="php-keyword2">session_start</span>();
+</span><span id="49" class="l">        }
+</span><span id="50" class="l">        <span class="php-keyword1">if</span> (!<span class="php-keyword1">isset</span>(<span class="php-var">$_SESSION</span>[<span class="php-quote">'user'</span>])) {
+</span><span id="51" class="l">            <span class="php-var">$files</span> = <span class="php-keyword1">array</span>(<span class="php-quote">&quot;error&quot;</span> =&gt; Project::ERROR_NOT_LOGGED_IN);
+</span><span id="52" class="l">        } <span class="php-keyword1">else</span> {
+</span><span id="53" class="l">            <span class="php-comment">// var_dump($_FILES);</span>
+</span><span id="54" class="l">            <span class="php-keyword1">for</span> (<span class="php-var">$i</span>=<span class="php-num">0</span>; <span class="php-var">$i</span>&lt;<span class="php-keyword2">sizeof</span>(<span class="php-var">$_FILES</span>); <span class="php-var">$i</span>++) {
+</span><span id="55" class="l">                <span class="php-var">$valid</span> = <span class="php-var">$this</span>-&gt;validateFile(<span class="php-var">$_FILES</span>[<span class="php-var">$i</span>][<span class="php-quote">'tmp_name'</span>]);
+</span><span id="56" class="l">                <span class="php-keyword1">if</span> (<span class="php-var">$valid</span> === <span class="php-keyword1">true</span>) {
+</span><span id="57" class="l">                    <span class="php-var">$stm_get_organisms</span> = <span class="php-var">$db</span>-&gt;prepare(<span class="php-var">$this</span>-&gt;query_insert_project_into_db);
+</span><span id="58" class="l">                    <span class="php-var">$stm_get_organisms</span>-&gt;bindValue(<span class="php-quote">'project'</span>, <span class="php-keyword2">file_get_contents</span>(<span class="php-var">$_FILES</span>[<span class="php-var">$i</span>][<span class="php-quote">'tmp_name'</span>]));
+</span><span id="59" class="l">                    <span class="php-var">$stm_get_organisms</span>-&gt;bindValue(<span class="php-quote">'user'</span>, <span class="php-var">$_SESSION</span>[<span class="php-quote">'user'</span>][<span class="php-quote">'id'</span>]);
+</span><span id="60" class="l">                    <span class="php-var">$stm_get_organisms</span>-&gt;bindValue(<span class="php-quote">'provider'</span>, <span class="php-var">$_SESSION</span>[<span class="php-quote">'user'</span>][<span class="php-quote">'provider'</span>]);
+</span><span id="61" class="l">                    <span class="php-keyword1">if</span> (! <span class="php-var">$stm_get_organisms</span>-&gt;execute()) {
+</span><span id="62" class="l">                        <span class="php-var">$valid</span> = Project::ERROR_DB_INSERT;
+</span><span id="63" class="l">                    }
+</span><span id="64" class="l">                }
+</span><span id="65" class="l">                <span class="php-var">$file</span> = <span class="php-keyword1">array</span>(
+</span><span id="66" class="l">                    <span class="php-quote">&quot;name&quot;</span> =&gt; <span class="php-var">$_FILES</span>[<span class="php-var">$i</span>][<span class="php-quote">'name'</span>],
+</span><span id="67" class="l">                    <span class="php-quote">&quot;size&quot;</span> =&gt; <span class="php-var">$_FILES</span>[<span class="php-var">$i</span>][<span class="php-quote">'size'</span>],
+</span><span id="68" class="l">                    <span class="php-quote">&quot;error&quot;</span> =&gt; (<span class="php-var">$valid</span> === <span class="php-keyword1">true</span> ? <span class="php-keyword1">null</span> : <span class="php-var">$valid</span>)
+</span><span id="69" class="l">                );
+</span><span id="70" class="l">                <span class="php-var">$files</span>[] = <span class="php-var">$file</span>;
+</span><span id="71" class="l">            }
+</span><span id="72" class="l">        }
+</span><span id="73" class="l">        <span class="php-keyword1">return</span> <span class="php-keyword1">array</span>(<span class="php-quote">&quot;files&quot;</span> =&gt; <span class="php-var">$files</span>);
+</span><span id="74" class="l">    }
+</span><span id="75" class="l">
+</span><span id="76" class="l">    <span class="php-comment">/**
+</span></span><span id="77" class="l"><span class="php-comment">     * Function that checks the uploaded file for validity
+</span></span><span id="78" class="l"><span class="php-comment">     * @param String $filename the uploaded file to check
+</span></span><span id="79" class="l"><span class="php-comment">     * @returns Either true if the file is valid or a String containing the error message
+</span></span><span id="80" class="l"><span class="php-comment">     */</span>
+</span><span id="81" class="l">    <span class="php-keyword1">protected</span> <span class="php-keyword1">function</span> validateFile(<span class="php-var">$filename</span>)
+</span><span id="82" class="l">    {
+</span><span id="83" class="l">        <span class="php-keyword1">if</span> (!<span class="php-keyword2">is_uploaded_file</span>(<span class="php-var">$filename</span>)) {
+</span><span id="84" class="l">            <span class="php-keyword1">return</span> Projects::ERROR_IN_REQUEST;
+</span><span id="85" class="l">        }
+</span><span id="86" class="l">        <span class="php-var">$contents</span> = <span class="php-keyword2">file_get_contents</span>(<span class="php-var">$filename</span>);
+</span><span id="87" class="l">        <span class="php-keyword1">if</span> (<span class="php-var">$contents</span> === <span class="php-keyword1">false</span>) {
+</span><span id="88" class="l">            <span class="php-keyword1">return</span> Projects::ERROR_NOT_TEXT;
+</span><span id="89" class="l">        }
+</span><span id="90" class="l">        <span class="php-var">$json</span> = <span class="php-keyword2">json_decode</span>(<span class="php-var">$contents</span>);
+</span><span id="91" class="l">        <span class="php-keyword1">if</span> (<span class="php-keyword2">json_last_error</span>() !== JSON_ERROR_NONE) {
+</span><span id="92" class="l">            <span class="php-keyword1">return</span> Projects::ERROR_NOT_JSON;
+</span><span id="93" class="l">        }
+</span><span id="94" class="l">        <span class="php-keyword1">if</span> (!<span class="php-keyword2">is_object</span>(<span class="php-var">$json</span>)) {
+</span><span id="95" class="l">            <span class="php-keyword1">return</span> Projects::ERROR_NOT_BIOM;
+</span><span id="96" class="l">        }
+</span><span id="97" class="l">        <span class="php-keyword1">foreach</span> (<span class="php-var">$this</span>-&gt;required_biom1_toplevel_keys <span class="php-keyword1">as</span> <span class="php-var">$key</span>) {
+</span><span id="98" class="l">            <span class="php-keyword1">if</span> (!<span class="php-keyword2">array_key_exists</span>(<span class="php-var">$key</span>, <span class="php-var">$json</span>)) {
+</span><span id="99" class="l">                <span class="php-keyword1">return</span> Projects::ERROR_NOT_BIOM;
+</span><span id="100" class="l">            }
+</span><span id="101" class="l">        }
+</span><span id="102" class="l">        <span class="php-keyword1">return</span> <span class="php-keyword1">true</span>;
+</span><span id="103" class="l">    }
+</span><span id="104" class="l">}
+</span><span id="105" class="l"></span></code></pre>
+</div>
+	</div>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen</a>
+	</div>
+</div>
+<script src="resources/combined.js?f9a10bb669b741b6f6678799a4ffb39cce023e7a"></script>
+<script src="elementlist.js?d80515457383ca1f15528770e52f018a86d26ae2"></script>
+</body>
+</html>

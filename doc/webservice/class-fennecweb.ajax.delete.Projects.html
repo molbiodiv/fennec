@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 
-	<title>Class fennecweb\ajax\details\OrganismsWithTrait</title>
+	<title>Class fennecweb\ajax\delete\Projects</title>
 
 	<link rel="stylesheet" href="resources/bootstrap.min.css?973e37a8502921d56bc02bb55321f45b072b6f71">
 	<link rel="stylesheet" href="resources/style.css?70c1d062672daa3f906b72e4f5d03d4bc5c4174d">
@@ -28,7 +28,7 @@
 
 				<ul class="nav navbar-nav">
 					<li>
-						<a href="namespace-fennecweb.ajax.details.html" title="Summary of fennecweb\ajax\details"><span>Namespace</span></a>
+						<a href="namespace-fennecweb.ajax.delete.html" title="Summary of fennecweb\ajax\delete"><span>Namespace</span></a>
 					</li>
 					<li class="active">
 <span>Class</span>					</li>
@@ -58,11 +58,11 @@
 							ajax<span></span>
 						</a>
 							<ul>
-					<li>
+					<li class="active">
 						<a href="namespace-fennecweb.ajax.delete.html">
 							delete						</a>
 							</li>
-					<li class="active">
+					<li>
 						<a href="namespace-fennecweb.ajax.details.html">
 							details						</a>
 							</li>
@@ -82,10 +82,7 @@
 		<div id="elements">
 			<h3>Classes</h3>
 			<ul>
-				<li><a href="class-fennecweb.ajax.details.Organisms.html">Organisms</a></li>
-				<li class="active"><a href="class-fennecweb.ajax.details.OrganismsWithTrait.html">OrganismsWithTrait</a></li>
-				<li><a href="class-fennecweb.ajax.details.Traits.html">Traits</a></li>
-				<li><a href="class-fennecweb.ajax.details.TraitsOfOrganism.html">TraitsOfOrganism</a></li>
+				<li class="active"><a href="class-fennecweb.ajax.delete.Projects.html">Projects</a></li>
 			</ul>
 
 
@@ -101,12 +98,12 @@
 <div id="right">
 	<div id="rightInner">
 <div id="content" class="class">
-	<h1>Class OrganismsWithTrait</h1>
+	<h1>Class Projects</h1>
 
 
 	<div class="description">
 	<p>Web Service.
-Returns Organisms with given ids</p>
+Delete Project with given internal_ids from the database (user has to be logged in and owner)</p>
 	</div>
 
 	<dl class="tree well">
@@ -118,7 +115,7 @@ Returns Organisms with given ids</p>
 		</dd>
 		<dd style="padding-left:30px">
 			<img src="resources/inherit.png" alt="Extended by">
-<b><span>fennecweb\ajax\details\OrganismsWithTrait</span></b>			
+<b><span>fennecweb\ajax\delete\Projects</span></b>			
 			
 			
 		</dd>
@@ -134,10 +131,10 @@ Returns Organisms with given ids</p>
 	<div class="alert alert-info">
 		
 		
-		<b>Namespace:</b> <a href="namespace-fennecweb.html">fennecweb</a>\<a href="namespace-fennecweb.ajax.html">ajax</a>\<a href="namespace-fennecweb.ajax.details.html">details</a><br>
+		<b>Namespace:</b> <a href="namespace-fennecweb.html">fennecweb</a>\<a href="namespace-fennecweb.ajax.html">ajax</a>\<a href="namespace-fennecweb.ajax.delete.html">delete</a><br>
 		
 
-			<b>Located at</b> <a href="source-class-fennecweb.ajax.details.OrganismsWithTrait.html#7-53" title="Go to source code">fennecweb/ajax/details/OrganismsWithTrait.php</a>
+			<b>Located at</b> <a href="source-class-fennecweb.ajax.delete.Projects.html#7-47" title="Go to source code">fennecweb/ajax/delete/Projects.php</a>
 		<br>
 	</div>
 
@@ -157,7 +154,7 @@ Returns Organisms with given ids</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_execute">#</a>
-			<code><a href="source-class-fennecweb.ajax.details.OrganismsWithTrait.html#14-52" title="Go to source code">execute</a>( <span> <var>$querydata</var></span> )</code>
+			<code><a href="source-class-fennecweb.ajax.delete.Projects.html#13-46" title="Go to source code">execute</a>( <span> <var>$querydata</var></span> )</code>
 
 			<div class="description short">
 				
@@ -170,14 +167,17 @@ Returns Organisms with given ids</p>
 					<h4>Parameters</h4>
 					<div class="list"><dl>
 						<dt><var>$querydata</var></dt>
-						<dd>of trait type_cvterm_id</dd>
+						<dd><p>array('dbversion'=>$dbversion, 'ids'=>array($id1, $id2));
+</code></p></dd>
 					</dl></div>
 
 
 
 					<h4>Returns</h4>
 					<div class="list">
-							array of organisms accoring to a specific trait type<br>
+							<p>Array $result</p>
+
+<pre><span class="php-keyword1">array</span>(<span class="php-keyword1">array</span>(<span class="php-quote">'project_id'</span>,<span class="php-quote">'import_date'</span>,<span class="php-quote">'OTUs'</span>,<span class="php-quote">'sample size'</span>));</pre><br>
 					</div>
 
 
