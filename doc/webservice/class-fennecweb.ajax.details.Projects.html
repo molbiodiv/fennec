@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 
-	<title>Class fennecweb\ajax\details\TraitsOfOrganism</title>
+	<title>Class fennecweb\ajax\details\Projects</title>
 
 	<link rel="stylesheet" href="resources/bootstrap.min.css?973e37a8502921d56bc02bb55321f45b072b6f71">
 	<link rel="stylesheet" href="resources/style.css?70c1d062672daa3f906b72e4f5d03d4bc5c4174d">
@@ -84,9 +84,9 @@
 			<ul>
 				<li><a href="class-fennecweb.ajax.details.Organisms.html">Organisms</a></li>
 				<li><a href="class-fennecweb.ajax.details.OrganismsWithTrait.html">OrganismsWithTrait</a></li>
-				<li><a href="class-fennecweb.ajax.details.Projects.html">Projects</a></li>
+				<li class="active"><a href="class-fennecweb.ajax.details.Projects.html">Projects</a></li>
 				<li><a href="class-fennecweb.ajax.details.Traits.html">Traits</a></li>
-				<li class="active"><a href="class-fennecweb.ajax.details.TraitsOfOrganism.html">TraitsOfOrganism</a></li>
+				<li><a href="class-fennecweb.ajax.details.TraitsOfOrganism.html">TraitsOfOrganism</a></li>
 			</ul>
 
 
@@ -102,12 +102,12 @@
 <div id="right">
 	<div id="rightInner">
 <div id="content" class="class">
-	<h1>Class TraitsOfOrganism</h1>
+	<h1>Class Projects</h1>
 
 
 	<div class="description">
 	<p>Web Service.
-Returns Trait information of an organism by its id</p>
+Returns a project according to the project ID.</p>
 	</div>
 
 	<dl class="tree well">
@@ -119,7 +119,7 @@ Returns Trait information of an organism by its id</p>
 		</dd>
 		<dd style="padding-left:30px">
 			<img src="resources/inherit.png" alt="Extended by">
-<b><span>fennecweb\ajax\details\TraitsOfOrganism</span></b>			
+<b><span>fennecweb\ajax\details\Projects</span></b>			
 			
 			
 		</dd>
@@ -138,7 +138,7 @@ Returns Trait information of an organism by its id</p>
 		<b>Namespace:</b> <a href="namespace-fennecweb.html">fennecweb</a>\<a href="namespace-fennecweb.ajax.html">ajax</a>\<a href="namespace-fennecweb.ajax.details.html">details</a><br>
 		
 
-			<b>Located at</b> <a href="source-class-fennecweb.ajax.details.TraitsOfOrganism.html#7-63" title="Go to source code">fennecweb/ajax/details/TraitsOfOrganism.php</a>
+			<b>Located at</b> <a href="source-class-fennecweb.ajax.details.Projects.html#7-43" title="Go to source code">fennecweb/ajax/details/Projects.php</a>
 		<br>
 	</div>
 
@@ -158,7 +158,7 @@ Returns Trait information of an organism by its id</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_execute">#</a>
-			<code><a href="source-class-fennecweb.ajax.details.TraitsOfOrganism.html#16-44" title="Go to source code">execute</a>( <span> <var>$querydata</var></span> )</code>
+			<code><a href="source-class-fennecweb.ajax.details.Projects.html#13-42" title="Go to source code">execute</a>( <span> <var>$querydata</var></span> )</code>
 
 			<div class="description short">
 				
@@ -178,7 +178,9 @@ Returns Trait information of an organism by its id</p>
 
 					<h4>Returns</h4>
 					<div class="list">
-							organism id<br>
+							<p>Array $result</p>
+
+<pre><span class="php-keyword1">array</span>(<span class="php-quote">'project_id'</span>: {biomfile});</pre><br>
 					</div>
 
 
