@@ -26,17 +26,21 @@ class Projects extends \fennecweb\WebService
         if (!isset($_SESSION)) {
             session_start();
         }
-        $query_get_project_details = <<<EOF
+        if (!isset($_SESSION['user'])) {
+            $result['error'] = \fennecweb\ajax\listing\Projects::ERROR_NOT_LOGGED_IN;
+        } else {
+            $query_get_project_details = <<<EOF
 SELECT webuser_data_id, project FROM full_webuser_data 
     WHERE provider = ? AND oauth_id = ? AND webuser_data_id IN ($placeholders)
 EOF;
-        $stm_get_project_details = $db->prepare($query_get_project_details);
-        $stm_get_project_details->execute(
-            array_merge(array($_SESSION['user']['provider'], $_SESSION['user']['id']), $ids)
-        );
+            $stm_get_project_details = $db->prepare($query_get_project_details);
+            $stm_get_project_details->execute(
+                array_merge(array($_SESSION['user']['provider'], $_SESSION['user']['id']), $ids)
+            );
 
-        while ($row = $stm_get_project_details->fetch(PDO::FETCH_ASSOC)) {
-            $result['projects'][$row['webuser_data_id']] = $row['project'];
+            while ($row = $stm_get_project_details->fetch(PDO::FETCH_ASSOC)) {
+                $result['projects'][$row['webuser_data_id']] = $row['project'];
+            }
         }
         return $result;
     }
