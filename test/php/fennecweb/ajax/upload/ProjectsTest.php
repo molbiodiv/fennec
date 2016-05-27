@@ -39,7 +39,7 @@ class ProjectsTest extends \PHPUnit_Framework_TestCase
                 array(
                     "name" => "empty",
                     "size" => 0,
-                    "error" => \fennecweb\ajax\upload\Project::ERROR_NOT_JSON
+                    "error" => \fennecweb\ajax\upload\Projects::ERROR_NOT_JSON
                 )
             )
         );
@@ -61,7 +61,7 @@ class ProjectsTest extends \PHPUnit_Framework_TestCase
                 array(
                     "name" => "noJson",
                     "size" => 71,
-                    "error" => \fennecweb\ajax\upload\Project::ERROR_NOT_JSON
+                    "error" => \fennecweb\ajax\upload\Projects::ERROR_NOT_JSON
                 )
             )
         );
@@ -83,7 +83,7 @@ class ProjectsTest extends \PHPUnit_Framework_TestCase
                 array(
                     "name" => "noBiom.json",
                     "size" => 71,
-                    "error" => \fennecweb\ajax\upload\Project::ERROR_NOT_BIOM
+                    "error" => \fennecweb\ajax\upload\Projects::ERROR_NOT_BIOM
                 )
             )
         );
