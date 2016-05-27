@@ -36,7 +36,9 @@ class Projects extends \fennecweb\WebService
 DELETE FROM full_webuser_data WHERE provider = ? AND oauth_id = ? and webuser_data_id IN ($placeholders)
 EOF;
             $stm_get_user_projects = $db->prepare($query_get_user_projects);
-            $stm_get_user_projects->execute(array_merge(array($_SESSION['user']['provider'], $_SESSION['user']['id']), $ids));
+            $stm_get_user_projects->execute(
+                array_merge(array($_SESSION['user']['provider'], $_SESSION['user']['id']), $ids)
+            );
         
             $result['deletedProjects'] = $stm_get_user_projects->rowCount();
         }
