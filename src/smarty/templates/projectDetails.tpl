@@ -7,17 +7,8 @@
     <h3>Error: This project could not be found for the current user.</h3>
     {#else#}
     <button class='btn' id='inspect-with-phinch-button'>Inspect with Phinch</button>
-    <script src="{#$WebRoot#}/Phinch/lib/jquery-1.10.1.min.js"></script>
-    <script src="{#$WebRoot#}/Phinch/lib/jquery-ui-1.10.3.custom.min.js"></script>
-    <script src="{#$WebRoot#}/Phinch/lib/indexedDB.polyfill.js"></script>
     <script src="{#$WebRoot#}/Phinch/lib/db.js"></script>
-    <script src="{#$WebRoot#}/Phinch/lib/FileSaver.js"></script>
-    <script src="{#$WebRoot#}/Phinch/lib/moment.min.js"></script>
-    <script src="{#$WebRoot#}/Phinch/lib/d3.v3.min.js"></script>
-    <script src="{#$WebRoot#}/Phinch/lib/jquery.dataTables.min.js"></script>
 
-    <script src="{#$WebRoot#}/Phinch/scripts/filter.js"></script>
-    <script src="{#$WebRoot#}/Phinch/scripts/init.js"></script>
     <script type="text/javascript">
         var biomString = '{#$data["projects"][$internal_project_id]#}';
         var biomObject = JSON.parse(biomString);
