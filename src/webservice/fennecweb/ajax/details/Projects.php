@@ -27,7 +27,7 @@ class Projects extends \fennecweb\WebService
             session_start();
         }
         if (!isset($_SESSION['user'])) {
-            $result['error'] = \fennecweb\ajax\listing\Projects::ERROR_NOT_LOGGED_IN;
+            $result['error'] = \fennecweb\Webservice::ERROR_NOT_LOGGED_IN;
         } else {
             $query_get_project_details = <<<EOF
 SELECT webuser_data_id, project FROM full_webuser_data 
