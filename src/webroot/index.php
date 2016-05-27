@@ -61,6 +61,10 @@ switch ($page) {
         $smarty->assign('title', 'Projects');
         $smarty->display('project.tpl');
         die();
+    case 'project-byid':
+        if (displayProjectById(requestVal('internal_project_id', '/^[0-9]+$/', '')))
+            die();
+        break;
     case 'trait':
         $smarty->assign('type', 'trait');
         $smarty->assign('title', 'Traits');
@@ -178,6 +182,15 @@ function displayTraitsById($type_cvterm_id){
     global $smarty;
     $smarty->assign('type_cvterm_id', $type_cvterm_id);
     $smarty->display('traitDetails.tpl');
+    return true;
+}
+
+function displayProjectById($internal_project_id){
+    global $smarty;
+    $smarty->assign('type', 'project');
+    $smarty->assign('title', 'Project Details');
+    $smarty->assign('internal_project_id', $internal_project_id);
+    $smarty->display('projectDetails.tpl');
     return true;
 }
 

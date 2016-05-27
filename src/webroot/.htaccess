@@ -9,6 +9,7 @@ RewriteRule ^([A-Za-z-_\.0-9]+)/organism/details/byId/(.*)?$  index.php?page=org
 RewriteRule ^([A-Za-z-_\.0-9]+)/organism/details/byTrait/(.*)?$  index.php?page=organism-by-trait&type_cvterm_id=$2&dbversion=$1 [L,NC,QSA]
 
 RewriteRule ^([A-Za-z-_\.0-9]+)/project$    index.php?page=project&dbversion=$1 [L,NC,QSA]
+RewriteRule ^([A-Za-z-_\.0-9]+)/project/details/byId/(.*)?$    index.php?page=project-byid&dbversion=$1 [L,NC,QSA]
 
 RewriteRule ^([A-Za-z-_\.0-9]+)/trait/search/humanAndEcosystems$    index.php?page=trait-search-eco [L,NC,QSA]
 RewriteRule ^([A-Za-z-_\.0-9]+)/trait/search/behaviour$    index.php?page=trait-search-behaviour [L,NC,QSA]
