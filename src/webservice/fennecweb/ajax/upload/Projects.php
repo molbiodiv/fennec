@@ -42,7 +42,7 @@ EOF;
      */
     public function execute($querydata)
     {
-        ini_set('memory_limit','512M');
+        ini_set('memory_limit', '512M');
         $db = $this->openDbConnection($querydata);
         $files = array();
         if (!isset($_SESSION)) {
