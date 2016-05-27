@@ -6,7 +6,8 @@
     {#elseif count($data['projects'])<1#}
     <h3>Error: This project could not be found for the current user.</h3>
     {#else#}
-    <button class='btn' id='inspect-with-phinch-button'>Inspect with Phinch</button>
+    <button class='btn' id='inspect-with-phinch-button'>Inspect with Phinch</button><br>
+    <div style="height: 100%"><iframe id='inspect-with-phinch-iframe' width="100%" height="100%" style="border: none; display: none"></iframe></div>
     <script src="{#$WebRoot#}/Phinch/lib/db.js"></script>
 
     <script type="text/javascript">
@@ -43,9 +44,17 @@
                 d = new Date();
                 biomToStore.date = d.getUTCFullYear() + "-" + (d.getUTCMonth() + 1) + "-" + d.getUTCDate() + "T" + d.getUTCHours() + ":" + d.getUTCMinutes() + ":" + d.getUTCSeconds() + " UTC";
                 server.biom.add(biomToStore).done(function(item) {
-                    return setTimeout("window.location.href = '{#$WebRoot#}/Phinch/preview.html'", 2000);
+                    $('#inspect-with-phinch-iframe').attr('src','{#$WebRoot#}/Phinch/preview.html');
+                    $('#inspect-with-phinch-iframe').show();
                 });
             });
+        });
+        
+        $('#inspect-with-phinch-iframe').on("load", function(){
+            setTimeout(function(){
+                console.log($('#inspect-with-phinch-iframe').contents().height());
+                $('#inspect-with-phinch-iframe').attr('height', $('#inspect-with-phinch-iframe').contents().height()+20);
+            }, 1000);
         });
     </script>
     {#/if#}
