@@ -103,16 +103,16 @@ class ProjectsTest extends \PHPUnit_Framework_TestCase
         $expected = array("files"=>array(array("name" => "simpleBiom.json", "size" => 1067, "error" => null)));
         $this->assertEquals($expected, $results);
         $jsonContent = file_get_contents($_FILES[0]['tmp_name']);
-        $db = DB::getDbForVersion(DEFAULT_DBVERSION);
+        $db = \fennecweb\DB::getDbForVersion(DEFAULT_DBVERSION);
         $constant = 'constant';
         $query_get_project_from_db = <<<EOF
 SELECT project
     FROM webuser_data WHERE webuser_id =
         (SELECT webuser_id FROM webuser WHERE oauth_provider_id =
             (SELECT oauth_provider_id FROM oauth_provider
-                WHERE provider = '{$constant('fennecweb\ProjectTest::PROVIDER')}'
+                WHERE provider = '{$constant('fennecweb\ajax\upload\ProjectsTest::PROVIDER')}'
             )
-            AND oauth_id = '{$constant('fennecweb\ProjectTest::USERID')}'
+            AND oauth_id = '{$constant('fennecweb\ajax\upload\ProjectsTest::USERID')}'
         )
         AND project::jsonb = '{$jsonContent}'::jsonb
 EOF;
