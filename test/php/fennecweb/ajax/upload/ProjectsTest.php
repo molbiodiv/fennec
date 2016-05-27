@@ -11,9 +11,9 @@ class ProjectsTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $_SESSION['user'] = array(
-            'nickname' => ProjectTest::NICKNAME,
-            'id' => ProjectTest::USERID,
-            'provider' => ProjectTest::PROVIDER,
+            'nickname' => ProjectsTest::NICKNAME,
+            'id' => ProjectsTest::USERID,
+            'provider' => ProjectsTest::PROVIDER,
             'token' => 'UploadProjectTestUserToken'
         );
     }

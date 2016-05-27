@@ -81,22 +81,22 @@ EOF;
     protected function validateFile($filename)
     {
         if (!is_uploaded_file($filename)) {
-            return Project::ERROR_IN_REQUEST;
+            return Projects::ERROR_IN_REQUEST;
         }
         $contents = file_get_contents($filename);
         if ($contents === false) {
-            return Project::ERROR_NOT_TEXT;
+            return Projects::ERROR_NOT_TEXT;
         }
         $json = json_decode($contents);
         if (json_last_error() !== JSON_ERROR_NONE) {
-            return Project::ERROR_NOT_JSON;
+            return Projects::ERROR_NOT_JSON;
         }
         if (!is_object($json)) {
-            return Project::ERROR_NOT_BIOM;
+            return Projects::ERROR_NOT_BIOM;
         }
         foreach ($this->required_biom1_toplevel_keys as $key) {
             if (!array_key_exists($key, $json)) {
-                return Project::ERROR_NOT_BIOM;
+                return Projects::ERROR_NOT_BIOM;
             }
         }
         return true;
