@@ -45,6 +45,6 @@ class ProjectsTest extends \PHPUnit_Framework_TestCase
             . '"matrix_element_type": "float"'
             . '}'
         );
-        $this->assertEquals($expected, $results);
+        $this->assertEquals($expected, $results['projects']);
     }
 }

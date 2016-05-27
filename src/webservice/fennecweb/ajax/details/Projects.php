@@ -20,7 +20,7 @@ class Projects extends \fennecweb\WebService
     public function execute($querydata)
     {
         $db = $this->openDbConnection($querydata);
-        $result = array();
+        $result = array('projects' => array());
         $ids = $querydata['ids'];
         $placeholders = implode(',', array_fill(0, count($ids), '?'));
         if (!isset($_SESSION)) {
@@ -36,7 +36,7 @@ EOF;
         );
 
         while ($row = $stm_get_project_details->fetch(PDO::FETCH_ASSOC)) {
-            $result[$row['webuser_data_id']] = $row['project'];
+            $result['projects'][$row['webuser_data_id']] = $row['project'];
         }
         return $result;
     }
