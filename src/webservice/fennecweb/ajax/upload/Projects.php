@@ -42,6 +42,7 @@ EOF;
      */
     public function execute($querydata)
     {
+        ini_set('memory_limit','512M');
         $db = $this->openDbConnection($querydata);
         $files = array();
         if (!isset($_SESSION)) {
@@ -50,7 +51,6 @@ EOF;
         if (!isset($_SESSION['user'])) {
             $files = array("error" => Project::ERROR_NOT_LOGGED_IN);
         } else {
-            // var_dump($_FILES);
             for ($i=0; $i<sizeof($_FILES); $i++) {
                 $valid = $this->validateFile($_FILES[$i]['tmp_name']);
                 if ($valid === true) {
