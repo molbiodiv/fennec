@@ -19,6 +19,8 @@
     <script src="{#$WebRoot#}/Phinch/scripts/filter.js"></script>
     <script src="{#$WebRoot#}/Phinch/scripts/init.js"></script>
     <script type="text/javascript">
+        var biomString = '{#$data["projects"][$internal_project_id]#}';
+        var biomObject = JSON.parse(biomString);
         $('#inspect-with-phinch-button').click(function(){
             db.open({
                 server: "BiomData",
@@ -33,20 +35,25 @@
                 }
             }).done(function(server) {
                 biomToStore = {};
-                biomToStore.name = "bla";
-                biomToStore.size = 1000;
-                biomToStore.data = '{#$data["projects"][$internal_project_id]#}';
+                biomToStore.name = biomObject.id;
+                if(!biomObject.columns[0].hasOwnProperty('metadata') ||
+                        biomObject.columns[0].metadata === null ||
+                        !biomObject.columns[0].metadata.hasOwnProperty('phinchID')){
+                    for(i=0; i<biomObject.columns.length; i++){
+                        if(!biomObject.columns[i].hasOwnProperty('metadata') || biomObject.columns[i].metadata === null){
+                            biomObject.columns[i].metadata = [];
+                        }
+                        biomObject.columns[i].metadata.phinchID = i;
+                    }
+                    biomString = JSON.stringify(biomObject);
+                }
+                biomToStore.size = biomString.length;
+                biomToStore.data = biomString;
                 d = new Date();
                 biomToStore.date = d.getUTCFullYear() + "-" + (d.getUTCMonth() + 1) + "-" + d.getUTCDate() + "T" + d.getUTCHours() + ":" + d.getUTCMinutes() + ":" + d.getUTCSeconds() + " UTC";
-                console.log(server);
-                if (JSON.parse(biomToStore.data).format.indexOf("Biological Observation Matrix") !== -1) {
-                  server.biom.add(biomToStore).done(function(item) {
-                    // _this.currentData = item;
+                server.biom.add(biomToStore).done(function(item) {
                     return setTimeout("window.location.href = '{#$WebRoot#}/Phinch/preview.html'", 2000);
-                  });
-                } else {
-                    console.log("Not a biom file");
-                }
+                });
             });
         });
     </script>
