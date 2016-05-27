@@ -21,22 +21,22 @@ class Projects extends \fennecweb\WebService
     {
         $db = $this->openDbConnection($querydata);
         $result = array();
-        $project_id = $querydata['id'];
+        $ids = $querydata['ids'];
+        $placeholders = implode(',', array_fill(0, count($ids), '?'));
         if (!isset($_SESSION)) {
             session_start();
         }
         $query_get_project_details = <<<EOF
-SELECT project FROM full_webuser_data 
-    WHERE webuser_data_id = :project_id AND provider = :provider AND oauth_id = :oauth_id
+SELECT webuser_data_id, project FROM full_webuser_data 
+    WHERE provider = ? AND oauth_id = ? AND webuser_data_id IN ($placeholders)
 EOF;
         $stm_get_project_details = $db->prepare($query_get_project_details);
-        $stm_get_project_details->bindValue('project_id', $project_id);
-        $stm_get_project_details->bindValue('provider', $_SESSION['user']['provider']);
-        $stm_get_project_details->bindValue('oauth_id', $_SESSION['user']['id']);
-        $stm_get_project_details->execute();
+        $stm_get_project_details->execute(
+            array_merge(array($_SESSION['user']['provider'], $_SESSION['user']['id']), $ids)
+        );
 
         while ($row = $stm_get_project_details->fetch(PDO::FETCH_ASSOC)) {
-            $result[$project_id] = $row['project'];
+            $result[$row['webuser_data_id']] = $row['project'];
         }
         return $result;
     }
