@@ -1,4 +1,4 @@
-var table = $('#project-table').DataTable( {
+$('#project-table').DataTable( {
     ajax: {
         url: ServicePath+'/listing/projects?dbversion='+DbVersion,
         dataSrc: 'data',

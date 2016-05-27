@@ -1,3 +1,4 @@
+/*jshint unused:false*/
 // This is the underscore.js template, compiled once and called from showMessageDialog later
 var dialogTemplate = '<div class="alert <%= type %> alert-dismissable" role="alert" style="margin-top: 10px;">';
 dialogTemplate += '<button type="button" class="close" data-dismiss="alert" aria-label="Close">';
