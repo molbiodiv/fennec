@@ -65,7 +65,7 @@ describe("The constructor is supposed a proper Biom object", function() {
                 {"id": "Sample_5", "metadata": {}}
             ]
         };
-        expect(function(){Biom(biomObject);}).toThrow('Not a function');
+        expect(function(){Biom(biomObject);}).toThrow('There is no project id');
     });
 });
 
