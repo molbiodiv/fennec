@@ -9,10 +9,11 @@
     <button class='btn' id='inspect-with-phinch-button'>Inspect with Phinch</button><br>
     <div style="height: 100%"><iframe id='inspect-with-phinch-iframe' width="100%" height="100%" style="border: none; display: none"></iframe></div>
     <script src="{#$WebRoot#}/Phinch/lib/db.js"></script>
-
+    <script src="{#$WebRoot#}/js/helpers/biom.js"></script>
     <script type="text/javascript">
         var biomString = '{#$data["projects"][$internal_project_id]#}';
         var biomObject = JSON.parse(biomString);
+        var biom = new Biom(biomObject);
         $('#inspect-with-phinch-button').click(function(){
             db.open({
                 server: "BiomData",
