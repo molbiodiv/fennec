@@ -31,7 +31,7 @@ describe("The constructor is supposed a proper Biom object", function() {
                 {"id": "Sample_5", "metadata": {}}
             ]
         };
-        var biom = Biom(biomObject);
+        var biom = new Biom(biomObject);
         expect(biom).toBeDefined();
     });
 });

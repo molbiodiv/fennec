@@ -7,3 +7,6 @@
  * var biom = new Biom(biom)
  */
 
+Biom = function(biom){
+    return biom;
+};
