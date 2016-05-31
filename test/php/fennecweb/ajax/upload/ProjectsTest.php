@@ -121,6 +121,7 @@ EOF;
         $this->assertEquals(1, $stm_get_project_from_db->rowCount());
 
         // Test for success returned by simple biom file in hdf5 format
+        copy(__DIR__ . '/testFiles/simpleBiom.hdf5', __DIR__ . '/testFiles/simpleBiom.hdf5.backup');
         $_FILES = array(
             array(
                 'name' => 'simpleBiom.hdf5',
@@ -133,5 +134,6 @@ EOF;
         $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION)));
         $expected = array("files"=>array(array("name" => "simpleBiom.hdf5", "size" => 33840, "error" => null)));
         $this->assertEquals($expected, $results);
+        rename(__DIR__ . '/testFiles/simpleBiom.hdf5.backup', __DIR__ . '/testFiles/simpleBiom.hdf5');
     }
 }
