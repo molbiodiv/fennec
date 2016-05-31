@@ -1,4 +1,7 @@
-<h3> Upload projects in <a href="http://biom-format.org/documentation/format_versions/biom-1.0.html">biom format (version 1.0)</a></h3>
+<h3>
+    Upload projects in <a href="http://biom-format.org/documentation/format_versions/biom-1.0.html">biom format</a>
+    <i data-toggle="tooltip" title="Version 1.0 is stored as is, version 2.x is converted to 1.0 on the web server" class="fa fa-question-circle"></i>
+</h3>
 <form>
     <input class="btn" id="project-fileupload" type="file" name="files[]" multiple>
 </form>
