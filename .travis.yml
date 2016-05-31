@@ -15,6 +15,7 @@ addons:
   apt:
     packages:
     - python-h5py
+    - python-scipy
   postgresql: "9.4"
 
 before_script:
