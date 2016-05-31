@@ -2,10 +2,6 @@ language: php
 php:
   - '7.0'
 
-before_install:
-  - sudo apt-get -qq update
-  - sudo apt-get install -y python-h5py
-
 install:
   - composer install
   - npm install
@@ -17,6 +13,9 @@ services:
   - postgresql
 
 addons:
+  apt:
+    packages:
+    - python-h5py
   postgresql: "9.4"
 
 before_script:
