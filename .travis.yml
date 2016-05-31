@@ -6,7 +6,7 @@ install:
   - composer install
   - npm install
   - node_modules/bower/bin/bower install
-  - pip install biom-format
+  - pip install biom-format --user
 
 services:
   - postgresql
