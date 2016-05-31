@@ -11,10 +11,10 @@ before_install:
   - conda update --yes conda
 
 install:
+  - conda install --yes biom-format
   - composer install
   - npm install
   - node_modules/bower/bin/bower install
-  - conda install --yes python=$TRAVIS_PYTHON_VERSION atlas numpy scipy biom-format
 
 services:
   - postgresql
