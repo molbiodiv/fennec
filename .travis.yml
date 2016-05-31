@@ -11,9 +11,8 @@ before_install:
   - conda update --yes conda
 
 install:
-  - conda install --yes numpy scipy
+  - conda install --yes numpy scipy h5py
   - pip install biom-format --user
-  - pip install biom-format h5py --upgrade --user
   - composer install
   - npm install
   - node_modules/bower/bin/bower install
