@@ -80,6 +80,21 @@ EOF;
         if (!is_uploaded_file($filename)) {
             return Projects::ERROR_IN_REQUEST;
         }
+        // Try to get file type with UNIX file command
+        $filetype = exec('file '.escapeshellarg($filename));
+        if(strpos($filetype, 'Hierarchical Data Format (version 5) data') !== FALSE){
+            $result = array();
+            $errorcode = 0;
+            exec('biom convert -i '.escapeshellarg($filename).' -o '.escapeshellarg($filename).'.json --to-json', $result, $errorcode);
+            if($errorcode === 0){
+                rename($filename.'.json', $filename);
+            }
+            else{
+                if(file_exists($filename.'json')){
+                    unlink($filename.'.json');
+                }
+            }
+        }
         $contents = file_get_contents($filename);
         if ($contents === false) {
             return Projects::ERROR_NOT_BIOM;
