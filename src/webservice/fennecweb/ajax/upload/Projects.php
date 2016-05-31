@@ -2,7 +2,7 @@
 
 namespace fennecweb\ajax\upload;
 
-use \PDO as PDO;
+use \fennecweb\WebService as WebService;
 
 /**
  * Web Service.
@@ -10,10 +10,7 @@ use \PDO as PDO;
  */
 class Projects extends \fennecweb\WebService
 {
-    const ERROR_NOT_LOGGED_IN = "Error. Not logged in.";
     const ERROR_IN_REQUEST = "Error. There was an error in your request.";
-    const ERROR_NOT_TEXT = "Error. Not a text file.";
-    const ERROR_NOT_JSON = "Error. Not a json file.";
     const ERROR_NOT_BIOM = "Error. Not a biom file.";
     const ERROR_DB_INSERT = "Error. Could not insert into database.";
 
@@ -49,7 +46,7 @@ EOF;
             session_start();
         }
         if (!isset($_SESSION['user'])) {
-            $files = array("error" => Project::ERROR_NOT_LOGGED_IN);
+            $files = array("error" => WebService::ERROR_NOT_LOGGED_IN);
         } else {
             for ($i=0; $i<sizeof($_FILES); $i++) {
                 $valid = $this->validateFile($_FILES[$i]['tmp_name']);
@@ -85,11 +82,11 @@ EOF;
         }
         $contents = file_get_contents($filename);
         if ($contents === false) {
-            return Projects::ERROR_NOT_TEXT;
+            return Projects::ERROR_NOT_BIOM;
         }
         $json = json_decode($contents);
         if (json_last_error() !== JSON_ERROR_NONE) {
-            return Projects::ERROR_NOT_JSON;
+            return Projects::ERROR_NOT_BIOM;
         }
         if (!is_object($json)) {
             return Projects::ERROR_NOT_BIOM;
