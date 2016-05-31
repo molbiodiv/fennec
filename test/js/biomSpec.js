@@ -446,5 +446,20 @@ describe("The getOtuTable method is supposed to return an object containing the 
         var simpleBiom = new Biom(simpleBiomObject);
         expect(typeof simpleBiom.getOtuTable ).toEqual('function');
     });
+    it("getOtuTable method is supposed to return otuTableData", function() {
+        var simpleBiom = new Biom(simpleBiomObject);
+        var otuTableData = simpleBiom.getOtuTable();
+        expect(otuTableData).toBeDefined();
+    });
+    it("getOtuTable method is supposed to work with the simple test biom file", function() {
+        var simpleBiom = new Biom(simpleBiomObject);
+        var otuTableData = simpleBiom.getOtuTable();
+        var expectedOtuTableData = [{
+                "OTU": "OTU_1",
+                "organism": "",
+                "sample_1": 120
+        }];
+        expect(otuTableData).toEqual(expectedOtuTableData);
+    });
 });
 
