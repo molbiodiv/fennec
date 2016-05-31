@@ -7,6 +7,7 @@
     <h3>Error: This project could not be found for the current user.</h3>
     {#else#}
     <button class='btn' id='inspect-with-phinch-button'>Inspect with Phinch</button><br>
+    <table id="projectDetails_otuTable" class="table project-table project-table-striped table-bordered" width="100%" cellspacing="0"></table>
     <div style="height: 100%"><iframe id='inspect-with-phinch-iframe' width="100%" height="100%" style="border: none; display: none"></iframe></div>
     <script src="{#$WebRoot#}/Phinch/lib/db.js"></script>
     <script src="{#$WebRoot#}/js/helpers/biom.js"></script>
@@ -14,6 +15,12 @@
         var biomString = '{#$data["projects"][$internal_project_id]#}';
         var biomObject = JSON.parse(biomString);
         var biom = new Biom(biomObject);
+        var otuTableData = biom.getOtuTable();
+        console.log(otuTableData.columns);
+        $('#projectDetails_otuTable').DataTable({
+            data: otuTableData.data,
+            columns: otuTableData.columns
+        });
         $('#inspect-with-phinch-button').click(function(){
             db.open({
                 server: "BiomData",

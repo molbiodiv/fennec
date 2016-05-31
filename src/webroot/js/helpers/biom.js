@@ -75,5 +75,39 @@ Biom = function(biomObject){
  * @returns {object} otuTableData Object that contains the data for showing the otu table
  */
 Biom.prototype.getOtuTable = function(){
-    console.log(this)
+    var that = this;
+    var otuTableData = {};
+    otuTableData.columns = [
+        {
+            data: 'OTU'
+        }
+    ];
+    $.each(this.columns, function(key, value){
+        otuTableData.columns.push({data: value.id});
+    });
+    otuTableData.data = [];
+    //all otus are runned through
+    $.each(this.rows, function(rowKey, rowValue){
+        thisEntry = {"OTU": rowValue.id};
+        var data = _.filter(that.data, function(dataEntry){
+            return dataEntry[0] === rowKey;
+        });
+        //all samples are runned through
+        $.each(that.columns, function(columnKey, columnValue){
+            var columnId = columnValue.id;
+            if(data.length > 0){
+                _.find(data, function(currentValue){
+                    if(currentValue[1] === columnKey){
+                        thisEntry[columnId] = currentValue[2];
+                    } else {
+                        thisEntry[columnId] = 0;
+                    }
+                });
+            } else {
+                thisEntry[columnId] = 0;
+            }
+        });
+        otuTableData.data.push(thisEntry);
+    });
+    return otuTableData;
 };

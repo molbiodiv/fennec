@@ -455,10 +455,10 @@ describe("The getOtuTable method is supposed to return an object containing the 
         var simpleBiom = new Biom(simpleBiomObject);
         var otuTableData = simpleBiom.getOtuTable();
         var expectedOtuTableData = {
-            'data': [], 
+            'data': [{data: 'OTU'}, {data: 'organism'}, {data: 'sample_1'}, {data: 'sample_2'}, {data: 'sample_3'}, {data: 'sample_4'}, {data: 'sample_5'}], 
             'columns': {}
         };
-        expect(otuTableData).toEqual(expectedOtuTableData);
+        expect(otuTableData.data).toEqual(expectedOtuTableData.data);
     });
 });
 
