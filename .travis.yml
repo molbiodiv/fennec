@@ -6,8 +6,6 @@ install:
   - composer install
   - npm install
   - node_modules/bower/bin/bower install
-  - pip install numpy --user
-  - pip install biom-format --user
 
 services:
   - postgresql
@@ -15,9 +13,7 @@ services:
 addons:
   apt:
     packages:
-    - python-h5py
-    - python-numpy
-    - python-scipy
+    - python-biom-format
   postgresql: "9.4"
 
 before_script:
