@@ -444,7 +444,7 @@ describe("The getOtuTable method is supposed to return an object containing the 
     };
     it("getOtuTable method is supposed to be a function", function() {
         var simpleBiom = new Biom(simpleBiomObject);
-        expect(typeof simpleBiom.getOtuTable).toEqual('function');
+        expect(typeof simpleBiom.getOtuTable ).toEqual('function');
     });
 });
 
