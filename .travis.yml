@@ -11,7 +11,8 @@ before_install:
   - conda update --yes conda
 
 install:
-  - conda install --yes biom-format
+  - conda install --yes numpy scipy
+  - pip install biom-format --user
   - composer install
   - npm install
   - node_modules/bower/bin/bower install
@@ -20,6 +21,9 @@ services:
   - postgresql
 
 addons:
+  apt:
+    packages:
+      - python-h5py
   postgresql: "9.4"
 
 before_script:
