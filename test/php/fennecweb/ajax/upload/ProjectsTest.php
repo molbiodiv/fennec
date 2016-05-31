@@ -119,5 +119,19 @@ EOF;
         $stm_get_project_from_db = $db->prepare($query_get_project_from_db);
         $stm_get_project_from_db->execute();
         $this->assertEquals(1, $stm_get_project_from_db->rowCount());
+
+        // Test for success returned by simple biom file in hdf5 format
+        $_FILES = array(
+            array(
+                'name' => 'simpleBiom.hdf5',
+                'type' => 'application/octet-stream',
+                'size' => 33840,
+                'tmp_name' => __DIR__ . '/testFiles/simpleBiom.hdf5',
+                'error' => 0
+            )
+        );
+        $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION)));
+        $expected = array("files"=>array(array("name" => "simpleBiom.hdf5", "size" => 33840, "error" => null)));
+        $this->assertEquals($expected, $results);
     }
 }
