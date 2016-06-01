@@ -1,4 +1,3 @@
-/* jshint undef: false */
 /**
  * Selects the best vernacularName from the object returned by the eol pages API.
  * It only considers english names (language: en) and preferes those with eol_preferred: true.

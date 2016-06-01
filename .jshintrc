@@ -1,5 +1,5 @@
 {
-  "undef": true,
-  "unused": true,
+  "undef": false,
+  "unused": false,
   "predef": [ "$", "_", "d3", "DbVersion", "WebRoot", "ServicePath", "window", "document", "Plotly", "Morris", "showMessageDialog" ]
 }
