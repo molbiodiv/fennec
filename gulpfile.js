@@ -5,6 +5,7 @@ var apigen = require('gulp-apigen');
 var phpunit = require('gulp-phpunit');
 var spawn = require('child_process').spawn;
 var jasmine = require('gulp-jasmine');
+var jasminePjs = require('gulp-jasmine-phantom');
 var cover = require('gulp-coverage');
 var sass = require('gulp-sass');
 var sassLint = require('gulp-sass-lint');
@@ -39,6 +40,14 @@ gulp.task('jasmine', function() {
         .pipe(cover.gather())
         .pipe(cover.format())
         .pipe(gulp.dest('test/js/cover'));;
+});
+
+gulp.task('jasminePjs', function () {
+  return gulp.src('test/js/*Spec.js')
+          .pipe(jasminePjs({
+          'integration': true,
+          'vendor': ['bower_components/underscore/underscore-min.js', 'bower_components/jquery/dist/jquery.min.js', 'src/webroot/js/helpers/*.js']
+	}));
 });
 
 gulp.task('jshint', function() {
