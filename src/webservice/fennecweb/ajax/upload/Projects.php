@@ -30,7 +30,7 @@ class Projects extends \fennecweb\WebService
     );
 
     private $query_insert_project_into_db = <<<EOF
-INSERT INTO full_webuser_data (project, oauth_id, provider) VALUES (:project, :user, :provider);
+INSERT INTO full_webuser_data (project, oauth_id, provider, import_filename) VALUES (:project, :user, :provider, :filename);
 EOF;
 
     /**
@@ -55,6 +55,7 @@ EOF;
                     $stm_get_organisms->bindValue('project', file_get_contents($_FILES[$i]['tmp_name']));
                     $stm_get_organisms->bindValue('user', $_SESSION['user']['id']);
                     $stm_get_organisms->bindValue('provider', $_SESSION['user']['provider']);
+                    $stm_get_organisms->bindValue('filename', $_FILES[$i]['name']);
                     if (! $stm_get_organisms->execute()) {
                         $valid = Project::ERROR_DB_INSERT;
                     }
