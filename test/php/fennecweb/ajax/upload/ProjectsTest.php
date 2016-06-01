@@ -119,6 +119,8 @@ EOF;
         $stm_get_project_from_db = $db->prepare($query_get_project_from_db);
         $stm_get_project_from_db->execute();
         $this->assertEquals(1, $stm_get_project_from_db->rowCount());
+        $result = $stm_get_project_from_db->fetch(PDO::FETCH_ASSOC);
+        $this->assertEquals('simpleBiom.json', $result['import_filename']);
 
         // Test for success returned by simple biom file in hdf5 format
         copy(__DIR__ . '/testFiles/simpleBiom.hdf5', __DIR__ . '/testFiles/simpleBiom.hdf5.backup');
