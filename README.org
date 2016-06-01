@@ -53,6 +53,14 @@ artillery run test/artillery/simple.json
 python test/selenium/simple.py
 #+END_SRC
 ** Changes
+*** 0.1.5 <2016-06-01 Mi>
+ - Integrate a phinch fork for inspection of projects
+ - Add OTU table to project page
+ - Add central dialog method
+ - Add biom2 to biom1 conversion capability on the server
+ - Add filename of imported file to project table
+ - Add "remove project" capability
+ - Remove communities from web interface
 *** 0.1.4 <2016-05-20 Fr>
  - Add proper redirects on login and logout
  - Add project upload capability
