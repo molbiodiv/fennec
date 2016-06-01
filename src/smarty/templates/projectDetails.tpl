@@ -22,7 +22,8 @@
         $('#projectDetails_otuTable').DataTable({
             data: otuTableData.data,
             columns: otuTableData.columns,
-            deferRender: true
+            deferRender: true,
+            scrollX: true
         });
         $('#inspect-with-phinch-button').click(function(){
             db.open({
