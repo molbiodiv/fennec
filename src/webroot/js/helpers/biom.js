@@ -83,7 +83,11 @@ Biom.prototype.getOtuTable = function(){
         }
     ];
     $.each(this.columns, function(key, value){
-        otuTableData.columns.push({data: value.id.replace(/\./g, "\\.")});
+        otuTableData.columns.push({
+            data: value.id.replace(/\./g, "\\."),
+            title: value.id,
+            type: 'num'
+        });
     });
     otuTableData.data = [];
     //all otus are runned through
