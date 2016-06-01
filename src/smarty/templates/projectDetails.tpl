@@ -6,7 +6,8 @@
     {#elseif count($data['projects'])<1#}
     <h3>Error: This project could not be found for the current user.</h3>
     {#else#}
-    <button class='btn' id='inspect-with-phinch-button'>Inspect with Phinch</button><br>
+    <button class='btn' id='inspect-with-phinch-button'>Inspect with Phinch</button>
+    <i data-toggle="tooltip" title="This is an experimental integration of phinch (see phinch.org).&#013;There is currently an unresolved license issue (see https://github.com/PitchInteractiveInc/Phinch/issues/56)" class="fa fa-question-circle"></i><br>
     <div style="height: 100%"><iframe id='inspect-with-phinch-iframe' width="100%" height="100%" style="border: none; display: none"></iframe></div>
     <script src="{#$WebRoot#}/Phinch/lib/db.js"></script>
 
