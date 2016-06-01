@@ -15,7 +15,6 @@ install:
   - pip install biom-format --user
   - composer install
   - npm install
-  - npm install -g phantomjs
   - node_modules/bower/bin/bower install
 
 services:
