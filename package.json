@@ -1,6 +1,6 @@
 {
   "name": "fennec-web",
-  "version": "0.0.4",
+  "version": "0.1.5",
   "description": "Fennec",
   "directories": {
     "test": "test"
@@ -27,7 +27,6 @@
     "gulp": "^3.9.1",
     "gulp-apigen": "^0.1.4",
     "gulp-coverage": "^0.3.38",
-    "gulp-jasmine": "^2.3.0",
     "gulp-jasmine-phantom": "^3.0.0",
     "gulp-jsdoc3": "^0.2.1",
     "gulp-jshint": "^2.0.0",

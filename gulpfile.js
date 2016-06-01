@@ -4,8 +4,7 @@ var gulp = require('gulp');
 var apigen = require('gulp-apigen');
 var phpunit = require('gulp-phpunit');
 var spawn = require('child_process').spawn;
-var jasmine = require('gulp-jasmine');
-var jasminePjs = require('gulp-jasmine-phantom');
+var jasmine = require('gulp-jasmine-phantom');
 var cover = require('gulp-coverage');
 var sass = require('gulp-sass');
 var sassLint = require('gulp-sass-lint');
@@ -28,26 +27,18 @@ gulp.task('phpcs', function () {
 gulp.task('php', ['phpcs','apigen','phpunit'], function () {
 });
 
-gulp.task('jasmine', function() {
-    gulp.src(['test/js/*Spec.js'])
+gulp.task('jasmine', function () {
+  gulp.src('test/js/*Spec.js')
         .pipe(cover.instrument({
             pattern: ['src/webroot/js/helpers/*.js']
         }))
-        .pipe(jasmine({'config': {
-          'spec_dir': './',
-          'helpers': ['src/webroot/js/helpers/*.js']
-        }}))
+        .pipe(jasmine({
+        'integration': true,
+        'vendor': ['bower_components/underscore/underscore-min.js', 'bower_components/jquery/dist/jquery.min.js', 'src/webroot/js/helpers/*.js']
+	}))
         .pipe(cover.gather())
         .pipe(cover.format())
-        .pipe(gulp.dest('test/js/cover'));;
-});
-
-gulp.task('jasminePjs', function () {
-  return gulp.src('test/js/*Spec.js')
-          .pipe(jasminePjs({
-          'integration': true,
-          'vendor': ['bower_components/underscore/underscore-min.js', 'bower_components/jquery/dist/jquery.min.js', 'src/webroot/js/helpers/*.js']
-	}));
+        .pipe(gulp.dest('test/js/cover'));
 });
 
 gulp.task('jshint', function() {
