@@ -6,9 +6,10 @@
     {#elseif count($data['projects'])<1#}
     <h3>Error: This project could not be found for the current user.</h3>
     {#else#}
+    <h3>OTU Table <i data-toggle="tooltip" title="This table is truncated and contains just 100 random OTUs for performance reasons" class="fa fa-question-circle"></i></h3>
+    <table id="projectDetails_otuTable" class="table project-table project-table-striped table-bordered" width="100%" cellspacing="0"></table>
     <button class='btn' id='inspect-with-phinch-button'>Inspect with Phinch</button>
     <i data-toggle="tooltip" title="This is an experimental integration of phinch (see phinch.org).&#013;There is currently an unresolved license issue (see https://github.com/PitchInteractiveInc/Phinch/issues/56)" class="fa fa-question-circle"></i><br>
-    <table id="projectDetails_otuTable" class="table project-table project-table-striped table-bordered" width="100%" cellspacing="0"></table>
     <div style="height: 100%"><iframe id='inspect-with-phinch-iframe' width="100%" height="100%" style="border: none; display: none"></iframe></div>
     <script src="{#$WebRoot#}/Phinch/lib/db.js"></script>
     <script src="{#$WebRoot#}/js/helpers/biom.js"></script>
