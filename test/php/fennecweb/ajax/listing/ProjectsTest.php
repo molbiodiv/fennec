@@ -33,7 +33,8 @@ class ProjectsTest extends \PHPUnit_Framework_TestCase
                     "id" => "table_1",
                     "import_date" => "2016-05-17 10:00:52.627236+00",
                     "rows" => 10,
-                    "columns" => 5
+                    "columns" => 5,
+                    "import_filename" => "listingProjectsTestFile.biom"
                 )
             )
         );

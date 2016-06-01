@@ -1,5 +1,5 @@
 -- custom input data
-INSERT INTO full_webuser_data (project,oauth_id,provider,import_date) VALUES ('{
+INSERT INTO full_webuser_data (project,oauth_id,provider,import_date,import_filename) VALUES ('{
     "id": "table_1",
     "format": "Biological Observation Matrix 2.1.0",
     "format_url": "http://biom-format.org",
@@ -29,7 +29,7 @@ INSERT INTO full_webuser_data (project,oauth_id,provider,import_date) VALUES ('{
         {"id": "Sample_4", "metadata": {}},
         {"id": "Sample_5", "metadata": {}}
     ]
-}','listingProjectsTestUser','listingProjectsTestUser','2016-05-17 10:00:52.627236+00');
+}','listingProjectsTestUser','listingProjectsTestUser','2016-05-17 10:00:52.627236+00','listingProjectsTestFile.biom');
 
 -- dataset for ProjectRemoveTest
 INSERT INTO full_webuser_data (project,oauth_id,provider,import_date) VALUES ('{
