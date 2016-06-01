@@ -30,7 +30,8 @@ class Projects extends \fennecweb\WebService
     );
 
     private $query_insert_project_into_db = <<<EOF
-INSERT INTO full_webuser_data (project, oauth_id, provider, import_filename) VALUES (:project, :user, :provider, :filename);
+INSERT INTO full_webuser_data (project, oauth_id, provider, import_filename)
+    VALUES (:project, :user, :provider, :filename);
 EOF;
 
     /**
@@ -83,15 +84,15 @@ EOF;
         }
         // Try to get file type with UNIX file command
         $filetype = exec('file '.escapeshellarg($filename));
-        if(strpos($filetype, 'Hierarchical Data Format (version 5) data') !== FALSE){
+        if (strpos($filetype, 'Hierarchical Data Format (version 5) data') !== false) {
             $result = array();
             $errorcode = 0;
-            exec('biom convert -i '.escapeshellarg($filename).' -o '.escapeshellarg($filename).'.json --to-json', $result, $errorcode);
-            if($errorcode === 0){
+            exec('biom convert -i '.escapeshellarg($filename).
+                    ' -o '.escapeshellarg($filename).'.json --to-json', $result, $errorcode);
+            if ($errorcode === 0) {
                 rename($filename.'.json', $filename);
-            }
-            else{
-                if(file_exists($filename.'json')){
+            } else {
+                if (file_exists($filename.'json')) {
                     unlink($filename.'.json');
                 }
             }
