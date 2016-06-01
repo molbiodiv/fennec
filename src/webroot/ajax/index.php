@@ -20,5 +20,11 @@ if ($service == null) {
     WebService::output(array('error' => 'Web Service not found'));
     die();
 }
-WebService::output($service->execute(array_merge($args, $_REQUEST)));
+try {
+    WebService::output($service->execute(array_merge($args, $_REQUEST)));
+} catch (\PDOException $e) {
+    return WebService::output(array('error' => DEBUG ? $e->getMessage() : 'Database error!'));
+} catch (\Exception $e) {
+    return WebService::output(array('error' => $e->getMessage()));
+}
 ?>
