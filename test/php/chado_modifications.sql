@@ -33,6 +33,7 @@ CREATE TABLE webuser_data
       webuser_data_id serial NOT NULL,
       webuser_id INTEGER NOT NULL,
       project jsonb NOT NULL,
+      import_filename text,
       import_date timestamp with time zone DEFAULT now(),
       CONSTRAINT webuser_data_id_pkey PRIMARY KEY (webuser_data_id),
       CONSTRAINT webuser_id_fkey FOREIGN KEY (webuser_id)
@@ -45,7 +46,7 @@ WITH (
 -- View: full_webuser_data
 
 CREATE VIEW full_webuser_data AS
-    SELECT webuser_data.webuser_data_id, webuser_data.project, webuser.oauth_id, oauth_provider.provider, webuser_data.import_date
+    SELECT webuser_data.webuser_data_id, webuser_data.project, webuser.oauth_id, oauth_provider.provider, webuser_data.import_date, webuser_data.import_filename
     FROM webuser, oauth_provider, webuser_data
     WHERE webuser.oauth_provider_id = oauth_provider.oauth_provider_id
     AND webuser_data.webuser_id = webuser.webuser_id;
@@ -66,7 +67,7 @@ CREATE OR REPLACE FUNCTION full_webuser_data_manage_row() RETURNS TRIGGER AS $$
         WHERE NOT EXISTS (
         SELECT webuser_id FROM webuser WHERE oauth_provider_id = (SELECT oauth_provider_id FROM oauth_provider WHERE provider = NEW.provider) AND oauth_id = NEW.oauth_id
         );
-        INSERT INTO webuser_data (webuser_id, project,import_date) VALUES ((SELECT webuser_id FROM webuser WHERE oauth_provider_id = (SELECT oauth_provider_id FROM oauth_provider WHERE provider = NEW.provider) AND oauth_id = NEW.oauth_id), NEW.project, NEW.import_date);
+        INSERT INTO webuser_data (webuser_id, project, import_date, import_filename) VALUES ((SELECT webuser_id FROM webuser WHERE oauth_provider_id = (SELECT oauth_provider_id FROM oauth_provider WHERE provider = NEW.provider) AND oauth_id = NEW.oauth_id), NEW.project, NEW.import_date, NEW.import_filename);
         RETURN NEW;
       ELSIF (TG_OP = 'DELETE') THEN
         DELETE FROM webuser_data WHERE webuser_data_id=OLD.webuser_data_id;
