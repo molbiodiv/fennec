@@ -28,7 +28,12 @@ class Projects extends \fennecweb\WebService
             $result['error'] = \fennecweb\WebService::ERROR_NOT_LOGGED_IN;
         } else {
             $query_get_user_projects = <<<EOF
-SELECT webuser_data_id,import_date,project->>'id' AS id,project->'shape'->>0 AS rows,project->'shape'->>1 AS columns 
+SELECT
+    webuser_data_id,
+    import_date,project->>'id' AS id,
+    project->'shape'->>0 AS rows,
+    project->'shape'->>1 AS columns,
+    import_filename
     FROM full_webuser_data WHERE provider = :provider AND oauth_id = :oauth_id
 EOF;
             $stm_get_user_projects = $db->prepare($query_get_user_projects);
@@ -43,6 +48,7 @@ EOF;
                 $project['import_date'] = $row['import_date'];
                 $project['rows'] = $row['rows'];
                 $project['columns'] = $row['columns'];
+                $project['import_filename'] = $row['import_filename'];
                 $result['data'][] = $project;
             }
         }
