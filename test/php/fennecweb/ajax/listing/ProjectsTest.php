@@ -1,6 +1,8 @@
 <?php
 
-namespace fennecweb;
+namespace fennecweb\ajax\listing;
+
+use \fennecweb\WebService as WebService;
 
 class ProjectsTest extends \PHPUnit_Framework_TestCase
 {
@@ -13,7 +15,7 @@ class ProjectsTest extends \PHPUnit_Framework_TestCase
         //Test for error returned by user is not logged in
         list($service) = WebService::factory('listing/Projects');
         $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION)));
-        $expected = array("error" => \fennecweb\ajax\listing\Projects::ERROR_NOT_LOGGED_IN, "data" => array());
+        $expected = array("error" => WebService::ERROR_NOT_LOGGED_IN, "data" => array());
         
         $this->assertEquals($expected, $results);
         
@@ -31,7 +33,8 @@ class ProjectsTest extends \PHPUnit_Framework_TestCase
                     "id" => "table_1",
                     "import_date" => "2016-05-17 10:00:52.627236+00",
                     "rows" => 10,
-                    "columns" => 5
+                    "columns" => 5,
+                    "import_filename" => "listingProjectsTestFile.biom"
                 )
             )
         );

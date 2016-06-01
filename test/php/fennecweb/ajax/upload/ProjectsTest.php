@@ -1,8 +1,10 @@
 <?php
 
-namespace fennecweb;
+namespace fennecweb\ajax\upload;
 
-class ProjectTest extends \PHPUnit_Framework_TestCase
+use \fennecweb\WebService as WebService;
+
+class ProjectsTest extends \PHPUnit_Framework_TestCase
 {
     const NICKNAME = 'UploadProjectTestUser';
     const USERID = 'UploadProjectTestUser';
@@ -11,9 +13,9 @@ class ProjectTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $_SESSION['user'] = array(
-            'nickname' => ProjectTest::NICKNAME,
-            'id' => ProjectTest::USERID,
-            'provider' => ProjectTest::PROVIDER,
+            'nickname' => ProjectsTest::NICKNAME,
+            'id' => ProjectsTest::USERID,
+            'provider' => ProjectsTest::PROVIDER,
             'token' => 'UploadProjectTestUserToken'
         );
     }
@@ -30,14 +32,14 @@ class ProjectTest extends \PHPUnit_Framework_TestCase
                 'error' => 0
             )
         );
-        list($service) = WebService::factory('upload/Project');
+        list($service) = WebService::factory('upload/Projects');
         $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION)));
         $expected = array(
             "files"=>array(
                 array(
                     "name" => "empty",
                     "size" => 0,
-                    "error" => \fennecweb\ajax\upload\Project::ERROR_NOT_JSON
+                    "error" => \fennecweb\ajax\upload\Projects::ERROR_NOT_BIOM
                 )
             )
         );
@@ -59,7 +61,7 @@ class ProjectTest extends \PHPUnit_Framework_TestCase
                 array(
                     "name" => "noJson",
                     "size" => 71,
-                    "error" => \fennecweb\ajax\upload\Project::ERROR_NOT_JSON
+                    "error" => \fennecweb\ajax\upload\Projects::ERROR_NOT_BIOM
                 )
             )
         );
@@ -81,7 +83,7 @@ class ProjectTest extends \PHPUnit_Framework_TestCase
                 array(
                     "name" => "noBiom.json",
                     "size" => 71,
-                    "error" => \fennecweb\ajax\upload\Project::ERROR_NOT_BIOM
+                    "error" => \fennecweb\ajax\upload\Projects::ERROR_NOT_BIOM
                 )
             )
         );
@@ -101,21 +103,39 @@ class ProjectTest extends \PHPUnit_Framework_TestCase
         $expected = array("files"=>array(array("name" => "simpleBiom.json", "size" => 1067, "error" => null)));
         $this->assertEquals($expected, $results);
         $jsonContent = file_get_contents($_FILES[0]['tmp_name']);
-        $db = DB::getDbForVersion(DEFAULT_DBVERSION);
+        $db = \fennecweb\DB::getDbForVersion(DEFAULT_DBVERSION);
         $constant = 'constant';
         $query_get_project_from_db = <<<EOF
-SELECT project
+SELECT project, import_filename
     FROM webuser_data WHERE webuser_id =
         (SELECT webuser_id FROM webuser WHERE oauth_provider_id =
             (SELECT oauth_provider_id FROM oauth_provider
-                WHERE provider = '{$constant('fennecweb\ProjectTest::PROVIDER')}'
+                WHERE provider = '{$constant('fennecweb\ajax\upload\ProjectsTest::PROVIDER')}'
             )
-            AND oauth_id = '{$constant('fennecweb\ProjectTest::USERID')}'
+            AND oauth_id = '{$constant('fennecweb\ajax\upload\ProjectsTest::USERID')}'
         )
         AND project::jsonb = '{$jsonContent}'::jsonb
 EOF;
         $stm_get_project_from_db = $db->prepare($query_get_project_from_db);
         $stm_get_project_from_db->execute();
         $this->assertEquals(1, $stm_get_project_from_db->rowCount());
+        $result = $stm_get_project_from_db->fetch(\PDO::FETCH_ASSOC);
+        $this->assertEquals('simpleBiom.json', $result['import_filename']);
+
+        // Test for success returned by simple biom file in hdf5 format
+        copy(__DIR__ . '/testFiles/simpleBiom.hdf5', __DIR__ . '/testFiles/simpleBiom.hdf5.backup');
+        $_FILES = array(
+            array(
+                'name' => 'simpleBiom.hdf5',
+                'type' => 'application/octet-stream',
+                'size' => 33840,
+                'tmp_name' => __DIR__ . '/testFiles/simpleBiom.hdf5',
+                'error' => 0
+            )
+        );
+        $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION)));
+        $expected = array("files"=>array(array("name" => "simpleBiom.hdf5", "size" => 33840, "error" => null)));
+        $this->assertEquals($expected, $results);
+        rename(__DIR__ . '/testFiles/simpleBiom.hdf5.backup', __DIR__ . '/testFiles/simpleBiom.hdf5');
     }
 }

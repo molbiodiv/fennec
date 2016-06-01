@@ -7,6 +7,7 @@ namespace fennecweb;
  */
 abstract class WebService
 {
+    const ERROR_NOT_LOGGED_IN = "Error. Not logged in.";
 
     /**
      * Executes the web service.

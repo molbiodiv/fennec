@@ -1,0 +1,19 @@
+* LICENSE
+The fennec project in general is distributed under the [[../LICENSE][MIT]] license.
+There are dependencies, that are installed via composer, npm or bower - those have their own licenses.
+There are also some libraries that are part of the distribution with differing licenses.
+Those are listed here:
+** List of included libraries
+*** phinch
+**** Repository
+***** original
+[[https://github.com/PitchInteractiveInc/Phinch]]
+***** fork
+[[https://github.com/iimog/Phinch]]
+**** Version
+v1.1.2-1-g5eef81a
+**** LICENSE
+There is currently an unresolved ambigous licensing issue: [[https://github.com/PitchInteractiveInc/Phinch/issues/56][#56]]
+As long as this issue is unresolved phinch should not be included or redistributed with fennec.
+**** Files
+ - [[../src/webroot/Phinch]]

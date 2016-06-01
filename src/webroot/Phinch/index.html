@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>PHINCH - A framework for visualizing bio data</title>
+    <meta name="description" content="Phinch is an open-source framework for visualizing biological data. Whether it's genes, proteins, or microbial species, Phinch provides an interactive visualization tool that allows users to explore and manipulate large biological datasets." />
+    <meta name="keywords" content="data viz, data visualization, sloan founcation, uc davis, biom, biological data, open-source, framework" />
+	<link rel="stylesheet" href="css/utility.css">
+	<link rel="stylesheet" href="css/home.css">
+
+    <!-- Facebook Meta Tags -->
+    <meta property="og:title" content="PHINCH - A framework for visualizing bio data">
+    <meta property="og:image" content="img/phinch-logo.jpg">
+    <meta property="og:site_name" content="PHINCH">
+
+    <!-- Google Analytics -->
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-50346302-1']);
+		_gaq.push(['_trackPageview']);
+		(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>	
+	
+	<!-- Disable Console Msg -->
+	<script type="text/javascript">
+		if (!(window.console && console.log)) {(function() {
+			var noop = function() {};
+			var methods = ['assert', 'clear', 'count', 'debug', 'dir', 'dirxml', 'error', 'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log', 'markTimeline', 'profile', 'profileEnd', 'markTimeline', 'table', 'time', 'timeEnd', 'timeStamp', 'trace', 'warn'];
+			var length = methods.length;
+			var console = window.console = {};
+			while (length--) { console[methods[length]] = noop;}
+		}()); }
+	</script>
+</head>
+
+<body>
+	<section id = "top_sec">
+		<section id = "header">
+			<p class = "logo"><img src="img/phinch.png" height="50px"><!-- <img alt="Chrome" src="img/chrome_logo_2x.png" height="20px" style="margin-top: 20px;"> --></p>
+			<ul id = "menu">
+				<li><a href="http://phinch.org/blog/" target="_blank">BLOG</a></li>
+				<li><a href="#about">ABOUT</a></li>
+				<li id = "help">HELP</li>
+			</ul>
+
+	        <div id="dialog-modal">
+	            <h2>How to Use</h2>
+	            <p class="descPara">
+
+	                <span>Instructions</span></br></br>
+	                This visualization framework aims to address current bottlenecks in the analysis of large sequence datasets (rRNA amplicons, metagenomes), helping researchers analyze high-throughput datasets more efficiently. Phich takes advantage of standard outputs from computational pipelines in order to bridge the gap between biological software (e.g. QIIME) and existing data visualization capabilities (harnessing the scalability of WebGL and HTML5 in a browser-based tool). </br></br>
+	                Phinch currently supports downstream analyses of <b>.biom files</b> ( <a href="http://biom-format.org/" target="_blank">Biological Observation Matrix</a>, a JSON-formatted file type typically used to represent marker gene OTUs or metagenomic data). <b>All sample metadata and taxonomy/ontology information MUST be embedded in the .biom file before being uploaded into Phinch</b>.</br></br>
+	                In QIIME (version 1.7 or later), users can prepare the .biom file by executing the following commands:</br></br>
+	                First, construct an OTU table:</br></br>
+	                     <code>make_otu_table.py -i final_otu_map_mc2.txt -o otu_table_mc2_w_tax.biom -t rep_set_tax_assignments.txt</code></br></br>
+	                Where your input file (-i) is your OTU Map (defining clusters of raw sequences reads), and taxonomy file (-t) contains the taxonomy or gene ontology strings that correspond to each OTU.</br></br>
+                	Second, add your sample metadata to your .biom file. In QIIME version 1.8 this can be done using the following command:</br></br>
+                    	<code>biom add-metadata -i otu_table_mc2_w_tax.biom -o otu_table_mc2_w_tax_and_metadata.biom -m sample_metadata_mapping_file.txt</code></br></br>
+                	In QIIME version 1.7 or below, you can add metadata with the following command:</br></br> 
+	                    <code>add_metadata.py -i otu_table_mc2_w_tax.biom -o otu_table_mc2_w_tax_and_metadata.biom -m sample_metadata_mapping_file.txt</code></br></br>
+	                Where your input file (-i) is your .biom file from the previous step, and your mapping file (-m) is a tab-delimited file containing sample metadata (<a href="http://qiime.org/documentation/file_formats.html#metadata-mapping-files" target="_blank">formatted according to these QIIME instructions</a>).</br></br>
+	                After these two steps, you're ready to upload.</br></br>
+	                If you want to visualize biological data currently formatted as a tab-delimited text file (e.g. the style of OTU tables produced by older versions of QIIME, the style of OTU tables produced by older versions of QIIME, or any other type of genomic data that can be reprsented in matrix format), <a href="https://github.com/biom-format/biom-format/blob/df81277857a553e7e5c9679924e09861d8a5f61f/doc/documentation/biom_conversion.rst" target="_blank">please refer to this documentation for conversion instructions</a>. Phinch supports both "sparse" and "dense" BIOM formats (although <b>sparse .biom files are highly recommended, since the file size is much smaller</b>). </br></br>
+
+	                <span>Some important notes on metadata</span></br></br>
+	                In order to be properly detected, all date/time metadata must be standardized according to MIxS standardized format (<a href="http://wiki.gensc.org/index.php?title=MIxS" target="_blank">more information at the Genomic Standards Consortium wiki</a>), and entered into one column in your original sample metadata mapping file, as follows:</br></br>
+	                [YYYY]-[MM]-[DD]T[hh]:[mm]:[ss]-[Z]</br>
+	                This date format lists the year, month, and day, followed by a 24hr timestamp with a UTC offset (Z). Inclusion of timestamp and UTC offset are both optional; metadata columns can include date only. For example, metadata for a sample collected at 2:30pm EST on May 4, 2007 would be entered as: 2007-04-05T14:30:00-05:00</br></br>
+	                Similarly, any geographic coordinates or GPS data must be entered as <a href="http://en.wikipedia.org/wiki/Decimal_degrees" target="_blank"></a>decimal degrees (the format used by GoogleMaps, e.g. -90.017926).  We recommend using separate columns labeled “Latitude” and “Longitude” in your original sample metadata mapping file, to ensure that GPS metadata is correctly detected.</br></br>
+
+	                To label your samples in Phinch and export graphics with human-readable IDs, include a column in your metadata mapping file with the header labelled as “phinchID” (these entries can be the same or different as the first SampleID column). The phinchID values will be pulled through into the visualizations to populate graph axes. If this column is not included, an arbitrary numerical ID will be assigned to each sample.</br></br>
+	                                
+	            </p>            
+	        </div>
+		</section>
+
+		<section id = "readFile">
+			<div id = "fileContainer">
+				<div id = "frmUpload">
+					<!-- Real Input field, hidden-->
+					<input type="file" id="files" name="myFile" onchange="$('#txtFakeText').val($('#files').val().replace('C:\\fakepath\\', '') ); " style="display: none" />
+					<input type="text" id="txtFakeText" name="txtFakeText" readonly="true" value="Drop file here or browse">
+					<input type="button" id = "fakeBrowse" class="file_btn" onclick="$('#files').click(); " value="BROWSE">
+				</div>
+
+				<div id = "fileDrag">Drop file here or browse</div>
+				<div id="progress_bar"><div class="percent"></div></div>
+				<button id="parse" class="file_btn">LOAD FILE</button>
+				<button id="loadTestFile">load a test file</button>
+			</div>
+		</section>
+
+
+	</section>
+
+	<section id = "NotSupported">
+		<br /> <br />
+		<h1>NOT SUPPORTED</h1>
+		<p>Chrome Browser Recommended! Your browser does not support the Phinch framework!</p>
+	</section>
+
+	<br/><br/>
+	<section id = "recent">
+		<h1>Recent Files</h1>
+	</section>
+
+	<br/><br/>
+	<section id="about">
+		<h1>Cite Phinch</h1>
+		<p class = "descPara">
+			Please cite the Phinch framework as follows:
+			Bik, H.M., Bu, S., Grubbs, W. (manuscript in preparation) Phinch: An interactive, exploratory data visualization framework for environnmental sequence data <a href="https://github.com/PitchInteractiveInc/Phinch" target="_blank">https://github.com/PitchInteractiveInc/Phinch</a> 
+		<h1>About Phinch</h1>
+		<p class = "descPara">
+		<img src="img/Sloan_Logo_Primary_Web.png" height="50" style="float:right;padding-left: 6px;">
+            Phinch is an open-source framework for visualizing biological data, funded by a grant from the Alfred P. Sloan foundation. This project represents an interdisciplinary collaboration between Pitch Interactive, a data visualization studio in Oakland, CA, and biological researchers at UC Davis. </br></br>
+            Whether it's genes, proteins, or microbial species, Phinch provides an interactive visualization tool that allows users to explore and manipulate large biological datasets. Computer algorithms face significant difficulty in identifying simple data patterns; writing algorithms to tease out complex, subtle relationships (the type that exist in biological systems) is almost impossible. However, the human eye is adept at spotting visual patterns, able to quickly notice trends and outliers. It is this philosophy especially when presented with intuitive, well-designed software tools and user interfaces.</br></br>
+            
+            The sheer volume of data produced from high-throughput sequencing technologies will require fundamentally different approaches and new paradigms for effective data analysis.</br></br>
+
+            Scientific visualization represents an innovative method towards tackling the current bottleneck in bioinformatics; in addition to giving researchers a unique approach for exploring large datasets, it stands to empower biologists with the ability to conduct powerful analyses without requiring a deep level of computational knowledge. </br></br></br>
+		</p>
+	</section>
+	
+	<section class = "footer_copyright">
+		Copyright © 2014 Phinch. Phinch is supported by the <a href="http://www.sloan.org/" target="_blank">Alfred P. Sloan Foundation</a>. This content is released under <a href="http://opensource.org/licenses/BSD-2-Clause" target="_blank">The BSD 2-Clause License</a>. <span><a href="https://groups.google.com/forum/#!forum/phinch" target="_blank"><i class="icon-fa-users icon-large"></i>&nbsp;&nbsp;Google Group</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://github.com/PitchInteractiveInc/Phinch" target="_blank"><i class="icon-github icon-large"></i>&nbsp;&nbsp;Github</a></span>
+	</section>
+
+	<script src="lib/indexedDB.polyfill.js"></script>
+	<script src="lib/db.js"></script>
+	<script src="lib/jquery-1.10.1.min.js"></script>
+	<script src="lib/jquery-ui-1.10.3.custom.min.js"></script>
+	<script src="lib/blob.js"></script>
+	
+	<script src="scripts/readFile.js"></script>
+	<script src="scripts/init.js"></script>
+    <script> var app; window.onload = function() { app = new init('home');} </script>
+
+</body>
+</html>

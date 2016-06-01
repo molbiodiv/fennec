@@ -2,18 +2,15 @@
 
 namespace fennecweb\ajax\upload;
 
-use \PDO as PDO;
+use \fennecweb\WebService as WebService;
 
 /**
  * Web Service.
  * Uploads Project biom files and save them in the database
  */
-class Project extends \fennecweb\WebService
+class Projects extends \fennecweb\WebService
 {
-    const ERROR_NOT_LOGGED_IN = "Error. Not logged in.";
     const ERROR_IN_REQUEST = "Error. There was an error in your request.";
-    const ERROR_NOT_TEXT = "Error. Not a text file.";
-    const ERROR_NOT_JSON = "Error. Not a json file.";
     const ERROR_NOT_BIOM = "Error. Not a biom file.";
     const ERROR_DB_INSERT = "Error. Could not insert into database.";
 
@@ -33,7 +30,8 @@ class Project extends \fennecweb\WebService
     );
 
     private $query_insert_project_into_db = <<<EOF
-INSERT INTO full_webuser_data (project, oauth_id, provider) VALUES (:project, :user, :provider);
+INSERT INTO full_webuser_data (project, oauth_id, provider, import_filename)
+    VALUES (:project, :user, :provider, :filename);
 EOF;
 
     /**
@@ -42,15 +40,15 @@ EOF;
      */
     public function execute($querydata)
     {
+        ini_set('memory_limit', '512M');
         $db = $this->openDbConnection($querydata);
         $files = array();
         if (!isset($_SESSION)) {
             session_start();
         }
         if (!isset($_SESSION['user'])) {
-            $files = array("error" => Project::ERROR_NOT_LOGGED_IN);
+            $files = array("error" => WebService::ERROR_NOT_LOGGED_IN);
         } else {
-            // var_dump($_FILES);
             for ($i=0; $i<sizeof($_FILES); $i++) {
                 $valid = $this->validateFile($_FILES[$i]['tmp_name']);
                 if ($valid === true) {
@@ -58,6 +56,7 @@ EOF;
                     $stm_get_organisms->bindValue('project', file_get_contents($_FILES[$i]['tmp_name']));
                     $stm_get_organisms->bindValue('user', $_SESSION['user']['id']);
                     $stm_get_organisms->bindValue('provider', $_SESSION['user']['provider']);
+                    $stm_get_organisms->bindValue('filename', $_FILES[$i]['name']);
                     if (! $stm_get_organisms->execute()) {
                         $valid = Project::ERROR_DB_INSERT;
                     }
@@ -81,22 +80,37 @@ EOF;
     protected function validateFile($filename)
     {
         if (!is_uploaded_file($filename)) {
-            return Project::ERROR_IN_REQUEST;
+            return Projects::ERROR_IN_REQUEST;
+        }
+        // Try to get file type with UNIX file command
+        $filetype = exec('file '.escapeshellarg($filename));
+        if (strpos($filetype, 'Hierarchical Data Format (version 5) data') !== false) {
+            $result = array();
+            $errorcode = 0;
+            exec('biom convert -i '.escapeshellarg($filename).
+                    ' -o '.escapeshellarg($filename).'.json --to-json', $result, $errorcode);
+            if ($errorcode === 0) {
+                rename($filename.'.json', $filename);
+            } else {
+                if (file_exists($filename.'json')) {
+                    unlink($filename.'.json');
+                }
+            }
         }
         $contents = file_get_contents($filename);
         if ($contents === false) {
-            return Project::ERROR_NOT_TEXT;
+            return Projects::ERROR_NOT_BIOM;
         }
         $json = json_decode($contents);
         if (json_last_error() !== JSON_ERROR_NONE) {
-            return Project::ERROR_NOT_JSON;
+            return Projects::ERROR_NOT_BIOM;
         }
         if (!is_object($json)) {
-            return Project::ERROR_NOT_BIOM;
+            return Projects::ERROR_NOT_BIOM;
         }
         foreach ($this->required_biom1_toplevel_keys as $key) {
             if (!array_key_exists($key, $json)) {
-                return Project::ERROR_NOT_BIOM;
+                return Projects::ERROR_NOT_BIOM;
             }
         }
         return true;

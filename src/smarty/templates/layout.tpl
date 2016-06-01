@@ -71,6 +71,7 @@
     </head>
     <body>
         <script>
+            const ServicePath = "{#$ServicePath#}";
             const WebRoot = "{#$WebRoot#}";
             const DbVersion = "{#$DbVersion#}";
         </script>
@@ -107,6 +108,9 @@
 
         <!-- Bootstrap selectpicker -->
         <script src="{#$WebRoot#}/bower_components/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+
+        <!-- Bootstrap confirmation -->
+        <script src="{#$WebRoot#}/bower_components/bs-confirmation/bootstrap-confirmation.min.js"></script>
 
         <!-- DataTables -->
         <script src="{#$WebRoot#}/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
