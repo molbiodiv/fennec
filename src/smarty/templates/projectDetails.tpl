@@ -20,7 +20,8 @@
         console.log(otuTableData.columns);
         $('#projectDetails_otuTable').DataTable({
             data: otuTableData.data,
-            columns: otuTableData.columns
+            columns: otuTableData.columns,
+            deferRender: true
         });
         $('#inspect-with-phinch-button').click(function(){
             db.open({
