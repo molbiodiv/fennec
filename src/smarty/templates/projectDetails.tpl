@@ -16,7 +16,7 @@
         var biomString = '{#$data["projects"][$internal_project_id]#}';
         var biomObject = JSON.parse(biomString);
         var biom = new Biom(biomObject);
-        var otuTableData = biom.getOtuTable();
+        var otuTableData = biom.getOtuTable(100);
         console.log(otuTableData.columns);
         $('#projectDetails_otuTable').DataTable({
             data: otuTableData.data,
