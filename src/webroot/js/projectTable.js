@@ -8,6 +8,7 @@ $('#project-table').DataTable( {
     },
     columns: [
         { data: 'id' },
+        { data: 'import_filename' },
         { data: 'import_date' },
         { data: 'rows' },
         { data: 'columns' },
