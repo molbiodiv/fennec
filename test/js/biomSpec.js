@@ -455,7 +455,17 @@ describe("The getOtuTable method is supposed to return an object containing the 
         var simpleBiom = new Biom(simpleBiomObject);
         var otuTableData = simpleBiom.getOtuTable();
         var expectedOtuTableData = {
-            'data': [{data: 'OTU'}, {data: 'organism'}, {data: 'sample_1'}, {data: 'sample_2'}, {data: 'sample_3'}, {data: 'sample_4'}, {data: 'sample_5'}], 
+            'data': [ { OTU: 'OTU_1', Sample_1: 120, Sample_2: 0, Sample_3: 0, Sample_4: 0, Sample_5: 0 },
+                      { OTU: 'OTU_2', Sample_1: 0, Sample_2: 0, Sample_3: 0, Sample_4: 0, Sample_5: 0 },
+                      { OTU: 'OTU_3', Sample_1: 0, Sample_2: 0, Sample_3: 0, Sample_4: 0, Sample_5: 0 },
+                      { OTU: 'OTU_4', Sample_1: 0, Sample_2: 12, Sample_3: 0, Sample_4: 0, Sample_5: 0 },
+                      { OTU: 'OTU_5', Sample_1: 0, Sample_2: 0, Sample_3: 0, Sample_4: 0, Sample_5: 0 },
+                      { OTU: 'OTU_6', Sample_1: 0, Sample_2: 0, Sample_3: 20, Sample_4: 0, Sample_5: 0 },
+                      { OTU: 'OTU_7', Sample_1: 0, Sample_2: 0, Sample_3: 0, Sample_4: 0, Sample_5: 0 },
+                      { OTU: 'OTU_8', Sample_1: 0, Sample_2: 0, Sample_3: 0, Sample_4: 12.7, Sample_5: 0 },
+                      { OTU: 'OTU_9', Sample_1: 0, Sample_2: 0, Sample_3: 0, Sample_4: 0, Sample_5: 16 },
+                      { OTU: 'OTU_10', Sample_1: 0, Sample_2: 0, Sample_3: 0, Sample_4: 0, Sample_5: 0 }
+                    ],
             'columns': {}
         };
         expect(otuTableData.data).toEqual(expectedOtuTableData.data);
