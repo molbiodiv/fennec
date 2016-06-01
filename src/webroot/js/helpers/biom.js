@@ -74,7 +74,7 @@ Biom = function(biomObject){
  * Method of Biom that creates the otu table data of biom object
  * @returns {object} otuTableData Object that contains the data for showing the otu table
  */
-Biom.prototype.getOtuTable = function(){
+Biom.prototype.getOtuTable = function(otulimit){
     var that = this;
     var otuTableData = {};
     otuTableData.columns = [
@@ -90,7 +90,8 @@ Biom.prototype.getOtuTable = function(){
         });
     });
     otuTableData.data = [];
-    //all otus are runned through
+    //all otus up to otulimit are runned through
+    var otus = 0;
     $.each(this.rows, function(rowKey, rowValue){
         thisEntry = {"OTU": rowValue.id};
         var data = _.filter(that.data, function(dataEntry){
@@ -112,6 +113,11 @@ Biom.prototype.getOtuTable = function(){
             }
         });
         otuTableData.data.push(thisEntry);
+        otus++;
+        if(otulimit && otus >= otulimit){
+            // break
+            return false;
+        }
     });
     return otuTableData;
 };
