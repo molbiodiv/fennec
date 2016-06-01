@@ -106,7 +106,7 @@ class ProjectsTest extends \PHPUnit_Framework_TestCase
         $db = \fennecweb\DB::getDbForVersion(DEFAULT_DBVERSION);
         $constant = 'constant';
         $query_get_project_from_db = <<<EOF
-SELECT project
+SELECT project, import_filename
     FROM webuser_data WHERE webuser_id =
         (SELECT webuser_id FROM webuser WHERE oauth_provider_id =
             (SELECT oauth_provider_id FROM oauth_provider
@@ -119,7 +119,7 @@ EOF;
         $stm_get_project_from_db = $db->prepare($query_get_project_from_db);
         $stm_get_project_from_db->execute();
         $this->assertEquals(1, $stm_get_project_from_db->rowCount());
-        $result = $stm_get_project_from_db->fetch(PDO::FETCH_ASSOC);
+        $result = $stm_get_project_from_db->fetch(\PDO::FETCH_ASSOC);
         $this->assertEquals('simpleBiom.json', $result['import_filename']);
 
         // Test for success returned by simple biom file in hdf5 format
