@@ -79,7 +79,8 @@ Biom.prototype.getOtuTable = function(otulimit){
     var otuTableData = {};
     otuTableData.columns = [
         {
-            data: 'OTU'
+            data: 'OTU',
+            title: 'OTU'
         }
     ];
     $.each(this.columns, function(key, value){
