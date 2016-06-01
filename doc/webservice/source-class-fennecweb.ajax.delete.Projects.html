@@ -141,7 +141,7 @@
 </span><span id="28" class="l">            <span class="php-keyword2">session_start</span>();
 </span><span id="29" class="l">        }
 </span><span id="30" class="l">        <span class="php-keyword1">if</span> (!<span class="php-keyword1">isset</span>(<span class="php-var">$_SESSION</span>[<span class="php-quote">'user'</span>])) {
-</span><span id="31" class="l">            <span class="php-var">$result</span>[<span class="php-quote">'error'</span>] = \fennecweb\ajax\listing\Projects::ERROR_NOT_LOGGED_IN;
+</span><span id="31" class="l">            <span class="php-var">$result</span>[<span class="php-quote">'error'</span>] = \fennecweb\WebService::ERROR_NOT_LOGGED_IN;
 </span><span id="32" class="l">        } <span class="php-keyword1">else</span> {
 </span><span id="33" class="l">            <span class="php-var">$ids</span> = <span class="php-var">$querydata</span>[<span class="php-quote">'ids'</span>];
 </span><span id="34" class="l">            <span class="php-var">$placeholders</span> = <span class="php-keyword2">implode</span>(<span class="php-quote">','</span>, <span class="php-keyword2">array_fill</span>(<span class="php-num">0</span>, <span class="php-keyword2">count</span>(<span class="php-var">$ids</span>), <span class="php-quote">'?'</span>));
