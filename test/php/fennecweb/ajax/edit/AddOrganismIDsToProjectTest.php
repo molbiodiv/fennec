@@ -36,6 +36,11 @@ class AddOrganismIDsToProjectTest extends \PHPUnit_Framework_TestCase
         list($service) = WebService::factory('listing/Projects');
         $entries = ($service->execute(array('dbversion' => DEFAULT_DBVERSION)));
         $id = $entries['data'][0]['internal_project_id'];
+        # Test for unknown method error
+        list($service) = WebService::factory('edit/AddOrganismIDsToProject');
+        $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION, 'id' => $id, 'method' => 'unknown_method_that_does_not_exist')));
+        $this->assertEquals(\fennecweb\ajax\edit\AddOrganismIDsToProject::ERROR_UNKNOWN_METHOD, $results['error']);
+        # Test for successful ncbi_taxid method
         list($service) = WebService::factory('edit/AddOrganismIDsToProject');
         $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION, 'id' => $id, 'method' => 'ncbi_taxid')));
         $this->assertEquals(10, $results['success']);
