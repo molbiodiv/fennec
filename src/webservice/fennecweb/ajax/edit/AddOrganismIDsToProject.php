@@ -38,9 +38,16 @@ class AddOrganismIDsToProject extends \fennecweb\WebService
             $id = $querydata['id'];
             $method = $querydata['method'];
             if($method === 'ncbi_taxid') {
-                
+                list($service) = WebService::factory('details/Projects');
+                $details = ($service->execute(array('dbversion' => $querydata['dbversion'], 'ids' => array($id))));
+                if(isset($details['error'])){
+                    $result['error'] = $details['error'];
+                    return $result;
+                }
+                $biom = json_decode($details['projects'][$id]);
             } else {
                 $result['error'] = AddOrganismIDsToProject::ERROR_UNKNOWN_METHOD;
+                return $result;
             }
         }
         return $result;
