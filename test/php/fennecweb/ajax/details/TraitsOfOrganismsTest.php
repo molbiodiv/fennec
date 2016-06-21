@@ -9,6 +9,11 @@ class TraitsOfOrganismsTest extends \PHPUnit_Framework_TestCase
 
     public function testExecute()
     {
-
+        //Test if the traits to a selection of organisms is returned correctly
+        list($service) = WebService::factory('details/TraitsOfOrganisms');
+        $organism_ids = ['13','21','17'];
+        $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION, 'organism_ids' => $organism_ids)));
+        $expected = ['habitat','elevation','plant growth habit','geographic distribution'];
+        $this->assertEquals($expected, $results);
     }
 }
