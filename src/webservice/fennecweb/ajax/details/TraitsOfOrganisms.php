@@ -6,7 +6,7 @@ use \PDO as PDO;
 
 /**
  * Web Service.
- * Returns Trait information of an organism by its id
+ * Returns Trait information of a list of organism ids
  */
 class TraitsOfOrganisms extends \fennecweb\WebService
 {
