@@ -13,7 +13,7 @@ class TraitsOfOrganismsTest extends \PHPUnit_Framework_TestCase
         list($service) = WebService::factory('details/TraitsOfOrganisms');
         $organism_ids = ['13','21','17'];
         $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION, 'organism_ids' => $organism_ids)));
-        $expected = ['habitat','elevation','plant growth habit','geographic distribution'];
+        $expected = [1 => 'habitat', 5 => 'elevation', 7 => 'plant growth habitat'];
         $this->assertEquals($expected, $results);
     }
 }
