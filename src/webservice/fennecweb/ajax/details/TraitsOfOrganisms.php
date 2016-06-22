@@ -40,4 +40,22 @@ EOF;
         }
         return $result;
     }
+    
+    /**
+     * Function which returns the cvterm accoring to a trait_entry_id
+     * @param $trait_entry_id
+     * @return cvterm to a given trait_entry_id
+     */
+    private function getCvterm($trait_entry_id)
+    {
+        $query_get_cvterm = <<<EOF
+SELECT name, definition FROM trait_cvterm WHERE trait_cvterm_id = :trait_entry_id
+EOF;
+        $stm_get_cvterm = $this->db->prepare($query_get_cvterm);
+        $stm_get_cvterm->bindValue('trait_entry_id', $trait_entry_id);
+        $stm_get_cvterm->execute();
+        $result = $stm_get_cvterm->fetch(PDO::FETCH_ASSOC);
+        
+        return ($result['name'] == null) ? $result['definition'] : $result['name'];
+    }
 }
