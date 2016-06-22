@@ -32,6 +32,12 @@ EOF;
         $stm_get_traits_to_organisms->execute($organism_ids);
 
         $result = array();
+        while ($row = $stm_get_traits_to_organisms->fetch(PDO::FETCH_ASSOC)) {
+            $this_trait = [];
+            $this_trait['trait_entry_id'] = $row['trait_entry_id'];
+            $this_trait['cvterm'] = $this->getCvterm($row['type_cvterm_id']);
+            array_push($result, $this_trait);
+        }
         return $result;
     }
 }
