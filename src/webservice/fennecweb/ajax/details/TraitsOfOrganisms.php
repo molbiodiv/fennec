@@ -10,6 +10,7 @@ use \PDO as PDO;
  */
 class TraitsOfOrganisms extends \fennecweb\WebService
 {
+    private $db;
     /**
      * @param $querydata['organism_ids' => [13,7,12,5]]
      * @returns Array $result
@@ -19,7 +20,7 @@ class TraitsOfOrganisms extends \fennecweb\WebService
      */
     public function execute($querydata)
     {
-        $db = $this->openDbConnection($querydata);
+        $this->db = $this->openDbConnection($querydata);
         $organism_ids = $querydata['organism_ids'];
         var_dump($organism_ids);
         $result = array();
