@@ -6,13 +6,16 @@ use \PDO as PDO;
 
 /**
  * Web Service.
- * Returns Trait information of a list of organism ids
+ * Returns trait information to a list of organism ids
  */
 class TraitsOfOrganisms extends \fennecweb\WebService
 {
     /**
-     * @param $querydata[]
-     * @returns organism id
+     * @param $querydata['organism_ids' => [13,7,12,5]]
+     * @returns Array $result
+     * <code>
+     * array(trait_entry_id => cvterm);
+     * </code>
      */
     public function execute($querydata)
     {
