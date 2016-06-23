@@ -15,7 +15,7 @@ class TraitsOfOrganisms extends \fennecweb\WebService
      * @param $querydata['organism_ids' => [13,7,12,5]]
      * @returns Array $result
      * <code>
-     * array(trait_entry_id => cvterm);
+     * array(type_cvterm_id => array('cvterm' => 'habitat', 'trait_entries' => array('organism_1' => array('1','17','15'),'organism_2' => array('42','22','13')<)));
      * </code>
      */
     public function execute($querydata)
