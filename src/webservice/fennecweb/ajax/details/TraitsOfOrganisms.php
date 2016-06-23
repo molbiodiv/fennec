@@ -32,11 +32,28 @@ EOF;
 
         $result = array();
         while ($row = $stm_get_traits_to_organisms->fetch(PDO::FETCH_ASSOC)) {
-            $this_trait = [];
-            $this_trait['trait_entry_id'] = $row['trait_entry_id'];
-            $this_trait['cvterm'] = $this->getCvterm($row['type_cvterm_id']);
-            array_push($result, $this_trait);
+            $type_cvterm_id = $row['type_cvterm_id'];
+            $cvterm = $this->getCvterm($type_cvterm_id);
+            $organism_id -> $row['organism_id'];
+            $trait_entry_id -> $row['trait_entry_id'];
+            if (!array_key_exists($type_cvterm_id, $result)){
+                $result[$type_cvterm_id] = [
+                    'cvterm' => $cvterm,
+                    'trait_entries' => [$organism_id => [$trait_entry_id]]
+                ];
+            } else {
+               if (!array_key_exists($organism_id, $result[$type_cvterm_id]['trait_entries'])){
+                   array_push($result[$type_cvterm_id]['trait_entries'], [$organism_id => [$trait_entry_id]]);
+               } else {
+                   array_push($result[$type_cvterm_id]['trait_entries'][$organism_id], $trait_entry_id);
+               }
+            }
+//            $this_trait = [];
+//            $this_trait['trait_entry_id'] = $row['trait_entry_id'];
+//            $this_trait['cvterm'] = $this->getCvterm($row['type_cvterm_id']);
+//            array_push($result, $this_trait);
         }
+        var_dump($result);
         return $result;
     }
     
