@@ -23,7 +23,6 @@ class TraitsOfOrganisms extends \fennecweb\WebService
         $this->db = $this->openDbConnection($querydata);
         $organism_ids = $querydata['organism_ids'];
         $placeholders = implode(',', array_fill(0, count($organism_ids), '?'));
-        var_dump($placeholders);
         $query_get_traits_to_organisms = <<<EOF
 SELECT *
     FROM trait_entry WHERE organism_id IN ($placeholders)
