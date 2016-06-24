@@ -1,35 +1,28 @@
 /* Project color */
 /* Community color */
-table.dataTable[id="otu_project"] thead .sorting,
-table.dataTable[id="otu_project"] thead .sorting_asc,
-table.dataTable[id="otu_project"] thead .sorting_desc,
-table.dataTable[id="otu_project"] thead .sorting_asc_disabled,
-table.dataTable[id="otu_project"] thead .sorting_desc_disabled {
+/*table.dataTable[id="project-table"] thead .sorting,
+table.dataTable[id="project-table"] thead .sorting_asc,
+table.dataTable[id="project-table"] thead .sorting_desc,
+table.dataTable[id="project-table"] thead .sorting_asc_disabled,
+table.dataTable[id="project-table"] thead .sorting_desc_disabled {
+    background: $project-0;
+    color: #F8F8F8;
+}
+
+table.dataTable[id="projectDetails_otuTable"] thead .sorting,
+table.dataTable[id="projectDetails_otuTable"] thead .sorting_asc,
+table.dataTable[id="projectDetails_otuTable"] thead .sorting_desc,
+table.dataTable[id="projectDetails_otuTable"] thead .sorting_asc_disabled,
+table.dataTable[id="projectDetails_otuTable"] thead .sorting_desc_disabled {
+    background: $project-0;
+    color: #F8F8F8;
+}*/
+table.dataTable.project-table thead .sorting,
+table.dataTable.project-table thead .sorting_asc,
+table.dataTable.project-table thead .sorting_desc,
+table.dataTable.project-table thead .sorting_asc_disabled,
+table.dataTable.project-table thead .sorting_desc_disabled {
   background: #098709;
-  color: #F8F8F8; }
-
-table.dataTable[id="metadata_project"] thead .sorting,
-table.dataTable[id="metadata_project"] thead .sorting_asc,
-table.dataTable[id="metadata_project"] thead .sorting_desc,
-table.dataTable[id="metadata_project"] thead .sorting_asc_disabled,
-table.dataTable[id="metadata_project"] thead .sorting_desc_disabled {
-  background: #098709;
-  color: #F8F8F8; }
-
-table.dataTable[id="metadata_community"] thead .sorting,
-table.dataTable[id="metadata_community"] thead .sorting_asc,
-table.dataTable[id="metadata_community"] thead .sorting_desc,
-table.dataTable[id="metadata_community"] thead .sorting_asc_disabled,
-table.dataTable[id="metadata_community"] thead .sorting_desc_disabled {
-  background: #A9530C;
-  color: #F8F8F8; }
-
-table.dataTable[id="otu_community"] thead .sorting,
-table.dataTable[id="otu_community"] thead .sorting_asc,
-table.dataTable[id="otu_community"] thead .sorting_desc,
-table.dataTable[id="otu_community"] thead .sorting_asc_disabled,
-table.dataTable[id="otu_community"] thead .sorting_desc_disabled {
-  background: #A9530C;
   color: #F8F8F8; }
 
 .project-table-striped > tbody > tr:nth-of-type(2n) {
@@ -50,75 +43,31 @@ table.dataTable[id="otu_community"] thead .sorting_desc_disabled {
 .project-table a:focus, a:hover {
   text-decoration: none; }
 
-.community-table-striped > tbody > tr:nth-of-type(2n) {
-  background-color: #fdf3ea; }
-
-.community-table-striped > tbody > tr:hover {
-  background-color: #EEE; }
-
-.community-table sorting_asc {
-  color: #F8F8F8; }
-
-/* Footer cells */
-.community-table tfoot th {
-  background: #A9530C;
-  color: #F8F8F8; }
-
-/* Define custom hover effect on links */
-.community-table a:focus, a:hover {
-  text-decoration: none; }
-
-div#otu_project_paginate > .pagination > .active > a,
-div#otu_project_paginate > .pagination > .active > a:focus {
+div#project-table_paginate > .pagination > .active > a,
+div#project-table_paginate > .pagination > .active > a:focus {
   color: #FFF;
   cursor: pointer;
   background-color: #098709;
   border-color: #098709; }
 
-div#otu_project_paginate > .pagination > .active > a:hover {
+div#project-table_paginate > .pagination > .active > a:hover {
   color: #FFF;
   cursor: pointer;
   background-color: #065706;
   border-color: #065706; }
 
-div#metadata_project_paginate > .pagination > .active > a,
-div#metadata_project_paginate > .pagination > .active > a:focus {
+div#projectDetails_otuTable_paginate > .pagination > .active > a,
+div#projectDetails_otuTable_paginate > .pagination > .active > a:focus {
   color: #FFF;
   cursor: pointer;
   background-color: #098709;
   border-color: #098709; }
 
-div#metadata_project_paginate > .pagination > .active > a:hover {
+div#projectDetails_otuTable_paginate > .pagination > .active > a:hover {
   color: #FFF;
   cursor: pointer;
   background-color: #065706;
   border-color: #065706; }
-
-div#metadata_community_paginate > .pagination > .active > a,
-div#metadata_community_paginate > .pagination > .active > a:focus {
-  color: #FFF;
-  cursor: pointer;
-  background-color: #A9530C;
-  border-color: #A9530C; }
-
-div#metadata_community_paginate > .pagination > .active > a:hover {
-  color: #FFF;
-  cursor: pointer;
-  background-color: #793c09;
-  border-color: #793c09; }
-
-div#otu_community_paginate > .pagination > .active > a,
-div#otu_community_paginate > .pagination > .active > a:focus {
-  color: #FFF;
-  cursor: pointer;
-  background-color: #A9530C;
-  border-color: #A9530C; }
-
-div#otu_community_paginate > .pagination > .active > a:hover {
-  color: #FFF;
-  cursor: pointer;
-  background-color: #793c09;
-  border-color: #793c09; }
 
 .pagination > li > a,
 .pagination > li > a:focus,
