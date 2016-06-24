@@ -15,7 +15,11 @@ class TraitsOfOrganisms extends \fennecweb\WebService
      * @param $querydata['organism_ids' => [13,7,12,5]]
      * @returns Array $result
      * <code>
-     * array(type_cvterm_id => array('cvterm' => 'habitat', 'trait_entry_ids' => array(1, 20, 36, 7), 'organism_ids' => array(13, 20, 5));
+     * array(type_cvterm_id => array(
+     * 'cvterm' => 'habitat',
+     * 'trait_entry_ids' => array(1, 20, 36, 7),
+     * 'organism_ids' => array(13, 20, 5)
+     * );
      * </code>
      */
     public function execute($querydata)
@@ -36,7 +40,7 @@ EOF;
             $cvterm = $this->getCvterm($type_cvterm_id);
             $organism_id = $row['organism_id'];
             $trait_entry_id = $row['trait_entry_id'];
-            if (!array_key_exists($type_cvterm_id, $result)){
+            if (!array_key_exists($type_cvterm_id, $result)) {
                 $result[$type_cvterm_id] = [
                     'cvterm' => $cvterm,
                     'trait_entry_ids' => [$trait_entry_id],
@@ -44,7 +48,7 @@ EOF;
                 ];
             } else {
                 array_push($result[$type_cvterm_id]['trait_entry_ids'], $trait_entry_id);
-                if (!in_array($organism_id, $result[$type_cvterm_id]['organism_ids'])){
+                if (!in_array($organism_id, $result[$type_cvterm_id]['organism_ids'])) {
                     array_push($result[$type_cvterm_id]['organism_ids'], $organism_id);
                 }
             }
