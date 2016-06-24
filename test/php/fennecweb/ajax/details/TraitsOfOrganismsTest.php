@@ -14,10 +14,25 @@ class TraitsOfOrganismsTest extends \PHPUnit_Framework_TestCase
         $organism_ids = ['12049'];
         $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION, 'organism_ids' => $organism_ids)));
         $expected = [
-            '12' => [
+            '20' => [
+                'cvterm' => 'extinction status', 
+                'trait_entry_ids' => [753126],
+                'organism_ids' => [12049]
+            ],
+            '10' => [
+                'cvterm' => 'geographic distribution', 
+                'trait_entry_ids' => [753127, 753128, 753131],
+                'organism_ids' => [12049]
+            ],
+            '188' => [
+                'cvterm' => 'type specimen repository', 
+                'trait_entry_ids' => [753129],
+                'organism_ids' => [12049]
+            ],
+            '27' => [
                 'cvterm' => 'habitat', 
-                'trait_entry_ids' => ['12','11','10'],
-                'organism_ids' => ['12','7','20']
+                'trait_entry_ids' => [753130],
+                'organism_ids' => [12049]
             ]
         ];
         $this->assertEquals($expected, $results);
