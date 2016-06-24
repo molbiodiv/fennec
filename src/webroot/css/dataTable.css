@@ -1,22 +1,5 @@
 /* Project color */
 /* Community color */
-/*table.dataTable[id="project-table"] thead .sorting,
-table.dataTable[id="project-table"] thead .sorting_asc,
-table.dataTable[id="project-table"] thead .sorting_desc,
-table.dataTable[id="project-table"] thead .sorting_asc_disabled,
-table.dataTable[id="project-table"] thead .sorting_desc_disabled {
-    background: $project-0;
-    color: #F8F8F8;
-}
-
-table.dataTable[id="projectDetails_otuTable"] thead .sorting,
-table.dataTable[id="projectDetails_otuTable"] thead .sorting_asc,
-table.dataTable[id="projectDetails_otuTable"] thead .sorting_desc,
-table.dataTable[id="projectDetails_otuTable"] thead .sorting_asc_disabled,
-table.dataTable[id="projectDetails_otuTable"] thead .sorting_desc_disabled {
-    background: $project-0;
-    color: #F8F8F8;
-}*/
 table.dataTable.project-table thead .sorting,
 table.dataTable.project-table thead .sorting_asc,
 table.dataTable.project-table thead .sorting_desc,
