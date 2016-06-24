@@ -73,60 +73,52 @@ div#otu_project_paginate > .pagination > .active > a:focus {
   color: #FFF;
   cursor: pointer;
   background-color: #098709;
-  border-color: #098709;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5), 0 1px rgba(255, 255, 255, 0.3) inset, 0 10px rgba(255, 255, 255, 0.2) inset, 0 10px 20px rgba(255, 255, 255, 0.25) inset, 0 -15px 30px rgba(0, 0, 0, 0.3) inset; }
+  border-color: #098709; }
 
 div#otu_project_paginate > .pagination > .active > a:hover {
   color: #FFF;
   cursor: pointer;
   background-color: #065706;
-  border-color: #065706;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5), 0 1px rgba(255, 255, 255, 0.3) inset, 0 10px rgba(255, 255, 255, 0.2) inset, 0 10px 20px rgba(255, 255, 255, 0.25) inset, 0 -15px 30px rgba(0, 0, 0, 0.3) inset; }
+  border-color: #065706; }
 
 div#metadata_project_paginate > .pagination > .active > a,
 div#metadata_project_paginate > .pagination > .active > a:focus {
   color: #FFF;
   cursor: pointer;
   background-color: #098709;
-  border-color: #098709;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5), 0 1px rgba(255, 255, 255, 0.3) inset, 0 10px rgba(255, 255, 255, 0.2) inset, 0 10px 20px rgba(255, 255, 255, 0.25) inset, 0 -15px 30px rgba(0, 0, 0, 0.3) inset; }
+  border-color: #098709; }
 
 div#metadata_project_paginate > .pagination > .active > a:hover {
   color: #FFF;
   cursor: pointer;
   background-color: #065706;
-  border-color: #065706;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5), 0 1px rgba(255, 255, 255, 0.3) inset, 0 10px rgba(255, 255, 255, 0.2) inset, 0 10px 20px rgba(255, 255, 255, 0.25) inset, 0 -15px 30px rgba(0, 0, 0, 0.3) inset; }
+  border-color: #065706; }
 
 div#metadata_community_paginate > .pagination > .active > a,
 div#metadata_community_paginate > .pagination > .active > a:focus {
   color: #FFF;
   cursor: pointer;
   background-color: #A9530C;
-  border-color: #A9530C;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5), 0 1px rgba(255, 255, 255, 0.3) inset, 0 10px rgba(255, 255, 255, 0.2) inset, 0 10px 20px rgba(255, 255, 255, 0.25) inset, 0 -15px 30px rgba(0, 0, 0, 0.3) inset; }
+  border-color: #A9530C; }
 
 div#metadata_community_paginate > .pagination > .active > a:hover {
   color: #FFF;
   cursor: pointer;
   background-color: #793c09;
-  border-color: #793c09;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5), 0 1px rgba(255, 255, 255, 0.3) inset, 0 10px rgba(255, 255, 255, 0.2) inset, 0 10px 20px rgba(255, 255, 255, 0.25) inset, 0 -15px 30px rgba(0, 0, 0, 0.3) inset; }
+  border-color: #793c09; }
 
 div#otu_community_paginate > .pagination > .active > a,
 div#otu_community_paginate > .pagination > .active > a:focus {
   color: #FFF;
   cursor: pointer;
   background-color: #A9530C;
-  border-color: #A9530C;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5), 0 1px rgba(255, 255, 255, 0.3) inset, 0 10px rgba(255, 255, 255, 0.2) inset, 0 10px 20px rgba(255, 255, 255, 0.25) inset, 0 -15px 30px rgba(0, 0, 0, 0.3) inset; }
+  border-color: #A9530C; }
 
 div#otu_community_paginate > .pagination > .active > a:hover {
   color: #FFF;
   cursor: pointer;
   background-color: #793c09;
-  border-color: #793c09;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5), 0 1px rgba(255, 255, 255, 0.3) inset, 0 10px rgba(255, 255, 255, 0.2) inset, 0 10px 20px rgba(255, 255, 255, 0.25) inset, 0 -15px 30px rgba(0, 0, 0, 0.3) inset; }
+  border-color: #793c09; }
 
 .pagination > li > a,
 .pagination > li > a:focus,
@@ -134,15 +126,6 @@ div#otu_community_paginate > .pagination > .active > a:hover {
 .pagination > li > span,
 .pagination > li > span:focus,
 .pagination > li > span:hover {
-  color: #777;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5), 0 1px rgba(255, 255, 255, 0.3) inset, 0 10px rgba(255, 255, 255, 0.2) inset, 0 10px 20px rgba(255, 255, 255, 0.25) inset, 0 -15px 30px rgba(0, 0, 0, 0.3) inset; }
-
-.pagination > .disabled > a,
-.pagination > .disabled > a:focus,
-.pagination > .disabled > a:hover,
-.pagination > .disabled > span,
-.pagination > .disabled > span:focus,
-.pagination > .disabled > span:hover {
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5), 0 1px rgba(255, 255, 255, 0.3) inset, 0 10px rgba(255, 255, 255, 0.2) inset, 0 10px 20px rgba(255, 255, 255, 0.25) inset, 0 -15px 30px rgba(0, 0, 0, 0.3) inset; }
+  color: #777; }
 
 /*# sourceMappingURL=dataTable.css.map */
