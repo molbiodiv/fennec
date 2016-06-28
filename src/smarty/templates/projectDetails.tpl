@@ -9,8 +9,8 @@
     <h3>OTU Table <i data-toggle="tooltip" title="This table is truncated and contains just 100 random OTUs for performance reasons" class="fa fa-question-circle"></i></h3>
     <div>
         <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active"><a class="projects-link" href="#overview" role="tab" data-toggle="tab">Overview</a></li>
-            <li role="presentation"><a class="projects-link" href="#traits" aria-controls="traits" role="tab" data-toggle="tab">Traits</a></li>
+            <li role="presentation" class="active"><a class="project-link" href="#overview" role="tab" data-toggle="tab">Overview</a></li>
+            <li role="presentation"><a class="project-link" href="#traits" aria-controls="traits" role="tab" data-toggle="tab">Traits</a></li>
         </ul>
         <div class="tab-content">
             <div role="tabpanel" class="tab-pane active" id="overview" style="margin-top: 10px">
