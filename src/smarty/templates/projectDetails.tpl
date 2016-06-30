@@ -79,7 +79,9 @@
                 </script>
             </div>
             <div role="tabpanel" class="tab-pane" id="traits">
-                traits placeholder
+                {#foreach $traits_of_project as $current#}
+                    {#$current['cvterm']#}
+                {#/foreach#}
             </div>
         </div>
     </div>
