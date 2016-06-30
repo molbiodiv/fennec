@@ -60,4 +60,43 @@ div#projectDetails_otuTable_paginate > .pagination > .active > a:hover {
 .pagination > li > span:hover {
   color: #777; }
 
+table.dataTable.trait-table thead .sorting,
+table.dataTable.trait-table thead .sorting_asc,
+table.dataTable.trait-table thead .sorting_desc,
+table.dataTable.trait-table thead .sorting_asc_disabled,
+table.dataTable.trait-table thead .sorting_desc_disabled {
+  background: #A90C0C;
+  color: #F8F8F8; }
+
+.trait-table-striped > tbody > tr:nth-of-type(2n) {
+  background-color: white; }
+
+.trait-table-striped > tbody > tr:hover {
+  background-color: #EEE; }
+
+.trait-table sorting_asc {
+  color: #F8F8F8; }
+
+/* Footer cells */
+.trait-table tfoot th {
+  background: #A90C0C;
+  color: #F8F8F8; }
+
+/* Define custom hover effect on links */
+.trait-table a:focus, a:hover {
+  text-decoration: none; }
+
+div#trait-table_paginate > .pagination > .active > a,
+div#trait-table_paginate > .pagination > .active > a:focus {
+  color: #FFF;
+  cursor: pointer;
+  background-color: #A90C0C;
+  border-color: #A90C0C; }
+
+div#trait-table_paginate > .pagination > .active > a:hover {
+  color: #FFF;
+  cursor: pointer;
+  background-color: #790909;
+  border-color: #790909; }
+
 /*# sourceMappingURL=dataTable.css.map */
