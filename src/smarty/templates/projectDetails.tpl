@@ -84,6 +84,7 @@
                         <tr><th>cvterm</th><th>count</th><th>range</th></tr>
                     </thead>
                 </table>
+                <script src="{#$WebRoot#}/js/allTraitsOfProjectTable.js"></script>
             </div>
         </div>
     </div>
