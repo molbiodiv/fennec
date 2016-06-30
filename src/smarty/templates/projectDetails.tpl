@@ -86,7 +86,7 @@
                 </table>
                 {#literal#}
                     <script>
-                        var traits = [['habitat',0,1],['plant height',20,5]]
+                        var traits = '{#/literal#}{#$traits_of_project#}{#literal#}';
                         console.log(traits);
                     </script>
                 {#/literal#}
