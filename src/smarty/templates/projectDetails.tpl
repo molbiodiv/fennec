@@ -78,10 +78,12 @@
                     });
                 </script>
             </div>
-            <div role="tabpanel" class="tab-pane" id="traits">
-                {#foreach $traits_of_project as $current#}
-                    {#$current['cvterm']#}
-                {#/foreach#}
+            <div role="tabpanel" class="tab-pane" id="traits" style="margin-top: 10px">
+                <table id="trait-table" class="table project-table project-table-striped table-bordered" width="100%" cellspacing="0">
+                    <thead>
+                        <tr><th>cvterm</th><th>count</th><th>range</th></tr>
+                    </thead>
+                </table>
             </div>
         </div>
     </div>
