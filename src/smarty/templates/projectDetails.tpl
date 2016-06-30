@@ -84,7 +84,17 @@
                         <tr><th>trait</th><th>count</th><th>range</th></tr>
                     </thead>
                 </table>
-                <script src="{#$WebRoot#}/js/allTraitsOfProjectTable.js"></script>
+                {#literal#}
+                    <script>
+                        var traits = [['habitat',0,1],['plant height',20,5]]
+                        console.log(traits);
+                    </script>
+                {#/literal#}
+                <script>
+                    $('#trait-table').DataTable( {
+                        data: traits
+                    } );
+                </script>
             </div>
         </div>
     </div>
