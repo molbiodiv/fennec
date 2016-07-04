@@ -83,7 +83,7 @@ table.dataTable.trait-table thead .sorting_desc_disabled {
 }
 
 .trait-table-striped > tbody > tr:nth-of-type(2n){
-    background-color: lighten($trait-0, 66%);
+    background-color: lighten($trait-0, 60%);
 }
 
 .trait-table-striped > tbody > tr:hover{

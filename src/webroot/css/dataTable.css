@@ -69,7 +69,7 @@ table.dataTable.trait-table thead .sorting_desc_disabled {
   color: #F8F8F8; }
 
 .trait-table-striped > tbody > tr:nth-of-type(2n) {
-  background-color: white; }
+  background-color: #fdeaea; }
 
 .trait-table-striped > tbody > tr:hover {
   background-color: #EEE; }
