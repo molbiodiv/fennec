@@ -1,6 +1,6 @@
 {#extends file='layoutWithBars.tpl'#}
 {#call_webservice path="details/Projects" data=["ids"=>[$internal_project_id], "dbversion"=>$DbVersion] assign='data'#}
-{#call_webservice path="details/TraitsOfOrganisms" data=["organism_ids"=>[$organism_ids], "dbversion"=>$DbVersion] assign='traits_of_project'#}
+{#call_webservice path="details/TraitsOfOrganisms" data=["organism_ids"=>[13,15,42,47757,200,12049], "dbversion"=>$DbVersion] assign='traits_of_project'#}
 {#block name='content'#}
     {#if isset($data['error'])#}
     <h3>Error: {#$data['error']#}</h3>
