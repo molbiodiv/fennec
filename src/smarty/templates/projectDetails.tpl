@@ -96,8 +96,13 @@
                     {#/foreach#}
                     console.log(traits);
                     $('#trait-table').DataTable( {
-                        data: traits
-                    } );
+                       data: traits,
+                       columns: [
+                            { data: 'trait' },
+                            { data: 'count' },
+                            { data: 'range' }
+                        ],
+                    });
                 </script>
             </div>
         </div>
