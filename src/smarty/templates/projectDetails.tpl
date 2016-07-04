@@ -84,13 +84,17 @@
                         <tr><th>trait</th><th>count</th><th>range</th></tr>
                     </thead>
                 </table>
-                {#literal#}
-                    <script>
-                        var traits = '{#/literal#}{#$traits_of_project#}{#literal#}';
-                        console.log(traits);
-                    </script>
-                {#/literal#}
-                <script>
+                <script type="text/javascript">
+                    var traits = [];
+                    {#foreach $traits_of_project as $trait#}
+                        var thisTrait = {
+                            trait: '{#$trait['cvterm']#}',
+                            count: '{#$trait['trait_entry_ids']|@count#}',
+                            range: '{#math equation="x/y" x=$trait['organism_ids']|@count y=6#}'
+                        };
+                        traits.push(thisTrait);
+                    {#/foreach#}
+                    console.log(traits);
                     $('#trait-table').DataTable( {
                         data: traits
                     } );
