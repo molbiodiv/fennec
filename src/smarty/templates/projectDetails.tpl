@@ -26,7 +26,6 @@
                     var biomObject = JSON.parse(biomString);
                     var biom = new Biom(biomObject);
                     var otuTableData = biom.getOtuTable(100);
-                    console.log(otuTableData.columns);
                     $('#projectDetails_otuTable').DataTable({
                         data: otuTableData.data,
                         columns: otuTableData.columns,
@@ -94,7 +93,6 @@
                         };
                         traits.push(thisTrait);
                     {#/foreach#}
-                    console.log(traits);
                     $('#trait-table').DataTable( {
                        data: traits,
                        columns: [
