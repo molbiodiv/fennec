@@ -79,7 +79,7 @@
                 </script>
             </div>
             <div role="tabpanel" class="tab-pane" id="traits" style="margin-top: 10px">
-                <table id="trait-table" class="table trait-table traits-table-striped table-bordered" width="100%" cellspacing="0">
+                <table id="trait-table" class="table trait-table trait-table-striped table-bordered" width="100%" cellspacing="0">
                     <thead>
                         <tr><th>trait</th><th>count</th><th>range</th></tr>
                     </thead>
