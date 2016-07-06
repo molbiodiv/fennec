@@ -89,7 +89,7 @@
                         var thisTrait = {
                             trait: '{#$trait['cvterm']#}',
                             count: '{#$trait['trait_entry_ids']|@count#}',
-                            range: '{#math equation="x/y" x=$trait['organism_ids']|@count y=6#}'
+                            range: '{#math equation="x/y*percent" x=$trait['organism_ids']|@count y=6 percent=100#}'
                         };
                         traits.push(thisTrait);
                     {#/foreach#}
