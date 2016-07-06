@@ -44,6 +44,9 @@
         <!-- Alert style -->
         <link href="{#$WebRoot#}/css/alert.css" rel="stylesheet" type="text/css">
         
+        <!-- Progress bar style -->
+        <link href="{#$WebRoot#}/css/progress.css" rel="stylesheet" type="text/css">
+        
         <link href="{#$WebRoot#}/css/autocomplete.css" rel="stylesheet" type="text/css">
         
         <!-- jQuery UI Theme Style -->
