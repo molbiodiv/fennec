@@ -7,9 +7,9 @@ use \PDO as PDO;
 
 /**
  * Web Service.
- * Add fennec_organism_id/fennec_assignment_method/fennec_dbversion as observation metadata 
+ * Add fennec_organism_id/fennec_assignment_method/fennec_dbversion as observation metadata
  * to provided project using the provided method (user has to be logged in and owner)
- * 
+ *
  * possible methods are currently:
  *  - ncbi_taxid: It is searched for ncbi_taxid in metadata and the associated organism_id is retrieved from the db
  */
@@ -38,22 +38,22 @@ class AddOrganismIDsToProject extends WebService
         } else {
             $id = $querydata['id'];
             $method = $querydata['method'];
-            if($method === 'ncbi_taxid') {
+            if ($method === 'ncbi_taxid') {
                 list($service) = WebService::factory('details/Projects');
                 $details = ($service->execute(array('dbversion' => $querydata['dbversion'], 'ids' => array($id))));
-                if(isset($details['error'])){
+                if (isset($details['error'])) {
                     $result['error'] = $details['error'];
                     return $result;
                 }
                 $biom = json_decode($details['projects'][$id], true);
                 $ncbi_ids = array();
-                foreach ($biom['rows'] as $row){
+                foreach ($biom['rows'] as $row) {
                     $result['total']++;
-                    if(isset($row['metadata']['ncbi_taxid'])){
+                    if (isset($row['metadata']['ncbi_taxid'])) {
                         $ncbi_ids[] = $row['metadata']['ncbi_taxid'];
                     }
                 }
-                if(count($ncbi_ids) === 0){
+                if (count($ncbi_ids) === 0) {
                     return $result;
                 }
                 $placeholders = implode(',', array_fill(0, count($ncbi_ids), '?'));
@@ -70,8 +70,8 @@ EOF;
                 while ($row = $stm_get_id_mapping->fetch(PDO::FETCH_ASSOC)) {
                     $id_mapping[$row['accession']] = $row['organism_id'];
                 }
-                foreach ($biom['rows'] as &$row){
-                    if(isset($row['metadata']['ncbi_taxid']) && isset($id_mapping[$row['metadata']['ncbi_taxid']])) {
+                foreach ($biom['rows'] as &$row) {
+                    if (isset($row['metadata']['ncbi_taxid']) && isset($id_mapping[$row['metadata']['ncbi_taxid']])) {
                         $row['metadata']['fennec_organism_id'] = $id_mapping[$row['metadata']['ncbi_taxid']];
                         $row['metadata']['fennec_assignment_method'] = 'ncbi_taxid';
                         $row['metadata']['fennec_dbversion'] = $querydata['dbversion'];

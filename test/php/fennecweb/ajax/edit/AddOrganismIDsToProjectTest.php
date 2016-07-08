@@ -1,8 +1,9 @@
 <?php
 
-namespace fennecweb\ajax\upload;
+namespace fennecweb\ajax\edit;
 
-use \fennecweb\WebService as WebService;
+use \fennecweb\WebService;
+use \fennecweb\ajax\upload\ProjectsTest;
 
 class AddOrganismIDsToProjectTest extends \PHPUnit_Framework_TestCase
 {
@@ -38,8 +39,14 @@ class AddOrganismIDsToProjectTest extends \PHPUnit_Framework_TestCase
         $id = $entries['data'][0]['internal_project_id'];
         # Test for unknown method error
         list($service) = WebService::factory('edit/AddOrganismIDsToProject');
-        $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION, 'id' => $id, 'method' => 'unknown_method_that_does_not_exist')));
-        $this->assertEquals(\fennecweb\ajax\edit\AddOrganismIDsToProject::ERROR_UNKNOWN_METHOD, $results['error']);
+        $results = ($service->execute(
+            array(
+                'dbversion' => DEFAULT_DBVERSION,
+                'id' => $id,
+                'method' => 'unknown_method_that_does_not_exist'
+            )
+        ));
+        $this->assertEquals(AddOrganismIDsToProject::ERROR_UNKNOWN_METHOD, $results['error']);
         # Test for successful ncbi_taxid method
         list($service) = WebService::factory('edit/AddOrganismIDsToProject');
         $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION, 'id' => $id, 'method' => 'ncbi_taxid')));
@@ -47,13 +54,13 @@ class AddOrganismIDsToProjectTest extends \PHPUnit_Framework_TestCase
         list($service) = WebService::factory('details/Projects');
         $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION, 'ids' => array($id))));
         $rows = json_decode($results['projects'][$id], true)['rows'];
-        $ncbi_taxid = function ($row)
-        {
+        $ncbi_taxid = function ($row) {
+        
             return($row['metadata']['ncbi_taxid']);
         };
         $actual_ncbi_taxids = array_map($ncbi_taxid, $rows);
-        $organism_id = function ($row)
-        {
+        $organism_id = function ($row) {
+        
             return($row['metadata']['fennec_organism_id']);
         };
         $actual_organism_ids = array_map($organism_id, $rows);

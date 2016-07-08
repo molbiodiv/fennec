@@ -38,7 +38,7 @@ EOF;
             $stm_get_project_details->execute(
                 array_merge(array($_SESSION['user']['provider'], $_SESSION['user']['id']), $ids)
             );
-            if($stm_get_project_details->rowCount() < 1){
+            if ($stm_get_project_details->rowCount() < 1) {
                 $result['error'] = Projects::PROJECT_NOT_FOUND_FOR_USER;
             }
             while ($row = $stm_get_project_details->fetch(PDO::FETCH_ASSOC)) {
