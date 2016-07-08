@@ -24,6 +24,11 @@
                 <script type="text/javascript">
                     var biomString = '{#$data["projects"][$internal_project_id]#}';
                     var biomObject = JSON.parse(biomString);
+                    var organism_ids = biomObject.rows.filter(function (element) {
+                        return typeof element['metadata'] !== 'undefined' && !isNaN(element['metadata']['fennec_organism_id']);
+                    }).map(function(element) {
+                        return element['metadata']['fennec_organism_id'];
+                    });
                     var biom = new Biom(biomObject);
                     var otuTableData = biom.getOtuTable(100);
                     $('#projectDetails_otuTable').DataTable({
@@ -85,15 +90,25 @@
                 </table>
                 <script type="text/javascript">
                     var traits = [];
-                    {#foreach key=id item=trait from=$traits_of_project#}
-                        var thisTrait = {
-                            id: '{#$id#}',
-                            trait: '{#$trait['cvterm']#}',
-                            count: '{#$trait['trait_entry_ids']|@count#}',
-                            range: '{#math equation="x/y*percent" x=$trait['organism_ids']|@count y=6 percent=100#}'
-                        };
-                        traits.push(thisTrait);
-                    {#/foreach#}
+                    $.ajax( ServicePath + '/details/TraitsOfOrganisms', {
+                        data: {
+                            "dbversion": DbVersion,
+                            "organism_ids": organism_ids
+                        },
+                        method: "post",
+                        success: function(data){
+                            $.each(data, function(key, value) {
+                                var thisTrait = {
+                                    id: key,
+                                    trait: value['cvterm'],
+                                    count: value['trait_entry_ids'].length,
+                                    range: 100*value['organism_ids'].length/organism_ids.length
+                                };
+                                traits.push(thisTrait);
+                            });
+                            initTraitsOfProjectTable();
+                        }
+                    });
                 </script>
                 <script src="{#$WebRoot#}/js/traitsOfProjectTable.js"></script>
             </div>
