@@ -85,8 +85,9 @@
                 </table>
                 <script type="text/javascript">
                     var traits = [];
-                    {#foreach $traits_of_project as $trait#}
+                    {#foreach key=id item=trait from=$traits_of_project#}
                         var thisTrait = {
+                            id: '{#$id#}',
                             trait: '{#$trait['cvterm']#}',
                             count: '{#$trait['trait_entry_ids']|@count#}',
                             range: '{#math equation="x/y*percent" x=$trait['organism_ids']|@count y=6 percent=100#}'
