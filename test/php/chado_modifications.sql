@@ -75,14 +75,23 @@ CREATE OR REPLACE FUNCTION full_webuser_data_manage_row() RETURNS TRIGGER AS $$
           RETURN NULL;
         END IF;
         RETURN OLD;
+      ELSIF (TG_OP = 'UPDATE') THEN
+        IF NEW.import_date IS NULL THEN
+          NEW.import_date := OLD.import_date;
+        END IF;
+        IF NEW.import_filename IS NULL THEN
+          NEW.import_filename := OLD.import_filename;
+        END IF;
+        IF NEW.project IS NULL THEN
+          NEW.project := OLD.project;
+        END IF;
+        UPDATE webuser_data SET (project, import_date, import_filename) = (NEW.project, NEW.import_date, NEW.import_filename) WHERE webuser_data.webuser_data_id=OLD.webuser_data_id;
+        RETURN NEW;
       END IF;
    END;
 $$ LANGUAGE plpgsql;
 
--- Trigger: full_webuser_data_delete
+-- Trigger: full_webuser_data_manage
 
-CREATE TRIGGER full_webuser_data_delete INSTEAD OF DELETE ON full_webuser_data FOR EACH ROW EXECUTE PROCEDURE full_webuser_data_manage_row();
+CREATE TRIGGER full_webuser_data_manage INSTEAD OF INSERT OR UPDATE OR DELETE ON full_webuser_data FOR EACH ROW EXECUTE PROCEDURE full_webuser_data_manage_row();
 
--- Trigger: full_webuser_data_insert
-
-CREATE TRIGGER full_webuser_data_insert INSTEAD OF INSERT ON full_webuser_data FOR EACH ROW EXECUTE PROCEDURE full_webuser_data_manage_row();
