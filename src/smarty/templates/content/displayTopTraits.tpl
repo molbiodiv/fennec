@@ -14,7 +14,7 @@
                     </div>
                 </div>
             </div>
-             <a href="{#$WebRoot#}/{#$DbVersion#}/trait/details/byId/{#$trait['type_cvterm_id']#}" class='fancybox' data-fancybox-type='ajax'>
+             <a href="{#$WebRoot#}/{#$DbVersion#}/trait/details/byId/{#$trait['type_cvterm_id']#}">
                 <div class="panel-footer info-trait">
                     <span class="pull-left">View Details</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>

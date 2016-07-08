@@ -20,7 +20,7 @@ $(document).ready(function(){
 
     $("#search_trait").data("ui-autocomplete")._renderItem = function (ul, item) {
         var li = $("<li>")
-                .append("<a href='"+WebRoot+"/"+DbVersion+"/trait/details/byId/"+item.type_cvterm_id+"' class='fancybox' data-fancybox-type='ajax'><span style='display:inline-block; width: 100%; font-style: italic;'>" + item.name + "</span></a>")
+                .append("<a href='"+WebRoot+"/"+DbVersion+"/trait/details/byId/"+item.type_cvterm_id+"'><span style='display:inline-block; width: 100%; font-style: italic;'>" + item.name + "</span></a>")
                 .appendTo(ul);
         return li;
     };

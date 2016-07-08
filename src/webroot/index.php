@@ -180,6 +180,7 @@ function displayOrganismSearchResults($searchTerm){
 
 function displayTraitsById($type_cvterm_id){
     global $smarty;
+    $smarty->assign('type', 'trait');
     $smarty->assign('type_cvterm_id', $type_cvterm_id);
     $smarty->display('traitDetails.tpl');
     return true;

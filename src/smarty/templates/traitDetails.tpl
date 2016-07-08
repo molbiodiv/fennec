@@ -1,8 +1,7 @@
-{#include file='layout.tpl'#}
+{#extends file='layoutWithBars.tpl'#}
+{#block name='content'#}
 {#call_webservice path="details/Traits" data=["type_cvterm_id"=>$type_cvterm_id, "dbversion"=>$DbVersion] assign='data'#}
-<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="background-color: #a90c0c; margin-bottom: 10px; border-radius: 5px; ">
-    <h1 class="page-header" style="color: #fff;">{#$data['name']#}</h1>
-</div>
+<h1 class="page-header">{#$data['name']#}</h1>
 <h4 class="page-header">Definition</h4>
 <div class="row">
     <div class='col-xs-8'>
@@ -66,3 +65,4 @@
         {#/if#}
     {#/if#}
 </div>
+{#/block#}
