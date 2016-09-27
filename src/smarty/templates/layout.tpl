@@ -122,9 +122,6 @@
 
         {#block name='body'#}{#/block#}
 
-
-        <script src="{#$WebRoot#}/js/fancybox.js"></script>
-
         <script src="{#$WebRoot#}/js/interactiveTraitBrowse.js"></script>
     </body>
 </html>
