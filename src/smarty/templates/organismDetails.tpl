@@ -3,6 +3,28 @@
     {#call_webservice path="details/Organisms" data=["id"=>$organismId, "dbversion"=>$DbVersion] assign='data'#}
     {#call_webservice path="listing/Taxonomy" data=["id"=>$organismId, "dbversion"=>$DbVersion] assign='taxonomy'#}
     {#call_webservice path="details/TraitsOfOrganisms" data=["organism_ids"=>[$organismId], "dbversion"=>$DbVersion] assign='traits'#}
+<script type="text/javascript">
+    function appendTraitEntries(domElement, traitEntries){
+        $.ajax({
+            url: ServicePath + '/details/TraitEntries',
+            data: {
+                "dbversion": DbVersion,
+                "trait_entry_ids": traitEntries
+            },
+            method: "POST",
+            success: function(result){
+                console.log(result);
+                $.each(result, function (key, value) {
+                    var realValue = value.value;
+                    if(value.value === null){
+                        realValue = value.value_definition;
+                    }
+                    domElement.append($('<div>').text(realValue))
+                });
+            }
+        });
+    }
+</script>
     <h1 class="page-header">{#$data['scientific_name']#}</h1>
     <div class="col-md-12">
         <div>
@@ -37,9 +59,12 @@
                     </div>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="traits">
-                    {#foreach $traits as $current#}
-                        <h4 class='page-header'>{#$current['type']#}</h4>
-                        {#$current['value']#}
+                    {#foreach $traits as $tid => $current#}
+                        <h4 class='page-header'>{#$current['cvterm']#}</h4>
+                        <div id="trait_{#$tid#}"></div>
+                        <script type="text/javascript">
+                            appendTraitEntries($('#trait_{#$tid#}'),[{#implode(',',$current['trait_entry_ids'])#}]);
+                        </script>
                     {#/foreach#}
                 </div>
                 <div role="tabpanel" class="tab-pane" id="taxonomy">
