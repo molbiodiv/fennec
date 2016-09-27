@@ -17,7 +17,7 @@
     "tests"
   ],
   "dependencies": {
-    "startbootstrap-sb-admin-2": "^1.0.8",
+    "BlackrockDigital/startbootstrap-sb-admin-2": "^1.0.8",
     "lightbox2": "^2.8.2",
     "jquery-ui": "^1.11.4",
     "fancybox": "^2.1.5",
