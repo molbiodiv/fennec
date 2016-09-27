@@ -17,7 +17,6 @@
     "tests"
   ],
   "dependencies": {
-    "BlackrockDigital/startbootstrap-sb-admin-2": "^1.0.8",
     "lightbox2": "^2.8.2",
     "jquery-ui": "^1.11.4",
     "fancybox": "^2.1.5",
@@ -29,6 +28,10 @@
     "jquery-progresstimer": "^1.0.7",
     "datatables": "^1.10.11",
     "bootstrap-select": "^1.10.0",
-    "bs-confirmation": "^1.0.5"
+    "bs-confirmation": "^1.0.5",
+    "startbootstrap-sb-admin-2": "BlackrockDigital/startbootstrap-sb-admin-2#^3.3.7+1"
+  },
+  "resolutions": {
+    "font-awesome": "~4.6.3"
   }
 }
