@@ -6,7 +6,7 @@ use \PDO as PDO;
 
 /**
  * Web Service.
- * Returns Trait informatio
+ * Returns Trait information
  */
 class Traits extends \fennecweb\WebService
 {
