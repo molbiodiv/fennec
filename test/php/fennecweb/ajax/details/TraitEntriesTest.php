@@ -4,7 +4,7 @@ namespace fennecweb\ajax\details;
 
 use \fennecweb\WebService as WebService;
 
-class TraitEntries extends \PHPUnit_Framework_TestCase
+class TraitEntriesTest extends \PHPUnit_Framework_TestCase
 {
 
     public function testExecute()
@@ -15,7 +15,7 @@ class TraitEntries extends \PHPUnit_Framework_TestCase
         $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION, 'trait_entry_ids' => $trait_entry_ids)));
         $expected1 = [
             '1' => [
-                'organism_id' => '120941',
+                'organism_id' => 120941,
                 'type' => 'geographic distribution',
                 'type_definition' => 'http://rs.tdwg.org/ontology/voc/SPMInfoItems#Distribution',
                 'value' => '',
@@ -33,7 +33,7 @@ class TraitEntries extends \PHPUnit_Framework_TestCase
         $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION, 'trait_entry_ids' => $trait_entry_ids)));
         $expected2 = [
             '2' => [
-                'organism_id' => '9598',
+                'organism_id' => 9598,
                 'type' => 'longitude',
                 'type_definition' => 'http://rs.tdwg.org/dwc/terms/decimalLongitude',
                 'value' => '-154.129',
@@ -50,7 +50,7 @@ class TraitEntries extends \PHPUnit_Framework_TestCase
         list($service) = WebService::factory('details/TraitEntries');
         $trait_entry_ids = ['1', '2'];
         $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION, 'trait_entry_ids' => $trait_entry_ids)));
-        $expected = array_merge($expected1, $expected2);
+        $expected = array('1' => $expected1['1'], '2' => $expected2['2']);
         $this->assertEquals($expected, $results);
     }
 }
