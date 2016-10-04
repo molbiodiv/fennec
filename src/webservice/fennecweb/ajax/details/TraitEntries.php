@@ -20,6 +20,9 @@ class TraitEntries extends \fennecweb\WebService
      */
     public function execute($querydata)
     {
+        if(!in_array($querydata['trait_format'], $this->known_trait_formats)){
+            return(array('error' => TraitEntries::ERROR_UNKNOWN_TRAIT_FORMAT));
+        }
         $this->db = $this->openDbConnection($querydata);
         $trait_entry_ids = $querydata['trait_entry_ids'];
         $placeholders = implode(',', array_fill(0, count($trait_entry_ids), '?'));
