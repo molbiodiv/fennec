@@ -15,7 +15,7 @@ class TraitsOfOrganismsTest extends \PHPUnit_Framework_TestCase
         $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION, 'organism_ids' => $organism_ids)));
         $expected = [
             '1' => [
-                'cvterm' => 'PlantHabit',
+                'trait_type' => 'PlantHabit',
                 'trait_entry_ids' => [49506],
                 'organism_ids' => [61579]
             ]
@@ -28,9 +28,9 @@ class TraitsOfOrganismsTest extends \PHPUnit_Framework_TestCase
         $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION, 'organism_ids' => $organism_ids)));
         $expected = [
             '1' => [
-                'cvterm' => 'PlantHabit',
-                'trait_entry_ids' => [49508, 49507, 49509, 49510, 49511, 49512, 49513],
-                'organism_ids' => [25545, 42077, 159679]
+                'trait_type' => 'PlantHabit',
+                'trait_entry_ids' => [49507, 49508, 49509, 49510, 49511, 49512, 49513],
+                'organism_ids' => [42077, 159679, 25545]
             ]
         ];
         $this->assertEquals($expected, $results);
