@@ -16,6 +16,7 @@ class TraitsOfOrganismsTest extends \PHPUnit_Framework_TestCase
         $expected = [
             '1' => [
                 'trait_type' => 'PlantHabit',
+                'trait_format' => 'categorical_free',
                 'trait_entry_ids' => [49506],
                 'organism_ids' => [61579]
             ]
@@ -29,6 +30,7 @@ class TraitsOfOrganismsTest extends \PHPUnit_Framework_TestCase
         $expected = [
             '1' => [
                 'trait_type' => 'PlantHabit',
+                'trait_format' => 'categorical_free',
                 'trait_entry_ids' => [49507, 49508, 49509, 49510, 49511, 49512, 49513],
                 'organism_ids' => [42077, 159679, 25545]
             ]
