@@ -10,8 +10,9 @@ use \PDO as PDO;
  */
 class TraitEntries extends \fennecweb\WebService
 {
-
     private $db;
+    private $known_trait_formats = array('categorical_free');
+    const ERROR_UNKNOWN_TRAIT_FORMAT = "Error. Unknown trait_format.";
 
     /**
      * @param $querydata[]

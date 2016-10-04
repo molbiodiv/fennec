@@ -9,10 +9,18 @@ class TraitEntriesTest extends \PHPUnit_Framework_TestCase
 
     public function testExecute()
     {
+        //Test for error on unknown trait_format
+        list($service) = WebService::factory('details/TraitEntries');
+        $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION, 'trait_entry_ids' => [1], 'trait_format' => 'non_existing_format')));
+        $expected = [
+            'error' => TraitEntries::ERROR_UNKNOWN_TRAIT_FORMAT
+        ];
+        $this->assertEquals($expected, $results);
+
         //Test if the details for one trait entry with categorical value is returned correctly
         list($service) = WebService::factory('details/TraitEntries');
         $trait_entry_ids = ['49484'];
-        $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION, 'trait_entry_ids' => $trait_entry_ids, 'format' => 'categorical_free')));
+        $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION, 'trait_entry_ids' => $trait_entry_ids, 'trait_format' => 'categorical_free')));
         $expected1 = [
             '49484' => [
                 'organism_id' => 101634,
@@ -28,7 +36,7 @@ class TraitEntriesTest extends \PHPUnit_Framework_TestCase
         //Test if the details for another trait entry with categorical value is returned correctly
         list($service) = WebService::factory('details/TraitEntries');
         $trait_entry_ids = ['49533'];
-        $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION, 'trait_entry_ids' => $trait_entry_ids)));
+        $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION, 'trait_entry_ids' => $trait_entry_ids, 'trait_format' => 'categorical_free')));
         $expected2 = [
             '49533' => [
                 'organism_id' => 159684,
@@ -44,7 +52,7 @@ class TraitEntriesTest extends \PHPUnit_Framework_TestCase
         //Test if the details for two trait entries are returned correctly
         list($service) = WebService::factory('details/TraitEntries');
         $trait_entry_ids = ['1', '2'];
-        $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION, 'trait_entry_ids' => $trait_entry_ids)));
+        $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION, 'trait_entry_ids' => $trait_entry_ids, 'trait_format' => 'categorical_free')));
         $expected = array('1' => $expected1['1'], '2' => $expected2['2']);
         $this->assertEquals($expected, $results);
     }
