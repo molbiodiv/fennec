@@ -11,61 +11,26 @@ class TraitsOfOrganismsTest extends \PHPUnit_Framework_TestCase
     {
         //Test if the traits to one organism is returned correctly
         list($service) = WebService::factory('details/TraitsOfOrganisms');
-        $organism_ids = ['12049'];
+        $organism_ids = ['61579'];
         $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION, 'organism_ids' => $organism_ids)));
         $expected = [
-            '20' => [
-                'cvterm' => 'extinction status',
-                'trait_entry_ids' => [753126],
-                'organism_ids' => [12049]
-            ],
-            '10' => [
-                'cvterm' => 'geographic distribution',
-                'trait_entry_ids' => [753127, 753128, 753131],
-                'organism_ids' => [12049]
-            ],
-            '188' => [
-                'cvterm' => 'type specimen repository',
-                'trait_entry_ids' => [753129],
-                'organism_ids' => [12049]
-            ],
-            '27' => [
-                'cvterm' => 'habitat',
-                'trait_entry_ids' => [753130],
-                'organism_ids' => [12049]
+            '1' => [
+                'cvterm' => 'PlantHabit',
+                'trait_entry_ids' => [49506],
+                'organism_ids' => [61579]
             ]
         ];
         $this->assertEquals($expected, $results);
         
         //Test if the traits to a collection of organisms is returned correctly
         list($service) = WebService::factory('details/TraitsOfOrganisms');
-        $organism_ids = ['47757','200', '12049'];
+        $organism_ids = ['42077','159679', '25545'];
         $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION, 'organism_ids' => $organism_ids)));
         $expected = [
-            '29' => [
-                'cvterm' => 'habitat',
-                'trait_entry_ids' => [199,200,201,202,203],
-                'organism_ids' => [47757]
-            ],
-            '20' => [
-                'cvterm' => 'extinction status',
-                'trait_entry_ids' => [387869,753126],
-                'organism_ids' => [200,12049]
-            ],
-            '188' => [
-                'cvterm' => 'type specimen repository',
-                'trait_entry_ids' => [387870,753129],
-                'organism_ids' => [200,12049]
-            ],
-            '27' => [
-                'cvterm' => 'habitat',
-                'trait_entry_ids' => [387871,753130],
-                'organism_ids' => [200,12049]
-            ],
-            '10' => [
-                'cvterm' => 'geographic distribution',
-                'trait_entry_ids' => [753127,753128,753131],
-                'organism_ids' => [12049]
+            '1' => [
+                'cvterm' => 'PlantHabit',
+                'trait_entry_ids' => [49508, 49507, 49509, 49510, 49511, 49512, 49513],
+                'organism_ids' => [25545, 42077, 159679]
             ]
         ];
         $this->assertEquals($expected, $results);
