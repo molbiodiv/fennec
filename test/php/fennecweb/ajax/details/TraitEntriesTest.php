@@ -51,9 +51,9 @@ class TraitEntriesTest extends \PHPUnit_Framework_TestCase
 
         //Test if the details for two trait entries are returned correctly
         list($service) = WebService::factory('details/TraitEntries');
-        $trait_entry_ids = ['1', '2'];
+        $trait_entry_ids = ['49484', '49533'];
         $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION, 'trait_entry_ids' => $trait_entry_ids, 'trait_format' => 'categorical_free')));
-        $expected = array('1' => $expected1['1'], '2' => $expected2['2']);
+        $expected = array('49484' => $expected1['49484'], '49533' => $expected2['49533']);
         $this->assertEquals($expected, $results);
     }
 }
