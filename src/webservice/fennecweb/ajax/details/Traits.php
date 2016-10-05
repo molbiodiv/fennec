@@ -28,6 +28,10 @@ class Traits extends \fennecweb\WebService
         return $result;
     }
 
+    /**
+     * @param $trait_type_id
+     * @return array values of specific trait
+     */
     private function get_values($trait_type_id){
         $query_get_values = <<<EOF
 SELECT value, count(value)
@@ -48,6 +52,10 @@ EOF;
         return $values;
     }
 
+    /**
+     * @param $trait_type_id
+     * @return array type, format, trait_type_id and ontology_url of specific trait
+     */
     private function get_info($trait_type_id){
         $query_get_info = <<<EOF
 SELECT trait_type.id AS trait_type_id, type AS name, ontology_url, format AS trait_format
@@ -64,6 +72,10 @@ EOF;
         return $info;
     }
 
+    /**
+     * @param $trait_type_id
+     * @return integer number of organisms which have this trait
+     */
     private function get_number_of_organisms($trait_type_id){
         $query_get_number_of_organisms = <<<EOF
 SELECT count(DISTINCT organism_id) FROM trait_categorical_entry WHERE trait_type_id = :trait_type_id ;
