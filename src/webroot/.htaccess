@@ -6,7 +6,7 @@ RewriteRule ^([A-Za-z-_\.0-9]+)/organism$    index.php?page=organism&dbversion=$
 RewriteRule ^([A-Za-z-_\.0-9]+)/organism/search$    index.php?page=organism-search&dbversion=$1 [L,NC,QSA]
 RewriteRule ^([A-Za-z-_\.0-9]+)/organism/results/(.*)?$    index.php?page=organism-results&searchTerm=$2&dbversion=$1 [L,NC,QSA]
 RewriteRule ^([A-Za-z-_\.0-9]+)/organism/details/byId/(.*)?$  index.php?page=organism-byid&organismId=$2&dbversion=$1 [L,NC,QSA]
-RewriteRule ^([A-Za-z-_\.0-9]+)/organism/details/byTrait/(.*)?$  index.php?page=organism-by-trait&type_cvterm_id=$2&dbversion=$1 [L,NC,QSA]
+RewriteRule ^([A-Za-z-_\.0-9]+)/organism/details/byTrait/(.*)?$  index.php?page=organism-by-trait&trait_type_id=$2&dbversion=$1 [L,NC,QSA]
 
 RewriteRule ^([A-Za-z-_\.0-9]+)/project$    index.php?page=project&dbversion=$1 [L,NC,QSA]
 RewriteRule ^([A-Za-z-_\.0-9]+)/project/details/byId/(.*)?$    index.php?page=project-byid&internal_project_id=$2&dbversion=$1 [L,NC,QSA]

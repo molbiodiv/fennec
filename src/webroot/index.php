@@ -53,7 +53,7 @@ switch ($page) {
             die();
         break;
     case 'organism-by-trait':
-        if (displayOrganismByTrait(requestVal('type_cvterm_id', '/^[0-9]+$/', '')))
+        if (displayOrganismByTrait(requestVal('trait_type_id', '/^[0-9]+$/', '')))
             die();
         break;
     case 'project':
@@ -158,12 +158,12 @@ function displayOrganismById($organismId){
     return true;
 }
 
-function displayOrganismByTrait($type_cvterm_id){
+function displayOrganismByTrait($trait_type_id){
     global $smarty;
     $smarty->assign('type', 'organism');
     $smarty->assign('title', 'Search for organisms');
     $smarty->assign('limit', '1000');
-    $smarty->assign('type_cvterm_id', $type_cvterm_id);
+    $smarty->assign('trait_type_id', $trait_type_id);
     $smarty->display('organismByTrait.tpl');
     return true;
 }
