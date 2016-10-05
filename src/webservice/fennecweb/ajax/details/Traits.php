@@ -23,6 +23,7 @@ class Traits extends \fennecweb\WebService
         $trait_type_id = $querydata['trait_type_id'];
         $result = $this->get_info($trait_type_id);
         $result['values'] = $this->get_values($trait_type_id);
+        $result['number_of_organisms'] = $this->get_number_of_organisms($trait_type_id);
 
         return $result;
     }
@@ -61,5 +62,19 @@ EOF;
         $info = $stm_get_info->fetch(PDO::FETCH_ASSOC);
 
         return $info;
+    }
+
+    private function get_number_of_organisms($trait_type_id){
+        $query_get_number_of_organisms = <<<EOF
+SELECT count(DISTINCT organism_id) FROM trait_categorical_entry WHERE trait_type_id = :trait_type_id ;
+EOF;
+        $stm_get_number_of_organisms= $this->db->prepare($query_get_number_of_organisms);
+        $stm_get_number_of_organisms->bindValue('trait_type_id', $trait_type_id);
+        $stm_get_number_of_organisms->execute();
+
+        $row = $stm_get_number_of_organisms->fetch(PDO::FETCH_ASSOC);
+        $number_of_organisms = $row['count'];
+
+        return $number_of_organisms;
     }
 }
