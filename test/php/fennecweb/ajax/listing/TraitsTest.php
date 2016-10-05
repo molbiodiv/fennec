@@ -11,8 +11,7 @@ class TraitsTest extends \PHPUnit_Framework_TestCase
     {
         //Test for error returned by user is not logged in
         list($service) = WebService::factory('listing/Traits');
-        $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION, 'search' => '', 'limit' => '')));
-
+        $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION, 'search' => '')));
         $expected = array(
             array(
                 "name" => "PlantHabit",
