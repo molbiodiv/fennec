@@ -9,7 +9,6 @@ class TraitsTest extends \PHPUnit_Framework_TestCase
 
     public function testExecute()
     {
-        //Test for traits without search term or limit
         list($service) = WebService::factory('listing/Traits');
         $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION, 'search' => '')));
         $expected = array(
@@ -19,6 +18,10 @@ class TraitsTest extends \PHPUnit_Framework_TestCase
                 "frequency" => 48916
             )
         );
-        $this->assertEquals($expected, $results);
+        $this->assertEquals($expected, $results, 'Search without term and limit, result should be a list of all traits');
+
+        $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION, 'search' => 'SomethingThatWillNeverBeATraitType')));
+        $expected = array();
+        $this->assertEquals($expected, $results, 'Search term does not hit, result should be an empty array');
     }
 }
