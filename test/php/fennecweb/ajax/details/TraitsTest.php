@@ -39,7 +39,7 @@ class TraitsTest extends \PHPUnit_Framework_TestCase
                 "name" => "PlantHabit",
                 "ontology_url" => "eol.org/schema/terms/PlantHabit",
                 "trait_format" => "categorical_free",
-                "number_of_organisms" => 16050
+                "number_of_organisms" => 16425
             ];
         $this->assertEquals($expected, $results);
     }
