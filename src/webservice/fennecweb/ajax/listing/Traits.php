@@ -6,7 +6,7 @@ use \PDO as PDO;
 
 /**
  * Web Service.
- * Returns Trait informatio
+ * Returns Trait information
  */
 class Traits extends \fennecweb\WebService
 {
@@ -27,13 +27,13 @@ class Traits extends \fennecweb\WebService
             $search = "%".$querydata['search']."%";
         }
         $query_get_traits = <<<EOF
-SELECT name, tci.type_cvterm_id, count 
+SELECT trait_type.type AS name, trait_type_id, count
     FROM 
         (
-            SELECT type_cvterm_id, count(type_cvterm_id) AS count
-                FROM trait_entry GROUP BY type_cvterm_id ORDER BY count DESC LIMIT :limit
-        ) AS tci, trait_cvterm
-            WHERE tci.type_cvterm_id=trait_cvterm.trait_cvterm_id AND name ILIKE :search
+            SELECT trait_type_id, count(trait_type_id) AS count
+                FROM trait_categorical_entry GROUP BY trait_type_id ORDER BY count DESC LIMIT :limit
+        ) AS trait_entry, trait_type
+            WHERE trait_type.id=trait_type_id AND trait_type.type ILIKE :search
 EOF;
         $stm_get_traits = $db->prepare($query_get_traits);
         $stm_get_traits->bindValue('search', $search);
@@ -44,7 +44,7 @@ EOF;
         while ($row = $stm_get_traits->fetch(PDO::FETCH_ASSOC)) {
             $result = array();
             $result['name'] = $row['name'];
-            $result['type_cvterm_id'] = $row['type_cvterm_id'];
+            $result['trait_type_id'] = $row['trait_type_id'];
             $result['frequency'] = $row['count'];
             $data[] = $result;
         }
