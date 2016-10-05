@@ -19,7 +19,7 @@ RewriteRule ^([A-Za-z-_\.0-9]+)/trait/search/ecology$    index.php?page=trait-se
 RewriteRule ^([A-Za-z-_\.0-9]+)/trait/search/woodland$    index.php?page=trait-search-woodland&dbversion=$1 [L,NC,QSA]
 RewriteRule ^([A-Za-z-_\.0-9]+)/trait/search/zone$    index.php?page=trait-search-zone&dbversion=$1 [L,NC,QSA]
 RewriteRule ^([A-Za-z-_\.0-9]+)/trait/search/plant$    index.php?page=trait-search-plant&dbversion=$1 [L,NC,QSA]
-RewriteRule ^([A-Za-z-_\.0-9]+)/trait/details/byId/(.*)?$    index.php?page=trait-byid&type_cvterm_id=$2&dbversion=$1 [L,NC,QSA]
+RewriteRule ^([A-Za-z-_\.0-9]+)/trait/details/byId/(.*)?$    index.php?page=trait-byid&trait_type_id=$2&dbversion=$1 [L,NC,QSA]
 
 RewriteRule ^([A-Za-z-_\.0-9]+)/community$    index.php?page=community&dbversion=$1 [L,NC,QSA]
 
