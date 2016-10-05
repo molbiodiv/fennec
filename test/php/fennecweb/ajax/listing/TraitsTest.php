@@ -9,7 +9,7 @@ class TraitsTest extends \PHPUnit_Framework_TestCase
 
     public function testExecute()
     {
-        //Test for error returned by user is not logged in
+        //Test for traits without search term or limit
         list($service) = WebService::factory('listing/Traits');
         $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION, 'search' => '')));
         $expected = array(
@@ -19,6 +19,6 @@ class TraitsTest extends \PHPUnit_Framework_TestCase
                 "frequency" => 48916
             )
         );
-        $this->assertArraySubset($expected, $results);
+        $this->assertEquals($expected, $results);
     }
 }
