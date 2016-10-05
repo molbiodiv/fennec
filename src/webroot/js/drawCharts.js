@@ -38,26 +38,23 @@ function drawHistogram(){
     });
 }
 
-function drawPieChart(){
-    var cvterm_id = $("#cvterm_id").val();
-    $.ajax({
-        url: WebRoot.concat("/ajax/details/Traits"),
-        data: {type_cvterm_id: cvterm_id,
-               dbversion: DbVersion},
-        dataType: "json",
-        success: function (data) {
-            var plot = [{
-                    values: data.value.frequency,
-                    labels: data.value.labels,
-                    type: 'pie'
-            }];
-            var layout = {
-                height: 700,
-                width: 800
-            };
-            Plotly.newPlot('pieChart', plot, layout);
-        }
+function drawPieChart(data){
+    var values = [];
+    var labels = [];
+    $.each(data, function(key, value){
+        values.push(value);
+        labels.push(key);
     });
+    var plot = [{
+            values: values,
+            labels: labels,
+            type: 'pie'
+    }];
+    var layout = {
+        height: 700,
+        width: 800
+    };
+    Plotly.newPlot('pieChart', plot, layout);
 }
 
 function drawMap(){
