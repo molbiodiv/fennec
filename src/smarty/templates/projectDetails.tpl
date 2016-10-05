@@ -1,6 +1,5 @@
 {#extends file='layoutWithBars.tpl'#}
 {#call_webservice path="details/Projects" data=["ids"=>[$internal_project_id], "dbversion"=>$DbVersion] assign='data'#}
-{#call_webservice path="details/TraitsOfOrganisms" data=["organism_ids"=>[13,15,42,47757,200,12049,48569,83767,41617,55709], "dbversion"=>$DbVersion] assign='traits_of_project'#}
 {#block name='content'#}
     {#if isset($data['error'])#}
     <h3>Error: {#$data['error']#}</h3>
@@ -100,7 +99,7 @@
                             $.each(data, function(key, value) {
                                 var thisTrait = {
                                     id: key,
-                                    trait: value['cvterm'],
+                                    trait: value['trait_type'],
                                     count: value['trait_entry_ids'].length,
                                     range: 100*value['organism_ids'].length/organism_ids.length
                                 };

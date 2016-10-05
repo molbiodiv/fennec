@@ -4,12 +4,13 @@
     {#call_webservice path="listing/Taxonomy" data=["id"=>$organismId, "dbversion"=>$DbVersion] assign='taxonomy'#}
     {#call_webservice path="details/TraitsOfOrganisms" data=["organism_ids"=>[$organismId], "dbversion"=>$DbVersion] assign='traits'#}
 <script type="text/javascript">
-    function appendTraitEntries(domElement, traitEntries){
+    function appendTraitEntries(domElement, traitEntries, traitFormat){
         $.ajax({
             url: ServicePath + '/details/TraitEntries',
             data: {
                 "dbversion": DbVersion,
-                "trait_entry_ids": traitEntries
+                "trait_entry_ids": traitEntries,
+                "trait_format": traitFormat
             },
             method: "POST",
             success: function(result){
@@ -60,10 +61,10 @@
                 </div>
                 <div role="tabpanel" class="tab-pane" id="traits">
                     {#foreach $traits as $tid => $current#}
-                        <h4 class='page-header'>{#$current['cvterm']#}</h4>
+                        <h4 class='page-header'>{#$current['trait_type']#}</h4>
                         <div id="trait_{#$tid#}"></div>
                         <script type="text/javascript">
-                            appendTraitEntries($('#trait_{#$tid#}'),[{#implode(',',$current['trait_entry_ids'])#}]);
+                            appendTraitEntries($('#trait_{#$tid#}'),[{#implode(',',$current['trait_entry_ids'])#}], '{#$current['trait_format']#}');
                         </script>
                     {#/foreach#}
                 </div>

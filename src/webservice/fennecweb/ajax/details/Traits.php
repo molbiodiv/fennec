@@ -20,119 +20,73 @@ class Traits extends \fennecweb\WebService
     public function execute($querydata)
     {
         $this->db = $this->openDbConnection($querydata);
-        $type_cvterm_id = $querydata['type_cvterm_id'];
-        $group = "%%";
-        if (in_array('group', array_keys($querydata))) {
-            $group = "%".$querydata['group']."%";
-        }
-        $placeholders = implode(',', array_fill(0, count($type_cvterm_id), '?'));
-        $query_get_trait = <<<EOF
-SELECT *
-    FROM trait_cvterm,
-    (SELECT * FROM trait_entry,
-        (SELECT organism_id FROM organism WHERE species LIKE :group) AS names
-        WHERE names.organism_id = trait_entry.organism_id) AS names2
-    WHERE names2.type_cvterm_id=trait_cvterm.trait_cvterm_id AND trait_cvterm.trait_cvterm_id = :type_cvterm_id;
-EOF;
-        $stm_get_trait= $this->db->prepare($query_get_trait);
-        $stm_get_trait->bindValue('group', $group);
-        $stm_get_trait->bindValue('type_cvterm_id', $type_cvterm_id);
-        $stm_get_trait->execute();
+        $trait_type_id = $querydata['trait_type_id'];
+        $result = $this->get_info($trait_type_id);
+        $result['values'] = $this->get_values($trait_type_id);
+        $result['number_of_organisms'] = $this->get_number_of_organisms($trait_type_id);
 
-        $result = array();
-        while ($row = $stm_get_trait->fetch(PDO::FETCH_ASSOC)) {
-            $result = $row;
-        }
-        
-        $query_count_organisms_by_trait = <<<EOF
-SELECT count(DISTINCT organism_id) 
-    FROM trait_entry WHERE type_cvterm_id = :type_cvterm_id
-EOF;
-        $stm_count_organisms_by_trait = $this->db->prepare($query_count_organisms_by_trait);
-        $stm_count_organisms_by_trait->bindValue('type_cvterm_id', $type_cvterm_id);
-        $stm_count_organisms_by_trait->execute();
-        while ($row = $stm_count_organisms_by_trait->fetch(PDO::FETCH_ASSOC)) {
-            $result['all_organisms'] = $row['count'];
-        }
-        
-        $query_get_value_range = <<<EOF
-SELECT value, value_cvterm_id
-    FROM trait_entry WHERE type_cvterm_id = :type_cvterm_id LIMIT 1
-EOF;
-        $stm_get_value_range = $this->db->prepare($query_get_value_range);
-        $stm_get_value_range->bindValue('type_cvterm_id', $type_cvterm_id);
-        $stm_get_value_range->execute();
-        
-        while ($row = $stm_get_value_range->fetch(PDO::FETCH_ASSOC)) {
-            if ($row['value'] == null) {
-                $result['value_type'] = 'cvterm';
-                $query_get_cvterm_ids = <<<EOF
-SELECT value_cvterm_id, COUNT(value_cvterm_id) AS count
-    FROM trait_entry
-    WHERE type_cvterm_id = :type_cvterm_id
-    GROUP BY value_cvterm_id;
-EOF;
-                $stm_get_cvterm_ids = $this->db->prepare($query_get_cvterm_ids);
-                $stm_get_cvterm_ids->bindValue('type_cvterm_id', $type_cvterm_id);
-                $stm_get_cvterm_ids->execute();
-                $labels = array();
-                $frequency = array();
-                
-                while ($row = $stm_get_cvterm_ids->fetch(PDO::FETCH_ASSOC)) {
-                    array_push($frequency, $row['count']);
-                    array_push($labels, $this->getValueById($row['value_cvterm_id']));
-                }
-                $result['value']['labels'] = $labels;
-                $result['value']['frequency'] = $frequency;
-            } else {
-                $result['value_type'] = 'value';
-                $query_get_values = <<<EOF
-SELECT name AS measurement_unit, tmp2.value 
-    FROM trait_cvterm, (SELECT value_cvterm_id, tmp.value FROM trait_metadata, 
-        (SELECT trait_entry_id, value FROM trait_entry WHERE type_cvterm_id=:type_cvterm_id) AS tmp 
-            WHERE trait_metadata.trait_entry_id=tmp.trait_entry_id AND subject_cvterm_id=5) AS tmp2 
-                WHERE tmp2.value_cvterm_id=trait_cvterm.trait_cvterm_id;
-EOF;
-                        
-                $stm_get_values = $this->db->prepare($query_get_values);
-                $stm_get_values->bindValue('type_cvterm_id', $type_cvterm_id);
-                $stm_get_values->execute();
-                
-                $row = $stm_get_values->fetch(PDO::FETCH_ASSOC);
-                $tmp_result[$row['measurement_unit']] = array();
-                array_push($tmp_result[$row['measurement_unit']], $row['value']);
-                while ($row = $stm_get_values->fetch(PDO::FETCH_ASSOC)) {
-                    if (array_key_exists($row['measurement_unit'], $tmp_result)) {
-                        array_push($tmp_result[$row['measurement_unit']], $row['value']);
-                    } else {
-                        $tmp_result[$row['measurement_unit']] = array();
-                        array_push($tmp_result[$row['measurement_unit']], $row['value']);
-                    }
-                }
-                $result['value'] = $tmp_result;
-            }
-        }
         return $result;
     }
-    
-    private function getValueById($value_cvterm_id)
-    {
-        $value = $value_cvterm_id;
-        
-        $query_get_value = <<<EOF
-SELECT * 
-    FROM trait_cvterm WHERE trait_cvterm_id = :value_cvterm_id
+
+    /**
+     * @param $trait_type_id
+     * @return array values of specific trait
+     */
+    private function get_values($trait_type_id){
+        $query_get_values = <<<EOF
+SELECT value, count(value)
+    FROM trait_categorical_entry, trait_categorical_value
+    WHERE trait_categorical_value_id=trait_categorical_value.id
+    AND trait_categorical_entry.trait_type_id = :trait_type_id
+    GROUP BY value;
 EOF;
-        $stm_get_value = $this->db->prepare($query_get_value);
-        $stm_get_value->bindValue('value_cvterm_id', $value_cvterm_id);
-        $stm_get_value->execute();
-        while ($row = $stm_get_value->fetch(PDO::FETCH_ASSOC)) {
-            if ($row['name']) {
-                $value = $row['name'];
-            } else {
-                $value = $row['definition'];
-            }
+        $stm_get_values= $this->db->prepare($query_get_values);
+        $stm_get_values->bindValue('trait_type_id', $trait_type_id);
+        $stm_get_values->execute();
+
+        $values = array();
+        while ($row = $stm_get_values->fetch(PDO::FETCH_ASSOC)) {
+            $values[$row['value']] = $row['count'];
         }
-        return $value;
+
+        return $values;
+    }
+
+    /**
+     * @param $trait_type_id
+     * @return array type, format, trait_type_id and ontology_url of specific trait
+     */
+    private function get_info($trait_type_id){
+        $query_get_info = <<<EOF
+SELECT trait_type.id AS trait_type_id, type AS name, ontology_url, format AS trait_format
+    FROM trait_type, trait_format
+    WHERE trait_type.id = :trait_type_id
+    AND trait_format_id = trait_format.id;
+EOF;
+        $stm_get_info= $this->db->prepare($query_get_info);
+        $stm_get_info->bindValue('trait_type_id', $trait_type_id);
+        $stm_get_info->execute();
+
+        $info = $stm_get_info->fetch(PDO::FETCH_ASSOC);
+
+        return $info;
+    }
+
+    /**
+     * @param $trait_type_id
+     * @return integer number of organisms which have this trait
+     */
+    private function get_number_of_organisms($trait_type_id){
+        $query_get_number_of_organisms = <<<EOF
+SELECT count(DISTINCT organism_id) FROM trait_categorical_entry WHERE trait_type_id = :trait_type_id ;
+EOF;
+        $stm_get_number_of_organisms= $this->db->prepare($query_get_number_of_organisms);
+        $stm_get_number_of_organisms->bindValue('trait_type_id', $trait_type_id);
+        $stm_get_number_of_organisms->execute();
+
+        $row = $stm_get_number_of_organisms->fetch(PDO::FETCH_ASSOC);
+        $number_of_organisms = $row['count'];
+
+        return $number_of_organisms;
     }
 }
