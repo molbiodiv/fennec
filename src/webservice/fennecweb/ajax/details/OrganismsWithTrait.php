@@ -10,6 +10,7 @@ use \PDO as PDO;
  */
 class OrganismsWithTrait extends \fennecweb\WebService
 {
+    const DEFAULT_LIMIT = 5;
 
     /**
      * @param $querydata[type_cvterm_id] array of trait type_cvterm_id
@@ -18,19 +19,19 @@ class OrganismsWithTrait extends \fennecweb\WebService
     public function execute($querydata)
     {
         $db = $this->openDbConnection($querydata);
-        $type_cvterm_id = $querydata['type_cvterm_id'];
-        $limit = 5;
+        $trait_type_id = $querydata['trait_type_id'];
+        $limit = OrganismsWithTrait::DEFAULT_LIMIT;
         if (in_array('limit', array_keys($querydata))) {
             $limit = $querydata['limit'];
         }
         
         $query_get_organism_by_trait = <<<EOF
 SELECT *
-    FROM organism, (SELECT DISTINCT organism_id FROM trait_entry WHERE type_cvterm_id = :type_cvterm_id) AS ids
+    FROM organism, (SELECT DISTINCT organism_id FROM trait_categorical_entry WHERE trait_type_id = :trait_type_id) AS ids
     WHERE organism.organism_id = ids.organism_id LIMIT :limit
 EOF;
         $stm_get_organism_by_trait = $db->prepare($query_get_organism_by_trait);
-        $stm_get_organism_by_trait->bindValue('type_cvterm_id', $type_cvterm_id);
+        $stm_get_organism_by_trait->bindValue('trait_type_id', $trait_type_id);
         $stm_get_organism_by_trait->bindValue('limit', $limit);
         $stm_get_organism_by_trait->execute();
         
