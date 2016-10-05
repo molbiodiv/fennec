@@ -13,9 +13,6 @@ class TraitsTest extends \PHPUnit_Framework_TestCase
         $trait_type_id = '1';
         $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION, 'trait_type_id' => $trait_type_id)));
         $expected = [
-                "trait_type_id" => 1,
-                "name" => "PlantHabit",
-                "ontology_url" => "eol.org/schema/terms/PlantHabit",
                 "values" => [
                      "liana" => "136",
                      "nonvascular" => "832",
@@ -38,8 +35,11 @@ class TraitsTest extends \PHPUnit_Framework_TestCase
                      "woody" => "90",
 
                 ],
-                "number_of_organisms" => 16050,
-                "trait_format" => "categorical_free"
+                "trait_type_id" => 1,
+                "name" => "PlantHabit",
+                "ontology_url" => "eol.org/schema/terms/PlantHabit",
+                "trait_format" => "categorical_free",
+                "number_of_organisms" => 16050
             ];
         $this->assertEquals($expected, $results);
     }
