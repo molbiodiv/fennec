@@ -15,10 +15,10 @@
         <div class="tab-content">
             <div role="tabpanel" class="tab-pane active" id="overview" style="margin-top: 10px">
                 <table id="projectDetails_otuTable" class="table project-table project-table-striped table-bordered" width="100%" cellspacing="0"></table>
-                <button class='btn' id='inspect-with-phinch-button'>Inspect with Phinch</button>
-                <i data-toggle="tooltip" title="This is an experimental integration of phinch (see phinch.org).&#013;There is currently an unresolved license issue (see https://github.com/PitchInteractiveInc/Phinch/issues/56)" class="fa fa-question-circle"></i><br>
-                <div style="height: 100%"><iframe id='inspect-with-phinch-iframe' width="100%" height="100%" style="border: none; display: none"></iframe></div>
-                <script src="{#$WebRoot#}/Phinch/lib/db.js"></script>
+                <button class='btn' id="inspect-with-blackbird-button">Inspect with Blackbird</button>
+                <i data-toggle="tooltip" title="This is an experimental integration of Blackbird (see blackbird.iimog.org)." class="fa fa-question-circle"></i><br>
+                <div style="height: 100%"><iframe id='inspect-with-blackbird-iframe' width="100%" height="100%" style="border: none; display: none"></iframe></div>
+                <script src="{#$WebRoot#}/Blackbird/lib/db.js"></script>
                 <script src="{#$WebRoot#}/js/helpers/biom.js"></script>
                 <script type="text/javascript">
                     var biomString = '{#$data["projects"][$internal_project_id]#}';
@@ -36,7 +36,7 @@
                         deferRender: true,
                         scrollX: true
                     });
-                    $('#inspect-with-phinch-button').click(function(){
+                    $('#inspect-with-blackbird-button').click(function(){
                         db.open({
                             server: "BiomData",
                             version: 1,
@@ -67,16 +67,16 @@
                             d = new Date();
                             biomToStore.date = d.getUTCFullYear() + "-" + (d.getUTCMonth() + 1) + "-" + d.getUTCDate() + "T" + d.getUTCHours() + ":" + d.getUTCMinutes() + ":" + d.getUTCSeconds() + " UTC";
                             server.biom.add(biomToStore).done(function(item) {
-                                $('#inspect-with-phinch-iframe').attr('src','{#$WebRoot#}/Phinch/preview.html');
-                                $('#inspect-with-phinch-iframe').show();
+                                $('#inspect-with-blackbird-iframe').attr('src','{#$WebRoot#}/Blackbird/preview.html');
+                                $('#inspect-with-blackbird-iframe').show();
                             });
                         });
                     });
 
-                    $('#inspect-with-phinch-iframe').on("load", function(){
+                    $('#inspect-with-blackbird-iframe').on("load", function(){
                         setTimeout(function(){
-                            console.log($('#inspect-with-phinch-iframe').contents().height());
-                            $('#inspect-with-phinch-iframe').attr('height', $('#inspect-with-phinch-iframe').contents().height()+20);
+                            console.log($('#inspect-with-blackbird-iframe').contents().height());
+                            $('#inspect-with-blackbird-iframe').attr('height', $('#inspect-with-blackbird-iframe').contents().height()+20);
                         }, 1000);
                     });
                 </script>
