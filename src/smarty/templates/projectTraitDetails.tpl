@@ -1,6 +1,6 @@
 {#extends file='layoutWithBars.tpl'#}
 {#block name='content'#}
-{#call_webservice path="details/Traits" data=["trait_type_id"=>$trait_type_id, "dbversion"=>$DbVersion] assign='data'#}
+{#call_webservice path="details/TraitOfProject" data=["trait_type_id"=>$trait_type_id, "dbversion"=>$DbVersion, "internal_project_id" => $internal_project_id] assign='data'#}
 <h2 class="page-header">{#$data['name']#}</h2>
 <div class='row'>
     {#if $data['trait_format'] == 'categorical_free' #}
