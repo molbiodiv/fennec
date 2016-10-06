@@ -10,6 +10,8 @@ use \PDO as PDO;
  */
 class Overview extends \fennecweb\WebService
 {
+    private $db;
+
     /**
     * @param $querydata[]
     * @returns Array $result
@@ -24,12 +26,13 @@ class Overview extends \fennecweb\WebService
     */
     public function execute($querydata)
     {
-        $db = $this->openDbConnection($querydata);
+        $this->db = $this->openDbConnection($querydata);
         $result = array();
         if (!isset($_SESSION)) {
             session_start();
         }
         $result['projects'] = $this->get_number_of_projects();
+        $result['organisms'] = $this->get_number_of_organisms();
         return $result;
     }
 
@@ -45,12 +48,25 @@ SELECT
     COUNT(*)
     FROM full_webuser_data WHERE provider = :provider AND oauth_id = :oauth_id
 EOF;
-        $stm_get_user_projects = $db->prepare($query_get_user_projects);
+        $stm_get_user_projects = $this->db->prepare($query_get_user_projects);
         $stm_get_user_projects->bindValue('provider', $_SESSION['user']['provider']);
         $stm_get_user_projects->bindValue('oauth_id', $_SESSION['user']['id']);
         $stm_get_user_projects->execute();
 
         $row = $stm_get_user_projects->fetch(PDO::FETCH_ASSOC);
+        return $row['count'];
+    }
+
+    private function get_number_of_organisms(){
+        $query_get_number_of_organisms = <<<EOF
+SELECT
+    COUNT(*)
+    FROM organism
+EOF;
+        $stm_get_number_of_organisms = $this->db->prepare($query_get_number_of_organisms);
+        $stm_get_number_of_organisms->execute();
+
+        $row = $stm_get_number_of_organisms->fetch(PDO::FETCH_ASSOC);
         return $row['count'];
     }
 }
