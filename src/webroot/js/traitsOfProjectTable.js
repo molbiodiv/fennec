@@ -1,10 +1,11 @@
-function initTraitsOfProjectTable(){
+function initTraitsOfProjectTable(internal_project_id){
     $('#trait-table').DataTable( {
         data: traits,
         columns: [
             { data: 'trait' },
             { data: 'count' },
-            { data: 'range' }
+            { data: 'range' },
+            { data: null }
         ],
         order: [ 2, "desc" ],
         columnDefs: [
@@ -19,6 +20,12 @@ function initTraitsOfProjectTable(){
                 targets: 0,
                 render: function (data, type, full, meta) {
                     return '<a href="'+WebRoot+"/"+DbVersion+"/trait/details/byid/"+full.id+'">'+full.trait+'</a>';
+                }
+            },
+            {
+                targets: 3,
+                render: function(data, type, full, meta){
+                    return '<a href="'+WebRoot+"/"+DbVersion+"/project/details/byId/"+internal_project_id+"/trait/"+full.id+'">Details</a>';
                 }
             }
         ]

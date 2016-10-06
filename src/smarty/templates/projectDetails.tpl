@@ -85,7 +85,7 @@
             <div role="tabpanel" class="tab-pane" id="traits" style="margin-top: 10px">
                 <table id="trait-table" class="table trait-table trait-table-striped table-bordered" width="100%" cellspacing="0">
                     <thead>
-                        <tr><th>trait</th><th>count</th><th>range</th></tr>
+                        <tr><th>trait</th><th>count</th><th>range</th><th>actions</th></tr>
                     </thead>
                 </table>
                 <script type="text/javascript">
@@ -106,7 +106,7 @@
                                 };
                                 traits.push(thisTrait);
                             });
-                            initTraitsOfProjectTable();
+                            initTraitsOfProjectTable({#$internal_project_id#});
                         }
                     });
                 </script>
