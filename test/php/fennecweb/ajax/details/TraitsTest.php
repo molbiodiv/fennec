@@ -42,5 +42,31 @@ class TraitsTest extends \PHPUnit_Framework_TestCase
                 "number_of_organisms" => 16425
             ];
         $this->assertEquals($expected, $results);
+
+        $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION, 'trait_type_id' => $trait_type_id, 'organism_ids' => [134097, 163840, 24718, 73023, 23057])));
+        $expected = [
+                "values" => [
+                     "forb/herb" => "4",
+                     "shrub" => "2",
+                     "subshrub" => "2"
+                ],
+                "trait_type_id" => 1,
+                "name" => "PlantHabit",
+                "ontology_url" => "eol.org/schema/terms/PlantHabit",
+                "trait_format" => "categorical_free",
+                "number_of_organisms" => 5
+            ];
+        $this->assertEquals($expected, $results, 'Organism ids provided, should return trait details for only those organisms');
+
+        $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION, 'trait_type_id' => $trait_type_id, 'organism_ids' => [])));
+        $expected = [
+            "values" => [],
+            "trait_type_id" => 1,
+            "name" => "PlantHabit",
+            "ontology_url" => "eol.org/schema/terms/PlantHabit",
+            "trait_format" => "categorical_free",
+            "number_of_organisms" => 0
+        ];
+        $this->assertEquals($expected, $results, 'Array of organism ids is empty, should return empty values array and 0 as number_of_organisms');
     }
 }
