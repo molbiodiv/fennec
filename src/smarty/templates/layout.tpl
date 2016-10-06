@@ -115,6 +115,9 @@
         <!-- Bootstrap confirmation -->
         <script src="{#$WebRoot#}/bower_components/bs-confirmation/bootstrap-confirmation.min.js"></script>
 
+        <!-- biojs-io-biom -->
+        <script src="{#$WebRoot#}/bower_components/biojs-io-biom/build/biom.min.js"></script>
+
         <!-- DataTables -->
         <script src="{#$WebRoot#}/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
         <script src="{#$WebRoot#}/bower_components/datatables/media/js/dataTables.bootstrap.min.js"></script>
