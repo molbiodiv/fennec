@@ -146,3 +146,28 @@ INSERT INTO full_webuser_data (project,oauth_id,provider,import_date) VALUES ('{
         {"id": "Sample_2", "metadata": {}}
     ]
 }','listingOverviewTestUser','listingOverviewTestUser','2016-10-06 08:07:40.838383+00');
+
+-- project for listingOverviewTestUser
+INSERT INTO full_webuser_data (project,oauth_id,provider,import_date) VALUES ('{
+    "id": "table",
+    "format": "Biological Observation Matrix 2.1.0",
+    "format_url": "http://biom-format.org",
+    "matrix_type": "sparse",
+    "generated_by": "BIOM-Format 2.1",
+    "date": "2016-10-06T08:07:40.838383",
+    "type": "OTU table",
+    "matrix_element_type": "float",
+    "shape": [5, 2],
+    "data": [[0,0,120.0],[3,1,12.0],[5,2,20.0],[7,3,12.7],[8,4,16.0]],
+    "rows": [
+        {"id": "OTU_1", "metadata": {"organism_id": null}},
+        {"id": "OTU_2", "metadata": {"organism_id": 3}},
+        {"id": "OTU_3", "metadata": {},
+        {"id": "OTU_4", "metadata": {"organism_id": 3}},
+        {"id": "OTU_5", "metadata": {"organism_id": 42}}
+    ],
+    "columns": [
+        {"id": "Sample_1", "metadata": {}},
+        {"id": "Sample_2", "metadata": {}}
+    ]
+}','detailsOrganismsOfProjectTestUser','detailsOrganismsOfProjectTestUser','2016-10-06 08:07:40.838383+00');
