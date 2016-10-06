@@ -1,16 +1,15 @@
+/* startpage color */
+/* trait color */
 .sidebar-startpage {
-  color: #A6750E; }
+  color: #53575F; }
 
 .sidebar-organism {
-  color: #076565; }
+  color: #66C7C7; }
 
 .sidebar-project {
-  color: #098709; }
+  color: #7591D1; }
 
 .sidebar-trait {
-  color: #A90C0C; }
-
-.sidebar-community {
-  color: #A9530C; }
+  color: #6FA4CD; }
 
 /*# sourceMappingURL=sidebar.css.map */

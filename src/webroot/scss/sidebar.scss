@@ -1,8 +1,4 @@
-$startpage-0: #A6750E;
-$organism-0: #076565;
-$project-0: #098709;
-$trait-0: #A90C0C;
-$community-0: #A9530C;
+@import "colors";
 
 .sidebar-startpage {
     color: $startpage-0;
@@ -18,9 +14,5 @@ $community-0: #A9530C;
 
 .sidebar-trait {
     color: $trait-0;
-}
-
-.sidebar-community {
-    color: $community-0;
 }
 

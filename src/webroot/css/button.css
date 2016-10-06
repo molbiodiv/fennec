@@ -1,34 +1,36 @@
+/* startpage color */
+/* trait color */
 .btn-organism {
   color: #FFF;
-  background-color: #076565;
-  border-color: #076565; }
+  background-color: #66C7C7;
+  border-color: #66C7C7; }
 
 .btn-organism:hover {
   color: #FFF;
-  background-color: #043535;
-  border-color: #043535; }
+  background-color: #43b7b7;
+  border-color: #43b7b7; }
 
 .btn-organism:focus {
   color: #FFF;
-  background-color: #043535;
-  border-color: #043535; }
+  background-color: #43b7b7;
+  border-color: #43b7b7; }
 
 .btn-trait {
   color: #FFF;
-  background-color: #A90C0C;
-  border-color: #A90C0C;
+  background-color: #6FA4CD;
+  border-color: #6FA4CD;
   width: 100%; }
 
 .btn-trait:hover {
   color: #FFF;
-  background-color: #790909;
-  border-color: #790909;
+  background-color: #498cc0;
+  border-color: #498cc0;
   width: 100%; }
 
 .btn-trait:focus {
   color: #FFF;
-  background-color: #790909;
-  border-color: #790909;
+  background-color: #498cc0;
+  border-color: #498cc0;
   width: 100%; }
 
 /*# sourceMappingURL=button.css.map */

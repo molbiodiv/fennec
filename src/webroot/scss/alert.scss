@@ -1,5 +1,4 @@
-$organism-0: #076565;
-$organism-1: #338C8C;
+@import "colors";
 
 .alert-organism {
     background-color: lighten($organism-1, 20%);

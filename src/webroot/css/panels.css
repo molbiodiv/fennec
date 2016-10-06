@@ -1,41 +1,27 @@
+/* startpage color */
+/* trait color */
 .panel-projects {
-  background-color: #098709;
-  border-color: #076f07;
+  background-color: #7591D1;
+  border-color: #6282cb;
   color: #FFF; }
 
 .info-projects {
-  color: #076f07; }
-
-.panel-communities {
-  background-color: #A9530C;
-  border-color: #91470a;
-  color: #FFF; }
-
-.info-communities {
-  color: #91470a; }
+  color: #6282cb; }
 
 .panel-organism {
-  background-color: #076565;
-  border-color: #054d4d;
+  background-color: #66C7C7;
+  border-color: #53c0c0;
   color: #FFF; }
 
 .info-organism {
-  color: #054d4d; }
+  color: #53c0c0; }
 
 .panel-trait {
-  background-color: #A90C0C;
-  border-color: #910a0a;
+  background-color: #6FA4CD;
+  border-color: #5c98c6;
   color: #FFF; }
 
 .info-trait {
-  color: #910a0a; }
-
-.panel-trait-details {
-  background-color: #0B5468;
-  border-color: #094151;
-  color: #FFF; }
-
-.info-trait-details {
-  color: #094151; }
+  color: #5c98c6; }
 
 /*# sourceMappingURL=panels.css.map */

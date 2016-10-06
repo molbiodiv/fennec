@@ -1,15 +1,15 @@
-/* Project color */
-/* Community color */
+/* startpage color */
+/* trait color */
 table.dataTable.project-table thead .sorting,
 table.dataTable.project-table thead .sorting_asc,
 table.dataTable.project-table thead .sorting_desc,
 table.dataTable.project-table thead .sorting_asc_disabled,
 table.dataTable.project-table thead .sorting_desc_disabled {
-  background: #098709;
+  background: #7591D1;
   color: #F8F8F8; }
 
 .project-table-striped > tbody > tr:nth-of-type(2n) {
-  background-color: #e3fde3; }
+  background-color: white; }
 
 .project-table-striped > tbody > tr:hover {
   background-color: #EEE; }
@@ -19,7 +19,7 @@ table.dataTable.project-table thead .sorting_desc_disabled {
 
 /* Footer cells */
 .project-table tfoot th {
-  background: #098709;
+  background: #7591D1;
   color: #F8F8F8; }
 
 /* Define custom hover effect on links */
@@ -30,27 +30,27 @@ div#project-table_paginate > .pagination > .active > a,
 div#project-table_paginate > .pagination > .active > a:focus {
   color: #FFF;
   cursor: pointer;
-  background-color: #098709;
-  border-color: #098709; }
+  background-color: #7591D1;
+  border-color: #7591D1; }
 
 div#project-table_paginate > .pagination > .active > a:hover {
   color: #FFF;
   cursor: pointer;
-  background-color: #065706;
-  border-color: #065706; }
+  background-color: #4f73c4;
+  border-color: #4f73c4; }
 
 div#projectDetails_otuTable_paginate > .pagination > .active > a,
 div#projectDetails_otuTable_paginate > .pagination > .active > a:focus {
   color: #FFF;
   cursor: pointer;
-  background-color: #098709;
-  border-color: #098709; }
+  background-color: #7591D1;
+  border-color: #7591D1; }
 
 div#projectDetails_otuTable_paginate > .pagination > .active > a:hover {
   color: #FFF;
   cursor: pointer;
-  background-color: #065706;
-  border-color: #065706; }
+  background-color: #4f73c4;
+  border-color: #4f73c4; }
 
 .pagination > li > a,
 .pagination > li > a:focus,
@@ -65,11 +65,11 @@ table.dataTable.trait-table thead .sorting_asc,
 table.dataTable.trait-table thead .sorting_desc,
 table.dataTable.trait-table thead .sorting_asc_disabled,
 table.dataTable.trait-table thead .sorting_desc_disabled {
-  background: #A90C0C;
+  background: #6FA4CD;
   color: #F8F8F8; }
 
 .trait-table-striped > tbody > tr:nth-of-type(2n) {
-  background-color: #fdeaea; }
+  background-color: white; }
 
 .trait-table-striped > tbody > tr:hover {
   background-color: #EEE; }
@@ -79,7 +79,7 @@ table.dataTable.trait-table thead .sorting_desc_disabled {
 
 /* Footer cells */
 .trait-table tfoot th {
-  background: #A90C0C;
+  background: #6FA4CD;
   color: #F8F8F8; }
 
 /* Define custom hover effect on links */
@@ -90,13 +90,13 @@ div#trait-table_paginate > .pagination > .active > a,
 div#trait-table_paginate > .pagination > .active > a:focus {
   color: #FFF;
   cursor: pointer;
-  background-color: #A90C0C;
-  border-color: #A90C0C; }
+  background-color: #6FA4CD;
+  border-color: #6FA4CD; }
 
 div#trait-table_paginate > .pagination > .active > a:hover {
   color: #FFF;
   cursor: pointer;
-  background-color: #790909;
-  border-color: #790909; }
+  background-color: #498cc0;
+  border-color: #498cc0; }
 
 /*# sourceMappingURL=dataTable.css.map */

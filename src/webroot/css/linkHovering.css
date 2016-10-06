@@ -1,39 +1,29 @@
+/* startpage color */
+/* trait color */
 .organism-link {
-  color: #076565;
+  color: #66C7C7;
   text-decoration: none; }
 
 .organism-link:hover .organism-link:focus {
-  color: #043535;
+  color: #43b7b7;
   text-decoration: none; }
 
 .project-link {
-  color: #098709; }
+  color: #7591D1; }
 
 .project-link:hover, .project-link:active {
-  color: #065706; }
-
-.community-link {
-  color: #A9530C; }
-
-.community-link:hover, .community-link:active {
-  color: #793c09; }
+  color: #4f73c4; }
 
 .trait-link {
-  color: #A90C0C; }
+  color: #6FA4CD; }
 
 .trait-link:hover, .trait-link:active {
-  color: #790909; }
-
-.trait-details-link {
-  color: #78A00B; }
-
-.trait-details-link:hover, .trait-details-link:active {
-  color: #547008; }
+  color: #498cc0; }
 
 .startpage-link {
-  color: #A6750E; }
+  color: #53575F; }
 
 .startpage-link:hover, .startpage-link:active {
-  color: #77540a; }
+  color: #3b3e44; }
 
 /*# sourceMappingURL=linkHovering.css.map */

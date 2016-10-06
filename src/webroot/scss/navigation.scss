@@ -1,67 +1,48 @@
-$startpage-0: #A6750E;
-$startpage-1: #E5B34A;
-$organism-0: #076565;
-$organism-1: #338C8C;
-$project-0: #098709;
-$project-1: #43BA43;
-$trait-0: #A90C0C;
-$trait-1: #E95454;
-$community-0: #A9530C;
-$community-1: #E99854;
+@import "colors";
 
 .navbar-startpage {
     margin-bottom: 0;
     background-color: $startpage-0;
-    color: lighten($startpage-1, 25%);
+    color: lighten($startpage-0, 25%);
 }
 
 .navbar-icon-startpage:hover, .navbar-icon:active, navbar-icon:link {
-    color: lighten($startpage-1, 10%);
+    color: lighten($startpage-0, 10%);
 }
 
 .navbar-organism {
     margin-bottom: 0;
     background-color: $organism-0;
-    color: lighten($organism-1, 25%);
+    color: lighten($organism-0, 25%);
 }
 
 .navbar-icon-organism:hover, .navbar-icon:active, navbar-icon:link {
-    color: lighten($organism-1, 10%);
+    color: lighten($organism-0, 10%);
 }
 
 .navbar-project {
     margin-bottom: 0;
     background-color: $project-0;
-    color: lighten($project-1, 25%);
+    color: lighten($project-0, 25%);
 }
 
 .navbar-icon-project:hover, .navbar-icon:active, navbar-icon:link {
-    color: lighten($project-1, 10%);
+    color: lighten($project-0, 10%);
 }
 
 .navbar-trait {
     margin-bottom: 0;
     background-color: $trait-0;
-    color: lighten($trait-1, 25%);
+    color: lighten($trait-0, 25%);
 }
 
 .navbar-icon-trait:hover, .navbar-icon:active, navbar-icon:link {
-    color: lighten($trait-1, 10%);
-}
-
-.navbar-community {
-    margin-bottom: 0;
-    background-color: $community-0;
-    color: lighten($community-1, 25%);
-}
-
-.navbar-icon-community:hover, .navbar-icon:active, navbar-icon:link {
-    color: lighten($community-1, 10%);
+    color: lighten($trait-0, 10%);
 }
 
 .form-control:focus {
     border-color: $organism-0;
-    box-shadow: $organism-1;
+    box-shadow: $organism-0;
 }
 
 .btn-default {
