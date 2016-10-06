@@ -29,7 +29,8 @@
     "datatables": "^1.10.11",
     "bootstrap-select": "^1.10.0",
     "bs-confirmation": "^1.0.5",
-    "startbootstrap-sb-admin-2": "BlackrockDigital/startbootstrap-sb-admin-2#^3.3.7"
+    "startbootstrap-sb-admin-2": "BlackrockDigital/startbootstrap-sb-admin-2#^3.3.7",
+    "biojs-io-biom": "^1.0.2"
   },
   "resolutions": {
     "font-awesome": "~4.6.3"
