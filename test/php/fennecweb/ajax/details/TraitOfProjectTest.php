@@ -13,7 +13,7 @@ class TraitOfProjectTest extends \PHPUnit_Framework_TestCase
     public function testExecute()
     {
         list($service) = WebService::factory('details/TraitOfProject');
-        $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION)));
+        $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION, 'trait_type_id' => 1, 'internal_project_id' => 3)));
         $expected = array("error" => WebService::ERROR_NOT_LOGGED_IN);
         $this->assertEquals($expected, $results, 'User is not loggend in, return error message');
 
@@ -29,7 +29,7 @@ class TraitOfProjectTest extends \PHPUnit_Framework_TestCase
         $id = $entries['data'][0]['internal_project_id'];
 
         list($service) = WebService::factory('details/TraitOfProject');
-        $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION, 'internal_project_id' => $id)));
+        $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION, 'trait_type_id' => 1, 'internal_project_id' => $id)));
         $expected = [
             "values" => [
                 "forb/herb" => "4",
@@ -45,7 +45,7 @@ class TraitOfProjectTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($results, $expected, 'Example project, return trait details');
 
         $_SESSION['user']['id'] = 'noValidUserID';
-        $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION, 'internal_project_id' => $id)));
+        $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION, 'trait_type_id' => 1, 'internal_project_id' => $id)));
         $expected = array("error" => OrganismsOfProject::ERROR_PROJECT_NOT_FOUND);
         $this->assertEquals($expected, $results, 'Project does not belong to user, return error message');
 
