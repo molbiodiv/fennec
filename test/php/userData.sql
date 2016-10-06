@@ -162,7 +162,7 @@ INSERT INTO full_webuser_data (project,oauth_id,provider,import_date) VALUES ('{
     "rows": [
         {"id": "OTU_1", "metadata": {"organism_id": null}},
         {"id": "OTU_2", "metadata": {"organism_id": 3}},
-        {"id": "OTU_3", "metadata": {},
+        {"id": "OTU_3", "metadata": {}},
         {"id": "OTU_4", "metadata": {"organism_id": 3}},
         {"id": "OTU_5", "metadata": {"organism_id": 42}}
     ],

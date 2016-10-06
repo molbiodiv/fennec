@@ -4,6 +4,7 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'config.php';
 require_once __DIR__ . '/../../vendor/autoload.php';
 require_once __DIR__ . '/fennecweb/ajax/upload/overload_is_uploaded_file.php';
 require_once __DIR__ . '/fennecweb/ajax/listing/overload_session_start.php';
+require_once __DIR__ . '/fennecweb/ajax/details/overload_session_start.php';
 
 $database = unserialize(DATABASE)['test'];
 echo exec('PGPASSWORD='.$database['DB_PASSWORD'].
