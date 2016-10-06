@@ -66,7 +66,13 @@
                 <a href="{#$WebRoot#}/{#$DbVersion#}/trait" class="sidebar-{#$type#} {#$type#}-link"><i class="fa fa-globe fa-fw sidebar-{#$type#}"></i> Traits<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="{#$WebRoot#}/{#$DbVersion#}/trait" class="sidebar-{#$type#} {#$type#}-link">Search</a>
+                        <a href="{#$WebRoot#}/{#$DbVersion#}/trait" class="sidebar-{#$type#} {#$type#}-link"><i class="fa fa-eye fa-fw sidebar-{#$type#}"></i> Overview</a>
+                    </li>
+                    <li>
+                        <a href="{#$WebRoot#}/{#$DbVersion#}/trait/search" class="sidebar-{#$type#} {#$type#}-link"><i class="fa fa-search fa-fw sidebar-{#$type#}"></i> Search</a>
+                    </li>
+                    <li>
+                        <a href="{#$WebRoot#}/{#$DbVersion#}/trait/search" class="sidebar-{#$type#} {#$type#}-link"><i class="fa fa-binoculars fa-fw sidebar-{#$type#}"></i> Browse</a>
                     </li>
                 </ul>
             </li>
