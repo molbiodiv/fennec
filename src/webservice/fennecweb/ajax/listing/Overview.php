@@ -33,6 +33,8 @@ class Overview extends \fennecweb\WebService
         }
         $result['projects'] = $this->get_number_of_projects();
         $result['organisms'] = $this->get_number_of_organisms();
+        $result['trait_entries'] = $this->get_number_of_trait_entries();
+        $result['trait_types'] = $this->get_number_of_trait_types();
         return $result;
     }
 
@@ -52,7 +54,6 @@ EOF;
         $stm_get_user_projects->bindValue('provider', $_SESSION['user']['provider']);
         $stm_get_user_projects->bindValue('oauth_id', $_SESSION['user']['id']);
         $stm_get_user_projects->execute();
-
         $row = $stm_get_user_projects->fetch(PDO::FETCH_ASSOC);
         return $row['count'];
     }
@@ -65,8 +66,31 @@ SELECT
 EOF;
         $stm_get_number_of_organisms = $this->db->prepare($query_get_number_of_organisms);
         $stm_get_number_of_organisms->execute();
-
         $row = $stm_get_number_of_organisms->fetch(PDO::FETCH_ASSOC);
+        return $row['count'];
+    }
+
+    private function get_number_of_trait_entries(){
+        $query_get_number_of_trait_entries = <<<EOF
+SELECT
+    COUNT(*)
+    FROM trait_categorical_entry
+EOF;
+        $stm_get_number_of_trait_entries = $this->db->prepare($query_get_number_of_trait_entries);
+        $stm_get_number_of_trait_entries->execute();
+        $row = $stm_get_number_of_trait_entries->fetch(PDO::FETCH_ASSOC);
+        return $row['count'];
+    }
+
+    private function get_number_of_trait_types(){
+        $query_get_number_of_trait_types = <<<EOF
+SELECT
+    COUNT(*)
+    FROM trait_type
+EOF;
+        $stm_get_number_of_trait_types = $this->db->prepare($query_get_number_of_trait_types);
+        $stm_get_number_of_trait_types->execute();
+        $row = $stm_get_number_of_trait_types->fetch(PDO::FETCH_ASSOC);
         return $row['count'];
     }
 }
