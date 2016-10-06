@@ -33,7 +33,9 @@ class OrganismsOfProjectTest extends \PHPUnit_Framework_TestCase
         $expected = array(
             3, 42
         );
-        $this->assertEquals($expected, $results, 'Example project, return uniq organism ids');
+        $this->assertEquals(2, count($results), 'Example project, return uniq organism ids');
+        $this->assertContains($expected[0], $results, 'Example project, return uniq organism ids');
+        $this->assertContains($expected[1], $results, 'Example project, return uniq organism ids');
 
         $_SESSION['user']['id'] = 'noValidUserID';
         $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION, 'internal_project_id' => $id)));
