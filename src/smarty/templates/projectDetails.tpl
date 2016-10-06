@@ -21,6 +21,7 @@
                 <script src="{#$WebRoot#}/Blackbird/lib/db.js"></script>
                 <script src="{#$WebRoot#}/js/helpers/biom.js"></script>
                 <script type="text/javascript">
+                    var Biom = require('biojs-io-biom').Biom;
                     var biomString = '{#$data["projects"][$internal_project_id]#}';
                     var biomObject = JSON.parse(biomString);
                     var organism_ids = biomObject.rows.filter(function (element) {
@@ -29,7 +30,7 @@
                         return element['metadata']['fennec_organism_id'];
                     });
                     var biom = new Biom(biomObject);
-                    var otuTableData = biom.getOtuTable(100);
+                    var otuTableData = getOtuTable(biom, 100);
                     $('#projectDetails_otuTable').DataTable({
                         data: otuTableData.data,
                         columns: otuTableData.columns,

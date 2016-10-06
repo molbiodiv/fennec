@@ -74,8 +74,8 @@ Biom = function(biomObject){
  * Method of Biom that creates the otu table data of biom object
  * @returns {object} otuTableData Object that contains the data for showing the otu table
  */
-Biom.prototype.getOtuTable = function(otulimit){
-    var that = this;
+getOtuTable = function(biom, otulimit){
+    var that = biom;
     var otuTableData = {};
     otuTableData.columns = [
         {
@@ -83,7 +83,7 @@ Biom.prototype.getOtuTable = function(otulimit){
             title: 'OTU'
         }
     ];
-    $.each(this.columns, function(key, value){
+    $.each(biom.columns, function(key, value){
         otuTableData.columns.push({
             data: value.id.replace(/\./g, "\\."),
             title: value.id,
@@ -93,7 +93,7 @@ Biom.prototype.getOtuTable = function(otulimit){
     otuTableData.data = [];
     //all otus up to otulimit are runned through
     var otus = 0;
-    $.each(this.rows, function(rowKey, rowValue){
+    $.each(biom.rows, function(rowKey, rowValue){
         thisEntry = {"OTU": rowValue.id};
         var data = _.filter(that.data, function(dataEntry){
             return dataEntry[0] === rowKey;
