@@ -65,6 +65,10 @@ switch ($page) {
         if (displayProjectById(requestVal('internal_project_id', '/^[0-9]+$/', '')))
             die();
         break;
+    case 'project-trait-details':
+        if (displayProjectTraitDetails(requestVal('internal_project_id', '/^[0-9]+$/', ''),requestVal('trait_type_id', '/^[0-9]+$/', '')))
+            die();
+        break;
     case 'trait':
         $smarty->assign('type', 'trait');
         $smarty->assign('title', 'Traits');
@@ -192,6 +196,19 @@ function displayProjectById($internal_project_id){
     $smarty->assign('title', 'Project Details');
     $smarty->assign('internal_project_id', $internal_project_id);
     $smarty->display('projectDetails.tpl');
+    return true;
+}
+
+function displayProjectTraitDetails($internal_project_id, $trait_type_id){
+    if($internal_project_id === '' or $trait_type_id === ''){
+        return false;
+    }
+    global $smarty;
+    $smarty->assign('type', 'project');
+    $smarty->assign('title', 'Project Trait Details');
+    $smarty->assign('internal_project_id', $internal_project_id);
+    $smarty->assign('trait_type_id', $trait_type_id);
+    $smarty->display('projectTraitDetails.tpl');
     return true;
 }
 
