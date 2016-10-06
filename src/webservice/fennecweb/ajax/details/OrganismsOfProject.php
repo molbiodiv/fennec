@@ -10,6 +10,8 @@ use \PDO as PDO;
  */
 class OrganismsOfProject extends \fennecweb\WebService
 {
+    const ERROR_PROJECT_NOT_FOUND = 'Error: Project not found.';
+
     /**
      * @param $querydata[]
      * @returns Array $result
@@ -27,15 +29,21 @@ class OrganismsOfProject extends \fennecweb\WebService
         if (!isset($_SESSION['user'])) {
             $result['error'] = \fennecweb\WebService::ERROR_NOT_LOGGED_IN;
         } else {
-            $query_get_organisms_of_project = <<<EOF
+            $query_get_rows= <<<EOF
 SELECT
-    webuser_data_id,
-    import_date,project->>'id' AS id,
-    project->'shape'->>0 AS rows,
-    project->'shape'->>1 AS columns,
-    import_filename
-    FROM full_webuser_data WHERE provider = :provider AND oauth_id = :oauth_id
+    project->'rows' AS rows
+    FROM full_webuser_data 
+    WHERE webuser_data_id = :internal_project_id AND provider = :provider AND oauth_id = :oauth_id
 EOF;
+            $stm_get_rows = $db->prepare($query_get_rows);
+            $stm_get_rows->bindValue('internal_project_id', $querydata['internal_project_id']);
+            $stm_get_rows->bindValue('provider', $_SESSION['user']['provider']);
+            $stm_get_rows->bindValue('oauth_id', $_SESSION['user']['id']);
+            $stm_get_rows->execute();
+
+            if($stm_get_rows->rowCount() === 0){
+                $result['error'] = OrganismsOfProject::ERROR_PROJECT_NOT_FOUND;
+            }
         }
         return $result;
     }
