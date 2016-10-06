@@ -43,6 +43,18 @@ EOF;
 
             if($stm_get_rows->rowCount() === 0){
                 $result['error'] = OrganismsOfProject::ERROR_PROJECT_NOT_FOUND;
+            } else {
+                $rows = $stm_get_rows->fetch(PDO::FETCH_ASSOC)['rows'];
+                $rows = json_decode($rows, true);
+                $organism_ids = array();
+                foreach ($rows as $row){
+                    if (key_exists('metadata', $row)){
+                        if (key_exists('fennec_organism_id', $row['metadata']) and $row['metadata']['fennec_organism_id'] !== null){
+                            array_push($organism_ids, $row['metadata']['fennec_organism_id']);
+                        }
+                    }
+                }
+                $result = array_unique($organism_ids);
             }
         }
         return $result;
