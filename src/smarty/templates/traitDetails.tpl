@@ -5,10 +5,10 @@
 <h4 class="page-header">Definition</h4>
 <div class="row">
     <div class='col-xs-8'>
-        <a class='trait-details-link' href='{#$data['ontology_url']#}' target='_blank'>Go to definition</a>
+        <a class='trait-link' href='{#$data['ontology_url']#}' target='_blank'>Go to definition</a>
     </div>
     <div class="col-xs-4">
-        <div class="panel panel-trait-details">
+        <div class="panel panel-trait">
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-3">
@@ -21,7 +21,7 @@
                 </div>
             </div>
             <a href="{#$WebRoot#}/{#$DbVersion#}/organism/details/byTrait/{#$data['trait_type_id']#}">
-                <div class="panel-footer info-trait-details">
+                <div class="panel-footer info-trait">
                     <span class="pull-left">View all organisms with this trait</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                     <div class="clearfix"></div>
