@@ -17,7 +17,8 @@
     "tests"
   ],
   "dependencies": {
-    "startbootstrap-sb-admin-2": "BlackrockDigital/startbootstrap-sb-admin-2#^3.3.7+1"
+    "startbootstrap-sb-admin-2": "BlackrockDigital/startbootstrap-sb-admin-2#^3.3.7+1",
+    "bootstrap-select": "^1.11.2"
   },
   "resolutions": {
     "font-awesome": "~4.6.3"
