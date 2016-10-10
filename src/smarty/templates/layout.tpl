@@ -44,6 +44,9 @@
         <!-- Alert style -->
         <link href="{#$WebRoot#}/css/alert.css" rel="stylesheet" type="text/css">
         
+        <!-- Progress bar style -->
+        <link href="{#$WebRoot#}/css/progress.css" rel="stylesheet" type="text/css">
+        
         <link href="{#$WebRoot#}/css/autocomplete.css" rel="stylesheet" type="text/css">
         
         <!-- jQuery UI Theme Style -->
@@ -112,15 +115,15 @@
         <!-- Bootstrap confirmation -->
         <script src="{#$WebRoot#}/bower_components/bs-confirmation/bootstrap-confirmation.min.js"></script>
 
+        <!-- biojs-io-biom -->
+        <script src="{#$WebRoot#}/bower_components/biojs-io-biom/build/biom.min.js"></script>
+
         <!-- DataTables -->
         <script src="{#$WebRoot#}/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
         <script src="{#$WebRoot#}/bower_components/datatables/media/js/dataTables.bootstrap.min.js"></script>
         <script src="{#$WebRoot#}/js/dataTables.js"></script>
 
         {#block name='body'#}{#/block#}
-
-
-        <script src="{#$WebRoot#}/js/fancybox.js"></script>
 
         <script src="{#$WebRoot#}/js/interactiveTraitBrowse.js"></script>
     </body>

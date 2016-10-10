@@ -1,46 +1,40 @@
+/* startpage color */
+/* trait color */
 .navbar-startpage {
   margin-bottom: 0;
-  background-color: #A6750E;
-  color: #f5e2b9; }
+  background-color: #53575F;
+  color: #9296a0; }
 
 .navbar-icon-startpage:hover, .navbar-icon:active, navbar-icon:link {
-  color: #ebc677; }
+  color: #6b707a; }
 
 .navbar-organism {
   margin-bottom: 0;
-  background-color: #076565;
-  color: #73cccc; }
+  background-color: #66C7C7;
+  color: #c3e9e9; }
 
 .navbar-icon-organism:hover, .navbar-icon:active, navbar-icon:link {
-  color: #41b1b1; }
+  color: #8bd5d5; }
 
 .navbar-project {
   margin-bottom: 0;
-  background-color: #098709;
-  color: #a0dda0; }
+  background-color: #7591D1;
+  color: #d5ddf1; }
 
 .navbar-icon-project:hover, .navbar-icon:active, navbar-icon:link {
-  color: #68c868; }
+  color: #9bafde; }
 
 .navbar-trait {
   margin-bottom: 0;
-  background-color: #A90C0C;
-  color: #f8c5c5; }
+  background-color: #6FA4CD;
+  color: #cee0ee; }
 
 .navbar-icon-trait:hover, .navbar-icon:active, navbar-icon:link {
-  color: #ef8181; }
-
-.navbar-community {
-  margin-bottom: 0;
-  background-color: #A9530C;
-  color: #f8dcc5; }
-
-.navbar-icon-community:hover, .navbar-icon:active, navbar-icon:link {
-  color: #efb381; }
+  color: #95bcda; }
 
 .form-control:focus {
-  border-color: #076565;
-  box-shadow: #338C8C; }
+  border-color: #66C7C7;
+  box-shadow: #66C7C7; }
 
 .btn-default {
   background-color: rgba(255, 255, 255, 0.2);

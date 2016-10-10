@@ -1,3 +1,4 @@
+{#call_webservice path="listing/Overview" data=["dbversion"=>$DbVersion] assign='data'#}
 <!-- The panel row for showing projects, communities, organisms and traits -->
 <div class="row">
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
@@ -8,7 +9,7 @@
                         <i class="fa fa-book fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                        <div class="huge">26</div>
+                        <div class="huge">{#$data['projects']#}</div>
                         <div>Projects</div>
                     </div>
                 </div>
@@ -30,7 +31,7 @@
                         <i class="fa fa-paw fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                        <div class="huge">124</div>
+                        <div class="huge">{#$data['organisms']#}</div>
                         <div>Organisms</div>
                     </div>
                 </div>
@@ -52,7 +53,7 @@
                         <i class="fa fa-globe fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                        <div class="huge">13</div>
+                        <div class="huge">{#$data['trait_entries']#}</div>
                         <div>Traits</div>
                     </div>
                 </div>

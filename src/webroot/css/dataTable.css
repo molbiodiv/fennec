@@ -1,39 +1,15 @@
-/* Project color */
-/* Community color */
-table.dataTable[id="otu_project"] thead .sorting,
-table.dataTable[id="otu_project"] thead .sorting_asc,
-table.dataTable[id="otu_project"] thead .sorting_desc,
-table.dataTable[id="otu_project"] thead .sorting_asc_disabled,
-table.dataTable[id="otu_project"] thead .sorting_desc_disabled {
-  background: #098709;
-  color: #F8F8F8; }
-
-table.dataTable[id="metadata_project"] thead .sorting,
-table.dataTable[id="metadata_project"] thead .sorting_asc,
-table.dataTable[id="metadata_project"] thead .sorting_desc,
-table.dataTable[id="metadata_project"] thead .sorting_asc_disabled,
-table.dataTable[id="metadata_project"] thead .sorting_desc_disabled {
-  background: #098709;
-  color: #F8F8F8; }
-
-table.dataTable[id="metadata_community"] thead .sorting,
-table.dataTable[id="metadata_community"] thead .sorting_asc,
-table.dataTable[id="metadata_community"] thead .sorting_desc,
-table.dataTable[id="metadata_community"] thead .sorting_asc_disabled,
-table.dataTable[id="metadata_community"] thead .sorting_desc_disabled {
-  background: #A9530C;
-  color: #F8F8F8; }
-
-table.dataTable[id="otu_community"] thead .sorting,
-table.dataTable[id="otu_community"] thead .sorting_asc,
-table.dataTable[id="otu_community"] thead .sorting_desc,
-table.dataTable[id="otu_community"] thead .sorting_asc_disabled,
-table.dataTable[id="otu_community"] thead .sorting_desc_disabled {
-  background: #A9530C;
+/* startpage color */
+/* trait color */
+table.dataTable.project-table thead .sorting,
+table.dataTable.project-table thead .sorting_asc,
+table.dataTable.project-table thead .sorting_desc,
+table.dataTable.project-table thead .sorting_asc_disabled,
+table.dataTable.project-table thead .sorting_desc_disabled {
+  background: #7591D1;
   color: #F8F8F8; }
 
 .project-table-striped > tbody > tr:nth-of-type(2n) {
-  background-color: #e3fde3; }
+  background-color: white; }
 
 .project-table-striped > tbody > tr:hover {
   background-color: #EEE; }
@@ -43,90 +19,38 @@ table.dataTable[id="otu_community"] thead .sorting_desc_disabled {
 
 /* Footer cells */
 .project-table tfoot th {
-  background: #098709;
+  background: #7591D1;
   color: #F8F8F8; }
 
 /* Define custom hover effect on links */
 .project-table a:focus, a:hover {
   text-decoration: none; }
 
-.community-table-striped > tbody > tr:nth-of-type(2n) {
-  background-color: #fdf3ea; }
-
-.community-table-striped > tbody > tr:hover {
-  background-color: #EEE; }
-
-.community-table sorting_asc {
-  color: #F8F8F8; }
-
-/* Footer cells */
-.community-table tfoot th {
-  background: #A9530C;
-  color: #F8F8F8; }
-
-/* Define custom hover effect on links */
-.community-table a:focus, a:hover {
-  text-decoration: none; }
-
-div#otu_project_paginate > .pagination > .active > a,
-div#otu_project_paginate > .pagination > .active > a:focus {
+div#project-table_paginate > .pagination > .active > a,
+div#project-table_paginate > .pagination > .active > a:focus {
   color: #FFF;
   cursor: pointer;
-  background-color: #098709;
-  border-color: #098709;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5), 0 1px rgba(255, 255, 255, 0.3) inset, 0 10px rgba(255, 255, 255, 0.2) inset, 0 10px 20px rgba(255, 255, 255, 0.25) inset, 0 -15px 30px rgba(0, 0, 0, 0.3) inset; }
+  background-color: #7591D1;
+  border-color: #7591D1; }
 
-div#otu_project_paginate > .pagination > .active > a:hover {
+div#project-table_paginate > .pagination > .active > a:hover {
   color: #FFF;
   cursor: pointer;
-  background-color: #065706;
-  border-color: #065706;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5), 0 1px rgba(255, 255, 255, 0.3) inset, 0 10px rgba(255, 255, 255, 0.2) inset, 0 10px 20px rgba(255, 255, 255, 0.25) inset, 0 -15px 30px rgba(0, 0, 0, 0.3) inset; }
+  background-color: #4f73c4;
+  border-color: #4f73c4; }
 
-div#metadata_project_paginate > .pagination > .active > a,
-div#metadata_project_paginate > .pagination > .active > a:focus {
+div#projectDetails_otuTable_paginate > .pagination > .active > a,
+div#projectDetails_otuTable_paginate > .pagination > .active > a:focus {
   color: #FFF;
   cursor: pointer;
-  background-color: #098709;
-  border-color: #098709;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5), 0 1px rgba(255, 255, 255, 0.3) inset, 0 10px rgba(255, 255, 255, 0.2) inset, 0 10px 20px rgba(255, 255, 255, 0.25) inset, 0 -15px 30px rgba(0, 0, 0, 0.3) inset; }
+  background-color: #7591D1;
+  border-color: #7591D1; }
 
-div#metadata_project_paginate > .pagination > .active > a:hover {
+div#projectDetails_otuTable_paginate > .pagination > .active > a:hover {
   color: #FFF;
   cursor: pointer;
-  background-color: #065706;
-  border-color: #065706;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5), 0 1px rgba(255, 255, 255, 0.3) inset, 0 10px rgba(255, 255, 255, 0.2) inset, 0 10px 20px rgba(255, 255, 255, 0.25) inset, 0 -15px 30px rgba(0, 0, 0, 0.3) inset; }
-
-div#metadata_community_paginate > .pagination > .active > a,
-div#metadata_community_paginate > .pagination > .active > a:focus {
-  color: #FFF;
-  cursor: pointer;
-  background-color: #A9530C;
-  border-color: #A9530C;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5), 0 1px rgba(255, 255, 255, 0.3) inset, 0 10px rgba(255, 255, 255, 0.2) inset, 0 10px 20px rgba(255, 255, 255, 0.25) inset, 0 -15px 30px rgba(0, 0, 0, 0.3) inset; }
-
-div#metadata_community_paginate > .pagination > .active > a:hover {
-  color: #FFF;
-  cursor: pointer;
-  background-color: #793c09;
-  border-color: #793c09;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5), 0 1px rgba(255, 255, 255, 0.3) inset, 0 10px rgba(255, 255, 255, 0.2) inset, 0 10px 20px rgba(255, 255, 255, 0.25) inset, 0 -15px 30px rgba(0, 0, 0, 0.3) inset; }
-
-div#otu_community_paginate > .pagination > .active > a,
-div#otu_community_paginate > .pagination > .active > a:focus {
-  color: #FFF;
-  cursor: pointer;
-  background-color: #A9530C;
-  border-color: #A9530C;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5), 0 1px rgba(255, 255, 255, 0.3) inset, 0 10px rgba(255, 255, 255, 0.2) inset, 0 10px 20px rgba(255, 255, 255, 0.25) inset, 0 -15px 30px rgba(0, 0, 0, 0.3) inset; }
-
-div#otu_community_paginate > .pagination > .active > a:hover {
-  color: #FFF;
-  cursor: pointer;
-  background-color: #793c09;
-  border-color: #793c09;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5), 0 1px rgba(255, 255, 255, 0.3) inset, 0 10px rgba(255, 255, 255, 0.2) inset, 0 10px 20px rgba(255, 255, 255, 0.25) inset, 0 -15px 30px rgba(0, 0, 0, 0.3) inset; }
+  background-color: #4f73c4;
+  border-color: #4f73c4; }
 
 .pagination > li > a,
 .pagination > li > a:focus,
@@ -134,15 +58,45 @@ div#otu_community_paginate > .pagination > .active > a:hover {
 .pagination > li > span,
 .pagination > li > span:focus,
 .pagination > li > span:hover {
-  color: #777;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5), 0 1px rgba(255, 255, 255, 0.3) inset, 0 10px rgba(255, 255, 255, 0.2) inset, 0 10px 20px rgba(255, 255, 255, 0.25) inset, 0 -15px 30px rgba(0, 0, 0, 0.3) inset; }
+  color: #777; }
 
-.pagination > .disabled > a,
-.pagination > .disabled > a:focus,
-.pagination > .disabled > a:hover,
-.pagination > .disabled > span,
-.pagination > .disabled > span:focus,
-.pagination > .disabled > span:hover {
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5), 0 1px rgba(255, 255, 255, 0.3) inset, 0 10px rgba(255, 255, 255, 0.2) inset, 0 10px 20px rgba(255, 255, 255, 0.25) inset, 0 -15px 30px rgba(0, 0, 0, 0.3) inset; }
+table.dataTable.trait-table thead .sorting,
+table.dataTable.trait-table thead .sorting_asc,
+table.dataTable.trait-table thead .sorting_desc,
+table.dataTable.trait-table thead .sorting_asc_disabled,
+table.dataTable.trait-table thead .sorting_desc_disabled {
+  background: #6FA4CD;
+  color: #F8F8F8; }
+
+.trait-table-striped > tbody > tr:nth-of-type(2n) {
+  background-color: white; }
+
+.trait-table-striped > tbody > tr:hover {
+  background-color: #EEE; }
+
+.trait-table sorting_asc {
+  color: #F8F8F8; }
+
+/* Footer cells */
+.trait-table tfoot th {
+  background: #6FA4CD;
+  color: #F8F8F8; }
+
+/* Define custom hover effect on links */
+.trait-table a:focus, a:hover {
+  text-decoration: none; }
+
+div#trait-table_paginate > .pagination > .active > a,
+div#trait-table_paginate > .pagination > .active > a:focus {
+  color: #FFF;
+  cursor: pointer;
+  background-color: #6FA4CD;
+  border-color: #6FA4CD; }
+
+div#trait-table_paginate > .pagination > .active > a:hover {
+  color: #FFF;
+  cursor: pointer;
+  background-color: #498cc0;
+  border-color: #498cc0; }
 
 /*# sourceMappingURL=dataTable.css.map */

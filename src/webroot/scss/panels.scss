@@ -1,8 +1,4 @@
-$project-0: #098709;
-$community-0: #A9530C;
-$organism-0: #076565;
-$trait-0: #A90C0C;
-$trait-details-0: #0B5468;
+@import "colors";
 
 .panel-projects {
     background-color: $project-0;
@@ -12,16 +8,6 @@ $trait-details-0: #0B5468;
 
 .info-projects {
     color: darken($project-0, 5%);
-}
-
-.panel-communities {
-    background-color: $community-0;
-    border-color: darken($community-0, 5%);
-    color: #FFF;
-}
-
-.info-communities {
-    color: darken($community-0, 5%);
 }
 
 .panel-organism {
@@ -42,14 +28,3 @@ $trait-details-0: #0B5468;
 .info-trait {
     color: darken($trait-0, 5%);
 }
-
-.panel-trait-details {
-    background-color: $trait-details-0;
-    border-color: darken($trait-details-0, 5%);
-    color: #FFF;
-}
-
-.info-trait-details {
-    color: darken($trait-details-0, 5%);
-}
-

@@ -19,7 +19,7 @@ $smarty->right_delimiter = '#}';
 $smarty->assign('WebRoot', WEBROOT);
 $smarty->assign('ServicePath', SERVICEPATH);
 
-$smarty->assign('fennec_version', '0.1.5');
+$smarty->assign('fennec_version', '0.2.0');
 
 $dbversion = requestVal('dbversion', '/^[A-Za-z-_\.0-9]*$/', DEFAULT_DBVERSION);
 $smarty->assign('DbVersion', $dbversion);
@@ -53,7 +53,7 @@ switch ($page) {
             die();
         break;
     case 'organism-by-trait':
-        if (displayOrganismByTrait(requestVal('type_cvterm_id', '/^[0-9]+$/', '')))
+        if (displayOrganismByTrait(requestVal('trait_type_id', '/^[0-9]+$/', '')))
             die();
         break;
     case 'project':
@@ -63,6 +63,10 @@ switch ($page) {
         die();
     case 'project-byid':
         if (displayProjectById(requestVal('internal_project_id', '/^[0-9]+$/', '')))
+            die();
+        break;
+    case 'project-trait-details':
+        if (displayProjectTraitDetails(requestVal('internal_project_id', '/^[0-9]+$/', ''),requestVal('trait_type_id', '/^[0-9]+$/', '')))
             die();
         break;
     case 'trait':
@@ -113,8 +117,14 @@ switch ($page) {
         $smarty->assign('searchLevel', 'plant');
         $smarty->display('traitSearch.tpl');
         die();
+    case 'trait-browse':
+        $smarty->assign('type', 'trait');
+        $smarty->assign('title', 'Browse Traits');
+        $smarty->assign('searchLevel', 'overview');
+        $smarty->display('traitBrowse.tpl');
+        die();
     case 'trait-byid':
-        if (displayTraitsById(requestVal('type_cvterm_id', '/^[0-9]+$/', '')))
+        if (displayTraitsById(requestVal('trait_type_id', '/^[0-9]+$/', '')))
             die();
         break;
     case 'community':
@@ -158,12 +168,12 @@ function displayOrganismById($organismId){
     return true;
 }
 
-function displayOrganismByTrait($type_cvterm_id){
+function displayOrganismByTrait($trait_type_id){
     global $smarty;
     $smarty->assign('type', 'organism');
     $smarty->assign('title', 'Search for organisms');
     $smarty->assign('limit', '1000');
-    $smarty->assign('type_cvterm_id', $type_cvterm_id);
+    $smarty->assign('trait_type_id', $trait_type_id);
     $smarty->display('organismByTrait.tpl');
     return true;
 }
@@ -178,9 +188,10 @@ function displayOrganismSearchResults($searchTerm){
     return true;
 }
 
-function displayTraitsById($type_cvterm_id){
+function displayTraitsById($trait_type_id){
     global $smarty;
-    $smarty->assign('type_cvterm_id', $type_cvterm_id);
+    $smarty->assign('type', 'trait');
+    $smarty->assign('trait_type_id', $trait_type_id);
     $smarty->display('traitDetails.tpl');
     return true;
 }
@@ -191,6 +202,19 @@ function displayProjectById($internal_project_id){
     $smarty->assign('title', 'Project Details');
     $smarty->assign('internal_project_id', $internal_project_id);
     $smarty->display('projectDetails.tpl');
+    return true;
+}
+
+function displayProjectTraitDetails($internal_project_id, $trait_type_id){
+    if($internal_project_id === '' or $trait_type_id === ''){
+        return false;
+    }
+    global $smarty;
+    $smarty->assign('type', 'project');
+    $smarty->assign('title', 'Project Trait Details');
+    $smarty->assign('internal_project_id', $internal_project_id);
+    $smarty->assign('trait_type_id', $trait_type_id);
+    $smarty->display('projectTraitDetails.tpl');
     return true;
 }
 

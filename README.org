@@ -53,6 +53,13 @@ artillery run test/artillery/simple.json
 python test/selenium/simple.py
 #+END_SRC
 ** Changes
+*** 0.2.0
+ - Update navigation
+ - Add trait details to projects
+ - Update database schema for specific trait types
+ - Add webservice to convert ncbi_taxids to organism_ids
+ - Add trait overview table to projects
+ - Update color scheme (fix scss)
 *** 0.1.5 <2016-06-01 Mi>
  - Integrate a phinch fork for inspection of projects
  - Add OTU table to project page
