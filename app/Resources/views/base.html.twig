@@ -4,7 +4,10 @@
         <meta charset="UTF-8" />
         <title>{% block title %}Fennec{% endblock %}</title>
         {% block stylesheets %}
+            {# Bootstrap SB-Admin2 stylesheets #}
             <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap/dist/css/bootstrap.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('assets/vendor/startbootstrap-sb-admin-2/dist/css/sb-admin-2.css') }}">
+            <link rel="stylesheet" href="{{ asset('assets/vendor/bower_components/font-awesome/css/font-awesome.min.css') }}">
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
