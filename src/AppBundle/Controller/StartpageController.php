@@ -14,6 +14,6 @@ class StartpageController extends Controller
     public function indexAction(Request $request)
     {
         // replace this example code with whatever you need
-        return $this->render('startpage/index.html.twig');
+        return $this->render('startpage/index.html.twig', ['type' => 'startpage']);
     }
 }
