@@ -1,0 +1,21 @@
+{
+  "name": "fennec-web",
+  "homepage": "https://github.com/iimog/fennec-web",
+  "authors": [
+    "Markus Ankenbrand <markus.ankenbrand@uni-wuerzburg.de>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "web/assets/vendor",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+  }
+}
