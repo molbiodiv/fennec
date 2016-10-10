@@ -1,0 +1,32 @@
+{
+  "name": "fennec-web",
+  "version": "0.2.0",
+  "description": "Fennec",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "gulp jasmine"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iimog/fennec-web.git"
+  },
+  "keywords": [
+    "ecology",
+    "community",
+    "trait"
+  ],
+  "author": "Markus Ankenbrand, Sonja Hohlfeld",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/iimog/fennec-web/issues"
+  },
+  "devDependencies": {
+    "bower": "^1.7.7",
+    "gulp": "^3.9.1",
+    "gulp-sass": "^2.3.1",
+    "gulp-sass-lint": "^1.1.1",
+    "gulp-sourcemaps": "^2.0.0-alpha"
+  }
+}
