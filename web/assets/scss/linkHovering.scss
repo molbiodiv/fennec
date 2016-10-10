@@ -1,0 +1,35 @@
+@import "colors";
+
+.organism-link {
+    color: $organism-0;
+    text-decoration: none;
+}
+
+.organism-link:hover .organism-link:focus {
+    color: darken($organism-0, 10%);
+    text-decoration: none;
+}
+
+.project-link {
+    color: $project-0;
+}
+
+.project-link:hover, .project-link:active {
+    color: darken($project-0, 10%);
+}
+
+.trait-link {
+    color: $trait-0;
+}
+
+.trait-link:hover, .trait-link:active {
+    color: darken($trait-0, 10%);
+}
+
+.startpage-link {
+    color: $startpage-0;
+}
+
+.startpage-link:hover, .startpage-link:active{
+    color: darken($startpage-0, 10%);
+}

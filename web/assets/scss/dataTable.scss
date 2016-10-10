@@ -1,0 +1,119 @@
+@import "colors";
+
+table.dataTable.project-table thead .sorting,
+table.dataTable.project-table thead .sorting_asc,
+table.dataTable.project-table thead .sorting_desc,
+table.dataTable.project-table thead .sorting_asc_disabled,
+table.dataTable.project-table thead .sorting_desc_disabled {
+    background: $project-0;
+    color: #F8F8F8;
+}
+
+.project-table-striped > tbody > tr:nth-of-type(2n){
+    background-color: lighten($project-0, 66%);
+}
+
+.project-table-striped > tbody > tr:hover{
+    background-color: #EEE;
+}
+
+.project-table sorting_asc {
+    color: #F8F8F8;
+}
+
+/* Footer cells */
+.project-table tfoot th {
+    background: $project-0;
+    color: #F8F8F8;
+}
+
+/* Define custom hover effect on links */
+.project-table a:focus, a:hover {
+    text-decoration: none;
+}
+
+div#project-table_paginate > .pagination > .active > a,
+div#project-table_paginate > .pagination > .active > a:focus {
+    color: #FFF;
+    cursor: pointer;
+    background-color: $project-0;
+    border-color: $project-0;
+}
+
+div#project-table_paginate > .pagination > .active > a:hover {
+    color: #FFF;
+    cursor: pointer;
+    background-color: darken($project-0, 10%);
+    border-color: darken($project-0, 10%);
+}
+
+div#projectDetails_otuTable_paginate > .pagination > .active > a,
+div#projectDetails_otuTable_paginate > .pagination > .active > a:focus {
+    color: #FFF;
+    cursor: pointer;
+    background-color: $project-0;
+    border-color: $project-0;
+}
+
+div#projectDetails_otuTable_paginate > .pagination > .active > a:hover {
+    color: #FFF;
+    cursor: pointer;
+    background-color: darken($project-0, 10%);
+    border-color: darken($project-0, 10%);
+}
+
+.pagination > li > a,
+.pagination > li > a:focus,
+.pagination > li > a:hover,
+.pagination > li > span,
+.pagination > li > span:focus,
+.pagination > li > span:hover {
+    color: #777;
+}
+
+table.dataTable.trait-table thead .sorting,
+table.dataTable.trait-table thead .sorting_asc,
+table.dataTable.trait-table thead .sorting_desc,
+table.dataTable.trait-table thead .sorting_asc_disabled,
+table.dataTable.trait-table thead .sorting_desc_disabled {
+    background: $trait-0;
+    color: #F8F8F8;
+}
+
+.trait-table-striped > tbody > tr:nth-of-type(2n){
+    background-color: lighten($trait-0, 60%);
+}
+
+.trait-table-striped > tbody > tr:hover{
+    background-color: #EEE;
+}
+
+.trait-table sorting_asc {
+    color: #F8F8F8;
+}
+
+/* Footer cells */
+.trait-table tfoot th {
+    background: $trait-0;
+    color: #F8F8F8;
+}
+
+/* Define custom hover effect on links */
+.trait-table a:focus, a:hover {
+    text-decoration: none;
+}
+
+div#trait-table_paginate > .pagination > .active > a,
+div#trait-table_paginate > .pagination > .active > a:focus {
+    color: #FFF;
+    cursor: pointer;
+    background-color: $trait-0;
+    border-color: $trait-0;
+}
+
+div#trait-table_paginate > .pagination > .active > a:hover {
+    color: #FFF;
+    cursor: pointer;
+    background-color: darken($trait-0, 10%);
+    border-color: darken($trait-0, 10%);
+}

@@ -1,0 +1,40 @@
+@import "colors";
+
+.btn-organism {
+    color: #FFF;
+    background-color: $organism-0;
+    border-color: $organism-0;
+}
+
+.btn-organism:hover {
+    color: #FFF;
+    background-color: darken($organism-0, 10%);
+    border-color: darken($organism-0, 10%);
+}
+
+.btn-organism:focus {
+    color: #FFF;
+    background-color: darken($organism-0, 10%);
+    border-color: darken($organism-0, 10%);
+}
+
+.btn-trait {
+    color: #FFF;
+    background-color: $trait-0;
+    border-color: $trait-0;
+    width: 100%;
+}
+
+.btn-trait:hover {
+    color: #FFF;
+    background-color: darken($trait-0, 10%);
+    border-color: darken($trait-0, 10%);
+    width: 100%;
+}
+
+.btn-trait:focus {
+    color: #FFF;
+    background-color: darken($trait-0, 10%);
+    border-color: darken($trait-0, 10%);
+    width: 100%;
+}
