@@ -117,6 +117,12 @@ switch ($page) {
         $smarty->assign('searchLevel', 'plant');
         $smarty->display('traitSearch.tpl');
         die();
+    case 'trait-browse':
+        $smarty->assign('type', 'trait');
+        $smarty->assign('title', 'Browse Traits');
+        $smarty->assign('searchLevel', 'overview');
+        $smarty->display('traitBrowse.tpl');
+        die();
     case 'trait-byid':
         if (displayTraitsById(requestVal('trait_type_id', '/^[0-9]+$/', '')))
             die();
