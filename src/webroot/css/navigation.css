@@ -1,5 +1,7 @@
 /* startpage color */
 /* trait color */
+/* project color */
+/* organism color */
 .navbar-startpage {
   margin-bottom: 0;
   background-color: #53575F;
@@ -10,31 +12,31 @@
 
 .navbar-organism {
   margin-bottom: 0;
-  background-color: #66C7C7;
-  color: #c3e9e9; }
+  background-color: #2B823A;
+  color: #62cb74; }
 
 .navbar-icon-organism:hover, .navbar-icon:active, navbar-icon:link {
-  color: #8bd5d5; }
+  color: #38a84b; }
 
 .navbar-project {
   margin-bottom: 0;
-  background-color: #7591D1;
-  color: #d5ddf1; }
+  background-color: #2F4073;
+  color: #627abf; }
 
 .navbar-icon-project:hover, .navbar-icon:active, navbar-icon:link {
-  color: #9bafde; }
+  color: #3e5497; }
 
 .navbar-trait {
   margin-bottom: 0;
-  background-color: #6FA4CD;
-  color: #cee0ee; }
+  background-color: #246068;
+  color: #4bb3c1; }
 
 .navbar-icon-trait:hover, .navbar-icon:active, navbar-icon:link {
-  color: #95bcda; }
+  color: #31838e; }
 
 .form-control:focus {
-  border-color: #66C7C7;
-  box-shadow: #66C7C7; }
+  border-color: #2B823A;
+  box-shadow: #2B823A; }
 
 .btn-default {
   background-color: rgba(255, 255, 255, 0.2);

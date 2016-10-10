@@ -1,15 +1,17 @@
 /* startpage color */
 /* trait color */
+/* project color */
+/* organism color */
 .sidebar-startpage {
   color: #53575F; }
 
 .sidebar-organism {
-  color: #66C7C7; }
+  color: #2B823A; }
 
 .sidebar-project {
-  color: #7591D1; }
+  color: #2F4073; }
 
 .sidebar-trait {
-  color: #6FA4CD; }
+  color: #246068; }
 
 /*# sourceMappingURL=sidebar.css.map */
