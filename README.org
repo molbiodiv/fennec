@@ -53,7 +53,7 @@ artillery run test/artillery/simple.json
 python test/selenium/simple.py
 #+END_SRC
 ** Changes
-*** 0.2.0
+*** 0.2.0 <2016-10-10 Mo>
  - Update navigation
  - Add trait details to projects
  - Update database schema for specific trait types
