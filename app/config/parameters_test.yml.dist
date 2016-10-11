@@ -1,0 +1,10 @@
+# This file is auto-generated during the composer install
+parameters:
+    default_db: test
+    dbversions:
+        'test':
+            database_host: 172.18.0.3
+            database_port: 5432
+            database_name: fennectest
+            database_user: fennectest
+            database_password: fennectest
