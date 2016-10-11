@@ -1,5 +1,10 @@
 {% extends 'base.html.twig' %}
 
+{% block javascripts %}
+    {{ parent() }}
+    {% include 'base.navigation.dbversion.html.twig' %}
+{% endblock %}
+
 {% block body %}
     <div id="wrapper">
 

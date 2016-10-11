@@ -1,0 +1,11 @@
+<script type="text/javascript">
+    $( document ).ready(function(){
+        $('.selectpicker').selectpicker();
+        $('#dbVersionPicker').selectpicker('val', '{{ dbversion }}');
+        $('#dbVersionPicker').on('changed.bs.select', function () {
+            var route = '{{ path(app.request.get('_route'), {'dbversion': 'dbversion'}) }}';
+            route = route.replace('dbversion', $('#dbVersionPicker').val());
+            window.location.href = route;
+        });
+    });
+</script>
