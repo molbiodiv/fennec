@@ -27,6 +27,17 @@ class StartpageController extends Controller
     public function startpageAction(Request $request, $dbversion){
         $oc = $this->get('app.api.listing.overview');
         $overview = $oc->execute($dbversion, $request->getSession());
-        return $this->render('startpage/index.html.twig', ['type' => 'startpage', 'overview' => $overview, 'title' => 'Welcome', 'dbversion' => $dbversion]);
+        $user = null;
+        $session = $request->getSession();
+        if($session !== null && $session->has('user')){
+            $user = $session->get('user')['nickname'];
+        }
+        return $this->render('startpage/index.html.twig', [
+            'type' => 'startpage',
+            'overview' => $overview,
+            'title' => 'Welcome',
+            'dbversion' => $dbversion,
+            'user' => $user
+        ]);
     }
 }
