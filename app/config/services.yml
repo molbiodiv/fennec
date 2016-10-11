@@ -7,3 +7,6 @@ services:
     app.db:
         class: AppBundle\DB
         arguments: ['%dbversions%']
+    app.api.listing.overview:
+        class: AppBundle\API\Listing\Overview
+        arguments: ['@app.db']
