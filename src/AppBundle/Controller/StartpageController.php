@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Controller\API\Listing\OverviewController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,7 +14,9 @@ class StartpageController extends Controller
      */
     public function indexAction(Request $request)
     {
-        // replace this example code with whatever you need
-        return $this->render('startpage/index.html.twig', ['type' => 'startpage']);
+        $oc = $this->get('app.api.listing.overview');
+        $overview = $oc->execute('1.0');
+
+        return $this->render('startpage/index.html.twig', ['type' => 'startpage', 'overview' => $overview, 'title' => 'Welcome']);
     }
 }
