@@ -1,0 +1,10 @@
+# This file is auto-generated during the composer install
+parameters:
+    default_db: test
+    dbversions:
+        'test':
+            database_host: localhost
+            database_port: 5432
+            database_name: testchado
+            database_user: postgres
+            database_password: ''
