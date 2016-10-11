@@ -15,9 +15,14 @@ parameters:
     mailer_user:       ~
     mailer_password:   ~
 
+    github_client_id:     ~
+    github_client_secret: ~
+    github_redirect_uri:  ~
+
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
 
+    default_db: '1.0'
     dbversions:
         '1.0':
             database_host: 127.0.0.1
