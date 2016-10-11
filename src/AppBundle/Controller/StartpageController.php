@@ -15,7 +15,7 @@ class StartpageController extends Controller
     public function indexAction(Request $request)
     {
         $oc = $this->get('app.api.listing.overview');
-        $overview = $oc->execute('1.0');
+        $overview = $oc->execute('1.0', $request->getSession());
 
         return $this->render('startpage/index.html.twig', ['type' => 'startpage', 'overview' => $overview, 'title' => 'Welcome']);
     }

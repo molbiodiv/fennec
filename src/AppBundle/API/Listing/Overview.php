@@ -12,13 +12,10 @@ class Overview
         $this->DB = $DB;
     }
 
-    public function execute($db_version){
+    public function execute($db_version, $session){
         $this->database = $this->DB->getDbForVersion($db_version);
         $result = array();
-        if (!isset($_SESSION)) {
-            session_start();
-        }
-        $result['projects'] = $this->get_number_of_projects();
+        $result['projects'] = $this->get_number_of_projects($session);
         $result['organisms'] = $this->get_number_of_organisms();
         $result['trait_entries'] = $this->get_number_of_trait_entries();
         $result['trait_types'] = $this->get_number_of_trait_types();
@@ -28,8 +25,8 @@ class Overview
     /**
      * @return int number_of_projects
      */
-    private function get_number_of_projects(){
-        if (!isset($_SESSION['user'])) {
+    private function get_number_of_projects($session){
+        if ($session !== null || !isset($session['user'])) {
             return 0;
         }
         $query_get_user_projects = <<<EOF

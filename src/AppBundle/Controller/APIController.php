@@ -18,7 +18,7 @@ class APIController extends Controller
     {
         $overview = $this->get('app.api.listing.overview');
         $db_version = $request->query->get('dbversion');
-        $result = $overview->execute($db_version);
+        $result = $overview->execute($db_version, $request->getSession());
         return $this->json($result);
     }
 }
