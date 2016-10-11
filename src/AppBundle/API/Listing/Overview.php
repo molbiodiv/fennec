@@ -26,7 +26,7 @@ class Overview
      * @return int number_of_projects
      */
     private function get_number_of_projects($session){
-        if ($session !== null || !isset($session['user'])) {
+        if ($session === null || !$session->has('user')) {
             return 0;
         }
         $query_get_user_projects = <<<EOF
@@ -35,8 +35,8 @@ SELECT
     FROM full_webuser_data WHERE provider = :provider AND oauth_id = :oauth_id
 EOF;
         $stm_get_user_projects = $this->database->prepare($query_get_user_projects);
-        $stm_get_user_projects->bindValue('provider', $_SESSION['user']['provider']);
-        $stm_get_user_projects->bindValue('oauth_id', $_SESSION['user']['id']);
+        $stm_get_user_projects->bindValue('provider', $session->get('user')['provider']);
+        $stm_get_user_projects->bindValue('oauth_id', $session->get('user')['id']);
         $stm_get_user_projects->execute();
         $row = $stm_get_user_projects->fetch(\PDO::FETCH_ASSOC);
         return $row['count'];
