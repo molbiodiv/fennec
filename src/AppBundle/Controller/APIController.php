@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Controller\API\Listing;
+namespace AppBundle\Controller;
 
 use AppBundle\AppBundle;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
