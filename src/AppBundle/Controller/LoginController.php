@@ -77,4 +77,17 @@ class LoginController extends Controller
         }
         return $this->redirectToRoute('index');
     }
+
+    /**
+     * @Route("/logout", name="logout")
+     * @param $request Request
+     * @return Response
+     */
+    public function logoutAction(Request $request){
+        if($request->hasSession()){
+            $request->getSession()->clear();
+            $request->getSession()->invalidate();
+            return $this->redirect($request->server->get('HTTP_REFERER'));
+        }
+    }
 }
