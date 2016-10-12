@@ -10,3 +10,6 @@ services:
     app.api.listing.overview:
         class: AppBundle\API\Listing\Overview
         arguments: ['@app.db']
+    app.api.listing.organisms:
+            class: AppBundle\API\Listing\Organisms
+            arguments: ['@app.db']
