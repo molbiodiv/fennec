@@ -5,6 +5,7 @@ namespace Tests\AppBundle\API\Listing;
 use AppBundle\AppBundle;
 use AppBundle\DB;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 
@@ -21,7 +22,8 @@ class OverviewTest extends WebTestCase
         $db = new DB($client->getContainer()->getParameter('dbversions'));
         $session = new Session(new MockArraySessionStorage());
         $overview = new \AppBundle\API\Listing\Overview($db);
-        $results = $overview->execute('test', $session);
+        $parameterBag = new ParameterBag(array('dbversion' => 'test'));
+        $results = $overview->execute($parameterBag, $session);
         $expected = array(
             "projects" => 0,
             "organisms" => 173716,
@@ -37,7 +39,7 @@ class OverviewTest extends WebTestCase
             'provider' => OverviewTest::PROVIDER,
             'token' => 'listingOverviewTestUserToken'
         ));
-        $results = $overview->execute('test', $session);
+        $results = $overview->execute($parameterBag, $session);
         $expected['projects'] = 1;
         $this->assertEquals($expected, $results);
     }
