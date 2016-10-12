@@ -31,7 +31,7 @@ class OrganismController extends Controller
      * @param $request Request
      * @param $dbversion
      * @return Response
-     * @Route("/{dbversion}/result/organism", name="organism_result")
+     * @Route("/{dbversion}/result/organism", name="organism_result", options={"expose" = true})
      * @Method({"GET"})
      */
     public function organismResultAction(Request $request, $dbversion){
