@@ -69,7 +69,7 @@
                             <a href="{#$WebRoot#}/{#$DbVersion#}/project" class="sidebar-{{ type }} {{ type }}-link"><i class="fa fa-book fa-fw sidebar-{{ type }}"></i> Projects</a>
                         </li>
                         <li>
-                            <a href="{#$WebRoot#}/{#$DbVersion#}/organism/search" class="sidebar-{{ type }} {{ type }}-link"><i class="fa fa-paw fa-fw"></i> Organisms</a>
+                            <a href="{{ path('organism_search', {'dbversion': dbversion}) }}" class="sidebar-{{ type }} {{ type }}-link"><i class="fa fa-paw fa-fw"></i> Organisms</a>
                         </li>
                         <li>
                             <a href="{#$WebRoot#}/{#$DbVersion#}/trait" class="sidebar-{{ type }} {{ type }}-link"><i class="fa fa-globe fa-fw sidebar-{{ type }}"></i> Traits<span class="fa arrow"></span></a>
