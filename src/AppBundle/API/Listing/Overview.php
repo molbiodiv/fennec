@@ -2,18 +2,21 @@
 
 namespace AppBundle\API\Listing;
 
-class Overview
+use AppBundle\API\Webservice;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
+use Symfony\Component\HttpFoundation\Session\Session;
+
+class Overview extends Webservice
 {
-    private $DB;
     private $database;
 
-    public function __construct(\AppBundle\DB $DB)
-    {
-        $this->DB = $DB;
-    }
-
-    public function execute($db_version, $session){
-        $this->database = $this->DB->getDbForVersion($db_version);
+    /**
+     * @param $query ParameterBag
+     * @param $session Session
+     * @return array
+     */
+    public function execute($query, $session){
+        $this->database = $this->getDbFromQuery($query);
         $result = array();
         $result['projects'] = $this->get_number_of_projects($session);
         $result['organisms'] = $this->get_number_of_organisms();
@@ -23,6 +26,7 @@ class Overview
     }
 
     /**
+     * @param $session Session
      * @return int number_of_projects
      */
     private function get_number_of_projects($session){

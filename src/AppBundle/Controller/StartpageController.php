@@ -25,7 +25,9 @@ class StartpageController extends Controller
      */
     public function startpageAction(Request $request, $dbversion){
         $oc = $this->get('app.api.listing.overview');
-        $overview = $oc->execute($dbversion, $request->getSession());
+        $query = $request->query;
+        $query->set('dbversion', $dbversion);
+        $overview = $oc->execute($query, $request->getSession());
         $twig_parameter = array(
             'type' => 'startpage',
             'overview' => $overview,
