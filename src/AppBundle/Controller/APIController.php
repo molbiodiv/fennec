@@ -21,4 +21,18 @@ class APIController extends Controller
         $result = $overview->execute($db_version, $request->getSession());
         return $this->json($result);
     }
+
+    /**
+     * @Route("/api/listing/organism", name="organism_listing")
+     */
+    public function organismListingAction(){
+
+    }
+
+    /**
+     * @Route("/api/result/organism", name="organism_result")
+     */
+    public function organismResultAction(){
+
+    }
 }
