@@ -39,16 +39,16 @@ class Organisms
      * );
      * </code>
      */
-    public function execute($querydata)
+    public function execute($query)
     {
-        $this->database = $this->DB->getDbForVersion($querydata['dbversion']);
+        $this->database = $this->DB->getDbForVersion($query->get('dbversion'));
         $limit = 5;
-        if (in_array('limit', array_keys($querydata))) {
-            $limit = $querydata['limit'];
+        if ($query->has('limit')) {
+            $limit = $query->get('limit');
         }
         $search = "%%";
-        if (in_array('search', array_keys($querydata))) {
-            $search = "%".$querydata['search']."%";
+        if ($query->has('search')) {
+            $search = "%".$query->get('search')."%";
         }
         $query_get_organisms = <<<EOF
 SELECT *
