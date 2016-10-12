@@ -29,15 +29,8 @@ class APIController extends Controller
      */
     public function organismListingAction(Request $request){
         $organisms = $this->get('app.api.listing.organisms');
-        $db_version = $request->query->get('dbversion');
-        $result = $organisms->execute(array('dbversion' => $db_version));
+        $result = $organisms->execute($request->query);
         return $this->json($result);
     }
 
-    /**
-     * @Route("/api/result/organism", name="organism_result")
-     */
-    public function organismResultAction(){
-
-    }
 }
