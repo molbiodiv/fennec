@@ -2,21 +2,16 @@
 
 namespace AppBundle\API\Listing;
 
+use AppBundle\API\Webservice;
 use \PDO as PDO;
 
 /**
  * Web Service.
  * Returns Organisms up to a limit in the given db version (matching a search criterion if supplied)
  */
-class Organisms
+class Organisms extends Webservice
 {
-    private $DB;
     private $database;
-
-    public function __construct(\AppBundle\DB $DB)
-    {
-        $this->DB = $DB;
-    }
 
     /**
      * @param array  $querydata  array of parameters:
@@ -41,7 +36,7 @@ class Organisms
      */
     public function execute($query)
     {
-        $this->database = $this->DB->getDbForVersion($query->get('dbversion'));
+        $this->database = $this->getDbFromQuery($query);
         $limit = 5;
         if ($query->has('limit')) {
             $limit = $query->get('limit');
