@@ -28,8 +28,8 @@
 
         $("#btn_search_{{ type }}").click(function(){
             var searchTerm = $("#search_{{ type }}").val();
-            var resultPage = "{{ path(type~'_result', {'dbversion': dbversion}) }}";
-            window.location.href = resultPage+'&searchTerm='+searchTerm;
+            var resultPage = "{{ path(type~'_result', {'dbversion': dbversion, 'limit': 500, 'searchTerm': '__searchTermPlaceholder__'}) }}";
+            window.location.href = resultPage.replace('__searchTermPlaceholder__', searchTerm);
         });
     });
 </script>
