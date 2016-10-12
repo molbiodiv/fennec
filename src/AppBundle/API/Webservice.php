@@ -15,6 +15,22 @@ class Webservice
     }
 
     /**
+     * @param $namespace string
+     * @param $classname string
+     * @return Webservice|null
+     */
+    public function factory($namespace, $classname)
+    {
+        $serviceNamespace = '\\AppBundle\\API\\' . ucfirst($namespace);
+        $class = $serviceNamespace . '\\' . ucfirst($classname);
+        if (!class_exists($class)) {
+            return null;
+        }
+
+        return new $class($this->DB);
+    }
+
+    /**
      * @param $query ParameterBag
      * @return \PDO db connection
      */
