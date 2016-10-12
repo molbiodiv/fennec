@@ -18,7 +18,8 @@
   ],
   "dependencies": {
     "startbootstrap-sb-admin-2": "BlackrockDigital/startbootstrap-sb-admin-2#^3.3.7",
-    "bootstrap-select": "^1.11.2"
+    "bootstrap-select": "^1.11.2",
+    "jquery-ui": "^1.12.1"
   },
   "resolutions": {
     "font-awesome": "~4.6.3"
