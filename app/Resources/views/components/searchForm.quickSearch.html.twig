@@ -1,0 +1,35 @@
+<script type="text/javascript">
+    $(document).ready(function(){
+        //autocomplete for organism search
+        $("#search_{{ type }}").autocomplete({
+            position: {
+                my: "right top", at: "right bottom"
+            },
+            source: function (request, response) {
+                var search = request.term;
+                $.ajax({
+                    url: "{{ path(type~'_listing') }}",
+                    data: {term:  request.term, limit: 500, search: search, dbversion: '{{ dbversion }}'},
+                    dataType: "json",
+                    success: function (data) {
+                        response(data);
+                    }
+                });
+            },
+            minLength: 3
+        });
+
+        $("#search_{{ type }}").data("ui-autocomplete")._renderItem = function (ul, item) {
+            var li = $("<li>")
+                    .append("<a href='"+WebRoot+"/"+DbVersion+"/organism/details/byId/"+item.organism_id+"'><span style='display:inline-block; width: 100%; font-style: italic;'>" + item.scientific_name + "</span><span style='color: #338C8C'>" + item.rank + "</span></a>")
+                    .appendTo(ul);
+            return li;
+        };
+
+        $("#btn_search_{{ type }}").click(function(){
+            var searchTerm = $("#search_{{ type }}").val();
+            var resultPage = "{{ path(type~'_result', {'dbversion': dbversion}) }}";
+            window.location.href = resultPage+'&searchTerm='+searchTerm;
+        });
+    });
+</script>
