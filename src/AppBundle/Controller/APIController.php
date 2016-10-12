@@ -23,10 +23,15 @@ class APIController extends Controller
     }
 
     /**
+     * @param $request Request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      * @Route("/api/listing/organism", name="organism_listing")
      */
-    public function organismListingAction(){
-
+    public function organismListingAction(Request $request){
+        $organisms = $this->get('app.api.listing.organisms');
+        $db_version = $request->query->get('dbversion');
+        $result = $organisms->execute(array('dbversion' => $db_version));
+        return $this->json($result);
     }
 
     /**
