@@ -24,7 +24,7 @@ class StartpageController extends Controller
      * @Route("/{dbversion}/startpage", name="startpage")
      */
     public function startpageAction(Request $request, $dbversion){
-        $oc = $this->get('app.api.listing.overview');
+        $oc = $this->get('app.api.webservice')->factory('Listing', 'Overview');
         $query = $request->query;
         $query->set('dbversion', $dbversion);
         $overview = $oc->execute($query, $request->getSession());

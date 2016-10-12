@@ -35,7 +35,7 @@ class OrganismController extends Controller
      * @Method({"GET"})
      */
     public function organismResultAction(Request $request, $dbversion){
-        $organisms = $this->get('app.api.listing.organisms');
+        $organisms = $this->get('app.api.webservice')->factory('listing', 'organisms');
         $request->query->set('dbversion', $dbversion);
         $result = $organisms->execute($request->query);
         return $this->render('organism/result.html.twig', ['type' => 'organism', 'dbversion' => $dbversion, 'title' => 'Organism Result', 'organisms' => $result]);

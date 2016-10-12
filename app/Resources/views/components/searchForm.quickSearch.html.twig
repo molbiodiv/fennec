@@ -8,7 +8,7 @@
             source: function (request, response) {
                 var search = request.term;
                 $.ajax({
-                    url: "{{ path(type~'_listing') }}",
+                    url: "{{ path('api', {'namespace': 'listing', 'classname': 'organisms'}) }}",
                     data: {term:  request.term, limit: 500, search: search, dbversion: '{{ dbversion }}'},
                     dataType: "json",
                     success: function (data) {

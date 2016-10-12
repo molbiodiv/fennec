@@ -10,26 +10,13 @@ use Symfony\Component\HttpFoundation\Request;
 class APIController extends Controller
 {
     /**
-     * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
-     * @Route("/api/listing/overview", name="listing_overview")
-     */
-    public function overviewAction(Request $request)
-    {
-        $overview = $this->get('app.api.listing.overview');
-        $db_version = $request->query->get('dbversion');
-        $result = $overview->execute($db_version, $request->getSession());
-        return $this->json($result);
-    }
-
-    /**
      * @param $request Request
      * @return \Symfony\Component\HttpFoundation\JsonResponse
-     * @Route("/api/listing/organism", name="organism_listing")
+     * @Route("/api/{namespace}/{classname}", name="api")
      */
-    public function organismListingAction(Request $request){
-        $organisms = $this->get('app.api.listing.organisms');
-        $result = $organisms->execute($request->query);
+    public function apiAction(Request $request, $namespace, $classname){
+        $service = $this->get('app.api.webservice')->factory($namespace, $classname);
+        $result = $service->execute($request->query, $request->getSession());
         return $this->json($result);
     }
 
