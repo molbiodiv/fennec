@@ -20,9 +20,10 @@ class OverviewTest extends WebTestCase
         $client = static::createClient();
         //Test for overview if user is not logged in
         $db = new DB($client->getContainer()->getParameter('dbversions'));
+        $default_db = $client->getContainer()->getParameter('default_db');
         $session = new Session(new MockArraySessionStorage());
         $overview = new \AppBundle\API\Listing\Overview($db);
-        $parameterBag = new ParameterBag(array('dbversion' => 'test'));
+        $parameterBag = new ParameterBag(array('dbversion' => $default_db));
         $results = $overview->execute($parameterBag, $session);
         $expected = array(
             "projects" => 0,
