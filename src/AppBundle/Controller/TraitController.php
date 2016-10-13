@@ -33,7 +33,7 @@ class TraitController extends Controller
      * @param $dbversion
      * @param $trait_id
      * @return Response
-     * @Route("/{dbversion}/organism/details/{trait_id}", name="trait_details", options={"expose" = true})
+     * @Route("/{dbversion}/trait/details/{trait_id}", name="trait_details", options={"expose" = true})
      */
     public function detailsAction(Request $request, $dbversion, $trait_id){
 
