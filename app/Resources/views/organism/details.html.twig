@@ -113,9 +113,9 @@
                 </div>
                 <div role="tabpanel" class="tab-pane" id="taxonomy">
                     <h4 class="page-header">Lineage</h4>
-                    {#foreach $taxonomy['lineage'] as $organism#}
-                    {#$organism#}
-                    {#/foreach#}
+                    {% for taxon in taxonomy.lineage %}
+                        {{ taxon }}</br>
+                    {% endfor %}
                 </div>
             </div>
         </div>
