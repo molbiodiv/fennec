@@ -9,7 +9,8 @@
 namespace AppBundle\Controller;
 
 
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
+use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -61,11 +62,17 @@ class OrganismController extends Controller
         $organismResult = $organismDetails->execute($query, $request->getSession());
         $taxonomy = $this->get('app.api.webservice')->factory('listing', 'taxonomy');
         $taxonomyResult = $taxonomy->execute($query, null);
+        $traits = $this->get('app.api.webservice')->factory('details', 'traitsOfOrganisms');
+        $traitResult = $traits->execute(new ParameterBag(array(
+            'dbversion' => $dbversion,
+            'organism_ids' => array($organism_id)
+        )), null);
         return $this->render('organism/details.html.twig', [
             'type' => 'organism',
             'dbversion' => $dbversion,
             'organism' => $organismResult,
-            'taxonomy' => $taxonomyResult
+            'taxonomy' => $taxonomyResult,
+            'traits' => $traitResult
         ]);
     }
 }
