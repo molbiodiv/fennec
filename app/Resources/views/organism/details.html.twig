@@ -65,6 +65,29 @@
             });
         </script>
         <script src="{{ asset('assets/js/helpers/organismDetails.js') }}"></script>
+        <script type="text/javascript">
+            function appendTraitEntries(domElement, traitEntries, traitFormat){
+                $.ajax({
+                    url: Routing.generate('api', {'namespace': 'details', 'classname': 'TraitEntries'}),
+                    data: {
+                        "dbversion": '{{ dbversion }}',
+                        "trait_entry_ids": traitEntries,
+                        "trait_format": traitFormat
+                    },
+                    method: "GET",
+                    success: function(result){
+                        console.log(result);
+                        $.each(result, function (key, value) {
+                            var realValue = value.value;
+                            if(value.value === null){
+                                realValue = value.value_definition;
+                            }
+                            domElement.append($('<div>').text(realValue))
+                        });
+                    }
+                });
+            }
+        </script>
     {% endif %}
 {% endblock %}
 
@@ -107,7 +130,7 @@
                     <h4 class='page-header'>{{ current.trait_type }}</h4>
                     <div id="trait_{{ tid }}"></div>
                     <script type="text/javascript">
-                        // appendTraitEntries($('#trait_{#$tid#}'),[{#implode(',',$current['trait_entry_ids'])#}], '{#$current['trait_format']#}');
+                        appendTraitEntries($('#trait_{{ tid }}'),[{{ current.trait_entry_ids|join(',') }}], '{{ current.trait_format }}');
                     </script>
                     {% endfor %}
                 </div>

@@ -12,7 +12,7 @@ class APIController extends Controller
     /**
      * @param $request Request
      * @return \Symfony\Component\HttpFoundation\JsonResponse
-     * @Route("/api/{namespace}/{classname}", name="api")
+     * @Route("/api/{namespace}/{classname}", name="api", options={"expose" = true})
      */
     public function apiAction(Request $request, $namespace, $classname){
         $service = $this->get('app.api.webservice')->factory($namespace, $classname);
