@@ -3,7 +3,8 @@
         $('.selectpicker').selectpicker();
         $('#dbVersionPicker').selectpicker('val', '{{ dbversion }}');
         $('#dbVersionPicker').on('changed.bs.select', function () {
-            var route = '{{ path(app.request.get('_route'), {'dbversion': 'dbversion'}) }}';
+            {% set previous_params = app.request.get('_route_params') %}
+            var route = '{{ path(app.request.get('_route'), previous_params|merge({'dbversion': 'dbversion'})) }}';
             route = route.replace('dbversion', $('#dbVersionPicker').val());
             window.location.href = route;
         });
