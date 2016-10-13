@@ -27,4 +27,15 @@ class TraitController extends Controller
     public function searchAction(Request $request, $dbversion){
         return $this->render('trait/search.html.twig', ['type' => 'trait', 'dbversion' => $dbversion, 'title' => 'Trait Search']);
     }
+
+    /**
+     * @param Request $request
+     * @param $dbversion
+     * @param $trait_id
+     * @return Response
+     * @Route("/{dbversion}/organism/details/{trait_id}", name="trait_details", options={"expose" = true})
+     */
+    public function detailsAction(Request $request, $dbversion, $trait_id){
+
+    }
 }
