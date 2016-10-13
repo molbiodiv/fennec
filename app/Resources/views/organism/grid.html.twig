@@ -25,7 +25,7 @@
                 </div>
                 <a class="grid-details-organism">
                     <div class="col-xs-2 text-right">
-                        <a href="{#$WebRoot#}/{#$DbVersion#}/organism/details/byId/{#$organism.organism_id#}"><span class="pull-right"><i class="fa fa-arrow-circle-right fa-2x {{ type }}-link"></i></span></a>
+                        <a href="{{ path('organism_details', {'dbversion': dbversion, 'organism_id': organism.organism_id}) }}"><span class="pull-right"><i class="fa fa-arrow-circle-right fa-2x {{ type }}-link"></i></span></a>
                     </div>
                 </a>
             </div>
