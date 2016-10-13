@@ -2,7 +2,11 @@
 
 namespace Test\AppBundle\API\Details;
 
-class TraitEntriesTest extends \PHPUnit_Framework_TestCase
+use AppBundle\API\Details\TraitEntries;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\ParameterBag;
+
+class TraitEntriesTest extends WebTestCase
 {
 
     public function testExecute()
@@ -10,10 +14,10 @@ class TraitEntriesTest extends \PHPUnit_Framework_TestCase
         $client = static::createClient();
         $default_db = $client->getContainer()->getParameter('default_db');
         $session = null;
-        $service = $client->getContainer()->get('app.api.webservice')->factory('details', 'organism');
+        $service = $client->getContainer()->get('app.api.webservice')->factory('details', 'traitEntries');
         //Test for error on unknown trait_format
-        $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'trait_entry_ids' => [1], 'trait_format' => 'non_existing_format'));
-        $results = $service->execute($parameterBag);
+        $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'trait_entry_ids' => ['1'], 'trait_format' => 'non_existing_format'));
+        $results = $service->execute($parameterBag, $session);
         $expected = [
             'error' => TraitEntries::ERROR_UNKNOWN_TRAIT_FORMAT
         ];
@@ -21,7 +25,7 @@ class TraitEntriesTest extends \PHPUnit_Framework_TestCase
 
         //Test if the details for one trait entry with categorical value is returned correctly
         $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'trait_entry_ids' => ['49484'], 'trait_format' => 'categorical_free'));
-        $results = $service->execute($parameterBag);
+        $results = $service->execute($parameterBag, $session);
         $expected1 = [
             '49484' => [
                 'organism_id' => 101634,
@@ -36,7 +40,7 @@ class TraitEntriesTest extends \PHPUnit_Framework_TestCase
 
         //Test if the details for another trait entry with categorical value is returned correctly
         $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'trait_entry_ids' => ['49533'], 'trait_format' => 'categorical_free'));
-        $results = $service->execute($parameterBag);
+        $results = $service->execute($parameterBag, $session);
         $expected2 = [
             '49533' => [
                 'organism_id' => 159684,
@@ -51,7 +55,7 @@ class TraitEntriesTest extends \PHPUnit_Framework_TestCase
 
         //Test if the details for two trait entries are returned correctly
         $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'trait_entry_ids' => ['49484', '49533'], 'trait_format' => 'categorical_free'));
-        $results = $service->execute($parameterBag);
+        $results = $service->execute($parameterBag, $session);
         $expected = array('49484' => $expected1['49484'], '49533' => $expected2['49533']);
         $this->assertEquals($expected, $results);
     }
