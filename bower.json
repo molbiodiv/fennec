@@ -20,7 +20,8 @@
     "startbootstrap-sb-admin-2": "BlackrockDigital/startbootstrap-sb-admin-2#^3.3.7",
     "bootstrap-select": "^1.11.2",
     "jquery-ui": "^1.12.1",
-    "jquery-progresstimer": "^1.0.7"
+    "jquery-progresstimer": "^1.0.7",
+    "underscore": "^1.8.3"
   },
   "resolutions": {
     "font-awesome": "~4.6.3"
