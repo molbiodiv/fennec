@@ -20,7 +20,7 @@ class Webservice
      * @param Session $session
      * @return array result
      */
-    public function execute(ParameterBag $query, Session $session){
+    public function execute(ParameterBag $query, Session $session = null){
         return array();
     }
 

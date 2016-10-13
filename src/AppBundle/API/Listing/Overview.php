@@ -13,7 +13,7 @@ class Overview extends Webservice
     /**
      * @inheritdoc
      */
-    public function execute(ParameterBag $query, Session $session){
+    public function execute(ParameterBag $query, Session $session = null){
         $this->database = $this->getDbFromQuery($query);
         $result = array();
         $result['projects'] = $this->get_number_of_projects($session);

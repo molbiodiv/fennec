@@ -36,7 +36,7 @@ class Organisms extends Webservice
      * );
      * </code>
      */
-    public function execute(ParameterBag $query, Session $session)
+    public function execute(ParameterBag $query, Session $session = null)
     {
         $this->database = $this->getDbFromQuery($query);
         $limit = 5;
