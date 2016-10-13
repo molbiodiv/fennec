@@ -3,6 +3,7 @@
 namespace Test\AppBundle\API\Details;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\ParameterBag;
 
 class TraitsOfOrganismsTest extends WebTestCase
 {
