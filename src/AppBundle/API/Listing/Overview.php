@@ -3,7 +3,7 @@
 namespace AppBundle\API\Listing;
 
 use AppBundle\API\Webservice;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
+use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 class Overview extends Webservice
@@ -11,11 +11,9 @@ class Overview extends Webservice
     private $database;
 
     /**
-     * @param $query ParameterBag
-     * @param $session Session
-     * @return array
+     * @inheritdoc
      */
-    public function execute($query, $session){
+    public function execute(ParameterBag $query, Session $session){
         $this->database = $this->getDbFromQuery($query);
         $result = array();
         $result['projects'] = $this->get_number_of_projects($session);

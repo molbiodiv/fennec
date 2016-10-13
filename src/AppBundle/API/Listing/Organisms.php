@@ -4,6 +4,8 @@ namespace AppBundle\API\Listing;
 
 use AppBundle\API\Webservice;
 use \PDO as PDO;
+use Symfony\Component\HttpFoundation\ParameterBag;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * Web Service.
@@ -14,9 +16,9 @@ class Organisms extends Webservice
     private $database;
 
     /**
-     * @param array  $querydata  array of parameters:
+     * @inheritdoc
      * <code>
-     * $querydata = array(
+     * $query = array(
      *   'dbversion' => '1.0', // the version of the database (required)
      *   'limit'     => 5,     // the maximum number of organisms to return (default: 5)
      *   'search'    => 'test' // a search term which is used to filter species names (optional)
@@ -34,7 +36,7 @@ class Organisms extends Webservice
      * );
      * </code>
      */
-    public function execute($query)
+    public function execute(ParameterBag $query, Session $session)
     {
         $this->database = $this->getDbFromQuery($query);
         $limit = 5;

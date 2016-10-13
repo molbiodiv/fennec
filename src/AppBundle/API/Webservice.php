@@ -3,7 +3,8 @@
 namespace AppBundle\API;
 
 use Symfony\Component\Config\Definition\Exception\Exception;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
+use Symfony\Component\HttpFoundation\ParameterBag;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class Webservice
 {
@@ -12,6 +13,15 @@ class Webservice
     public function __construct(\AppBundle\DB $DB)
     {
         $this->DB = $DB;
+    }
+
+    /**
+     * @param ParameterBag $query
+     * @param Session $session
+     * @return array result
+     */
+    public function execute(ParameterBag $query, Session $session){
+        return array();
     }
 
     /**
