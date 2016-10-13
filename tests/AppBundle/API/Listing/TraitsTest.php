@@ -27,7 +27,7 @@ class TraitsTest extends WebTestCase
         $this->assertEquals($expected, $results, 'Search without term and limit, result should be a list of all traits');
 
         $results = $service->execute(
-            new ParameterBag(array('dbversion' => DEFAULT_DBVERSION, 'search' => 'SomethingThatWillNeverBeATraitType')),
+            new ParameterBag(array('dbversion' => $default_db, 'search' => 'SomethingThatWillNeverBeATraitType')),
             null
         );
         $expected = array();
