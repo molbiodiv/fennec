@@ -20,8 +20,9 @@
         });
 
         $("#search_{{ type }}").data("ui-autocomplete")._renderItem = function (ul, item) {
+            var details = Routing.generate('{{ type }}_details', {'dbversion': '{{ dbversion }}', 'organism_id': item.organism_id});
             var li = $("<li>")
-                    .append("<a href='/organism/details/byId/'+item.organism_id><span style='display:inline-block; width: 100%; font-style: italic;'>" + item.scientific_name + "</span><span style='color: #338C8C'>" + item.rank + "</span></a>")
+                    .append("<a href='"+details+"'><span style='display:inline-block; width: 100%; font-style: italic;'>" + item.scientific_name + "</span><span style='color: #338C8C'>" + item.rank + "</span></a>")
                     .appendTo(ul);
             return li;
         };
