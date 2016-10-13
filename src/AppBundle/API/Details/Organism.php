@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
  * Web Service.
  * Returns details for Organisms with given ids
  */
-class Organisms extends Webservice
+class Organism extends Webservice
 {
 
     private $db;

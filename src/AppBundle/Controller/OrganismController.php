@@ -31,13 +31,38 @@ class OrganismController extends Controller
      * @param $request Request
      * @param $dbversion
      * @return Response
-     * @Route("/{dbversion}/result/organism", name="organism_result", options={"expose" = true})
+     * @Route("/{dbversion}/organism/result", name="organism_result", options={"expose" = true})
      * @Method({"GET"})
      */
-    public function organismResultAction(Request $request, $dbversion){
+    public function resultAction(Request $request, $dbversion){
         $organisms = $this->get('app.api.webservice')->factory('listing', 'organisms');
         $request->query->set('dbversion', $dbversion);
         $result = $organisms->execute($request->query, null);
-        return $this->render('organism/result.html.twig', ['type' => 'organism', 'dbversion' => $dbversion, 'title' => 'Organism Result', 'organisms' => $result]);
+        return $this->render('organism/result.html.twig', [
+            'type' => 'organism',
+            'dbversion' => $dbversion,
+            'title' => 'Organism Result',
+            'organisms' => $result
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @param $dbversion
+     * @param $organism_id
+     * @return Response
+     * @Route("/{dbversion}/organism/details/{organism_id}", name="organism_details", options={"expose" = true})
+     */
+    public function detailsAction(Request $request, $dbversion, $organism_id){
+        $organismDetails = $this->get('app.api.webservice')->factory('details', 'organism');
+        $query = $request->query;
+        $query->set('dbversion', $dbversion);
+        $query->set('id', $organism_id);
+        $result = $organismDetails->execute($query, $request->getSession());
+        return $this->render('organism/details.html.twig', [
+            'type' => 'organism',
+            'dbversion' => $dbversion,
+            'organism' => $result
+        ]);
     }
 }
