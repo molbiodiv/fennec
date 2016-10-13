@@ -1,27 +1,29 @@
 /* startpage color */
 /* trait color */
+/* project color */
+/* organism color */
 .panel-projects {
-  background-color: #7591D1;
-  border-color: #6282cb;
+  background-color: #2F4073;
+  border-color: #283661;
   color: #FFF; }
 
 .info-projects {
-  color: #6282cb; }
+  color: #283661; }
 
 .panel-organism {
-  background-color: #66C7C7;
-  border-color: #53c0c0;
+  background-color: #2B823A;
+  border-color: #256f31;
   color: #FFF; }
 
 .info-organism {
-  color: #53c0c0; }
+  color: #256f31; }
 
 .panel-trait {
-  background-color: #6FA4CD;
-  border-color: #5c98c6;
+  background-color: #246068;
+  border-color: #1d4f55;
   color: #FFF; }
 
 .info-trait {
-  color: #5c98c6; }
+  color: #1d4f55; }
 
 /*# sourceMappingURL=panels.css.map */

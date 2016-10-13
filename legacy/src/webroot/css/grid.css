@@ -1,7 +1,9 @@
 /* startpage color */
 /* trait color */
+/* project color */
+/* organism color */
 .grid-organism {
-  background-color: #8CEFEF;
+  background-color: #51A35F;
   color: #FFF;
   font-style: italic;
   font-weight: bold; }
@@ -13,10 +15,10 @@
   font-weight: normal; }
 
 .grid-details-organism {
-  color: #76ecec; }
+  color: #499255; }
 
 .grid-trait {
-  background-color: #93C8F0;
+  background-color: #427A82;
   color: #FFF;
   font-style: italic;
   font-weight: bold; }
@@ -28,6 +30,6 @@
   font-weight: normal; }
 
 .grid-details-trait {
-  color: #7dbded; }
+  color: #396a71; }
 
 /*# sourceMappingURL=grid.css.map */

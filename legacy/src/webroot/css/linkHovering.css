@@ -1,24 +1,26 @@
 /* startpage color */
 /* trait color */
+/* project color */
+/* organism color */
 .organism-link {
-  color: #66C7C7;
+  color: #2B823A;
   text-decoration: none; }
 
 .organism-link:hover .organism-link:focus {
-  color: #43b7b7;
+  color: #1e5c29;
   text-decoration: none; }
 
 .project-link {
-  color: #7591D1; }
+  color: #2F4073; }
 
 .project-link:hover, .project-link:active {
-  color: #4f73c4; }
+  color: #202c4f; }
 
 .trait-link {
-  color: #6FA4CD; }
+  color: #246068; }
 
 .trait-link:hover, .trait-link:active {
-  color: #498cc0; }
+  color: #173d42; }
 
 .startpage-link {
   color: #53575F; }
