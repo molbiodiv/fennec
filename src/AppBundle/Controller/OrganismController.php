@@ -58,11 +58,14 @@ class OrganismController extends Controller
         $query = $request->query;
         $query->set('dbversion', $dbversion);
         $query->set('id', $organism_id);
-        $result = $organismDetails->execute($query, $request->getSession());
+        $organismResult = $organismDetails->execute($query, $request->getSession());
+        $taxonomy = $this->get('app.api.webservice')->factory('listing', 'taxonomy');
+        $taxonomyResult = $taxonomy->execute($query, null);
         return $this->render('organism/details.html.twig', [
             'type' => 'organism',
             'dbversion' => $dbversion,
-            'organism' => $result
+            'organism' => $organismResult,
+            'taxonomy' => $taxonomyResult
         ]);
     }
 }
