@@ -78,6 +78,16 @@ class TraitController extends Controller
      * @Route("/{dbversion}/trait/details/{trait_type_id}", name="trait_details", options={"expose" = true})
      */
     public function detailsAction(Request $request, $dbversion, $trait_type_id){
-
+        $query = $request->query;
+        $query->set('dbversion', $dbversion);
+        $query->set('trait_type_id', $trait_type_id);
+        $traitsDetails = $this->get('app.api.webservice')->factory('details', 'traits');
+        $trait = $traitsDetails->execute($query, null);
+        return $this->render('trait/details.html.twig', [
+            'type' => 'trait',
+            'dbversion' => $dbversion,
+            'title' => 'Trait Details',
+            'trait' => $trait
+        ]);
     }
 }
