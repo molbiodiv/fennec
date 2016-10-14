@@ -29,13 +29,35 @@ class TraitController extends Controller
     }
 
     /**
+     * @Route("/{dbversion}/trait/overview", name="trait_overview")
+     */
+    public function overviewAction(Request $request, $dbversion){
+        $traitsListing = $this->get('app.api.webservice')->factory('listing', 'traits');
+        $query = new ParameterBag(array(
+            'search' => '',
+            'limit' => 6,
+            'dbversion' => $dbversion
+        ));
+        $traits = $traitsListing->execute($query, null);
+        return $this->render(
+            'trait/overview.html.twig',
+            [
+                'type' => 'trait',
+                'dbversion' => $dbversion,
+                'title' => 'Trait Overview',
+                'traits' => $traits
+            ]
+        );
+    }
+
+    /**
      * @param Request $request
      * @param $dbversion
      * @param $trait_id
      * @return Response
-     * @Route("/{dbversion}/trait/details/{trait_id}", name="trait_details", options={"expose" = true})
+     * @Route("/{dbversion}/trait/details/{trait_type_id}", name="trait_details", options={"expose" = true})
      */
-    public function detailsAction(Request $request, $dbversion, $trait_id){
+    public function detailsAction(Request $request, $dbversion, $trait_type_id){
 
     }
 }
