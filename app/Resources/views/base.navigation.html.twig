@@ -72,10 +72,10 @@
                             <a href="{{ path('organism_search', {'dbversion': dbversion}) }}" class="sidebar-{{ type }} {{ type }}-link"><i class="fa fa-paw fa-fw"></i> Organisms</a>
                         </li>
                         <li>
-                            <a href="{#$WebRoot#}/{#$DbVersion#}/trait" class="sidebar-{{ type }} {{ type }}-link"><i class="fa fa-globe fa-fw sidebar-{{ type }}"></i> Traits<span class="fa arrow"></span></a>
+                            <a href="#" class="sidebar-{{ type }} {{ type }}-link"><i class="fa fa-globe fa-fw sidebar-{{ type }}"></i> Traits<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="{#$WebRoot#}/{#$DbVersion#}/trait" class="sidebar-{{ type }} {{ type }}-link"><i class="fa fa-eye fa-fw sidebar-{{ type }}"></i> Overview</a>
+                                    <a href="{{ path('trait_overview', {'dbversion': dbversion}) }}" class="sidebar-{{ type }} {{ type }}-link"><i class="fa fa-eye fa-fw sidebar-{{ type }}"></i> Overview</a>
                                 </li>
                                 <li>
                                     <a href="{{ path('trait_search', {'dbversion': dbversion}) }}" class="sidebar-{{ type }} {{ type }}-link"><i class="fa fa-search fa-fw sidebar-{{ type }}"></i> Search</a>
