@@ -21,7 +21,8 @@
     "bootstrap-select": "^1.11.2",
     "jquery-ui": "^1.12.1",
     "jquery-progresstimer": "^1.0.7",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "plotlyjs": "plotly#^1.16.2"
   },
   "resolutions": {
     "font-awesome": "~4.6.3"

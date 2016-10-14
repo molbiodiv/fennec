@@ -35,7 +35,6 @@
     {% if trait.trait_format == 'categorical_free' %}
         <div class='col-xs-12'>
             <div id='pieChart'></div>
-            <script src="{#$WebRoot#}/bower_components/plotly.js/dist/plotly.min.js"></script>
             <script src='{#$WebRoot#}/js/drawCharts.js'></script>
             <script>drawPieChart({{ trait.values|json_encode()|raw }});</script>
         </div>
