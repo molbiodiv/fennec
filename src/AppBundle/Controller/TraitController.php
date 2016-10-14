@@ -51,6 +51,26 @@ class TraitController extends Controller
     }
 
     /**
+     * @Route("/{dbversion}/trait/result", name="trait_result", options={"expose" = true})
+     */
+    public function resultAction(Request $request, $dbversion){
+        $traitsListing = $this->get('app.api.webservice')->factory('listing', 'traits');
+        $query = $request->query;
+        $query->set('dbversion', $dbversion);
+        $traits = $traitsListing->execute($query, null);
+        return $this->render(
+            'trait/result.html.twig',
+            [
+                'type' => 'trait',
+                'dbversion' => $dbversion,
+                'title' => 'Trait Overview',
+                'search' => $query->get('search'),
+                'traits' => $traits
+            ]
+        );
+    }
+
+    /**
      * @param Request $request
      * @param $dbversion
      * @param $trait_id
