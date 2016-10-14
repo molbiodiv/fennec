@@ -20,9 +20,15 @@
         });
 
         $("#search_{{ type }}").data("ui-autocomplete")._renderItem = function (ul, item) {
-            var details = Routing.generate('{{ type }}_details', {'dbversion': '{{ dbversion }}', 'organism_id': item.organism_id});
+            {% if type == 'organism' %}
+                var details = Routing.generate('{{ type }}_details', {'dbversion': '{{ dbversion }}', 'organism_id': item.organism_id});
+                var link = "<a href='"+details+"'><span style='display:inline-block; width: 100%; font-style: italic;'>" + item.scientific_name + "</span><span style='color: #338C8C'>" + item.rank + "</span></a>";
+            {% elseif type == 'trait' %}
+                var details = Routing.generate('{{ type }}_details', {'dbversion': '{{ dbversion }}', 'trait_type_id': item.trait_type_id});
+                var link = "<a href='"+details+"'><span style='display:inline-block; width: 100%; font-style: italic;'>" + item.name + "</span></a>";
+            {% endif %}
             var li = $("<li>")
-                    .append("<a href='"+details+"'><span style='display:inline-block; width: 100%; font-style: italic;'>" + item.scientific_name + "</span><span style='color: #338C8C'>" + item.rank + "</span></a>")
+                    .append(link)
                     .appendTo(ul);
             return li;
         };
