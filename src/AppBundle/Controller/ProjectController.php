@@ -52,7 +52,8 @@ class ProjectController extends Controller
                 'dbversion' => $dbversion,
                 'type' => 'project',
                 'title' => 'Projects',
-                'project' => $projectResult
+                'project' => $projectResult,
+                'internal_project_id' => $project_id
             ]
         );
     }
