@@ -1,0 +1,17 @@
+{% extends 'base.navigation.html.twig' %}
+{% block content %}
+{#call_webservice path="details/TraitOfProject" data=["trait_type_id"=>$trait_type_id, "dbversion"=>$DbVersion, "internal_project_id" => $internal_project_id] assign='data'#}
+<h2 class="page-header">{{ trait.name }}</h2>
+<div class='row'>
+    {% if trait.trait_format == 'categorical_free' %}
+    <div class='col-xs-12'>
+        <div id='pieChart'></div>
+        <script>drawPieChart({{ trait.values|json_encode()|raw }});</script>
+    </div>
+    {% else %}
+    <div class='col-xs-12'>
+        <h1>Unknown trait type</h1>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
