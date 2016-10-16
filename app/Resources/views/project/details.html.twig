@@ -136,7 +136,8 @@
                                     {
                                         targets: 3,
                                         render: function(data, type, full, meta){
-                                            return '<a href="/{{ dbversion }}/project/details/'+internal_project_id+"/trait/"+full.id+'">Details</a>';
+                                            var href = Routing.generate('project_trait_details', {'dbversion': '{{ dbversion}}', 'trait_type_id': full.id, 'internal_project_id': '{{ internal_project_id}}' });
+                                            return '<a href="'+href+'">Details</a>';
                                         }
                                     }
                                 ]
