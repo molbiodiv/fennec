@@ -24,7 +24,8 @@
     "underscore": "^1.8.3",
     "plotlyjs": "plotly#^1.16.2",
     "datatables": "^1.10.12",
-    "bs-confirmation": "^1.0.5"
+    "bs-confirmation": "^1.0.5",
+    "biojs-io-biom": "^1.0.2"
   },
   "resolutions": {
     "font-awesome": "~4.6.3"
