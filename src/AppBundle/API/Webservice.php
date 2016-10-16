@@ -8,6 +8,8 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class Webservice
 {
+    const ERROR_NOT_LOGGED_IN = "Error. Not logged in.";
+
     private $DB;
 
     public function __construct(\AppBundle\DB $DB)
