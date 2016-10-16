@@ -5,7 +5,7 @@ namespace AppBundle\API\Details;
 use AppBundle\API\Webservice;
 use \PDO as PDO;
 use Symfony\Component\HttpFoundation\ParameterBag;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
  * Web Service.
@@ -17,10 +17,10 @@ class OrganismsWithTrait extends Webservice
 
     /**
      * @param $query ParameterBag $query[type_cvterm_id] array of trait type_cvterm_id
-     * @param $session Session|null
+     * @param $session SessionInterface|null
      * @returns array of organisms accoring to a specific trait type
      */
-    public function execute(ParameterBag $query, Session $session = null)
+    public function execute(ParameterBag $query, SessionInterface $session = null)
     {
         $db = $this->getDbFromQuery($query);
         $trait_type_id = $query->get('trait_type_id');

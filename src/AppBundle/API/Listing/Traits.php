@@ -5,7 +5,7 @@ namespace AppBundle\API\Listing;
 use AppBundle\API\Webservice;
 use \PDO as PDO;
 use Symfony\Component\HttpFoundation\ParameterBag;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
  * Web Service.
@@ -16,10 +16,10 @@ class Traits extends Webservice
 
     /**
      * @param $query ParameterBag
-     * @param $session Session
+     * @param $session SessionInterface
      * @returns array of traits
      */
-    public function execute(ParameterBag $query, Session $session = null)
+    public function execute(ParameterBag $query, SessionInterface $session = null)
     {
         $db = $this->getDbFromQuery($query);
         $limit = 1000;

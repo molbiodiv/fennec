@@ -2,24 +2,26 @@
 
 namespace AppBundle\API\Listing;
 
+use AppBundle\API\Webservice;
 use \PDO as PDO;
 use Symfony\Component\HttpFoundation\ParameterBag;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
  * Web Service.
  * Returns Taxonomy information for a given organism_id
  */
-class Taxonomy extends \AppBundle\API\WebService
+class Taxonomy extends Webservice
 {
 
     private $db;
     /**
-     * @param $querydata[ids] array of organism ids
+     * @param $query ParameterBag $query[ids] array of organism ids
+     * @param $session SessionInterface
      * @returns array of taxonomy information for a given organism id
      * array('lineage' => [grandgrandparent, grandparent, parent])
      */
-    public function execute(ParameterBag $query, Session $session = null)
+    public function execute(ParameterBag $query, SessionInterface $session = null)
     {
         $this->db = $this->getDbFromQuery($query);
         $child_organism_id = $query->get('id');

@@ -5,7 +5,7 @@ namespace AppBundle\API\Details;
 use AppBundle\API\Webservice;
 use \PDO as PDO;
 use Symfony\Component\HttpFoundation\ParameterBag;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
  * Web Service.
@@ -17,10 +17,10 @@ class Organism extends Webservice
     private $db;
     /**
      * @param $query ParameterBag
-     * @param $session Session
+     * @param $session SessionInterface
      * @returns array of details
      */
-    public function execute(ParameterBag $query, Session $session = null)
+    public function execute(ParameterBag $query, SessionInterface $session = null)
     {
         $this->db = $this->getDbFromQuery($query);
         $id = $query->get('id');

@@ -4,7 +4,7 @@ namespace AppBundle\API;
 
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\ParameterBag;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class Webservice
 {
@@ -17,10 +17,10 @@ class Webservice
 
     /**
      * @param ParameterBag $query
-     * @param Session $session
+     * @param SessionInterface $session
      * @return array result
      */
-    public function execute(ParameterBag $query, Session $session = null){
+    public function execute(ParameterBag $query, SessionInterface $session = null){
         return array();
     }
 

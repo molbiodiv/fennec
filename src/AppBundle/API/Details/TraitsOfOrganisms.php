@@ -5,7 +5,7 @@ namespace AppBundle\API\Details;
 use AppBundle\API\Webservice;
 use \PDO as PDO;
 use Symfony\Component\HttpFoundation\ParameterBag;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
  * Web Service.
@@ -16,6 +16,7 @@ class TraitsOfOrganisms extends Webservice
     private $db;
     /**
      * @param $query['organism_ids' => [13,7,12,5]]
+     * @param $session SessionInterface
      * @returns Array $result
      * <code>
      * array(type_cvterm_id => array(
@@ -25,7 +26,7 @@ class TraitsOfOrganisms extends Webservice
      * );
      * </code>
      */
-    public function execute(ParameterBag $query, Session $session = null)
+    public function execute(ParameterBag $query, SessionInterface $session = null)
     {
         $this->db = $this->getDbFromQuery($query);
         $organism_ids = $query->get('organism_ids');

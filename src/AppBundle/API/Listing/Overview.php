@@ -4,7 +4,7 @@ namespace AppBundle\API\Listing;
 
 use AppBundle\API\Webservice;
 use Symfony\Component\HttpFoundation\ParameterBag;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class Overview extends Webservice
 {
@@ -13,7 +13,7 @@ class Overview extends Webservice
     /**
      * @inheritdoc
      */
-    public function execute(ParameterBag $query, Session $session = null){
+    public function execute(ParameterBag $query, SessionInterface $session = null){
         $this->database = $this->getDbFromQuery($query);
         $result = array();
         $result['projects'] = $this->get_number_of_projects($session);
@@ -24,7 +24,7 @@ class Overview extends Webservice
     }
 
     /**
-     * @param $session Session
+     * @param $session SessionInterface
      * @return int number_of_projects
      */
     private function get_number_of_projects($session){

@@ -5,7 +5,7 @@ namespace AppBundle\API\Listing;
 use AppBundle\API\Webservice;
 use \PDO as PDO;
 use Symfony\Component\HttpFoundation\ParameterBag;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
  * Web Service.
@@ -36,7 +36,7 @@ class Organisms extends Webservice
      * );
      * </code>
      */
-    public function execute(ParameterBag $query, Session $session = null)
+    public function execute(ParameterBag $query, SessionInterface $session = null)
     {
         $this->database = $this->getDbFromQuery($query);
         $limit = 5;
