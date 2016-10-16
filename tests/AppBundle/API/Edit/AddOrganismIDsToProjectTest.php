@@ -2,6 +2,7 @@
 
 namespace Tests\AppBundle\API\Edit;
 
+use AppBundle\API\Edit\AddOrganismIDsToProject;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Session\Session;
