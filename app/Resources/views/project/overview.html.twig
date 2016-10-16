@@ -2,7 +2,7 @@
 
 {% block content %}
     {% if app.session.has('user') %}
-        Welcome {{ app.session.get('user').nickname }}
+        {% include 'project/overview.table.html.twig' %}
     {% else %}
         Please log in to see your projects
     {% endif %}
