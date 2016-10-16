@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\AppBundle;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -16,7 +17,8 @@ class APIController extends Controller
      */
     public function apiAction(Request $request, $namespace, $classname){
         $service = $this->get('app.api.webservice')->factory($namespace, $classname);
-        $result = $service->execute($request->query, $request->getSession());
+        $queryData = new ParameterBag(array_merge($request->query->all(), $request->request->all()));
+        $result = $service->execute($queryData, $request->getSession());
         return $this->json($result);
     }
 
