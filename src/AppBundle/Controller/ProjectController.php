@@ -57,4 +57,31 @@ class ProjectController extends Controller
             ]
         );
     }
+
+    /**
+     * @param $request Request
+     * @param $dbversion string
+     * @param $project_id string
+     * @param $trait_type_id
+     * @return Response
+     * @Route("/{dbversion}/project/details/{project_id}/trait/{trait_type_id}", name="project_trait_details", options={"expose" = true})
+     */
+    public function traitDetailsAction(Request $request, $dbversion, $project_id, $trait_type_id){
+        $projectTraitDetails = $this->get('app.api.webservice')->factory('details', 'traitOfProject');
+        $query = $request->query;
+        $query->set('dbversion', $dbversion);
+        $query->set('internal_project_id', $project_id);
+        $query->set('trait_type_id', $trait_type_id);
+        $traitResult = $projectTraitDetails->execute($query, $request->getSession());
+        return $this->render(
+            'project/traitDetails.html.twig',
+            [
+                'dbversion' => $dbversion,
+                'type' => 'project',
+                'title' => 'Trait of Project',
+                'trait' => $traitResult,
+                'internal_project_id' => $project_id
+            ]
+        );
+    }
 }
