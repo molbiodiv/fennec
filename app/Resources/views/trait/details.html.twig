@@ -20,7 +20,7 @@
                     </div>
                 </div>
             </div>
-            <a href="{#$WebRoot#}/{#$DbVersion#}/organism/details/byTrait/{#$data['trait_type_id']#}">
+            <a href="{{ path('organism_by_trait', {'trait_type_id': trait.trait_type_id, 'dbversion': dbversion}) }}">
                 <div class="panel-footer info-trait">
                     <span class="pull-left">View all organisms with this trait</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
