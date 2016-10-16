@@ -39,10 +39,10 @@
                     });
                     var data = table.row( element.parents('tr') ).data();
                     $.ajax({
-                        url: '/ajax/delete/Projects',
-                        type: 'POST',
+                        url: '{{ path('api', {'namespace': 'delete', 'classname': 'projects', 'dbversion': dbversion}) }}',
+                        type: 'GET',
                         data: {
-                            'dbversion': DbVersion,
+                            'dbversion': '{{ dbversion }}',
                             'ids': [data.internal_project_id]
                         },
                         cache: false,
