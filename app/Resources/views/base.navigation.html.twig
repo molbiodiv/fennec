@@ -38,15 +38,15 @@
                 <li class="dropdown">
                     <a class="dropdown-toggle navbar-{{ type }} navbar-icon-{{ type }}" data-toggle="dropdown" href="#" style="background-color: transparent;">
                         <i class="fa fa-user fa-fw"></i>
-                        {% if user is defined %}
-                            {{ user }}
+                        {% if app.session.has('user') %}
+                            {{ app.session.get('user').nickname }}
                         {% else %}
                             login
                         {% endif %}
                         <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        {% if user is defined %}
+                        {% if app.session.has('user') %}
                         <li><a href="{{ path('logout') }}"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
                         {% else %}
                         <li><a href="{{ path('login') }}"><i class="fa fa-github fa-fw"></i> Login with GitHub</a></li>
