@@ -34,12 +34,6 @@ class StartpageController extends Controller
             'title' => 'Welcome',
             'dbversion' => $dbversion
         );
-        if($request->hasSession()){
-            $session = $request->getSession();
-            if($session->has('user') && array_key_exists('nickname', $session->get('user'))){
-                $twig_parameter['user'] = $session->get('user')['nickname'];
-            }
-        }
         return $this->render('startpage/index.html.twig', $twig_parameter);
     }
 }
