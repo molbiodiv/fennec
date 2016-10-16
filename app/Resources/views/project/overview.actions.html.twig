@@ -1,124 +1,126 @@
 <script type="text/javascript">
-    $('#project-table').DataTable( {
-        ajax: {
-            url: '{{ path('api', {'namespace': 'listing', 'classname': 'projects', 'dbversion': dbversion}) }}',
-            dataSrc: 'data',
-            complete: function(){
-                addProjectTableActionButtonFunctionality();
-            }
-        },
-        columns: [
-            { data: 'id' },
-            { data: 'import_filename' },
-            { data: 'import_date' },
-            { data: 'rows' },
-            { data: 'columns' },
-            { data: null }
-        ],
-        columnDefs: [
-            {
-                targets: 0,
-                render: function (data, type, full, meta) {
-                    return '<a href="/project/details/byid/"'+full.internal_project_id+'">'+full.id+'</a>';
+    $('document').ready(function () {
+        $('#project-table').DataTable( {
+            ajax: {
+                url: '{{ path('api', {'namespace': 'listing', 'classname': 'projects', 'dbversion': dbversion}) }}',
+                dataSrc: 'data',
+                complete: function(){
+                    addProjectTableActionButtonFunctionality();
                 }
             },
-            {
-                "targets": -1,
-                "data": null,
-                "defaultContent": "<a class=\"btn fa fa-trash project-remove-button\" data-toggle=\"confirmation\"></a>"
-            }
-        ]
-    } );
-
-    function addProjectTableActionButtonFunctionality(){
-        $('.project-remove-button').confirmation({
-            onConfirm: function(event, element){
-                var table = $('#project-table').DataTable({
-                    retrieve: true
-                });
-                var data = table.row( element.parents('tr') ).data();
-                $.ajax({
-                    url: '/ajax/delete/Projects',
-                    type: 'POST',
-                    data: {
-                        'dbversion': DbVersion,
-                        'ids': [data.internal_project_id]
-                    },
-                    cache: false,
-                    dataType: 'json',
-                    /* jshint unused:vars */
-                    success: function(data, textStatus, jqXHR)
-                    {
-                        var deleted = data.deletedProjects;
-                        showMessageDialog(deleted+" project"+(deleted > 1 ? "s" : "")+" deleted successfully", 'alert-success');
-                        $('#project-table').DataTable({
-                            retrieve: true
-                        }).ajax.reload();
-                    },
-                    error: function(jqXHR, textStatus, errorThrown)
-                    {
-                        showMessageDialog("There was an error: "+textStatus, 'alert-danger');
+            columns: [
+                { data: 'id' },
+                { data: 'import_filename' },
+                { data: 'import_date' },
+                { data: 'rows' },
+                { data: 'columns' },
+                { data: null }
+            ],
+            columnDefs: [
+                {
+                    targets: 0,
+                    render: function (data, type, full, meta) {
+                        return '<a href="/project/details/byid/"'+full.internal_project_id+'">'+full.id+'</a>';
                     }
-                });
-            }
-        });
-    }
+                },
+                {
+                    "targets": -1,
+                    "data": null,
+                    "defaultContent": "<a class=\"btn fa fa-trash project-remove-button\" data-toggle=\"confirmation\"></a>"
+                }
+            ]
+        } );
 
-    // The procedure here in is adjusted from the plugin https://github.com/Abban/jQuery-Ajax-File-Upload
-    // available under MIT License
-    // description on: http://abandon.ie/notebook/simple-file-uploads-using-jquery-ajax
+        function addProjectTableActionButtonFunctionality(){
+            $('.project-remove-button').confirmation({
+                onConfirm: function(event, element){
+                    var table = $('#project-table').DataTable({
+                        retrieve: true
+                    });
+                    var data = table.row( element.parents('tr') ).data();
+                    $.ajax({
+                        url: '/ajax/delete/Projects',
+                        type: 'POST',
+                        data: {
+                            'dbversion': DbVersion,
+                            'ids': [data.internal_project_id]
+                        },
+                        cache: false,
+                        dataType: 'json',
+                        /* jshint unused:vars */
+                        success: function(data, textStatus, jqXHR)
+                        {
+                            var deleted = data.deletedProjects;
+                            showMessageDialog(deleted+" project"+(deleted > 1 ? "s" : "")+" deleted successfully", 'alert-success');
+                            $('#project-table').DataTable({
+                                retrieve: true
+                            }).ajax.reload();
+                        },
+                        error: function(jqXHR, textStatus, errorThrown)
+                        {
+                            showMessageDialog("There was an error: "+textStatus, 'alert-danger');
+                        }
+                    });
+                }
+            });
+        }
 
-    // Upload files on change of file selector
-    $('#project-fileupload').on('change', startProjectFileUpload);
+        // The procedure here in is adjusted from the plugin https://github.com/Abban/jQuery-Ajax-File-Upload
+        // available under MIT License
+        // description on: http://abandon.ie/notebook/simple-file-uploads-using-jquery-ajax
 
-    /* globals FormData */
-    /**
-     * Start upload of selected files to the server
-     * @param {event} event
-     * @returns {void}
-     */
-    function startProjectFileUpload(event)
-    {
-        $('#project-upload-busy-indicator').show();
-        var files = event.target.files;
-        var data = new FormData();
-        $.each(files, function(key, value)
+        // Upload files on change of file selector
+        $('#project-fileupload').on('change', startProjectFileUpload);
+
+        /* globals FormData */
+        /**
+         * Start upload of selected files to the server
+         * @param {event} event
+         * @returns {void}
+         */
+        function startProjectFileUpload(event)
         {
-            data.append(key, value);
-        });
+            $('#project-upload-busy-indicator').show();
+            var files = event.target.files;
+            var data = new FormData();
+            $.each(files, function(key, value)
+            {
+                data.append(key, value);
+            });
 
-        $.ajax({
-            url: WebRoot+'/ajax/upload/Projects?dbversion='+DbVersion,
-            type: 'POST',
-            data: data,
-            cache: false,
-            dataType: 'json',
-            processData: false, // Don't process the files
-            contentType: false, // Set content type to false as jQuery will tell the server its a query string request
-            /* jshint unused:vars */
-            success: function(data, textStatus, jqXHR)
-            {
-                var successfulUploads = 0;
-                $.each(data.files, function(key, value){
-                    if(value.error !== null){
-                        showMessageDialog("Error uploading "+value.name+": "+value.error, 'alert-danger');
-                    } else {
-                        successfulUploads++;
+            $.ajax({
+                url: WebRoot+'/ajax/upload/Projects?dbversion='+DbVersion,
+                type: 'POST',
+                data: data,
+                cache: false,
+                dataType: 'json',
+                processData: false, // Don't process the files
+                contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+                /* jshint unused:vars */
+                success: function(data, textStatus, jqXHR)
+                {
+                    var successfulUploads = 0;
+                    $.each(data.files, function(key, value){
+                        if(value.error !== null){
+                            showMessageDialog("Error uploading "+value.name+": "+value.error, 'alert-danger');
+                        } else {
+                            successfulUploads++;
+                        }
+                    });
+                    if(successfulUploads > 0){
+                        showMessageDialog(successfulUploads+" project"+(successfulUploads > 1 ? "s" : "")+" uploaded successfully", 'alert-success');
                     }
-                });
-                if(successfulUploads > 0){
-                    showMessageDialog(successfulUploads+" project"+(successfulUploads > 1 ? "s" : "")+" uploaded successfully", 'alert-success');
+                    $('#project-table').DataTable({
+                        retrieve: true
+                    }).ajax.reload();
+                    $('#project-upload-busy-indicator').hide();
+                },
+                error: function(jqXHR, textStatus, errorThrown)
+                {
+                    showMessageDialog("There was an error: "+textStatus, 'alert-danger');
+                    $('#project-upload-busy-indicator').hide();
                 }
-                $('#project-table').DataTable({
-                    retrieve: true
-                }).ajax.reload();
-                $('#project-upload-busy-indicator').hide();
-            },
-            error: function(jqXHR, textStatus, errorThrown)
-            {
-                showMessageDialog("There was an error: "+textStatus, 'alert-danger');
-                $('#project-upload-busy-indicator').hide();
-            }
-        });
-    }
+            });
+        }
+    })
 </script>
