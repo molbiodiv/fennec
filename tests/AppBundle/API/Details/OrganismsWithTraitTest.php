@@ -2,6 +2,7 @@
 
 namespace Test\AppBundle\API\Details;
 
+use AppBundle\API\Details\OrganismsWithTrait;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
