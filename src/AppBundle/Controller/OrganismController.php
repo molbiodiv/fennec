@@ -77,4 +77,28 @@ class OrganismController extends Controller
             'traits' => $traitResult
         ]);
     }
+
+    /**
+     * @param $request Request
+     * @param $dbversion
+     * @param $trait_type_id
+     * @return Response
+     * @Route("/{dbversion}/organism/byTrait/{trait_type_id}", name="organism_by_trait")
+     */
+    public function byTraitAction(Request $request, $dbversion, $trait_type_id){
+        $organisms = $this->get('app.api.webservice')->factory('details', 'organismsWithTrait');
+        $trait = $this->get('app.api.webservice')->factory('details', 'traits');
+        $query = $request->query;
+        $query->set('dbversion', $dbversion);
+        $query->set('trait_type_id', $trait_type_id);
+        $organismResult = $organisms->execute($query, null);
+        $traitResult = $trait->execute($query, null);
+        return $this->render('organism/byTrait.html.twig', [
+            'type' => 'organism',
+            'dbversion' => $dbversion,
+            'title' => 'Organisms with Trait',
+            'trait' => $traitResult,
+            'organisms' => $organismResult
+        ]);
+    }
 }

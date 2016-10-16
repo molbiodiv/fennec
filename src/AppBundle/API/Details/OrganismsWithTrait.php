@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
  */
 class OrganismsWithTrait extends Webservice
 {
-    const DEFAULT_LIMIT = 5;
+    const DEFAULT_LIMIT = 100;
 
     /**
      * @param $query ParameterBag $query[type_cvterm_id] array of trait type_cvterm_id
