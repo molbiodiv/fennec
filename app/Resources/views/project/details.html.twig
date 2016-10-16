@@ -89,12 +89,12 @@
                     </table>
                     <script type="text/javascript">
                         var traits = [];
-                        $.ajax( ServicePath + '/details/TraitsOfOrganisms', {
+                        $.ajax( '{{ path('api', {'namespace': 'details', 'classname': 'traitsOfOrganisms'}) }}', {
                             data: {
-                                "dbversion": DbVersion,
+                                "dbversion": '{{ dbversion }}',
                                 "organism_ids": organism_ids
                             },
-                            method: "post",
+                            method: "POST",
                             success: function(data){
                                 $.each(data, function(key, value) {
                                     var thisTrait = {
@@ -105,11 +105,11 @@
                                     };
                                     traits.push(thisTrait);
                                 });
-                                initTraitsOfProjectTable({#$internal_project_id#});
+                                initTraitsOfProjectTable({{ internal_project_id }});
                             }
                         });
                     </script>
-                    <script src="{#$WebRoot#}/js/traitsOfProjectTable.js"></script>
+                    <script src="{{ asset('assets/js/traitsOfProjectTable.js') }}"></script>
                 </div>
             </div>
         </div>
