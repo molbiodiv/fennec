@@ -2,6 +2,8 @@
 
 namespace Test\AppBundle\API\Details;
 
+use AppBundle\API\Details\OrganismsOfProject;
+use AppBundle\API\Webservice;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -30,7 +32,7 @@ class TraitOfProjectTest extends WebTestCase
         );
 
         $results = $service->execute(new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => 1, 'internal_project_id' => 3)), null);
-        $expected = array("error" => WebService::ERROR_NOT_LOGGED_IN);
+        $expected = array("error" => Webservice::ERROR_NOT_LOGGED_IN);
         $this->assertEquals($expected, $results, 'User is not loggend in, return error message');
 
         $entries = $projectListing->execute(new ParameterBag(array('dbversion' => $default_db)), $session);
