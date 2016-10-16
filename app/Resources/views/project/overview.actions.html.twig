@@ -89,7 +89,7 @@
             });
 
             $.ajax({
-                url: WebRoot+'/ajax/upload/Projects?dbversion='+DbVersion,
+                url: '{{ path('api', {'namespace': 'upload', 'classname': 'projects', 'dbversion': dbversion}) }}',
                 type: 'POST',
                 data: data,
                 cache: false,
