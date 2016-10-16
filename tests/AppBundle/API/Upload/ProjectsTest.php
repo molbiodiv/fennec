@@ -56,7 +56,6 @@ class ProjectsTest extends WebTestCase
         );
         $this->assertEquals($expected, $results);
 
-        /*
         // Test for error returned by non json file
         $_FILES = array(
             array(
@@ -67,13 +66,16 @@ class ProjectsTest extends WebTestCase
                 'error' => 0
             )
         );
-        $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION)));
+        $results = $service->execute(
+            new ParameterBag(array('dbversion' => $default_db)),
+            $session
+        );
         $expected = array(
             "files"=>array(
                 array(
                     "name" => "noJson",
                     "size" => 71,
-                    "error" => \fennecweb\ajax\upload\Projects::ERROR_NOT_BIOM
+                    "error" => Projects::ERROR_NOT_BIOM
                 )
             )
         );
@@ -89,13 +91,16 @@ class ProjectsTest extends WebTestCase
                 'error' => 0
             )
         );
-        $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION)));
+        $results = $service->execute(
+            new ParameterBag(array('dbversion' => $default_db)),
+            $session
+        );
         $expected = array(
             "files"=>array(
                 array(
                     "name" => "noBiom.json",
                     "size" => 71,
-                    "error" => \fennecweb\ajax\upload\Projects::ERROR_NOT_BIOM
+                    "error" => Projects::ERROR_NOT_BIOM
                 )
             )
         );
@@ -111,20 +116,23 @@ class ProjectsTest extends WebTestCase
                 'error' => 0
             )
         );
-        $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION)));
+        $results = $service->execute(
+            new ParameterBag(array('dbversion' => $default_db)),
+            $session
+        );
         $expected = array("files"=>array(array("name" => "simpleBiom.json", "size" => 1067, "error" => null)));
         $this->assertEquals($expected, $results);
         $jsonContent = file_get_contents($_FILES[0]['tmp_name']);
-        $db = \fennecweb\DB::getDbForVersion(DEFAULT_DBVERSION);
+        $db = $container->get('app.db')->getDbForVersion($default_db);
         $constant = 'constant';
         $query_get_project_from_db = <<<EOF
 SELECT project, import_filename
     FROM webuser_data WHERE webuser_id =
         (SELECT webuser_id FROM webuser WHERE oauth_provider_id =
             (SELECT oauth_provider_id FROM oauth_provider
-                WHERE provider = '{$constant('fennecweb\ajax\upload\ProjectsTest::PROVIDER')}'
+                WHERE provider = '{$constant('Tests\AppBundle\API\Upload\ProjectsTest::PROVIDER')}'
             )
-            AND oauth_id = '{$constant('fennecweb\ajax\upload\ProjectsTest::USERID')}'
+            AND oauth_id = '{$constant('Tests\AppBundle\API\Upload\ProjectsTest::USERID')}'
         )
         AND project::jsonb = '{$jsonContent}'::jsonb
 EOF;
@@ -145,10 +153,12 @@ EOF;
                 'error' => 0
             )
         );
-        $results = ($service->execute(array('dbversion' => DEFAULT_DBVERSION)));
+        $results = $service->execute(
+            new ParameterBag(array('dbversion' => $default_db)),
+            $session
+        );
         $expected = array("files"=>array(array("name" => "simpleBiom.hdf5", "size" => 33840, "error" => null)));
         $this->assertEquals($expected, $results);
         rename(__DIR__ . '/testFiles/simpleBiom.hdf5.backup', __DIR__ . '/testFiles/simpleBiom.hdf5');
-        */
     }
 }

@@ -53,8 +53,8 @@ EOF;
                 if ($valid === true) {
                     $stm_get_organisms = $db->prepare($this->query_insert_project_into_db);
                     $stm_get_organisms->bindValue('project', file_get_contents($_FILES[$i]['tmp_name']));
-                    $stm_get_organisms->bindValue('user', $_SESSION['user']['id']);
-                    $stm_get_organisms->bindValue('provider', $_SESSION['user']['provider']);
+                    $stm_get_organisms->bindValue('user', $session->get('user')['id']);
+                    $stm_get_organisms->bindValue('provider', $session->get('user')['provider']);
                     $stm_get_organisms->bindValue('filename', $_FILES[$i]['name']);
                     if (! $stm_get_organisms->execute()) {
                         $valid = Project::ERROR_DB_INSERT;
