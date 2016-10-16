@@ -22,7 +22,8 @@
     "jquery-ui": "^1.12.1",
     "jquery-progresstimer": "^1.0.7",
     "underscore": "^1.8.3",
-    "plotlyjs": "plotly#^1.16.2"
+    "plotlyjs": "plotly#^1.16.2",
+    "datatables": "^1.10.12"
   },
   "resolutions": {
     "font-awesome": "~4.6.3"
