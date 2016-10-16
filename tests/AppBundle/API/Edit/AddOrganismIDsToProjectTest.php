@@ -21,6 +21,7 @@ class AddOrganismIDsToProjectTest extends WebTestCase
         $service = $container->get('app.api.webservice')->factory('edit', 'addOrganismIDsToProject');
         $uploadProject = $container->get('app.api.webservice')->factory('upload', 'projects');
         $listingProject = $container->get('app.api.webservice')->factory('listing', 'projects');
+        $detailsProject = $container->get('app.api.webservice')->factory('details', 'projects');
         $session = new Session(new MockArraySessionStorage());
         $session->set('user',
             array(
@@ -62,7 +63,7 @@ class AddOrganismIDsToProjectTest extends WebTestCase
         ), $session);
         $this->assertEquals(10, $results['success']);
 
-        $results = $service->execute(new ParameterBag(array(
+        $results = $detailsProject->execute(new ParameterBag(array(
             'dbversion' => $default_db,
             'ids' => array($id))),
             $session
@@ -81,6 +82,6 @@ class AddOrganismIDsToProjectTest extends WebTestCase
         $this->assertEquals($expect_ncbi_taxids, $actual_ncbi_taxids);
         $this->assertEquals($expect_organism_ids, $actual_organism_ids);
         $this->assertEquals('ncbi_taxid', $rows[3]['metadata']['fennec_assignment_method']);
-        $this->assertEquals(DEFAULT_DBVERSION, $rows[7]['metadata']['fennec_dbversion']);
+        $this->assertEquals($default_db, $rows[7]['metadata']['fennec_dbversion']);
     }
 }
