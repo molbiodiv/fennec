@@ -38,11 +38,10 @@ class ProjectsTest extends WebTestCase
         $id = $entries['data'][0]['internal_project_id'];
         $expected = array("deletedProjects"=>1);
         $results = $service->execute(
-            new ParameterBag(array('dbversion' => DEFAULT_DBVERSION, 'ids' => array($id))),
+            new ParameterBag(array('dbversion' => $default_db, 'ids' => array($id))),
             $session
         );
         $this->assertEquals($expected, $results);
-        list($service) = WebService::factory('listing/Projects');
         $entries = $projectListing->execute(
             new ParameterBag(
                 array('dbversion' => $default_db)
