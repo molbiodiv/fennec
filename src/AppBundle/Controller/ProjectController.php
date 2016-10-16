@@ -38,7 +38,7 @@ class ProjectController extends Controller
      * @param $dbversion string
      * @param $project_id string
      * @return Response
-     * @Route("/{dbversion}/project/details/{project_id}", name="project_details")
+     * @Route("/{dbversion}/project/details/{project_id}", name="project_details", options={"expose" = true})
      */
     public function detailsAction(Request $request, $dbversion, $project_id){
         $projectDetails = $this->get('app.api.webservice')->factory('details', 'projects');
