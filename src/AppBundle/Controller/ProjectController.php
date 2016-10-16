@@ -32,4 +32,28 @@ class ProjectController extends Controller
             ]
         );
     }
+
+    /**
+     * @param $request Request
+     * @param $dbversion string
+     * @param $project_id string
+     * @return Response
+     * @Route("/{dbversion}/project/details/{project_id}", name="project_details")
+     */
+    public function detailsAction(Request $request, $dbversion, $project_id){
+        $projectDetails = $this->get('app.api.webservice')->factory('details', 'projects');
+        $query = $request->query;
+        $query->set('dbversion', $dbversion);
+        $query->set('ids', array($project_id));
+        $projectResult = $projectDetails->execute($query, $request->getSession());
+        return $this->render(
+            'project/details.html.twig',
+            [
+                'dbversion' => $dbversion,
+                'type' => 'project',
+                'title' => 'Projects',
+                'project' => $projectResult
+            ]
+        );
+    }
 }
