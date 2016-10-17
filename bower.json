@@ -25,7 +25,8 @@
     "plotlyjs": "plotly#^1.16.2",
     "datatables": "^1.10.12",
     "bs-confirmation": "^1.0.5",
-    "biojs-io-biom": "^1.0.2"
+    "biojs-io-biom": "^1.0.2",
+    "d3": "^4.2.7"
   },
   "resolutions": {
     "font-awesome": "~4.6.3"
