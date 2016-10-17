@@ -18,7 +18,7 @@
                     <button class='btn' id="inspect-with-blackbird-button">Inspect with Blackbird</button>
                     <i data-toggle="tooltip" title="This is an experimental integration of Blackbird (see blackbird.iimog.org)." class="fa fa-question-circle"></i><br>
                     <div style="height: 100%"><iframe id='inspect-with-blackbird-iframe' width="100%" height="100%" style="border: none; display: none"></iframe></div>
-                    <script src="{#$WebRoot#}/Blackbird/lib/db.js"></script>
+                    <script src="{{ asset('assets/Blackbird/lib/db.js') }}"></script>
                     <script type="text/javascript">
                         var Biom = require('biojs-io-biom').Biom;
                         var biomString = '{{ project['projects'][internal_project_id]|raw }}';
@@ -67,7 +67,7 @@
                                 d = new Date();
                                 biomToStore.date = d.getUTCFullYear() + "-" + (d.getUTCMonth() + 1) + "-" + d.getUTCDate() + "T" + d.getUTCHours() + ":" + d.getUTCMinutes() + ":" + d.getUTCSeconds() + " UTC";
                                 server.biom.add(biomToStore).done(function(item) {
-                                    $('#inspect-with-blackbird-iframe').attr('src','{#$WebRoot#}/Blackbird/preview.html');
+                                    $('#inspect-with-blackbird-iframe').attr('src','{{ asset('assets/Blackbird/preview.html') }}');
                                     $('#inspect-with-blackbird-iframe').show();
                                 });
                             });
