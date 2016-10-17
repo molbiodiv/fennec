@@ -90,4 +90,20 @@ class TraitController extends Controller
             'trait' => $trait
         ]);
     }
+
+    /**
+     * @param Request $request
+     * @param $dbversion
+     * @param $search_level
+     * @return Response
+     * @Route("/{dbversion}/trait/browse/{search_level}", name="trait_browse")
+     */
+    public function browseAction(Request $request, $dbversion, $search_level){
+        return $this->render('trait/browse.html.twig', [
+            'type' => 'trait',
+            'dbversion' => $dbversion,
+            'title' => 'Trait Browse',
+            'searchLevel' => $search_level
+        ]);
+    }
 }
