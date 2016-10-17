@@ -37,7 +37,7 @@ twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
     globals:
-        fennec_version: 0.2.0
+        fennec_version: 0.3.0
         dbversions: "%dbversions%"
 
 # Doctrine Configuration
