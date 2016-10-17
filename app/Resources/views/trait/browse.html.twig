@@ -1,5 +1,10 @@
 {% extends 'base.navigation.html.twig' %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/js/traitBrowse/interactiveTraitBrowse.js') }}"></script>
+{% endblock %}
+
 {% block content %}
     <h3 class="page-header">
         Not sure where to start? Explore our database with the following interactive search tool:
@@ -25,7 +30,7 @@
         </div>
     </div>
     {% elseif searchLevel == 'ecology'%}
-    <script src="{#$WebRoot#}/js/interactiveTraitBrowse_{#searchLevel#}.js"></script>
+    <script src="{{ asset('assets/js/traitBrowse/interactiveTraitBrowse_'~searchLevel~'.js') }}"></script>
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-trait" style="width: 1040px;">
@@ -35,13 +40,13 @@
                     </div>
                 </div>
                 <div class="panel-footer info-trait">
-                    <svg width='1000' height='750' style='background-image: url("{#$WebRoot#}/css/img/traitInteractiveBrowse_{#searchLevel#}.png")' id='interactiveBrowse_{#searchLevel#}'/>
+                    <svg width='1000' height='750' style='background-image: url("{{ asset('assets/img/traitBrowse/'~searchLevel~'.png') }}")' id='interactiveBrowse_{#searchLevel#}'/>
                 </div>
             </div>
         </div>
     </div>
     {% elseif searchLevel == 'humanAndEcosystems'%}
-    <script src="{#$WebRoot#}/js/interactiveTraitBrowse_{#searchLevel#}.js"></script>
+    <script src="{{ asset('assets/js/traitBrowse/interactiveTraitBrowse_'~searchLevel~'.js') }}"></script>
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-trait" style="width: 1040px;">
@@ -51,13 +56,13 @@
                     </div>
                 </div>
                 <div class="panel-footer info-trait">
-                    <svg width='1000' height='750' style='background-image: url("{#$WebRoot#}/css/img/traitInteractiveBrowse_{#searchLevel#}.png")' id='interactiveBrowse_{#searchLevel#}'/>
+                    <svg width='1000' height='750' style='background-image: url("{{ asset('assets/img/traitBrowse/'~searchLevel~'.png') }}")' id='interactiveBrowse_{#searchLevel#}'/>
                 </div>
             </div>
         </div>
     </div>
     {% elseif searchLevel == 'behaviour'%}
-    <script src="{#$WebRoot#}/js/interactiveTraitBrowse_{#searchLevel#}.js"></script>
+    <script src="{{ asset('assets/js/traitBrowse/interactiveTraitBrowse_'~searchLevel~'.js') }}"></script>
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-trait" style="width: 1040px;">
@@ -67,7 +72,7 @@
                     </div>
                 </div>
                 <div class="panel-footer info-trait">
-                    <svg width='1000' height='750' style='background-image: url("{#$WebRoot#}/css/img/traitInteractiveBrowse_{#searchLevel#}.png")' id='interactiveBrowse_{#searchLevel#}'/>
+                    <svg width='1000' height='750' style='background-image: url("{{ asset('assets/img/traitBrowse/'~searchLevel~'.png') }}")' id='interactiveBrowse_{#searchLevel#}'/>
                 </div>
             </div>
         </div>
@@ -84,7 +89,7 @@
                     </div>
                 </div>
                 <div class="panel-footer info-trait">
-                    <svg width='1000' height='750' style='background-image: url("{#$WebRoot#}/css/img/traitInteractiveBrowse_{#searchLevel#}.png")' id='interactiveBrowse_{#searchLevel#}'/>
+                    <svg width='1000' height='750' style='background-image: url("{{ asset('assets/img/traitBrowse/'~searchLevel~'.png') }}")' id='interactiveBrowse_{#searchLevel#}'/>
                 </div>
             </div>
         </div>
@@ -99,7 +104,7 @@
                     </div>
                 </div>
                 <div class="panel-footer info-trait">
-                    <svg width='1000' height='750' style='background-image: url("{#$WebRoot#}/css/img/traitInteractiveBrowse_{#searchLevel#}.png")' id='interactiveBrowse_{#searchLevel#}'/>
+                    <svg width='1000' height='750' style='background-image: url("{{ asset('assets/img/traitBrowse/'~searchLevel~'.png') }}")' id='interactiveBrowse_{#searchLevel#}'/>
                 </div>
             </div>
         </div>
@@ -115,7 +120,7 @@
                     </div>
                 </div>
                 <div class="panel-footer info-trait">
-                    <svg width='1000' height='524' style='background-image: url("{#$WebRoot#}/css/img/traitInteractiveBrowse_{#searchLevel#}.png")' id='interactiveBrowse_{#searchLevel#}'>
+                    <svg width='1000' height='524' style='background-image: url("{{ asset('assets/img/traitBrowse/'~searchLevel~'.png') }}")' id='interactiveBrowse_{#searchLevel#}'>
                         <a xlink:href="https://freevectormaps.com/world-maps" target="_blank">
                             <text x="800" y="510">Copyright by FreeVectorMaps.com</text>
                         </a>
@@ -134,7 +139,7 @@
                     </div>
                 </div>
                 <div class="panel-footer info-trait">
-                    <svg width='1000' height='750' style='background-image: url("{#$WebRoot#}/css/img/traitInteractiveBrowse_{#searchLevel#}.png")' id='interactiveBrowse_{#searchLevel#}'/>
+                    <svg width='1000' height='750' style='background-image: url("{{ asset('assets/img/traitBrowse/'~searchLevel~'.png') }}")' id='interactiveBrowse_{#searchLevel#}'/>
                 </div>
             </div>
         </div>

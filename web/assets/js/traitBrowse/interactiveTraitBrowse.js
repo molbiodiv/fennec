@@ -1,7 +1,8 @@
-var interactiveBrowse_overview = d3.select("#interactiveBrowse_overview");
+$('document').ready(function(){
+    var interactiveBrowse_overview = d3.select("#interactiveBrowse_overview");
 
-// ecology
-interactiveBrowse_overview.append("rect")
+    // ecology
+    interactiveBrowse_overview.append("rect")
         .attr("x", 680)
         .attr("y", 90)
         .attr("width", 600)
@@ -20,9 +21,9 @@ interactiveBrowse_overview.append("rect")
         .on("click", function(){
             displayPage(d3.select(this).attr("id"));
         });
-        
-// humanEco
-interactiveBrowse_overview.append("rect")
+
+    // humanEco
+    interactiveBrowse_overview.append("rect")
         .attr("x", 500)
         .attr("y", 430)
         .attr("width", 600)
@@ -41,9 +42,9 @@ interactiveBrowse_overview.append("rect")
         .on("click", function(){
             displayPage(d3.select(this).attr("id"));
         });
-        
-// behaviour
-interactiveBrowse_overview.append("rect")
+
+    // behaviour
+    interactiveBrowse_overview.append("rect")
         .attr("x", 350)
         .attr("y", 30)
         .attr("width", 300)
@@ -62,6 +63,7 @@ interactiveBrowse_overview.append("rect")
         .on("click", function(){
             displayPage(d3.select(this).attr("id"));
         });
+});
 
 function remove_Tooltip(){
     d3.select("traitBrowseTooltip").transition()
@@ -70,6 +72,6 @@ function remove_Tooltip(){
 }
 
 function displayPage(name){
-    var resultPage =  WebRoot+"/"+DbVersion+"/trait/search/"+name;
+    var resultPage =  Routing.generate('trait_browse', {'dbversion': '1.0', 'search_level': name});
     window.location.href = resultPage;
 }

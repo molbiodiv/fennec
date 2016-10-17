@@ -96,7 +96,7 @@ class TraitController extends Controller
      * @param $dbversion
      * @param $search_level
      * @return Response
-     * @Route("/{dbversion}/trait/browse/{search_level}", name="trait_browse")
+     * @Route("/{dbversion}/trait/browse/{search_level}", name="trait_browse", options={"expose" = true})
      */
     public function browseAction(Request $request, $dbversion, $search_level){
         return $this->render('trait/browse.html.twig', [
