@@ -53,6 +53,8 @@ artillery run test/artillery/simple.json
 python test/selenium/simple.py
 ```
 ## Changes
+### 0.3.0 <2016-10-17 Mo>
+ - Use Symfony framework (symfony.com)
 ### 0.2.0 <2016-10-10 Mo>
  - Update navigation
  - Add trait details to projects
