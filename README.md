@@ -54,6 +54,7 @@ python test/selenium/simple.py
 ```
 ## Changes
 ### 0.3.1 <TBD>
+ - Add exception handling to API
  - Add fennec icon-font
 ### 0.3.0 <2016-10-17 Mo>
  - Use Symfony framework (symfony.com)
