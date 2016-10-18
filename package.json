@@ -1,6 +1,6 @@
 {
   "name": "fennec-web",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Fennec",
   "directories": {
     "test": "test"
@@ -25,17 +25,8 @@
   "devDependencies": {
     "bower": "^1.7.7",
     "gulp": "^3.9.1",
-    "gulp-apigen": "^0.1.4",
-    "gulp-coverage": "^0.3.38",
-    "gulp-jasmine-phantom": "^3.0.0",
-    "gulp-jsdoc3": "^0.2.1",
-    "gulp-jshint": "^2.0.0",
-    "gulp-phpunit": "^0.14.0",
     "gulp-sass": "^2.3.1",
     "gulp-sass-lint": "^1.1.1",
-    "gulp-sourcemaps": "^2.0.0-alpha",
-    "gulp-util": "^3.0.7",
-    "jshint": "^2.9.2",
-    "phantomjs": "^2.1.7"
+    "gulp-sourcemaps": "^2.0.0-alpha"
   }
 }

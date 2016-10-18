@@ -1,0 +1,38 @@
+/* startpage color */
+/* trait color */
+/* project color */
+/* organism color */
+.btn-organism {
+  color: #FFF;
+  background-color: #2B823A;
+  border-color: #2B823A; }
+
+.btn-organism:hover {
+  color: #FFF;
+  background-color: #1e5c29;
+  border-color: #1e5c29; }
+
+.btn-organism:focus {
+  color: #FFF;
+  background-color: #1e5c29;
+  border-color: #1e5c29; }
+
+.btn-trait {
+  color: #FFF;
+  background-color: #246068;
+  border-color: #246068;
+  width: 100%; }
+
+.btn-trait:hover {
+  color: #FFF;
+  background-color: #173d42;
+  border-color: #173d42;
+  width: 100%; }
+
+.btn-trait:focus {
+  color: #FFF;
+  background-color: #173d42;
+  border-color: #173d42;
+  width: 100%; }
+
+/*# sourceMappingURL=button.css.map */

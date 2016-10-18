@@ -1,0 +1,9 @@
+{% extends 'base.navigation.html.twig' %}
+
+{% block content %}
+    {% if app.session.has('user') %}
+        {% include 'project/overview.table.html.twig' %}
+    {% else %}
+        Please log in to see your projects
+    {% endif %}
+{% endblock %}

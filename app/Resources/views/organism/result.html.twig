@@ -1,0 +1,7 @@
+{% extends 'organism/search.html.twig' %}
+
+{% block content %}
+    {{ parent() }}
+    <h3>Results for "{{ search }}"</h3>
+    {% include 'organism/grid.html.twig' %}
+{% endblock %}

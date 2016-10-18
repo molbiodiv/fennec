@@ -1,0 +1,69 @@
+<!-- The panel row for showing projects, communities, organisms and traits -->
+<div class="row">
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+        <div class="panel panel-projects">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-book fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">{{ overview['projects'] }}</div>
+                        <div>Projects</div>
+                    </div>
+                </div>
+            </div>
+            <a href="{{ path('project_overview', {'dbversion': dbversion}) }}">
+                <div class="panel-footer info-projects">
+                    <span class="pull-left">View Details</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+        <div class="panel panel-organism">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-paw fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">{{ overview['organisms'] }}</div>
+                        <div>Organisms</div>
+                    </div>
+                </div>
+            </div>
+            <a href="{{ path('organism_search', {'dbversion': dbversion}) }}">
+                <div class="panel-footer info-organism">
+                    <span class="pull-left">View Details</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+        <div class="panel panel-trait">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-globe fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">{{ overview['trait_entries'] }}</div>
+                        <div>Traits</div>
+                    </div>
+                </div>
+            </div>
+            <a href="{{ path('trait_search', {'dbversion': dbversion}) }}">
+                <div class="panel-footer info-trait">
+                    <span class="pull-left">View Details</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>

@@ -12,25 +12,21 @@
   "ignore": [
     "**/.*",
     "node_modules",
-    "bower_components",
+    "web/assets/vendor",
     "test",
     "tests"
   ],
   "dependencies": {
-    "lightbox2": "^2.8.2",
-    "jquery-ui": "^1.11.4",
-    "fancybox": "^2.1.5",
-    "ekko-lightbox": "^4.0.1",
-    "d3": "^3.5.16",
-    "plotly.js": "^1.6.3",
-    "file-saver.js": "^1.20150507.2",
-    "underscore": "^1.8.3",
-    "jquery-progresstimer": "^1.0.7",
-    "datatables": "^1.10.11",
-    "bootstrap-select": "^1.10.0",
-    "bs-confirmation": "^1.0.5",
     "startbootstrap-sb-admin-2": "BlackrockDigital/startbootstrap-sb-admin-2#^3.3.7",
-    "biojs-io-biom": "^1.0.2"
+    "bootstrap-select": "^1.11.2",
+    "jquery-ui": "^1.12.1",
+    "jquery-progresstimer": "^1.0.7",
+    "underscore": "^1.8.3",
+    "plotlyjs": "plotly#^1.16.2",
+    "datatables": "^1.10.12",
+    "bs-confirmation": "^1.0.5",
+    "biojs-io-biom": "^1.0.2",
+    "d3": "^4.2.7"
   },
   "resolutions": {
     "font-awesome": "~4.6.3"
