@@ -2,10 +2,7 @@
 
 namespace Test\AppBundle\API\Details;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\ParameterBag;
-use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 use Tests\AppBundle\API\WebserviceTestCase;
 
 class ProjectsTest extends WebserviceTestCase
