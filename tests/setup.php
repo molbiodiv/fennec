@@ -4,7 +4,6 @@ namespace Tests;
 
 require_once __DIR__.'/../app/autoload.php';
 
-use AppBundle\DB;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
