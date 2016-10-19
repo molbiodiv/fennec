@@ -3,16 +3,15 @@
 namespace Test\AppBundle\API\Details;
 
 use AppBundle\API\Details\OrganismsWithTrait;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\ParameterBag;
+use Tests\AppBundle\API\WebserviceTestCase;
 
-class OrganismsWithTraitTest extends WebTestCase
+class OrganismsWithTraitTest extends WebserviceTestCase
 {
     public function testExecute()
     {
-        $container = static::createClient()->getContainer();
-        $default_db = $container->getParameter('default_db');
-        $service = $container->get('app.api.webservice')->factory('details', 'organismsWithTrait');
+        $default_db = $this->default_db;
+        $service = $this->webservice->factory('details', 'organismsWithTrait');
         //Test for the correct number of elements in the returned array
         $results = $service->execute(new ParameterBag(array(
             'dbversion' => $default_db,
