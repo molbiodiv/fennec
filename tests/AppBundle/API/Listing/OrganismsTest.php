@@ -2,20 +2,16 @@
 
 namespace Tests\AppBundle\API\Listing;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\ParameterBag;
+use Tests\AppBundle\API\WebserviceTestCase;
 
-class OrganismsTest extends WebTestCase
+class OrganismsTest extends WebserviceTestCase
 {
-
     public function testExecute()
     {
-        $client = static::createClient();
-        $default_db = $client->getContainer()->getParameter('default_db');
-        $session = null;
-        $organisms = $client->getContainer()->get('app.api.webservice')->factory('listing', 'organisms');
-        $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'search' => 'bla', 'limit' => 5));
-        $results = $organisms->execute($parameterBag, $session);
+        $organisms = $this->webservice->factory('listing', 'organisms');
+        $parameterBag = new ParameterBag(array('dbversion' => $this->default_db, 'search' => 'bla', 'limit' => 5));
+        $results = $organisms->execute($parameterBag, null);
         $expected = array(
             array("organism_id" => 48, "scientific_name" => "Prototheca blaschkeae", "rank" => "species", "common_name" => null),
             array("organism_id" => 338, "scientific_name" => "Groenbladia", "rank" => "genus", "common_name" => null),
