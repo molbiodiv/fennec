@@ -2,7 +2,6 @@
 
 namespace Tests\AppBundle\API\Listing;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Tests\AppBundle\API\WebserviceTestCase;
 
@@ -11,8 +10,8 @@ class TraitsTest extends WebserviceTestCase
 
     public function testExecute()
     {
-        $default_db = $client->getContainer()->getParameter('default_db');
-        $service = $client->getContainer()->get('app.api.webservice')->factory('listing', 'traits');
+        $default_db = $this->default_db;
+        $service = $this->webservice->factory('listing', 'traits');
         $results = $service->execute(
             new ParameterBag(array('dbversion' => $default_db, 'search' => '')),
             null
