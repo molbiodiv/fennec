@@ -2,18 +2,17 @@
 
 namespace Tests\AppBundle\API\Listing;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\ParameterBag;
+use Tests\AppBundle\API\WebserviceTestCase;
 
-class TaxonomyTest extends WebTestCase
+class TaxonomyTest extends WebserviceTestCase
 {
 
     public function testExecute()
     {
-        $client = static::createClient();
-        $default_db = $client->getContainer()->getParameter('default_db');
+        $default_db = $this->default_db;
         $session = null;
-        $organisms = $client->getContainer()->get('app.api.webservice')->factory('listing', 'taxonomy');
+        $organisms = $this->webservice->factory('listing', 'taxonomy');
         $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'id' => '1234'));
         $results = $organisms->execute($parameterBag, $session);
         $expected = array(
