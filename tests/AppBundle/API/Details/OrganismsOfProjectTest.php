@@ -3,12 +3,10 @@
 namespace AppBundle\API\Details;
 
 use AppBundle\API\Webservice;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\ParameterBag;
-use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
+use Tests\AppBundle\API\WebserviceTestCase;
 
-class OrganismsOfProjectTest extends WebTestCase
+class OrganismsOfProjectTest extends WebserviceTestCase
 {
     const NICKNAME = 'detailsOrganismsOfProjectTestUser';
     const USERID = 'detailsOrganismsOfProjectTestUser';
@@ -16,11 +14,10 @@ class OrganismsOfProjectTest extends WebTestCase
 
     public function testExecute()
     {
-        $container = static::createClient()->getContainer();
-        $default_db = $container->getParameter('default_db');
-        $projectListing = $container->get('app.api.webservice')->factory('listing', 'projects');
-        $service = $container->get('app.api.webservice')->factory('details', 'OrganismsOfProject');
-        $session = new Session(new MockArraySessionStorage());
+        $default_db = $this->default_db;
+        $projectListing = $this->webservice->factory('listing', 'projects');
+        $service = $this->webservice->factory('details', 'OrganismsOfProject');
+        $session = $this->session;
         $session->set('user',
             array(
                 'nickname' => OrganismsOfProjectTest::NICKNAME,
