@@ -2,12 +2,10 @@
 
 namespace Tests\AppBundle\API\Listing;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\ParameterBag;
-use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
+use Tests\AppBundle\API\WebserviceTestCase;
 
-class OverviewTest extends WebTestCase
+class OverviewTest extends WebserviceTestCase
 {
     const NICKNAME = 'listingOverviewTestUser';
     const USERID = 'listingOverviewTestUser';
@@ -15,11 +13,10 @@ class OverviewTest extends WebTestCase
 
     public function testExecute()
     {
-        $client = static::createClient();
         //Test for overview if user is not logged in
-        $default_db = $client->getContainer()->getParameter('default_db');
-        $session = new Session(new MockArraySessionStorage());
-        $overview = $client->getContainer()->get('app.api.webservice')->factory('listing', 'overview');
+        $default_db = $this->default_db;
+        $session = $this->session;
+        $overview = $this->webservice->factory('listing', 'overview');
         $parameterBag = new ParameterBag(array('dbversion' => $default_db));
         $results = $overview->execute($parameterBag, $session);
         $expected = array(
