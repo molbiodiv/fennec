@@ -29,7 +29,10 @@
                     "data": null,
                     "defaultContent": "<a class=\"btn fa fa-trash project-remove-button\" data-toggle=\"confirmation\"></a>"
                 }
-            ]
+            ],
+            drawCallback: function( settings ) {
+                addProjectTableActionButtonFunctionality();
+            }
         } );
 
         function addProjectTableActionButtonFunctionality(){
