@@ -53,9 +53,11 @@ artillery run test/artillery/simple.json
 python test/selenium/simple.py
 ```
 ## Changes
-### 0.3.1 <TBD>
+### 0.3.1 <2016-10-20 Th>
  - Add exception handling to API
+ - Add generalized WebserviceTestCase
  - Add fennec icon-font
+ - Fix project overview table delete bug (#30)
 ### 0.3.0 <2016-10-17 Mo>
  - Use Symfony framework (symfony.com)
 ### 0.2.0 <2016-10-10 Mo>
