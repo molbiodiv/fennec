@@ -46,7 +46,7 @@
             $('#project-overview-table-comment').text(biom.comment);
             $('#project-overview-table-rows').text(biom.shape[0]);
             $('#project-overview-table-cols').text(biom.shape[1]);
-            $('#project-overview-table-nnz').text(biom.nnz);
+            $('#project-overview-table-nnz').text(biom.nnz + " ("+(100*biom.nnz/(biom.shape[0]*biom.shape[1])).toFixed(2)+"%)");
             var otuTableData = getOtuTable(biom, 100);
             $('#projectDetails_otuTable').DataTable({
                 data: otuTableData.data,
