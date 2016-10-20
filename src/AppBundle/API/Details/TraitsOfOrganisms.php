@@ -30,6 +30,9 @@ class TraitsOfOrganisms extends Webservice
     {
         $this->db = $this->getDbFromQuery($query);
         $organism_ids = $query->get('organism_ids');
+        if(count($organism_ids) == 0){
+            return array();
+        }
         $placeholders = implode(',', array_fill(0, count($organism_ids), '?'));
         $query_get_categorical_traits = <<<EOF
 SELECT trait_categorical_entry.id, trait_categorical_entry.organism_id, trait_categorical_entry.trait_type_id, trait_type.type, trait_format.format
