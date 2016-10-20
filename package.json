@@ -1,6 +1,6 @@
 {
   "name": "fennec-web",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Fennec",
   "directories": {
     "test": "test"
@@ -17,7 +17,7 @@
     "community",
     "trait"
   ],
-  "author": "Markus Ankenbrand, Sonja Hohlfeld",
+  "author": "Markus Ankenbrand, Sonja Hohlfeld, Frank Förster, Alexander Keller",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/iimog/fennec-web/issues"

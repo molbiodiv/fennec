@@ -3,12 +3,10 @@
 namespace Tests\AppBundle\API\Edit;
 
 use AppBundle\API\Edit\AddOrganismIDsToProject;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\ParameterBag;
-use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
+use Tests\AppBundle\API\WebserviceTestCase;
 
-class AddOrganismIDsToProjectTest extends WebTestCase
+class AddOrganismIDsToProjectTest extends WebserviceTestCase
 {
     const NICKNAME = 'AddOrganismIDsToProjectTestUser';
     const USERID = 'AddOrganismIDsToProjectTestUser';
@@ -16,13 +14,12 @@ class AddOrganismIDsToProjectTest extends WebTestCase
 
     public function testExecute()
     {
-        $container = static::createClient()->getContainer();
-        $default_db = $container->getParameter('default_db');
-        $service = $container->get('app.api.webservice')->factory('edit', 'addOrganismIDsToProject');
-        $uploadProject = $container->get('app.api.webservice')->factory('upload', 'projects');
-        $listingProject = $container->get('app.api.webservice')->factory('listing', 'projects');
-        $detailsProject = $container->get('app.api.webservice')->factory('details', 'projects');
-        $session = new Session(new MockArraySessionStorage());
+        $default_db = $this->default_db;
+        $service = $this->webservice->factory('edit', 'addOrganismIDsToProject');
+        $uploadProject = $this->webservice->factory('upload', 'projects');
+        $listingProject = $this->webservice->factory('listing', 'projects');
+        $detailsProject = $this->webservice->factory('details', 'projects');
+        $session = $this->session;
         $session->set('user',
             array(
                 'nickname' => AddOrganismIDsToProjectTest::NICKNAME,

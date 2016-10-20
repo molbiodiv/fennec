@@ -3,18 +3,17 @@
 namespace Test\AppBundle\API\Details;
 
 use AppBundle\API\Details\TraitEntries;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\ParameterBag;
+use Tests\AppBundle\API\WebserviceTestCase;
 
-class TraitEntriesTest extends WebTestCase
+class TraitEntriesTest extends WebserviceTestCase
 {
 
     public function testExecute()
     {
-        $client = static::createClient();
-        $default_db = $client->getContainer()->getParameter('default_db');
+        $default_db = $this->default_db;
         $session = null;
-        $service = $client->getContainer()->get('app.api.webservice')->factory('details', 'traitEntries');
+        $service = $this->webservice->factory('details', 'traitEntries');
         //Test for error on unknown trait_format
         $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'trait_entry_ids' => ['1'], 'trait_format' => 'non_existing_format'));
         $results = $service->execute($parameterBag, $session);

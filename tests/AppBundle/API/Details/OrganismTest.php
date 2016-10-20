@@ -2,22 +2,17 @@
 
 namespace Tests\AppBundle\API\Details;
 
-use AppBundle\AppBundle;
-use AppBundle\DB;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\ParameterBag;
-use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
+use Tests\AppBundle\API\WebserviceTestCase;
 
-class OrganismTest extends WebTestCase
+class OrganismTest extends WebserviceTestCase
 {
 
     public function testExecute()
     {
-        $client = static::createClient();
-        $default_db = $client->getContainer()->getParameter('default_db');
+        $default_db = $this->default_db;
         $session = null;
-        $organisms = $client->getContainer()->get('app.api.webservice')->factory('details', 'organism');
+        $organisms = $this->webservice->factory('details', 'organism');
         $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'id' => 42));
         $results = $organisms->execute($parameterBag, $session);
         $expected = array(

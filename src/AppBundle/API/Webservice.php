@@ -29,14 +29,15 @@ class Webservice
     /**
      * @param $namespace string
      * @param $classname string
-     * @return Webservice|null
+     * @throws Exception
+     * @return Webservice
      */
     public function factory($namespace, $classname)
     {
         $serviceNamespace = '\\AppBundle\\API\\' . ucfirst($namespace);
         $class = $serviceNamespace . '\\' . ucfirst($classname);
         if (!class_exists($class)) {
-            return null;
+            throw new Exception("Could not find class: ".$namespace."\\".$class);
         }
 
         return new $class($this->DB);

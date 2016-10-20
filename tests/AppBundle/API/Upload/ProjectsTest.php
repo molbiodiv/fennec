@@ -3,14 +3,12 @@
 namespace Tests\AppBundle\API\Upload;
 
 use AppBundle\API\Upload\Projects;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\ParameterBag;
-use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
+use Tests\AppBundle\API\WebserviceTestCase;
 
 require_once __DIR__.'/overload_is_uploaded_file.php';
 
-class ProjectsTest extends WebTestCase
+class ProjectsTest extends WebserviceTestCase
 {
     const NICKNAME = 'UploadProjectTestUser';
     const USERID = 'UploadProjectTestUser';
@@ -18,10 +16,9 @@ class ProjectsTest extends WebTestCase
 
     public function testExecute()
     {
-        $container = static::createClient()->getContainer();
-        $default_db = $container->getParameter('default_db');
-        $service = $container->get('app.api.webservice')->factory('upload', 'projects');
-        $session = new Session(new MockArraySessionStorage());
+        $default_db = $this->default_db;
+        $service = $this->webservice->factory('upload', 'projects');
+        $session = $this->session;
         $session->set('user',
             array(
                 'nickname' => ProjectsTest::NICKNAME,
@@ -123,7 +120,7 @@ class ProjectsTest extends WebTestCase
         $expected = array("files"=>array(array("name" => "simpleBiom.json", "size" => 1067, "error" => null)));
         $this->assertEquals($expected, $results);
         $jsonContent = file_get_contents($_FILES[0]['tmp_name']);
-        $db = $container->get('app.db')->getDbForVersion($default_db);
+        $db = $this->container->get('app.db')->getDbForVersion($default_db);
         $constant = 'constant';
         $query_get_project_from_db = <<<EOF
 SELECT project, import_filename

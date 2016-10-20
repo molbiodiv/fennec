@@ -16,9 +16,9 @@ class Projects extends Webservice
     const PROJECT_NOT_FOUND_FOR_USER = "Error: At least one project could not be found for the current user.";
     /**
     * @inheritdoc
-    * @returns Array $result
+    * @returns array $result
     * <code>
-    * array('project_id': {biomfile});
+    * array('project_id': {biomFile});
     * </code>
     */
     public function execute(ParameterBag $query, SessionInterface $session = null)

@@ -3,12 +3,10 @@
 namespace Tests\AppBundle\API\Listing;
 
 use AppBundle\API\Webservice;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\ParameterBag;
-use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
+use Tests\AppBundle\API\WebserviceTestCase;
 
-class ProjectsTest extends WebTestCase
+class ProjectsTest extends WebserviceTestCase
 {
     const NICKNAME = 'listingProjectsTestUser';
     const USERID = 'listingProjectsTestUser';
@@ -16,10 +14,9 @@ class ProjectsTest extends WebTestCase
 
     public function testExecute()
     {
-        $container = static::createClient()->getContainer();
-        $default_db = $container->getParameter('default_db');
-        $service = $container->get('app.api.webservice')->factory('listing', 'projects');
-        $session = new Session(new MockArraySessionStorage());
+        $default_db = $this->default_db;
+        $service = $this->webservice->factory('listing', 'projects');
+        $session = $this->session;
 
         //Test for error returned by user is not logged in
         $results = $service->execute(
