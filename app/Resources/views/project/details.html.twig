@@ -24,7 +24,7 @@
                         var biomString = '{{ project['projects'][internal_project_id]|raw }}';
                         var biomObject = JSON.parse(biomString);
                         var organism_ids = biomObject.rows.filter(function (element) {
-                            return typeof element['metadata'] !== 'undefined' && !isNaN(element['metadata']['fennec_organism_id']);
+                            return typeof element['metadata'] !== 'undefined' && element['metadata'] !== null && !isNaN(element['metadata']['fennec_organism_id']);
                         }).map(function(element) {
                             return element['metadata']['fennec_organism_id'];
                         });
