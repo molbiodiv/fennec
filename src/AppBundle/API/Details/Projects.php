@@ -31,7 +31,7 @@ class Projects extends Webservice
             $result['error'] = Webservice::ERROR_NOT_LOGGED_IN;
         } else {
             $query_get_project_details = <<<EOF
-SELECT webuser_data_id, project FROM full_webuser_data 
+SELECT webuser_data_id, project, import_date, import_filename FROM full_webuser_data 
     WHERE provider = ? AND oauth_id = ? AND webuser_data_id IN ($placeholders)
 EOF;
             $stm_get_project_details = $db->prepare($query_get_project_details);
@@ -42,7 +42,11 @@ EOF;
                 $result['error'] = Projects::PROJECT_NOT_FOUND_FOR_USER;
             }
             while ($row = $stm_get_project_details->fetch(PDO::FETCH_ASSOC)) {
-                $result['projects'][$row['webuser_data_id']] = $row['project'];
+                $result['projects'][$row['webuser_data_id']] = array(
+                    'biom' => $row['project'],
+                    'import_date' => $row['import_date'],
+                    'import_filename' => $row['import_filename']
+                );
             }
         }
         return $result;
