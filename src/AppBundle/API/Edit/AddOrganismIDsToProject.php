@@ -44,7 +44,7 @@ class AddOrganismIDsToProject extends Webservice
                     $result['error'] = $details['error'];
                     return $result;
                 }
-                $biom = json_decode($details['projects'][$id], true);
+                $biom = json_decode($details['projects'][$id]['biom'], true);
                 $ncbi_ids = array();
                 foreach ($biom['rows'] as $row) {
                     $result['total']++;
