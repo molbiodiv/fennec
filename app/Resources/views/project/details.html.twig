@@ -8,7 +8,10 @@
     {% else %}
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">Project overview</h3>
+                <h3 class="panel-title">
+                    Project overview
+                    <button type="button" class="btn btn-default fa fa-pencil" data-toggle="modal" data-target="#editProjectDialog"></button>
+                </h3>
             </div>
             <table id="project-overview-table" class="table">
                 <tbody>
@@ -41,12 +44,19 @@
                 return element['metadata']['fennec_organism_id'];
             });
             var biom = new Biom(biomObject);
-            $('#project-overview-table-id').text(biom.id);
-            $('.page-header').text(biom.id);
-            $('#project-overview-table-comment').text(biom.comment);
-            $('#project-overview-table-rows').text(biom.shape[0]);
-            $('#project-overview-table-cols').text(biom.shape[1]);
-            $('#project-overview-table-nnz').text(biom.nnz + " ("+(100*biom.nnz/(biom.shape[0]*biom.shape[1])).toFixed(2)+"%)");
+            $('document').ready(function () {
+                $('#project-overview-table-id').text(biom.id);
+                $('#editProjectDialogProjectID').val(biom.id);
+                $('.page-header').text(biom.id);
+                $('#project-overview-table-comment').text(biom.comment);
+                $('#editProjectDialogComment').val(biom.comment);
+                $('#project-overview-table-rows').text(biom.shape[0]);
+                $('#project-overview-table-cols').text(biom.shape[1]);
+                $('#project-overview-table-nnz').text(biom.nnz + " ("+(100*biom.nnz/(biom.shape[0]*biom.shape[1])).toFixed(2)+"%)");
+                $('#editProjectDialog').on('shown.bs.modal', function () {
+                    $('#editProjectDialogProjectID').focus();
+                })
+            })
             var otuTableData = getOtuTable(biom, 100);
             $('#projectDetails_otuTable').DataTable({
                 data: otuTableData.data,
@@ -164,6 +174,34 @@
                     });
                 }
             </script>
+        </div>
+
+        <!-- Edit Dialog -->
+        <div class="modal fade" id="editProjectDialog" tabindex="-1" role="dialog" aria-labelledby="editProjectDialogLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="editProjectDialogLabel">Edit Project Info</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="editProjectDialogProjectID">Project ID:</label>
+                            <input type="text" class="form-control" id="editProjectDialogProjectID">
+                        </div>
+                        <div class="form-group">
+                            <label for="editProjectDialogComment">Comment:</label>
+                            <input type="text" class="form-control" id="editProjectDialogComment">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
         </div>
     {% endif %}
 {% endblock %}
