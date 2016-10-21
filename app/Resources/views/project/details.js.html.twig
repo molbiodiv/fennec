@@ -23,6 +23,25 @@
             $('#editProjectDialogComment').val(biom.comment);
             $('#editProjectDialogProjectID').focus();
         });
+        $('#editProjectDialogSaveButton').click(function () {
+            biom.id = $('#editProjectDialogProjectID').val();
+            biom.comment = $('#editProjectDialogComment').val();
+            biom.write().then(function (biomJson) {
+                $.ajax( '{{ path('api', {'namespace': 'edit', 'classname': 'updateProject'}) }}', {
+                    data: {
+                        "dbversion": '{{ dbversion }}',
+                        "project_id": {{ internal_project_id }},
+                        "biom": biomJson
+                    },
+                    method: "POST",
+                    success: function(data){
+                        location.reload();
+                    }
+                });
+            }, function (failure) {
+                console.log(failure);
+            });
+        });
         $('#inspect-with-blackbird-button').click(function(){
             db.open({
                 server: "BiomData",
