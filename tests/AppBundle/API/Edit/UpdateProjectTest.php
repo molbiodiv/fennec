@@ -16,7 +16,7 @@ class UpdateProjectTest extends WebserviceTestCase
 {
     const NICKNAME = 'UpdateProjectTestUser';
     const USERID = 'UpdateProjectTestUser';
-    const PROVIDER = 'UpdateProjectTest';
+    const PROVIDER = 'UpdateProjectTestUser';
     const TOKEN = 'UpdateProjectTestToken';
 
     public function testExecute(){
@@ -43,7 +43,7 @@ class UpdateProjectTest extends WebserviceTestCase
         // Now update the project
         $biom['id'] = 'Updated ID';
         $biom['comment'] = 'New comment';
-        $service->execute(
+        $results = $service->execute(
             new ParameterBag(array(
                 'dbversion' => $this->default_db,
                 'biom' => json_encode($biom),
@@ -51,6 +51,7 @@ class UpdateProjectTest extends WebserviceTestCase
             )),
             $this->session
         );
+        $this->assertNull($results['error']);
         $results = $detailsProject->execute(new ParameterBag(array(
             'dbversion' => $this->default_db,
             'ids' => array($id))),
