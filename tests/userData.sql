@@ -196,3 +196,29 @@ INSERT INTO full_webuser_data (project,oauth_id,provider,import_date) VALUES ('{
         {"id": "Sample_2", "metadata": {}}
     ]
 }','detailsTraitOfProjectTestUser','detailsTraitOfProjectTestUser','2016-10-06 08:07:40.838383+00');
+
+
+-- project for detailsTraitOfProjectTestUser
+INSERT INTO full_webuser_data (project,oauth_id,provider,import_date) VALUES ('{
+    "id": "Original ID",
+    "format": "Biological Observation Matrix 2.1.0",
+    "format_url": "http://biom-format.org",
+    "matrix_type": "sparse",
+    "generated_by": "BIOM-Format 2.1",
+    "date": "2016-10-06T08:07:40.838383",
+    "type": "OTU table",
+    "matrix_element_type": "float",
+    "shape": [5, 2],
+    "data": [[0,0,120.0],[3,1,12.0],[5,2,20.0],[7,3,12.7],[8,4,16.0]],
+    "rows": [
+        {"id": "OTU_1", "metadata": {"fennec_organism_id": 134097}},
+        {"id": "OTU_2", "metadata": {"fennec_organism_id": 163840}},
+        {"id": "OTU_3", "metadata": {"fennec_organism_id": 24718}},
+        {"id": "OTU_4", "metadata": {"fennec_organism_id": 73023}},
+        {"id": "OTU_5", "metadata": {"fennec_organism_id": 23057}}
+    ],
+    "columns": [
+        {"id": "Sample_1", "metadata": {}},
+        {"id": "Sample_2", "metadata": {}}
+    ]
+}','UpdateProjectTestUser','UpdateProjectTestUser','2016-10-06 08:07:40.838383+00');
