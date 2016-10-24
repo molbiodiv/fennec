@@ -6,7 +6,7 @@
         var biomObject = JSON.parse(biomString);
         var organism_ids = biomObject.rows.filter(function (element) {
             return typeof element['metadata'] !== 'undefined' && element['metadata'] !== null && !isNaN(element['metadata']['fennec_organism_id']);
-        }).map(function(element) {
+        }).map(function (element) {
             return element['metadata']['fennec_organism_id'];
         });
         var biom = new Biom(biomObject);
@@ -15,7 +15,7 @@
         $('#project-overview-table-comment').text(biom.comment);
         $('#project-overview-table-rows').text(biom.shape[0]);
         $('#project-overview-table-cols').text(biom.shape[1]);
-        $('#project-overview-table-nnz').text(biom.nnz + " ("+(100*biom.nnz/(biom.shape[0]*biom.shape[1])).toFixed(2)+"%)");
+        $('#project-overview-table-nnz').text(biom.nnz + " (" + (100 * biom.nnz / (biom.shape[0] * biom.shape[1])).toFixed(2) + "%)");
         $('#editProjectDialogProjectID').val(biom.id);
         $('#editProjectDialogComment').val(biom.comment);
         $('#editProjectDialog').on('shown.bs.modal', function () {
@@ -27,14 +27,14 @@
             biom.id = $('#editProjectDialogProjectID').val();
             biom.comment = $('#editProjectDialogComment').val();
             biom.write().then(function (biomJson) {
-                $.ajax( '{{ path('api', {'namespace': 'edit', 'classname': 'updateProject'}) }}', {
+                $.ajax('{{ path('api', {'namespace': 'edit', 'classname': 'updateProject'}) }}', {
                     data: {
                         "dbversion": '{{ dbversion }}',
                         "project_id": {{ internal_project_id }},
                         "biom": biomJson
                     },
                     method: "POST",
-                    success: function(data){
+                    success: function (data) {
                         location.reload();
                     }
                 });
@@ -42,7 +42,7 @@
                 console.log(failure);
             });
         });
-        $('#inspect-with-blackbird-button').click(function(){
+        $('#inspect-with-blackbird-button').click(function () {
             db.open({
                 server: "BiomData",
                 version: 1,
@@ -54,14 +54,13 @@
                         }
                     }
                 }
-            }).done(function(server) {
+            }).done(function (server) {
                 biomToStore = {};
                 biomToStore.name = biomObject.id;
-                if(!biomObject.columns[0].hasOwnProperty('metadata') ||
-                        biomObject.columns[0].metadata === null ||
-                        !biomObject.columns[0].metadata.hasOwnProperty('phinchID')){
-                    for(i=0; i<biomObject.columns.length; i++){
-                        if(!biomObject.columns[i].hasOwnProperty('metadata') || biomObject.columns[i].metadata === null){
+                if (!biomObject.columns[0].hasOwnProperty('metadata') ||
+                        biomObject.columns[0].metadata === null || !biomObject.columns[0].metadata.hasOwnProperty('phinchID')) {
+                    for (i = 0; i < biomObject.columns.length; i++) {
+                        if (!biomObject.columns[i].hasOwnProperty('metadata') || biomObject.columns[i].metadata === null) {
                             biomObject.columns[i].metadata = [];
                         }
                         biomObject.columns[i].metadata.phinchID = i;
@@ -72,71 +71,78 @@
                 biomToStore.data = biomString;
                 d = new Date();
                 biomToStore.date = d.getUTCFullYear() + "-" + (d.getUTCMonth() + 1) + "-" + d.getUTCDate() + "T" + d.getUTCHours() + ":" + d.getUTCMinutes() + ":" + d.getUTCSeconds() + " UTC";
-                server.biom.add(biomToStore).done(function(item) {
-                    $('#inspect-with-blackbird-iframe').attr('src','{{ asset('assets/Blackbird/preview.html') }}');
+                server.biom.add(biomToStore).done(function (item) {
+                    $('#inspect-with-blackbird-iframe').attr('src', '{{ asset('assets/Blackbird/preview.html') }}');
                     $('#inspect-with-blackbird-iframe').show();
                 });
             });
         });
 
-        $('#inspect-with-blackbird-iframe').on("load", function(){
-            setTimeout(function(){
+        $('#inspect-with-blackbird-iframe').on("load", function () {
+            setTimeout(function () {
                 console.log($('#inspect-with-blackbird-iframe').contents().height());
-                $('#inspect-with-blackbird-iframe').attr('height', $('#inspect-with-blackbird-iframe').contents().height()+20);
+                $('#inspect-with-blackbird-iframe').attr('height', $('#inspect-with-blackbird-iframe').contents().height() + 20);
             }, 1000);
         });
 
         // Get traits
         var traits = [];
-        $.ajax( '{{ path('api', {'namespace': 'details', 'classname': 'traitsOfOrganisms'}) }}', {
+        $.ajax('{{ path('api', {'namespace': 'details', 'classname': 'traitsOfOrganisms'}) }}', {
             data: {
                 "dbversion": '{{ dbversion }}',
                 "organism_ids": organism_ids
             },
             method: "POST",
-            success: function(data){
-                $.each(data, function(key, value) {
+            success: function (data) {
+                $.each(data, function (key, value) {
                     var thisTrait = {
                         id: key,
                         trait: value['trait_type'],
                         count: value['trait_entry_ids'].length,
-                        range: 100*value['organism_ids'].length/organism_ids.length
+                        range: 100 * value['organism_ids'].length / organism_ids.length
                     };
                     traits.push(thisTrait);
                 });
                 initTraitsOfProjectTable({{ internal_project_id }});
             }
         });
-        function initTraitsOfProjectTable(internal_project_id){
-            $('#trait-table').DataTable( {
+        function initTraitsOfProjectTable(internal_project_id) {
+            $('#trait-table').DataTable({
                 data: traits,
                 columns: [
-                    { data: 'trait' },
-                    { data: 'count' },
-                    { data: 'range' },
-                    { data: null }
+                    {data: 'trait'},
+                    {data: 'count'},
+                    {data: 'range'},
+                    {data: null}
                 ],
-                order: [ 2, "desc" ],
+                order: [2, "desc"],
                 columnDefs: [
                     {
                         targets: 2,
                         render: function (data, type, full, meta) {
-                            return '<span title="'+data/100+'"></span><div class="progress"><div class="progress-bar progress-bar-trait" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: '+data+'%">'+Math.round(data)+'%</div></div>';
+                            return '<span title="' + data / 100 + '"></span><div class="progress"><div class="progress-bar progress-bar-trait" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: ' + data + '%">' + Math.round(data) + '%</div></div>';
                         },
                         type: 'title-numeric'
                     },
                     {
                         targets: 0,
                         render: function (data, type, full, meta) {
-                            var href = Routing.generate('trait_details', {'dbversion': '{{ dbversion}}', 'trait_type_id': full.id});
-                            return '<a href="'+href+'">'+full.trait+'</a>';
+                            var href = Routing.generate('trait_details', {
+                                'dbversion': '{{ dbversion }}',
+                                'trait_type_id': full.id
+                            });
+                            return '<a href="' + href + '">' + full.trait + '</a>';
                         }
                     },
                     {
                         targets: 3,
-                        render: function(data, type, full, meta){
-                            var href = Routing.generate('project_trait_details', {'dbversion': '{{ dbversion}}', 'trait_type_id': full.id, 'project_id': '{{ internal_project_id}}' });
-                            return '<a href="'+href+'">Details</a>';
+                        render: function (data, type, full, meta) {
+                            var href = Routing.generate('project_trait_details', {
+                                'dbversion': '{{ dbversion }}',
+                                'trait_type_id': full.id,
+                                'project_id': '{{ internal_project_id }}'
+                            });
+                            return '<a href="' + href + '">Details</a>';
                         }
                     }
                 ]
