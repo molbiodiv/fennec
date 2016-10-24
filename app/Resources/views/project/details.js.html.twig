@@ -42,6 +42,34 @@
                 console.log(failure);
             });
         });
+
+        var sampleMetadataFennec = biom.getMetadata({dimension: 'columns', attribute: 'fennec'});
+        var mappedSamples = countOrganismIds(sampleMetadataFennec);
+        var percentageMappedSamples = 100 * mappedSamples / biom.shape[1];
+        var otuMetadataFennec = biom.getMetadata({dimesion: 'rows', attribute: 'fennec'});
+        var mappedOTUs = countOrganismIds(otuMetadataFennec);
+        var percentageMappedOTUs = 100 * mappedOTUs / biom.shape[0];
+        $('#mapping-otu').text(mappedOTUs);
+        $('#progress-bar-mapping-otu').css('width', percentageMappedOTUs+'%').attr('aria-valuenow', percentageMappedOTUs);
+        $('#progress-bar-mapping-otu').text(percentageMappedOTUs.toFixed(0)+'%');
+        $('#mapping-sample').text(mappedSamples);
+        $('#progress-bar-mapping-sample').css('width', percentageMappedSamples+'%').attr('aria-valuenow', percentageMappedSamples);
+        $('#progress-bar-mapping-sample').text(percentageMappedSamples.toFixed(0)+'%');
+
+        function countOrganismIds(metadata) {
+            var organismIds = 0;
+            $.each(metadata, function (key, value) {
+                if (hasOrganismId(value)) {
+                    organismIds++;
+                }
+            });
+            return organismIds;
+        }
+
+        function hasOrganismId(value) {
+            return value !== null && '{{ dbversion }}' in value && 'organism_id' in value['{{ dbversion }}'] && value['{{ dbversion }}'].organism_id !== null;
+        }
+
         $('#inspect-with-blackbird-button').click(function () {
             db.open({
                 server: "BiomData",
