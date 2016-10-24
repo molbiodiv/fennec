@@ -70,6 +70,25 @@
             return value !== null && '{{ dbversion }}' in value && 'organism_id' in value['{{ dbversion }}'] && value['{{ dbversion }}'].organism_id !== null;
         }
 
+        $('#mapping-action-button').on('click', function () {
+            var dimension = $('#mapping-dimension-select').val();
+            var taxids = biom.getMetadata({dimension: dimension, attribute: 'ncbi_taxid'});
+            console.log(taxids);
+            taxids = taxids.filter(function (value) {
+                return value !== null;
+            });
+            console.log(taxids);
+            taxids = _.uniq(taxids);
+            console.log(taxids);
+            $.ajax('{{ path('api', {'namespace': 'mapping', 'classname': 'byNcbiTaxid'}) }}',{
+                data: {
+                    dbversion: '{{ dbversion }}',
+                    ids: taxids
+                },
+                method: 'POST'
+            });
+        });
+
         $('#inspect-with-blackbird-button').click(function () {
             db.open({
                 server: "BiomData",
