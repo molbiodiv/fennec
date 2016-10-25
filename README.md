@@ -53,6 +53,9 @@ artillery run test/artillery/simple.json
 python test/selenium/simple.py
 ```
 ## Changes
+### 0.3.2 <TBD>
+ - Make project ID and comment editable
+ - Improve project details page
 ### 0.3.1 <2016-10-20 Th>
  - Add exception handling to API
  - Add generalized WebserviceTestCase
