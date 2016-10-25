@@ -20,7 +20,7 @@ class ByNcbiTaxidTest extends WebserviceTestCase
 
         // Test with some non-existing IDs
         $ncbi_ids = [1174942, 471708, 1097649, 1331079, -99, 'non_existing'];
-        $expected = [1174942 => 14, 471708 => 17, 1097649 => 61, 1331079 => 10058, -1 => null, 'non_existing' => null];
+        $expected = [1174942 => 14, 471708 => 17, 1097649 => 61, 1331079 => 10058, -99 => null, 'non_existing' => null];
         $result = $service->execute(new ParameterBag(array('dbversion' => $this->default_db, 'ids' => $ncbi_ids)),
             null);
         $this->assertEquals($expected, $result);
