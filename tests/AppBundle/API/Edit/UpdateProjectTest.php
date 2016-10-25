@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: s216121
- * Date: 21.10.16
- * Time: 09:49
- */
 
 namespace Tests\AppBundle\API\Edit;
-
 
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Tests\AppBundle\API\WebserviceTestCase;
