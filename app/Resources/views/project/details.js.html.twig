@@ -139,6 +139,21 @@
             saveBiomToDB();
         });
 
+        $('#mapping-download-csv-button').on('click', function () {
+            var ids = biom.rows.map(function (element) {
+                return element.id;
+            });
+            var ncbi_ids = biom.getMetadata({dimension: 'rows', attribute: 'ncbi_taxid'});
+            var fennec_id = biom.getMetadata({dimension: 'rows', attribute: 'fennec'}).map(function (value) {
+                return value['{{ dbversion }}']['organism_id'];
+            });
+            var csv = "OTU_ID\tNCBI_taxid\tFennec_ID\n";
+            for(var i=0; i<ids.length; i++){
+                csv += ids[i]+"\t"+ncbi_ids[i]+"\t"+fennec_id[i]+"\n";
+            }
+            console.log(csv);
+        });
+
         $('#inspect-with-blackbird-button').click(function () {
             db.open({
                 server: "BiomData",
