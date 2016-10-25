@@ -70,23 +70,58 @@
             return value !== null && '{{ dbversion }}' in value && 'organism_id' in value['{{ dbversion }}'] && value['{{ dbversion }}'].organism_id !== null;
         }
 
+        /**
+         * Create the results component from the returned mapping
+         * @param {string} dimension
+         * @param {Array} ncbi2organism_id
+         */
+        function handleNcbiTaxidMappingResult(dimension, ncbi2organism_id) {
+            console.log(ncbi2organism_id);
+            var fennec = biom.getMetadata({dimension: dimension, attribute: 'fennec'});
+            var taxids = biom.getMetadata({dimension: dimension, attribute: 'ncbi_taxid'});
+            var taxid_total_count = 0;
+            var taxid_mapped_count = 0;
+            for(var i=0; i<taxids.length; i++){
+                if(fennec[i] === null){
+                    fennec[i] = {};
+                }
+                fennec[i]['{{ dbversion }}'] = {
+                    'organism_id': null,
+                    'assignment_method': 'ncbi_taxid'
+                };
+                if(taxids[i] !== null){
+                    taxid_total_count++;
+                    if(taxids[i] in ncbi2organism_id && ncbi2organism_id[taxids[i]] !== null){
+                        taxid_mapped_count++;
+                        fennec[i]['{{ dbversion }}']['organism_id'] = ncbi2organism_id[taxids[i]];
+                    }
+                }
+            }
+            biom.addMetadata({dimension: dimension, attribute: 'fennec', values: fennec});
+            $('#mapping-results').text("From a total of " + taxids.length + " organisms: " + taxid_total_count + " have a NCBI taxid, of which " + taxid_mapped_count + " could be mapped to organism_ids.");
+        }
+
         $('#mapping-action-button').on('click', function () {
             var dimension = $('#mapping-dimension-select').val();
             var taxids = biom.getMetadata({dimension: dimension, attribute: 'ncbi_taxid'});
-            console.log(taxids);
             taxids = taxids.filter(function (value) {
                 return value !== null;
             });
-            console.log(taxids);
             taxids = _.uniq(taxids);
-            console.log(taxids);
-            $.ajax('{{ path('api', {'namespace': 'mapping', 'classname': 'byNcbiTaxid'}) }}',{
-                data: {
-                    dbversion: '{{ dbversion }}',
-                    ids: taxids
-                },
-                method: 'POST'
-            });
+            if(taxids.length === 0){
+                handleNcbiTaxidMappingResult(dimension, []);
+            } else {
+                $.ajax('{{ path('api', {'namespace': 'mapping', 'classname': 'byNcbiTaxid'}) }}',{
+                    data: {
+                        dbversion: '{{ dbversion }}',
+                        ids: taxids
+                    },
+                    method: 'POST',
+                    success: function (data) {
+                        handleNcbiTaxidMappingResult(dimension, data);
+                    }
+                });
+            }
         });
 
         $('#inspect-with-blackbird-button').click(function () {
