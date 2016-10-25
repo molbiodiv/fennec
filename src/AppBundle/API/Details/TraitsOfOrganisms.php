@@ -42,7 +42,7 @@ SELECT trait_categorical_entry.id, trait_categorical_entry.organism_id, trait_ca
     AND organism_id IN ($placeholders)
 EOF;
         $stm_get_categorical_traits = $this->db->prepare($query_get_categorical_traits);
-        $stm_get_categorical_traits->execute($organism_ids);
+        $stm_get_categorical_traits->execute(array_map('intval', $organism_ids));
 
         $result = array();
         while ($row = $stm_get_categorical_traits->fetch(PDO::FETCH_ASSOC)) {
