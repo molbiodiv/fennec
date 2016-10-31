@@ -1,17 +1,10 @@
 'use strict';
 
 /* global dbversion */
-/* global biomString */
+/* global biom */
 /* global internalProjectId */
 /* global blackbirdPreviewPath */
 $('document').ready(function () {
-    // Extract row organism_ids from biom
-    var organism_ids = biom.getMetadata({ dimension: 'rows', attribute: 'fennec' }).filter(function (element) {
-        return element !== null && dbversion in element && 'organism_id' in element[dbversion] && !isNaN(element[dbversion]['organism_id']);
-    }).map(function (element) {
-        return element[dbversion]['organism_id'];
-    });
-
     // Set header of page to project-id
     $('.page-header').text(biom.id);
 
@@ -207,6 +200,16 @@ $('document').ready(function () {
         setTimeout(function () {
             $('#inspect-with-blackbird-iframe').attr('height', $('#inspect-with-blackbird-iframe').contents().height() + 20);
         }, 1000);
+    });
+});
+'use strict';
+
+$('document').ready(function () {
+    // Extract row organism_ids from biom
+    var organism_ids = biom.getMetadata({ dimension: 'rows', attribute: 'fennec' }).filter(function (element) {
+        return element !== null && dbversion in element && 'organism_id' in element[dbversion] && !isNaN(element[dbversion]['organism_id']);
+    }).map(function (element) {
+        return element[dbversion]['organism_id'];
     });
 
     // Get traits for rows
