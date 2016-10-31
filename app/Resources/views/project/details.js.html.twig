@@ -42,6 +42,8 @@
             biom.comment = $('#editProjectDialogComment').val();
             saveBiomToDB();
         });
+
+        // save biom to database
         function saveBiomToDB() {
             biom.write().then(function (biomJson) {
                 $.ajax('{{ path('api', {'namespace': 'edit', 'classname': 'updateProject'}) }}', {
