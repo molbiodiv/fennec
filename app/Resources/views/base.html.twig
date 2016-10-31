@@ -34,6 +34,11 @@
         <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}" />
     </head>
     <body>
+        {% block jsglobals %}
+            <script type="text/javascript">
+                var dbversion = '{{ dbversion }}';
+            </script>
+        {% endblock %}
         {% block javascripts %}
             {# FOSJsRoutingBundle #}
             <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>

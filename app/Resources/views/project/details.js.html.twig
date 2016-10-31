@@ -1,5 +1,6 @@
 <script src="{{ asset('assets/Blackbird/lib/db.js') }}"></script>
 <script type="text/javascript">
+    /* global dbversion */
     $('document').ready(function () {
         var Biom = require('biojs-io-biom').Biom;
         var biomString = '{{ project['projects'][internal_project_id]['biom']|raw }}';
@@ -8,11 +9,11 @@
         var organism_ids = biom.getMetadata({dimension: 'rows', attribute: 'fennec'}).filter(
             function (element) {
                 return element !== null
-                        && '{{ dbversion }}' in element
-                        && 'organism_id' in element['{{ dbversion }}']
-                        && !isNaN(element['{{ dbversion }}']['organism_id'])
+                        && dbversion in element
+                        && 'organism_id' in element[dbversion]
+                        && !isNaN(element[dbversion]['organism_id'])
             }).map(function (element) {
-                return element['{{ dbversion }}']['organism_id'];
+                return element[dbversion]['organism_id'];
             }
         );
         $('#project-overview-table-id').text(biom.id);
@@ -32,7 +33,7 @@
             biom.write().then(function (biomJson) {
                 $.ajax('{{ path('api', {'namespace': 'edit', 'classname': 'updateProject'}) }}', {
                     data: {
-                        "dbversion": '{{ dbversion }}',
+                        "dbversion": dbversion,
                         "project_id": {{ internal_project_id }},
                         "biom": biomJson
                     },
@@ -76,7 +77,7 @@
         }
 
         function hasOrganismId(value) {
-            return value !== null && '{{ dbversion }}' in value && 'organism_id' in value['{{ dbversion }}'] && value['{{ dbversion }}'].organism_id !== null;
+            return value !== null && dbversion in value && 'organism_id' in value[dbversion] && value[dbversion].organism_id !== null;
         }
 
         /**
@@ -94,7 +95,7 @@
                 if (fennec[i] === null) {
                     fennec[i] = {};
                 }
-                fennec[i]['{{ dbversion }}'] = {
+                fennec[i][dbversion] = {
                     'organism_id': null,
                     'assignment_method': 'ncbi_taxid'
                 };
@@ -102,7 +103,7 @@
                     taxid_total_count++;
                     if (taxids[i] in ncbi2organism_id && ncbi2organism_id[taxids[i]] !== null) {
                         taxid_mapped_count++;
-                        fennec[i]['{{ dbversion }}']['organism_id'] = ncbi2organism_id[taxids[i]];
+                        fennec[i][dbversion]['organism_id'] = ncbi2organism_id[taxids[i]];
                     }
                 }
             }
@@ -124,7 +125,7 @@
             } else {
                 $.ajax('{{ path('api', {'namespace': 'mapping', 'classname': 'byNcbiTaxid'}) }}', {
                     data: {
-                        dbversion: '{{ dbversion }}',
+                        dbversion: dbversion,
                         ids: taxids
                     },
                     method: 'POST',
@@ -145,7 +146,7 @@
             });
             var ncbi_ids = biom.getMetadata({dimension: 'rows', attribute: 'ncbi_taxid'});
             var fennec_id = biom.getMetadata({dimension: 'rows', attribute: 'fennec'}).map(function (value) {
-                return value['{{ dbversion }}']['organism_id'];
+                return value[dbversion]['organism_id'];
             });
             var csv = "OTU_ID\tNCBI_taxid\tFennec_ID\n";
             for(var i=0; i<ids.length; i++){
@@ -201,7 +202,7 @@
         var traits = [];
         $.ajax('{{ path('api', {'namespace': 'details', 'classname': 'traitsOfOrganisms'}) }}', {
             data: {
-                "dbversion": '{{ dbversion }}',
+                "dbversion": dbversion,
                 "organism_ids": organism_ids
             },
             method: "POST",
@@ -240,7 +241,7 @@
                         targets: 0,
                         render: function (data, type, full, meta) {
                             var href = Routing.generate('trait_details', {
-                                'dbversion': '{{ dbversion }}',
+                                'dbversion': dbversion,
                                 'trait_type_id': full.id
                             });
                             return '<a href="' + href + '">' + full.trait + '</a>';
@@ -250,7 +251,7 @@
                         targets: 3,
                         render: function (data, type, full, meta) {
                             var href = Routing.generate('project_trait_details', {
-                                'dbversion': '{{ dbversion }}',
+                                'dbversion': dbversion,
                                 'trait_type_id': full.id,
                                 'project_id': '{{ internal_project_id }}'
                             });
