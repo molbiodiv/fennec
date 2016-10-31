@@ -62,21 +62,13 @@
             });
         }
 
-
-
+        // Calculate values for mapping overview table
         var sampleMetadataFennec = biom.getMetadata({dimension: 'columns', attribute: 'fennec'});
         var mappedSamples = countOrganismIds(sampleMetadataFennec);
         var percentageMappedSamples = 100 * mappedSamples / biom.shape[1];
         var otuMetadataFennec = biom.getMetadata({dimesion: 'rows', attribute: 'fennec'});
         var mappedOTUs = countOrganismIds(otuMetadataFennec);
         var percentageMappedOTUs = 100 * mappedOTUs / biom.shape[0];
-        $('#mapping-otu').text(mappedOTUs);
-        $('#progress-bar-mapping-otu').css('width', percentageMappedOTUs + '%').attr('aria-valuenow', percentageMappedOTUs);
-        $('#progress-bar-mapping-otu').text(percentageMappedOTUs.toFixed(0) + '%');
-        $('#mapping-sample').text(mappedSamples);
-        $('#progress-bar-mapping-sample').css('width', percentageMappedSamples + '%').attr('aria-valuenow', percentageMappedSamples);
-        $('#progress-bar-mapping-sample').text(percentageMappedSamples.toFixed(0) + '%');
-
         function countOrganismIds(metadata) {
             var organismIds = 0;
             $.each(metadata, function (key, value) {
@@ -86,18 +78,52 @@
             });
             return organismIds;
         }
-
         function hasOrganismId(value) {
             return value !== null && dbversion in value && 'organism_id' in value[dbversion] && value[dbversion].organism_id !== null;
         }
 
+        // Add values to mapping overview table
+        $('#mapping-otu').text(mappedOTUs);
+        $('#progress-bar-mapping-otu').css('width', percentageMappedOTUs + '%').attr('aria-valuenow', percentageMappedOTUs);
+        $('#progress-bar-mapping-otu').text(percentageMappedOTUs.toFixed(0) + '%');
+        $('#mapping-sample').text(mappedSamples);
+        $('#progress-bar-mapping-sample').css('width', percentageMappedSamples + '%').attr('aria-valuenow', percentageMappedSamples);
+        $('#progress-bar-mapping-sample').text(percentageMappedSamples.toFixed(0) + '%');
+
+        // Add semi-global dimension variable (stores last mapped dimension)
+        var dimension = 'rows';
+
+        // Set action for click on mapping "GO" button
+        $('#mapping-action-button').on('click', function () {
+            dimension = $('#mapping-dimension-select').val();
+            var taxids = biom.getMetadata({dimension: dimension, attribute: 'ncbi_taxid'});
+            taxids = taxids.filter(function (value) {
+                return value !== null;
+            });
+            taxids = _.uniq(taxids);
+            $('#mapping-results-section').show();
+            if (taxids.length === 0) {
+                handleNcbiTaxidMappingResult(dimension, []);
+            } else {
+                $.ajax('{{ path('api', {'namespace': 'mapping', 'classname': 'byNcbiTaxid'}) }}', {
+                    data: {
+                        dbversion: dbversion,
+                        ids: taxids
+                    },
+                    method: 'POST',
+                    success: function (data) {
+                        handleNcbiTaxidMappingResult(dimension, data);
+                    }
+                });
+            }
+        });
+
         /**
-         * Create the results component from the returned mapping
+         * Create the results component from the returned mapping and store result in global biom object
          * @param {string} dimension
-         * @param {Array} ncbi2organism_id
+         * @param {Array} ncbi2organism_id mapping as returned by webservice
          */
         function handleNcbiTaxidMappingResult(dimension, ncbi2organism_id) {
-            console.log(ncbi2organism_id);
             var fennec = biom.getMetadata({dimension: dimension, attribute: 'fennec'});
             var taxids = biom.getMetadata({dimension: dimension, attribute: 'ncbi_taxid'});
             var taxid_total_count = 0;
@@ -122,41 +148,16 @@
             $('#mapping-results').text("From a total of " + taxids.length + " organisms: " + taxid_total_count + " have a NCBI taxid, of which " + taxid_mapped_count + " could be mapped to organism_ids.");
         }
 
-        var dimension = 'rows';
-        $('#mapping-action-button').on('click', function () {
-            dimension = $('#mapping-dimension-select').val();
-            var taxids = biom.getMetadata({dimension: dimension, attribute: 'ncbi_taxid'});
-            taxids = taxids.filter(function (value) {
-                return value !== null;
-            });
-            taxids = _.uniq(taxids);
-            console.log(taxids.length);
-            $('#mapping-results-section').show();
-            if (taxids.length === 0) {
-                handleNcbiTaxidMappingResult(dimension, []);
-            } else {
-                $.ajax('{{ path('api', {'namespace': 'mapping', 'classname': 'byNcbiTaxid'}) }}', {
-                    data: {
-                        dbversion: dbversion,
-                        ids: taxids
-                    },
-                    method: 'POST',
-                    success: function (data) {
-                        handleNcbiTaxidMappingResult(dimension, data);
-                    }
-                });
-            }
-        });
-
+        // Set action for click on mapping "Save to database" button
         $('#mapping-save-button').on('click', function () {
             saveBiomToDB();
         });
 
+        // Set action for click on mapping "Download as csv" button
         $('#mapping-download-csv-button').on('click', function () {
             var ids = biom[dimension].map(function (element) {
                 return element.id;
             });
-            console.log(dimension);
             var ncbi_ids = biom.getMetadata({dimension: dimension, attribute: 'ncbi_taxid'});
             var fennec_id = biom.getMetadata({dimension: dimension, attribute: 'fennec'}).map(function (value) {
                 return value[dbversion]['organism_id'];
@@ -170,6 +171,7 @@
             saveAs(blob, "mapping.csv");
         });
 
+        // Set action for click on inspect with Blackbird
         $('#inspect-with-blackbird-button').click(function () {
             db.open({
                 server: "BiomData",
@@ -206,14 +208,15 @@
             });
         });
 
+        // Adjust size of iframe after loading of Blackbird
         $('#inspect-with-blackbird-iframe').on("load", function () {
             setTimeout(function () {
-                console.log($('#inspect-with-blackbird-iframe').contents().height());
                 $('#inspect-with-blackbird-iframe').attr('height', $('#inspect-with-blackbird-iframe').contents().height() + 20);
             }, 1000);
         });
 
-        // Get traits
+
+        // Get traits for rows
         var traits = [];
         $.ajax('{{ path('api', {'namespace': 'details', 'classname': 'traitsOfOrganisms'}) }}', {
             data: {
@@ -234,6 +237,8 @@
                 initTraitsOfProjectTable({{ internal_project_id }});
             }
         });
+
+        // Init traits of project table with values
         function initTraitsOfProjectTable(internal_project_id) {
             $('#trait-table').DataTable({
                 data: traits,
