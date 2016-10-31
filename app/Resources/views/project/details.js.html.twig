@@ -1,9 +1,10 @@
 <script type="text/javascript">
     /* global dbversion */
+    /* global biomString */
+    /* global internalProjectId */
     $('document').ready(function () {
         // Initialize biom object for project
         var Biom = require('biojs-io-biom').Biom;
-        var biomString = '{{ project['projects'][internal_project_id]['biom']|raw }}';
         var biomObject = JSON.parse(biomString);
         var biom = new Biom(biomObject);
 
@@ -49,7 +50,7 @@
                 $.ajax('{{ path('api', {'namespace': 'edit', 'classname': 'updateProject'}) }}', {
                     data: {
                         "dbversion": dbversion,
-                        "project_id": {{ internal_project_id }},
+                        "project_id": internalProjectId,
                         "biom": biomJson
                     },
                     method: "POST",
@@ -234,7 +235,7 @@
                     };
                     traits.push(thisTrait);
                 });
-                initTraitsOfProjectTable({{ internal_project_id }});
+                initTraitsOfProjectTable(internalProjectId);
             }
         });
 
@@ -273,7 +274,7 @@
                             var href = Routing.generate('project_trait_details', {
                                 'dbversion': dbversion,
                                 'trait_type_id': full.id,
-                                'project_id': '{{ internal_project_id }}'
+                                'project_id': 'internalProjectId'
                             });
                             return '<a href="' + href + '">Details</a>';
                         }
