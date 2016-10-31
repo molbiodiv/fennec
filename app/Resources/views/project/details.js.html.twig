@@ -29,13 +29,18 @@
         $('#project-overview-table-cols').text(biom.shape[1]);
         $('#project-overview-table-nnz').text(biom.nnz + " (" + (100 * biom.nnz / (biom.shape[0] * biom.shape[1])).toFixed(2) + "%)");
 
-        
-        $('#editProjectDialogProjectID').val(biom.id);
-        $('#editProjectDialogComment').val(biom.comment);
+        // Set action if edit dialog is shown
         $('#editProjectDialog').on('shown.bs.modal', function () {
             $('#editProjectDialogProjectID').val(biom.id);
             $('#editProjectDialogComment').val(biom.comment);
             $('#editProjectDialogProjectID').focus();
+        });
+
+        // Set action if edit dialog is saved
+        $('#editProjectDialogSaveButton').click(function () {
+            biom.id = $('#editProjectDialogProjectID').val();
+            biom.comment = $('#editProjectDialogComment').val();
+            saveBiomToDB();
         });
         function saveBiomToDB() {
             biom.write().then(function (biomJson) {
@@ -55,11 +60,7 @@
             });
         }
 
-        $('#editProjectDialogSaveButton').click(function () {
-            biom.id = $('#editProjectDialogProjectID').val();
-            biom.comment = $('#editProjectDialogComment').val();
-            saveBiomToDB();
-        });
+
 
         var sampleMetadataFennec = biom.getMetadata({dimension: 'columns', attribute: 'fennec'});
         var mappedSamples = countOrganismIds(sampleMetadataFennec);
