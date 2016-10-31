@@ -2,6 +2,7 @@
     /* global dbversion */
     /* global biomString */
     /* global internalProjectId */
+    /* global blackbirdPreviewPath */
     $('document').ready(function () {
         // Initialize biom object for project
         var Biom = require('biojs-io-biom').Biom;
@@ -203,8 +204,8 @@
                 d = new Date();
                 biomToStore.date = d.getUTCFullYear() + "-" + (d.getUTCMonth() + 1) + "-" + d.getUTCDate() + "T" + d.getUTCHours() + ":" + d.getUTCMinutes() + ":" + d.getUTCSeconds() + " UTC";
                 server.biom.add(biomToStore).done(function (item) {
-                    $('#inspect-with-blackbird-iframe').attr('src', '{{ asset('assets/Blackbird/preview.html') }}');
                     $('#inspect-with-blackbird-iframe').show();
+                    $('#inspect-with-blackbird-iframe').attr('src', blackbirdPreviewPath);
                 });
             });
         });
