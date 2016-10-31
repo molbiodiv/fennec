@@ -111,8 +111,9 @@
             $('#mapping-results').text("From a total of " + taxids.length + " organisms: " + taxid_total_count + " have a NCBI taxid, of which " + taxid_mapped_count + " could be mapped to organism_ids.");
         }
 
+        var dimension = 'rows';
         $('#mapping-action-button').on('click', function () {
-            var dimension = $('#mapping-dimension-select').val();
+            dimension = $('#mapping-dimension-select').val();
             var taxids = biom.getMetadata({dimension: dimension, attribute: 'ncbi_taxid'});
             taxids = taxids.filter(function (value) {
                 return value !== null;
@@ -141,14 +142,16 @@
         });
 
         $('#mapping-download-csv-button').on('click', function () {
-            var ids = biom.rows.map(function (element) {
+            var ids = biom[dimension].map(function (element) {
                 return element.id;
             });
-            var ncbi_ids = biom.getMetadata({dimension: 'rows', attribute: 'ncbi_taxid'});
-            var fennec_id = biom.getMetadata({dimension: 'rows', attribute: 'fennec'}).map(function (value) {
+            console.log(dimension);
+            var ncbi_ids = biom.getMetadata({dimension: dimension, attribute: 'ncbi_taxid'});
+            var fennec_id = biom.getMetadata({dimension: dimension, attribute: 'fennec'}).map(function (value) {
                 return value[dbversion]['organism_id'];
             });
-            var csv = "OTU_ID\tNCBI_taxid\tFennec_ID\n";
+            var id_header = dimension === 'rows' ? 'OTU_ID' : 'Sample_ID';
+            var csv = id_header + "\tNCBI_taxid\tFennec_ID\n";
             for(var i=0; i<ids.length; i++){
                 csv += ids[i]+"\t"+ncbi_ids[i]+"\t"+fennec_id[i]+"\n";
             }
