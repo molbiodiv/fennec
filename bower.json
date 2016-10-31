@@ -27,7 +27,8 @@
     "bs-confirmation": "^1.0.5",
     "biojs-io-biom": "^1.0.2",
     "d3": "^4.2.7",
-    "react": "^15.3.2"
+    "react": "^15.3.2",
+    "file-saver": "filesaver#^1.3.3"
   },
   "resolutions": {
     "font-awesome": "~4.6.3"
