@@ -1,11 +1,13 @@
-
 <script type="text/javascript">
     /* global dbversion */
     $('document').ready(function () {
+        // Initialize biom object for project
         var Biom = require('biojs-io-biom').Biom;
         var biomString = '{{ project['projects'][internal_project_id]['biom']|raw }}';
         var biomObject = JSON.parse(biomString);
         var biom = new Biom(biomObject);
+
+        // Extract row organism_ids from biom
         var organism_ids = biom.getMetadata({dimension: 'rows', attribute: 'fennec'}).filter(
             function (element) {
                 return element !== null
@@ -16,12 +18,18 @@
                 return element[dbversion]['organism_id'];
             }
         );
-        $('#project-overview-table-id').text(biom.id);
+
+        // Set header of page to project-id
         $('.page-header').text(biom.id);
+
+        // Fill overview table with values
+        $('#project-overview-table-id').text(biom.id);
         $('#project-overview-table-comment').text(biom.comment);
         $('#project-overview-table-rows').text(biom.shape[0]);
         $('#project-overview-table-cols').text(biom.shape[1]);
         $('#project-overview-table-nnz').text(biom.nnz + " (" + (100 * biom.nnz / (biom.shape[0] * biom.shape[1])).toFixed(2) + "%)");
+
+        
         $('#editProjectDialogProjectID').val(biom.id);
         $('#editProjectDialogComment').val(biom.comment);
         $('#editProjectDialog').on('shown.bs.modal', function () {
