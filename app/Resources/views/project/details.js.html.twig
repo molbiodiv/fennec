@@ -48,7 +48,8 @@
         // save biom to database
         function saveBiomToDB() {
             biom.write().then(function (biomJson) {
-                $.ajax('{{ path('api', {'namespace': 'edit', 'classname': 'updateProject'}) }}', {
+                var webserviceUrl = Routing.generate('api', {'namespace': 'edit', 'classname': 'updateProject'});
+                $.ajax(webserviceUrl, {
                     data: {
                         "dbversion": dbversion,
                         "project_id": internalProjectId,
@@ -107,7 +108,8 @@
             if (taxids.length === 0) {
                 handleNcbiTaxidMappingResult(dimension, []);
             } else {
-                $.ajax('{{ path('api', {'namespace': 'mapping', 'classname': 'byNcbiTaxid'}) }}', {
+                var webserviceUrl = Routing.generate('api', {'namespace': 'mapping', 'classname': 'byNcbiTaxid'});
+                $.ajax(webserviceUrl, {
                     data: {
                         dbversion: dbversion,
                         ids: taxids
@@ -220,7 +222,8 @@
 
         // Get traits for rows
         var traits = [];
-        $.ajax('{{ path('api', {'namespace': 'details', 'classname': 'traitsOfOrganisms'}) }}', {
+        var webserviceUrl = Routing.generate('api', {'namespace': 'details', 'classname': 'traitsOfOrganisms'});
+        $.ajax(webserviceUrl, {
             data: {
                 "dbversion": dbversion,
                 "organism_ids": organism_ids
