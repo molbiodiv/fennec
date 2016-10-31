@@ -2,6 +2,7 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script src="{{ asset('assets/Blackbird/lib/db.js') }}"></script>
     {% include 'project/details.js.html.twig' %}
     <script src="{{ asset('assets/js/project/details.js') }}"></script>
 {% endblock %}
