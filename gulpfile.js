@@ -3,14 +3,16 @@
 var gulp = require('gulp');
 var sass = require('gulp-sass');
 var sassLint = require('gulp-sass-lint');
+var concat = require('gulp-concat');
 var sourcemaps = require('gulp-sourcemaps');
 var babel = require('gulp-babel');
 
 gulp.task('babel', function() {
-    return gulp.src('app/Resources/client/jsx/project/details.jsx')
+    return gulp.src('app/Resources/client/jsx/project/details/*.jsx')
         .pipe(babel({
             presets: ['es2015', 'react']
         }))
+        .pipe(concat('details.js'))
         .pipe(gulp.dest('web/assets/js/project'));
 });
 

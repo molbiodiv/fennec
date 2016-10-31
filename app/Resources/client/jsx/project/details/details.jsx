@@ -1,5 +1,5 @@
 /* global dbversion */
-/* global biomString */
+/* global biom */
 /* global internalProjectId */
 /* global blackbirdPreviewPath */
 $('document').ready(function () {
