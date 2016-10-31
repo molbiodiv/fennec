@@ -152,7 +152,8 @@
             for(var i=0; i<ids.length; i++){
                 csv += ids[i]+"\t"+ncbi_ids[i]+"\t"+fennec_id[i]+"\n";
             }
-            console.log(csv);
+            var blob = new Blob([csv], {type: "text/plain;charset=utf-8"});
+            saveAs(blob, "mapping.csv");
         });
 
         $('#inspect-with-blackbird-button').click(function () {
