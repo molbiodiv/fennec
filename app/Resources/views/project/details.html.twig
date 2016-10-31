@@ -2,13 +2,14 @@
 
 {% block javascripts %}
     {{ parent() }}
+
     <script type="text/javascript">
         var biomString = '{{ project['projects'][internal_project_id]['biom']|raw }}';
         var internalProjectId = '{{ internal_project_id }}';
         var blackbirdPreviewPath = '{{ asset('assets/Blackbird/preview.html') }}';
     </script>
+
     <script src="{{ asset('assets/Blackbird/lib/db.js') }}"></script>
-    {% include 'project/details.js.html.twig' %}
     <script src="{{ asset('assets/js/project/details.js') }}"></script>
 {% endblock %}
 
