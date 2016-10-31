@@ -3,11 +3,6 @@
 /* global internalProjectId */
 /* global blackbirdPreviewPath */
 $('document').ready(function () {
-    // Initialize biom object for project
-    var Biom = require('biojs-io-biom').Biom;
-    var biomObject = JSON.parse(biomString);
-    var biom = new Biom(biomObject);
-
     // Extract row organism_ids from biom
     var organism_ids = biom.getMetadata({dimension: 'rows', attribute: 'fennec'}).filter(
         function (element) {

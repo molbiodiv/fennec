@@ -7,6 +7,11 @@
         var biomString = '{{ project['projects'][internal_project_id]['biom']|raw }}';
         var internalProjectId = '{{ internal_project_id }}';
         var blackbirdPreviewPath = '{{ asset('assets/Blackbird/preview.html') }}';
+        var biom = function(){
+            var Biom = require('biojs-io-biom').Biom;
+            var biomObject = JSON.parse(biomString);
+            return new Biom(biomObject);
+        }();
     </script>
 
     <script src="{{ asset('assets/Blackbird/lib/db.js') }}"></script>
