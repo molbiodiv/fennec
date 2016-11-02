@@ -60,6 +60,9 @@
                             }
                         });
                         $("#vernacularName").text(getBestVernacularNameEOL(result));
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        showMessageDialog(errorThrown, 'danger');
                     }
                 }).done(function(){
                     progress.progressTimer('complete');
