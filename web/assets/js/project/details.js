@@ -1,9 +1,52 @@
 'use strict';
 
-/* global dbversion */
+/* global db */
 /* global biom */
-/* global internalProjectId */
 /* global blackbirdPreviewPath */
+$('document').ready(function () {
+    // Set action for click on inspect with Blackbird
+    // db is the browser webstorage
+    $('#inspect-with-blackbird-button').click(function () {
+        db.open({
+            server: "BiomData",
+            version: 1,
+            schema: {
+                "biom": {
+                    key: {
+                        keyPath: 'id',
+                        autoIncrement: true
+                    }
+                }
+            }
+        }).done(function (server) {
+            var biomToStore = {};
+            biomToStore.name = biom.id;
+            biom.write().then(function (biomString) {
+                biomToStore.size = biomString.length;
+                biomToStore.data = biomString;
+                var d = new Date();
+                biomToStore.date = d.getUTCFullYear() + "-" + (d.getUTCMonth() + 1) + "-" + d.getUTCDate() + "T" + d.getUTCHours() + ":" + d.getUTCMinutes() + ":" + d.getUTCSeconds() + " UTC";
+                server.biom.add(biomToStore).done(function (item) {
+                    $('#inspect-with-blackbird-iframe').show();
+                    $('#inspect-with-blackbird-iframe').attr('src', blackbirdPreviewPath);
+                });
+            });
+        });
+    });
+
+    // Adjust size of iframe after loading of Blackbird
+    $('#inspect-with-blackbird-iframe').on("load", function () {
+        setTimeout(function () {
+            $('#inspect-with-blackbird-iframe').attr('height', $('#inspect-with-blackbird-iframe').contents().height() + 20);
+        }, 1000);
+    });
+});
+'use strict';
+
+/* global dbversion
+   global biom
+   global internalProjectId
+   global blackbirdPreviewPath */
 $('document').ready(function () {
     // Set header of page to project-id
     $('.page-header').text(biom.id);
@@ -157,49 +200,6 @@ $('document').ready(function () {
         }
         var blob = new Blob([csv], { type: "text/plain;charset=utf-8" });
         saveAs(blob, "mapping.csv");
-    });
-
-    // Set action for click on inspect with Blackbird
-    $('#inspect-with-blackbird-button').click(function () {
-        db.open({
-            server: "BiomData",
-            version: 1,
-            schema: {
-                "biom": {
-                    key: {
-                        keyPath: 'id',
-                        autoIncrement: true
-                    }
-                }
-            }
-        }).done(function (server) {
-            var biomToStore = {};
-            biomToStore.name = biomObject.id;
-            if (!biomObject.columns[0].hasOwnProperty('metadata') || biomObject.columns[0].metadata === null || !biomObject.columns[0].metadata.hasOwnProperty('phinchID')) {
-                for (var i = 0; i < biomObject.columns.length; i++) {
-                    if (!biomObject.columns[i].hasOwnProperty('metadata') || biomObject.columns[i].metadata === null) {
-                        biomObject.columns[i].metadata = [];
-                    }
-                    biomObject.columns[i].metadata.phinchID = i;
-                }
-                biomString = JSON.stringify(biomObject);
-            }
-            biomToStore.size = biomString.length;
-            biomToStore.data = biomString;
-            var d = new Date();
-            biomToStore.date = d.getUTCFullYear() + "-" + (d.getUTCMonth() + 1) + "-" + d.getUTCDate() + "T" + d.getUTCHours() + ":" + d.getUTCMinutes() + ":" + d.getUTCSeconds() + " UTC";
-            server.biom.add(biomToStore).done(function (item) {
-                $('#inspect-with-blackbird-iframe').show();
-                $('#inspect-with-blackbird-iframe').attr('src', blackbirdPreviewPath);
-            });
-        });
-    });
-
-    // Adjust size of iframe after loading of Blackbird
-    $('#inspect-with-blackbird-iframe').on("load", function () {
-        setTimeout(function () {
-            $('#inspect-with-blackbird-iframe').attr('height', $('#inspect-with-blackbird-iframe').contents().height() + 20);
-        }, 1000);
     });
 });
 'use strict';

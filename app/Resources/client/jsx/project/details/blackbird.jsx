@@ -19,24 +19,15 @@ $('document').ready(() => {
         }).done(function (server) {
             var biomToStore = {};
             biomToStore.name = biom.id;
-            if (!biom.columns[0].hasOwnProperty('metadata') ||
-                biom.columns[0].metadata === null || !biom.columns[0].metadata.hasOwnProperty('phinchID')) {
-                for (let i = 0; i < biom.columns.length; i++) {
-                    if (!biom.columns[i].hasOwnProperty('metadata') || biom.columns[i].metadata === null) {
-                        biom.columns[i].metadata = [];
-                    }
-                    biom.columns[i].metadata.phinchID = i;
-                }
-                
-                biomString = JSON.stringify(biom);
-            }
-            biomToStore.size = biomString.length;
-            biomToStore.data = biomString;
-            let d = new Date();
-            biomToStore.date = d.getUTCFullYear() + "-" + (d.getUTCMonth() + 1) + "-" + d.getUTCDate() + "T" + d.getUTCHours() + ":" + d.getUTCMinutes() + ":" + d.getUTCSeconds() + " UTC";
-            server.biom.add(biomToStore).done(function (item) {
-                $('#inspect-with-blackbird-iframe').show();
-                $('#inspect-with-blackbird-iframe').attr('src', blackbirdPreviewPath);
+            biom.write().then(biomString => {
+                biomToStore.size = biomString.length;
+                biomToStore.data = biomString;
+                let d = new Date();
+                biomToStore.date = d.getUTCFullYear() + "-" + (d.getUTCMonth() + 1) + "-" + d.getUTCDate() + "T" + d.getUTCHours() + ":" + d.getUTCMinutes() + ":" + d.getUTCSeconds() + " UTC";
+                server.biom.add(biomToStore).done(function (item) {
+                    $('#inspect-with-blackbird-iframe').show();
+                    $('#inspect-with-blackbird-iframe').attr('src', blackbirdPreviewPath);
+                });
             });
         });
     });
