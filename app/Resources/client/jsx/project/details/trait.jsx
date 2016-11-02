@@ -1,12 +1,16 @@
+/* global internalProjectId */
+/* global dbversion */
+
 $('document').ready(() => {
+    var traits = [];
+    var webserviceUrl = Routing.generate('api', {'namespace': 'details', 'classname': 'traitsOfOrganisms'});
+
     // Extract row organism_ids from biom
     var organism_ids = biom.getMetadata({dimension: 'rows', attribute: 'fennec'})
         .filter( element => element !== null && dbversion in element && 'organism_id' in element[dbversion] && !isNaN(element[dbversion]['organism_id']) )
         .map(element => element[dbversion]['organism_id']);
 
     // Get traits for rows
-    var traits = [];
-    var webserviceUrl = Routing.generate('api', {'namespace': 'details', 'classname': 'traitsOfOrganisms'});
     $.ajax(webserviceUrl, {
         data: {
             "dbversion": dbversion,
@@ -23,12 +27,12 @@ $('document').ready(() => {
                 };
                 traits.push(thisTrait);
             });
-            initTraitsOfProjectTable(internalProjectId);
+            initTraitsOfProjectTable();
         }
     });
 
     // Init traits of project table with values
-    function initTraitsOfProjectTable(internal_project_id) {
+    function initTraitsOfProjectTable() {
         $('#trait-table').DataTable({
             data: traits,
             columns: [
@@ -62,7 +66,7 @@ $('document').ready(() => {
                         var href = Routing.generate('project_trait_details', {
                             'dbversion': dbversion,
                             'trait_type_id': full.id,
-                            'project_id': 'internalProjectId'
+                            'project_id': internalProjectId
                         });
                         return '<a href="' + href + '">Details</a>';
                     }
