@@ -21,5 +21,25 @@ describe('helpers/organismDetails', () => {
         it('function is available', () => {
             assert.equal(typeof getBestVernacularNameEOL, 'function');
         });
+        it('function returns empty string if neither scientificName nor vernacularNames are given', () => {
+            assert.equal(getBestVernacularNameEOL({}), '');
+        });
+        it('function returns scientificName if no vernacularNames are given', () => {
+            assert.equal(getBestVernacularNameEOL({scientificName: 'My Sciname'}), 'My Sciname');
+        });
+        it('function returns english vernacularName if present', () => {
+            assert.equal(getBestVernacularNameEOL({scientificName: 'My Sciname', vernacularNames: [
+                {language: 'de', vernacularName: 'Deutscher Name'},
+                {language: 'en', vernacularName: 'English Name'}
+            ]}), 'English Name');
+        });
+        it('function returns eolPreferred english vernacularName if present', () => {
+            assert.equal(getBestVernacularNameEOL({scientificName: 'My Sciname', vernacularNames: [
+                {language: 'de', vernacularName: 'Deutscher Name'},
+                {language: 'en', vernacularName: 'English Name'},
+                {language: 'en', vernacularName: 'English Preferred Name', eol_preferred: true},
+                {language: 'en', vernacularName: 'Another English Name'}
+            ]}), 'English Preferred Name');
+        });
     });
 });
