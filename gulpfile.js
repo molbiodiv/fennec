@@ -10,23 +10,31 @@ require('babel-core/register');
 // testing
 var mocha = require('gulp-mocha');
 
-gulp.task('babel-helpers', function() {
-    return gulp.src('app/Resources/client/jsx/helpers/*.js')
-        .pipe(babel({
-            presets: ['es2015']
-        }))
-        .pipe(concat('helpers.js'))
-        .pipe(gulp.dest('web/assets/js/'));
-});
-
+/**
+ *
+ * @param outFolder string
+ * @param outFileBase string
+ * @return {*}
+ */
 function runBabelOnFolder(outFolder, outFileBase) {
-    return gulp.src('app/Resources/client/jsx/'+outFolder+'/'+outFileBase+'/*.jsx')
+    if(outFolder !== '' && outFolder.slice(-1) !== '/'){
+        outFolder += '/';
+    }
+    return gulp.src('app/Resources/client/jsx/'+outFolder+outFileBase+'/*.js?(x)')
         .pipe(babel({
             presets: ['es2015', 'react']
         }))
         .pipe(concat(outFileBase+'.js'))
         .pipe(gulp.dest('web/assets/js/'+outFolder));
 }
+
+gulp.task('babel-helpers', function() {
+    return runBabelOnFolder('', 'helpers');
+});
+
+gulp.task('babel-base', function() {
+    return runBabelOnFolder('', 'base');
+});
 
 gulp.task('babel-project-details', function() {
     return runBabelOnFolder('project', 'details');
@@ -52,7 +60,7 @@ gulp.task('sassLint', function() {
     .pipe(sassLint.failOnError());
 });
 
-gulp.task('babel', ['babel-helpers','babel-project-details'], function () {
+gulp.task('babel', ['babel-helpers','babel-base','babel-project-details'], function () {
 });
 
 gulp.task('css', ['sassLint','sass'], function () {
