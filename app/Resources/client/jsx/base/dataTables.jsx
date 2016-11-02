@@ -10,5 +10,3 @@ $(document).ready(function() {
 $(document).ready(function() {
     $('#metadata_community').DataTable();
 } );
-
-
