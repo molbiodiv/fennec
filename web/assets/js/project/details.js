@@ -43,7 +43,7 @@ function saveBiomToDB() {
                 "biom": biomJson
             },
             method: "POST",
-            success: function success(data) {
+            success: function success() {
                 location.reload();
             }
         });

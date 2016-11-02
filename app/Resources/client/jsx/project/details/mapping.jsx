@@ -66,7 +66,7 @@ $('document').ready(() => {
         var taxids = biom.getMetadata({dimension: dimension, attribute: 'ncbi_taxid'});
         var taxid_total_count = 0;
         var taxid_mapped_count = 0;
-        for (var i = 0; i < taxids.length; i++) {
+        for (let i = 0; i < taxids.length; i++) {
             if (fennec[i] === null) {
                 fennec[i] = {};
             }
