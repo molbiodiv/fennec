@@ -1,10 +1,10 @@
 /* global db */
 /* global biom */
-/* global blackbirdPreviewPath */
+/* global phinchPreviewPath */
 $('document').ready(() => {
-    // Set action for click on inspect with Blackbird
+    // Set action for click on inspect with Phinch
     // db is the browser webstorage
-    $('#inspect-with-blackbird-button').click(function () {
+    $('#inspect-with-phinch-button').click(function () {
         db.open({
             server: "BiomData",
             version: 1,
@@ -25,17 +25,17 @@ $('document').ready(() => {
                 let d = new Date();
                 biomToStore.date = d.getUTCFullYear() + "-" + (d.getUTCMonth() + 1) + "-" + d.getUTCDate() + "T" + d.getUTCHours() + ":" + d.getUTCMinutes() + ":" + d.getUTCSeconds() + " UTC";
                 server.biom.add(biomToStore).done(function (item) {
-                    $('#inspect-with-blackbird-iframe').show();
-                    $('#inspect-with-blackbird-iframe').attr('src', blackbirdPreviewPath);
+                    $('#inspect-with-phinch-iframe').show();
+                    $('#inspect-with-phinch-iframe').attr('src', phinchPreviewPath);
                 });
             });
         });
     });
 
-    // Adjust size of iframe after loading of Blackbird
-    $('#inspect-with-blackbird-iframe').on("load", function () {
+    // Adjust size of iframe after loading of Phinch
+    $('#inspect-with-phinch-iframe').on("load", function () {
         setTimeout(function () {
-            $('#inspect-with-blackbird-iframe').attr('height', $('#inspect-with-blackbird-iframe').contents().height() + 20);
+            $('#inspect-with-phinch-iframe').attr('height', $('#inspect-with-phinch-iframe').contents().height() + 20);
         }, 1000);
     });
 });

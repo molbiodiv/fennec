@@ -6,7 +6,7 @@
     <script type="text/javascript">
         var biomString = '{{ project['projects'][internal_project_id]['biom']|raw }}';
         var internalProjectId = '{{ internal_project_id }}';
-        var blackbirdPreviewPath = '{{ asset('assets/Blackbird/preview.html') }}';
+        var phinchPreviewPath = '{{ asset('assets/Blackbird/preview.html') }}';
         var biom = function(){
             var Biom = require('biojs-io-biom').Biom;
             var biomObject = JSON.parse(biomString);
@@ -51,10 +51,10 @@
             <div class="panel-heading">
                 <h3 class="panel-title">Explore</h3>
             </div>
-            <button class='btn' id="inspect-with-blackbird-button">Inspect with Blackbird</button>
+            <button class='btn' id="inspect-with-phinch-button">Inspect with Blackbird</button>
             <i data-toggle="tooltip" title="This is an experimental integration of Blackbird (see blackbird.iimog.org)." class="fa fa-question-circle"></i><br>
         </div>
-        <div style="height: 100%"><iframe id='inspect-with-blackbird-iframe' width="100%" height="100%" style="border: none; display: none"></iframe></div>
+        <div style="height: 100%"><iframe id='inspect-with-phinch-iframe' width="100%" height="100%" style="border: none; display: none"></iframe></div>
 
         <!-- Traits -->
         <div class="panel panel-default">
