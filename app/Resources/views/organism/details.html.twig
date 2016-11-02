@@ -64,7 +64,7 @@
                     error: function (jqXHR, textStatus, errorThrown) {
                         showMessageDialog(errorThrown, 'danger');
                     }
-                }).done(function(){
+                }).always(function(){
                     progress.progressTimer('complete');
                 });
             });
