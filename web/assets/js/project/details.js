@@ -247,13 +247,13 @@ $('document').ready(function () {
             order: [2, "desc"],
             columnDefs: [{
                 targets: 2,
-                render: function render(data, type, full, meta) {
-                    return '<span title="' + data / 100 + '"></span><div class="progress"><div class="progress-bar progress-bar-trait" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: ' + data + '%">' + Math.round(data) + '%</div></div>';
+                render: function render(data) {
+                    return '<span title="' + data / 100 + '"></span>' + '<div class="progress">' + '<div class="progress-bar progress-bar-trait" role="progressbar" style="width: ' + data + '%">' + Math.round(data) + '%</div></div>';
                 },
                 type: 'title-numeric'
             }, {
                 targets: 0,
-                render: function render(data, type, full, meta) {
+                render: function render(data, type, full) {
                     var href = Routing.generate('trait_details', {
                         'dbversion': dbversion,
                         'trait_type_id': full.id
@@ -262,7 +262,7 @@ $('document').ready(function () {
                 }
             }, {
                 targets: 3,
-                render: function render(data, type, full, meta) {
+                render: function render(data, type, full) {
                     var href = Routing.generate('project_trait_details', {
                         'dbversion': dbversion,
                         'trait_type_id': full.id,
