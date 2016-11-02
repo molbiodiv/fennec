@@ -34,7 +34,7 @@ gulp.task('test', function() {
 });
 
 gulp.task('sass', function () {
-  return gulp.src('web/assets/scss/*.scss')
+  return gulp.src('app/Resources/client/scss/*.scss')
     .pipe(sourcemaps.init())
     .pipe(sass().on('error', sass.logError))
     .pipe(sourcemaps.write('.', {includeContent: false}))
