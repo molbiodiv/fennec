@@ -19,13 +19,17 @@ gulp.task('babel-helpers', function() {
         .pipe(gulp.dest('web/assets/js/'));
 });
 
-gulp.task('babel', function() {
-    return gulp.src('app/Resources/client/jsx/project/details/*.jsx')
+function runBabelOnFolder(outFolder, outFileBase) {
+    return gulp.src('app/Resources/client/jsx/'+outFolder+'/'+outFileBase+'/*.jsx')
         .pipe(babel({
             presets: ['es2015', 'react']
         }))
-        .pipe(concat('details.js'))
-        .pipe(gulp.dest('web/assets/js/project'));
+        .pipe(concat(outFileBase+'.js'))
+        .pipe(gulp.dest('web/assets/js/'+outFolder));
+}
+
+gulp.task('babel-project-details', function() {
+    return runBabelOnFolder('project', 'details');
 });
 
 gulp.task('test', function() {
@@ -48,10 +52,13 @@ gulp.task('sassLint', function() {
     .pipe(sassLint.failOnError());
 });
 
+gulp.task('babel', ['babel-helpers','babel-project-details'], function () {
+});
+
 gulp.task('css', ['sassLint','sass'], function () {
 });
 
-gulp.task('default', ['css','babel'], function() {
+gulp.task('default', ['css','babel','test'], function() {
   // place code for your default task here
 });
 
