@@ -6,6 +6,10 @@ var sassLint = require('gulp-sass-lint');
 var concat = require('gulp-concat');
 var sourcemaps = require('gulp-sourcemaps');
 var babel = require('gulp-babel');
+require('babel-core/register');
+// testing
+var mocha = require('gulp-mocha');
+
 
 gulp.task('babel', function() {
     return gulp.src('app/Resources/client/jsx/project/details/*.jsx')
@@ -14,6 +18,11 @@ gulp.task('babel', function() {
         }))
         .pipe(concat('details.js'))
         .pipe(gulp.dest('web/assets/js/project'));
+});
+
+gulp.task('test', function() {
+    return gulp.src('tests/jsx/**/*.js', {read: false})
+        .pipe(mocha({reporter: 'spec', useColors: true}))
 });
 
 gulp.task('sass', function () {
