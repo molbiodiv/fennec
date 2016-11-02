@@ -1,9 +1,9 @@
 'use strict';
 
-/* global dbversion
-   global biom
-   global internalProjectId
-   global blackbirdPreviewPath */
+/* global dbversion */
+/* global biom */
+/* global internalProjectId */
+/* global blackbirdPreviewPath */
 $('document').ready(function () {
     // Set header of page to project-id
     $('.page-header').text(biom.id);
@@ -28,27 +28,32 @@ $('document').ready(function () {
         biom.comment = $('#editProjectDialogComment').val();
         saveBiomToDB();
     });
+});
 
-    // save biom to database
-    function saveBiomToDB() {
-        biom.write().then(function (biomJson) {
-            var webserviceUrl = Routing.generate('api', { 'namespace': 'edit', 'classname': 'updateProject' });
-            $.ajax(webserviceUrl, {
-                data: {
-                    "dbversion": dbversion,
-                    "project_id": internalProjectId,
-                    "biom": biomJson
-                },
-                method: "POST",
-                success: function success(data) {
-                    location.reload();
-                }
-            });
-        }, function (failure) {
-            console.log(failure);
+/**
+ * Saves the current value of the global biom variable to the postgres database
+ */
+function saveBiomToDB() {
+    biom.write().then(function (biomJson) {
+        var webserviceUrl = Routing.generate('api', { 'namespace': 'edit', 'classname': 'updateProject' });
+        $.ajax(webserviceUrl, {
+            data: {
+                "dbversion": dbversion,
+                "project_id": internalProjectId,
+                "biom": biomJson
+            },
+            method: "POST",
+            success: function success(data) {
+                location.reload();
+            }
         });
-    }
+    }, function (failure) {
+        console.log(failure);
+    });
+}
+'use strict';
 
+$('document').ready(function () {
     // Calculate values for mapping overview table
     var sampleMetadataFennec = biom.getMetadata({ dimension: 'columns', attribute: 'fennec' });
     var mappedSamples = countOrganismIds(sampleMetadataFennec);
