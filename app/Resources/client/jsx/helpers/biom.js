@@ -2,7 +2,7 @@
  * Method that creates the otu table data of a biom object
  * @returns {object} otuTableData Object that contains the data for showing the otu table
  */
-getOtuTable = function(biom, otulimit){
+function getOtuTable(biom, otulimit){
     var that = biom;
     var otuTableData = {};
     otuTableData.columns = [
@@ -22,7 +22,7 @@ getOtuTable = function(biom, otulimit){
     //all otus up to otulimit are runned through
     var otus = 0;
     $.each(biom.rows, function(rowKey, rowValue){
-        thisEntry = {"OTU": rowValue.id};
+        let thisEntry = {"OTU": rowValue.id};
         var data = _.filter(that.data, function(dataEntry){
             return dataEntry[0] === rowKey;
         });
