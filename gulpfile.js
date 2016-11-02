@@ -10,6 +10,14 @@ require('babel-core/register');
 // testing
 var mocha = require('gulp-mocha');
 
+gulp.task('babel-helpers', function() {
+    return gulp.src('app/Resources/client/jsx/helpers/*.js')
+        .pipe(babel({
+            presets: ['es2015']
+        }))
+        .pipe(concat('helpers.js'))
+        .pipe(gulp.dest('web/assets/js/'));
+});
 
 gulp.task('babel', function() {
     return gulp.src('app/Resources/client/jsx/project/details/*.jsx')
@@ -43,7 +51,7 @@ gulp.task('sassLint', function() {
 gulp.task('css', ['sassLint','sass'], function () {
 });
 
-gulp.task('default', ['css'], function() {
+gulp.task('default', ['css','babel'], function() {
   // place code for your default task here
 });
 
