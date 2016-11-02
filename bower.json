@@ -21,14 +21,14 @@
     "bootstrap-select": "^1.11.2",
     "jquery-ui": "^1.12.1",
     "jquery-progresstimer": "^1.0.7",
-    "underscore": "^1.8.3",
     "plotlyjs": "plotly#^1.16.2",
     "datatables": "^1.10.12",
     "bs-confirmation": "^1.0.5",
     "biojs-io-biom": "^1.0.2",
     "d3": "^4.2.7",
     "react": "^15.3.2",
-    "file-saver": "filesaver#^1.3.3"
+    "file-saver": "filesaver#^1.3.3",
+    "lodash": "^4.16.6"
   },
   "resolutions": {
     "font-awesome": "~4.6.3"
