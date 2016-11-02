@@ -1,7 +1,7 @@
-/* global dbversion */
-/* global biom */
-/* global internalProjectId */
-/* global blackbirdPreviewPath */
+/* global dbversion
+   global biom
+   global internalProjectId
+   global blackbirdPreviewPath */
 $('document').ready(function () {
     // Set header of page to project-id
     $('.page-header').text(biom.id);

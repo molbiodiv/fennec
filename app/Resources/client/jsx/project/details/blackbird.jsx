@@ -1,7 +1,9 @@
 /* global db */
 /* global biom */
+/* global blackbirdPreviewPath */
 $('document').ready(() => {
     // Set action for click on inspect with Blackbird
+    // db is the browser webstorage
     $('#inspect-with-blackbird-button').click(function () {
         db.open({
             server: "BiomData",
