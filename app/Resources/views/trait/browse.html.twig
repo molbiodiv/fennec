@@ -2,7 +2,7 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('assets/js/traitBrowse/interactiveTraitBrowse.js') }}"></script>
+    <script src="{{ asset('assets/js/trait/browse.js') }}"></script>
 {% endblock %}
 
 {% block content %}
@@ -30,7 +30,6 @@
         </div>
     </div>
     {% elseif searchLevel == 'ecology'%}
-    <script src="{{ asset('assets/js/traitBrowse/interactiveTraitBrowse_'~searchLevel~'.js') }}"></script>
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-trait" style="width: 1040px;">
@@ -46,7 +45,6 @@
         </div>
     </div>
     {% elseif searchLevel == 'humanAndEcosystems'%}
-    <script src="{{ asset('assets/js/traitBrowse/interactiveTraitBrowse_'~searchLevel~'.js') }}"></script>
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-trait" style="width: 1040px;">
@@ -62,7 +60,6 @@
         </div>
     </div>
     {% elseif searchLevel == 'behaviour'%}
-    <script src="{{ asset('assets/js/traitBrowse/interactiveTraitBrowse_'~searchLevel~'.js') }}"></script>
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-trait" style="width: 1040px;">
