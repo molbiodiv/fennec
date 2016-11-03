@@ -23,7 +23,7 @@
     "plotlyjs": "plotly#^1.16.2",
     "datatables": "^1.10.12",
     "bs-confirmation": "^1.0.5",
-    "biojs-io-biom": "^1.0.2",
+    "biojs-io-biom": "^1.0.3",
     "d3": "^4.2.7",
     "react": "^15.3.2",
     "file-saver": "filesaver#^1.3.3",
