@@ -6,9 +6,8 @@ $('document').ready(() => {
     var webserviceUrl = Routing.generate('api', {'namespace': 'details', 'classname': 'traitsOfOrganisms'});
 
     // Extract row organism_ids from biom
-    var organism_ids = biom.getMetadata({dimension: 'rows', attribute: 'fennec'})
-        .filter( element => element !== null && dbversion in element && 'organism_id' in element[dbversion] && !isNaN(element[dbversion]['organism_id']) )
-        .map(element => element[dbversion]['organism_id']);
+    var organism_ids = biom.getMetadata({dimension: 'rows', attribute: ['fennec', dbversion, 'organism_id']})
+        .filter( element => element !== null );
 
     // Get traits for rows
     $.ajax(webserviceUrl, {

@@ -217,10 +217,8 @@ $('document').ready(function () {
     var webserviceUrl = Routing.generate('api', { 'namespace': 'details', 'classname': 'traitsOfOrganisms' });
 
     // Extract row organism_ids from biom
-    var organism_ids = biom.getMetadata({ dimension: 'rows', attribute: 'fennec' }).filter(function (element) {
-        return element !== null && dbversion in element && 'organism_id' in element[dbversion] && !isNaN(element[dbversion]['organism_id']);
-    }).map(function (element) {
-        return element[dbversion]['organism_id'];
+    var organism_ids = biom.getMetadata({ dimension: 'rows', attribute: ['fennec', dbversion, 'organism_id'] }).filter(function (element) {
+        return element !== null;
     });
 
     // Get traits for rows
