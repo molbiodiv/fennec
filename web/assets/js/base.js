@@ -125,17 +125,64 @@ function drawMap() {
         }
     });
 }
-'use strict';
+"use strict";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 /*jshint unused:false*/
-// This is the underscore.js template, compiled once and called from showMessageDialog later
-var dialogTemplate = '<div class="alert <%= type %> alert-dismissable" role="alert" style="margin-top: 10px;">';
-dialogTemplate += '<button type="button" class="close" data-dismiss="alert" aria-label="Close">';
-dialogTemplate += '<span aria-hidden="true">&times;</span>';
-dialogTemplate += '</button>';
-dialogTemplate += '<%= message %>';
-dialogTemplate += '</div>';
-dialogTemplate = _.template(dialogTemplate);
+// This is the react template,called from showMessageDialog later
+function MessageDialog(props) {
+    return React.createElement(
+        "div",
+        { className: "alert alert-dismissable " + props.type, role: "alert" },
+        React.createElement(
+            "button",
+            { type: "button", className: "close", "aria-label": "Close", onClick: function onClick() {
+                    removeMessageDialog(props.id);
+                } },
+            React.createElement(
+                "span",
+                { "aria-hidden": "true" },
+                "\xD7"
+            )
+        ),
+        props.message
+    );
+}
+
+var MessageArea = function (_React$Component) {
+    _inherits(MessageArea, _React$Component);
+
+    function MessageArea() {
+        _classCallCheck(this, MessageArea);
+
+        return _possibleConstructorReturn(this, (MessageArea.__proto__ || Object.getPrototypeOf(MessageArea)).apply(this, arguments));
+    }
+
+    _createClass(MessageArea, [{
+        key: "render",
+        value: function render() {
+            var messageDialogs = this.props.messages.map(function (element) {
+                return React.createElement(MessageDialog, { type: element.type, message: element.message, key: element.key, id: element.key });
+            });
+            return React.createElement(
+                "div",
+                null,
+                messageDialogs
+            );
+        }
+    }]);
+
+    return MessageArea;
+}(React.Component);
+
+var messages = [];
 
 /**
  * This function appends a bootstrap dialog to the message area with the given message and type
@@ -153,5 +200,17 @@ function showMessageDialog(message, type) {
             type = "alert-" + type;
         }
     }
-    $('#global-message-area').append(dialogTemplate({ type: type, message: message }));
+    messages.push({ message: message, type: type, key: parseInt(Math.random() * 100) });
+    updateMessageDialogs();
+}
+
+function removeMessageDialog(key) {
+    messages = messages.filter(function (message) {
+        return message.key !== key;
+    });
+    updateMessageDialogs();
+}
+
+function updateMessageDialogs() {
+    ReactDOM.render(React.createElement(MessageArea, { messages: messages }), document.getElementById('global-message-area'));
 }

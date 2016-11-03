@@ -1,12 +1,26 @@
 /*jshint unused:false*/
-// This is the underscore.js template, compiled once and called from showMessageDialog later
-var dialogTemplate = '<div class="alert <%= type %> alert-dismissable" role="alert" style="margin-top: 10px;">';
-dialogTemplate += '<button type="button" class="close" data-dismiss="alert" aria-label="Close">';
-dialogTemplate += '<span aria-hidden="true">&times;</span>';
-dialogTemplate += '</button>';
-dialogTemplate += '<%= message %>';
-dialogTemplate += '</div>';
-dialogTemplate = _.template(dialogTemplate);
+// This is the react template,called from showMessageDialog later
+function MessageDialog(props) {
+    return (
+        <div className={"alert alert-dismissable " + props.type} role="alert">
+            <button type="button" className="close" aria-label="Close" onClick={() => {removeMessageDialog(props.id)}}>
+                <span aria-hidden="true">&times;</span>
+            </button>
+            {props.message}
+        </div>
+    )
+}
+
+class MessageArea extends React.Component {
+    render() {
+        const messageDialogs = this.props.messages.map((element) => {
+            return <MessageDialog type={element.type} message={element.message} key={element.key} id={element.key}/>
+        });
+        return <div>{messageDialogs}</div>
+    }
+}
+
+let messages = [];
 
 /**
  * This function appends a bootstrap dialog to the message area with the given message and type
@@ -24,5 +38,18 @@ function showMessageDialog(message, type){
             type = "alert-" + type;
         }
     }
-    $('#global-message-area').append(dialogTemplate({type: type, message: message}));
+    messages.push({message: message, type: type, key: parseInt(Math.random()*100)});
+    updateMessageDialogs();
+}
+
+function removeMessageDialog(key) {
+    messages = messages.filter(message => message.key !== key);
+    updateMessageDialogs();
+}
+
+function updateMessageDialogs() {
+    ReactDOM.render(
+        <MessageArea messages={messages}/>,
+        document.getElementById('global-message-area')
+    );
 }
