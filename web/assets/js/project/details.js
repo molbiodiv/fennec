@@ -173,15 +173,14 @@ $('document').ready(function () {
         }).done(function (server) {
             var biomToStore = {};
             biomToStore.name = biom.id;
-            biom.write().then(function (biomString) {
-                biomToStore.size = biomString.length;
-                biomToStore.data = biomString;
-                var d = new Date();
-                biomToStore.date = d.getUTCFullYear() + "-" + (d.getUTCMonth() + 1) + "-" + d.getUTCDate() + "T" + d.getUTCHours() + ":" + d.getUTCMinutes() + ":" + d.getUTCSeconds() + " UTC";
-                server.biom.add(biomToStore).done(function (item) {
-                    $('#inspect-with-phinch-iframe').show();
-                    $('#inspect-with-phinch-iframe').attr('src', phinchPreviewPath);
-                });
+            var biomString = biom.toString();
+            biomToStore.size = biomString.length;
+            biomToStore.data = biomString;
+            var d = new Date();
+            biomToStore.date = d.getUTCFullYear() + "-" + (d.getUTCMonth() + 1) + "-" + d.getUTCDate() + "T" + d.getUTCHours() + ":" + d.getUTCMinutes() + ":" + d.getUTCSeconds() + " UTC";
+            server.biom.add(biomToStore).done(function (item) {
+                $('#inspect-with-phinch-iframe').show();
+                $('#inspect-with-phinch-iframe').attr('src', phinchPreviewPath);
             });
         });
     });
