@@ -135,7 +135,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-/*jshint unused:false*/
+/* global ReactDOM */
+
 // This is the react template,called from showMessageDialog later
 function MessageDialog(props) {
     return React.createElement(
@@ -182,6 +183,18 @@ var MessageArea = function (_React$Component) {
     return MessageArea;
 }(React.Component);
 
+/**
+ * This function generates consecutive uids starting from 0
+ */
+
+
+var uid = function () {
+    var id = 0;
+    return function () {
+        return id++;
+    };
+}();
+
 var messages = [];
 
 /**
@@ -200,7 +213,7 @@ function showMessageDialog(message, type) {
             type = "alert-" + type;
         }
     }
-    messages.push({ message: message, type: type, key: parseInt(Math.random() * 100) });
+    messages.push({ message: message, type: type, key: uid() });
     updateMessageDialogs();
 }
 

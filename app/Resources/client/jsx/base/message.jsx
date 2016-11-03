@@ -1,4 +1,5 @@
-/*jshint unused:false*/
+/* global ReactDOM */
+
 // This is the react template,called from showMessageDialog later
 function MessageDialog(props) {
     return (
@@ -20,6 +21,14 @@ class MessageArea extends React.Component {
     }
 }
 
+/**
+ * This function generates consecutive uids starting from 0
+ */
+var uid = (() => {
+    var id=0;
+    return () => id++;
+})();
+
 let messages = [];
 
 /**
@@ -38,7 +47,7 @@ function showMessageDialog(message, type){
             type = "alert-" + type;
         }
     }
-    messages.push({message: message, type: type, key: parseInt(Math.random()*100)});
+    messages.push({message: message, type: type, key: uid()});
     updateMessageDialogs();
 }
 
