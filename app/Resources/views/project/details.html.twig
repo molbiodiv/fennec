@@ -90,7 +90,11 @@
                         <option value="rows">OTUs</option>
                         <option value="columns">Samples</option>
                     </select>
-                    by NCBI tax id
+                    by
+                    <select class="selectpicker" id="mapping-method-select" data-style="btn-primary">
+                        <option value="ncbi_taxid">NCBI tax id</option>
+                        <option value="organism_name">Organism Name</option>
+                    </select>
                     <button class="btn btn-primary" id="mapping-action-button">GO</button>
                 </div>
                 <div class="panel-body" id="mapping-results-section" style="display: none">
