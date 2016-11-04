@@ -5,7 +5,7 @@
  * @param eolObject {Object} object returned by the eol pages API
  * @returns {String} bestName
  */
-getBestVernacularNameEOL = function(eolObject){
+function getBestVernacularNameEOL(eolObject){
     var bestName = "";
     if(typeof eolObject.scientificName !== "undefined"){
         bestName = eolObject.scientificName;

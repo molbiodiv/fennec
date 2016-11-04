@@ -16,43 +16,34 @@ npm install
 bower install
 composer install
 ```
+**Important: do not edit the js or css files in `web/assets` directly.
+They are generated with `gulp scss` and `gulp babel` from `app/Resources/client`**
+
 ### Test, LINT, generate API, ...
 Use gulp for all those things:
 ```{bash}
-# PHP Code Sniffer
-gulp phpcs
-
-# apigen API generator
-gulp apigen
-
 # phpunit testing
-# before testing php you need to set up a database and configure it
-cp test/php/config.php.generated test/php/config.php
-# modify the config.php
-gulp phpunit
+vendor/bin/phpunit
 
-# check js files for lints
-gulp jshint
-       
-# javascript testing with jasmine
-gulp jasmine
+# javascript testing (of helpers)
+gulp test
 
 # check scss files for lints
 gulp sassLint
 
 # generate css files from scss
 gulp sass
-
-# run a performance test with artillery (make sure to set the appropriate host)
-# npm install -g artillery
-artillery run test/artillery/simple.json
-# artillery report artillery_report_<timestamp>.json
-
-# run a ui test with selenium (make sure to set the appropriate host)
-# pip install -U selenium
-python test/selenium/simple.py
 ```
 ## Changes
+### 0.3.2 <2016-11-04>
+ - Add organism_id mapping to project details page
+ - Export project as biom (v1)
+ - Download mapping results as csv
+ - Mapping to organism_id by species name
+ - Make project ID and comment editable
+ - Improve project details page
+ - Use pre-compilation of jsx files with babel
+ - Re-write message system (using React)
 ### 0.3.1 <2016-10-20 Th>
  - Add exception handling to API
  - Add generalized WebserviceTestCase

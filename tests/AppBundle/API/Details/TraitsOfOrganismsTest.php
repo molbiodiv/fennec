@@ -14,6 +14,12 @@ class TraitsOfOrganismsTest extends WebserviceTestCase
         $session = null;
         $traitsOfOrganisms = $this->webservice->factory('details', 'traitsOfOrganisms');
 
+        //Test if an empty array is returned if organism_ids is empty
+        $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'organism_ids' => array()));
+        $results = $traitsOfOrganisms->execute($parameterBag, $session);
+        $expected = [];
+        $this->assertEquals($expected, $results);
+
         //Test if the traits to one organism is returned correctly
         $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'organism_ids' => array('61579')));
         $results = $traitsOfOrganisms->execute($parameterBag, $session);

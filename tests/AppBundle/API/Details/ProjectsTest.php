@@ -29,8 +29,7 @@ class ProjectsTest extends WebserviceTestCase
         $entries = $listingProjects->execute(new ParameterBag(array('dbversion' => $default_db)), $session);
         $id = $entries['data'][0]['internal_project_id'];
         $results = $service->execute(new ParameterBag(array('dbversion' => $default_db, 'ids' => array($id))), $session);
-        $expected = array(
-            $id => '{'
+        $expected = '{'
             . '"id": "table_1", '
             . '"data": [[0, 0, 120.0], [3, 1, 12.0], [5, 2, 20.0], [7, 3, 12.7], [8, 4, 16.0]], '
             . '"date": "2016-05-03T08:13:41.848780", '
@@ -48,8 +47,9 @@ class ProjectsTest extends WebserviceTestCase
             . '"matrix_type": "sparse", '
             . '"generated_by": "BIOM-Format 2.1", '
             . '"matrix_element_type": "float"'
-            . '}'
-        );
-        $this->assertEquals($expected, $results['projects']);
+            . '}';
+        $this->assertEquals($expected, $results['projects'][$id]['biom']);
+        $this->assertEquals('2016-05-17 10:00:52.627236+00', $results['projects'][$id]['import_date']);
+        $this->assertEquals(null, $results['projects'][$id]['import_filename']);
     }
 }

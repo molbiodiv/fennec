@@ -65,4 +65,7 @@
 a:focus {
   color: inherit; }
 
+#page-wrapper {
+  max-width: 1300px; }
+
 /*# sourceMappingURL=navigation.css.map */

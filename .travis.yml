@@ -14,6 +14,9 @@ install:
   - conda install --yes numpy scipy h5py
   - pip install biom-format --user
   - composer install
+  - . $HOME/.nvm/nvm.sh
+  - nvm install stable
+  - nvm use stable
   - npm install
   - node_modules/bower/bin/bower install
 
@@ -31,3 +34,4 @@ before_script:
 
 script:
   - phpunit
+  - gulp test

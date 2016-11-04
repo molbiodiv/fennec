@@ -65,7 +65,7 @@ class AddOrganismIDsToProjectTest extends WebserviceTestCase
             'ids' => array($id))),
             $session
         );
-        $rows = json_decode($results['projects'][$id], true)['rows'];
+        $rows = json_decode($results['projects'][$id]['biom'], true)['rows'];
         $ncbi_taxid = function ($row) {
             return($row['metadata']['ncbi_taxid']);
         };
