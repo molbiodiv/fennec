@@ -79,17 +79,19 @@ $('document').ready(function () {
 
     // Add semi-global dimension variable (stores last mapped dimension)
     var dimension = 'rows';
+    var method = 'ncbi_taxid';
 
     // Set action for click on mapping "GO" button
     $('#mapping-action-button').on('click', function () {
         dimension = $('#mapping-dimension-select').val();
-        var method = $('#mapping-method-select').val();
+        method = $('#mapping-method-select').val();
         var ids = getIdsForMethod(method, dimension);
         var uniq_ids = ids.filter(function (value) {
             return value !== null;
         });
         uniq_ids = _.uniq(uniq_ids);
-        $('#mapping-results-section').show();
+        $('#mapping-action-busy-indicator').show();
+        $('#mapping-results-section').hide();
         if (uniq_ids.length === 0) {
             handleMappingResult(dimension, ids, [], method);
         } else {
@@ -140,6 +142,21 @@ $('document').ready(function () {
     }
 
     /**
+     * Returns a string representation for the IDs used for mapping in the chosen method
+     * @param method
+     * @return {string}
+     */
+    function getIdStringForMethod(method) {
+        var idString = "";
+        if (method === 'ncbi_taxid') {
+            idString = "NCBI taxid";
+        } else if (method === 'organism_name') {
+            idString = "Organism name";
+        }
+        return idString;
+    }
+
+    /**
      * Create the results component from the returned mapping and store result in global biom object
      * @param {string} dimension
      * @param {Array} idsFromBiom those are the ids used for mapping in the order they appear in the biom file
@@ -161,10 +178,9 @@ $('document').ready(function () {
         }
         biom.addMetadata({ dimension: dimension, attribute: ['fennec', dbversion, 'organism_id'], values: organism_ids });
         biom.addMetadata({ dimension: dimension, attribute: ['fennec', dbversion, 'assignment_method'], defaultValue: method });
-        var idString = "NCBI taxid";
-        if (method === 'organism_name') {
-            idString = "Organism name";
-        }
+        var idString = getIdStringForMethod(method);
+        $('#mapping-action-busy-indicator').hide();
+        $('#mapping-results-section').show();
         $('#mapping-results').text('From a total of ' + idsFromBiom.length + ' organisms:  ' + idsFromBiomNotNullCount + ' have a ' + idString + ', of which ' + idsFromBiomMappedCount + ' could be mapped to organism_ids.');
     }
 
@@ -178,12 +194,13 @@ $('document').ready(function () {
         var ids = biom[dimension].map(function (element) {
             return element.id;
         });
-        var ncbi_ids = biom.getMetadata({ dimension: dimension, attribute: 'ncbi_taxid' });
+        var ids = getIdsForMethod(method, dimension);
         var fennec_id = biom.getMetadata({ dimension: dimension, attribute: ['fennec', dbversion, 'organism_id'] });
         var id_header = dimension === 'rows' ? 'OTU_ID' : 'Sample_ID';
-        var csv = id_header + "\tNCBI_taxid\tFennec_ID\n";
+        var idString = getIdStringForMethod(method);
+        var csv = id_header + '\t' + idString + '\tFennec_ID\n';
         for (var i = 0; i < ids.length; i++) {
-            csv += ids[i] + "\t" + ncbi_ids[i] + "\t" + fennec_id[i] + "\n";
+            csv += ids[i] + "\t" + ids[i] + "\t" + fennec_id[i] + "\n";
         }
         var blob = new Blob([csv], { type: "text/plain;charset=utf-8" });
         saveAs(blob, "mapping.csv");

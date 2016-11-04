@@ -29,7 +29,8 @@ $('document').ready(() => {
         let ids = getIdsForMethod(method, dimension);
         let uniq_ids = ids.filter(value => value !== null);
         uniq_ids = _.uniq(uniq_ids);
-        $('#mapping-results-section').show();
+        $('#mapping-action-busy-indicator').show();
+        $('#mapping-results-section').hide();
         if (uniq_ids.length === 0) {
             handleMappingResult(dimension, ids, [], method);
         } else {
