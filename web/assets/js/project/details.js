@@ -28,6 +28,10 @@ $('document').ready(function () {
         biom.comment = $('#editProjectDialogComment').val();
         saveBiomToDB();
     });
+
+    $('#project-export-as-biom-v1').click(function () {
+        exportProjectAsBiom();
+    });
 });
 
 /**
@@ -47,6 +51,15 @@ function saveBiomToDB() {
                 location.reload();
             }
         });
+    }, function (failure) {
+        console.log(failure);
+    });
+}
+
+function exportProjectAsBiom() {
+    biom.write().then(function (biomJson) {
+        var blob = new Blob([biomJson], { type: "text/plain" });
+        saveAs(blob, biom.id + ".json");
     }, function (failure) {
         console.log(failure);
     });

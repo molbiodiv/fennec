@@ -42,6 +42,10 @@
                     <tr><th scope="row">NNZ</th><td id="project-overview-table-nnz"></td></tr>
                     <tr><th scope="row">Import Date</th><td id="project-overview-table-import-date">{{ project['projects'][internal_project_id]['import_date'] }}</td></tr>
                     <tr><th scope="row">Import Filename</th><td id="project-overview-table-import-filename">{{ project['projects'][internal_project_id]['import_filename'] }}</td></tr>
+                    <tr><th scope="row">Export</th>
+                        <td id="project-overview-table-export">
+                            <button type="button" class="btn btn-primary" id="project-export-as-biom-v1">BIOM v1</button>
+                        </td></tr>
                 </tbody>
             </table>
         </div>
