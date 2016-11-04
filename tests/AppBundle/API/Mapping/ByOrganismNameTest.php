@@ -26,7 +26,7 @@ class ByOrganismNameTest extends WebserviceTestCase
             'Cyclogramma sp. 73' => 1559,
             'Willkommia' => 1727
         ];
-        $result = $service->execute(new ParameterBag(array('dbversion' => $this->default_db, 'names' => $names)),
+        $result = $service->execute(new ParameterBag(array('dbversion' => $this->default_db, 'ids' => $names)),
             null);
         $this->assertEquals($expected, $result);
 
@@ -47,7 +47,7 @@ class ByOrganismNameTest extends WebserviceTestCase
             'Willkommia' => 1727,
             'non_existing' => null
         ];
-        $result = $service->execute(new ParameterBag(array('dbversion' => $this->default_db, 'names' => $names)),
+        $result = $service->execute(new ParameterBag(array('dbversion' => $this->default_db, 'ids' => $names)),
             null);
         $this->assertEquals($expected, $result);
     }
