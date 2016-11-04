@@ -1,5 +1,6 @@
 /* global dbversion */
 /* global biom */
+/* global _ */
 $('document').ready(() => {
     // Calculate values for mapping overview table
     let sampleOrganismIDs = biom.getMetadata({dimension: 'columns', attribute: ['fennec', dbversion, 'organism_id']}).filter(element => element !== null);
@@ -23,51 +24,81 @@ $('document').ready(() => {
     // Set action for click on mapping "GO" button
     $('#mapping-action-button').on('click', function () {
         dimension = $('#mapping-dimension-select').val();
-        var taxids = biom.getMetadata({dimension: dimension, attribute: 'ncbi_taxid'});
-        taxids = taxids.filter(function (value) {
-            return value !== null;
-        });
-        taxids = _.uniq(taxids);
+        let method = $('#mapping-method-select').val();
+        let ids = getIdsForMethod(method, dimension);
+        let uniq_ids = ids.filter(value => value !== null);
+        uniq_ids = _.uniq(uniq_ids);
         $('#mapping-results-section').show();
-        if (taxids.length === 0) {
-            handleNcbiTaxidMappingResult(dimension, []);
+        if (uniq_ids.length === 0) {
+            handleMappingResult(dimension, ids, [], method);
         } else {
-            var webserviceUrl = Routing.generate('api', {'namespace': 'mapping', 'classname': 'byNcbiTaxid'});
+            var webserviceUrl = getWebserviceUrlForMethod(method);
             $.ajax(webserviceUrl, {
                 data: {
                     dbversion: dbversion,
-                    ids: taxids
+                    ids: uniq_ids
                 },
                 method: 'POST',
                 success: function (data) {
-                    handleNcbiTaxidMappingResult(dimension, data);
+                    handleMappingResult(dimension, ids, data, method);
                 }
             });
         }
     });
 
     /**
+     * Returns the array with search id for the respective method in the given dimension
+     * @param method
+     * @param dimension
+     * @return {Array}
+     */
+    function getIdsForMethod(method, dimension) {
+        let ids = [];
+        if(method === 'ncbi_taxid'){
+            ids = biom.getMetadata({dimension: dimension, attribute: 'ncbi_taxid'});
+        } else if(method === 'organism_name'){
+            ids = biom[dimension].map((element) => element.id);
+        }
+        return ids;
+    }
+
+    /**
+     * Returns the webserviceUrl for the given mapping method
+     * @param method
+     * @return {string}
+     */
+    function getWebserviceUrlForMethod(method) {
+        let method2service = {
+            'ncbi_taxid': 'byNcbiTaxid',
+            'organism_name': 'byOrganismName'
+        };
+        let webserviceUrl = Routing.generate('api', {'namespace': 'mapping', 'classname': method2service[method]});
+        return webserviceUrl;
+    }
+
+    /**
      * Create the results component from the returned mapping and store result in global biom object
      * @param {string} dimension
-     * @param {Array} ncbi2organism_id mapping as returned by webservice
+     * @param {Array} idsFromBiom those are the ids used for mapping in the order they appear in the biom file
+     * @param {Array} mapping from ids to organism_ids as returned by webservice
+     * @param {string} method of mapping
      */
-    function handleNcbiTaxidMappingResult(dimension, ncbi2organism_id) {
-        var taxids = biom.getMetadata({dimension: dimension, attribute: 'ncbi_taxid'});
-        let organism_ids = new Array(taxids.length).fill(null);
-        var taxid_total_count = 0;
-        var taxid_mapped_count = 0;
-        for (let i = 0; i < taxids.length; i++) {
-            if (taxids[i] !== null) {
-                taxid_total_count++;
-                if (taxids[i] in ncbi2organism_id && ncbi2organism_id[taxids[i]] !== null) {
-                    taxid_mapped_count++;
-                    organism_ids[i] = ncbi2organism_id[taxids[i]];
+    function handleMappingResult(dimension, idsFromBiom, mapping, method) {
+        let organism_ids = new Array(idsFromBiom.length).fill(null);
+        var idsFromBiomNotNullCount = 0;
+        var idsFromBiomMappedCount = 0;
+        for (let i = 0; i < idsFromBiom.length; i++) {
+            if (idsFromBiom[i] !== null) {
+                idsFromBiomNotNullCount++;
+                if (idsFromBiom[i] in mapping && mapping[idsFromBiom[i]] !== null) {
+                    idsFromBiomMappedCount++;
+                    organism_ids[i] = mapping[idsFromBiom[i]];
                 }
             }
         }
         biom.addMetadata({dimension: dimension, attribute: ['fennec', dbversion, 'organism_id'], values: organism_ids});
-        biom.addMetadata({dimension: dimension, attribute: ['fennec', dbversion, 'assignment_method'], defaultValue: 'ncbi_taxid'});
-        $('#mapping-results').text("From a total of " + taxids.length + " organisms: " + taxid_total_count + " have a NCBI taxid, of which " + taxid_mapped_count + " could be mapped to organism_ids.");
+        biom.addMetadata({dimension: dimension, attribute: ['fennec', dbversion, 'assignment_method'], defaultValue: method});
+        $('#mapping-results').text("From a total of " + idsFromBiom.length + " organisms: " + idsFromBiomNotNullCount + " have a NCBI taxid, of which " + idsFromBiomMappedCount + " could be mapped to organism_ids.");
     }
 
     // Set action for click on mapping "Save to database" button
