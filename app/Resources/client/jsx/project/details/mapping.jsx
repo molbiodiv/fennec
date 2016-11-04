@@ -98,7 +98,11 @@ $('document').ready(() => {
         }
         biom.addMetadata({dimension: dimension, attribute: ['fennec', dbversion, 'organism_id'], values: organism_ids});
         biom.addMetadata({dimension: dimension, attribute: ['fennec', dbversion, 'assignment_method'], defaultValue: method});
-        $('#mapping-results').text("From a total of " + idsFromBiom.length + " organisms: " + idsFromBiomNotNullCount + " have a NCBI taxid, of which " + idsFromBiomMappedCount + " could be mapped to organism_ids.");
+        let idString = "NCBI taxid";
+        if(method === 'organism_name'){
+            idString = "Organism name";
+        }
+        $('#mapping-results').text(`From a total of ${idsFromBiom.length} organisms:  ${idsFromBiomNotNullCount} have a ${idString}, of which ${idsFromBiomMappedCount} could be mapped to organism_ids.`);
     }
 
     // Set action for click on mapping "Save to database" button
