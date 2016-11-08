@@ -30,7 +30,11 @@ $('document').ready(function () {
     });
 
     $('#project-export-as-biom-v1').click(function () {
-        exportProjectAsBiom();
+        exportProjectAsBiom(false);
+    });
+
+    $('#project-export-as-biom-v2').click(function () {
+        exportProjectAsBiom(true);
     });
 });
 
@@ -56,12 +60,18 @@ function saveBiomToDB() {
     });
 }
 
-function exportProjectAsBiom() {
-    biom.write().then(function (biomJson) {
-        var blob = new Blob([biomJson], { type: "text/plain" });
-        saveAs(blob, biom.id + ".json");
+/**
+ * Opens a file download dialog of the current project in biom format
+ * @param {boolean} asHdf5
+ */
+function exportProjectAsBiom(asHdf5) {
+    var conversionServerURL = Routing.generate('biomcs_convert');
+    var contentType = asHdf5 ? "application/octet-stream" : "text/plain";
+    biom.write({ conversionServer: conversionServerURL, asHdf5: asHdf5 }).then(function (biomContent) {
+        var blob = new Blob([biomContent], { type: contentType });
+        saveAs(blob, biom.id + ".biom");
     }, function (failure) {
-        console.log(failure);
+        showMessageDialog(failure + "", 'danger');
     });
 }
 'use strict';

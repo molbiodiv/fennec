@@ -6,6 +6,7 @@ use biomcs\BiomCS;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -21,15 +22,24 @@ class BiomConversionServerController extends Controller
         $response = new JsonResponse();
         $response->headers->set('Content-Type', 'application/json');
 
-        if(! $request->request->has('to') || ! $request->request->has('content')){
+        $postParameters = $request->request;
+        if ($content = $request->getContent()) {
+            $parametersAsArray = json_decode($content, true);
+            if(json_last_error() == JSON_ERROR_NONE){
+                $postParameters = new ParameterBag(array_merge($postParameters->all(), $parametersAsArray));
+            }
+        }
+
+
+        if(! $postParameters->has('to') || ! $postParameters->has('content')){
             $response->setData(array(
                 'error' => "Missing parameter"
             ));
         } else {
-            $to = $request->request->has('to');
+            $to = $postParameters->get('to');
             try{
                 $biomcs = new BiomCS();
-                $content = base64_decode($request->request->get('content'));
+                $content = base64_decode($postParameters->get('content'));
                 $result = '';
                 if($to === 'hdf5'){
                     $result = $biomcs->convertToHDF5($content);
