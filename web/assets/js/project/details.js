@@ -207,13 +207,13 @@ $('document').ready(function () {
         var ids = biom[dimension].map(function (element) {
             return element.id;
         });
-        var ids = getIdsForMethod(method, dimension);
-        var fennec_id = biom.getMetadata({ dimension: dimension, attribute: ['fennec', dbversion, 'organism_id'] });
-        var id_header = dimension === 'rows' ? 'OTU_ID' : 'Sample_ID';
+        var mappingIds = getIdsForMethod(method, dimension);
+        var fennecIds = biom.getMetadata({ dimension: dimension, attribute: ['fennec', dbversion, 'organism_id'] });
+        var idHeader = dimension === 'rows' ? 'OTU_ID' : 'Sample_ID';
         var idString = getIdStringForMethod(method);
-        var csv = id_header + '\t' + idString + '\tFennec_ID\n';
+        var csv = idHeader + '\t' + idString + '\tFennec_ID\n';
         for (var i = 0; i < ids.length; i++) {
-            csv += ids[i] + "\t" + ids[i] + "\t" + fennec_id[i] + "\n";
+            csv += ids[i] + "\t" + mappingIds[i] + "\t" + fennecIds[i] + "\n";
         }
         var blob = new Blob([csv], { type: "text/plain;charset=utf-8" });
         saveAs(blob, "mapping.csv");
