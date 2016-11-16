@@ -16,12 +16,10 @@ class OrganismTest extends WebserviceTestCase
         $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'id' => 42));
         $results = $organisms->execute($parameterBag, $session);
         $expected = array(
-            "organism_id" => 42,
-            "scientific_name" => "Artocarpus pithecogallus",
-            "rank" => "species",
-            "common_name" => null,
-            "eol_accession" => "",
-            "ncbi_accession" => "1679377"
+            "fennec_id" => 42,
+            "scientific_name" => "Trebouxiophyceae sp. TP-2016a",
+            "eol_identifier" => "",
+            "ncbi_identifier" => "3083"
         );
         $this->assertEquals($expected, $results);
     }
