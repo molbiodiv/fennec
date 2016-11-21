@@ -40,7 +40,7 @@ class TraitsOfOrganismsTest extends WebserviceTestCase
         $this->assertEquals($expected, $results);
         
         //Test if the traits to a collection of organisms is returned correctly
-        $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'fennec_ids' => array('42077','159679', '25545')));
+        $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'fennec_ids' => array(4207, 5637, 23547, 181840)));
         $results = $traitsOfOrganisms->execute($parameterBag, $session);
         $expected = [
             '1' => [
