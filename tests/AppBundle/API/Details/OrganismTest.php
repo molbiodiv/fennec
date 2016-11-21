@@ -18,7 +18,7 @@ class OrganismTest extends WebserviceTestCase
         $expected = array(
             "fennec_id" => 42,
             "scientific_name" => "Trebouxiophyceae sp. TP-2016a",
-            "eol_identifier" => "",
+            "eol_identifier" => "909148",
             "ncbi_identifier" => "3083"
         );
         $this->assertEquals($expected, $results);
