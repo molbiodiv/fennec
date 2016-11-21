@@ -23,15 +23,15 @@ class ByOrganismName extends Webservice
         $result = array_fill_keys($ids, null);
         $placeholders = implode(',', array_fill(0, count($ids), '?'));
         $query_get_mapping = <<<EOF
-SELECT organism.organism_id AS organism_id, species
+SELECT fennec_id, scientific_name
     FROM organism
-        WHERE species IN ({$placeholders})
+        WHERE scientific_name IN ({$placeholders})
 EOF;
         $stm_get_mapping = $this->db->prepare($query_get_mapping);
         $stm_get_mapping->execute($ids);
 
         while($row = $stm_get_mapping->fetch(\PDO::FETCH_ASSOC)){
-            $result[$row['species']] = $row['organism_id'];
+            $result[$row['scientific_name']] = $row['fennec_id'];
         }
 
         return $result;
