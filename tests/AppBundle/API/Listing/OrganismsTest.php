@@ -13,11 +13,11 @@ class OrganismsTest extends WebserviceTestCase
         $parameterBag = new ParameterBag(array('dbversion' => $this->default_db, 'search' => 'bla', 'limit' => 5));
         $results = $organisms->execute($parameterBag, null);
         $expected = array(
-            array("organism_id" => 48, "scientific_name" => "Prototheca blaschkeae", "rank" => "species", "common_name" => null),
-            array("organism_id" => 338, "scientific_name" => "Groenbladia", "rank" => "genus", "common_name" => null),
-            array("organism_id" => 445, "scientific_name" => "Leucaena pueblana", "rank" => "species", "common_name" => null),
-            array("organism_id" => 756, "scientific_name" => "Clusia blattophila", "rank" => "species", "common_name" => null),
-            array("organism_id" => 1774, "scientific_name" => "Gloeospermum blakeanum", "rank" => "species", "common_name" => null)
+            array("fennec_id" => 2243, "scientific_name" => "Anemone blanda"),
+            array("fennec_id" => 3520, "scientific_name" => "Lablab purpureus"),
+            array("fennec_id" => 4295, "scientific_name" => "Tmesipteris oblanceolata"),
+            array("fennec_id" => 4357, "scientific_name" => "Silene oblanceolata"),
+            array("fennec_id" => 5588, "scientific_name" => "Verbascum blattaria")
         );
         $this->assertEquals($expected, $results);
     }
