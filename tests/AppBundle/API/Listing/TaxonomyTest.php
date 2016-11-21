@@ -16,7 +16,7 @@ class TaxonomyTest extends WebserviceTestCase
         $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'id' => '1234'));
         $results = $organisms->execute($parameterBag, $session);
         $expected = array(
-            "lineage" => array(
+            "ncbi_taxonomy" => array(
                 "Viridiplantae",
                 "Streptophyta",
                 "Streptophytina",
@@ -26,15 +26,30 @@ class TaxonomyTest extends WebserviceTestCase
                 "Spermatophyta",
                 "Magnoliophyta",
                 "Mesangiospermae",
-                "eudicotyledons",
-                "Gunneridae",
-                "Pentapetalae",
-                "rosids",
-                "malvids",
-                "Sapindales",
-                "Aceraceae",
-                "Acer",
-                "Acer macrophyllum"
+                "Ceratophyllales",
+                "Ceratophyllaceae",
+                "Ceratophyllum",
+                "Ceratophyllum demersum"
+            )
+        );
+        $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'id' => '3720'));
+        $results = $organisms->execute($parameterBag, $session);
+        $expected = array(
+            "ncbi_taxonomy" => array(
+                "Viridiplantae",
+                "Streptophyta",
+                "Streptophytina",
+                "Embryophyta",
+                "Marchantiophyta",
+                "Marchantiopsida",
+                "Marchantiidae",
+                "Sphaerocarpales"
+            ),
+            "iucn_redlist" => array(
+                "Plantae",
+                "Marchantiophyta",
+                "Marchantiopsida",
+                "Sphaerocarpales"
             )
         );
         $this->assertEquals($expected, $results);
