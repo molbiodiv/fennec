@@ -27,7 +27,7 @@ addons:
   apt:
     packages:
       - python-h5py
-  postgresql: "9.5"
+  postgresql: "9.4"
 
 before_script:
   - cp tests/.travis.parameters_test.yml app/config/parameters_test.yml
