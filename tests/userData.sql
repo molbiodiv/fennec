@@ -160,11 +160,11 @@ INSERT INTO full_webuser_data (project,oauth_id,provider,import_date) VALUES ('{
     "shape": [5, 2],
     "data": [[0,0,120.0],[3,1,12.0],[5,2,20.0],[7,3,12.7],[8,4,16.0]],
     "rows": [
-        {"id": "OTU_1", "metadata": {"fennec": {"test": {"fennec_id": null}}}},
-        {"id": "OTU_2", "metadata": {"fennec": {"test": {"fennec_id": 3}}}},
+        {"id": "OTU_1", "metadata": {"fennec": "{\"test\": {\"fennec_id\": null}}"}},
+        {"id": "OTU_2", "metadata": {"fennec": "{\"test\": {\"fennec_id\": 3}}"}},
         {"id": "OTU_3", "metadata": {}},
-        {"id": "OTU_4", "metadata": {"fennec": {"test": {"fennec_id": 3}}}},
-        {"id": "OTU_5", "metadata": {"fennec": {"test": {"fennec_id": 42}}}}
+        {"id": "OTU_4", "metadata": {"fennec": "{\"test\": {\"fennec_id\": 3}}"}},
+        {"id": "OTU_5", "metadata": {"fennec": "{\"test\": {\"fennec_id\": 42}}"}}
     ],
     "columns": [
         {"id": "Sample_1", "metadata": {}},
@@ -185,11 +185,11 @@ INSERT INTO full_webuser_data (project,oauth_id,provider,import_date) VALUES ('{
     "shape": [5, 2],
     "data": [[0,0,120.0],[3,1,12.0],[5,2,20.0],[7,3,12.7],[8,4,16.0]],
     "rows": [
-        {"id": "OTU_1", "metadata": {"fennec": {"test": {"fennec_id": 1340}}}},
-        {"id": "OTU_2", "metadata": {"fennec": {"test": {"fennec_id": 1630}}}},
-        {"id": "OTU_3", "metadata": {"fennec": {"test": {"fennec_id": 24718}}}},
-        {"id": "OTU_4", "metadata": {"fennec": {"test": {"fennec_id": 73023}}}},
-        {"id": "OTU_5", "metadata": {"fennec": {"test": {"fennec_id": 23057}}}}
+        {"id": "OTU_1", "metadata": {"fennec": "{\"test\": {\"fennec_id\": 1340}}"}},
+        {"id": "OTU_2", "metadata": {"fennec": "{\"test\": {\"fennec_id\": 1630}}"}},
+        {"id": "OTU_3", "metadata": {"fennec": "{\"test\": {\"fennec_id\": 24718}}"}},
+        {"id": "OTU_4", "metadata": {"fennec": "{\"test\": {\"fennec_id\": 73023}}"}},
+        {"id": "OTU_5", "metadata": {"fennec": "{\"test\": {\"fennec_id\": 23057}}"}}
     ],
     "columns": [
         {"id": "Sample_1", "metadata": {}},
@@ -211,11 +211,11 @@ INSERT INTO full_webuser_data (project,oauth_id,provider,import_date) VALUES ('{
     "shape": [5, 2],
     "data": [[0,0,120.0],[3,1,12.0],[5,2,20.0],[7,3,12.7],[8,4,16.0]],
     "rows": [
-        {"id": "OTU_1", "metadata": {"fennec": {"test": {"fennec_id": 134097}}}},
-        {"id": "OTU_2", "metadata": {"fennec": {"test": {"fennec_id": 163840}}}},
-        {"id": "OTU_3", "metadata": {"fennec": {"test": {"fennec_id": 24718}}}},
-        {"id": "OTU_4", "metadata": {"fennec": {"test": {"fennec_id": 73023}}}},
-        {"id": "OTU_5", "metadata": {"fennec": {"test": {"fennec_id": 23057}}}}
+        {"id": "OTU_1", "metadata": {"fennec": "{\"test\": {\"fennec_id\": 134097}}"}},
+        {"id": "OTU_2", "metadata": {"fennec": "{\"test\": {\"fennec_id\": 163840}}"}},
+        {"id": "OTU_3", "metadata": {"fennec": "{\"test\": {\"fennec_id\": 24718}}"}},
+        {"id": "OTU_4", "metadata": {"fennec": "{\"test\": {\"fennec_id\": 73023}}"}},
+        {"id": "OTU_5", "metadata": {"fennec": "{\"test\": {\"fennec_id\": 23057}}"}}
     ],
     "columns": [
         {"id": "Sample_1", "metadata": {}},
