@@ -21,14 +21,20 @@ class TraitsOfOrganismsTest extends WebserviceTestCase
         $this->assertEquals($expected, $results);
 
         //Test if the traits to one organism is returned correctly
-        $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'organism_ids' => array('61579')));
+        $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'organism_ids' => array('615')));
         $results = $traitsOfOrganisms->execute($parameterBag, $session);
         $expected = [
             '1' => [
-                'trait_type' => 'PlantHabit',
+                'trait_type' => 'Plant Habit',
                 'trait_format' => 'categorical_free',
-                'trait_entry_ids' => [49506],
-                'organism_ids' => [61579]
+                'trait_entry_ids' => [54133, 54134],
+                'organism_ids' => [615]
+            ],
+            '2' => [
+                'trait_type' => 'Plant Life Cycle Habit',
+                'trait_format' => 'categorical_free',
+                'trait_entry_ids' => [83435, 83436, 83437],
+                'organism_ids' => [615]
             ]
         ];
         $this->assertEquals($expected, $results);
@@ -38,10 +44,22 @@ class TraitsOfOrganismsTest extends WebserviceTestCase
         $results = $traitsOfOrganisms->execute($parameterBag, $session);
         $expected = [
             '1' => [
-                'trait_type' => 'PlantHabit',
+                'trait_type' => 'Plant Habit',
                 'trait_format' => 'categorical_free',
-                'trait_entry_ids' => [49507, 49508, 49509, 49510, 49511, 49512, 49513],
-                'organism_ids' => [42077, 159679, 25545]
+                'trait_entry_ids' => [50128, 50129, 50130, 61609, 61728, 61729, 61730, 61731],
+                'organism_ids' => [4207, 5637, 23547]
+            ],
+            '2' => [
+                'trait_type' => 'Plant Life Cycle Habit',
+                'trait_format' => 'categorical_free',
+                'trait_entry_ids' => [82072, 85541, 85589],
+                'organism_ids' => [4207, 5637, 23547]
+            ],
+            '3' => [
+                'trait_type' => 'IUCN Threat Status',
+                'trait_format' => 'categorical_free',
+                'trait_entry_ids' => [5],
+                'organism_ids' => [181840]
             ]
         ];
         $this->assertEquals($expected, $results);
