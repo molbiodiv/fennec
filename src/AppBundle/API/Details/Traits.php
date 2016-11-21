@@ -25,27 +25,27 @@ class Traits extends Webservice
     {
         $this->db = $this->getDbFromQuery($query);
         $trait_type_id = $query->get('trait_type_id');
-        $organism_ids = null;
-        if ($query->has('organism_ids') and is_array($query->get('organism_ids'))){
-            $organism_ids = $query->get('organism_ids');
+        $fennec_ids = null;
+        if ($query->has('fennec_ids') and is_array($query->get('fennec_ids'))){
+            $fennec_ids = $query->get('fennec_ids');
         }
         $result = $this->get_info($trait_type_id);
-        $result['values'] = $this->get_values($trait_type_id, $organism_ids);
-        $result['number_of_organisms'] = $this->get_number_of_organisms($trait_type_id, $organism_ids);
+        $result['values'] = $this->get_values($trait_type_id, $fennec_ids);
+        $result['number_of_organisms'] = $this->get_number_of_organisms($trait_type_id, $fennec_ids);
 
         return $result;
     }
 
     /**
      * @param $trait_type_id
-     * @param $organism_ids
+     * @param $fennec_ids
      * @return array values of specific trait
      */
-    private function get_values($trait_type_id, $organism_ids){
-        if ($organism_ids !== null and count($organism_ids) === 0){
+    private function get_values($trait_type_id, $fennec_ids){
+        if ($fennec_ids !== null and count($fennec_ids) === 0){
             return array();
         }
-        $organism_constraint = $this->get_organism_constraint($organism_ids);
+        $organism_constraint = $this->get_organism_constraint($fennec_ids);
         $query_get_values = <<<EOF
 SELECT value, count(value)
     FROM trait_categorical_entry, trait_categorical_value
@@ -55,8 +55,8 @@ SELECT value, count(value)
     GROUP BY value;
 EOF;
         $stm_get_values= $this->db->prepare($query_get_values);
-        if($organism_ids !== null){
-            $stm_get_values->execute(array_merge(array($trait_type_id), $organism_ids));
+        if($fennec_ids !== null){
+            $stm_get_values->execute(array_merge(array($trait_type_id), $fennec_ids));
         } else {
             $stm_get_values->execute(array($trait_type_id));
         }
@@ -91,21 +91,21 @@ EOF;
 
     /**
      * @param $trait_type_id
-     * @param $organism_ids
+     * @param $fennec_ids
      * @return integer number of organisms which have this trait
      */
-    private function get_number_of_organisms($trait_type_id, $organism_ids){
-        if ($organism_ids !== null and count($organism_ids) === 0){
+    private function get_number_of_organisms($trait_type_id, $fennec_ids){
+        if ($fennec_ids !== null and count($fennec_ids) === 0){
             return 0;
         }
-        $organism_constraint = $this->get_organism_constraint($organism_ids);
+        $organism_constraint = $this->get_organism_constraint($fennec_ids);
         $query_get_number_of_organisms = <<<EOF
-SELECT count(DISTINCT organism_id) FROM trait_categorical_entry WHERE trait_type_id = ?
+SELECT count(DISTINCT fennec_id) FROM trait_categorical_entry WHERE trait_type_id = ?
     {$organism_constraint}
 EOF;
         $stm_get_number_of_organisms= $this->db->prepare($query_get_number_of_organisms);
-        if($organism_ids !== null){
-            $stm_get_number_of_organisms->execute(array_merge(array($trait_type_id), $organism_ids));
+        if($fennec_ids !== null){
+            $stm_get_number_of_organisms->execute(array_merge(array($trait_type_id), $fennec_ids));
         } else {
             $stm_get_number_of_organisms->execute(array($trait_type_id));
         }
@@ -116,11 +116,11 @@ EOF;
         return $number_of_organisms;
     }
 
-    private function get_organism_constraint($organism_ids){
+    private function get_organism_constraint($fennec_ids){
         $organism_constraint = '';
-        if($organism_ids !== null){
-            $placeholders = implode(',', array_fill(0, count($organism_ids), '?'));
-            $organism_constraint = "AND organism_id IN (".$placeholders.") ";
+        if($fennec_ids !== null){
+            $placeholders = implode(',', array_fill(0, count($fennec_ids), '?'));
+            $organism_constraint = "AND fennec_id IN (".$placeholders.") ";
         }
         return $organism_constraint;
     }
