@@ -27,12 +27,12 @@ class TraitEntriesTest extends WebserviceTestCase
         $results = $service->execute($parameterBag, $session);
         $expected1 = [
             '47484' => [
-                'fennec_id' => 2152,
+                'fennec_id' => 97935,
                 'type' => 'Plant Habit',
                 'type_definition' => 'http://eol.org/schema/terms/PlantHabit',
-                'value' => 'shrub',
-                'value_definition' => 'http://eol.org/schema/terms/shrub',
-                'citation' => 'The PLANTS Database, United States Department of Agriculture, National Resources Conservation Service. http://plants.usda.gov/'
+                'value' => 'vine',
+                'value_definition' => 'http://eol.org/schema/terms/vine',
+                'citation' => 'Smithsonian Institution, National Museum of Narutal History, Department of Botany. http://collections.mnh.si.edu/search/botany/'
             ]
         ];
         $this->assertEquals($expected1, $results);
@@ -42,12 +42,12 @@ class TraitEntriesTest extends WebserviceTestCase
         $results = $service->execute($parameterBag, $session);
         $expected2 = [
             '35123' => [
-                'fennec_id' => 2281,
+                'fennec_id' => 55850,
                 'type' => 'Plant Habit',
                 'type_definition' => 'http://eol.org/schema/terms/PlantHabit',
-                'value' => 'shrub',
-                'value_definition' => 'http://eol.org/schema/terms/shrub',
-                'citation' => null
+                'value' => 'subshrub',
+                'value_definition' => 'http://eol.org/schema/terms/subshrub',
+                'citation' => 'The PLANTS Database, United States Department of Agriculture, National Resources Conservation Service. http://plants.usda.gov/'
             ]
         ];
         $this->assertEquals($expected2, $results);
