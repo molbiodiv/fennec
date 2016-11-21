@@ -136,9 +136,11 @@
                     {% endfor %}
                 </div>
                 <div role="tabpanel" class="tab-pane" id="taxonomy">
-                    <h4 class="page-header">Lineage</h4>
-                    {% for taxon in taxonomy.lineage %}
-                        {{ taxon }}</br>
+                    {% for db, lineage in taxonomy %}
+                        <h4 class="page-header">{{ db }}</h4>
+                        {% for taxon in lineage %}
+                            {{ taxon }}</br>
+                        {% endfor %}
                     {% endfor %}
                 </div>
             </div>
