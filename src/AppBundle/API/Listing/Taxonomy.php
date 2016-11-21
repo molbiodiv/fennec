@@ -38,6 +38,27 @@ class Taxonomy extends Webservice
         return $data;
         
     }
+
+    /**
+     * @param $fennec_id id of organism
+     * @return array $result = (db_name => taxonomy_node_id)
+     */
+    private function getTaxomomyDatabases($fennec_id){
+        $query_get_taxonomy_databases = <<<EOF
+SELECT name, taxonomy_node_id
+    FROM taxonomy_node, db
+    WHERE taxonomy_node.db_id = db.db_id AND fennec_id = :fennec_id
+EOF;
+        $stm_get_taxonomy_databases = $this->db->prepare($query_get_taxonomy_databases);
+        $stm_get_taxonomy_databases->bindValue('fennec_id', $fennec_id);
+        $stm_get_taxonomy_databases->execute();
+
+        $result = array();
+        while($row = $stm_get_taxonomy_databases->fetch(PDO::FETCH_ASSOC)){
+            $result[$row['name']] = $row['taxonomy_node_id']
+        }
+        return $result;
+    }
     
     /**
      * @param $organism_id id of organism
