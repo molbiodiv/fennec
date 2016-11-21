@@ -28,11 +28,8 @@ class Organisms extends Webservice
      * <code>
      * $result = array(
      *   array(
-     *     'organism_id'     => 1,                   // internal db organism id
-     *     'scientific_name' => 'Dionaea muscipula',
-     *     'rank'            => 'species',
-     *     'common_name'     => 'Venus flytrap',
-     *     'abbreviation'    => 'D. muscipula'
+     *     'fennec_id'     => 1,                   // internal db organism id
+     *     'scientific_name' => 'Dionaea muscipula'
      * );
      * </code>
      */
@@ -49,7 +46,7 @@ class Organisms extends Webservice
         }
         $query_get_organisms = <<<EOF
 SELECT *
-    FROM organism WHERE organism.species ILIKE :search LIMIT :limit
+    FROM organism WHERE organism.scientific_name ILIKE :search LIMIT :limit
 EOF;
         $stm_get_organisms = $this->database->prepare($query_get_organisms);
         $stm_get_organisms->bindValue('search', $search);
@@ -60,13 +57,8 @@ EOF;
 
         while ($row = $stm_get_organisms->fetch(PDO::FETCH_ASSOC)) {
             $result = array();
-            $result['organism_id'] = $row['organism_id'];
-            $result['scientific_name'] = $row['species'];
-            $result['rank'] = $row['genus'];
-            $result['common_name'] = $row['common_name'];
-            if ($row["abbreviation"]!=null) {
-                $result['rank']='species';
-            }
+            $result['fennec_id'] = $row['fennec_id'];
+            $result['scientific_name'] = $row['scientific_name'];
             $data[] = $result;
         }
         return $data;
