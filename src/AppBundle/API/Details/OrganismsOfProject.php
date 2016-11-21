@@ -25,6 +25,7 @@ class OrganismsOfProject extends Webservice
     public function execute(ParameterBag $query, SessionInterface $session = null)
     {
         $db = $this->getDbFromQuery($query);
+        $dbversion = $query->get('dbversion');
         $result = array();
         if ($session === null || !$session->isStarted() || !$session->has('user')) {
             $result['error'] = Webservice::ERROR_NOT_LOGGED_IN;
@@ -49,8 +50,12 @@ EOF;
                 $organism_ids = array();
                 foreach ($rows as $row){
                     if (key_exists('metadata', $row)){
-                        if (key_exists('fennec_organism_id', $row['metadata']) and $row['metadata']['fennec_organism_id'] !== null){
-                            array_push($organism_ids, $row['metadata']['fennec_organism_id']);
+                        if (key_exists('fennec', $row['metadata']) and
+                            key_exists($dbversion, $row['metadata']['fennec']) and
+                            key_exists('fennec_id', $row['metadata']['fennec'][$dbversion]) and
+                            $row['metadata']['fennec'][$dbversion]['fennec_id'] !== null
+                        ){
+                            array_push($organism_ids, $row['metadata']['fennec'][$dbversion]['fennec_id']);
                         }
                     }
                 }
