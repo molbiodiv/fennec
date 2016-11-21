@@ -28,8 +28,7 @@ class TaxonomyTest extends WebserviceTestCase
                 "Mesangiospermae",
                 "Ceratophyllales",
                 "Ceratophyllaceae",
-                "Ceratophyllum",
-                "Ceratophyllum demersum"
+                "Ceratophyllum"
             )
         );
         $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'id' => '3720'));
@@ -42,14 +41,12 @@ class TaxonomyTest extends WebserviceTestCase
                 "Embryophyta",
                 "Marchantiophyta",
                 "Marchantiopsida",
-                "Marchantiidae",
-                "Sphaerocarpales"
+                "Marchantiidae"
             ),
             "iucn_redlist" => array(
                 "Plantae",
                 "Marchantiophyta",
-                "Marchantiopsida",
-                "Sphaerocarpales"
+                "Marchantiopsida"
             )
         );
         $this->assertEquals($expected, $results);
