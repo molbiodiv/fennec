@@ -35,9 +35,9 @@ SELECT trait_type.type AS name, trait_type_id, count
     FROM 
         (
             SELECT trait_type_id, count(trait_type_id) AS count
-                FROM trait_categorical_entry GROUP BY trait_type_id ORDER BY count DESC LIMIT :limit
+                FROM trait_categorical_entry GROUP BY trait_type_id LIMIT :limit
         ) AS trait_entry, trait_type
-            WHERE trait_type.id=trait_type_id AND trait_type.type ILIKE :search
+            WHERE trait_type.id=trait_type_id AND trait_type.type ILIKE :search ORDER BY count DESC 
 EOF;
         $stm_get_traits = $db->prepare($query_get_traits);
         $stm_get_traits->bindValue('search', $search);
