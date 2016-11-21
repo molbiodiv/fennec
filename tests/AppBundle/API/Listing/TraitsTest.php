@@ -18,9 +18,9 @@ class TraitsTest extends WebserviceTestCase
         );
         $expected = array(
             array(
-                "name" => "PlantHabit",
+                "name" => "Plant Habit",
                 "trait_type_id" => 1,
-                "frequency" => 48916
+                "frequency" => 48842
             )
         );
         $this->assertEquals($expected, $results, 'Search without term and limit, result should be a list of all traits');
