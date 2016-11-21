@@ -49,7 +49,7 @@ class TraitsTest extends WebserviceTestCase
         $this->assertEquals($expected, $results);
 
         $results = $service->execute(
-            new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => 2, 'organism_ids' => [46032, 6661, 25517, 2888, 109884])),
+            new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => 2, 'fennec_ids' => [46032, 6661, 25517, 2888, 109884])),
             null
         );
         $expected = [
@@ -66,7 +66,7 @@ class TraitsTest extends WebserviceTestCase
         $this->assertEquals($expected, $results, 'Organism ids provided, should return trait details for only those organisms');
 
         $results = $service->execute(
-            new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => $trait_type_id, 'organism_ids' => [])),
+            new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => $trait_type_id, 'fennec_ids' => [])),
             null
         );
         $expected = [
