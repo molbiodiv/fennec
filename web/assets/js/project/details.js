@@ -81,10 +81,10 @@ function exportProjectAsBiom(asHdf5) {
 /* global _ */
 $('document').ready(function () {
     // Calculate values for mapping overview table
-    var sampleOrganismIDs = biom.getMetadata({ dimension: 'columns', attribute: ['fennec', dbversion, 'organism_id'] }).filter(function (element) {
+    var sampleOrganismIDs = biom.getMetadata({ dimension: 'columns', attribute: ['fennec', dbversion, 'fennec_id'] }).filter(function (element) {
         return element !== null;
     });
-    var otuOrganismIDs = biom.getMetadata({ dimension: 'rows', attribute: ['fennec', dbversion, 'organism_id'] }).filter(function (element) {
+    var otuOrganismIDs = biom.getMetadata({ dimension: 'rows', attribute: ['fennec', dbversion, 'fennec_id'] }).filter(function (element) {
         return element !== null;
     });
     var mappedSamples = sampleOrganismIDs.length;
@@ -183,11 +183,11 @@ $('document').ready(function () {
      * Create the results component from the returned mapping and store result in global biom object
      * @param {string} dimension
      * @param {Array} idsFromBiom those are the ids used for mapping in the order they appear in the biom file
-     * @param {Array} mapping from ids to organism_ids as returned by webservice
+     * @param {Array} mapping from ids to fennec_ids as returned by webservice
      * @param {string} method of mapping
      */
     function handleMappingResult(dimension, idsFromBiom, mapping, method) {
-        var organism_ids = new Array(idsFromBiom.length).fill(null);
+        var fennec_ids = new Array(idsFromBiom.length).fill(null);
         var idsFromBiomNotNullCount = 0;
         var idsFromBiomMappedCount = 0;
         for (var i = 0; i < idsFromBiom.length; i++) {
@@ -195,16 +195,16 @@ $('document').ready(function () {
                 idsFromBiomNotNullCount++;
                 if (idsFromBiom[i] in mapping && mapping[idsFromBiom[i]] !== null) {
                     idsFromBiomMappedCount++;
-                    organism_ids[i] = mapping[idsFromBiom[i]];
+                    fennec_ids[i] = mapping[idsFromBiom[i]];
                 }
             }
         }
-        biom.addMetadata({ dimension: dimension, attribute: ['fennec', dbversion, 'organism_id'], values: organism_ids });
+        biom.addMetadata({ dimension: dimension, attribute: ['fennec', dbversion, 'fennec_id'], values: fennec_ids });
         biom.addMetadata({ dimension: dimension, attribute: ['fennec', dbversion, 'assignment_method'], defaultValue: method });
         var idString = getIdStringForMethod(method);
         $('#mapping-action-busy-indicator').hide();
         $('#mapping-results-section').show();
-        $('#mapping-results').text('From a total of ' + idsFromBiom.length + ' organisms:  ' + idsFromBiomNotNullCount + ' have a ' + idString + ', of which ' + idsFromBiomMappedCount + ' could be mapped to organism_ids.');
+        $('#mapping-results').text('From a total of ' + idsFromBiom.length + ' organisms:  ' + idsFromBiomNotNullCount + ' have a ' + idString + ', of which ' + idsFromBiomMappedCount + ' could be mapped to fennec_ids.');
     }
 
     // Set action for click on mapping "Save to database" button
@@ -218,7 +218,7 @@ $('document').ready(function () {
             return element.id;
         });
         var mappingIds = getIdsForMethod(method, dimension);
-        var fennecIds = biom.getMetadata({ dimension: dimension, attribute: ['fennec', dbversion, 'organism_id'] });
+        var fennecIds = biom.getMetadata({ dimension: dimension, attribute: ['fennec', dbversion, 'fennec_id'] });
         var idHeader = dimension === 'rows' ? 'OTU_ID' : 'Sample_ID';
         var idString = getIdStringForMethod(method);
         var csv = idHeader + '\t' + idString + '\tFennec_ID\n';
@@ -280,8 +280,8 @@ $('document').ready(function () {
     var traits = [];
     var webserviceUrl = Routing.generate('api', { 'namespace': 'details', 'classname': 'traitsOfOrganisms' });
 
-    // Extract row organism_ids from biom
-    var organism_ids = biom.getMetadata({ dimension: 'rows', attribute: ['fennec', dbversion, 'organism_id'] }).filter(function (element) {
+    // Extract row fennec_ids from biom
+    var fennec_ids = biom.getMetadata({ dimension: 'rows', attribute: ['fennec', dbversion, 'fennec_id'] }).filter(function (element) {
         return element !== null;
     });
 
@@ -289,7 +289,7 @@ $('document').ready(function () {
     $.ajax(webserviceUrl, {
         data: {
             "dbversion": dbversion,
-            "organism_ids": organism_ids
+            "fennec_ids": fennec_ids
         },
         method: "POST",
         success: function success(data) {
@@ -298,7 +298,7 @@ $('document').ready(function () {
                     id: key,
                     trait: value['trait_type'],
                     count: value['trait_entry_ids'].length,
-                    range: 100 * value['organism_ids'].length / organism_ids.length
+                    range: 100 * value['fennec_ids'].length / fennec_ids.length
                 };
                 traits.push(thisTrait);
             });
