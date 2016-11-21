@@ -21,9 +21,9 @@ class OverviewTest extends WebserviceTestCase
         $results = $overview->execute($parameterBag, $session);
         $expected = array(
             "projects" => 0,
-            "organisms" => 173716,
-            "trait_entries" => 48916,
-            "trait_types" => 1
+            "organisms" => 198102,
+            "trait_entries" => 88855,
+            "trait_types" => 3
         );
         $this->assertEquals($expected, $results);
 
