@@ -35,6 +35,11 @@ gulp sassLint
 gulp sass
 ```
 ## Changes
+### 0.4.0 <2016-11-22>
+ - Rename organism_id to fennec_id
+ - Update webservices for db schema 0.4.0
+ - Fix frontend for new data schema
+ - Fix bugs (related to biom json export)
 ### 0.3.2 <2016-11-04>
  - Add organism_id mapping to project details page
  - Export project as biom (v1)
