@@ -2,10 +2,10 @@
 
 {% block javascripts %}
     {{ parent() }}
-    {% if organism.eol_accession is defined %}
+    {% if organism.eol_identifier is defined %}
         <script type="text/javascript">
             $('document').ready(function(){
-                var eol_id = {{ organism.eol_accession }};
+                var eol_id = {{ organism.eol_identifier }};
                 var img_template = '<a class="thumbnail" href="<%= href %>"><img src="<%= src %>"/></a><a href="<%= source %>"><div>(c) <%= rightsHolder %> <%= license %></div></a>';
                 $.ajax({
                     method: "GET",
@@ -104,7 +104,7 @@
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        Content on this page is dynamically included from <a href="http://eol.org">EOL</a> via its <a href="http://eol.org/api">API</a>. <a href="http://eol.org/pages/{{ organism.eol_accession }}">Visit full page at EOL for this organism (id {{ organism.eol_accession }})</a>.
+                        Content on this page is dynamically included from <a href="http://eol.org">EOL</a> via its <a href="http://eol.org/api">API</a>. <a href="http://eol.org/pages/{{ organism.eol_identifier }}">Visit full page at EOL for this organism (id {{ organism.eol_identifier }})</a>.
                     </div>
                     <div class='row'>
                         <div class='col-xs-12'>
@@ -136,9 +136,11 @@
                     {% endfor %}
                 </div>
                 <div role="tabpanel" class="tab-pane" id="taxonomy">
-                    <h4 class="page-header">Lineage</h4>
-                    {% for taxon in taxonomy.lineage %}
-                        {{ taxon }}</br>
+                    {% for db, lineage in taxonomy %}
+                        <h4 class="page-header">{{ db }}</h4>
+                        {% for taxon in lineage %}
+                            {{ taxon }}</br>
+                        {% endfor %}
                     {% endfor %}
                 </div>
             </div>

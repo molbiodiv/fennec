@@ -38,7 +38,7 @@ class TraitEntries extends Webservice
         while ($row = $stm_get_trait_entries->fetch(PDO::FETCH_ASSOC)) {
             $trait_entry_id = $row['id'];
             $result[$trait_entry_id] = array(
-                'organism_id' => $row['organism_id'],
+                'fennec_id' => $row['fennec_id'],
                 'type' => $row['type_name'],
                 'type_definition' => $row['type_definition'],
                 'citation' => $row['citation'],
@@ -60,7 +60,7 @@ class TraitEntries extends Webservice
             $query = <<<EOF
 SELECT 
     trait_categorical_entry.id,
-    trait_categorical_entry.organism_id,
+    trait_categorical_entry.fennec_id,
     trait_categorical_value.value AS value_name,
     trait_categorical_value.ontology_url AS value_definition,
     trait_citation.citation,

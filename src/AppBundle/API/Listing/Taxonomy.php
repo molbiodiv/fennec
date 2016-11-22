@@ -24,63 +24,83 @@ class Taxonomy extends Webservice
     public function execute(ParameterBag $query, SessionInterface $session = null)
     {
         $this->db = $this->getDbFromQuery($query);
-        $child_organism_id = $query->get('id');
-        $result['lineage'] = array();
-        array_unshift($result['lineage'], $this->getParent($child_organism_id));
-        while ($this->getParent($result['lineage'][0]) != null) {
-            array_unshift($result['lineage'], $this->getParent($result['lineage'][0]));
+        $fennec_id = $query->get('id');
+        $result = array();
+        $taxonomy_databases = $this->getTaxomomyDatabases($fennec_id);
+        foreach($taxonomy_databases as $name => $taxonomy_node_id){
+            $result[$name] = $this->getLineage($taxonomy_node_id);
         }
-        $data['lineage'] = array();
-        foreach ($result['lineage'] as $organism_id) {
-            array_push($data['lineage'], $this->getOrganismName($organism_id));
-        }
-        array_push($data['lineage'], $this->getOrganismName($child_organism_id));
-        return $data;
-        
+        return $result;
+
     }
-    
+
     /**
-     * @param $organism_id id of organism
-     * @return $parent_name parents name of the corresponding organism
+     * @param $taxonomy_node_id
+     * @return array
      */
-    private function getParent($organism_id)
+    private function getLineage($taxonomy_node_id){
+        $result = array();
+        $previousParent = $taxonomy_node_id;
+        $parent = $this->getParent($taxonomy_node_id);
+        while ($parent !== $previousParent) {
+            array_unshift($result, $this->getOrganismName($parent));
+            $previousParent = $parent;
+            $parent = $this->getParent($previousParent);
+        }
+        return $result;
+    }
+
+    /**
+     * @param $fennec_id id of organism
+     * @return array $result = (db_name => taxonomy_node_id)
+     */
+    private function getTaxomomyDatabases($fennec_id){
+        $query_get_taxonomy_databases = <<<EOF
+SELECT name, taxonomy_node_id
+    FROM taxonomy_node, db
+    WHERE taxonomy_node.db_id = db.db_id AND fennec_id = :fennec_id
+EOF;
+        $stm_get_taxonomy_databases = $this->db->prepare($query_get_taxonomy_databases);
+        $stm_get_taxonomy_databases->bindValue('fennec_id', $fennec_id);
+        $stm_get_taxonomy_databases->execute();
+
+        $result = array();
+        while($row = $stm_get_taxonomy_databases->fetch(PDO::FETCH_ASSOC)){
+            $result[$row['name']] = $row['taxonomy_node_id'];
+        }
+        return $result;
+    }
+
+    /**
+     * @param $taxonomy_node_id
+     * @return $parent_taxonomy_node_id
+     */
+    private function getParent($taxonomy_node_id)
     {
-        $query_get_parent_phylonode_id = <<<EOF
-SELECT parent_phylonode_id 
-    FROM phylonode, phylonode_organism 
-    WHERE phylonode_organism.phylonode_id = phylonode.phylonode_id AND organism_id = :organism_id
+        $query_get_parent_taxonomy_node_id = <<<EOF
+SELECT parent_taxonomy_node_id 
+    FROM taxonomy_node 
+    WHERE taxonomy_node_id = :taxonomy_node_id
 EOF;
-        $stm_get_parent_phylonode_id = $this->db->prepare($query_get_parent_phylonode_id);
-        $stm_get_parent_phylonode_id->bindValue('organism_id', $organism_id);
-        $stm_get_parent_phylonode_id->execute();
-        
-        $result = $stm_get_parent_phylonode_id->fetch(PDO::FETCH_ASSOC);
-        $parent_phylonode_id = $result['parent_phylonode_id'];
-        
-        $query_get_parent_organism_id = <<<EOF
-SELECT organism_id FROM phylonode_organism WHERE phylonode_id = :parent_phylonode_id
-EOF;
-        $stm_get_parent_organism_id = $this->db->prepare($query_get_parent_organism_id);
-        $stm_get_parent_organism_id->bindValue('parent_phylonode_id', $parent_phylonode_id);
-        $stm_get_parent_organism_id->execute();
-        
-        $result = $stm_get_parent_organism_id->fetch(PDO::FETCH_ASSOC);
-        $parent_organism_id = $result['organism_id'];
-        
-        return $parent_organism_id;
+        $stm_get_parent_taxonomy_node_id = $this->db->prepare($query_get_parent_taxonomy_node_id);
+        $stm_get_parent_taxonomy_node_id->bindValue('taxonomy_node_id', $taxonomy_node_id);
+        $stm_get_parent_taxonomy_node_id->execute();
+
+        $result = $stm_get_parent_taxonomy_node_id->fetch(PDO::FETCH_ASSOC);
+
+        return $result['parent_taxonomy_node_id'];
     }
     
-    private function getOrganismName($organism_id)
+    private function getOrganismName($taxonomy_node_id)
     {
-        $query_get_organism_name = <<<EOF
-SELECT species FROM organism WHERE organism_id = :organism_id
+        $query_get_scientific_name = <<<EOF
+SELECT scientific_name FROM organism, taxonomy_node WHERE organism.fennec_id = taxonomy_node.fennec_id AND taxonomy_node_id = :taxonomy_node_id
 EOF;
-        $stm_get_organism_name = $this->db->prepare($query_get_organism_name);
-        $stm_get_organism_name->bindValue('organism_id', $organism_id);
-        $stm_get_organism_name->execute();
-        $result = $stm_get_organism_name->fetch(PDO::FETCH_ASSOC);
-        $organism_name = $result['species'];
-        return $organism_name;
-        
+        $stm_get_scientific_name = $this->db->prepare($query_get_scientific_name);
+        $stm_get_scientific_name->bindValue('taxonomy_node_id', $taxonomy_node_id);
+        $stm_get_scientific_name->execute();
+        $result = $stm_get_scientific_name->fetch(PDO::FETCH_ASSOC);
+        return $result['scientific_name'];
+
     }
 }

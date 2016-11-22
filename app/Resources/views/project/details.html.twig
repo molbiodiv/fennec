@@ -4,12 +4,11 @@
     {{ parent() }}
 
     <script type="text/javascript">
-        var biomString = '{{ project['projects'][internal_project_id]['biom']|raw }}';
         var internalProjectId = '{{ internal_project_id }}';
         var phinchPreviewPath = '{{ asset('assets/Blackbird/preview.html') }}';
         var biom = function(){
             var Biom = require('biojs-io-biom').Biom;
-            var biomObject = JSON.parse(biomString);
+            var biomObject = {{ project['projects'][internal_project_id]['biom']|raw }};
             return new Biom(biomObject);
         }();
     </script>
@@ -45,6 +44,7 @@
                     <tr><th scope="row">Export</th>
                         <td id="project-overview-table-export">
                             <button type="button" class="btn btn-primary" id="project-export-as-biom-v1">BIOM v1</button>
+                            <button type="button" class="btn btn-primary" id="project-export-as-biom-v2">BIOM v2</button>
                         </td></tr>
                 </tbody>
             </table>

@@ -13,18 +13,16 @@ class ByOrganismNameTest extends WebserviceTestCase
 
         // Test with existing IDs
         $names = [
-            'Galactites tomentosa',
             'Austrolejeunea bidentata',
             'Melilotus infestus',
             'Cyclogramma sp. 73',
             'Willkommia'
         ];
         $expected = [
-            'Galactites tomentosa' => 505,
-            'Austrolejeunea bidentata' => 1337,
-            'Melilotus infestus' => 1564,
-            'Cyclogramma sp. 73' => 1559,
-            'Willkommia' => 1727
+            'Austrolejeunea bidentata' => 160643,
+            'Melilotus infestus' => 167801,
+            'Cyclogramma sp. 73' => 130395,
+            'Willkommia' => 83683
         ];
         $result = $service->execute(new ParameterBag(array('dbversion' => $this->default_db, 'ids' => $names)),
             null);
@@ -32,7 +30,6 @@ class ByOrganismNameTest extends WebserviceTestCase
 
         // Test with some non-existing IDs
         $names = [
-            'Galactites tomentosa',
             'Austrolejeunea bidentata',
             'Melilotus infestus',
             'Cyclogramma sp. 73',
@@ -40,11 +37,10 @@ class ByOrganismNameTest extends WebserviceTestCase
             'non_existing'
         ];
         $expected = [
-            'Galactites tomentosa' => 505,
-            'Austrolejeunea bidentata' => 1337,
-            'Melilotus infestus' => 1564,
-            'Cyclogramma sp. 73' => 1559,
-            'Willkommia' => 1727,
+            'Austrolejeunea bidentata' => 160643,
+            'Melilotus infestus' => 167801,
+            'Cyclogramma sp. 73' => 130395,
+            'Willkommia' => 83683,
             'non_existing' => null
         ];
         $result = $service->execute(new ParameterBag(array('dbversion' => $this->default_db, 'ids' => $names)),

@@ -3,8 +3,8 @@
 /* global _ */
 $('document').ready(() => {
     // Calculate values for mapping overview table
-    let sampleOrganismIDs = biom.getMetadata({dimension: 'columns', attribute: ['fennec', dbversion, 'organism_id']}).filter(element => element !== null);
-    let otuOrganismIDs = biom.getMetadata({dimension: 'rows', attribute: ['fennec', dbversion, 'organism_id']}).filter(element => element !== null);
+    let sampleOrganismIDs = biom.getMetadata({dimension: 'columns', attribute: ['fennec', dbversion, 'fennec_id']}).filter(element => element !== null);
+    let otuOrganismIDs = biom.getMetadata({dimension: 'rows', attribute: ['fennec', dbversion, 'fennec_id']}).filter(element => element !== null);
     var mappedSamples = sampleOrganismIDs.length;
     var percentageMappedSamples = 100 * mappedSamples / biom.shape[1];
     var mappedOTUs = otuOrganismIDs.length;
@@ -97,11 +97,11 @@ $('document').ready(() => {
      * Create the results component from the returned mapping and store result in global biom object
      * @param {string} dimension
      * @param {Array} idsFromBiom those are the ids used for mapping in the order they appear in the biom file
-     * @param {Array} mapping from ids to organism_ids as returned by webservice
+     * @param {Array} mapping from ids to fennec_ids as returned by webservice
      * @param {string} method of mapping
      */
     function handleMappingResult(dimension, idsFromBiom, mapping, method) {
-        let organism_ids = new Array(idsFromBiom.length).fill(null);
+        let fennec_ids = new Array(idsFromBiom.length).fill(null);
         var idsFromBiomNotNullCount = 0;
         var idsFromBiomMappedCount = 0;
         for (let i = 0; i < idsFromBiom.length; i++) {
@@ -109,16 +109,16 @@ $('document').ready(() => {
                 idsFromBiomNotNullCount++;
                 if (idsFromBiom[i] in mapping && mapping[idsFromBiom[i]] !== null) {
                     idsFromBiomMappedCount++;
-                    organism_ids[i] = mapping[idsFromBiom[i]];
+                    fennec_ids[i] = mapping[idsFromBiom[i]];
                 }
             }
         }
-        biom.addMetadata({dimension: dimension, attribute: ['fennec', dbversion, 'organism_id'], values: organism_ids});
+        biom.addMetadata({dimension: dimension, attribute: ['fennec', dbversion, 'fennec_id'], values: fennec_ids});
         biom.addMetadata({dimension: dimension, attribute: ['fennec', dbversion, 'assignment_method'], defaultValue: method});
         var idString = getIdStringForMethod(method);
         $('#mapping-action-busy-indicator').hide();
         $('#mapping-results-section').show();
-        $('#mapping-results').text(`From a total of ${idsFromBiom.length} organisms:  ${idsFromBiomNotNullCount} have a ${idString}, of which ${idsFromBiomMappedCount} could be mapped to organism_ids.`);
+        $('#mapping-results').text(`From a total of ${idsFromBiom.length} organisms:  ${idsFromBiomNotNullCount} have a ${idString}, of which ${idsFromBiomMappedCount} could be mapped to fennec_ids.`);
     }
 
     // Set action for click on mapping "Save to database" button
@@ -128,16 +128,16 @@ $('document').ready(() => {
 
     // Set action for click on mapping "Download as csv" button
     $('#mapping-download-csv-button').on('click', function () {
-        var ids = biom[dimension].map(function (element) {
+        let ids = biom[dimension].map(function (element) {
             return element.id;
         });
-        var ids = getIdsForMethod(method, dimension);
-        var fennec_id = biom.getMetadata({dimension: dimension, attribute: ['fennec', dbversion, 'organism_id']});
-        var id_header = dimension === 'rows' ? 'OTU_ID' : 'Sample_ID';
+        let mappingIds = getIdsForMethod(method, dimension);
+        let fennecIds = biom.getMetadata({dimension: dimension, attribute: ['fennec', dbversion, 'fennec_id']});
+        let idHeader = dimension === 'rows' ? 'OTU_ID' : 'Sample_ID';
         let idString = getIdStringForMethod(method);
-        var csv = `${id_header}\t${idString}\tFennec_ID\n`;
+        var csv = `${idHeader}\t${idString}\tFennec_ID\n`;
         for(var i=0; i<ids.length; i++){
-            csv += ids[i]+"\t"+ids[i]+"\t"+fennec_id[i]+"\n";
+            csv += ids[i]+"\t"+mappingIds[i]+"\t"+fennecIds[i]+"\n";
         }
         var blob = new Blob([csv], {type: "text/plain;charset=utf-8"});
         saveAs(blob, "mapping.csv");

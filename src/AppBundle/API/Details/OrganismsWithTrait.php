@@ -31,8 +31,8 @@ class OrganismsWithTrait extends Webservice
         
         $query_get_organism_by_trait = <<<EOF
 SELECT *
-    FROM organism, (SELECT DISTINCT organism_id FROM trait_categorical_entry WHERE trait_type_id = :trait_type_id) AS ids
-    WHERE organism.organism_id = ids.organism_id LIMIT :limit
+    FROM organism, (SELECT DISTINCT fennec_id FROM trait_categorical_entry WHERE trait_type_id = :trait_type_id) AS ids
+    WHERE organism.fennec_id = ids.fennec_id LIMIT :limit
 EOF;
         $stm_get_organism_by_trait = $db->prepare($query_get_organism_by_trait);
         $stm_get_organism_by_trait->bindValue('trait_type_id', $trait_type_id);
@@ -43,13 +43,8 @@ EOF;
         
         while ($row = $stm_get_organism_by_trait->fetch(PDO::FETCH_ASSOC)) {
             $result = array();
-            $result['organism_id'] = $row['organism_id'];
-            $result['scientific_name'] = $row['species'];
-            $result['rank'] = $row['genus'];
-            $result['common_name'] = $row['common_name'];
-            if ($row["abbreviation"]!=null) {
-                $result['rank']='species';
-            }
+            $result['fennec_id'] = $row['fennec_id'];
+            $result['scientific_name'] = $row['scientific_name'];
             $data[] = $result;
         }
         return $data;

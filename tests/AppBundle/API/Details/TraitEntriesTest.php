@@ -23,39 +23,39 @@ class TraitEntriesTest extends WebserviceTestCase
         $this->assertEquals($expected, $results);
 
         //Test if the details for one trait entry with categorical value is returned correctly
-        $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'trait_entry_ids' => ['49484'], 'trait_format' => 'categorical_free'));
+        $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'trait_entry_ids' => ['47484'], 'trait_format' => 'categorical_free'));
         $results = $service->execute($parameterBag, $session);
         $expected1 = [
-            '49484' => [
-                'organism_id' => 101634,
-                'type' => 'PlantHabit',
-                'type_definition' => 'eol.org/schema/terms/PlantHabit',
-                'value' => 'tree',
-                'value_definition' => 'http://eol.org/schema/terms/tree',
-                'citation' => 'Smithsonian Institution, National Museum of Narutal History, Department of Botany. Data for specimen 2449953. http://collections.mnh.si.edu/search/botany/'
+            '47484' => [
+                'fennec_id' => 97935,
+                'type' => 'Plant Habit',
+                'type_definition' => 'http://eol.org/schema/terms/PlantHabit',
+                'value' => 'vine',
+                'value_definition' => 'http://eol.org/schema/terms/vine',
+                'citation' => 'Smithsonian Institution, National Museum of Narutal History, Department of Botany. http://collections.mnh.si.edu/search/botany/'
             ]
         ];
         $this->assertEquals($expected1, $results);
 
         //Test if the details for another trait entry with categorical value is returned correctly
-        $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'trait_entry_ids' => ['49533'], 'trait_format' => 'categorical_free'));
+        $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'trait_entry_ids' => ['35123'], 'trait_format' => 'categorical_free'));
         $results = $service->execute($parameterBag, $session);
         $expected2 = [
-            '49533' => [
-                'organism_id' => 159684,
-                'type' => 'PlantHabit',
-                'type_definition' => 'eol.org/schema/terms/PlantHabit',
+            '35123' => [
+                'fennec_id' => 55850,
+                'type' => 'Plant Habit',
+                'type_definition' => 'http://eol.org/schema/terms/PlantHabit',
                 'value' => 'subshrub',
                 'value_definition' => 'http://eol.org/schema/terms/subshrub',
-                'citation' => 'Paula S, Arianoutsou M, Kazanis D, Tavsanoglu Ç, Lloret F, Buhk C, Ojeda F, Luna B, Moreno JM, Rodrigo A, Espelta JM, Palacio S, Fernández-Santos B, Fernandes PM, and Pausas JG. 2009. Fire-related traits for plant species of the Mediterranean Basin. Ecology 90:1420. http://esapubs.org/archive/ecol/E090/094/default.htm'
+                'citation' => 'The PLANTS Database, United States Department of Agriculture, National Resources Conservation Service. http://plants.usda.gov/'
             ]
         ];
         $this->assertEquals($expected2, $results);
 
         //Test if the details for two trait entries are returned correctly
-        $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'trait_entry_ids' => ['49484', '49533'], 'trait_format' => 'categorical_free'));
+        $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'trait_entry_ids' => ['47484', '35123'], 'trait_format' => 'categorical_free'));
         $results = $service->execute($parameterBag, $session);
-        $expected = array('49484' => $expected1['49484'], '49533' => $expected2['49533']);
+        $expected = array('47484' => $expected1['47484'], '35123' => $expected2['35123']);
         $this->assertEquals($expected, $results);
     }
 }

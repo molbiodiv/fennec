@@ -27,5 +27,7 @@ class OrganismsWithTraitTest extends WebserviceTestCase
             null
         );
         $this->assertEquals(10, count($results));
+        $this->assertTrue(array_key_exists('fennec_id',$results[0]));
+        $this->assertTrue(array_key_exists('scientific_name',$results[0]));
     }
 }

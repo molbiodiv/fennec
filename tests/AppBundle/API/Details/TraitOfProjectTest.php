@@ -35,18 +35,17 @@ class TraitOfProjectTest extends WebserviceTestCase
         $entries = $projectListing->execute(new ParameterBag(array('dbversion' => $default_db)), $session);
         $id = $entries['data'][0]['internal_project_id'];
 
-        $results = $service->execute(new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => 1, 'internal_project_id' => $id)), $session);
+        $results = $service->execute(new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => 2, 'internal_project_id' => $id)), $session);
         $expected = [
             "values" => [
-                "forb/herb" => "4",
-                "shrub" => "2",
-                "subshrub" => "2"
+                "annual" => "1",
+                "perennial" => "2"
             ],
-            "trait_type_id" => 1,
-            "name" => "PlantHabit",
-            "ontology_url" => "eol.org/schema/terms/PlantHabit",
+            "trait_type_id" => 2,
+            "name" => "Plant Life Cycle Habit",
+            "ontology_url" => "http://purl.obolibrary.org/obo/TO_0002725",
             "trait_format" => "categorical_free",
-            "number_of_organisms" => 5
+            "number_of_organisms" => 2
         ];
         $this->assertEquals($results, $expected, 'Example project, return trait details');
 

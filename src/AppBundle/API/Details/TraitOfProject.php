@@ -26,7 +26,7 @@ class TraitOfProject extends Webservice
             return $results;
         }
         $service = $this->factory('details', 'traits');
-        $query->set('organism_ids', $results);
+        $query->set('fennec_ids', $results);
         $results = $service->execute($query, $session);
 
         return $results;

@@ -5,15 +5,15 @@ $('document').ready(() => {
     var traits = [];
     var webserviceUrl = Routing.generate('api', {'namespace': 'details', 'classname': 'traitsOfOrganisms'});
 
-    // Extract row organism_ids from biom
-    var organism_ids = biom.getMetadata({dimension: 'rows', attribute: ['fennec', dbversion, 'organism_id']})
+    // Extract row fennec_ids from biom
+    var fennec_ids = biom.getMetadata({dimension: 'rows', attribute: ['fennec', dbversion, 'fennec_id']})
         .filter( element => element !== null );
 
     // Get traits for rows
     $.ajax(webserviceUrl, {
         data: {
             "dbversion": dbversion,
-            "organism_ids": organism_ids
+            "fennec_ids": fennec_ids
         },
         method: "POST",
         success: function (data) {
@@ -22,7 +22,7 @@ $('document').ready(() => {
                     id: key,
                     trait: value['trait_type'],
                     count: value['trait_entry_ids'].length,
-                    range: 100 * value['organism_ids'].length / organism_ids.length
+                    range: 100 * value['fennec_ids'].length / fennec_ids.length
                 };
                 traits.push(thisTrait);
             });

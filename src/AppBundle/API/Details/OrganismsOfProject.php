@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
  * Web Service.
- * Returns all organisms ids of a project
+ * Returns all fennec_ids of a project
  */
 class OrganismsOfProject extends Webservice
 {
@@ -19,12 +19,13 @@ class OrganismsOfProject extends Webservice
      * @inheritdoc
      * @returns Array $result
      * <code>
-     * array('organism_id_1', 'organism_id_2');
+     * array('fennec_id_1', 'fennec_id_2');
      * </code>
      */
     public function execute(ParameterBag $query, SessionInterface $session = null)
     {
         $db = $this->getDbFromQuery($query);
+        $dbversion = $query->get('dbversion');
         $result = array();
         if ($session === null || !$session->isStarted() || !$session->has('user')) {
             $result['error'] = Webservice::ERROR_NOT_LOGGED_IN;
@@ -46,15 +47,23 @@ EOF;
             } else {
                 $rows = $stm_get_rows->fetch(PDO::FETCH_ASSOC)['rows'];
                 $rows = json_decode($rows, true);
-                $organism_ids = array();
+                $fennec_ids = array();
                 foreach ($rows as $row){
                     if (key_exists('metadata', $row)){
-                        if (key_exists('fennec_organism_id', $row['metadata']) and $row['metadata']['fennec_organism_id'] !== null){
-                            array_push($organism_ids, $row['metadata']['fennec_organism_id']);
+                        if (is_array($row['metadata']) and key_exists('fennec', $row['metadata'])) {
+                            $fennec = json_decode($row['metadata']['fennec'], true);
+                            if(is_array($fennec) and
+                                key_exists($dbversion, $fennec) and
+                                is_array($fennec[$dbversion]) and
+                                key_exists('fennec_id', $fennec[$dbversion]) and
+                                $fennec[$dbversion]['fennec_id'] !== null
+                            ){
+                                array_push($fennec_ids, $fennec[$dbversion]['fennec_id']);
+                            }
                         }
                     }
                 }
-                $result = array_unique($organism_ids);
+                $result = array_unique($fennec_ids);
             }
         }
         return $result;

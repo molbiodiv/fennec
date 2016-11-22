@@ -32,7 +32,7 @@ class Setup extends WebTestCase
             ' -p '.$this->db['database_port'].
             ' '.$this->db['database_name']);
         echo exec('PGPASSWORD='.$this->db['database_password'].
-            ' bash -c \'xzcat '.__DIR__.'/chado_traits.sql.xz | psql -U '.
+            ' bash -c \'xzcat '.__DIR__.'/initial_testdata.sql.xz | psql -U '.
             $this->db['database_user'].
             ' -h '.$this->db['database_host'].
             ' -p '.$this->db['database_port'].
