@@ -47,12 +47,11 @@ class Traits extends Webservice
         }
         $organism_constraint = $this->get_organism_constraint($fennec_ids);
         $query_get_values = <<<EOF
-SELECT value, count(value)
+SELECT fennec_id, value
     FROM trait_categorical_entry, trait_categorical_value
     WHERE trait_categorical_value_id=trait_categorical_value.id
     AND trait_categorical_entry.trait_type_id = ?
     {$organism_constraint}
-    GROUP BY value;
 EOF;
         $stm_get_values= $this->db->prepare($query_get_values);
         if($fennec_ids !== null){
@@ -63,7 +62,14 @@ EOF;
 
         $values = array();
         while ($row = $stm_get_values->fetch(PDO::FETCH_ASSOC)) {
-            $values[$row['value']] = $row['count'];
+            if(!array_key_exists($row['value'], $values)){
+                $values[$row['value']] = array();
+            }
+            $values[$row['value']][] = $row['fennec_id'];
+        }
+
+        foreach ($values as $key => $value){
+            $values[$key] = count($value);
         }
 
         return $values;
