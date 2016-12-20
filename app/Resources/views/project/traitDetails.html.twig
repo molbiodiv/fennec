@@ -6,7 +6,18 @@
     {% if trait.trait_format == 'categorical_free' %}
     <div class='col-xs-12'>
         <div id='pieChart'></div>
-        <script>drawPieChart({{ trait.values|json_encode()|raw }});</script>
+        <script>
+            var internalProjectId = '{{ internal_project_id }}';
+            var biom = function(){
+                var Biom = require('biojs-io-biom').Biom;
+                var biomObject = {{ project['projects'][internal_project_id]['biom']|raw }};
+                return new Biom(biomObject);
+            }();
+            var traitValues = {{ trait.values|json_encode()|raw }};
+            var counts = _.countBy(condenseTraitValues(traitValues));
+            counts['NA'] = biom.shape[0] - _.sum(Object.values(counts));
+            drawPieChart(counts);
+        </script>
     </div>
     {% else %}
     <div class='col-xs-12'>

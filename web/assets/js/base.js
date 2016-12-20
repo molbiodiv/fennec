@@ -57,7 +57,7 @@ function drawPieChart(data) {
     var values = [];
     var labels = [];
     $.each(data, function (key, value) {
-        values.push(value.length);
+        values.push(value);
         labels.push(key);
     });
     var plot = [{
@@ -67,7 +67,8 @@ function drawPieChart(data) {
     }];
     var layout = {
         height: 700,
-        width: 800
+        width: 800,
+        hiddenlabels: ['NA']
     };
     Plotly.newPlot('pieChart', plot, layout);
 }
