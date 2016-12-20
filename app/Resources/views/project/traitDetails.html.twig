@@ -5,6 +5,7 @@
 <div class='row'>
     {% if trait.trait_format == 'categorical_free' %}
     <div class='col-xs-12'>
+        <button class="btn btn-primary" id="add-trait-to-project-button">Add trait to project</button>
         <div id='pieChart'></div>
         <script>
             var internalProjectId = '{{ internal_project_id }}';
