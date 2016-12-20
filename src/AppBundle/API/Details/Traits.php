@@ -10,6 +10,19 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 /**
  * Web Service.
  * Returns Trait information
+ * <code>
+ *   array(
+ *     "values" => [
+ *       "annual" => [2888, 109884],
+ *       "perennial" => [46032, 6661, 25517]
+ *     ],
+ *     "trait_type_id" => 2,
+ *     "name" => "Plant Life Cycle Habit",
+ *     "ontology_url" => "http://purl.obolibrary.org/obo/TO_0002725",
+ *     "trait_format" => "categorical_free",
+ *     "number_of_organisms" => 5
+ *   );
+ * </code>
  */
 class Traits extends Webservice
 {
