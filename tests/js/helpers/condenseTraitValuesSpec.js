@@ -25,25 +25,21 @@ describe('helpers/condenseTraitValues', () => {
             assert.deepEqual(condenseTraitValues({}), {});
         });
         it('function returns trait by organism if already unique (single value)', () => {
-            assert.deepEqual(condenseTraitValues({'1': {
-                'trait_type': 'habitat',
-                'trait_entry_ids': [1, 20, 36, 7],
-                'fennec_ids': [13, 20, 5]
-            }}), {'13': 'habitat', '20': 'habitat', '5': 'habitat'});
+            assert.deepEqual(condenseTraitValues({
+                "annual": [2888, 109884]
+            }), {'2888': 'annual', '109884': 'annual'});
         });
         it('function returns trait by organism if already unique (multiple values)', () => {
-            assert.deepEqual(condenseTraitValues({'1': {
-                'trait_type': 'habitat',
-                'trait_entry_ids': [1, 20, 36, 7],
-                'fennec_ids': [13, 20, 5]
-            }}), {'13': 'habitat', '20': 'habitat', '5': 'habitat'});
+            assert.deepEqual(condenseTraitValues({
+                "annual": [2888, 109884],
+                "perennial": [46032, 6661, 25517]
+            }), {'2888': 'annual', '109884': 'annual', '46032': 'perennial', '6661': 'perennial', '25517': 'perennial'});
         });
         it('function returns trait by organism if not unique (multiple values)', () => {
-            assert.deepEqual(condenseTraitValues({'1': {
-                'trait_type': 'habitat',
-                'trait_entry_ids': [1, 20, 36, 7],
-                'fennec_ids': [13, 20, 5]
-            }}), {'13': 'habitat', '20': 'habitat', '5': 'habitat'});
+            assert.deepEqual(condenseTraitValues({
+                "annual": [2888, 6661, 109884],
+                "perennial": [46032, 6661, 25517]
+            }), {'2888': 'annual', '109884': 'annual', '46032': 'perennial', '6661': 'annual/perennial', '25517': 'perennial'});
         });
     });
 });
