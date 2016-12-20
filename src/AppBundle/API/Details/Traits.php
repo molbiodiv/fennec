@@ -69,7 +69,7 @@ EOF;
         }
 
         foreach ($values as $key => $value){
-            $values[$key] = count($value);
+            $values[$key] = count(array_unique($value));
         }
 
         return $values;
