@@ -40,6 +40,10 @@ gulp.task('babel-project-details', function() {
     return runBabelOnFolder('project', 'details');
 });
 
+gulp.task('babel-project-trait-details', function() {
+    return runBabelOnFolder('project', 'traitDetails');
+});
+
 gulp.task('babel-trait-browse', function() {
     return runBabelOnFolder('trait', 'browse');
 });
@@ -64,7 +68,7 @@ gulp.task('sassLint', function() {
     .pipe(sassLint.failOnError());
 });
 
-gulp.task('babel', ['babel-helpers','babel-base','babel-project-details','babel-trait-browse'], function () {
+gulp.task('babel', ['babel-helpers','babel-base','babel-project-details','babel-project-trait-details','babel-trait-browse'], function () {
 });
 
 gulp.task('css', ['sassLint','sass'], function () {
