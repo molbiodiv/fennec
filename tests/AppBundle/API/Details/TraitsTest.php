@@ -19,25 +19,25 @@ class TraitsTest extends WebserviceTestCase
         );
         $expected = [
                 "values" => [
-                     "liana" => "136",
-                     "nonvascular" => "832",
-                     "forb/herb" => "15086",
-                     "suffrutescent" => "90",
-                     "procumbent" => "50",
-                     "trailing" => "53",
-                     "decumbent" => "50",
-                     "epiphyte" => "118",
-                     "tree" => "11170",
-                     "twining" => "23",
-                     "climbing plant" => "415",
+                     "liana" => "66",
+                     "nonvascular" => "819",
+                     "forb/herb" => "9191",
+                     "suffrutescent" => "58",
+                     "procumbent" => "34",
+                     "trailing" => "42",
+                     "decumbent" => "44",
+                     "epiphyte" => "53",
+                     "tree" => "2456",
+                     "twining" => "20",
+                     "climbing plant" => "206",
                      "arborescent" => "3",
-                     "graminoid" => "2645",
-                     "shrub" => "10002",
+                     "graminoid" => "1902",
+                     "shrub" => "3527",
                      "large shrub" => "38",
                      "geophyte" => "41",
-                     "vine" => "5560",
-                     "subshrub" => "2440",
-                     "woody" => "90",
+                     "vine" => "1056",
+                     "subshrub" => "1916",
+                     "woody" => "60",
 
                 ],
                 "trait_type_id" => 1,
@@ -54,7 +54,7 @@ class TraitsTest extends WebserviceTestCase
         );
         $expected = [
                 "values" => [
-                     "annual" => "3",
+                     "annual" => "2",
                      "perennial" => "3"
                 ],
                 "trait_type_id" => 2,
