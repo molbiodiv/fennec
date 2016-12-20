@@ -57,7 +57,7 @@ function drawPieChart(data) {
     var values = [];
     var labels = [];
     $.each(data, function (key, value) {
-        values.push(value);
+        values.push(value.length);
         labels.push(key);
     });
     var plot = [{
