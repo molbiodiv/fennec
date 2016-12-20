@@ -46,6 +46,7 @@ class TraitsTest extends WebserviceTestCase
                 "trait_format" => "categorical_free",
                 "number_of_organisms" => 16417
             ];
+        $results['values'] = array_map('count', $results['values']);
         $this->assertEquals($expected, $results);
 
         $results = $service->execute(
@@ -54,8 +55,8 @@ class TraitsTest extends WebserviceTestCase
         );
         $expected = [
                 "values" => [
-                     "annual" => "2",
-                     "perennial" => "3"
+                     "annual" => [2888, 109884],
+                     "perennial" => [46032, 6661, 25517]
                 ],
                 "trait_type_id" => 2,
                 "name" => "Plant Life Cycle Habit",

@@ -38,8 +38,8 @@ class TraitOfProjectTest extends WebserviceTestCase
         $results = $service->execute(new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => 2, 'internal_project_id' => $id)), $session);
         $expected = [
             "values" => [
-                "annual" => "1",
-                "perennial" => "1"
+                "annual" => ["1340"],
+                "perennial" => ["1630"]
             ],
             "trait_type_id" => 2,
             "name" => "Plant Life Cycle Habit",
