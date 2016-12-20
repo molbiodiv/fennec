@@ -39,7 +39,7 @@ class TraitOfProjectTest extends WebserviceTestCase
         $expected = [
             "values" => [
                 "annual" => "1",
-                "perennial" => "2"
+                "perennial" => "1"
             ],
             "trait_type_id" => 2,
             "name" => "Plant Life Cycle Habit",
