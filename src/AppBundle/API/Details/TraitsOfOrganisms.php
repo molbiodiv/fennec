@@ -39,6 +39,7 @@ SELECT trait_categorical_entry.id, trait_categorical_entry.fennec_id, trait_cate
     FROM trait_categorical_entry, trait_type, trait_format
     WHERE trait_categorical_entry.trait_type_id = trait_type.id
     AND trait_format.id = trait_type.trait_format_id
+    AND deletion_date IS NULL
     AND fennec_id IN ($placeholders)
 EOF;
         $stm_get_categorical_traits = $this->db->prepare($query_get_categorical_traits);
