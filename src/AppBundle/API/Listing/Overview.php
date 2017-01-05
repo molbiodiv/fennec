@@ -61,6 +61,7 @@ EOF;
 SELECT
     COUNT(*)
     FROM trait_categorical_entry
+    WHERE deletion_date IS NULL
 EOF;
         $stm_get_number_of_trait_entries = $this->database->prepare($query_get_number_of_trait_entries);
         $stm_get_number_of_trait_entries->execute();
