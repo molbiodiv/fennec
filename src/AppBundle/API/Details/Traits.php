@@ -64,6 +64,7 @@ SELECT fennec_id, value
     FROM trait_categorical_entry, trait_categorical_value
     WHERE trait_categorical_value_id=trait_categorical_value.id
     AND trait_categorical_entry.trait_type_id = ?
+    AND deletion_date IS NULL
     {$organism_constraint}
 EOF;
         $stm_get_values= $this->db->prepare($query_get_values);
@@ -119,7 +120,7 @@ EOF;
         }
         $organism_constraint = $this->get_organism_constraint($fennec_ids);
         $query_get_number_of_organisms = <<<EOF
-SELECT count(DISTINCT fennec_id) FROM trait_categorical_entry WHERE trait_type_id = ?
+SELECT count(DISTINCT fennec_id) FROM trait_categorical_entry WHERE trait_type_id = ? AND deletion_date IS NULL
     {$organism_constraint}
 EOF;
         $stm_get_number_of_organisms= $this->db->prepare($query_get_number_of_organisms);
