@@ -19,6 +19,16 @@ class OrganismsWithTraitTest extends WebserviceTestCase
             null
         );
         $this->assertEquals(OrganismsWithTrait::DEFAULT_LIMIT, count($results));
+
+        $results = $service->execute(
+            new ParameterBag(array(
+                'dbversion' => $default_db,
+                'trait_type_id' => 3, 'limit' => 30000
+            )),
+            null
+        );
+        $this->assertEquals(23185, count($results));
+
         $results = $service->execute(
             new ParameterBag(array(
                 'dbversion' => $default_db,
