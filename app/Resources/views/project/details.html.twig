@@ -5,7 +5,7 @@
 
     <script type="text/javascript">
         var internalProjectId = '{{ internal_project_id }}';
-        var phinchPreviewPath = '{{ asset('assets/Blackbird/preview.html') }}';
+        var phinchPreviewPath = '{{ asset('assets/Phinch/preview.html') }}';
         var biom = function(){
             var Biom = require('biojs-io-biom').Biom;
             var biomObject = {{ project['projects'][internal_project_id]['biom']|raw }};
@@ -13,7 +13,7 @@
         }();
     </script>
 
-    <script src="{{ asset('assets/Blackbird/lib/db.js') }}"></script>
+    <script src="{{ asset('assets/Phinch/lib/db.js') }}"></script>
     <script src="{{ asset('assets/js/project/details.js') }}"></script>
 {% endblock %}
 
@@ -55,8 +55,8 @@
             <div class="panel-heading">
                 <h3 class="panel-title">Explore</h3>
             </div>
-            <button class='btn' id="inspect-with-phinch-button">Inspect with Blackbird</button>
-            <i data-toggle="tooltip" title="This is an experimental integration of Blackbird (see blackbird.iimog.org)." class="fa fa-question-circle"></i><br>
+            <button class='btn' id="inspect-with-phinch-button">Inspect with Phinch</button>
+            <i data-toggle="tooltip" title="This is an experimental integration of Phinch (see blackbird.iimog.org)." class="fa fa-question-circle"></i><br>
         </div>
         <div style="height: 100%"><iframe id='inspect-with-phinch-iframe' width="100%" height="100%" style="border: none; display: none"></iframe></div>
 

@@ -1,6 +1,3 @@
-[submodule "src/webroot/Blackbird"]
-	path = src/webroot/Blackbird
-	url = https://github.com/molbiodiv/Blackbird
-[submodule "web/assets/Blackbird"]
-	path = web/assets/Blackbird
-	url = https://github.com/molbiodiv/Blackbird
+[submodule "web/assets/Phinch"]
+	path = web/assets/Phinch
+	url = https://github.com/molbiodiv/Phinch

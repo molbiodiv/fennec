@@ -73,6 +73,9 @@ class ProjectController extends Controller
         $query->set('internal_project_id', $project_id);
         $query->set('trait_type_id', $trait_type_id);
         $traitResult = $projectTraitDetails->execute($query, $request->getSession());
+        $projectDetails = $this->get('app.api.webservice')->factory('details', 'projects');
+        $query->set('ids', array($project_id));
+        $projectResult = $projectDetails->execute($query, $request->getSession());
         return $this->render(
             'project/traitDetails.html.twig',
             [
@@ -80,6 +83,7 @@ class ProjectController extends Controller
                 'type' => 'project',
                 'title' => 'Trait of Project',
                 'trait' => $traitResult,
+                'project' => $projectResult,
                 'internal_project_id' => $project_id
             ]
         );

@@ -19,25 +19,25 @@ class TraitsTest extends WebserviceTestCase
         );
         $expected = [
                 "values" => [
-                     "liana" => "136",
-                     "nonvascular" => "832",
-                     "forb/herb" => "15086",
-                     "suffrutescent" => "90",
-                     "procumbent" => "50",
-                     "trailing" => "53",
-                     "decumbent" => "50",
-                     "epiphyte" => "118",
-                     "tree" => "11170",
-                     "twining" => "23",
-                     "climbing plant" => "415",
+                     "liana" => "66",
+                     "nonvascular" => "819",
+                     "forb/herb" => "9191",
+                     "suffrutescent" => "58",
+                     "procumbent" => "34",
+                     "trailing" => "42",
+                     "decumbent" => "44",
+                     "epiphyte" => "53",
+                     "tree" => "2456",
+                     "twining" => "20",
+                     "climbing plant" => "206",
                      "arborescent" => "3",
-                     "graminoid" => "2645",
-                     "shrub" => "10002",
+                     "graminoid" => "1902",
+                     "shrub" => "3527",
                      "large shrub" => "38",
                      "geophyte" => "41",
-                     "vine" => "5560",
-                     "subshrub" => "2440",
-                     "woody" => "90",
+                     "vine" => "1056",
+                     "subshrub" => "1916",
+                     "woody" => "60",
 
                 ],
                 "trait_type_id" => 1,
@@ -46,6 +46,36 @@ class TraitsTest extends WebserviceTestCase
                 "trait_format" => "categorical_free",
                 "number_of_organisms" => 16417
             ];
+        $results['values'] = array_map('count', $results['values']);
+        $this->assertEquals($expected, $results);
+
+        # Test with type that has deleted traits
+        $iucn_trait_type = 3;
+        $results = $service->execute(
+            new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => $iucn_trait_type)),
+            null
+        );
+        $expected = [
+            "values" => [
+                "LR/cd" => "221",
+                "EW" => "36",
+                "LR/lc" => "656",
+                "LR/nt" => "666",
+                "EN" => "3862",
+                "DD" => "1749",
+                "NT" => "1083",
+                "EX" => "125",
+                "CR" => "2643",
+                "LC" => "6246",
+                "VU" => "5898",
+            ],
+            "trait_type_id" => 3,
+            "name" => "IUCN Threat Status",
+            "ontology_url" => "",
+            "trait_format" => "categorical_free",
+            "number_of_organisms" => 23185
+        ];
+        $results['values'] = array_map('count', $results['values']);
         $this->assertEquals($expected, $results);
 
         $results = $service->execute(
@@ -54,8 +84,8 @@ class TraitsTest extends WebserviceTestCase
         );
         $expected = [
                 "values" => [
-                     "annual" => "3",
-                     "perennial" => "3"
+                     "annual" => [2888, 109884],
+                     "perennial" => [46032, 6661, 25517]
                 ],
                 "trait_type_id" => 2,
                 "name" => "Plant Life Cycle Habit",

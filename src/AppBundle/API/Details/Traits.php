@@ -10,6 +10,19 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 /**
  * Web Service.
  * Returns Trait information
+ * <code>
+ *   array(
+ *     "values" => [
+ *       "annual" => [2888, 109884],
+ *       "perennial" => [46032, 6661, 25517]
+ *     ],
+ *     "trait_type_id" => 2,
+ *     "name" => "Plant Life Cycle Habit",
+ *     "ontology_url" => "http://purl.obolibrary.org/obo/TO_0002725",
+ *     "trait_format" => "categorical_free",
+ *     "number_of_organisms" => 5
+ *   );
+ * </code>
  */
 class Traits extends Webservice
 {
@@ -47,12 +60,12 @@ class Traits extends Webservice
         }
         $organism_constraint = $this->get_organism_constraint($fennec_ids);
         $query_get_values = <<<EOF
-SELECT value, count(value)
+SELECT fennec_id, value
     FROM trait_categorical_entry, trait_categorical_value
     WHERE trait_categorical_value_id=trait_categorical_value.id
     AND trait_categorical_entry.trait_type_id = ?
+    AND deletion_date IS NULL
     {$organism_constraint}
-    GROUP BY value;
 EOF;
         $stm_get_values= $this->db->prepare($query_get_values);
         if($fennec_ids !== null){
@@ -63,7 +76,14 @@ EOF;
 
         $values = array();
         while ($row = $stm_get_values->fetch(PDO::FETCH_ASSOC)) {
-            $values[$row['value']] = $row['count'];
+            if(!array_key_exists($row['value'], $values)){
+                $values[$row['value']] = array();
+            }
+            $values[$row['value']][] = $row['fennec_id'];
+        }
+
+        foreach ($values as $key => $value){
+            $values[$key] = array_values(array_unique($value));
         }
 
         return $values;
@@ -100,7 +120,7 @@ EOF;
         }
         $organism_constraint = $this->get_organism_constraint($fennec_ids);
         $query_get_number_of_organisms = <<<EOF
-SELECT count(DISTINCT fennec_id) FROM trait_categorical_entry WHERE trait_type_id = ?
+SELECT count(DISTINCT fennec_id) FROM trait_categorical_entry WHERE trait_type_id = ? AND deletion_date IS NULL
     {$organism_constraint}
 EOF;
         $stm_get_number_of_organisms= $this->db->prepare($query_get_number_of_organisms);

@@ -52,7 +52,8 @@ function drawPieChart(data){
     }];
     var layout = {
         height: 700,
-        width: 800
+        width: 800,
+        hiddenlabels: ['NA']
     };
     Plotly.newPlot('pieChart', plot, layout);
 }
