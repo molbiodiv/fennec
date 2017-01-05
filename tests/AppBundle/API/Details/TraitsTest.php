@@ -49,6 +49,35 @@ class TraitsTest extends WebserviceTestCase
         $results['values'] = array_map('count', $results['values']);
         $this->assertEquals($expected, $results);
 
+        # Test with type that has deleted traits
+        $iucn_trait_type = 3;
+        $results = $service->execute(
+            new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => $iucn_trait_type)),
+            null
+        );
+        $expected = [
+            "values" => [
+                "LR/cd" => "221",
+                "EW" => "36",
+                "LR/lc" => "656",
+                "LR/nt" => "666",
+                "EN" => "3862",
+                "DD" => "1749",
+                "NT" => "1083",
+                "EX" => "125",
+                "CR" => "2643",
+                "LC" => "6246",
+                "VU" => "5898",
+            ],
+            "trait_type_id" => 3,
+            "name" => "IUCN Threat Status",
+            "ontology_url" => "",
+            "trait_format" => "categorical_free",
+            "number_of_organisms" => 23185
+        ];
+        $results['values'] = array_map('count', $results['values']);
+        $this->assertEquals($expected, $results);
+
         $results = $service->execute(
             new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => 2, 'fennec_ids' => [46032, 6661, 25517, 2888, 109884])),
             null
