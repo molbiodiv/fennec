@@ -35,6 +35,12 @@ gulp sassLint
 gulp sass
 ```
 ## Changes
+### 0.4.1 <2017-01-05>
+ - Handle deleted traits properly
+ - Add two versions of IUCN to test set
+ - Replace Blackbird with patched Phinch
+ - Add user selected trait to project (biom)
+ - Merge multiple trait values for one organism
 ### 0.4.0 <2016-11-22>
  - Rename organism_id to fennec_id
  - Update webservices for db schema 0.4.0
