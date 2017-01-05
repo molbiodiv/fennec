@@ -25,7 +25,7 @@ class TraitsTest extends WebserviceTestCase
             array(
                 "name" => "IUCN Threat Status",
                 "trait_type_id" => 3,
-                "frequency" => 23194
+                "frequency" => 23185
             ),
             array(
                 "name" => "Plant Life Cycle Habit",
