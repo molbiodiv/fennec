@@ -58,7 +58,7 @@ class TraitsOfOrganismsTest extends WebserviceTestCase
             '3' => [
                 'trait_type' => 'IUCN Threat Status',
                 'trait_format' => 'categorical_free',
-                'trait_entry_ids' => [5],
+                'trait_entry_ids' => [88860],
                 'fennec_ids' => [181840]
             ]
         ];
