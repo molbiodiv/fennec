@@ -1,5 +1,7 @@
 /* global dbversion */
 /* global biom */
+/* global _ */
+/* global $ */
 /* global internalProjectId */
 $('document').ready(function () {
     // Set header of page to project-id
@@ -32,6 +34,10 @@ $('document').ready(function () {
 
     $('#project-export-as-biom-v2').click(() => {
         exportProjectAsBiom(true);
+    });
+
+    $('#project-export-pseudo-tax-biom').click(() => {
+        exportPseudoTaxTable();
     });
 
 });
@@ -71,4 +77,33 @@ function exportProjectAsBiom(asHdf5) {
     }, function (failure) {
         showMessageDialog(failure+"", 'danger');
     });
+}
+
+/**
+ * Opens a file download dialog of the current project in biom format
+ * @param {boolean} asHdf5
+ */
+function exportPseudoTaxTable() {
+    let contentType = "text/plain";
+    let tax = _.cloneDeep(biom.getMetadata({dimension: 'rows', attribute: 'taxonomy'}));
+    let header = ['OTUID', 'kingdom', 'phylum', 'class', 'order', 'family', 'genus', 'species'];
+    let nextLevel = _.max(tax.map(elem => elem.length));
+    let otuids = biom.rows.map(r => r.id);
+    tax.map((v,i) => v.unshift(otuids[i]));
+    nextLevel++;
+    header = header.slice(0, nextLevel);
+    for(let trait of Object.keys(biom.rows[0].metadata)){
+        if(trait === 'taxonomy'){
+            continue;
+        }
+        let traitValues = biom.getMetadata({dimension: 'rows', attribute: trait});
+        header[nextLevel] = trait;
+        tax.map((v,i) => v[nextLevel] = traitValues[i]);
+        nextLevel++;
+    }
+    let out = _.join(header, "\t");
+    out += "\n";
+    out += _.join(tax.map(v => _.join(v,"\t")), "\n");
+    var blob = new Blob([out], {type: contentType});
+    saveAs(blob, biom.id+".tsv");
 }
