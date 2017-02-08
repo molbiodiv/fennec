@@ -3,9 +3,9 @@
 namespace AppBundle\API\Details;
 
 use AppBundle\API\Webservice;
+use AppBundle\User\FennecUser;
 use \PDO as PDO;
 use Symfony\Component\HttpFoundation\ParameterBag;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
  * Web Service.
@@ -31,10 +31,10 @@ class Traits extends Webservice
 
     /**
      * @param $query ParameterBag
-     * @param $session SessionInterface
+     * @param $user FennecUser
      * @returns array of traits
      */
-    public function execute(ParameterBag $query, SessionInterface $session = null)
+    public function execute(ParameterBag $query, FennecUser $user = null)
     {
         $this->db = $this->getDbFromQuery($query);
         $trait_type_id = $query->get('trait_type_id');
