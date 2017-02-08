@@ -4,6 +4,7 @@ namespace Test\AppBundle\API\Details;
 
 use AppBundle\API\Details\OrganismsOfProject;
 use AppBundle\API\Webservice;
+use AppBundle\User\FennecUser;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Tests\AppBundle\API\WebserviceTestCase;
 
@@ -18,24 +19,16 @@ class TraitOfProjectTest extends WebserviceTestCase
         $default_db = $this->default_db;
         $projectListing = $this->webservice->factory('listing', 'projects');
         $service = $this->webservice->factory('details', 'traitOfProject');
-        $session = $this->session;
-        $session->set('user',
-            array(
-                'nickname' => TraitOfProjectTest::NICKNAME,
-                'id' => TraitOfProjectTest::USERID,
-                'provider' => TraitOfProjectTest::PROVIDER,
-                'token' => 'detailsTraitOfProjectTestToken'
-            )
-        );
+        $this->user = new FennecUser(TraitOfProjectTest::USERID,TraitOfProjectTest::NICKNAME,TraitOfProjectTest::PROVIDER);
 
         $results = $service->execute(new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => 1, 'internal_project_id' => 3)), null);
         $expected = array("error" => Webservice::ERROR_NOT_LOGGED_IN);
         $this->assertEquals($expected, $results, 'User is not loggend in, return error message');
 
-        $entries = $projectListing->execute(new ParameterBag(array('dbversion' => $default_db)), $session);
+        $entries = $projectListing->execute(new ParameterBag(array('dbversion' => $default_db)), $this->user);
         $id = $entries['data'][0]['internal_project_id'];
 
-        $results = $service->execute(new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => 2, 'internal_project_id' => $id)), $session);
+        $results = $service->execute(new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => 2, 'internal_project_id' => $id)), $this->user);
         $expected = [
             "values" => [
                 "annual" => ["1340"],
@@ -49,8 +42,8 @@ class TraitOfProjectTest extends WebserviceTestCase
         ];
         $this->assertEquals($results, $expected, 'Example project, return trait details');
 
-        $session->set('user', array('id' => 'noValidUserID', 'provider' => TraitOfProjectTest::PROVIDER));
-        $results = $service->execute(new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => 1, 'internal_project_id' => $id)), $session);
+        $this->user = new FennecUser('noValidUserID',TraitOfProjectTest::NICKNAME,TraitOfProjectTest::PROVIDER);
+        $results = $service->execute(new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => 1, 'internal_project_id' => $id)), $this->user);
         $expected = array("error" => OrganismsOfProject::ERROR_PROJECT_NOT_FOUND);
         $this->assertEquals($expected, $results, 'Project does not belong to user, return error message');
 
