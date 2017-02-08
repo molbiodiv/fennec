@@ -2,6 +2,7 @@
 
 namespace Tests\AppBundle\API\Edit;
 
+use AppBundle\User\FennecUser;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Tests\AppBundle\API\WebserviceTestCase;
 
@@ -14,20 +15,15 @@ class UpdateProjectTest extends WebserviceTestCase
 
     public function testExecute(){
         $service = $this->webservice->factory('edit', 'updateProject');
-        $this->session->set('user', array(
-            'nickname' => UpdateProjectTest::NICKNAME,
-            'id' => UpdateProjectTest::USERID,
-            'provider' => UpdateProjectTest::PROVIDER,
-            'token' => UpdateProjectTest::TOKEN
-        ));
+        $this->user = new FennecUser(UpdateProjectTest::USERID,UpdateProjectTest::NICKNAME,UpdateProjectTest::PROVIDER);
         $listingProject = $this->webservice->factory('listing', 'projects');
-        $entries = $listingProject->execute(new ParameterBag(array('dbversion' => $this->default_db)), $this->session);
+        $entries = $listingProject->execute(new ParameterBag(array('dbversion' => $this->default_db)), $this->user);
         $id = $entries['data'][0]['internal_project_id'];
         $detailsProject = $this->webservice->factory('details', 'projects');
         $results = $detailsProject->execute(new ParameterBag(array(
             'dbversion' => $this->default_db,
             'ids' => array($id))),
-            $this->session
+            $this->user
         );
         $biom = json_decode($results['projects'][$id]['biom'], true);
         // Check for initial state
@@ -42,13 +38,13 @@ class UpdateProjectTest extends WebserviceTestCase
                 'biom' => json_encode($biom),
                 'project_id' => $id
             )),
-            $this->session
+            $this->user
         );
         $this->assertNull($results['error']);
         $results = $detailsProject->execute(new ParameterBag(array(
             'dbversion' => $this->default_db,
             'ids' => array($id))),
-            $this->session
+            $this->user
         );
         $biom = json_decode($results['projects'][$id]['biom'], true);
         // Check for initial state
