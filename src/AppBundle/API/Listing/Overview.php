@@ -3,6 +3,7 @@
 namespace AppBundle\API\Listing;
 
 use AppBundle\API\Webservice;
+use AppBundle\User\FennecUser;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
@@ -13,10 +14,10 @@ class Overview extends Webservice
     /**
      * @inheritdoc
      */
-    public function execute(ParameterBag $query, SessionInterface $session = null){
+    public function execute(ParameterBag $query, FennecUser $user = null){
         $this->database = $this->getDbFromQuery($query);
         $result = array();
-        $result['projects'] = $this->get_number_of_projects($session);
+        $result['projects'] = $this->get_number_of_projects($user);
         $result['organisms'] = $this->get_number_of_organisms();
         $result['trait_entries'] = $this->get_number_of_trait_entries();
         $result['trait_types'] = $this->get_number_of_trait_types();
@@ -24,11 +25,11 @@ class Overview extends Webservice
     }
 
     /**
-     * @param $session SessionInterface
+     * @param $user FennecUser
      * @return int number_of_projects
      */
-    private function get_number_of_projects($session){
-        if ($session === null || !$session->has('user')) {
+    private function get_number_of_projects($user){
+        if ($user === null) {
             return 0;
         }
         $query_get_user_projects = <<<EOF
@@ -37,8 +38,8 @@ SELECT
     FROM full_webuser_data WHERE provider = :provider AND oauth_id = :oauth_id
 EOF;
         $stm_get_user_projects = $this->database->prepare($query_get_user_projects);
-        $stm_get_user_projects->bindValue('provider', $session->get('user')['provider']);
-        $stm_get_user_projects->bindValue('oauth_id', $session->get('user')['id']);
+        $stm_get_user_projects->bindValue('provider', $user->getProvider());
+        $stm_get_user_projects->bindValue('oauth_id', $user->getId());
         $stm_get_user_projects->execute();
         $row = $stm_get_user_projects->fetch(\PDO::FETCH_ASSOC);
         return $row['count'];
