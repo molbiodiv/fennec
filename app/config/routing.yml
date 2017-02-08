@@ -17,8 +17,11 @@ hwi_oauth_login:
     resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
     prefix:   /login
 
-github_login:
+github_check:
     path: /login/check-github
+
+github_login:
+    path: /connect/github
 
 logout:
     path: /logout
