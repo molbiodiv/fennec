@@ -11,10 +11,10 @@ class TaxonomyTest extends WebserviceTestCase
     public function testExecute()
     {
         $default_db = $this->default_db;
-        $session = null;
+        $user = null;
         $organisms = $this->webservice->factory('listing', 'taxonomy');
         $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'id' => '1234'));
-        $results = $organisms->execute($parameterBag, $session);
+        $results = $organisms->execute($parameterBag, $user);
         $expected = array(
             "ncbi_taxonomy" => array(
                 "Viridiplantae",
@@ -32,7 +32,7 @@ class TaxonomyTest extends WebserviceTestCase
             )
         );
         $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'id' => '3720'));
-        $results = $organisms->execute($parameterBag, $session);
+        $results = $organisms->execute($parameterBag, $user);
         $expected = array(
             "ncbi_taxonomy" => array(
                 "Viridiplantae",
