@@ -3,8 +3,6 @@
 namespace Tests\AppBundle\API;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 
 class WebserviceTestCase extends WebTestCase
 {
