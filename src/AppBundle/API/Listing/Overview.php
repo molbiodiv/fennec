@@ -54,27 +54,12 @@ EOF;
     }
 
     private function get_number_of_trait_entries(){
-        $query_get_number_of_trait_entries = <<<EOF
-SELECT
-    COUNT(*)
-    FROM trait_categorical_entry
-    WHERE deletion_date IS NULL
-EOF;
-        $stm_get_number_of_trait_entries = $this->manager->getConnection()->prepare($query_get_number_of_trait_entries);
-        $stm_get_number_of_trait_entries->execute();
-        $row = $stm_get_number_of_trait_entries->fetch(\PDO::FETCH_ASSOC);
-        return $row['count'];
+        $query = $this->manager->createQuery('SELECT COUNT(t.id) FROM AppBundle\Entity\TraitCategoricalEntry t WHERE t.deletionDate IS NULL ');
+        return $query->getSingleScalarResult();
     }
 
     private function get_number_of_trait_types(){
-        $query_get_number_of_trait_types = <<<EOF
-SELECT
-    COUNT(*)
-    FROM trait_type
-EOF;
-        $stm_get_number_of_trait_types = $this->manager->getConnection()->prepare($query_get_number_of_trait_types);
-        $stm_get_number_of_trait_types->execute();
-        $row = $stm_get_number_of_trait_types->fetch(\PDO::FETCH_ASSOC);
-        return $row['count'];
+        $query = $this->manager->createQuery('SELECT COUNT(tt.id) FROM AppBundle\Entity\TraitType tt');
+        return $query->getSingleScalarResult();
     }
 }
