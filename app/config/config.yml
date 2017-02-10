@@ -88,3 +88,4 @@ hwi_oauth:
             scope:               "email"
             options:
                 access_type:     offline
+                csrf:            true
