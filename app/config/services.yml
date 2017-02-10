@@ -4,6 +4,9 @@ parameters:
 #    parameter_name: value
 
 services:
+    app.orm:
+        class: AppBundle\ORM
+        arguments: [ "@doctrine" ]
     app.db:
         class: AppBundle\DB
         arguments: ['%dbversions%']
