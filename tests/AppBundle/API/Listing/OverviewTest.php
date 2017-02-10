@@ -4,9 +4,9 @@ namespace Tests\AppBundle\API\Listing;
 
 use AppBundle\User\FennecUser;
 use Symfony\Component\HttpFoundation\ParameterBag;
-use Tests\AppBundle\API\WebserviceTestCase;
+use Tests\AppBundle\API\ORMWebserviceTestCase;
 
-class OverviewTest extends WebserviceTestCase
+class OverviewTest extends ORMWebserviceTestCase
 {
     const NICKNAME = 'listingOverviewTestUser';
     const USERID = 'listingOverviewTestUser';
