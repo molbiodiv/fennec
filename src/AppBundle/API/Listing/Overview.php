@@ -49,15 +49,8 @@ EOF;
     }
 
     private function get_number_of_organisms(){
-        $query_get_number_of_organisms = <<<EOF
-SELECT
-    COUNT(*)
-    FROM organism
-EOF;
-        $stm_get_number_of_organisms = $this->manager->getConnection()->prepare($query_get_number_of_organisms);
-        $stm_get_number_of_organisms->execute();
-        $row = $stm_get_number_of_organisms->fetch(\PDO::FETCH_ASSOC);
-        return $row['count'];
+        $query = $this->manager->createQuery('SELECT COUNT(o.fennecId) FROM AppBundle\Entity\Organism o');
+        return $query->getSingleScalarResult();
     }
 
     private function get_number_of_trait_entries(){
