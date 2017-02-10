@@ -81,3 +81,10 @@ hwi_oauth:
             scope:               'user:email,public_repo'
             options:
                 csrf:            true
+        google:
+            type:                google
+            client_id:           "%google_client_id%"
+            client_secret:       "%google_client_secret%"
+            scope:               "email"
+            options:
+                access_type:     offline

@@ -23,5 +23,11 @@ github_check:
 github_login:
     path: /connect/github
 
+google_login:
+    path: /connect/google
+
+google_check:
+    path: /login/check-google
+
 logout:
     path: /logout
