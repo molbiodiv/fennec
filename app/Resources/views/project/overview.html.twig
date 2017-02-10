@@ -1,7 +1,7 @@
 {% extends 'base.navigation.html.twig' %}
 
 {% block content %}
-    {% if app.session.has('user') %}
+    {% if app.user %}
         {% include 'project/overview.table.html.twig' %}
     {% else %}
         Please log in to see your projects

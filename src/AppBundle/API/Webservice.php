@@ -2,6 +2,7 @@
 
 namespace AppBundle\API;
 
+use AppBundle\User\FennecUser;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -19,10 +20,10 @@ class Webservice
 
     /**
      * @param ParameterBag $query
-     * @param SessionInterface $session
+     * @param FennecUser $user
      * @return array result
      */
-    public function execute(ParameterBag $query, SessionInterface $session = null){
+    public function execute(ParameterBag $query, FennecUser $user = null){
         return array();
     }
 

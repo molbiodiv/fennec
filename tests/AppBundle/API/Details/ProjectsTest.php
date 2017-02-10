@@ -2,6 +2,7 @@
 
 namespace Test\AppBundle\API\Details;
 
+use AppBundle\User\FennecUser;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Tests\AppBundle\API\WebserviceTestCase;
 
@@ -17,18 +18,10 @@ class ProjectsTest extends WebserviceTestCase
         $default_db = $this->default_db;
         $service = $this->webservice->factory('details', 'projects');
         $listingProjects = $this->webservice->factory('listing', 'projects');
-        $session = $this->session;
-        $session->set('user',
-            array(
-                'nickname' => ProjectsTest::NICKNAME,
-                'id' => ProjectsTest::USERID,
-                'provider' => ProjectsTest::PROVIDER,
-                'token' => 'UploadProjectTestUserToken'
-            )
-        );
-        $entries = $listingProjects->execute(new ParameterBag(array('dbversion' => $default_db)), $session);
+        $this->user = new FennecUser(ProjectsTest::USERID,ProjectsTest::NICKNAME,ProjectsTest::PROVIDER);
+        $entries = $listingProjects->execute(new ParameterBag(array('dbversion' => $default_db)), $this->user);
         $id = $entries['data'][0]['internal_project_id'];
-        $results = $service->execute(new ParameterBag(array('dbversion' => $default_db, 'ids' => array($id))), $session);
+        $results = $service->execute(new ParameterBag(array('dbversion' => $default_db, 'ids' => array($id))), $this->user);
         $expected = '{'
             . '"id": "table_1", '
             . '"data": [[0, 0, 120.0], [3, 1, 12.0], [5, 2, 20.0], [7, 3, 12.7], [8, 4, 16.0]], '

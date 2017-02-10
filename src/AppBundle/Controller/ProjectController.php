@@ -9,6 +9,7 @@
 namespace AppBundle\Controller;
 
 
+use AppBundle\User\FennecUser;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -45,7 +46,7 @@ class ProjectController extends Controller
         $query = $request->query;
         $query->set('dbversion', $dbversion);
         $query->set('ids', array($project_id));
-        $projectResult = $projectDetails->execute($query, $request->getSession());
+        $projectResult = $projectDetails->execute($query, $this->getFennecUser());
         return $this->render(
             'project/details.html.twig',
             [
@@ -72,10 +73,10 @@ class ProjectController extends Controller
         $query->set('dbversion', $dbversion);
         $query->set('internal_project_id', $project_id);
         $query->set('trait_type_id', $trait_type_id);
-        $traitResult = $projectTraitDetails->execute($query, $request->getSession());
+        $traitResult = $projectTraitDetails->execute($query, $this->getFennecUser());
         $projectDetails = $this->get('app.api.webservice')->factory('details', 'projects');
         $query->set('ids', array($project_id));
-        $projectResult = $projectDetails->execute($query, $request->getSession());
+        $projectResult = $projectDetails->execute($query, $this->getFennecUser());
         return $this->render(
             'project/traitDetails.html.twig',
             [
@@ -87,5 +88,17 @@ class ProjectController extends Controller
                 'internal_project_id' => $project_id
             ]
         );
+    }
+
+    /**
+     * @return FennecUser|null
+     */
+    private function getFennecUser(){
+        $user = null;
+        if($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')){
+            $user = $this->get('security.token_storage')->getToken()->getUser();
+        }
+        return $user;
+
     }
 }

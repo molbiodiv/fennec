@@ -3,6 +3,7 @@
 namespace AppBundle\API\Details;
 
 use AppBundle\API\Webservice;
+use AppBundle\User\FennecUser;
 use \PDO as PDO;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -17,10 +18,10 @@ class Organism extends Webservice
     private $db;
     /**
      * @param $query ParameterBag
-     * @param $session SessionInterface
+     * @param $user FennecUser
      * @returns array of details
      */
-    public function execute(ParameterBag $query, SessionInterface $session = null)
+    public function execute(ParameterBag $query, FennecUser $user = null)
     {
         $this->db = $this->getDbFromQuery($query);
         $id = $query->get('id');

@@ -3,8 +3,8 @@
 namespace AppBundle\API\Mapping;
 
 use AppBundle\API\Webservice;
+use AppBundle\User\FennecUser;
 use Symfony\Component\HttpFoundation\ParameterBag;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class ByOrganismName extends Webservice
 {
@@ -13,7 +13,7 @@ class ByOrganismName extends Webservice
     /**
      * @inheritdoc
      */
-    public function execute(ParameterBag $query, SessionInterface $session = null)
+    public function execute(ParameterBag $query, FennecUser $user = null)
     {
         $this->db = $this->getDbFromQuery($query);
         if(!$query->has('ids') || !is_array($query->get('ids')) || count($query->get('ids')) === 0){

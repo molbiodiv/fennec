@@ -20,7 +20,7 @@ class LoginController extends Controller
     /**
      * @param Request $request
      * @return Response
-     * @Route("/login", name="login")
+     * @Route("/loginGH", name="login")
      */
     public function loginAction(Request $request){
         $provider = new Github([
@@ -79,7 +79,7 @@ class LoginController extends Controller
     }
 
     /**
-     * @Route("/logout", name="logout")
+     * @Route("/logoutGH", name="logoutGH")
      * @param $request Request
      * @return Response
      */
@@ -89,5 +89,13 @@ class LoginController extends Controller
             $request->getSession()->invalidate();
             return $this->redirect($request->server->get('HTTP_REFERER'));
         }
+    }
+
+    /**
+     * @Route("checkuser", name="checkuser")
+     */
+    public function checkUserAction(){
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        var_dump($user);
     }
 }

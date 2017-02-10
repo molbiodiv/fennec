@@ -3,6 +3,7 @@
 namespace Tests\AppBundle\API\Listing;
 
 use AppBundle\API\Webservice;
+use AppBundle\User\FennecUser;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Tests\AppBundle\API\WebserviceTestCase;
 
@@ -16,27 +17,21 @@ class ProjectsTest extends WebserviceTestCase
     {
         $default_db = $this->default_db;
         $service = $this->webservice->factory('listing', 'projects');
-        $session = $this->session;
 
         //Test for error returned by user is not logged in
         $results = $service->execute(
             new ParameterBag(array('dbversion' => $default_db)),
-            $session
+            $this->user
         );
         $expected = array("error" => Webservice::ERROR_NOT_LOGGED_IN, "data" => array());
         
         $this->assertEquals($expected, $results);
         
         //Test of correct project if the user has only one project
-        $session->set('user', array(
-            'nickname' => ProjectsTest::NICKNAME,
-            'id' => ProjectsTest::USERID,
-            'provider' => ProjectsTest::PROVIDER,
-            'token' => 'listingProjectsTestUserToken'
-        ));
+        $this->user = new FennecUser(ProjectsTest::USERID,ProjectsTest::NICKNAME,ProjectsTest::PROVIDER);
         $results = $service->execute(
             new ParameterBag(array('dbversion' => $default_db)),
-            $session
+            $this->user
         );
         $expected = array("data" => array(
                 array(
