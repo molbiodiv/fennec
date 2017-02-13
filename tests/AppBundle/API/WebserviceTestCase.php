@@ -15,7 +15,7 @@ class WebserviceTestCase extends WebTestCase
     {
         $this->container = static::createClient()->getContainer();
         $this->default_db = $this->container->getParameter('default_db');
-        $this->webservice = $this->container->get('app.api.webservice');
+        $this->webservice = $this->container->get('app.api.ormwebservice');
         $this->user = null;
     }
 }
