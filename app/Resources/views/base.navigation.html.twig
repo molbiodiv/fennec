@@ -19,7 +19,7 @@
             <ul class="nav navbar-top-links navbar-right">
                 <font style="margin-right: 5px; font-size: 16px;">version: </font>
                 <select class="selectpicker" id="dbVersionPicker">
-                    {% for dbversion in dbversions|keys %}
+                    {% for dbversion in dbversions.connections|keys %}
                     <option data-icon="glyphicon-tag" value="{{ dbversion }}" > {{ dbversion }} </option>
                     {% endfor %}
                 </select>

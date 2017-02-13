@@ -14,7 +14,7 @@ class StartpageController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $default_db = $this->getParameter('default_db');
+        $default_db = $this->getParameter('dbal')['default_connection'];
         return $this->redirectToRoute('startpage', array('dbversion' => $default_db));
     }
 

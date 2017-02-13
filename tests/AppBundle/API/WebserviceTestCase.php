@@ -14,7 +14,7 @@ class WebserviceTestCase extends WebTestCase
     public function __construct()
     {
         $this->container = static::createClient()->getContainer();
-        $this->default_db = $this->container->getParameter('default_db');
+        $this->default_db = $this->container->getParameter('dbal')['default_connection'];
         $this->webservice = $this->container->get('app.api.webservice');
         $this->user = null;
     }

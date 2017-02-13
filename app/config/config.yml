@@ -2,7 +2,6 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
-    - { resource: databases.yml }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -33,13 +32,18 @@ framework:
     http_method_override: true
     assets: ~
 
+# Doctrine Configuration
+doctrine:
+    dbal: "%dbal%"
+    orm:  "%orm%"
+
 # Twig Configuration
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
     globals:
         fennec_version: 0.4.1
-        dbversions: "%dbversions%"
+        dbversions: "%dbal%"
 
 # Swiftmailer Configuration
 swiftmailer:

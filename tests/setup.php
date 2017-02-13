@@ -19,30 +19,30 @@ class Setup extends WebTestCase
     public function setUp()
     {
         $client = static::createClient();
-        $dbs = $client->getContainer()->getParameter('dbversions');
-        $this->db = $dbs[$client->getContainer()->getParameter('default_db')];
-        echo exec('PGPASSWORD='.$this->db['database_password'].
-            ' dropdb --if-exists -U '.$this->db['database_user'].
-            ' -h '.$this->db['database_host'].
-            ' -p '.$this->db['database_port'].
-            ' '.$this->db['database_name']);
-        echo exec('PGPASSWORD='.$this->db['database_password'].
-            ' createdb -U '.$this->db['database_user'].
-            ' -h '.$this->db['database_host'].
-            ' -p '.$this->db['database_port'].
-            ' '.$this->db['database_name']);
-        echo exec('PGPASSWORD='.$this->db['database_password'].
+        $dbs = $client->getContainer()->getParameter('dbal')['connections'];
+        $this->db = $dbs[$client->getContainer()->getParameter('dbal')['default_connection']];
+        echo exec('PGPASSWORD='.$this->db['password'].
+            ' dropdb --if-exists -U '.$this->db['user'].
+            ' -h '.$this->db['host'].
+            ' -p '.$this->db['port'].
+            ' '.$this->db['dbname']);
+        echo exec('PGPASSWORD='.$this->db['password'].
+            ' createdb -U '.$this->db['user'].
+            ' -h '.$this->db['host'].
+            ' -p '.$this->db['port'].
+            ' '.$this->db['dbname']);
+        echo exec('PGPASSWORD='.$this->db['password'].
             ' bash -c \'xzcat '.__DIR__.'/initial_testdata.sql.xz | psql -U '.
-            $this->db['database_user'].
-            ' -h '.$this->db['database_host'].
-            ' -p '.$this->db['database_port'].
-            ' -d '.$this->db['database_name'].'\'');
-        echo exec('PGPASSWORD='.$this->db['database_password'].
+            $this->db['user'].
+            ' -h '.$this->db['host'].
+            ' -p '.$this->db['port'].
+            ' -d '.$this->db['dbname'].'\'');
+        echo exec('PGPASSWORD='.$this->db['password'].
             ' bash -c \'cat '.__DIR__.'/userData.sql | psql -U '.
-            $this->db['database_user'].
-            ' -h '.$this->db['database_host'].
-            ' -p '.$this->db['database_port'].
-            ' -d '.$this->db['database_name'].'\'');
+            $this->db['user'].
+            ' -h '.$this->db['host'].
+            ' -p '.$this->db['port'].
+            ' -d '.$this->db['dbname'].'\'');
     }
 }
 
