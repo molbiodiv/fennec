@@ -13,7 +13,7 @@ before_install:
 install:
   - conda install --yes numpy scipy h5py
   - pip install biom-format --user
-  - cp tests/.travis.parameters_test.yml app/config/parameters.yml
+  - cp tests/.travis.parameters.yml app/config/parameters.yml
   - composer install
   - . $HOME/.nvm/nvm.sh
   - nvm install stable
