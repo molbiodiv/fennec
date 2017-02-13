@@ -2,12 +2,12 @@
 
 namespace AppBundle\API\Listing;
 
-use AppBundle\API\ORMWebservice;
+use AppBundle\API\Webservice;
 use AppBundle\User\FennecUser;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
-class Overview extends ORMWebservice
+class Overview extends Webservice
 {
     /**
      * @var EntityManager

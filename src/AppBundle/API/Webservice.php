@@ -2,20 +2,21 @@
 
 namespace AppBundle\API;
 
+use AppBundle\ORM;
 use AppBundle\User\FennecUser;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\ParameterBag;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class Webservice
 {
     const ERROR_NOT_LOGGED_IN = "Error. Not logged in.";
 
-    private $DB;
+    private $ORM;
 
-    public function __construct(\AppBundle\DB $DB)
+    public function __construct(ORM $ORM)
     {
-        $this->DB = $DB;
+        $this->ORM = $ORM;
     }
 
     /**
@@ -41,17 +42,17 @@ class Webservice
             throw new Exception("Could not find class: ".$namespace."\\".$class);
         }
 
-        return new $class($this->DB);
+        return new $class($this->ORM);
     }
 
     /**
      * @param $query ParameterBag
-     * @return \PDO db connection
+     * @return EntityManager
      */
-    protected function getDbFromQuery($query){
+    protected function getManagerFromQuery($query){
         if (! $query->has('dbversion')){
             throw new Exception('No valid dbversion provided');
         }
-        return $this->DB->getDbForVersion($query->get('dbversion'));
+        return $this->ORM->getManagerForVersion($query->get('dbversion'));
     }
 }
