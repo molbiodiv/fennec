@@ -22,7 +22,7 @@ class Traits extends Webservice
      */
     public function execute(ParameterBag $query, FennecUser $user = null)
     {
-        $db = $this->getDbFromQuery($query);
+        $db = $this->getManagerFromQuery($query)->getConnection();
         $limit = 1000;
         if ($query->has('limit')) {
             $limit = $query->get('limit');
