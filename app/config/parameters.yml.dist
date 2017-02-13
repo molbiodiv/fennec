@@ -9,7 +9,6 @@ parameters:
 
     github_client_id:     ~
     github_client_secret: ~
-    github_redirect_uri:  ~
     google_client_id:     ~
     google_client_secret: ~
 
