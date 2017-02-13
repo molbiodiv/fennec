@@ -24,7 +24,7 @@ class Taxonomy extends Webservice
      */
     public function execute(ParameterBag $query, FennecUser $user = null)
     {
-        $this->db = $this->getDbFromQuery($query);
+        $this->db = $this->getManagerFromQuery($query)->getConnection();
         $fennec_id = $query->get('id');
         $result = array();
         $taxonomy_databases = $this->getTaxomomyDatabases($fennec_id);
