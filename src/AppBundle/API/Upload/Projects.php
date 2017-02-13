@@ -43,7 +43,7 @@ EOF;
     public function execute(ParameterBag $query, FennecUser $user = null)
     {
         ini_set('memory_limit', '512M');
-        $db = $this->getDbFromQuery($query);
+        $db = $this->getManagerFromQuery($query)->getConnection();
         $files = array();
         if ($user === null) {
             $files = array("error" => WebService::ERROR_NOT_LOGGED_IN);
@@ -74,7 +74,7 @@ EOF;
     /**
      * Function that checks the uploaded file for validity
      * @param String $filename the uploaded file to check
-     * @returns Either true if the file is valid or a String containing the error message
+     * @returns String|boolean Either true if the file is valid or a String containing the error message
      */
     protected function validateFile($filename)
     {
