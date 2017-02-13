@@ -113,7 +113,7 @@ class ProjectsTest extends WebserviceTestCase
         $expected = array("files"=>array(array("name" => "simpleBiom.json", "size" => 1067, "error" => null)));
         $this->assertEquals($expected, $results);
         $jsonContent = file_get_contents($_FILES[0]['tmp_name']);
-        $db = $this->container->get('app.db')->getDbForVersion($default_db);
+        $db = $this->container->get('app.orm')->getManagerForVersion($default_db)->getConnection();
         $constant = 'constant';
         $query_get_project_from_db = <<<EOF
 SELECT project, import_filename
