@@ -2,8 +2,9 @@
 
 /* global dbversion */
 /* global biom */
+/* global _ */
+/* global $ */
 /* global internalProjectId */
-/* global blackbirdPreviewPath */
 $('document').ready(function () {
     // Set header of page to project-id
     $('.page-header').text(biom.id);
@@ -35,6 +36,10 @@ $('document').ready(function () {
 
     $('#project-export-as-biom-v2').click(function () {
         exportProjectAsBiom(true);
+    });
+
+    $('#project-export-pseudo-tax-biom').click(function () {
+        exportPseudoTaxTable();
     });
 });
 
@@ -73,6 +78,73 @@ function exportProjectAsBiom(asHdf5) {
     }, function (failure) {
         showMessageDialog(failure + "", 'danger');
     });
+}
+
+/**
+ * Opens a file download dialog of the current project in biom format
+ * @param {boolean} asHdf5
+ */
+function exportPseudoTaxTable() {
+    var contentType = "text/plain";
+    var tax = _.cloneDeep(biom.getMetadata({ dimension: 'rows', attribute: 'taxonomy' }));
+    var header = ['OTUID', 'kingdom', 'phylum', 'class', 'order', 'family', 'genus', 'species'];
+    var nextLevel = _.max(tax.map(function (elem) {
+        return elem.length;
+    }));
+    var otuids = biom.rows.map(function (r) {
+        return r.id;
+    });
+    tax.map(function (v, i) {
+        return v.unshift(otuids[i]);
+    });
+    nextLevel++;
+    header = header.slice(0, nextLevel);
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+        var _loop = function _loop() {
+            var trait = _step.value;
+
+            if (trait === 'taxonomy') {
+                return 'continue';
+            }
+            var traitValues = biom.getMetadata({ dimension: 'rows', attribute: trait });
+            header[nextLevel] = trait;
+            tax.map(function (v, i) {
+                return v[nextLevel] = traitValues[i];
+            });
+            nextLevel++;
+        };
+
+        for (var _iterator = Object.keys(biom.rows[0].metadata)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            var _ret = _loop();
+
+            if (_ret === 'continue') continue;
+        }
+    } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+    } finally {
+        try {
+            if (!_iteratorNormalCompletion && _iterator.return) {
+                _iterator.return();
+            }
+        } finally {
+            if (_didIteratorError) {
+                throw _iteratorError;
+            }
+        }
+    }
+
+    var out = _.join(header, "\t");
+    out += "\n";
+    out += _.join(tax.map(function (v) {
+        return _.join(v, "\t");
+    }), "\n");
+    var blob = new Blob([out], { type: contentType });
+    saveAs(blob, biom.id + ".tsv");
 }
 'use strict';
 

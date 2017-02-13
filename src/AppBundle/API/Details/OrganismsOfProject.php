@@ -3,9 +3,9 @@
 namespace AppBundle\API\Details;
 
 use AppBundle\API\Webservice;
+use AppBundle\User\FennecUser;
 use \PDO as PDO;
 use Symfony\Component\HttpFoundation\ParameterBag;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
  * Web Service.
@@ -17,17 +17,17 @@ class OrganismsOfProject extends Webservice
 
     /**
      * @inheritdoc
-     * @returns Array $result
+     * @returns array $result
      * <code>
      * array('fennec_id_1', 'fennec_id_2');
      * </code>
      */
-    public function execute(ParameterBag $query, SessionInterface $session = null)
+    public function execute(ParameterBag $query, FennecUser $user = null)
     {
-        $db = $this->getDbFromQuery($query);
+        $db = $this->getManagerFromQuery($query)->getConnection();
         $dbversion = $query->get('dbversion');
         $result = array();
-        if ($session === null || !$session->isStarted() || !$session->has('user')) {
+        if ($user === null) {
             $result['error'] = Webservice::ERROR_NOT_LOGGED_IN;
         } else {
             $query_get_rows= <<<EOF
@@ -38,8 +38,8 @@ SELECT
 EOF;
             $stm_get_rows = $db->prepare($query_get_rows);
             $stm_get_rows->bindValue('internal_project_id', $query->get('internal_project_id'));
-            $stm_get_rows->bindValue('provider', $session->get('user')['provider']);
-            $stm_get_rows->bindValue('oauth_id', $session->get('user')['id']);
+            $stm_get_rows->bindValue('provider', $user->getProvider());
+            $stm_get_rows->bindValue('oauth_id', $user->getId());
             $stm_get_rows->execute();
 
             if($stm_get_rows->rowCount() === 0){

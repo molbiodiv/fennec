@@ -3,6 +3,7 @@
 namespace AppBundle\API\Listing;
 
 use AppBundle\API\Webservice;
+use AppBundle\User\FennecUser;
 use \PDO as PDO;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -15,16 +16,16 @@ class Projects extends Webservice
 {
     /**
     * @inheritdoc
-    * @returns Array $result
+    * @returns array $result
     * <code>
     * array(array('project_id','import_date','OTUs','sample size'));
     * </code>
     */
-    public function execute(ParameterBag $query, SessionInterface $session = null)
+    public function execute(ParameterBag $query, FennecUser $user = null)
     {
-        $db = $this->getDbFromQuery($query);
+        $db = $this->getManagerFromQuery($query)->getConnection();
         $result = array('data' => array());
-        if (!$session->isStarted() || !$session->has('user')) {
+        if ($user == null) {
             $result['error'] = Webservice::ERROR_NOT_LOGGED_IN;
         } else {
             $query_get_user_projects = <<<EOF
@@ -37,8 +38,8 @@ SELECT
     FROM full_webuser_data WHERE provider = :provider AND oauth_id = :oauth_id
 EOF;
             $stm_get_user_projects = $db->prepare($query_get_user_projects);
-            $stm_get_user_projects->bindValue('provider', $session->get('user')['provider']);
-            $stm_get_user_projects->bindValue('oauth_id', $session->get('user')['id']);
+            $stm_get_user_projects->bindValue('provider', $user->getProvider());
+            $stm_get_user_projects->bindValue('oauth_id', $user->getId());
             $stm_get_user_projects->execute();
         
             while ($row = $stm_get_user_projects->fetch(PDO::FETCH_ASSOC)) {

@@ -4,6 +4,7 @@ namespace AppBundle\API\Edit;
 
 
 use AppBundle\API\Webservice;
+use AppBundle\User\FennecUser;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
@@ -12,13 +13,13 @@ class UpdateProject extends Webservice
     /**
      * @inheritdoc
      */
-    public function execute(ParameterBag $query, SessionInterface $session = null)
+    public function execute(ParameterBag $query, FennecUser $user = null)
     {
-        $db = $this->getDbFromQuery($query);
+        $db = $this->getManagerFromQuery($query)->getConnection();
         if(!$query->has('biom') || !$query->has('project_id')){
             return array('error' => 'Missing parameter "biom" or "project_id"');
         }
-        if($session == null || !$session->has('user')){
+        if($user == null){
             return array('error' => 'User not logged in');
         }
         $query_update_project = <<<EOF
@@ -28,8 +29,8 @@ EOF;
         $stm_update_project->execute(array(
             $query->get('biom'),
             $query->get('project_id'),
-            $session->get('user')['id'],
-            $session->get('user')['provider']
+            $user->getId(),
+            $user->getProvider()
         ));
         $updates = $stm_update_project->rowCount();
         if($updates != 1){

@@ -3,9 +3,9 @@
 namespace AppBundle\API\Details;
 
 use AppBundle\API\Webservice;
+use AppBundle\User\FennecUser;
 use \PDO as PDO;
 use Symfony\Component\HttpFoundation\ParameterBag;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
  * Web Service.
@@ -21,13 +21,13 @@ class Projects extends Webservice
     * array('project_id': {biomFile});
     * </code>
     */
-    public function execute(ParameterBag $query, SessionInterface $session = null)
+    public function execute(ParameterBag $query, FennecUser $user = null)
     {
-        $db = $this->getDbFromQuery($query);
+        $db = $this->getManagerFromQuery($query)->getConnection();
         $result = array('projects' => array());
         $ids = $query->get('ids');
         $placeholders = implode(',', array_fill(0, count($ids), '?'));
-        if (!$session->isStarted() || !$session->has('user')) {
+        if ($user === null) {
             $result['error'] = Webservice::ERROR_NOT_LOGGED_IN;
         } else {
             $query_get_project_details = <<<EOF
@@ -36,7 +36,7 @@ SELECT webuser_data_id, project, import_date, import_filename FROM full_webuser_
 EOF;
             $stm_get_project_details = $db->prepare($query_get_project_details);
             $stm_get_project_details->execute(
-                array_merge(array($session->get('user')['provider'], $session->get('user')['id']), $ids)
+                array_merge(array($user->getProvider(), $user->getId()), $ids)
             );
             if ($stm_get_project_details->rowCount() < 1) {
                 $result['error'] = Projects::PROJECT_NOT_FOUND_FOR_USER;

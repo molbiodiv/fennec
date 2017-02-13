@@ -14,7 +14,7 @@ class StartpageController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $default_db = $this->getParameter('default_db');
+        $default_db = $this->getParameter('dbal')['default_connection'];
         return $this->redirectToRoute('startpage', array('dbversion' => $default_db));
     }
 
@@ -27,7 +27,11 @@ class StartpageController extends Controller
         $oc = $this->get('app.api.webservice')->factory('Listing', 'Overview');
         $query = $request->query;
         $query->set('dbversion', $dbversion);
-        $overview = $oc->execute($query, $request->getSession());
+        $user = null;
+        if($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')){
+            $user = $this->get('security.token_storage')->getToken()->getUser();
+        }
+        $overview = $oc->execute($query, $user);
         $twig_parameter = array(
             'type' => 'startpage',
             'overview' => $overview,

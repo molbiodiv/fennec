@@ -3,6 +3,7 @@
 namespace AppBundle\API\Listing;
 
 use AppBundle\API\Webservice;
+use AppBundle\User\FennecUser;
 use \PDO as PDO;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -16,12 +17,12 @@ class Traits extends Webservice
 
     /**
      * @param $query ParameterBag
-     * @param $session SessionInterface
+     * @param $user FennecUser
      * @returns array of traits
      */
-    public function execute(ParameterBag $query, SessionInterface $session = null)
+    public function execute(ParameterBag $query, FennecUser $user = null)
     {
-        $db = $this->getDbFromQuery($query);
+        $db = $this->getManagerFromQuery($query)->getConnection();
         $limit = 1000;
         if ($query->has('limit')) {
             $limit = $query->get('limit');

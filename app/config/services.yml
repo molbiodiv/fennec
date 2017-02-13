@@ -4,9 +4,11 @@ parameters:
 #    parameter_name: value
 
 services:
-    app.db:
-        class: AppBundle\DB
-        arguments: ['%dbversions%']
+    app.orm:
+        class: AppBundle\ORM
+        arguments: [ "@doctrine" ]
     app.api.webservice:
         class: AppBundle\API\Webservice
-        arguments: ['@app.db']
+        arguments: ['@app.orm']
+    app.user.provider:
+        class: AppBundle\User\FennecUserProvider

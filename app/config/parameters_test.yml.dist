@@ -1,10 +1,23 @@
 # This file is auto-generated during the composer install
 parameters:
-    default_db: test
-    dbversions:
-        'test':
-            database_host: 172.18.0.3
-            database_port: 5432
-            database_name: fennectest
-            database_user: fennectest
-            database_password: fennectest
+    dbal:
+        default_connection: "test"
+        connections:
+            "test":
+                driver:   pdo_pgsql
+                host:     ~
+                port:     ~
+                dbname:   ~
+                user:     ~
+                password: ~
+                charset:  UTF8
+
+    orm:
+        auto_generate_proxy_classes: "%kernel.debug%"
+        default_entity_manager: "test"
+        entity_managers:
+            "test":
+                connection: "test"
+                naming_strategy: doctrine.orm.naming_strategy.underscore
+                mappings:
+                    AppBundle: ~
