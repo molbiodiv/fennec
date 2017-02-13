@@ -9,9 +9,6 @@ services:
         arguments: [ "@doctrine" ]
     app.api.webservice:
         class: AppBundle\API\Webservice
-        arguments: ['@app.db']
-    app.api.ormwebservice:
-        class: AppBundle\API\ORMWebservice
         arguments: ['@app.orm']
     app.user.provider:
         class: AppBundle\User\FennecUserProvider
