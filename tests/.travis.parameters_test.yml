@@ -21,7 +21,7 @@ parameters:
                 mappings:
                     AppBundle: ~
 
-    github_client_id:     ''
-    github_client_secret: ''
-    google_client_id:     ''
-    google_client_secret: ''
+    github_client_id:     'fake_github_id'
+    github_client_secret: 'fake_github_secret'
+    google_client_id:     'fake_google_id'
+    google_client_secret: 'fake_google_secret'
