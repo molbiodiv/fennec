@@ -28,7 +28,7 @@ class TraitsOfOrganisms extends Webservice
      */
     public function execute(ParameterBag $query, FennecUser $user = null)
     {
-        $this->db = $this->getDbFromQuery($query);
+        $this->db = $this->getManagerFromQuery($query)->getConnection();
         $fennec_ids = $query->get('fennec_ids');
         if(count($fennec_ids) == 0){
             return array();

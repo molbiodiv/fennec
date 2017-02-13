@@ -22,7 +22,7 @@ class OrganismsWithTrait extends Webservice
      */
     public function execute(ParameterBag $query, FennecUser $user = null)
     {
-        $db = $this->getDbFromQuery($query);
+        $db = $this->getManagerFromQuery($query)->getConnection();
         $trait_type_id = $query->get('trait_type_id');
         $limit = OrganismsWithTrait::DEFAULT_LIMIT;
         if ($query->has('limit')) {

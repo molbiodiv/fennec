@@ -23,7 +23,7 @@ class Organism extends Webservice
      */
     public function execute(ParameterBag $query, FennecUser $user = null)
     {
-        $this->db = $this->getDbFromQuery($query);
+        $this->db = $this->getManagerFromQuery($query)->getConnection();
         $id = $query->get('id');
         $placeholders = implode(',', array_fill(0, count($id), '?'));
         $query_get_organisms = <<<EOF

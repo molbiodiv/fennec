@@ -24,7 +24,7 @@ class OrganismsOfProject extends Webservice
      */
     public function execute(ParameterBag $query, FennecUser $user = null)
     {
-        $db = $this->getDbFromQuery($query);
+        $db = $this->getManagerFromQuery($query)->getConnection();
         $dbversion = $query->get('dbversion');
         $result = array();
         if ($user === null) {

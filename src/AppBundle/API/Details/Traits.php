@@ -36,7 +36,7 @@ class Traits extends Webservice
      */
     public function execute(ParameterBag $query, FennecUser $user = null)
     {
-        $this->db = $this->getDbFromQuery($query);
+        $this->db = $this->getManagerFromQuery($query)->getConnection();
         $trait_type_id = $query->get('trait_type_id');
         $fennec_ids = null;
         if ($query->has('fennec_ids') and is_array($query->get('fennec_ids'))){
