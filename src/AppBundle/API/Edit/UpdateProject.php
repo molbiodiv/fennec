@@ -15,7 +15,7 @@ class UpdateProject extends Webservice
      */
     public function execute(ParameterBag $query, FennecUser $user = null)
     {
-        $db = $this->getDbFromQuery($query);
+        $db = $this->getManagerFromQuery($query)->getConnection();
         if(!$query->has('biom') || !$query->has('project_id')){
             return array('error' => 'Missing parameter "biom" or "project_id"');
         }

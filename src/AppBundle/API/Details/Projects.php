@@ -23,7 +23,7 @@ class Projects extends Webservice
     */
     public function execute(ParameterBag $query, FennecUser $user = null)
     {
-        $db = $this->getDbFromQuery($query);
+        $db = $this->getManagerFromQuery($query)->getConnection();
         $result = array('projects' => array());
         $ids = $query->get('ids');
         $placeholders = implode(',', array_fill(0, count($ids), '?'));
