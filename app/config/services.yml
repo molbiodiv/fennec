@@ -7,9 +7,6 @@ services:
     app.orm:
         class: AppBundle\ORM
         arguments: [ "@doctrine" ]
-    app.db:
-        class: AppBundle\DB
-        arguments: ['%dbversions%']
     app.api.webservice:
         class: AppBundle\API\Webservice
         arguments: ['@app.db']
