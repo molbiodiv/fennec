@@ -36,7 +36,7 @@ class Organisms extends Webservice
      */
     public function execute(ParameterBag $query, FennecUser $user = null)
     {
-        $this->database = $this->getDbFromQuery($query);
+        $this->database = $this->getManagerFromQuery($query)->getConnection();
         $limit = 5;
         if ($query->has('limit')) {
             $limit = $query->get('limit');
