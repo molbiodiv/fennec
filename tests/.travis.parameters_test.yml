@@ -1,10 +1,22 @@
-# This file is auto-generated during the composer install
 parameters:
-    default_db: test
-    dbversions:
-        'test':
-            database_host: localhost
-            database_port: 5432
-            database_name: testchado
-            database_user: postgres
-            database_password: ''
+    dbal:
+        default_connection: "test"
+        connections:
+            "test":
+                driver:   pdo_pgsql
+                host:     localhost
+                port:     5432
+                dbname:   testchado
+                user:     postgres
+                password: ''
+                charset:  UTF8
+
+    orm:
+        auto_generate_proxy_classes: "%kernel.debug%"
+        default_entity_manager: "test"
+        entity_managers:
+            "test":
+                connection: "test"
+                naming_strategy: doctrine.orm.naming_strategy.underscore
+                mappings:
+                    AppBundle: ~
