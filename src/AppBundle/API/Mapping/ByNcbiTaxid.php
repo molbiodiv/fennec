@@ -15,7 +15,7 @@ class ByNcbiTaxid extends Webservice
      */
     public function execute(ParameterBag $query, FennecUser $user = null)
     {
-        $this->db = $this->getDbFromQuery($query);
+        $this->db = $this->getManagerFromQuery($query)->getConnection();
         if(!$query->has('ids') || !is_array($query->get('ids')) || count($query->get('ids')) === 0){
             return array();
         }
