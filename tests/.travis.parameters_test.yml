@@ -20,8 +20,3 @@ parameters:
                 naming_strategy: doctrine.orm.naming_strategy.underscore
                 mappings:
                     AppBundle: ~
-
-    github_client_id:     'fake_github_id'
-    github_client_secret: 'fake_github_secret'
-    google_client_id:     'fake_google_id'
-    google_client_secret: 'fake_google_secret'
