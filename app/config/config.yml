@@ -2,6 +2,7 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
+    - { resource: version.yml, ignore_errors: true }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -42,7 +43,7 @@ twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
     globals:
-        fennec_version: 0.4.1
+        fennec_version: "%application_version%"
         dbversions: "%dbal%"
 
 # Swiftmailer Configuration
@@ -72,3 +73,6 @@ hwi_oauth:
             options:
                 access_type:     offline
                 csrf:            true
+
+shivas_versioning:
+    version_file:  version.yml

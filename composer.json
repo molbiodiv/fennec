@@ -32,7 +32,8 @@
         "iimog/biom-conversion-server": "^1.0",
         "hwi/oauth-bundle": "^0.5.3",
         "doctrine/dbal": "2.6.x-dev",
-        "doctrine/common": "2.7.1"
+        "doctrine/common": "2.7.1",
+        "shivas/versioning-bundle": "^1.4"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
