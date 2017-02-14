@@ -29,7 +29,7 @@ class WebuserData
     /**
      * @var \DateTime|null
      *
-     * @ORM\Column(name="import_date", type="datetimetz", nullable=true)
+     * @ORM\Column(name="import_date", type="datetime", nullable=true)
      */
     private $importDate = 'now()';
 
@@ -46,10 +46,8 @@ class WebuserData
     /**
      * @var \AppBundle\Entity\Webuser
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Webuser")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="webuser_id", referencedColumnName="webuser_id")
-     * })
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Webuser", inversedBy="data")
+     * @ORM\JoinColumn(name="webuser_id", referencedColumnName="webuser_id")
      */
     private $webuser;
 

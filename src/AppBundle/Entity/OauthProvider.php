@@ -29,7 +29,11 @@ class OauthProvider
      */
     private $oauthProviderId;
 
-
+    /**
+     * @var Webuser
+     * @ORM\OneToMany(targetEntity="Webuser", mappedBy="oauthProvider")
+     */
+    private $webUsers;
 
     /**
      * Set provider.
@@ -63,5 +67,48 @@ class OauthProvider
     public function getOauthProviderId()
     {
         return $this->oauthProviderId;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->webUsers = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add webUser.
+     *
+     * @param \AppBundle\Entity\Webuser $webUser
+     *
+     * @return OauthProvider
+     */
+    public function addWebUser(\AppBundle\Entity\Webuser $webUser)
+    {
+        $this->webUsers[] = $webUser;
+
+        return $this;
+    }
+
+    /**
+     * Remove webUser.
+     *
+     * @param \AppBundle\Entity\Webuser $webUser
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeWebUser(\AppBundle\Entity\Webuser $webUser)
+    {
+        return $this->webUsers->removeElement($webUser);
+    }
+
+    /**
+     * Get webUsers.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getWebUsers()
+    {
+        return $this->webUsers;
     }
 }

@@ -32,13 +32,17 @@ class Webuser
     /**
      * @var \AppBundle\Entity\OauthProvider
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\OauthProvider")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="oauth_provider_id", referencedColumnName="oauth_provider_id")
-     * })
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\OauthProvider", inversedBy="webUsers")
+     * @ORM\JoinColumn(name="oauth_provider_id", referencedColumnName="oauth_provider_id")
      */
     private $oauthProvider;
 
+
+    /**
+     * @var WebuserData
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\WebuserData", mappedBy="webuser")
+     */
+    private $data;
 
 
     /**
@@ -97,5 +101,48 @@ class Webuser
     public function getOauthProvider()
     {
         return $this->oauthProvider;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->data = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add datum.
+     *
+     * @param \AppBundle\Entity\WebuserData $datum
+     *
+     * @return Webuser
+     */
+    public function addDatum(\AppBundle\Entity\WebuserData $datum)
+    {
+        $this->data[] = $datum;
+
+        return $this;
+    }
+
+    /**
+     * Remove datum.
+     *
+     * @param \AppBundle\Entity\WebuserData $datum
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeDatum(\AppBundle\Entity\WebuserData $datum)
+    {
+        return $this->data->removeElement($datum);
+    }
+
+    /**
+     * Get data.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getData()
+    {
+        return $this->data;
     }
 }
