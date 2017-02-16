@@ -24,29 +24,28 @@ class OrganismsOfProject extends Webservice
      */
     public function execute(ParameterBag $query, FennecUser $user = null)
     {
-        $db = $this->getManagerFromQuery($query)->getConnection();
+        $manager = $this->getManagerFromQuery($query);
         $dbversion = $query->get('dbversion');
         $result = array();
         if ($user === null) {
             $result['error'] = Webservice::ERROR_NOT_LOGGED_IN;
         } else {
-            $query_get_rows= <<<EOF
-SELECT
-    project->'rows' AS rows
-    FROM full_webuser_data 
-    WHERE webuser_data_id = :internal_project_id AND provider = :provider AND oauth_id = :oauth_id
-EOF;
-            $stm_get_rows = $db->prepare($query_get_rows);
-            $stm_get_rows->bindValue('internal_project_id', $query->get('internal_project_id'));
-            $stm_get_rows->bindValue('provider', $user->getProvider());
-            $stm_get_rows->bindValue('oauth_id', $user->getId());
-            $stm_get_rows->execute();
+            $provider = $manager->getRepository('AppBundle:OauthProvider')->findOneBy(array(
+                'provider' => $user->getProvider()
+            ));
+            $user = $manager->getRepository('AppBundle:Webuser')->findOneBy(array(
+                'oauthId' => $user->getId(),
+                'oauthProvider' => $provider
+            ));
+            $project = $manager->getRepository('AppBundle:WebuserData')->findOneBy(array(
+                'webuser' => $user,
+                'webuserDataId' => $query->get('internal_project_id')
+            ));
 
-            if($stm_get_rows->rowCount() === 0){
+            if($project === null){
                 $result['error'] = OrganismsOfProject::ERROR_PROJECT_NOT_FOUND;
             } else {
-                $rows = $stm_get_rows->fetch(PDO::FETCH_ASSOC)['rows'];
-                $rows = json_decode($rows, true);
+                $rows = $project->getProject()['rows'];
                 $fennec_ids = array();
                 foreach ($rows as $row){
                     if (key_exists('metadata', $row)){
