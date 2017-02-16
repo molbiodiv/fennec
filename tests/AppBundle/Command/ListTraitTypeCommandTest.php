@@ -26,7 +26,5 @@ class ListTraitTypeCommandTest extends KernelTestCase
         // the output of the command in the console
         $output = $commandTester->getDisplay();
         $this->assertContains('Plant Habit', $output);
-
-        // ...
     }
 }
