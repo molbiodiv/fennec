@@ -33,4 +33,9 @@ class ORM extends Controller
     {
         return $this->orm->getManager($version);
     }
+
+    public function getDefaultManager()
+    {
+        return $this->orm->getManager($this->orm->getDefaultManagerName());
+    }
 }
