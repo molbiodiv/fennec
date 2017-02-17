@@ -29,7 +29,7 @@ class Setup extends  WebTestCase
         // Do not use doctrine:database:import as that can not handle pg_dumps properly (e.g. COPY)
         // at least not in doctrine version 2.7.1
         echo exec('PGPASSWORD='.$db['password'].
-            ' bash -c \'cat '.__DIR__.'/initial_testdata.sql | psql -U '.
+            ' bash -c \'xzcat '.__DIR__.'/initial_testdata.sql.xz | psql -U '.
             $db['user'].
             ' -h '.$db['host'].
             ' -p '.$db['port'].
