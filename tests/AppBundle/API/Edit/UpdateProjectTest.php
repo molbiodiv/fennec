@@ -27,7 +27,7 @@ class UpdateProjectTest extends WebserviceTestCase
         );
         $biom = json_decode($results['projects'][$id]['biom'], true);
         // Check for initial state
-        $this->assertEquals('Original ID', $biom['id']);
+        $this->assertEquals('table_1', $biom['id']);
         $this->assertFalse(array_key_exists('comment', $biom));
         // Now update the project
         $biom['id'] = 'Updated ID';

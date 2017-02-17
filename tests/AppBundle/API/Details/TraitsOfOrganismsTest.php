@@ -60,6 +60,12 @@ class TraitsOfOrganismsTest extends WebserviceTestCase
                 'trait_format' => 'categorical_free',
                 'trait_entry_ids' => [88860],
                 'fennec_ids' => [181840]
+            ],
+            '4' => [
+                'trait_type' => 'Flower Color',
+                'trait_format' => 'categorical_free',
+                'trait_entry_ids' => [113422],
+                'fennec_ids' => [4207]
             ]
         ];
         $this->assertEquals($expected, $results);

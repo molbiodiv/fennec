@@ -31,6 +31,16 @@ class TraitsTest extends WebserviceTestCase
                 "name" => "Plant Life Cycle Habit",
                 "trait_type_id" => 2,
                 "frequency" => 16819
+            ),
+            array(
+                "name" => "Flower Color",
+                "trait_type_id" => 4,
+                "frequency" => 2556
+            ),
+            array(
+                "name" => "EPPO Lists",
+                "trait_type_id" => 6,
+                "frequency" => 92
             )
         );
         $this->assertEquals($expected, $results, 'Search without term and limit, result should be a list of all traits');
