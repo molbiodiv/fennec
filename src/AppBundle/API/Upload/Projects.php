@@ -53,6 +53,7 @@ class Projects extends Webservice
                     $project->setProject(json_decode(file_get_contents($_FILES[$i]['tmp_name'])));
                     $project->setWebuser($webuser);
                     $project->setImportFilename($_FILES[$i]['name']);
+                    $em->persist($project);
                 }
                 $file = array(
                     "name" => $_FILES[$i]['name'],
@@ -62,6 +63,7 @@ class Projects extends Webservice
                 $files[] = $file;
             }
         }
+        $em->flush();
         return array("files" => $files);
     }
 
