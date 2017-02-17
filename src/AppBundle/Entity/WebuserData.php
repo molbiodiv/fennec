@@ -51,7 +51,10 @@ class WebuserData
      */
     private $webuser;
 
-
+    public function __construct()
+    {
+        $this->setImportDate(new \DateTime());
+    }
 
     /**
      * Set project.

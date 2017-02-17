@@ -41,8 +41,8 @@ class ProjectsTest extends WebserviceTestCase
             . '"generated_by": "BIOM-Format 2.1", '
             . '"matrix_element_type": "float"'
             . '}';
-        $this->assertEquals($expected, $results['projects'][$id]['biom']);
-        $this->assertEquals('2016-05-17 10:00:52.627236+00', $results['projects'][$id]['import_date']);
-        $this->assertEquals(null, $results['projects'][$id]['import_filename']);
+        $this->assertEquals(json_decode($expected,true), json_decode($results['projects'][$id]['biom'], true));
+        $this->assertEquals(new \DateTime('2016-05-17T10:00:52+0000'), $results['projects'][$id]['import_date']);
+        $this->assertEquals('detailsProjectsTestFile.biom', $results['projects'][$id]['import_filename']);
     }
 }
