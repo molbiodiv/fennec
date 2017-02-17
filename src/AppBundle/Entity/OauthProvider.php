@@ -24,7 +24,7 @@ class OauthProvider
      *
      * @ORM\Column(name="oauth_provider_id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\SequenceGenerator(sequenceName="oauth_provider_oauth_provider_id_seq", allocationSize=1, initialValue=1)
      */
     private $oauthProviderId;

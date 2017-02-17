@@ -38,7 +38,7 @@ class TaxonomyNode
      *
      * @ORM\Column(name="taxonomy_node_id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\SequenceGenerator(sequenceName="taxonomy_node_taxonomy_node_id_seq", allocationSize=1, initialValue=1)
      */
     private $taxonomyNodeId;

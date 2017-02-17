@@ -24,7 +24,7 @@ class Organism
      *
      * @ORM\Column(name="fennec_id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\SequenceGenerator(sequenceName="organism_fennec_id_seq", allocationSize=1, initialValue=1)
      */
     private $fennecId;

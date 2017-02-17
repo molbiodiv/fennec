@@ -24,7 +24,7 @@ class Rank
      *
      * @ORM\Column(name="rank_id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\SequenceGenerator(sequenceName="rank_rank_id_seq", allocationSize=1, initialValue=1)
      */
     private $rankId;

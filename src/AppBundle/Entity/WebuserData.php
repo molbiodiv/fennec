@@ -38,7 +38,7 @@ class WebuserData
      *
      * @ORM\Column(name="webuser_data_id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\SequenceGenerator(sequenceName="webuser_data_webuser_data_id_seq", allocationSize=1, initialValue=1)
      */
     private $webuserDataId;

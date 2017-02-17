@@ -24,7 +24,7 @@ class AlternativeName
      *
      * @ORM\Column(name="alternative_name_id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\SequenceGenerator(sequenceName="alternative_name_alternative_name_id_seq", allocationSize=1, initialValue=1)
      */
     private $alternativeNameId;
