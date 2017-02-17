@@ -2,6 +2,7 @@
 
 namespace AppBundle\User;
 
+use AppBundle\Entity\OauthProvider;
 use AppBundle\Entity\Webuser;
 use Doctrine\ORM\EntityManager;
 use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthUser;
@@ -61,14 +62,27 @@ class FennecUser extends OAuthUser
 
     /**
      * @param $em EntityManager
+     * @param $create boolean
      * @return Webuser|null
      */
-    public function getWebuser($em){
+    public function getWebuser($em, $create = false){
         $webuser= null;
         if($em !== null){
             $provider = $em->getRepository('AppBundle:OauthProvider')->findOneBy(array('provider' => $this->getProvider()));
+            if($provider === null && $create){
+                $provider = new OauthProvider();
+                $provider->setProvider($this->getProvider());
+                $em->persist($provider);
+            }
             if($provider !== null){
                 $webuser = $em->getRepository('AppBundle:Webuser')->findOneBy(array('oauthProvider' => $provider, 'oauthId' => $this->getId()));
+                if($webuser === null && $create){
+                    $webuser = new Webuser();
+                    $webuser->setOauthProvider($provider);
+                    $webuser->setOauthId($this->getId());
+                    $em->persist($webuser);
+                    $em->flush();
+                }
             }
         }
         return $webuser;
