@@ -34,7 +34,7 @@ class AlternativeName
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Organism")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="fennec_id", referencedColumnName="fennec_id")
+     *   @ORM\JoinColumn(name="fennec_id", referencedColumnName="fennec_id", nullable=false)
      * })
      */
     private $fennec;
@@ -44,7 +44,7 @@ class AlternativeName
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\NameType")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="name_type_id", referencedColumnName="name_type_id")
+     *   @ORM\JoinColumn(name="name_type_id", referencedColumnName="name_type_id", nullable=false)
      * })
      */
     private $nameType;

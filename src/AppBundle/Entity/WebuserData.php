@@ -47,7 +47,7 @@ class WebuserData
      * @var \AppBundle\Entity\Webuser
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Webuser", inversedBy="data")
-     * @ORM\JoinColumn(name="webuser_id", referencedColumnName="webuser_id")
+     * @ORM\JoinColumn(name="webuser_id", referencedColumnName="webuser_id", nullable=false)
      */
     private $webuser;
 

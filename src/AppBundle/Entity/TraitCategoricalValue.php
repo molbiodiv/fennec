@@ -41,7 +41,7 @@ class TraitCategoricalValue
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\TraitType")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="trait_type_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="trait_type_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $traitType;

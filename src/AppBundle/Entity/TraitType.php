@@ -48,7 +48,7 @@ class TraitType
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\TraitFormat")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="trait_format_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="trait_format_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $traitFormat;

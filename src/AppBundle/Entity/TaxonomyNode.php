@@ -48,7 +48,7 @@ class TaxonomyNode
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Db")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="db_id", referencedColumnName="db_id")
+     *   @ORM\JoinColumn(name="db_id", referencedColumnName="db_id", nullable=false)
      * })
      */
     private $db;
@@ -58,7 +58,7 @@ class TaxonomyNode
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Organism")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="fennec_id", referencedColumnName="fennec_id")
+     *   @ORM\JoinColumn(name="fennec_id", referencedColumnName="fennec_id", nullable=false)
      * })
      */
     private $fennec;

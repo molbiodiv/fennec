@@ -55,7 +55,7 @@ class TraitCategoricalEntry
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Organism")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="fennec_id", referencedColumnName="fennec_id")
+     *   @ORM\JoinColumn(name="fennec_id", referencedColumnName="fennec_id", nullable=false)
      * })
      */
     private $fennec;
@@ -65,7 +65,7 @@ class TraitCategoricalEntry
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\TraitCategoricalValue")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="trait_categorical_value_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="trait_categorical_value_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $traitCategoricalValue;
@@ -85,7 +85,7 @@ class TraitCategoricalEntry
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\TraitType")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="trait_type_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="trait_type_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $traitType;
@@ -95,7 +95,7 @@ class TraitCategoricalEntry
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Webuser")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="webuser_id", referencedColumnName="webuser_id")
+     *   @ORM\JoinColumn(name="webuser_id", referencedColumnName="webuser_id", nullable=false)
      * })
      */
     private $webuser;

@@ -33,7 +33,7 @@ class Webuser
      * @var \AppBundle\Entity\OauthProvider
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\OauthProvider", inversedBy="webUsers")
-     * @ORM\JoinColumn(name="oauth_provider_id", referencedColumnName="oauth_provider_id")
+     * @ORM\JoinColumn(name="oauth_provider_id", referencedColumnName="oauth_provider_id", nullable=false)
      */
     private $oauthProvider;
 
