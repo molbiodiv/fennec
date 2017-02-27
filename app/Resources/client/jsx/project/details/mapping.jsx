@@ -44,7 +44,12 @@ $('document').ready(() => {
                 method: 'POST',
                 success: function (data) {
                     handleMappingResult(dimension, ids, data, method);
-                }
+                },
+                error: function (error, status, text) {
+                    showMessageDialog('There was a mapping error: '+text, 'danger');
+                    console.log(error);
+                },
+                complete: () => {$('#mapping-action-busy-indicator').hide();}
             });
         }
     });
@@ -117,7 +122,6 @@ $('document').ready(() => {
         biom.addMetadata({dimension: dimension, attribute: ['fennec', dbversion, 'fennec_id'], values: fennec_ids});
         biom.addMetadata({dimension: dimension, attribute: ['fennec', dbversion, 'assignment_method'], defaultValue: method});
         var idString = getIdStringForMethod(method);
-        $('#mapping-action-busy-indicator').hide();
         $('#mapping-results-section').show();
         $('#mapping-results').text(`From a total of ${idsFromBiom.length} organisms:  ${idsFromBiomNotNullCount} have a ${idString}, of which ${idsFromBiomMappedCount} could be mapped to fennec_ids.`);
     }
