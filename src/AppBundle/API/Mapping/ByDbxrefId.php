@@ -6,7 +6,7 @@ use AppBundle\API\Webservice;
 use AppBundle\User\FennecUser;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
-class ByNcbiTaxid extends Webservice
+class ByDbxrefId extends Webservice
 {
     private $db;
 
