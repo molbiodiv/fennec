@@ -16,7 +16,7 @@ class ByDbxrefId extends Webservice
     public function execute(ParameterBag $query, FennecUser $user = null)
     {
         $this->db = $this->getManagerFromQuery($query)->getConnection();
-        if(!$query->has('ids') || !is_array($query->get('ids')) || count($query->get('ids')) === 0){
+        if(!$query->has('ids') || !is_array($query->get('ids')) || count($query->get('ids')) === 0 || !$query->has('db')){
             return array();
         }
         $ids = $query->get('ids');
@@ -25,11 +25,11 @@ class ByDbxrefId extends Webservice
         $query_get_mapping = <<<EOF
 SELECT fennec_id, identifier AS ncbi_taxid
     FROM fennec_dbxref
-        WHERE db_id=(SELECT db_id FROM db WHERE name='ncbi_taxonomy')
+        WHERE db_id=(SELECT db_id FROM db WHERE name=?)
         AND identifier IN ({$placeholders})
 EOF;
         $stm_get_mapping = $this->db->prepare($query_get_mapping);
-        $stm_get_mapping->execute($ids);
+        $stm_get_mapping->execute(array_merge([$query->get('db')], $ids));
 
         while($row = $stm_get_mapping->fetch(\PDO::FETCH_ASSOC)){
             $result[$row['ncbi_taxid']] = $row['fennec_id'];
