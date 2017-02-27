@@ -24,7 +24,5 @@ class ByNcbiTaxidTest extends WebserviceTestCase
         $result = $service->execute(new ParameterBag(array('dbversion' => $this->default_db, 'ids' => $ncbi_ids)),
             null);
         $this->assertEquals($expected, $result);
-
-        // Test with non-unique IDs
     }
 }
