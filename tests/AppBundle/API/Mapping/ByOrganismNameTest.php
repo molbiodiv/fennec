@@ -52,6 +52,7 @@ class ByOrganismNameTest extends WebserviceTestCase
         $organism1 = $organismRepository->find(1);
         $organismWithSameName = new Organism();
         $organismWithSameName->setScientificName($organism1->getScientificName());
+        $em->persist($organismWithSameName);
         $em->flush();
         $names = [
             'Austrolejeunea bidentata',
