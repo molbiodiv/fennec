@@ -41,7 +41,7 @@ class Projects extends Webservice
                     $project['internal_project_id'] = $p->getWebuserDataId();
                     $data = $p->getProject();
                     $project['id'] = $data['id'];
-                    $project['import_date'] = $p->getImportDate();
+                    $project['import_date'] = $p->getImportDate()->format('Y-m-d H:i:s');
                     $project['rows'] = $data['shape'][0];
                     $project['columns'] = $data['shape'][1];
                     $project['import_filename'] = $p->getImportFilename();

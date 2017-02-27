@@ -39,7 +39,7 @@
                     <tr><th scope="row">#OTUs</th><td id="project-overview-table-rows"></td></tr>
                     <tr><th scope="row">#Samples</th><td id="project-overview-table-cols"></td></tr>
                     <tr><th scope="row">NNZ</th><td id="project-overview-table-nnz"></td></tr>
-                    <tr><th scope="row">Import Date</th><td id="project-overview-table-import-date">{{ project['projects'][internal_project_id]['import_date'] }}</td></tr>
+                    <tr><th scope="row">Import Date</th><td id="project-overview-table-import-date">{{ project['projects'][internal_project_id]['import_date'] | date('Y-m-d H:i:s') }}</td></tr>
                     <tr><th scope="row">Import Filename</th><td id="project-overview-table-import-filename">{{ project['projects'][internal_project_id]['import_filename'] }}</td></tr>
                     <tr><th scope="row">Export</th>
                         <td id="project-overview-table-export">
