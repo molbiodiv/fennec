@@ -20,7 +20,7 @@ $('document').ready(() => {
 
     // Add semi-global dimension variable (stores last mapped dimension)
     var dimension = 'rows';
-    var method = 'ncbi_taxid';
+    var method = 'ncbi_taxonomy';
 
     // Set action for click on mapping "GO" button
     $('#mapping-action-button').on('click', function () {
@@ -38,7 +38,8 @@ $('document').ready(() => {
             $.ajax(webserviceUrl, {
                 data: {
                     dbversion: dbversion,
-                    ids: uniq_ids
+                    ids: uniq_ids,
+                    db: method
                 },
                 method: 'POST',
                 success: function (data) {
@@ -56,7 +57,7 @@ $('document').ready(() => {
      */
     function getIdsForMethod(method, dimension) {
         let ids = [];
-        if(method === 'ncbi_taxid'){
+        if(method === 'ncbi_taxonomy'){
             ids = biom.getMetadata({dimension: dimension, attribute: 'ncbi_taxid'});
         } else if(method === 'organism_name'){
             ids = biom[dimension].map((element) => element.id);
@@ -71,7 +72,7 @@ $('document').ready(() => {
      */
     function getWebserviceUrlForMethod(method) {
         let method2service = {
-            'ncbi_taxid': 'byNcbiTaxid',
+            'ncbi_taxonomy': 'byDbxrefId',
             'organism_name': 'byOrganismName'
         };
         let webserviceUrl = Routing.generate('api', {'namespace': 'mapping', 'classname': method2service[method]});
@@ -85,7 +86,7 @@ $('document').ready(() => {
      */
     function getIdStringForMethod(method) {
         let idString = "";
-        if (method === 'ncbi_taxid'){
+        if (method === 'ncbi_taxonomy'){
             idString = "NCBI taxid";
         } else if (method === 'organism_name') {
             idString = "Organism name";
