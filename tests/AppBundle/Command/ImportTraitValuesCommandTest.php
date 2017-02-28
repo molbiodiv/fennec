@@ -20,12 +20,26 @@ class ImportTraitValuesCommandTest extends KernelTestCase
         $command = $application->find('app:import-trait-values');
         $commandTester = new CommandTester($command);
         $commandTester->execute(array(
-            'command'  => $command->getName(),
+            'command' => $command->getName(),
             'file' => __DIR__.'/files/emptyFile.tsv'
         ));
-
         // the output of the command in the console
         $output = $commandTester->getDisplay();
         $this->assertContains('Importer', $output);
+
+        $em = self::$kernel->getContainer()->get('app.orm')->getManagerForVersion('test');
+        $this->assertNull($em->getRepository('AppBundle:TraitCategoricalValue')->findOneBy(array(
+            'value' => 'rainbow'
+        )), 'before import there is no flower color "rainbow"');
+        $commandTester->execute(array(
+            'command' => $command->getName(),
+            '--user-id' => 1,
+            '--traittype' => 'Flower Color',
+            'file' => __DIR__.'/files/flowerColors.tsv'
+        ));
+        $rainbow = $em->getRepository('AppBundle:TraitCategoricalValue')->findOneBy(array(
+            'value' => 'rainbow'
+        ));
+        $this->assertNotNull($rainbow, 'after import there is a flower color "rainbow"');
     }
 }
