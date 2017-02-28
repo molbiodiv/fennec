@@ -51,13 +51,5 @@ class ImportTraitValuesCommandTest extends KernelTestCase
         $this->assertEquals(4, count($em->getRepository('AppBundle:TraitCategoricalEntry')->findBy(array(
             'traitCategoricalValue' => $rainbow
         ))), 'There are four entries with flower color rainbow');
-        /**
-         * @var TraitCategoricalEntry
-         */
-        $privateTrait = $em->getRepository('AppBundle:TraitCategoricalEntry')->findOneBy(array(
-            'traitCategoricalValue' => $rainbow,
-            'fennec_id' => 1111
-        ));
-        $this->assertTrue($privateTrait->isPrivate(), 'One trait is private');
     }
 }

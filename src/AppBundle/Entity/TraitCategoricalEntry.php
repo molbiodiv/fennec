@@ -12,6 +12,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class TraitCategoricalEntry
 {
+    function __construct()
+    {
+        $this->creationDate = new \DateTime();
+    }
+
     /**
      * @var bool
      *
