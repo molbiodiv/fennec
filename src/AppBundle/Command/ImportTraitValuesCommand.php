@@ -10,6 +10,7 @@ use AppBundle\Entity\TraitType;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -31,12 +32,12 @@ class ImportTraitValuesCommand extends ContainerAwareCommand
     /**
      * @var int
      */
-    private $insertedCitations;
+    private $insertedCitations = 0;
 
     /**
      * @var int
      */
-    private $insertedValues;
+    private $insertedValues = 0;
 
     /**
      * @var array
@@ -154,6 +155,12 @@ class ImportTraitValuesCommand extends ContainerAwareCommand
         }
         fclose($file);
         $progress->finish();
+        $output->writeln('');
+        $table = new Table($output);
+        $table->addRow(array('Imported entries', $lines));
+        $table->addRow(array('Distinct new values', $this->insertedValues));
+        $table->addRow(array('Distinct new citations', $this->insertedCitations));
+        $table->render();
     }
 
     private function get_or_insert_trait_categorical_value($value, $ontology_url){
