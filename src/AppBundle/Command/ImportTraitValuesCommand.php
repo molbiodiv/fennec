@@ -202,6 +202,13 @@ class ImportTraitValuesCommand extends ContainerAwareCommand
                 'ids' => array_values(array_unique($ids)),
                 'dbversion' => $this->connectionName
             )), null);
+        } else {
+            $mapper = $this->getContainer()->get('app.api.webservice')->factory('mapping', 'byDbxrefId');
+            $mapping = $mapper->execute(new ParameterBag(array(
+                'ids' => array_values(array_unique($ids)),
+                'dbversion' => $this->connectionName,
+                'db' => $method
+            )), null);
         }
         return $mapping;
     }
