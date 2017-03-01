@@ -117,7 +117,7 @@ class ImportTraitValuesCommandTest extends KernelTestCase
         $this->commandTester->execute(array(
             'command' => $this->command->getName(),
             '--user-id' => 1,
-            '--traittype' => 'Plant Growth Habit',
+            '--traittype' => 'Plant Habit',
             'file' => __DIR__.'/files/plantHabitEOL.tsv',
             '--mapping' => 'EOL'
         ));
@@ -135,7 +135,7 @@ class ImportTraitValuesCommandTest extends KernelTestCase
          * @var TraitCategoricalEntry
          */
         $barbeyaEntry = $this->em->getRepository('AppBundle:TraitCategoricalEntry')->findOneBy(array(
-            'originUrl' => 'eol_fantasy	http://example.com/eol11887710'
+            'originUrl' => 'http://example.com/eol11887710'
         ));
         $this->assertNotNull($barbeyaEntry, 'The entry with origin url for eol id 11887710 exists');
         $this->assertEquals(3313, $barbeyaEntry->getFennec()->getFennecId(), 'The trait has been assigned to the correct organism');
