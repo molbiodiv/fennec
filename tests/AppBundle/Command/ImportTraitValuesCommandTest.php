@@ -106,4 +106,38 @@ class ImportTraitValuesCommandTest extends KernelTestCase
         $this->assertNotNull($barbeyaEntry, 'The entry with origin url for Barbeya exists');
         $this->assertEquals('Barbeya', $barbeyaEntry->getFennec()->getScientificName(), 'The trait has been assigned to the correct organism');
     }
+
+        public function testImportByEOL(){
+        $this->assertNull($this->em->getRepository('AppBundle:TraitCategoricalValue')->findOneBy(array(
+            'value' => 'fantasyTree'
+        )), 'before import there is no plant habit "fantasyTree"');
+        $this->assertNull($this->em->getRepository('AppBundle:TraitCitation')->findOneBy(array(
+            'citation' => 'eol_fantasy'
+        )), 'before import there is no citation "eol_fantasy"');
+        $this->commandTester->execute(array(
+            'command' => $this->command->getName(),
+            '--user-id' => 1,
+            '--traittype' => 'Plant Growth Habit',
+            'file' => __DIR__.'/files/plantHabitEOL.tsv',
+            '--mapping' => 'EOL'
+        ));
+        $fantasyTree = $this->em->getRepository('AppBundle:TraitCategoricalValue')->findOneBy(array(
+            'value' => 'fantasyTree'
+        ));
+        $this->assertNotNull($fantasyTree, 'after import there is a plant habit "fantasyTree"');
+        $this->assertNotNull($this->em->getRepository('AppBundle:TraitCitation')->findOneBy(array(
+            'citation' => 'eol_fantasy'
+        )), 'after import there is a citation "eol_fantasy"');
+        $this->assertEquals(3, count($this->em->getRepository('AppBundle:TraitCategoricalEntry')->findBy(array(
+            'traitCategoricalValue' => $fantasyTree
+        ))), 'There are three entries with plant habit "fantasyTree"');
+        /**
+         * @var TraitCategoricalEntry
+         */
+        $barbeyaEntry = $this->em->getRepository('AppBundle:TraitCategoricalEntry')->findOneBy(array(
+            'originUrl' => 'eol_fantasy	http://example.com/eol11887710'
+        ));
+        $this->assertNotNull($barbeyaEntry, 'The entry with origin url for eol id 11887710 exists');
+        $this->assertEquals(3313, $barbeyaEntry->getFennec()->getFennecId(), 'The trait has been assigned to the correct organism');
+    }
 }
