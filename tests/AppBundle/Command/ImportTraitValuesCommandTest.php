@@ -107,7 +107,8 @@ class ImportTraitValuesCommandTest extends KernelTestCase
         $this->assertEquals('Barbeya', $barbeyaEntry->getFennec()->getScientificName(), 'The trait has been assigned to the correct organism');
     }
 
-        public function testImportByEOL(){
+    public function testImportByEOL()
+    {
         $this->assertNull($this->em->getRepository('AppBundle:TraitCategoricalValue')->findOneBy(array(
             'value' => 'fantasyTree'
         )), 'before import there is no plant habit "fantasyTree"');
@@ -118,7 +119,7 @@ class ImportTraitValuesCommandTest extends KernelTestCase
             'command' => $this->command->getName(),
             '--user-id' => 1,
             '--traittype' => 'Plant Habit',
-            'file' => __DIR__.'/files/plantHabitEOL.tsv',
+            'file' => __DIR__ . '/files/plantHabitEOL.tsv',
             '--mapping' => 'EOL'
         ));
         $fantasyTree = $this->em->getRepository('AppBundle:TraitCategoricalValue')->findOneBy(array(
@@ -138,6 +139,32 @@ class ImportTraitValuesCommandTest extends KernelTestCase
             'originUrl' => 'http://example.com/eol11887710'
         ));
         $this->assertNotNull($barbeyaEntry, 'The entry with origin url for eol id 11887710 exists');
-        $this->assertEquals(3313, $barbeyaEntry->getFennec()->getFennecId(), 'The trait has been assigned to the correct organism');
+        $this->assertEquals(3313, $barbeyaEntry->getFennec()->getFennecId(),
+            'The trait has been assigned to the correct organism');
+    }
+
+    public function testImportWithUnmappableID(){
+        // Check for error if value can not be mapped
+        $this->assertNull($this->em->getRepository('AppBundle:TraitCategoricalValue')->findOneBy(array(
+            'value' => 'fantasyTree2'
+        )), 'before import there is no plant habit "fantasyTree2"');
+        $this->assertNull($this->em->getRepository('AppBundle:TraitCitation')->findOneBy(array(
+            'citation' => 'eol_fantasy2'
+        )), 'before import there is no citation "eol_fantasy2"');
+        $this->commandTester->execute(array(
+            'command' => $this->command->getName(),
+            '--user-id' => 1,
+            '--traittype' => 'Plant Habit',
+            'file' => __DIR__.'/files/plantHabitEOL_missing.tsv',
+            '--mapping' => 'EOL'
+        ));
+        $output = $this->commandTester->getDisplay();
+        $this->assertContains('no mapping to fennec id found', $output);
+        $this->assertNull($this->em->getRepository('AppBundle:TraitCategoricalValue')->findOneBy(array(
+            'value' => 'fantasyTree2'
+        )), 'after failed import there is still no plant habit "fantasyTree2"');
+        $this->assertNull($this->em->getRepository('AppBundle:TraitCitation')->findOneBy(array(
+            'citation' => 'eol_fantasy2'
+        )), 'after failed import there is still no citation "eol_fantasy2"');
     }
 }
