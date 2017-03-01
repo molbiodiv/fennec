@@ -75,5 +75,13 @@ class ImportTraitValuesCommandTest extends KernelTestCase
         $this->assertEquals(3, count($em->getRepository('AppBundle:TraitCategoricalEntry')->findBy(array(
             'traitCategoricalValue' => $xy
         ))), 'There are three entries with iucn status "XY"');
+        /**
+         * @var TraitCategoricalEntry
+         */
+        $barbeyaEntry = $em->getRepository('AppBundle:TraitCategoricalEntry')->findOneBy(array(
+            'originUrl' => 'http://example.com/Barbeya'
+        ));
+        $this->assertNotNull($barbeyaEntry, 'The entry with origin url for Barbeya exists');
+        $this->assertEquals('Barbeya', $barbeyaEntry->getFennec()->getScientificName(), 'The trait has been assigned to the correct organism');
     }
 }
