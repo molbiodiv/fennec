@@ -3,6 +3,7 @@
 namespace Tests\AppBundle\Command;
 
 
+use AppBundle\API\Details\Organism;
 use AppBundle\Command\ImportTraitValuesCommand;
 use AppBundle\Entity\TraitCategoricalEntry;
 use Doctrine\ORM\EntityManager;
@@ -105,6 +106,37 @@ class ImportTraitValuesCommandTest extends KernelTestCase
         ));
         $this->assertNotNull($barbeyaEntry, 'The entry with origin url for Barbeya exists');
         $this->assertEquals('Barbeya', $barbeyaEntry->getFennec()->getScientificName(), 'The trait has been assigned to the correct organism');
+    }
+
+    public function testImportByScinameNonUnique(){
+        $this->assertNull($this->em->getRepository('AppBundle:TraitCategoricalValue')->findOneBy(array(
+            'value' => 'ZYX'
+        )), 'before import there is no IUCN status "ZYX"');
+        $this->assertNull($this->em->getRepository('AppBundle:TraitCitation')->findOneBy(array(
+            'citation' => 'iucn_fantasy3'
+        )), 'before import there is no citation "iucn_fantasy3"');
+        $organism1 = new \AppBundle\Entity\Organism();
+        $organism1->setScientificName('Duplicate');
+        $organism2 = new \AppBundle\Entity\Organism();
+        $organism2->setScientificName('Duplicate');
+        $this->em->persist($organism1);
+        $this->em->persist($organism2);
+        $this->em->flush();
+        $this->commandTester->execute(array(
+            'command' => $this->command->getName(),
+            '--user-id' => 1,
+            '--traittype' => 'IUCN Threat Status',
+            'file' => __DIR__.'/files/iucnRedlistScinameNonUnique.tsv',
+            '--mapping' => 'scientific_name'
+        ));
+        $output = $this->commandTester->getDisplay();
+        $this->assertContains('multiple mappings to fennec ids found', $output);
+        $this->assertNull($this->em->getRepository('AppBundle:TraitCategoricalValue')->findOneBy(array(
+            'value' => 'ZYX'
+        )), 'after failed import there is still no IUCN status "ZYX"');
+        $this->assertNull($this->em->getRepository('AppBundle:TraitCitation')->findOneBy(array(
+            'citation' => 'iucn_fantasy3'
+        )), 'after failed import there is still no citation "iucn_fantasy3"');
     }
 
     public function testImportByEOL()
