@@ -14,6 +14,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\HttpFoundation\ParameterBag;
 
 class ImportTraitValuesCommand extends ContainerAwareCommand
 {
@@ -36,6 +37,16 @@ class ImportTraitValuesCommand extends ContainerAwareCommand
      * @var int
      */
     private $insertedValues;
+
+    /**
+     * @var array
+     */
+    private $mapping;
+
+    /**
+     * @var string
+     */
+    private $connectionName;
 
     protected function configure()
     {
@@ -75,12 +86,12 @@ class ImportTraitValuesCommand extends ContainerAwareCommand
             $output->writeln('<error>No user ID given. Use --user-id</error>');
             return;
         }
-        $connection_name = $input->getOption('connection');
-        if($connection_name == null) {
-            $connection_name = $this->getContainer()->get('doctrine')->getDefaultConnectionName();
+        $this->connectionName = $input->getOption('connection');
+        if($this->connectionName == null) {
+            $this->connectionName = $this->getContainer()->get('doctrine')->getDefaultConnectionName();
         }
         $orm = $this->getContainer()->get('app.orm');
-        $this->em = $orm->getManagerForVersion($connection_name);
+        $this->em = $orm->getManagerForVersion($this->connectionName);
         $this->traitType = $this->em->getRepository('AppBundle:TraitType')->findOneBy(array('type' => $input->getOption('traittype')));
         if($this->traitType === null){
             $output->writeln('<error>TraitType does not exist in db. Check for typos or create with app:create-traittype.</error>');
@@ -98,12 +109,29 @@ class ImportTraitValuesCommand extends ContainerAwareCommand
         $lines = intval(exec('wc -l '.escapeshellarg($input->getArgument('file')).' 2>/dev/null'));
         $progress = new ProgressBar($output, $lines);
         $progress->start();
+        $needs_mapping = $input->getOption('mapping') !== null;
+        if($needs_mapping){
+            $this->mapping = $this->getMapping($input->getArgument('file'), $input->getOption('mapping'));
+            foreach($this->mapping as $id => $value){
+                if($value === null){
+                    $output->writeln('<error>Error no mapping to fennec id found for: '.$id.'</error>');
+                    return;
+                } elseif (is_array($value)){
+                    $output->writeln('<error>Error multiple mappings to fennec ids found for: '.$id.' ('.implode(',',$value).')</error>');
+                    return;
+                }
+            }
+        }
         $file = fopen($input->getArgument('file'), 'r');
         $this->em->getConnection()->beginTransaction();
         try{
             while (($line = fgetcsv($file, 0, "\t")) != false) {
                 if(count($line) !== 5){
                     throw new \Exception('Wrong number of elements in line. Expected: 5, Actual: '.count($line).': '.join(" ",$line));
+                }
+                $fennec_id = $line[0];
+                if($needs_mapping){
+                    $fennec_id = $this->mapping[$fennec_id];
                 }
                 $traitCategoricalValue = $this->get_or_insert_trait_categorical_value($line[1], $line[2]);
                 $traitCitation = $this->get_or_insert_trait_citation($line[3]);
@@ -112,7 +140,7 @@ class ImportTraitValuesCommand extends ContainerAwareCommand
                 $traitEntry->setTraitCategoricalValue($traitCategoricalValue);
                 $traitEntry->setTraitCitation($traitCitation);
                 $traitEntry->setOriginUrl($line[4]);
-                $traitEntry->setFennec($this->em->getReference('AppBundle:Organism', $line[0]));
+                $traitEntry->setFennec($this->em->getReference('AppBundle:Organism', $fennec_id));
                 $traitEntry->setWebuser($this->em->getReference('AppBundle:Webuser', $input->getOption('user-id')));
                 $traitEntry->setPrivate(!$input->hasOption('public'));
                 $this->em->persist($traitEntry);
@@ -124,6 +152,7 @@ class ImportTraitValuesCommand extends ContainerAwareCommand
             $this->em->getConnection()->rollBack();
             throw $e;
         }
+        fclose($file);
         $progress->finish();
     }
 
@@ -157,5 +186,23 @@ class ImportTraitValuesCommand extends ContainerAwareCommand
             ++$this->insertedCitations;
         }
         return $traitCitation;
+    }
+
+    private function getMapping($filename, $method){
+        $mapping = array();
+        $ids = array();
+        $file = fopen($filename, 'r');
+        while (($line = fgetcsv($file, 0, "\t")) != false) {
+            $ids[] = $line[0];
+        }
+        fclose($file);
+        if($method === 'scientific_name'){
+            $mapper = $this->getContainer()->get('app.api.webservice')->factory('mapping', 'byOrganismName');
+            $mapping = $mapper->execute(new ParameterBag(array(
+                'ids' => array_values(array_unique($ids)),
+                'dbversion' => $this->connectionName
+            )), null);
+        }
+        return $mapping;
     }
 }
