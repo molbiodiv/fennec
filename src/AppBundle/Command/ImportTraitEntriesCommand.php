@@ -40,6 +40,21 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
     private $insertedValues = 0;
 
     /**
+     * @var int
+     */
+    private $insertedEntries = 0;
+
+    /**
+     * @var int
+     */
+    private $skippedNoHit = 0;
+
+    /**
+     * @var int
+     */
+    private $skippedMultiHits = 0;
+
+    /**
      * @var array
      */
     private $mapping;
@@ -69,6 +84,7 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
         ->addOption('user-id', "u", InputOption::VALUE_REQUIRED, 'ID of the user importing the data', null)
         ->addOption('mapping', "m", InputOption::VALUE_REQUIRED, 'Method of mapping for id column. If not set fennec_ids are assumed and no mapping is performed', null)
         ->addOption('public', 'p', InputOption::VALUE_NONE, 'import traits as public (default is private)')
+        ->addOption('skip-unmapped', 's', InputOption::VALUE_NONE, 'do not exit if a line can not be mapped (uniquely) to a fennec_id instead skip this entry', null)
     ;
     }
 
@@ -88,7 +104,7 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
             return;
         }
         $this->connectionName = $input->getOption('connection');
-        if($this->connectionName == null) {
+        if($this->connectionName === null) {
             $this->connectionName = $this->getContainer()->get('doctrine')->getDefaultConnectionName();
         }
         $orm = $this->getContainer()->get('app.orm');
@@ -113,13 +129,15 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
         $needs_mapping = $input->getOption('mapping') !== null;
         if($needs_mapping){
             $this->mapping = $this->getMapping($input->getArgument('file'), $input->getOption('mapping'));
-            foreach($this->mapping as $id => $value){
-                if($value === null){
-                    $output->writeln('<error>Error no mapping to fennec id found for: '.$id.'</error>');
-                    return;
-                } elseif (is_array($value)){
-                    $output->writeln('<error>Error multiple mappings to fennec ids found for: '.$id.' ('.implode(',',$value).')</error>');
-                    return;
+            if(!$input->getOption('skip-unmapped')){
+                foreach($this->mapping as $id => $value){
+                    if($value === null){
+                        $output->writeln('<error>Error no mapping to fennec id found for: '.$id.'</error>');
+                        return;
+                    } elseif (is_array($value)){
+                        $output->writeln('<error>Error multiple mappings to fennec ids found for: '.$id.' ('.implode(',',$value).')</error>');
+                        return;
+                    }
                 }
             }
         }
@@ -133,6 +151,13 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
                 $fennec_id = $line[0];
                 if($needs_mapping){
                     $fennec_id = $this->mapping[$fennec_id];
+                    if($fennec_id === null){
+                        ++$this->skippedNoHit;
+                        continue;
+                    } elseif (is_array($fennec_id)){
+                        ++$this->skippedMultiHits;
+                        continue;
+                    }
                 }
                 $traitCategoricalValue = $this->get_or_insert_trait_categorical_value($line[1], $line[2]);
                 $traitCitation = $this->get_or_insert_trait_citation($line[3]);
@@ -143,23 +168,27 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
                 $traitEntry->setOriginUrl($line[4]);
                 $traitEntry->setFennec($this->em->getReference('AppBundle:Organism', $fennec_id));
                 $traitEntry->setWebuser($this->em->getReference('AppBundle:Webuser', $input->getOption('user-id')));
-                $traitEntry->setPrivate(!$input->hasOption('public'));
+                $traitEntry->setPrivate(!$input->getOption('public'));
                 $this->em->persist($traitEntry);
+                ++$this->insertedEntries;
                 $progress->advance();
             }
             $this->em->flush();
             $this->em->getConnection()->commit();
         } catch (\Exception $e){
             $this->em->getConnection()->rollBack();
-            throw $e;
+            $output->writeln('<error>'.$e->getMessage().'</error>');
+            return;
         }
         fclose($file);
         $progress->finish();
         $output->writeln('');
         $table = new Table($output);
-        $table->addRow(array('Imported entries', $lines));
+        $table->addRow(array('Imported entries', $this->insertedEntries));
         $table->addRow(array('Distinct new values', $this->insertedValues));
         $table->addRow(array('Distinct new citations', $this->insertedCitations));
+        $table->addRow(array('Skipped (no hit)', $this->skippedNoHit));
+        $table->addRow(array('Skipped (multiple hits)', $this->skippedMultiHits));
         $table->render();
     }
 
