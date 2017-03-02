@@ -137,6 +137,24 @@ class ImportTraitValuesCommandTest extends KernelTestCase
         $this->assertNull($this->em->getRepository('AppBundle:TraitCitation')->findOneBy(array(
             'citation' => 'iucn_fantasy3'
         )), 'after failed import there is still no citation "iucn_fantasy3"');
+
+        // if skip-unmapped is set the trait entries without conflicts should be imported
+        $this->commandTester->execute(array(
+            'command' => $this->command->getName(),
+            '--user-id' => 1,
+            '--traittype' => 'IUCN Threat Status',
+            'file' => __DIR__.'/files/iucnRedlistScinameNonUnique.tsv',
+            '--mapping' => 'scientific_name',
+            '--skip-unmapped' => true
+        ));
+        $output = $this->commandTester->getDisplay();
+        $this->assertContains('Skipped', $output);
+        $this->assertNotNull($this->em->getRepository('AppBundle:TraitCategoricalValue')->findOneBy(array(
+            'value' => 'ZYX'
+        )), 'after import with --skip-unmapped flag there is a IUCN status "ZYX"');
+        $this->assertNotNull($this->em->getRepository('AppBundle:TraitCitation')->findOneBy(array(
+            'citation' => 'iucn_fantasy3'
+        )), 'after import with --skip-unmapped flag there is a citation "iucn_fantasy3"');
     }
 
     public function testImportByEOL()
@@ -198,5 +216,22 @@ class ImportTraitValuesCommandTest extends KernelTestCase
         $this->assertNull($this->em->getRepository('AppBundle:TraitCitation')->findOneBy(array(
             'citation' => 'eol_fantasy2'
         )), 'after failed import there is still no citation "eol_fantasy2"');
+        // check for correct application of --skip-unmapped flag
+        $this->commandTester->execute(array(
+            'command' => $this->command->getName(),
+            '--user-id' => 1,
+            '--traittype' => 'Plant Habit',
+            'file' => __DIR__.'/files/plantHabitEOL_missing.tsv',
+            '--mapping' => 'EOL',
+            '--skip-unmapped' => true
+        ));
+        $output = $this->commandTester->getDisplay();
+        $this->assertContains('Skipped', $output);
+        $this->assertNotNull($this->em->getRepository('AppBundle:TraitCategoricalValue')->findOneBy(array(
+            'value' => 'fantasyTree2'
+        )), 'after import with --skip-unmapped flag there is a plant habit "fantasyTree2"');
+        $this->assertNotNull($this->em->getRepository('AppBundle:TraitCitation')->findOneBy(array(
+            'citation' => 'eol_fantasy2'
+        )), 'after import with --skip-unmapped flag there is a citation "eol_fantasy2"');
     }
 }
