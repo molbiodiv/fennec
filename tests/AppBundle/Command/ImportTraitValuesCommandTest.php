@@ -4,7 +4,7 @@ namespace Tests\AppBundle\Command;
 
 
 use AppBundle\API\Details\Organism;
-use AppBundle\Command\ImportTraitValuesCommand;
+use AppBundle\Command\ImportTraitEntriesCommand;
 use AppBundle\Entity\TraitCategoricalEntry;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
@@ -31,9 +31,9 @@ class ImportTraitValuesCommandTest extends KernelTestCase
         self::bootKernel();
         $application = new Application(self::$kernel);
 
-        $application->add(new ImportTraitValuesCommand());
+        $application->add(new ImportTraitEntriesCommand());
 
-        $this->command = $application->find('app:import-trait-values');
+        $this->command = $application->find('app:import-trait-entries');
         $this->commandTester = new CommandTester($this->command);
         $this->em = self::$kernel->getContainer()->get('app.orm')->getManagerForVersion('test');
     }

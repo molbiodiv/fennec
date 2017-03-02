@@ -17,7 +17,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
-class ImportTraitValuesCommand extends ContainerAwareCommand
+class ImportTraitEntriesCommand extends ContainerAwareCommand
 {
     /**
      * @var EntityManager
@@ -53,7 +53,7 @@ class ImportTraitValuesCommand extends ContainerAwareCommand
     {
         $this
         // the name of the command (the part after "bin/console")
-        ->setName('app:import-trait-values')
+        ->setName('app:import-trait-entries')
 
         // the short description shown while running "php bin/console list"
         ->setDescription('Importer for trait values.')
