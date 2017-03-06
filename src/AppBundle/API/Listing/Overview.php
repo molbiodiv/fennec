@@ -39,6 +39,9 @@ class Overview extends Webservice
         }
 
         $provider = $this->manager->getRepository('AppBundle:OauthProvider')->findOneBy(['provider' => $user->getProvider()]);
+        if($provider === null){
+            return 0;
+        }
 
         $criteria = Criteria::create()->where(
             Criteria::expr()->eq(
