@@ -35,7 +35,7 @@ class TraitController extends Controller
         $traitsListing = $this->get('app.api.webservice')->factory('listing', 'traits');
         $query = new ParameterBag(array(
             'search' => '',
-            'limit' => 6,
+            'limit' => 12,
             'dbversion' => $dbversion
         ));
         $traits = $traitsListing->execute($query, null);
