@@ -28,6 +28,9 @@ vendor/bin/phpunit
 # javascript testing (of helpers)
 gulp test
 
+# transpile jsx to js
+gulp babel
+
 # check scss files for lints
 gulp sassLint
 
