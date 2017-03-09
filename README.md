@@ -35,6 +35,12 @@ gulp sassLint
 gulp sass
 ```
 ## Changes
+### 0.5.0 <2017-03-10>
+ - Fix bugs
+ - Improve mapping to fennec ids
+ - Add cli trait importer
+ - Add console commands for db interaction
+ - Use ORM for database connection
 ### 0.4.1 <2017-01-05>
  - Handle deleted traits properly
  - Add two versions of IUCN to test set
