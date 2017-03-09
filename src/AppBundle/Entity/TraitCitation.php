@@ -24,7 +24,7 @@ class TraitCitation
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\SequenceGenerator(sequenceName="trait_citation_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;

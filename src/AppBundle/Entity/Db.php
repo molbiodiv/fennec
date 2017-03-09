@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Db
  *
  * @ORM\Table(name="db", uniqueConstraints={@ORM\UniqueConstraint(name="db_name_uniq", columns={"name"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\DbRepository")
  */
 class Db
 {
@@ -45,7 +45,7 @@ class Db
      *
      * @ORM\Column(name="db_id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\SequenceGenerator(sequenceName="db_db_id_seq", allocationSize=1, initialValue=1)
      */
     private $dbId;

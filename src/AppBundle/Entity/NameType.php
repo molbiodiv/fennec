@@ -24,7 +24,7 @@ class NameType
      *
      * @ORM\Column(name="name_type_id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\SequenceGenerator(sequenceName="name_type_name_type_id_seq", allocationSize=1, initialValue=1)
      */
     private $nameTypeId;

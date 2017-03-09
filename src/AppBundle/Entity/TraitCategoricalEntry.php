@@ -12,6 +12,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class TraitCategoricalEntry
 {
+    function __construct()
+    {
+        $this->creationDate = new \DateTime();
+    }
+
     /**
      * @var bool
      *
@@ -45,7 +50,7 @@ class TraitCategoricalEntry
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\SequenceGenerator(sequenceName="trait_categorical_entry_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
@@ -55,7 +60,7 @@ class TraitCategoricalEntry
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Organism")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="fennec_id", referencedColumnName="fennec_id")
+     *   @ORM\JoinColumn(name="fennec_id", referencedColumnName="fennec_id", nullable=false)
      * })
      */
     private $fennec;
@@ -65,7 +70,7 @@ class TraitCategoricalEntry
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\TraitCategoricalValue")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="trait_categorical_value_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="trait_categorical_value_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $traitCategoricalValue;
@@ -85,7 +90,7 @@ class TraitCategoricalEntry
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\TraitType")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="trait_type_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="trait_type_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $traitType;
@@ -95,7 +100,7 @@ class TraitCategoricalEntry
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Webuser")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="webuser_id", referencedColumnName="webuser_id")
+     *   @ORM\JoinColumn(name="webuser_id", referencedColumnName="webuser_id", nullable=false)
      * })
      */
     private $webuser;

@@ -31,7 +31,15 @@ EOF;
         $stm_get_mapping->execute($ids);
 
         while($row = $stm_get_mapping->fetch(\PDO::FETCH_ASSOC)){
-            $result[$row['scientific_name']] = $row['fennec_id'];
+            $name = $row['scientific_name'];
+            if($result[$name] === null){
+                $result[$row['scientific_name']] = $row['fennec_id'];
+            } else {
+                if(! is_array($result[$name]) ){
+                    $result[$name] = [$result[$name]];
+                }
+                $result[$name][] = $row['fennec_id'];
+            }
         }
 
         return $result;

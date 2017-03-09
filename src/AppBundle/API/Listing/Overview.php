@@ -4,6 +4,8 @@ namespace AppBundle\API\Listing;
 
 use AppBundle\API\Webservice;
 use AppBundle\User\FennecUser;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
@@ -35,17 +37,29 @@ class Overview extends Webservice
         if ($user === null) {
             return 0;
         }
-        $query_get_user_projects = <<<EOF
-SELECT
-    COUNT(*)
-    FROM full_webuser_data WHERE provider = :provider AND oauth_id = :oauth_id
-EOF;
-        $stm_get_user_projects = $this->manager->getConnection()->prepare($query_get_user_projects);
-        $stm_get_user_projects->bindValue('provider', $user->getProvider());
-        $stm_get_user_projects->bindValue('oauth_id', $user->getId());
-        $stm_get_user_projects->execute();
-        $row = $stm_get_user_projects->fetch(\PDO::FETCH_ASSOC);
-        return $row['count'];
+
+        $provider = $this->manager->getRepository('AppBundle:OauthProvider')->findOneBy(['provider' => $user->getProvider()]);
+        if($provider === null){
+            return 0;
+        }
+
+        $criteria = Criteria::create()->where(
+            Criteria::expr()->eq(
+                'oauthId',
+                $user->getId()
+            )
+        )->setMaxResults(1);
+
+        /**
+         * @var Collection $webUsers
+         */
+        $webUsers = $provider->getWebUsers()->matching($criteria);
+
+        if ($webUsers->count() < 1){
+            return 0;
+        }
+
+        return $webUsers->first()->getData()->count();
     }
 
     private function get_number_of_organisms(){

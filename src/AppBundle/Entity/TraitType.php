@@ -38,7 +38,7 @@ class TraitType
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\SequenceGenerator(sequenceName="trait_type_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
@@ -48,7 +48,7 @@ class TraitType
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\TraitFormat")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="trait_format_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="trait_format_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $traitFormat;

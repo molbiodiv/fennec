@@ -29,7 +29,7 @@ class WebuserData
     /**
      * @var \DateTime|null
      *
-     * @ORM\Column(name="import_date", type="datetimetz", nullable=true)
+     * @ORM\Column(name="import_date", type="datetime", nullable=true)
      */
     private $importDate = 'now()';
 
@@ -38,7 +38,7 @@ class WebuserData
      *
      * @ORM\Column(name="webuser_data_id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\SequenceGenerator(sequenceName="webuser_data_webuser_data_id_seq", allocationSize=1, initialValue=1)
      */
     private $webuserDataId;
@@ -46,14 +46,15 @@ class WebuserData
     /**
      * @var \AppBundle\Entity\Webuser
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Webuser")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="webuser_id", referencedColumnName="webuser_id")
-     * })
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Webuser", inversedBy="data")
+     * @ORM\JoinColumn(name="webuser_id", referencedColumnName="webuser_id", nullable=false)
      */
     private $webuser;
 
-
+    public function __construct()
+    {
+        $this->setImportDate(new \DateTime());
+    }
 
     /**
      * Set project.

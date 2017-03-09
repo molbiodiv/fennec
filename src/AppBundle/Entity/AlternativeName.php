@@ -24,7 +24,7 @@ class AlternativeName
      *
      * @ORM\Column(name="alternative_name_id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\SequenceGenerator(sequenceName="alternative_name_alternative_name_id_seq", allocationSize=1, initialValue=1)
      */
     private $alternativeNameId;
@@ -34,7 +34,7 @@ class AlternativeName
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Organism")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="fennec_id", referencedColumnName="fennec_id")
+     *   @ORM\JoinColumn(name="fennec_id", referencedColumnName="fennec_id", nullable=false)
      * })
      */
     private $fennec;
@@ -44,7 +44,7 @@ class AlternativeName
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\NameType")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="name_type_id", referencedColumnName="name_type_id")
+     *   @ORM\JoinColumn(name="name_type_id", referencedColumnName="name_type_id", nullable=false)
      * })
      */
     private $nameType;

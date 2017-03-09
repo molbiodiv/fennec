@@ -174,7 +174,7 @@ $('document').ready(function () {
 
     // Add semi-global dimension variable (stores last mapped dimension)
     var dimension = 'rows';
-    var method = 'ncbi_taxid';
+    var method = 'ncbi_taxonomy';
 
     // Set action for click on mapping "GO" button
     $('#mapping-action-button').on('click', function () {
@@ -194,11 +194,19 @@ $('document').ready(function () {
             $.ajax(webserviceUrl, {
                 data: {
                     dbversion: dbversion,
-                    ids: uniq_ids
+                    ids: uniq_ids,
+                    db: method
                 },
                 method: 'POST',
                 success: function success(data) {
                     handleMappingResult(dimension, ids, data, method);
+                },
+                error: function error(_error, status, text) {
+                    showMessageDialog('There was a mapping error: ' + text, 'danger');
+                    console.log(_error);
+                },
+                complete: function complete() {
+                    $('#mapping-action-busy-indicator').hide();
                 }
             });
         }
@@ -212,7 +220,7 @@ $('document').ready(function () {
      */
     function getIdsForMethod(method, dimension) {
         var ids = [];
-        if (method === 'ncbi_taxid') {
+        if (method === 'ncbi_taxonomy') {
             ids = biom.getMetadata({ dimension: dimension, attribute: 'ncbi_taxid' });
         } else if (method === 'organism_name') {
             ids = biom[dimension].map(function (element) {
@@ -229,7 +237,7 @@ $('document').ready(function () {
      */
     function getWebserviceUrlForMethod(method) {
         var method2service = {
-            'ncbi_taxid': 'byNcbiTaxid',
+            'ncbi_taxonomy': 'byDbxrefId',
             'organism_name': 'byOrganismName'
         };
         var webserviceUrl = Routing.generate('api', { 'namespace': 'mapping', 'classname': method2service[method] });
@@ -243,7 +251,7 @@ $('document').ready(function () {
      */
     function getIdStringForMethod(method) {
         var idString = "";
-        if (method === 'ncbi_taxid') {
+        if (method === 'ncbi_taxonomy') {
             idString = "NCBI taxid";
         } else if (method === 'organism_name') {
             idString = "Organism name";
@@ -274,7 +282,6 @@ $('document').ready(function () {
         biom.addMetadata({ dimension: dimension, attribute: ['fennec', dbversion, 'fennec_id'], values: fennec_ids });
         biom.addMetadata({ dimension: dimension, attribute: ['fennec', dbversion, 'assignment_method'], defaultValue: method });
         var idString = getIdStringForMethod(method);
-        $('#mapping-action-busy-indicator').hide();
         $('#mapping-results-section').show();
         $('#mapping-results').text('From a total of ' + idsFromBiom.length + ' organisms:  ' + idsFromBiomNotNullCount + ' have a ' + idString + ', of which ' + idsFromBiomMappedCount + ' could be mapped to fennec_ids.');
     }

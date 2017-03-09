@@ -24,7 +24,7 @@ class FennecDbxref
      *
      * @ORM\Column(name="fennec_dbxref_id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\SequenceGenerator(sequenceName="fennec_dbxref_fennec_dbxref_id_seq", allocationSize=1, initialValue=1)
      */
     private $fennecDbxrefId;
@@ -34,7 +34,7 @@ class FennecDbxref
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Db")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="db_id", referencedColumnName="db_id")
+     *   @ORM\JoinColumn(name="db_id", referencedColumnName="db_id", nullable=false)
      * })
      */
     private $db;
@@ -44,7 +44,7 @@ class FennecDbxref
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Organism")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="fennec_id", referencedColumnName="fennec_id")
+     *   @ORM\JoinColumn(name="fennec_id", referencedColumnName="fennec_id", nullable=false)
      * })
      */
     private $fennec;
