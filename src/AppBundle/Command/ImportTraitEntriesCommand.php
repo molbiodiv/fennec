@@ -153,9 +153,11 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
                     $fennec_id = $this->mapping[$fennec_id];
                     if($fennec_id === null){
                         ++$this->skippedNoHit;
+                        $progress->advance();
                         continue;
                     } elseif (is_array($fennec_id)){
                         ++$this->skippedMultiHits;
+                        $progress->advance();
                         continue;
                     }
                 }
