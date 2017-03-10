@@ -1,18 +1,32 @@
 @import "colors";
 
 .sidebar-startpage {
-    color: $startpage-0;
+    background: $startpage;
+    color: lighten($startpage, 25%);
 }
 
 .sidebar-organism {
-    color: $organism-0;
+    background: $organism;
+    color: lighten($organism, 25%);
 }
 
 .sidebar-project {
-    color: $project-0;
+    background: $project;
+    color: lighten($project, 25%);
 }
 
 .sidebar-trait {
-    color: $trait-0;
+    background: $trait;
+    color: lighten($trait, 25%);
 }
 
+.sidebar ul li {
+    border-bottom: 1px solid lighten($startpage, 25%)
+}
+
+.sidebar ul li a{
+    &.active, &:hover, &:active, &:focus {
+        background: lighten($startpage, 25%);
+        color: $startpage;
+    }
+}

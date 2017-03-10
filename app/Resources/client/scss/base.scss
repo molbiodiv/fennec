@@ -1,0 +1,11 @@
+@import "colors";
+
+#page-wrapper {
+  background: $background;
+  min-height: 100%;
+  max-width: 100%;
+}
+
+#wrapper {
+  background: $startpage;
+}

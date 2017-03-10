@@ -1,0 +1,372 @@
+/* startpage color */
+/* trait color */
+/* project color */
+/* organism color */
+.alert-organism {
+  background-color: #bba691;
+  border-color: #7e664e;
+  color: #8E7358; }
+
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/*
+    Created on : 23.02.2016, 15:03:01
+    Author     : sonja
+*/
+.ui-autocomplete {
+  height: 200px;
+  overflow-y: scroll;
+  overflow-x: hidden; }
+
+/* startpage color */
+/* trait color */
+/* project color */
+/* organism color */
+#page-wrapper {
+  background: antiquewhite;
+  min-height: 100%;
+  max-width: 100%; }
+
+#wrapper {
+  background: #514535; }
+
+/* startpage color */
+/* trait color */
+/* project color */
+/* organism color */
+.btn-organism {
+  color: #FFF;
+  background-color: #8E7358;
+  border-color: #8E7358; }
+
+.btn-organism:hover {
+  color: #FFF;
+  background-color: #6f5a44;
+  border-color: #6f5a44; }
+
+.btn-organism:focus {
+  color: #FFF;
+  background-color: #6f5a44;
+  border-color: #6f5a44; }
+
+.btn-trait {
+  color: #FFF;
+  background-color: #BA7E43;
+  border-color: #BA7E43;
+  width: 100%; }
+
+.btn-trait:hover {
+  color: #FFF;
+  background-color: #956535;
+  border-color: #956535;
+  width: 100%; }
+
+.btn-trait:focus {
+  color: #FFF;
+  background-color: #956535;
+  border-color: #956535;
+  width: 100%; }
+
+/* startpage color */
+/* trait color */
+/* project color */
+/* organism color */
+table.dataTable.project-table thead .sorting,
+table.dataTable.project-table thead .sorting_asc,
+table.dataTable.project-table thead .sorting_desc,
+table.dataTable.project-table thead .sorting_asc_disabled,
+table.dataTable.project-table thead .sorting_desc_disabled {
+  background: #C19C78;
+  color: #F8F8F8; }
+
+.project-table-striped > tbody > tr:nth-of-type(2n) {
+  background-color: white; }
+
+.project-table-striped > tbody > tr:hover {
+  background-color: #EEE; }
+
+.project-table sorting_asc {
+  color: #F8F8F8; }
+
+/* Footer cells */
+.project-table tfoot th {
+  background: #C19C78;
+  color: #F8F8F8; }
+
+/* Define custom hover effect on links */
+.project-table a:focus, a:hover {
+  text-decoration: none; }
+
+div#project-table_paginate > .pagination > .active > a,
+div#project-table_paginate > .pagination > .active > a:focus {
+  color: #FFF;
+  cursor: pointer;
+  background-color: #C19C78;
+  border-color: #C19C78; }
+
+div#project-table_paginate > .pagination > .active > a:hover {
+  color: #FFF;
+  cursor: pointer;
+  background-color: #b18255;
+  border-color: #b18255; }
+
+div#projectDetails_otuTable_paginate > .pagination > .active > a,
+div#projectDetails_otuTable_paginate > .pagination > .active > a:focus {
+  color: #FFF;
+  cursor: pointer;
+  background-color: #C19C78;
+  border-color: #C19C78; }
+
+div#projectDetails_otuTable_paginate > .pagination > .active > a:hover {
+  color: #FFF;
+  cursor: pointer;
+  background-color: #b18255;
+  border-color: #b18255; }
+
+.pagination > li > a,
+.pagination > li > a:focus,
+.pagination > li > a:hover,
+.pagination > li > span,
+.pagination > li > span:focus,
+.pagination > li > span:hover {
+  color: #777; }
+
+table.dataTable.trait-table thead .sorting,
+table.dataTable.trait-table thead .sorting_asc,
+table.dataTable.trait-table thead .sorting_desc,
+table.dataTable.trait-table thead .sorting_asc_disabled,
+table.dataTable.trait-table thead .sorting_desc_disabled {
+  background: #BA7E43;
+  color: #F8F8F8; }
+
+.trait-table-striped > tbody > tr:nth-of-type(2n) {
+  background-color: white; }
+
+.trait-table-striped > tbody > tr:hover {
+  background-color: #EEE; }
+
+.trait-table sorting_asc {
+  color: #F8F8F8; }
+
+/* Footer cells */
+.trait-table tfoot th {
+  background: #BA7E43;
+  color: #F8F8F8; }
+
+/* Define custom hover effect on links */
+.trait-table a:focus, a:hover {
+  text-decoration: none; }
+
+div#trait-table_paginate > .pagination > .active > a,
+div#trait-table_paginate > .pagination > .active > a:focus {
+  color: #FFF;
+  cursor: pointer;
+  background-color: #BA7E43;
+  border-color: #BA7E43; }
+
+div#trait-table_paginate > .pagination > .active > a:hover {
+  color: #FFF;
+  cursor: pointer;
+  background-color: #956535;
+  border-color: #956535; }
+
+/* startpage color */
+/* trait color */
+/* project color */
+/* organism color */
+.grid-organism {
+  background-color: #8E7358;
+  color: #FFF;
+  font-style: italic;
+  font-weight: bold; }
+
+.grid-info-organism {
+  background-color: #FFF;
+  color: #000;
+  font-style: normal;
+  font-weight: normal; }
+
+.grid-details-organism {
+  color: #7e664e; }
+
+.grid-trait {
+  background-color: #BA7E43;
+  color: #FFF;
+  font-style: italic;
+  font-weight: bold; }
+
+.grid-info-trait {
+  background-color: #FFF;
+  color: #000;
+  font-style: normal;
+  font-weight: normal; }
+
+.grid-details-trait {
+  color: #a7713c; }
+
+/* startpage color */
+/* trait color */
+/* project color */
+/* organism color */
+.organism-link {
+  color: #8E7358;
+  text-decoration: none; }
+
+.organism-link:hover .organism-link:focus {
+  color: #6f5a44;
+  text-decoration: none; }
+
+.project-link {
+  color: #C19C78; }
+
+.project-link:hover, .project-link:active {
+  color: #b18255; }
+
+.trait-link {
+  color: #BA7E43; }
+
+.trait-link:hover, .trait-link:active {
+  color: #956535; }
+
+.startpage-link {
+  color: #514535; }
+
+.startpage-link:hover, .startpage-link:active {
+  color: #322b21; }
+
+/* startpage color */
+/* trait color */
+/* project color */
+/* organism color */
+.navbar-startpage {
+  margin-bottom: 0;
+  background-color: #514535;
+  color: #9d8669; }
+
+.navbar-icon-startpage:hover, .navbar-icon:active, navbar-icon:link {
+  color: #705f49; }
+
+.navbar-organism {
+  margin-bottom: 0;
+  background-color: #8E7358;
+  color: #c5b3a1; }
+
+.navbar-icon-organism:hover, .navbar-icon:active, navbar-icon:link {
+  color: #a78d72; }
+
+.navbar-project {
+  margin-bottom: 0;
+  background-color: #C19C78;
+  color: #e9dccf; }
+
+.navbar-icon-project:hover, .navbar-icon:active, navbar-icon:link {
+  color: #d1b69b; }
+
+.navbar-trait {
+  margin-bottom: 0;
+  background-color: #BA7E43;
+  color: #ddbea0; }
+
+.navbar-icon-trait:hover, .navbar-icon:active, navbar-icon:link {
+  color: #c89868; }
+
+.form-control:focus {
+  border-color: #8E7358;
+  box-shadow: #8E7358; }
+
+.btn-default {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+  color: inherit; }
+
+.btn-default:hover,
+.btn-default:active,
+.btn-default:focus,
+.btn-default.active.focus,
+.btn-default.active:focus,
+.btn-default.active:hover,
+.btn-default.focus:active,
+.btn-default:active:focus,
+.btn-default:active:hover,
+.open > .dropdown-toggle.btn-default.focus,
+.open > .dropdown-toggle.btn-default:focus,
+.open > .dropdown-toggle.btn-default:hover,
+.btn-default.active,
+.btn-default:active,
+.open > .dropdown-toggle.btn-default {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: inherit; }
+
+a:focus {
+  color: inherit; }
+
+/* startpage color */
+/* trait color */
+/* project color */
+/* organism color */
+.panel-projects {
+  background-color: #C19C78;
+  border-color: #b98f67;
+  color: #FFF; }
+
+.info-projects {
+  color: #b98f67; }
+
+.panel-organism {
+  background-color: #8E7358;
+  border-color: #7e664e;
+  color: #FFF; }
+
+.info-organism {
+  color: #7e664e; }
+
+.panel-trait {
+  background-color: #BA7E43;
+  border-color: #a7713c;
+  color: #FFF; }
+
+.info-trait {
+  color: #a7713c; }
+
+/* startpage color */
+/* trait color */
+/* project color */
+/* organism color */
+.progress {
+  margin: 5px; }
+
+.progress-bar-trait {
+  background-color: #BA7E43; }
+
+/* startpage color */
+/* trait color */
+/* project color */
+/* organism color */
+.sidebar-startpage {
+  background: #514535;
+  color: #9d8669; }
+
+.sidebar-organism {
+  background: #8E7358;
+  color: #c5b3a1; }
+
+.sidebar-project {
+  background: #C19C78;
+  color: #e9dccf; }
+
+.sidebar-trait {
+  background: #BA7E43;
+  color: #ddbea0; }
+
+.sidebar ul li {
+  border-bottom: 1px solid #9d8669; }
+
+.sidebar ul li a.active, .sidebar ul li a:hover, .sidebar ul li a:active, .sidebar ul li a:focus {
+  background: #9d8669;
+  color: #514535; }
+
+/*# sourceMappingURL=style.css.map */

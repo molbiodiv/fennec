@@ -1,7 +1,7 @@
 @import "colors";
 
 .alert-organism {
-    background-color: lighten($organism-1, 20%);
-    border-color: darken($organism-1, 5%);
-    color: $organism-0;
+    background-color: lighten($organism, 20%);
+    border-color: darken($organism, 5%);
+    color: $organism;
 }

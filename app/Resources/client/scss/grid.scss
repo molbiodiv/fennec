@@ -1,7 +1,7 @@
 @import "colors";
 
 .grid-organism {
-    background-color: $organism-2;
+    background-color: $organism;
     color: #FFF;
     font-style: italic;
     font-weight: bold;
@@ -14,11 +14,11 @@
 }
 
 .grid-details-organism {
-    color: darken($organism-2, 5%);
+    color: darken($organism, 5%);
 }
 
 .grid-trait {
-    background-color: $trait-2;
+    background-color: $trait;
     color: #FFF;
     font-style: italic;
     font-weight: bold;
@@ -31,5 +31,5 @@
 }
 
 .grid-details-trait {
-    color: darken($trait-2, 5%);
+    color: darken($trait, 5%);
 }

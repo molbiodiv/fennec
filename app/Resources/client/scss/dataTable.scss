@@ -5,12 +5,12 @@ table.dataTable.project-table thead .sorting_asc,
 table.dataTable.project-table thead .sorting_desc,
 table.dataTable.project-table thead .sorting_asc_disabled,
 table.dataTable.project-table thead .sorting_desc_disabled {
-    background: $project-0;
+    background: $project;
     color: #F8F8F8;
 }
 
 .project-table-striped > tbody > tr:nth-of-type(2n){
-    background-color: lighten($project-0, 66%);
+    background-color: lighten($project, 66%);
 }
 
 .project-table-striped > tbody > tr:hover{
@@ -23,7 +23,7 @@ table.dataTable.project-table thead .sorting_desc_disabled {
 
 /* Footer cells */
 .project-table tfoot th {
-    background: $project-0;
+    background: $project;
     color: #F8F8F8;
 }
 
@@ -36,30 +36,30 @@ div#project-table_paginate > .pagination > .active > a,
 div#project-table_paginate > .pagination > .active > a:focus {
     color: #FFF;
     cursor: pointer;
-    background-color: $project-0;
-    border-color: $project-0;
+    background-color: $project;
+    border-color: $project;
 }
 
 div#project-table_paginate > .pagination > .active > a:hover {
     color: #FFF;
     cursor: pointer;
-    background-color: darken($project-0, 10%);
-    border-color: darken($project-0, 10%);
+    background-color: darken($project, 10%);
+    border-color: darken($project, 10%);
 }
 
 div#projectDetails_otuTable_paginate > .pagination > .active > a,
 div#projectDetails_otuTable_paginate > .pagination > .active > a:focus {
     color: #FFF;
     cursor: pointer;
-    background-color: $project-0;
-    border-color: $project-0;
+    background-color: $project;
+    border-color: $project;
 }
 
 div#projectDetails_otuTable_paginate > .pagination > .active > a:hover {
     color: #FFF;
     cursor: pointer;
-    background-color: darken($project-0, 10%);
-    border-color: darken($project-0, 10%);
+    background-color: darken($project, 10%);
+    border-color: darken($project, 10%);
 }
 
 .pagination > li > a,
@@ -76,12 +76,12 @@ table.dataTable.trait-table thead .sorting_asc,
 table.dataTable.trait-table thead .sorting_desc,
 table.dataTable.trait-table thead .sorting_asc_disabled,
 table.dataTable.trait-table thead .sorting_desc_disabled {
-    background: $trait-0;
+    background: $trait;
     color: #F8F8F8;
 }
 
 .trait-table-striped > tbody > tr:nth-of-type(2n){
-    background-color: lighten($trait-0, 60%);
+    background-color: lighten($trait, 60%);
 }
 
 .trait-table-striped > tbody > tr:hover{
@@ -94,7 +94,7 @@ table.dataTable.trait-table thead .sorting_desc_disabled {
 
 /* Footer cells */
 .trait-table tfoot th {
-    background: $trait-0;
+    background: $trait;
     color: #F8F8F8;
 }
 
@@ -107,13 +107,13 @@ div#trait-table_paginate > .pagination > .active > a,
 div#trait-table_paginate > .pagination > .active > a:focus {
     color: #FFF;
     cursor: pointer;
-    background-color: $trait-0;
-    border-color: $trait-0;
+    background-color: $trait;
+    border-color: $trait;
 }
 
 div#trait-table_paginate > .pagination > .active > a:hover {
     color: #FFF;
     cursor: pointer;
-    background-color: darken($trait-0, 10%);
-    border-color: darken($trait-0, 10%);
+    background-color: darken($trait, 10%);
+    border-color: darken($trait, 10%);
 }
