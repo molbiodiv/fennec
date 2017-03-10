@@ -9,9 +9,9 @@
     <div id="wrapper">
 
         <!-- Navigation -->
-        <nav class="navbar navbar-static-top navbar-{{ type }}" role="navigation">
+        <nav class="navbar navbar-static-top navbar-custom" role="navigation">
             <div class="navbar-header">
-                <font class="navbar-brand navbar-{{ type }}">Fennec {{ fennec_version }} </font>
+                <font class="navbar-brand navbar-custom">Fennec {{ fennec_version }} </font>
                 <span class="icon-fennec" style="font-size: 35px"></span>
             </div>
                     <!-- /.navbar-header -->
@@ -25,7 +25,7 @@
                 </select>
 
                 <li class="dropdown">
-                    <a class="dropdown-toggle navbar-{{ type }} navbar-icon-{{ type }}" data-toggle="dropdown" href="#" style="background-color: transparent;">
+                    <a class="dropdown-toggle navbar-custom navbar-icon-custom" data-toggle="dropdown" href="#" style="background-color: transparent;">
                         <i class="fa fa-question-circle"></i> help <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu">
@@ -36,7 +36,7 @@
                 </li>
 
                 <li class="dropdown">
-                    <a class="dropdown-toggle navbar-{{ type }} navbar-icon-{{ type }}" data-toggle="dropdown" href="#" style="background-color: transparent;">
+                    <a class="dropdown-toggle navbar-custom navbar-icon-custom" data-toggle="dropdown" href="#" style="background-color: transparent;">
                         <i class="fa fa-user fa-fw"></i>
                         {{ app.user.username | default('login') }}
                         <i class="fa fa-caret-down"></i>

@@ -1,43 +1,13 @@
 @import "colors";
 
-.navbar-startpage {
+.navbar-custom {
     margin-bottom: 0;
     background-color: $startpage;
     color: lighten($startpage, 25%);
 }
 
-.navbar-icon-startpage:hover, .navbar-icon:active, navbar-icon:link {
+.navbar-icon-custom:hover, .navbar-icon-custom:active, navbar-icon-custom:link {
     color: lighten($startpage, 10%);
-}
-
-.navbar-organism {
-    margin-bottom: 0;
-    background-color: $organism;
-    color: lighten($organism, 25%);
-}
-
-.navbar-icon-organism:hover, .navbar-icon:active, navbar-icon:link {
-    color: lighten($organism, 10%);
-}
-
-.navbar-project {
-    margin-bottom: 0;
-    background-color: $project;
-    color: lighten($project, 25%);
-}
-
-.navbar-icon-project:hover, .navbar-icon:active, navbar-icon:link {
-    color: lighten($project, 10%);
-}
-
-.navbar-trait {
-    margin-bottom: 0;
-    background-color: $trait;
-    color: lighten($trait, 25%);
-}
-
-.navbar-icon-trait:hover, .navbar-icon:active, navbar-icon:link {
-    color: lighten($trait, 10%);
 }
 
 .form-control:focus {
