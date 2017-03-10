@@ -60,16 +60,16 @@
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
                         <li>
-                            <a class="sidebar-{{ type }} {{ type }}-link" href="{{ path('startpage', {'dbversion': dbversion}) }}"><i class="fa fa-home fa-fw sidebar-{{ type }}"></i> Home</a>
+                            <a class="sidebar-{{ type }} {{ type }}-link" href="{{ path('startpage', {'dbversion': dbversion}) }}"><i class="fa fa-home fa-fw"></i> Home</a>
                         </li>
                         <li>
-                            <a href="{{ path('project_overview', {'dbversion': dbversion}) }}" class="sidebar-{{ type }} {{ type }}-link"><i class="fa fa-book fa-fw sidebar-{{ type }}"></i> Projects</a>
+                            <a href="{{ path('project_overview', {'dbversion': dbversion}) }}" class="sidebar-{{ type }} {{ type }}-link"><i class="fa fa-book fa-fw"></i> Projects</a>
                         </li>
                         <li>
                             <a href="{{ path('organism_search', {'dbversion': dbversion}) }}" class="sidebar-{{ type }} {{ type }}-link"><i class="fa fa-paw fa-fw"></i> Organisms</a>
                         </li>
                         <li>
-                            <a href="#" class="sidebar-{{ type }} {{ type }}-link"><i class="fa fa-globe fa-fw sidebar-{{ type }}"></i> Traits<span class="fa arrow"></span></a>
+                            <a href="#" class="sidebar-{{ type }} {{ type }}-link"><i class="fa fa-globe fa-fw"></i> Traits<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
                                     <a href="{{ path('trait_overview', {'dbversion': dbversion}) }}" class="sidebar-{{ type }} {{ type }}-link"><i class="fa fa-eye fa-fw sidebar-{{ type }}"></i> Overview</a>
