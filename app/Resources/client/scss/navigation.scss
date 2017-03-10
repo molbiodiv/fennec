@@ -2,12 +2,12 @@
 
 .navbar-custom {
     margin-bottom: 0;
-    background-color: $startpage;
+    background-color: $navigation;
     color: $background;
 }
 
 .navbar-icon-custom:hover, .navbar-icon-custom:active, navbar-icon-custom:link {
-    color: lighten($startpage, 10%);
+    color: lighten($navigation, 10%);
 }
 
 .btn-default {

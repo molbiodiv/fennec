@@ -27,9 +27,9 @@
 }
 
 .startpage-link {
-    color: $startpage;
+    color: $navigation;
 }
 
 .startpage-link:hover, .startpage-link:active{
-    color: darken($startpage, 10%);
+    color: darken($navigation, 10%);
 }

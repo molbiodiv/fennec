@@ -8,5 +8,9 @@
 }
 
 #wrapper {
-  background: $startpage;
+  background: $navigation;
+}
+
+.page-header {
+  border-bottom: 1px solid $navigation;
 }
