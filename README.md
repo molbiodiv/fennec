@@ -39,6 +39,9 @@ gulp sass
 ```
 ## Changes
 ### 0.5.0 <2017-03-10>
+ - Update color scheme
+ - Improve startpage layout
+ - Initialize documentation
  - Fix bugs
  - Improve mapping to fennec ids
  - Add cli trait importer
