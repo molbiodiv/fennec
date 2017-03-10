@@ -52,6 +52,10 @@ class FennecUser extends OAuthUser
         return $this->provider;
     }
 
+    /**
+     * @param UserInterface $user
+     * @return bool
+     */
     public function equals(UserInterface $user)
     {
         if(get_class($this) !== get_class($user)){

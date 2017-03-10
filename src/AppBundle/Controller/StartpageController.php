@@ -32,10 +32,14 @@ class StartpageController extends Controller
             $user = $this->get('security.token_storage')->getToken()->getUser();
         }
         $overview = $oc->execute($query, $user);
+        $title = "Welcome";
+        if($user !== null){
+            $title .= " ".$user->getUsername();
+        }
         $twig_parameter = array(
             'type' => 'startpage',
             'overview' => $overview,
-            'title' => 'Welcome',
+            'title' => $title,
             'dbversion' => $dbversion
         );
         return $this->render('startpage/index.html.twig', $twig_parameter);
