@@ -1,30 +1,30 @@
 @import "colors";
 
 .panel-projects {
-    background-color: $project-0;
-    border-color: darken($project-0, 5%);
+    background-color: $project;
+    border-color: darken($project, 5%);
     color: #FFF;
 }
 
 .info-projects {
-    color: darken($project-0, 5%);
+    color: darken($project, 5%);
 }
 
 .panel-organism {
-    background-color: $organism-0;
-    border-color: darken($organism-0, 5%);
+    background-color: $organism;
+    border-color: darken($organism, 5%);
     color: #FFF;
 }
 
 .info-organism {
-    color: darken($organism-0, 5%);
+    color: darken($organism, 5%);
 }
 .panel-trait {
-    background-color: $trait-0;
-    border-color: darken($trait-0, 5%);
+    background-color: $trait;
+    border-color: darken($trait, 5%);
     color: #FFF;
 }
 
 .info-trait {
-    color: darken($trait-0, 5%);
+    color: darken($trait, 5%);
 }

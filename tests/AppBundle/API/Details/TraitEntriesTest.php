@@ -12,11 +12,11 @@ class TraitEntriesTest extends WebserviceTestCase
     public function testExecute()
     {
         $default_db = $this->default_db;
-        $session = null;
+        $user = null;
         $service = $this->webservice->factory('details', 'traitEntries');
         //Test for error on unknown trait_format
         $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'trait_entry_ids' => ['1'], 'trait_format' => 'non_existing_format'));
-        $results = $service->execute($parameterBag, $session);
+        $results = $service->execute($parameterBag, $user);
         $expected = [
             'error' => TraitEntries::ERROR_UNKNOWN_TRAIT_FORMAT
         ];
@@ -24,7 +24,7 @@ class TraitEntriesTest extends WebserviceTestCase
 
         //Test if the details for one trait entry with categorical value is returned correctly
         $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'trait_entry_ids' => ['47484'], 'trait_format' => 'categorical_free'));
-        $results = $service->execute($parameterBag, $session);
+        $results = $service->execute($parameterBag, $user);
         $expected1 = [
             '47484' => [
                 'fennec_id' => 97935,
@@ -39,7 +39,7 @@ class TraitEntriesTest extends WebserviceTestCase
 
         //Test if the details for another trait entry with categorical value is returned correctly
         $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'trait_entry_ids' => ['35123'], 'trait_format' => 'categorical_free'));
-        $results = $service->execute($parameterBag, $session);
+        $results = $service->execute($parameterBag, $user);
         $expected2 = [
             '35123' => [
                 'fennec_id' => 55850,
@@ -54,7 +54,7 @@ class TraitEntriesTest extends WebserviceTestCase
 
         //Test if the details for two trait entries are returned correctly
         $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'trait_entry_ids' => ['47484', '35123'], 'trait_format' => 'categorical_free'));
-        $results = $service->execute($parameterBag, $session);
+        $results = $service->execute($parameterBag, $user);
         $expected = array('47484' => $expected1['47484'], '35123' => $expected2['35123']);
         $this->assertEquals($expected, $results);
     }

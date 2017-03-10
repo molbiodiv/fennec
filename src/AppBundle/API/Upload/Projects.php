@@ -3,8 +3,9 @@
 namespace AppBundle\API\Upload;
 
 use AppBundle\API\Webservice;
+use AppBundle\Entity\WebuserData;
+use AppBundle\User\FennecUser;
 use Symfony\Component\HttpFoundation\ParameterBag;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
  * Web Service.
@@ -31,34 +32,28 @@ class Projects extends Webservice
         'data'
     );
 
-    private $query_insert_project_into_db = <<<EOF
-INSERT INTO full_webuser_data (project, oauth_id, provider, import_filename)
-    VALUES (:project, :user, :provider, :filename);
-EOF;
-
     /**
      * @inheritdoc
-     * @returns result of file upload
+     * @returns array result of file upload
      */
-    public function execute(ParameterBag $query, SessionInterface $session = null)
+    public function execute(ParameterBag $query, FennecUser $user = null)
     {
         ini_set('memory_limit', '512M');
-        $db = $this->getDbFromQuery($query);
+        $em = $this->getManagerFromQuery($query);
         $files = array();
-        if ($session === null || !$session->has('user')) {
+        if ($user === null) {
             $files = array("error" => WebService::ERROR_NOT_LOGGED_IN);
         } else {
+            $create_if_not_exists = true;
+            $webuser = $user->getWebuser($em, $create_if_not_exists);
             for ($i=0; $i<sizeof($_FILES); $i++) {
                 $valid = $this->validateFile($_FILES[$i]['tmp_name']);
                 if ($valid === true) {
-                    $stm_get_organisms = $db->prepare($this->query_insert_project_into_db);
-                    $stm_get_organisms->bindValue('project', file_get_contents($_FILES[$i]['tmp_name']));
-                    $stm_get_organisms->bindValue('user', $session->get('user')['id']);
-                    $stm_get_organisms->bindValue('provider', $session->get('user')['provider']);
-                    $stm_get_organisms->bindValue('filename', $_FILES[$i]['name']);
-                    if (! $stm_get_organisms->execute()) {
-                        $valid = Project::ERROR_DB_INSERT;
-                    }
+                    $project = new WebuserData();
+                    $project->setProject(json_decode(file_get_contents($_FILES[$i]['tmp_name'])));
+                    $project->setWebuser($webuser);
+                    $project->setImportFilename($_FILES[$i]['name']);
+                    $em->persist($project);
                 }
                 $file = array(
                     "name" => $_FILES[$i]['name'],
@@ -68,13 +63,14 @@ EOF;
                 $files[] = $file;
             }
         }
+        $em->flush();
         return array("files" => $files);
     }
 
     /**
      * Function that checks the uploaded file for validity
      * @param String $filename the uploaded file to check
-     * @returns Either true if the file is valid or a String containing the error message
+     * @returns String|boolean Either true if the file is valid or a String containing the error message
      */
     protected function validateFile($filename)
     {

@@ -57,6 +57,7 @@ gulp.task('sass', function () {
   return gulp.src('app/Resources/client/scss/*.scss')
     .pipe(sourcemaps.init())
     .pipe(sass().on('error', sass.logError))
+    .pipe(concat('style.css'))
     .pipe(sourcemaps.write('.', {includeContent: false}))
     .pipe(gulp.dest('web/assets/css'));
 });

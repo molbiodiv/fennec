@@ -1,0 +1,16 @@
+@import "colors";
+
+#page-wrapper {
+  background: $background;
+  min-height: calc(100vh - 51px);
+  max-width: 100%;
+  overflow: auto;
+}
+
+#wrapper {
+  background: $navigation;
+}
+
+.page-header {
+  border-bottom: 1px solid $navigation;
+}

@@ -3,20 +3,26 @@
 namespace AppBundle\API\Listing;
 
 use AppBundle\API\Webservice;
+use AppBundle\User\FennecUser;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\ParameterBag;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class Overview extends Webservice
 {
-    private $database;
+    /**
+     * @var EntityManager
+     */
+    private $manager;
 
     /**
      * @inheritdoc
      */
-    public function execute(ParameterBag $query, SessionInterface $session = null){
-        $this->database = $this->getDbFromQuery($query);
+    public function execute(ParameterBag $query, FennecUser $user = null){
+        $this->manager = $this->getManagerFromQuery($query);
         $result = array();
-        $result['projects'] = $this->get_number_of_projects($session);
+        $result['projects'] = $this->get_number_of_projects($user);
         $result['organisms'] = $this->get_number_of_organisms();
         $result['trait_entries'] = $this->get_number_of_trait_entries();
         $result['trait_types'] = $this->get_number_of_trait_types();
@@ -24,60 +30,50 @@ class Overview extends Webservice
     }
 
     /**
-     * @param $session SessionInterface
+     * @param $user FennecUser
      * @return int number_of_projects
      */
-    private function get_number_of_projects($session){
-        if ($session === null || !$session->has('user')) {
+    private function get_number_of_projects($user){
+        if ($user === null) {
             return 0;
         }
-        $query_get_user_projects = <<<EOF
-SELECT
-    COUNT(*)
-    FROM full_webuser_data WHERE provider = :provider AND oauth_id = :oauth_id
-EOF;
-        $stm_get_user_projects = $this->database->prepare($query_get_user_projects);
-        $stm_get_user_projects->bindValue('provider', $session->get('user')['provider']);
-        $stm_get_user_projects->bindValue('oauth_id', $session->get('user')['id']);
-        $stm_get_user_projects->execute();
-        $row = $stm_get_user_projects->fetch(\PDO::FETCH_ASSOC);
-        return $row['count'];
+
+        $provider = $this->manager->getRepository('AppBundle:OauthProvider')->findOneBy(['provider' => $user->getProvider()]);
+        if($provider === null){
+            return 0;
+        }
+
+        $criteria = Criteria::create()->where(
+            Criteria::expr()->eq(
+                'oauthId',
+                $user->getId()
+            )
+        )->setMaxResults(1);
+
+        /**
+         * @var Collection $webUsers
+         */
+        $webUsers = $provider->getWebUsers()->matching($criteria);
+
+        if ($webUsers->count() < 1){
+            return 0;
+        }
+
+        return $webUsers->first()->getData()->count();
     }
 
     private function get_number_of_organisms(){
-        $query_get_number_of_organisms = <<<EOF
-SELECT
-    COUNT(*)
-    FROM organism
-EOF;
-        $stm_get_number_of_organisms = $this->database->prepare($query_get_number_of_organisms);
-        $stm_get_number_of_organisms->execute();
-        $row = $stm_get_number_of_organisms->fetch(\PDO::FETCH_ASSOC);
-        return $row['count'];
+        $query = $this->manager->createQuery('SELECT COUNT(o.fennecId) FROM AppBundle\Entity\Organism o');
+        return $query->getSingleScalarResult();
     }
 
     private function get_number_of_trait_entries(){
-        $query_get_number_of_trait_entries = <<<EOF
-SELECT
-    COUNT(*)
-    FROM trait_categorical_entry
-    WHERE deletion_date IS NULL
-EOF;
-        $stm_get_number_of_trait_entries = $this->database->prepare($query_get_number_of_trait_entries);
-        $stm_get_number_of_trait_entries->execute();
-        $row = $stm_get_number_of_trait_entries->fetch(\PDO::FETCH_ASSOC);
-        return $row['count'];
+        $query = $this->manager->createQuery('SELECT COUNT(t.id) FROM AppBundle\Entity\TraitCategoricalEntry t WHERE t.deletionDate IS NULL ');
+        return $query->getSingleScalarResult();
     }
 
     private function get_number_of_trait_types(){
-        $query_get_number_of_trait_types = <<<EOF
-SELECT
-    COUNT(*)
-    FROM trait_type
-EOF;
-        $stm_get_number_of_trait_types = $this->database->prepare($query_get_number_of_trait_types);
-        $stm_get_number_of_trait_types->execute();
-        $row = $stm_get_number_of_trait_types->fetch(\PDO::FETCH_ASSOC);
-        return $row['count'];
+        $query = $this->manager->createQuery('SELECT COUNT(tt.id) FROM AppBundle\Entity\TraitType tt');
+        return $query->getSingleScalarResult();
     }
 }

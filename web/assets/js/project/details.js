@@ -2,8 +2,9 @@
 
 /* global dbversion */
 /* global biom */
+/* global _ */
+/* global $ */
 /* global internalProjectId */
-/* global blackbirdPreviewPath */
 $('document').ready(function () {
     // Set header of page to project-id
     $('.page-header').text(biom.id);
@@ -35,6 +36,10 @@ $('document').ready(function () {
 
     $('#project-export-as-biom-v2').click(function () {
         exportProjectAsBiom(true);
+    });
+
+    $('#project-export-pseudo-tax-biom').click(function () {
+        exportPseudoTaxTable();
     });
 });
 
@@ -74,6 +79,73 @@ function exportProjectAsBiom(asHdf5) {
         showMessageDialog(failure + "", 'danger');
     });
 }
+
+/**
+ * Opens a file download dialog of the current project in biom format
+ * @param {boolean} asHdf5
+ */
+function exportPseudoTaxTable() {
+    var contentType = "text/plain";
+    var tax = _.cloneDeep(biom.getMetadata({ dimension: 'rows', attribute: 'taxonomy' }));
+    var header = ['OTUID', 'kingdom', 'phylum', 'class', 'order', 'family', 'genus', 'species'];
+    var nextLevel = _.max(tax.map(function (elem) {
+        return elem.length;
+    }));
+    var otuids = biom.rows.map(function (r) {
+        return r.id;
+    });
+    tax.map(function (v, i) {
+        return v.unshift(otuids[i]);
+    });
+    nextLevel++;
+    header = header.slice(0, nextLevel);
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+        var _loop = function _loop() {
+            var trait = _step.value;
+
+            if (trait === 'taxonomy') {
+                return 'continue';
+            }
+            var traitValues = biom.getMetadata({ dimension: 'rows', attribute: trait });
+            header[nextLevel] = trait;
+            tax.map(function (v, i) {
+                return v[nextLevel] = traitValues[i];
+            });
+            nextLevel++;
+        };
+
+        for (var _iterator = Object.keys(biom.rows[0].metadata)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            var _ret = _loop();
+
+            if (_ret === 'continue') continue;
+        }
+    } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+    } finally {
+        try {
+            if (!_iteratorNormalCompletion && _iterator.return) {
+                _iterator.return();
+            }
+        } finally {
+            if (_didIteratorError) {
+                throw _iteratorError;
+            }
+        }
+    }
+
+    var out = _.join(header, "\t");
+    out += "\n";
+    out += _.join(tax.map(function (v) {
+        return _.join(v, "\t");
+    }), "\n");
+    var blob = new Blob([out], { type: contentType });
+    saveAs(blob, biom.id + ".tsv");
+}
 'use strict';
 
 /* global dbversion */
@@ -102,7 +174,7 @@ $('document').ready(function () {
 
     // Add semi-global dimension variable (stores last mapped dimension)
     var dimension = 'rows';
-    var method = 'ncbi_taxid';
+    var method = 'ncbi_taxonomy';
 
     // Set action for click on mapping "GO" button
     $('#mapping-action-button').on('click', function () {
@@ -122,11 +194,19 @@ $('document').ready(function () {
             $.ajax(webserviceUrl, {
                 data: {
                     dbversion: dbversion,
-                    ids: uniq_ids
+                    ids: uniq_ids,
+                    db: method
                 },
                 method: 'POST',
                 success: function success(data) {
                     handleMappingResult(dimension, ids, data, method);
+                },
+                error: function error(_error, status, text) {
+                    showMessageDialog('There was a mapping error: ' + text, 'danger');
+                    console.log(_error);
+                },
+                complete: function complete() {
+                    $('#mapping-action-busy-indicator').hide();
                 }
             });
         }
@@ -140,7 +220,7 @@ $('document').ready(function () {
      */
     function getIdsForMethod(method, dimension) {
         var ids = [];
-        if (method === 'ncbi_taxid') {
+        if (method === 'ncbi_taxonomy') {
             ids = biom.getMetadata({ dimension: dimension, attribute: 'ncbi_taxid' });
         } else if (method === 'organism_name') {
             ids = biom[dimension].map(function (element) {
@@ -157,7 +237,7 @@ $('document').ready(function () {
      */
     function getWebserviceUrlForMethod(method) {
         var method2service = {
-            'ncbi_taxid': 'byNcbiTaxid',
+            'ncbi_taxonomy': 'byDbxrefId',
             'organism_name': 'byOrganismName'
         };
         var webserviceUrl = Routing.generate('api', { 'namespace': 'mapping', 'classname': method2service[method] });
@@ -171,7 +251,7 @@ $('document').ready(function () {
      */
     function getIdStringForMethod(method) {
         var idString = "";
-        if (method === 'ncbi_taxid') {
+        if (method === 'ncbi_taxonomy') {
             idString = "NCBI taxid";
         } else if (method === 'organism_name') {
             idString = "Organism name";
@@ -202,7 +282,6 @@ $('document').ready(function () {
         biom.addMetadata({ dimension: dimension, attribute: ['fennec', dbversion, 'fennec_id'], values: fennec_ids });
         biom.addMetadata({ dimension: dimension, attribute: ['fennec', dbversion, 'assignment_method'], defaultValue: method });
         var idString = getIdStringForMethod(method);
-        $('#mapping-action-busy-indicator').hide();
         $('#mapping-results-section').show();
         $('#mapping-results').text('From a total of ' + idsFromBiom.length + ' organisms:  ' + idsFromBiomNotNullCount + ' have a ' + idString + ', of which ' + idsFromBiomMappedCount + ' could be mapped to fennec_ids.');
     }

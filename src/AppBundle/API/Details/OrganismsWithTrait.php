@@ -3,9 +3,9 @@
 namespace AppBundle\API\Details;
 
 use AppBundle\API\Webservice;
+use AppBundle\User\FennecUser;
 use \PDO as PDO;
 use Symfony\Component\HttpFoundation\ParameterBag;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
  * Web Service.
@@ -17,12 +17,12 @@ class OrganismsWithTrait extends Webservice
 
     /**
      * @param $query ParameterBag $query[type_cvterm_id] array of trait type_cvterm_id
-     * @param $session SessionInterface|null
+     * @param $user FennecUser|null
      * @returns array of organisms accoring to a specific trait type
      */
-    public function execute(ParameterBag $query, SessionInterface $session = null)
+    public function execute(ParameterBag $query, FennecUser $user = null)
     {
-        $db = $this->getDbFromQuery($query);
+        $db = $this->getManagerFromQuery($query)->getConnection();
         $trait_type_id = $query->get('trait_type_id');
         $limit = OrganismsWithTrait::DEFAULT_LIMIT;
         if ($query->has('limit')) {

@@ -1,48 +1,13 @@
 @import "colors";
 
-.navbar-startpage {
+.navbar-custom {
     margin-bottom: 0;
-    background-color: $startpage-0;
-    color: lighten($startpage-0, 25%);
+    background-color: $navigation;
+    color: $background;
 }
 
-.navbar-icon-startpage:hover, .navbar-icon:active, navbar-icon:link {
-    color: lighten($startpage-0, 10%);
-}
-
-.navbar-organism {
-    margin-bottom: 0;
-    background-color: $organism-0;
-    color: lighten($organism-0, 25%);
-}
-
-.navbar-icon-organism:hover, .navbar-icon:active, navbar-icon:link {
-    color: lighten($organism-0, 10%);
-}
-
-.navbar-project {
-    margin-bottom: 0;
-    background-color: $project-0;
-    color: lighten($project-0, 25%);
-}
-
-.navbar-icon-project:hover, .navbar-icon:active, navbar-icon:link {
-    color: lighten($project-0, 10%);
-}
-
-.navbar-trait {
-    margin-bottom: 0;
-    background-color: $trait-0;
-    color: lighten($trait-0, 25%);
-}
-
-.navbar-icon-trait:hover, .navbar-icon:active, navbar-icon:link {
-    color: lighten($trait-0, 10%);
-}
-
-.form-control:focus {
-    border-color: $organism-0;
-    box-shadow: $organism-0;
+.navbar-icon-custom:hover, .navbar-icon-custom:active, navbar-icon-custom:link {
+    color: lighten($navigation, 10%);
 }
 
 .btn-default {
@@ -73,8 +38,4 @@
 
 a:focus {
     color: inherit;
-}
-
-#page-wrapper {
-    max-width: 1300px;
 }

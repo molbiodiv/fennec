@@ -3,6 +3,7 @@
 namespace Tests\AppBundle\API\Upload;
 
 use AppBundle\API\Upload\Projects;
+use AppBundle\User\FennecUser;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Tests\AppBundle\API\WebserviceTestCase;
 
@@ -18,15 +19,7 @@ class ProjectsTest extends WebserviceTestCase
     {
         $default_db = $this->default_db;
         $service = $this->webservice->factory('upload', 'projects');
-        $session = $this->session;
-        $session->set('user',
-            array(
-                'nickname' => ProjectsTest::NICKNAME,
-                'id' => ProjectsTest::USERID,
-                'provider' => ProjectsTest::PROVIDER,
-                'token' => 'UploadProjectTestUserToken'
-            )
-        );
+        $this->user = new FennecUser(ProjectsTest::USERID, ProjectsTest::NICKNAME, ProjectsTest::PROVIDER);
         // Test for error returned by empty file
         $_FILES = array(
             array(
@@ -40,7 +33,7 @@ class ProjectsTest extends WebserviceTestCase
 
         $results = $service->execute(
             new ParameterBag(array('dbversion' => $default_db)),
-            $session
+            $this->user
         );
         $expected = array(
             "files"=>array(
@@ -65,7 +58,7 @@ class ProjectsTest extends WebserviceTestCase
         );
         $results = $service->execute(
             new ParameterBag(array('dbversion' => $default_db)),
-            $session
+            $this->user
         );
         $expected = array(
             "files"=>array(
@@ -90,7 +83,7 @@ class ProjectsTest extends WebserviceTestCase
         );
         $results = $service->execute(
             new ParameterBag(array('dbversion' => $default_db)),
-            $session
+            $this->user
         );
         $expected = array(
             "files"=>array(
@@ -115,12 +108,12 @@ class ProjectsTest extends WebserviceTestCase
         );
         $results = $service->execute(
             new ParameterBag(array('dbversion' => $default_db)),
-            $session
+            $this->user
         );
         $expected = array("files"=>array(array("name" => "simpleBiom.json", "size" => 1067, "error" => null)));
         $this->assertEquals($expected, $results);
         $jsonContent = file_get_contents($_FILES[0]['tmp_name']);
-        $db = $this->container->get('app.db')->getDbForVersion($default_db);
+        $db = $this->container->get('app.orm')->getManagerForVersion($default_db)->getConnection();
         $constant = 'constant';
         $query_get_project_from_db = <<<EOF
 SELECT project, import_filename
@@ -152,7 +145,7 @@ EOF;
         );
         $results = $service->execute(
             new ParameterBag(array('dbversion' => $default_db)),
-            $session
+            $this->user
         );
         $expected = array("files"=>array(array("name" => "simpleBiom.hdf5", "size" => 33840, "error" => null)));
         $this->assertEquals($expected, $results);

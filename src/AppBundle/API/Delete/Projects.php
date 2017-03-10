@@ -3,8 +3,10 @@
 namespace AppBundle\API\Delete;
 
 use AppBundle\API\Webservice;
+use AppBundle\AppBundle;
+use AppBundle\Entity\WebuserData;
+use AppBundle\User\FennecUser;
 use Symfony\Component\HttpFoundation\ParameterBag;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
  * Web Service.
@@ -17,29 +19,33 @@ class Projects extends Webservice
     * <code>
     * array('dbversion'=>$dbversion, 'ids'=>array($id1, $id2));
     * </code>
-    * @returns Array $result
+    * @returns array $result
     * <code>
     * array(array('project_id','import_date','OTUs','sample size'));
     * </code>
     */
-    public function execute(ParameterBag $query, SessionInterface $session = null)
+    public function execute(ParameterBag $query, FennecUser $user = null)
     {
-        $db = $this->getDbFromQuery($query);
+        $manager = $this->getManagerFromQuery($query);
         $result = array('deletedProjects' => 0);
-        if (!$session->isStarted() || !$session->has('user')) {
+        if ($user === null) {
             $result['error'] = Webservice::ERROR_NOT_LOGGED_IN;
         } else {
-            $ids = $query->get('ids');
-            $placeholders = implode(',', array_fill(0, count($ids), '?'));
-            $query_get_user_projects = <<<EOF
-DELETE FROM full_webuser_data WHERE provider = ? AND oauth_id = ? and webuser_data_id IN ($placeholders)
-EOF;
-            $stm_get_user_projects = $db->prepare($query_get_user_projects);
-            $stm_get_user_projects->execute(
-                array_merge(array($session->get('user')['provider'], $session->get('user')['id']), $ids)
-            );
-        
-            $result['deletedProjects'] = $stm_get_user_projects->rowCount();
+            $provider = $manager->getRepository('AppBundle:OauthProvider')->findOneBy(array(
+                'provider' => $user->getProvider()
+            ));
+            $projects = $manager->getRepository('AppBundle:Webuser')->findOneBy(array(
+                'oauthId' => $user->getId(),
+                'oauthProvider' => $provider
+            ))->getData()->filter(function (WebuserData $p) use($query){
+                return in_array($p->getWebuserDataId(), $query->get('ids'));
+            });
+            foreach($projects as $project){
+                $manager->remove($project);
+            }
+            $manager->flush();
+
+            $result['deletedProjects'] = count($projects);
         }
         return $result;
     }

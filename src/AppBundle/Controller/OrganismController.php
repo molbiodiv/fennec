@@ -57,11 +57,15 @@ class OrganismController extends Controller
      * @Route("/{dbversion}/organism/details/{fennec_id}", name="organism_details", options={"expose" = true})
      */
     public function detailsAction(Request $request, $dbversion, $fennec_id){
+        $user = null;
+        if($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')){
+            $user = $this->get('security.token_storage')->getToken()->getUser();
+        }
         $organismDetails = $this->get('app.api.webservice')->factory('details', 'organism');
         $query = $request->query;
         $query->set('dbversion', $dbversion);
         $query->set('id', $fennec_id);
-        $organismResult = $organismDetails->execute($query, $request->getSession());
+        $organismResult = $organismDetails->execute($query, $user);
         $taxonomy = $this->get('app.api.webservice')->factory('listing', 'taxonomy');
         $taxonomyResult = $taxonomy->execute($query, null);
         $traits = $this->get('app.api.webservice')->factory('details', 'traitsOfOrganisms');

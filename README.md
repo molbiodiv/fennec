@@ -28,6 +28,9 @@ vendor/bin/phpunit
 # javascript testing (of helpers)
 gulp test
 
+# transpile jsx to js
+gulp babel
+
 # check scss files for lints
 gulp sassLint
 
@@ -35,6 +38,15 @@ gulp sassLint
 gulp sass
 ```
 ## Changes
+### 0.5.0 <2017-03-10>
+ - Update color scheme
+ - Improve startpage layout
+ - Initialize documentation
+ - Fix bugs
+ - Improve mapping to fennec ids
+ - Add cli trait importer
+ - Add console commands for db interaction
+ - Use ORM for database connection
 ### 0.4.1 <2017-01-05>
  - Handle deleted traits properly
  - Add two versions of IUCN to test set

@@ -3,6 +3,7 @@
 namespace AppBundle\API\Listing;
 
 use AppBundle\API\Webservice;
+use AppBundle\User\FennecUser;
 use \PDO as PDO;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -17,13 +18,13 @@ class Taxonomy extends Webservice
     private $db;
     /**
      * @param $query ParameterBag $query[ids] array of organism ids
-     * @param $session SessionInterface
+     * @param $user FennecUser
      * @returns array of taxonomy information for a given organism id
      * array('lineage' => [grandgrandparent, grandparent, parent])
      */
-    public function execute(ParameterBag $query, SessionInterface $session = null)
+    public function execute(ParameterBag $query, FennecUser $user = null)
     {
-        $this->db = $this->getDbFromQuery($query);
+        $this->db = $this->getManagerFromQuery($query)->getConnection();
         $fennec_id = $query->get('id');
         $result = array();
         $taxonomy_databases = $this->getTaxomomyDatabases($fennec_id);

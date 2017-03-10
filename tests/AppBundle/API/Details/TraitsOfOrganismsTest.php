@@ -11,18 +11,18 @@ class TraitsOfOrganismsTest extends WebserviceTestCase
     public function testExecute()
     {
         $default_db = $this->default_db;
-        $session = null;
+        $user = null;
         $traitsOfOrganisms = $this->webservice->factory('details', 'traitsOfOrganisms');
 
         //Test if an empty array is returned if fennec_ids is empty
         $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'fennec_ids' => array()));
-        $results = $traitsOfOrganisms->execute($parameterBag, $session);
+        $results = $traitsOfOrganisms->execute($parameterBag, $user);
         $expected = [];
         $this->assertEquals($expected, $results);
 
         //Test if the traits to one organism is returned correctly
         $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'fennec_ids' => array('615')));
-        $results = $traitsOfOrganisms->execute($parameterBag, $session);
+        $results = $traitsOfOrganisms->execute($parameterBag, $user);
         $expected = [
             '1' => [
                 'trait_type' => 'Plant Habit',
@@ -41,7 +41,7 @@ class TraitsOfOrganismsTest extends WebserviceTestCase
         
         //Test if the traits to a collection of organisms is returned correctly
         $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'fennec_ids' => array(4207, 5637, 23547, 181840)));
-        $results = $traitsOfOrganisms->execute($parameterBag, $session);
+        $results = $traitsOfOrganisms->execute($parameterBag, $user);
         $expected = [
             '1' => [
                 'trait_type' => 'Plant Habit',
@@ -60,6 +60,12 @@ class TraitsOfOrganismsTest extends WebserviceTestCase
                 'trait_format' => 'categorical_free',
                 'trait_entry_ids' => [88860],
                 'fennec_ids' => [181840]
+            ],
+            '4' => [
+                'trait_type' => 'Flower Color',
+                'trait_format' => 'categorical_free',
+                'trait_entry_ids' => [113422],
+                'fennec_ids' => [4207]
             ]
         ];
         $this->assertEquals($expected, $results);
