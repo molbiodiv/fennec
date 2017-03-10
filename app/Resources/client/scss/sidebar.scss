@@ -2,7 +2,7 @@
 
 .sidebar-panel, .sidebar ul li a:focus{
     background: $startpage;
-    color: lighten($startpage, 25%);
+    color: $background;
 }
 
 .sidebar ul li {

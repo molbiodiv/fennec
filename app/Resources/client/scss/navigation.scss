@@ -3,16 +3,11 @@
 .navbar-custom {
     margin-bottom: 0;
     background-color: $startpage;
-    color: lighten($startpage, 25%);
+    color: $background;
 }
 
 .navbar-icon-custom:hover, .navbar-icon-custom:active, navbar-icon-custom:link {
     color: lighten($startpage, 10%);
-}
-
-.form-control:focus {
-    border-color: $organism;
-    box-shadow: $organism;
 }
 
 .btn-default {

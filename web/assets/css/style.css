@@ -28,7 +28,8 @@ and open the template in the editor.
 #page-wrapper {
   background: antiquewhite;
   min-height: calc(100vh - 51px);
-  max-width: 100%; }
+  max-width: 100%;
+  overflow: auto; }
 
 #wrapper {
   background: #514535; }
@@ -241,41 +242,13 @@ div#trait-table_paginate > .pagination > .active > a:hover {
 /* trait color */
 /* project color */
 /* organism color */
-.navbar-startpage {
+.navbar-custom {
   margin-bottom: 0;
   background-color: #514535;
-  color: #9d8669; }
+  color: antiquewhite; }
 
-.navbar-icon-startpage:hover, .navbar-icon:active, navbar-icon:link {
+.navbar-icon-custom:hover, .navbar-icon-custom:active, navbar-icon-custom:link {
   color: #705f49; }
-
-.navbar-organism {
-  margin-bottom: 0;
-  background-color: #8E7358;
-  color: #c5b3a1; }
-
-.navbar-icon-organism:hover, .navbar-icon:active, navbar-icon:link {
-  color: #a78d72; }
-
-.navbar-project {
-  margin-bottom: 0;
-  background-color: #C19C78;
-  color: #e9dccf; }
-
-.navbar-icon-project:hover, .navbar-icon:active, navbar-icon:link {
-  color: #d1b69b; }
-
-.navbar-trait {
-  margin-bottom: 0;
-  background-color: #BA7E43;
-  color: #ddbea0; }
-
-.navbar-icon-trait:hover, .navbar-icon:active, navbar-icon:link {
-  color: #c89868; }
-
-.form-control:focus {
-  border-color: #8E7358;
-  box-shadow: #8E7358; }
 
 .btn-default {
   background-color: rgba(255, 255, 255, 0.2);
@@ -348,7 +321,7 @@ a:focus {
 /* organism color */
 .sidebar-panel, .sidebar ul li a:focus {
   background: #514535;
-  color: #9d8669; }
+  color: antiquewhite; }
 
 .sidebar ul li {
   border-bottom: 1px solid #9d8669; }
