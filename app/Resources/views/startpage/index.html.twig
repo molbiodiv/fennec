@@ -1,5 +1,17 @@
 {% extends 'base.navigation.html.twig' %}
 
 {% block content %}
-    {% include 'startpage/panelRow.html.twig' %}
+    <div class="col-lg-1"></div>
+    <div class="col-lg-10">
+        <div class="row">
+            <img src="{{ asset('assets/img/fennec.svg') }}" class="center-block" id="startpage-logo"/>
+        </div>
+        <div class="row">
+            <div class="col-lg-12" id="startpage-text">
+                Bla bla bla Lorem ipsum dolor sit amet
+            </div>
+        </div>
+        {% include 'startpage/panelRow.html.twig' %}
+    </div>
+    <div class="col-lg-1"></div>
 {% endblock %}
