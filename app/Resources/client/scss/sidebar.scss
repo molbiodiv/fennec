@@ -1,6 +1,6 @@
 @import "colors";
 
-.sidebar-startpage {
+.sidebar-startpage, .sidebar ul li a:focus{
     background: $startpage;
     color: lighten($startpage, 25%);
 }
@@ -25,7 +25,7 @@
 }
 
 .sidebar ul li a{
-    &.active, &:hover, &:active, &:focus {
+    &.active, &:hover, &:active {
         background: lighten($startpage, 25%);
         color: $startpage;
     }
