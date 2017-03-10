@@ -60,25 +60,25 @@
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
                         <li>
-                            <a class="sidebar-{{ type }} {{ type }}-link" href="{{ path('startpage', {'dbversion': dbversion}) }}"><i class="fa fa-home fa-fw"></i> Home</a>
+                            <a class="sidebar-panel {{ type }}-link" href="{{ path('startpage', {'dbversion': dbversion}) }}"><i class="fa fa-home fa-fw"></i> Home</a>
                         </li>
                         <li>
-                            <a href="{{ path('project_overview', {'dbversion': dbversion}) }}" class="sidebar-{{ type }} {{ type }}-link"><i class="fa fa-book fa-fw"></i> Projects</a>
+                            <a href="{{ path('project_overview', {'dbversion': dbversion}) }}" class="sidebar-panel {{ type }}-link"><i class="fa fa-book fa-fw"></i> Projects</a>
                         </li>
                         <li>
-                            <a href="{{ path('organism_search', {'dbversion': dbversion}) }}" class="sidebar-{{ type }} {{ type }}-link"><i class="fa fa-paw fa-fw"></i> Organisms</a>
+                            <a href="{{ path('organism_search', {'dbversion': dbversion}) }}" class="sidebar-panel {{ type }}-link"><i class="fa fa-paw fa-fw"></i> Organisms</a>
                         </li>
                         <li>
-                            <a href="#" class="sidebar-{{ type }} {{ type }}-link"><i class="fa fa-globe fa-fw"></i> Traits<span class="fa arrow"></span></a>
+                            <a href="#" class="sidebar-panel {{ type }}-link"><i class="fa fa-globe fa-fw"></i> Traits<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="{{ path('trait_overview', {'dbversion': dbversion}) }}" class="sidebar-{{ type }} {{ type }}-link"><i class="fa fa-eye fa-fw sidebar-{{ type }}"></i> Overview</a>
+                                    <a href="{{ path('trait_overview', {'dbversion': dbversion}) }}" class="sidebar-panel {{ type }}-link"><i class="fa fa-eye fa-fw sidebar-{{ type }}"></i> Overview</a>
                                 </li>
                                 <li>
-                                    <a href="{{ path('trait_search', {'dbversion': dbversion}) }}" class="sidebar-{{ type }} {{ type }}-link"><i class="fa fa-search fa-fw sidebar-{{ type }}"></i> Search</a>
+                                    <a href="{{ path('trait_search', {'dbversion': dbversion}) }}" class="sidebar-panel {{ type }}-link"><i class="fa fa-search fa-fw sidebar-{{ type }}"></i> Search</a>
                                 </li>
                                 <li>
-                                    <a href="{{ path('trait_browse', {'dbversion': dbversion, 'search_level': 'overview'}) }}" class="sidebar-{{ type }} {{ type }}-link"><i class="fa fa-binoculars fa-fw sidebar-{{ type }}"></i> Browse</a>
+                                    <a href="{{ path('trait_browse', {'dbversion': dbversion, 'search_level': 'overview'}) }}" class="sidebar-panel {{ type }}-link"><i class="fa fa-binoculars fa-fw sidebar-{{ type }}"></i> Browse</a>
                                 </li>
                             </ul>
                         </li>

@@ -346,21 +346,9 @@ a:focus {
 /* trait color */
 /* project color */
 /* organism color */
-.sidebar-startpage, .sidebar ul li a:focus {
+.sidebar-panel, .sidebar ul li a:focus {
   background: #514535;
   color: #9d8669; }
-
-.sidebar-organism {
-  background: #8E7358;
-  color: #c5b3a1; }
-
-.sidebar-project {
-  background: #C19C78;
-  color: #e9dccf; }
-
-.sidebar-trait {
-  background: #BA7E43;
-  color: #ddbea0; }
 
 .sidebar ul li {
   border-bottom: 1px solid #9d8669; }
