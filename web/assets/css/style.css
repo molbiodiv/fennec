@@ -330,4 +330,12 @@ a:focus {
   background: #9d8669;
   color: #514535; }
 
+#startpage-logo {
+  margin-bottom: 20px;
+  width: 250px; }
+
+#startpage-text {
+  margin-bottom: 20px;
+  font-size: large; }
+
 /*# sourceMappingURL=style.css.map */
