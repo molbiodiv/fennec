@@ -335,7 +335,10 @@ a:focus {
   width: 250px; }
 
 #startpage-text {
-  margin-bottom: 20px;
+  margin-bottom: 40px;
+  font-size: x-large; }
+
+.startpage-panel-description {
   font-size: large; }
 
 /*# sourceMappingURL=style.css.map */
