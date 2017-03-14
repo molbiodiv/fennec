@@ -61,6 +61,9 @@
                 }).always(function(){
                     $('#loading-progress').empty();
                 });
+                $("#toggleCitationButton").on("click", function(){
+                    $(".trait-citation").toggle();
+                })
             });
         </script>
         <script type="text/javascript">
@@ -127,6 +130,7 @@
                     </div>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="traits">
+                    <div class="btn btn-primary" id="toggleCitationButton">Show/Hide citations</div>
                     {% for tid, current in traits %}
                     <h4 class='page-header'>{{ current.trait_type }}</h4>
                     <div id="trait_{{ tid }}"></div>
