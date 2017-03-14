@@ -259,6 +259,9 @@ div#trait-table_paginate > .pagination > .active > a:hover {
 a:focus {
   color: inherit; }
 
+#toggleCitationButton {
+  margin-top: 20px; }
+
 .panel-projects {
   background-color: #C19C78;
   border-color: #b98f67;
