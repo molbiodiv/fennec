@@ -29,6 +29,13 @@ and open the template in the editor.
 .page-header {
   border-bottom: 1px solid #514535; }
 
+.btn-primary {
+  color: antiquewhite;
+  background-color: #514535;
+  border-color: #322b21; }
+  .btn-primary:hover, .btn-primary:active, .btn-primary:focus {
+    background-color: black; }
+
 .btn-organism {
   color: #FFF;
   background-color: #8E7358;
