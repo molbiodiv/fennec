@@ -36,6 +36,11 @@ and open the template in the editor.
   .btn-primary:hover, .btn-primary:active, .btn-primary:focus {
     background-color: black; }
 
+a {
+  color: #9d8669; }
+  a:hover {
+    color: #705f49; }
+
 .btn-organism {
   color: #FFF;
   background-color: #8E7358;

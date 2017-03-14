@@ -23,3 +23,10 @@
      background-color: darken($navigation, 50%);
   }
 }
+
+a {
+  color: lighten($navigation, 25%);
+  &:hover {
+    color: lighten($navigation, 10%);
+  }
+}
