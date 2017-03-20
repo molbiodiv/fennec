@@ -95,7 +95,7 @@ EOF;
      */
     private function get_info($trait_type_id){
         $query_get_info = <<<EOF
-SELECT trait_type.id AS trait_type_id, type AS name, ontology_url, format AS trait_format
+SELECT trait_type.id AS trait_type_id, type AS name, ontology_url, format AS trait_format, trait_type.description AS description
     FROM trait_type, trait_format
     WHERE trait_type.id = :trait_type_id
     AND trait_format_id = trait_format.id;
