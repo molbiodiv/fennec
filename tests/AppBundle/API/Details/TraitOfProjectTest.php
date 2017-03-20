@@ -38,7 +38,8 @@ class TraitOfProjectTest extends WebserviceTestCase
             "name" => "Plant Life Cycle Habit",
             "ontology_url" => "http://purl.obolibrary.org/obo/TO_0002725",
             "trait_format" => "categorical_free",
-            "number_of_organisms" => 2
+            "number_of_organisms" => 2,
+            "description" => "Determined for type of life cycle being annual, biannual, perennial etc. [database_cross_reference: GR:pj]"
         ];
         $this->assertEquals($results, $expected, 'Example project, return trait details');
 
