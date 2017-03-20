@@ -5,7 +5,14 @@
 <h4 class="page-header">Definition</h4>
 <div class="row">
     <div class='col-xs-8'>
-        <a class='trait-link' href='{{ trait.ontology_url }}' target='_blank'>Go to definition</a>
+        {{trait.description}}
+        {% if trait.ontology_url == "" %}
+            {% if trait.description == "" %}
+                No definition available
+            {% endif %}
+        {% else %}
+            <a class='trait-link' href='{{ trait.ontology_url }}' target='_blank'>Go to definition</a>
+        {% endif %}
     </div>
     <div class="col-xs-4">
         <div class="panel panel-trait">
