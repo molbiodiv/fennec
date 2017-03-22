@@ -29,6 +29,13 @@ class TraitType
     /**
      * @var string|null
      *
+     * @ORM\Column(name="unit", type="text", nullable=true)
+     */
+    private $unit;
+
+    /**
+     * @var string|null
+     *
      * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
@@ -159,5 +166,29 @@ class TraitType
     public function getTraitFormat()
     {
         return $this->traitFormat;
+    }
+
+    /**
+     * Set unit.
+     *
+     * @param string|null $unit
+     *
+     * @return TraitType
+     */
+    public function setUnit($unit = null)
+    {
+        $this->unit = $unit;
+
+        return $this;
+    }
+
+    /**
+     * Get unit.
+     *
+     * @return string|null
+     */
+    public function getUnit()
+    {
+        return $this->unit;
     }
 }
