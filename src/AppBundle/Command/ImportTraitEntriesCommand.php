@@ -6,6 +6,7 @@ namespace AppBundle\Command;
 use AppBundle\Entity\TraitCategoricalEntry;
 use AppBundle\Entity\TraitCategoricalValue;
 use AppBundle\Entity\TraitCitation;
+use AppBundle\Entity\TraitNumericalEntry;
 use AppBundle\Entity\TraitType;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -161,11 +162,17 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
                         continue;
                     }
                 }
-                $traitCategoricalValue = $this->get_or_insert_trait_categorical_value($line[1], $line[2]);
+                $traitEntry = null;
+                if($this->traitType->getTraitFormat()->getFormat() === "categorical_free"){
+                    $traitCategoricalValue = $this->get_or_insert_trait_categorical_value($line[1], $line[2]);
+                    $traitEntry = new TraitCategoricalEntry();
+                    $traitEntry->setTraitCategoricalValue($traitCategoricalValue);
+                } else {
+                    $traitEntry = new TraitNumericalEntry();
+                    $traitEntry->setValue($line[1]);
+                }
                 $traitCitation = $this->get_or_insert_trait_citation($line[3]);
-                $traitEntry = new TraitCategoricalEntry();
                 $traitEntry->setTraitType($this->traitType);
-                $traitEntry->setTraitCategoricalValue($traitCategoricalValue);
                 $traitEntry->setTraitCitation($traitCitation);
                 $traitEntry->setOriginUrl($line[4]);
                 $traitEntry->setFennec($this->em->getReference('AppBundle:Organism', $fennec_id));
