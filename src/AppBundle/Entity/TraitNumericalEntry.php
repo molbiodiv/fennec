@@ -66,14 +66,11 @@ class TraitNumericalEntry
     private $fennec;
 
     /**
-     * @var \AppBundle\Entity\TraitNumericalValue
+     * @var string
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\TraitNumericalValue")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="trait_numerical_value_id", referencedColumnName="id", nullable=false)
-     * })
+     * @ORM\Column(name="value", type="decimal", precision=10, scale=0)
      */
-    private $traitNumericalValue;
+    private $value;
 
     /**
      * @var \AppBundle\Entity\TraitCitation
@@ -237,29 +234,6 @@ class TraitNumericalEntry
         return $this->fennec;
     }
 
-    /**
-     * Set traitNumericalValue.
-     *
-     * @param \AppBundle\Entity\TraitNumericalValue|null $traitNumericalValue
-     *
-     * @return TraitNumericalEntry
-     */
-    public function setTraitNumericalValue(\AppBundle\Entity\TraitNumericalValue $traitNumericalValue = null)
-    {
-        $this->traitNumericalValue = $traitNumericalValue;
-
-        return $this;
-    }
-
-    /**
-     * Get traitNumericalValue.
-     *
-     * @return \AppBundle\Entity\TraitNumericalValue|null
-     */
-    public function getTraitNumericalValue()
-    {
-        return $this->traitNumericalValue;
-    }
 
     /**
      * Set traitCitation.
@@ -331,5 +305,29 @@ class TraitNumericalEntry
     public function getWebuser()
     {
         return $this->webuser;
+    }
+
+    /**
+     * Set value.
+     *
+     * @param string $value
+     *
+     * @return TraitNumericalEntry
+     */
+    public function setValue($value)
+    {
+        $this->value = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get value.
+     *
+     * @return string
+     */
+    public function getValue()
+    {
+        return $this->value;
     }
 }
