@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * TraitNumericalEntry
  *
- * @ORM\Table(name="trait_categorical_entry", indexes={@ORM\Index(name="IDX_DDFBB816594DA73F", columns={"fennec_id"}), @ORM\Index(name="IDX_DDFBB8163B8FE7EB", columns={"trait_categorical_value_id"}), @ORM\Index(name="IDX_DDFBB81650F4882D", columns={"trait_citation_id"}), @ORM\Index(name="IDX_DDFBB816788909E7", columns={"trait_type_id"}), @ORM\Index(name="IDX_DDFBB81649279951", columns={"webuser_id"})})
+ * @ORM\Table(name="trait_numerical_entry", indexes={@ORM\Index(name="IDX_DDFBB816594DA73F", columns={"fennec_id"}), @ORM\Index(name="IDX_DDFBB8163B8FE7EB", columns={"trait_numerical_value_id"}), @ORM\Index(name="IDX_DDFBB81650F4882D", columns={"trait_citation_id"}), @ORM\Index(name="IDX_DDFBB816788909E7", columns={"trait_type_id"}), @ORM\Index(name="IDX_DDFBB81649279951", columns={"webuser_id"})})
  * @ORM\Entity
  */
 class TraitNumericalEntry
@@ -51,7 +51,7 @@ class TraitNumericalEntry
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @ORM\SequenceGenerator(sequenceName="trait_categorical_entry_id_seq", allocationSize=1, initialValue=1)
+     * @ORM\SequenceGenerator(sequenceName="trait_numerical_entry_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
 
@@ -70,10 +70,10 @@ class TraitNumericalEntry
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\TraitNumericalValue")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="trait_categorical_value_id", referencedColumnName="id", nullable=false)
+     *   @ORM\JoinColumn(name="trait_numerical_value_id", referencedColumnName="id", nullable=false)
      * })
      */
-    private $traitCategoricalValue;
+    private $traitNumericalValue;
 
     /**
      * @var \AppBundle\Entity\TraitCitation
@@ -238,27 +238,27 @@ class TraitNumericalEntry
     }
 
     /**
-     * Set traitCategoricalValue.
+     * Set traitNumericalValue.
      *
-     * @param \AppBundle\Entity\TraitNumericalValue|null $traitCategoricalValue
+     * @param \AppBundle\Entity\TraitNumericalValue|null $traitNumericalValue
      *
      * @return TraitNumericalEntry
      */
-    public function setTraitNumericalValue(\AppBundle\Entity\TraitNumericalValue $traitCategoricalValue = null)
+    public function setTraitNumericalValue(\AppBundle\Entity\TraitNumericalValue $traitNumericalValue = null)
     {
-        $this->traitCategoricalValue = $traitCategoricalValue;
+        $this->traitNumericalValue = $traitNumericalValue;
 
         return $this;
     }
 
     /**
-     * Get traitCategoricalValue.
+     * Get traitNumericalValue.
      *
      * @return \AppBundle\Entity\TraitNumericalValue|null
      */
     public function getTraitNumericalValue()
     {
-        return $this->traitCategoricalValue;
+        return $this->traitNumericalValue;
     }
 
     /**
