@@ -6,6 +6,8 @@ namespace Tests\AppBundle\Command;
 use AppBundle\API\Details\Organism;
 use AppBundle\Command\ImportTraitEntriesCommand;
 use AppBundle\Entity\TraitCategoricalEntry;
+use AppBundle\Entity\TraitFormat;
+use AppBundle\Entity\TraitType;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;

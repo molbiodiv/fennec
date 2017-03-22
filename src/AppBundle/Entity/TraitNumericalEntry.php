@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * TraitNumericalEntry
  *
- * @ORM\Table(name="trait_numerical_entry", indexes={@ORM\Index(name="IDX_DDFBB816594DA73F", columns={"fennec_id"}), @ORM\Index(name="IDX_DDFBB8163B8FE7EB", columns={"trait_numerical_value_id"}), @ORM\Index(name="IDX_DDFBB81650F4882D", columns={"trait_citation_id"}), @ORM\Index(name="IDX_DDFBB816788909E7", columns={"trait_type_id"}), @ORM\Index(name="IDX_DDFBB81649279951", columns={"webuser_id"})})
+ * @ORM\Table(name="trait_numerical_entry", indexes={@ORM\Index(columns={"fennec_id"}), @ORM\Index(columns={"trait_citation_id"}), @ORM\Index(columns={"trait_type_id"}), @ORM\Index(columns={"webuser_id"})})
  * @ORM\Entity
  */
 class TraitNumericalEntry
