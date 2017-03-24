@@ -68,7 +68,7 @@ class TraitNumericalEntry
     /**
      * @var string
      *
-     * @ORM\Column(name="value", type="decimal", precision=10, scale=0)
+     * @ORM\Column(name="value", type="decimal", precision=1000, scale=10)
      */
     private $value;
 
