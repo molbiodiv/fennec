@@ -273,13 +273,15 @@ class ImportTraitValuesCommandTest extends KernelTestCase
          * @var TraitCategoricalEntry
          */
         $singleEntry = $this->em->getRepository('AppBundle:TraitNumericalEntry')->findOneBy(array(
-            'value' => 133
+            'value' => 133,
+            'traitType' => $testPlantHeight
         ));
         $this->assertNotNull($singleEntry, 'The entry with value for eol id 1094535 exists');
         $this->assertEquals(35729, $singleEntry->getFennec()->getFennecId(),
             'The trait has been assigned to the correct organism');
         $dialycerasEntry = $this->em->getRepository('AppBundle:TraitNumericalEntry')->findOneBy(array(
-            'originUrl' => 'http://example.com/plantHeight6875647'
+            'originUrl' => 'http://example.com/plantHeight6875647',
+            'traitType' => $testPlantHeight
         ));
         $this->assertNotNull($dialycerasEntry, 'The entry with origin url for eol id 6875647 exists');
         $this->assertEquals(23118, $dialycerasEntry->getFennec()->getFennecId(),
