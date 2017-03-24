@@ -31,8 +31,8 @@ class Traits extends Webservice
         if ($query->has('search')) {
             $search = "%".$query->get('search')."%";
         }
-        $data = $this->get_categorical_traits($db, $search, $limit, "categorical");
-        return array_merge($data,$this->get_categorical_traits($db, $search, $limit, "numerical"));
+        $data = $this->get_traits($db, $search, $limit, "categorical");
+        return array_merge($data,$this->get_traits($db, $search, $limit, "numerical"));
     }
 
     /**
@@ -42,7 +42,7 @@ class Traits extends Webservice
      * @param $trait_format
      * @return array
      */
-    private function get_categorical_traits($db, $search, $limit, $trait_format)
+    private function get_traits($db, $search, $limit, $trait_format)
     {
         $query_get_traits = <<<EOF
 SELECT trait_type.type AS name, trait_type_id, count
