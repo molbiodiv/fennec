@@ -32,7 +32,11 @@ class Traits extends Webservice
             $search = "%".$query->get('search')."%";
         }
         $data = $this->get_traits($db, $search, $limit, "categorical");
-        return array_merge($data,$this->get_traits($db, $search, $limit, "numerical"));
+        $data = array_merge($data,$this->get_traits($db, $search, $limit, "numerical"));
+        //if performance-tuning is required:
+        //Merge-Step of MergeSort would be sufficient but not natively available in PHP
+        usort($data, function($a,$b){return $b['frequency'] - $a['frequency'];});
+        return $data;
     }
 
     /**
