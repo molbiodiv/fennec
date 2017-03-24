@@ -22,7 +22,7 @@ class OverviewTest extends WebserviceTestCase
         $expected = array(
             "projects" => 0,
             "organisms" => 198102,
-            "trait_entries" => 91494,
+            "trait_entries" => 91494+7074,
             "trait_types" => 7
         );
         $this->assertEquals($expected, $results);
