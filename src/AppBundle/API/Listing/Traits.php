@@ -32,7 +32,7 @@ class Traits extends Webservice
             $search = "%".$query->get('search')."%";
         }
         $data = $this->get_categorical_traits($db, $search, $limit, "categorical");
-        return $data;
+        return array_merge($data,$this->get_categorical_traits($db, $search, $limit, "numerical"));
     }
 
     /**
