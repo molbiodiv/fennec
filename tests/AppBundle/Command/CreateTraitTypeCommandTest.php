@@ -30,7 +30,8 @@ class CreateTraitTypeCommandTest extends KernelTestCase
             '--format' => 'categorical_free',
             '--description' => 'Test categorical trait',
             'traitname' => 'TestCategoricalTrait',
-            '--ontology_url' => 'http://example.com/testOntology/tct'
+            '--ontology_url' => 'http://example.com/testOntology/tct',
+            '--unit' => 'mm'
         );
         $commandTester->execute($args);
 
@@ -45,6 +46,7 @@ class CreateTraitTypeCommandTest extends KernelTestCase
         $this->assertEquals('Test categorical trait', $testType->getDescription());
         $this->assertEquals('categorical_free', $testType->getTraitFormat()->getFormat());
         $this->assertEquals('http://example.com/testOntology/tct', $testType->getOntologyUrl());
+        $this->assertEquals('mm', $testType->getUnit());
 
         $commandTester->execute($args);
         $output = $commandTester->getDisplay();
