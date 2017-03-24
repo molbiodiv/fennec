@@ -112,5 +112,28 @@ class TraitsTest extends WebserviceTestCase
             "description" => "general growth form, including size and branching. Some organisms have different growth habits depending on environment or location"
         ];
         $this->assertEquals($expected, $results, 'Array of organism ids is empty, should return empty values array and 0 as number_of_organisms');
+
+        $leaf_size = '7';
+        $results = $service->execute(
+            new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => $leaf_size, 'fennec_ids' => [5514,10979,878,879,1])),
+            null
+        );
+        $expected = [
+            "values" => [
+                '1' => [],
+                '5514' => [41.2500000000],
+                '10979' => [5570.0000000000, 3913.0000000000],
+                '878' => [8756.5000000000, 6824.8000000000, 0.0000000000],
+                '879' => [7967.2000000000, 5435.1000000000, 11726.4000000000, 8332.0000000000]
+            ],
+            "trait_type_id" => 7,
+            "name" => "Leaf size",
+            "ontology_url" => null,
+            "trait_format" => "numerical",
+            "number_of_organisms" => 4,
+            "description" => "Leaf size is the one-sided projected surface area of an individual leaf or lamina expressed in mm^2"
+        ];
+        $this->assertEquals($expected, $results, 'Array of organism ids is empty, should return empty values array and 0 as number_of_organisms');
     }
+
 }
