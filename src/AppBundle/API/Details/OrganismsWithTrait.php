@@ -30,9 +30,14 @@ class OrganismsWithTrait extends Webservice
         }
         
         $query_get_organism_by_trait = <<<EOF
-SELECT *
+(SELECT *
     FROM organism, (SELECT DISTINCT fennec_id FROM trait_categorical_entry WHERE trait_type_id = :trait_type_id AND deletion_date IS NULL) AS ids
-    WHERE organism.fennec_id = ids.fennec_id LIMIT :limit
+    WHERE organism.fennec_id = ids.fennec_id)
+UNION 
+(SELECT *
+    FROM organism, (SELECT DISTINCT fennec_id FROM trait_numerical_entry WHERE trait_type_id = :trait_type_id AND deletion_date IS NULL) AS ids
+    WHERE organism.fennec_id = ids.fennec_id)
+LIMIT :limit
 EOF;
         $stm_get_organism_by_trait = $db->prepare($query_get_organism_by_trait);
         $stm_get_organism_by_trait->bindValue('trait_type_id', $trait_type_id);
