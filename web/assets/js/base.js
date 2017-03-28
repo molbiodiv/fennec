@@ -41,7 +41,7 @@ function drawHistogram(data) {
             title: "frequency"
         }
     };
-    Plotly.newPlot('pieChart', plot, layout);
+    Plotly.newPlot('histogram', plot, layout);
 }
 
 function drawPieChart(data) {

@@ -46,7 +46,7 @@
         </div>
     {% elseif trait.trait_format == 'numerical' %}
         <div class='col-xs-12'>
-            <div id='pieChart'></div>
+            <div id='histogram'></div>
             <script>drawHistogram({{ trait.values|json_encode()|raw }});</script>
         </div>
     {% else %}

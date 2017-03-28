@@ -22,6 +22,23 @@
         </script>
         <script src="{{ asset('assets/js/project/traitDetails.js') }}"></script>
     </div>
+    {% elseif trait.trait_format == 'numerical' %}
+    <div class='col-xs-12'>
+        <button class="btn btn-primary" id="add-trait-to-project-button">Add trait to project</button>
+        <div id='histogram'></div>
+        <script>
+            var internalProjectId = '{{ internal_project_id }}';
+            var biom = function(){
+                var Biom = require('biojs-io-biom').Biom;
+                var biomObject = {{ project['projects'][internal_project_id]['biom']|raw }};
+                return new Biom(biomObject);
+            }();
+            var traitName = '{{ trait.name }}';
+            var traitValues = {{ trait.values|json_encode()|raw }};
+            drawHistogram(traitValues);
+        </script>
+        <script src="{{ asset('assets/js/project/traitDetails.js') }}"></script>
+    </div>
     {% else %}
     <div class='col-xs-12'>
         <h1>Unknown trait type</h1>
