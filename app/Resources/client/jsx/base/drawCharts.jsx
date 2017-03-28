@@ -1,41 +1,29 @@
 /* exported drawHistogram */
 /* exported drawPieChart */
 /* exported drawMap */
-function drawHistogram(){
-    var cvterm_id = $("#cvterm_id").val();
-    $.ajax({
-        url: WebRoot.concat("/ajax/details/Traits"),
-        data: {type_cvterm_id: cvterm_id,
-               dbversion: DbVersion},
-        dataType: "json",
-        success: function (data) {
-            if(data.value_type === 'value'){
-                var name = data.name;
-            
-                $.each(data.value, function(key, value){
-                    d3.select("#histogram").append("div")
-                        .attr("id", key);
-                    var plot_data = [{
-                            x: value,
-                            type: 'histogram',
-                            marker: {
-                                color: "#78a00b"
-                            },
-                            opacity: 0.9
-                        }];
-                    var layout = {
-                        xaxis: {
-                            title: name+ ' in ' +key
-                        },
-                        yaxis: {
-                            title: "frequency"
-                        }
-                    };
-                    Plotly.newPlot(key, plot_data, layout);
-                });
-            }
-        }
+/* global $ */
+function drawHistogram(data){
+    var values = [];
+    $.each(data, function(key, value){
+        values.push(...value);
     });
+    var plot = [{
+            x: values,
+            type: 'histogram',
+            marker: {
+                color: "#78a00b"
+            },
+            opacity: 0.9
+        }];
+    var layout = {
+        xaxis: {
+            title: ''
+        },
+        yaxis: {
+            title: "frequency"
+        }
+    };
+    Plotly.newPlot('pieChart', plot, layout);
 }
 
 function drawPieChart(data){

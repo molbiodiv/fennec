@@ -44,6 +44,11 @@
             <div id='pieChart'></div>
             <script>drawPieChart({{ trait.values|json_encode()|raw }});</script>
         </div>
+    {% elseif trait.trait_format == 'numerical' %}
+        <div class='col-xs-12'>
+            <div id='pieChart'></div>
+            <script>drawHistogram({{ trait.values|json_encode()|raw }});</script>
+        </div>
     {% else %}
         <div class='col-xs-12'>
             <h1>Unknown trait type</h1>

@@ -83,7 +83,9 @@ class TraitController extends Controller
         $query->set('trait_type_id', $trait_type_id);
         $traitsDetails = $this->get('app.api.webservice')->factory('details', 'traits');
         $trait = $traitsDetails->execute($query, null);
-        array_walk($trait['values'], function(&$val, $key) { $val = count($val); });
+        if($trait['trait_format'] === 'categorical_free'){
+            array_walk($trait['values'], function(&$val, $key) { $val = count($val); });
+        }
         return $this->render('trait/details.html.twig', [
             'type' => 'trait',
             'dbversion' => $dbversion,
