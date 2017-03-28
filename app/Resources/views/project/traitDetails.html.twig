@@ -34,8 +34,8 @@
                 return new Biom(biomObject);
             }();
             var traitName = '{{ trait.name }}';
-            var traitValues = {{ trait.values|json_encode()|raw }};
-            drawHistogram(traitValues);
+            var traitValues = condenseNumericalTraitValues({{ trait.values|json_encode()|raw }});
+            drawHistogram(Object.values(traitValues));
         </script>
         <script src="{{ asset('assets/js/project/traitDetails.js') }}"></script>
     </div>

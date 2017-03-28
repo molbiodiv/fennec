@@ -20,7 +20,7 @@
     "startbootstrap-sb-admin-2": "BlackrockDigital/startbootstrap-sb-admin-2#^3.3.7",
     "bootstrap-select": "^1.11.2",
     "jquery-ui": "^1.12.1",
-    "plotlyjs": "plotly#^1.16.2",
+    "plotlyjs": "plotly#^1.18.1",
     "datatables": "^1.10.12",
     "bs-confirmation": "^1.0.5",
     "biojs-io-biom": "^1.0.5",
