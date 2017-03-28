@@ -39,5 +39,17 @@ class OrganismsWithTraitTest extends WebserviceTestCase
         $this->assertEquals(10, count($results));
         $this->assertTrue(array_key_exists('fennec_id',$results[0]));
         $this->assertTrue(array_key_exists('scientific_name',$results[0]));
+
+        // Use numerical trait
+        $results = $service->execute(
+            new ParameterBag(array(
+                'dbversion' => $default_db,
+                'trait_type_id' => 7, 'limit' => 12
+            )),
+            null
+        );
+        $this->assertEquals(12, count($results));
+        $this->assertTrue(array_key_exists('fennec_id',$results[0]));
+        $this->assertTrue(array_key_exists('scientific_name',$results[0]));
     }
 }
