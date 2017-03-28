@@ -1,6 +1,6 @@
 'use strict';
 
-function condenseTraitValues(organismsByValue) {
+function condenseCategoricalTraitValues(organismsByValue) {
     var valueByOrganism = {};
     var _iteratorNormalCompletion = true;
     var _didIteratorError = false;

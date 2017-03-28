@@ -15,7 +15,7 @@
                 return new Biom(biomObject);
             }();
             var traitName = '{{ trait.name }}';
-            var traitValues = condenseTraitValues({{ trait.values|json_encode()|raw }});
+            var traitValues = condenseCategoricalTraitValues({{ trait.values|json_encode()|raw }});
             var counts = _.countBy(traitValues);
             counts['NA'] = biom.shape[0] - _.sum(Object.values(counts));
             drawPieChart(counts);

@@ -3,12 +3,8 @@
 /* exported drawMap */
 /* global $ */
 function drawHistogram(data){
-    var values = [];
-    $.each(data, function(key, value){
-        values.push(...value);
-    });
     var plot = [{
-            x: values,
+            x: data,
             type: 'histogram',
             marker: {
                 color: "#78a00b"

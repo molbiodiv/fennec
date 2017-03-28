@@ -47,7 +47,7 @@
     {% elseif trait.trait_format == 'numerical' %}
         <div class='col-xs-12'>
             <div id='histogram'></div>
-            <script>drawHistogram({{ trait.values|json_encode()|raw }});</script>
+            <script>drawHistogram(_.flatten(Object.values({{ trait.values|json_encode()|raw }})));</script>
         </div>
     {% else %}
         <div class='col-xs-12'>

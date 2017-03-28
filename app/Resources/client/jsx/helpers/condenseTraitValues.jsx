@@ -1,4 +1,4 @@
-function condenseTraitValues(organismsByValue) {
+function condenseCategoricalTraitValues(organismsByValue) {
     let valueByOrganism = {};
     for(let key of Object.keys(organismsByValue).sort()){
         let value = organismsByValue[key];
