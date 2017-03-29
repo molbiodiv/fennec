@@ -136,4 +136,86 @@ class TraitsTest extends WebserviceTestCase
         $this->assertEquals($expected, $results, 'Array of organism ids is empty, should return empty values array and 0 as number_of_organisms');
     }
 
+    public function testWithCitations(){
+        $default_db = $this->default_db;
+        $service = $this->webservice->factory('details', 'traits');
+        $results = $service->execute(
+            new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' =>  2, 'fennec_ids' => [46032, 6661, 25517, 2888, 109884], 'include_citations' => 'TRUE')),
+            null
+        );
+        $expected = [
+                "values" => [
+                     "annual" => [2888, 109884],
+                     "perennial" => [46032, 6661, 25517]
+                ],
+                "citations" => [
+                    "2888" => [
+                        ["citation" => "Paula S, Arianoutsou M, Kazanis D, Tavsanoglu Ç, Lloret F, Buhk C, Ojeda F, Luna B, Moreno JM, Rodrigo A, Espelta JM, Palacio S, Fernández-Santos B, Fernandes PM, and Pausas JG. 2009. Fire-related traits for plant species of the Mediterranean Basin. Ecology 90:1420. http://esapubs.org/archive/ecol/E090/094/default.htm", "value" => "annual"],
+                        ["citation" => "The PLANTS Database, United States Department of Agriculture, National Resources Conservation Service. http://plants.usda.gov/", "value" => "annual"]
+                    ],
+                    "109884" => [
+                        ["citation" => "The PLANTS Database, United States Department of Agriculture, National Resources Conservation Service. http://plants.usda.gov/", "value" => "annual"]
+                    ],
+                    "46032" => [
+                        ["citation" => "The PLANTS Database, United States Department of Agriculture, National Resources Conservation Service. http://plants.usda.gov/", "value" => "perennial"]
+                    ],
+                    "6661" => [
+                        ["citation" => "The PLANTS Database, United States Department of Agriculture, National Resources Conservation Service. http://plants.usda.gov/", "value" => "perennial"]
+                    ],
+                    "25517" => [
+                        ["citation" => "The PLANTS Database, United States Department of Agriculture, National Resources Conservation Service. http://plants.usda.gov/", "value" => "perennial"]
+                    ]
+                ],
+                "trait_type_id" => 2,
+                "name" => "Plant Life Cycle Habit",
+                "ontology_url" => "http://purl.obolibrary.org/obo/TO_0002725",
+                "trait_format" => "categorical_free",
+                "number_of_organisms" => 5,
+                "description" => "Determined for type of life cycle being annual, biannual, perennial etc. [database_cross_reference: GR:pj]"
+            ];
+        $this->assertEquals($expected, $results, 'Organism ids provided, should return trait details for only those organisms, incl. citations');
+
+        $leaf_size = '7';
+        $results = $service->execute(
+            new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => $leaf_size, 'fennec_ids' => [5514,10979,878,879,1], 'include_citations' => 'TRUE')),
+            null
+        );
+        $expected = [
+            "values" => [
+                '1' => [],
+                '5514' => [41.2500000000],
+                '10979' => [5570.0000000000, 3913.0000000000],
+                '878' => [8756.5000000000, 6824.8000000000, 0.0000000000],
+                '879' => [7967.2000000000, 5435.1000000000, 11726.4000000000, 8332.0000000000]
+            ],
+            "citations" => [
+                "5514" => [
+                    ["citation" => "Source data from Carl von Ossietzky university of Oldenburg, Landscape Ecology Group, DE (Kunzmann), E-Mail: dkunzmann@gmx.de", "value" => "41.2500000000"]
+                ],
+                "10979" => [
+                    ["citation" => "Source data from University of Sheffield, Dept. of Animal and Plant Sciences, UK (Thompson), E-Mail: ken.thompson@sheffield.ac.uk", "value" => "5570.0000000000"],
+                    ["citation" => "Source data from University of Sheffield, Dept. of Animal and Plant Sciences, UK (Thompson), E-Mail: ken.thompson@sheffield.ac.uk", "value" => "3913.0000000000"]
+                ],
+                "878" => [
+                    ["citation" => "Source data from University of Sheffield, Dept. of Animal and Plant Sciences, UK (Thompson), E-Mail: ken.thompson@sheffield.ac.uk", "value" => "8756.5000000000"],
+                    ["citation" => "Source data from University of Sheffield, Dept. of Animal and Plant Sciences, UK (Thompson), E-Mail: ken.thompson@sheffield.ac.uk", "value" => "6824.8000000000"],
+                    ["citation" => "Niinemets, Ülo(2003): Leaf structure vs. nutrient relationship vary with soil onditions in temperate shrubs and trees", "value" => "0.0000000000"]
+                ],
+                "879" => [
+                    ["citation" => "Source data from University of Sheffield, Dept. of Animal and Plant Sciences, UK (Thompson), E-Mail: ken.thompson@sheffield.ac.uk", "value" => "7967.2000000000"],
+                    ["citation" => "Source data from University of Sheffield, Dept. of Animal and Plant Sciences, UK (Thompson), E-Mail: ken.thompson@sheffield.ac.uk", "value" => "5435.1000000000"],
+                    ["citation" => "Source data from University of Sheffield, Dept. of Animal and Plant Sciences, UK (Thompson), E-Mail: ken.thompson@sheffield.ac.uk", "value" => "11726.4000000000"],
+                    ["citation" => "Source data from University of Sheffield, Dept. of Animal and Plant Sciences, UK (Thompson), E-Mail: ken.thompson@sheffield.ac.uk", "value" => "8332.0000000000"]
+                ]
+            ],
+            "trait_type_id" => 7,
+            "name" => "Leaf size",
+            "ontology_url" => null,
+            "trait_format" => "numerical",
+            "number_of_organisms" => 4,
+            "description" => "Leaf size is the one-sided projected surface area of an individual leaf or lamina expressed in mm^2"
+        ];
+        $this->assertEquals($expected, $results, 'Array of organism ids is empty, should return empty values array and 0 as number_of_organisms');
+    }
+
 }
