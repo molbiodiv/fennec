@@ -38,6 +38,9 @@ gulp sassLint
 gulp sass
 ```
 ## Changes
+### 0.5.1
+ - Add numerical trait format
+ - Add trait citations to frontend
 ### 0.5.0 <2017-03-10>
  - Update color scheme
  - Improve startpage layout
