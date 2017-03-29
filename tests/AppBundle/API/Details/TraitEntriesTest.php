@@ -67,6 +67,7 @@ class TraitEntriesTest extends WebserviceTestCase
                 'type' => 'Leaf size',
                 'type_definition' => '',
                 'value' => 279.0000000000,
+                'value_definition' => null,
                 'citation' => 'Source data from University of Groningen, Community and Conservation Ecology Group, NL (Steendam), Corresponding address: R.m.bekker@rug.nl'
             ],
             '14136' => [
@@ -74,6 +75,7 @@ class TraitEntriesTest extends WebserviceTestCase
                 'type' => 'Leaf mass',
                 'type_definition' => '',
                 'value' => 376.7100000000,
+                'value_definition' => null,
                 'citation' => 'Source data from Carl von Ossietzky university of Oldenburg, Landscape Ecology Group, DE (Kunzmann), E-Mail: dkunzmann@gmx.de'
             ]
         ];
