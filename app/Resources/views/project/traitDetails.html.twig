@@ -16,6 +16,7 @@
             }();
             var traitName = '{{ trait.name }}';
             var traitValues = condenseCategoricalTraitValues({{ trait.values|json_encode()|raw }});
+            var traitCitations = {{ trait.citations|json_encode()|raw }};
             var counts = _.countBy(traitValues);
             counts['NA'] = biom.shape[0] - _.sum(Object.values(counts));
             drawPieChart(counts);
@@ -35,6 +36,7 @@
             }();
             var traitName = '{{ trait.name }}';
             var traitValues = condenseNumericalTraitValues({{ trait.values|json_encode()|raw }});
+            var traitCitations = {{ trait.citations|json_encode()|raw }};
             drawHistogram(Object.values(traitValues));
         </script>
         <script src="{{ asset('assets/js/project/traitDetails.js') }}"></script>
