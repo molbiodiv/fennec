@@ -84,6 +84,8 @@ class Projects extends Webservice
         }
         $json = json_decode($contents);
         if (json_last_error() !== JSON_ERROR_NONE) {
+            putenv("LC_ALL=C.UTF-8");
+            putenv("LANG=C.UTF-8");
             $biomcs = new BiomCS();
             try {
                 $json = $biomcs->convertToJSON($contents);
