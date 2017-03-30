@@ -6,6 +6,7 @@ use AppBundle\API\Webservice;
 use AppBundle\Entity\WebuserData;
 use AppBundle\User\FennecUser;
 use Symfony\Component\HttpFoundation\ParameterBag;
+use biomcs\BiomCS;
 
 /**
  * Web Service.
@@ -77,28 +78,20 @@ class Projects extends Webservice
         if (!is_uploaded_file($filename)) {
             return Projects::ERROR_IN_REQUEST;
         }
-        // Try to get file type with UNIX file command
-        $filetype = exec('file '.escapeshellarg($filename));
-        if (strpos($filetype, 'Hierarchical Data Format (version 5) data') !== false) {
-            $result = array();
-            $errorcode = 0;
-            exec('biom convert -i '.escapeshellarg($filename).
-                    ' -o '.escapeshellarg($filename).'.json --to-json', $result, $errorcode);
-            if ($errorcode === 0) {
-                rename($filename.'.json', $filename);
-            } else {
-                if (file_exists($filename.'json')) {
-                    unlink($filename.'.json');
-                }
-            }
-        }
         $contents = file_get_contents($filename);
         if ($contents === false) {
             return Projects::ERROR_NOT_BIOM;
         }
         $json = json_decode($contents);
         if (json_last_error() !== JSON_ERROR_NONE) {
-            return Projects::ERROR_NOT_BIOM;
+            $biomcs = new BiomCS();
+            try {
+                $json = $biomcs->convertToJSON($contents);
+                file_put_contents($filename, $json);
+                $json = json_decode($json);
+            } catch (\Exception $e){
+                return Projects::ERROR_NOT_BIOM;
+            }
         }
         if (!is_object($json)) {
             return Projects::ERROR_NOT_BIOM;
