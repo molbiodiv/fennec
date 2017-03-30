@@ -40,6 +40,10 @@ $('document').ready(function () {
         exportPseudoTaxTable();
     });
 
+    $('#project-export-trait-citation').click(() => {
+        exportTraitCitationsTable();
+    });
+
 });
 
 /**
@@ -80,8 +84,7 @@ function exportProjectAsBiom(asHdf5) {
 }
 
 /**
- * Opens a file download dialog of the current project in biom format
- * @param {boolean} asHdf5
+ * Opens a file download dialog of the current project in tsv format (pseudo taxonomy)
  */
 function exportPseudoTaxTable() {
     let contentType = "text/plain";
@@ -104,6 +107,25 @@ function exportPseudoTaxTable() {
     let out = _.join(header, "\t");
     out += "\n";
     out += _.join(tax.map(v => _.join(v,"\t")), "\n");
-    var blob = new Blob([out], {type: contentType});
+    const blob = new Blob([out], {type: contentType});
     saveAs(blob, biom.id+".tsv");
+}
+
+/**
+ * Opens a file download dialog of all trait citations for this project
+ */
+function exportTraitCitationsTable() {
+    const contentType = "text/plain";
+    let out = _.join(['#OTUId', 'fennec_id', 'traitType', 'citation', 'value'], "\t")+"\n";
+    for(let otu of biom.rows){
+        let id = otu.id;
+        let fennec_id = _.get(otu, ['metadata', 'fennec', dbversion, 'fennec_id']) || '';
+        for(let traitType of Object.keys(_.get(otu, ['metadata', 'trait_citations'])||{})){
+            for(let tc of _.get(otu, ['metadata', 'trait_citations', traitType])){
+                out += _.join([id, fennec_id, traitType, tc['citation'], tc['value']], "\t")+"\n";
+            }
+        }
+    }
+    const blob = new Blob([out], {type: contentType});
+    saveAs(blob, biom.id+".citations.tsv");
 }
