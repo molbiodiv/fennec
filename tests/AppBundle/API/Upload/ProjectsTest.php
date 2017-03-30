@@ -150,5 +150,24 @@ EOF;
         $expected = array("files"=>array(array("name" => "simpleBiom.hdf5", "size" => 33840, "error" => null)));
         $this->assertEquals($expected, $results);
         rename(__DIR__ . '/testFiles/simpleBiom.hdf5.backup', __DIR__ . '/testFiles/simpleBiom.hdf5');
+
+        // Test for success returned by plain otu table file
+        copy(__DIR__ . '/testFiles/otuTable.tsv', __DIR__ . '/testFiles/otuTable.tsv.backup');
+        $_FILES = array(
+            array(
+                'name' => 'otuTable.tsv',
+                'type' => 'text/plain',
+                'size' => 67,
+                'tmp_name' => __DIR__ . '/testFiles/otuTable.tsv',
+                'error' => 0
+            )
+        );
+        $results = $service->execute(
+            new ParameterBag(array('dbversion' => $default_db)),
+            $this->user
+        );
+        $expected = array("files"=>array(array("name" => "otuTable.tsv", "size" => 67, "error" => null)));
+        $this->assertEquals($expected, $results);
+        rename(__DIR__ . '/testFiles/otuTable.tsv.backup', __DIR__ . '/testFiles/otuTable.tsv');
     }
 }
