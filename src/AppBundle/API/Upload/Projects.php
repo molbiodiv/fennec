@@ -48,7 +48,7 @@ class Projects extends Webservice
             $create_if_not_exists = true;
             $webuser = $user->getWebuser($em, $create_if_not_exists);
             for ($i=0; $i<sizeof($_FILES); $i++) {
-                $valid = $this->validateFile($_FILES[$i]['tmp_name']);
+                $valid = $this->validateAndConvertFile($_FILES[$i]['tmp_name']);
                 if ($valid === true) {
                     $project = new WebuserData();
                     $project->setProject(json_decode(file_get_contents($_FILES[$i]['tmp_name'])));
@@ -69,11 +69,11 @@ class Projects extends Webservice
     }
 
     /**
-     * Function that checks the uploaded file for validity
+     * Function that checks the uploaded file for validity and converts it to BIOM v1 (json) from HDF5 or tsv
      * @param String $filename the uploaded file to check
      * @returns String|boolean Either true if the file is valid or a String containing the error message
      */
-    protected function validateFile($filename)
+    protected function validateAndConvertFile($filename)
     {
         if (!is_uploaded_file($filename)) {
             return Projects::ERROR_IN_REQUEST;
