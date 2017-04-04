@@ -6,6 +6,8 @@ namespace Tests\AppBundle\Command;
 use AppBundle\API\Details\Organism;
 use AppBundle\Command\ImportTraitEntriesCommand;
 use AppBundle\Entity\TraitCategoricalEntry;
+use AppBundle\Entity\TraitFormat;
+use AppBundle\Entity\TraitType;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -233,5 +235,56 @@ class ImportTraitValuesCommandTest extends KernelTestCase
         $this->assertNotNull($this->em->getRepository('AppBundle:TraitCitation')->findOneBy(array(
             'citation' => 'eol_fantasy2'
         )), 'after import with --skip-unmapped flag there is a citation "eol_fantasy2"');
+    }
+
+    public function testImportOfNumericTraitEntries(){
+        $this->assertNull($this->em->getRepository('AppBundle:TraitType')->findOneBy(array(
+            'type' => 'testPlantHeight'
+        )), 'before import there is no trait type called "testPlantHeight"');
+        $this->assertNull($this->em->getRepository('AppBundle:TraitCitation')->findOneBy(array(
+            'citation' => 'eol_fantasy_number'
+        )), 'before import there is no citation "eol_fantasy_number"');
+        $testPlantHeight = new TraitType();
+        $testPlantHeight->setType('testPlantHeight');
+        $testPlantHeight->setUnit('m');
+        $numericalFormat = $this->em->getRepository('AppBundle:TraitFormat')->findOneBy(['format' => 'numerical']);
+        if($numericalFormat === null){
+            $numericalFormat = new TraitFormat();
+            $numericalFormat->setFormat('numerical');
+            $this->em->persist($numericalFormat);
+        }
+        $testPlantHeight->setTraitFormat($numericalFormat);
+        $this->em->persist($testPlantHeight);
+        $this->em->flush();
+        $this->commandTester->execute(array(
+            'command' => $this->command->getName(),
+            '--user-id' => 1,
+            '--traittype' => 'testPlantHeight',
+            'file' => __DIR__ . '/files/plantHeightEOL.tsv',
+            '--mapping' => 'EOL'
+        ));
+        $this->assertNotNull($this->em->getRepository('AppBundle:TraitCitation')->findOneBy(array(
+            'citation' => 'eol_fantasy_number'
+        )), 'after import there is a citation "eol_fantasy_number"');
+        $this->assertEquals(3, count($this->em->getRepository('AppBundle:TraitNumericalEntry')->findBy(array(
+            'traitType' => $testPlantHeight
+        ))), 'There are three entries with type "testPlantHeight"');
+        /**
+         * @var TraitCategoricalEntry
+         */
+        $singleEntry = $this->em->getRepository('AppBundle:TraitNumericalEntry')->findOneBy(array(
+            'value' => 133,
+            'traitType' => $testPlantHeight
+        ));
+        $this->assertNotNull($singleEntry, 'The entry with value for eol id 1094535 exists');
+        $this->assertEquals(35729, $singleEntry->getFennec()->getFennecId(),
+            'The trait has been assigned to the correct organism');
+        $dialycerasEntry = $this->em->getRepository('AppBundle:TraitNumericalEntry')->findOneBy(array(
+            'originUrl' => 'http://example.com/plantHeight6875647',
+            'traitType' => $testPlantHeight
+        ));
+        $this->assertNotNull($dialycerasEntry, 'The entry with origin url for eol id 6875647 exists');
+        $this->assertEquals(23118, $dialycerasEntry->getFennec()->getFennecId(),
+            'The trait has been assigned to the correct organism');
     }
 }

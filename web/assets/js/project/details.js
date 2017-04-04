@@ -41,6 +41,10 @@ $('document').ready(function () {
     $('#project-export-pseudo-tax-biom').click(function () {
         exportPseudoTaxTable();
     });
+
+    $('#project-export-trait-citation').click(function () {
+        exportTraitCitationsTable();
+    });
 });
 
 /**
@@ -81,8 +85,7 @@ function exportProjectAsBiom(asHdf5) {
 }
 
 /**
- * Opens a file download dialog of the current project in biom format
- * @param {boolean} asHdf5
+ * Opens a file download dialog of the current project in tsv format (pseudo taxonomy)
  */
 function exportPseudoTaxTable() {
     var contentType = "text/plain";
@@ -145,6 +148,88 @@ function exportPseudoTaxTable() {
     }), "\n");
     var blob = new Blob([out], { type: contentType });
     saveAs(blob, biom.id + ".tsv");
+}
+
+/**
+ * Opens a file download dialog of all trait citations for this project
+ */
+function exportTraitCitationsTable() {
+    var contentType = "text/plain";
+    var out = _.join(['#OTUId', 'fennec_id', 'traitType', 'citation', 'value'], "\t") + "\n";
+    var _iteratorNormalCompletion2 = true;
+    var _didIteratorError2 = false;
+    var _iteratorError2 = undefined;
+
+    try {
+        for (var _iterator2 = biom.rows[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+            var otu = _step2.value;
+
+            var id = otu.id;
+            var fennec_id = _.get(otu, ['metadata', 'fennec', dbversion, 'fennec_id']) || '';
+            var _iteratorNormalCompletion3 = true;
+            var _didIteratorError3 = false;
+            var _iteratorError3 = undefined;
+
+            try {
+                for (var _iterator3 = Object.keys(_.get(otu, ['metadata', 'trait_citations']) || {})[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+                    var traitType = _step3.value;
+                    var _iteratorNormalCompletion4 = true;
+                    var _didIteratorError4 = false;
+                    var _iteratorError4 = undefined;
+
+                    try {
+                        for (var _iterator4 = _.get(otu, ['metadata', 'trait_citations', traitType])[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+                            var tc = _step4.value;
+
+                            out += _.join([id, fennec_id, traitType, tc['citation'], tc['value']], "\t") + "\n";
+                        }
+                    } catch (err) {
+                        _didIteratorError4 = true;
+                        _iteratorError4 = err;
+                    } finally {
+                        try {
+                            if (!_iteratorNormalCompletion4 && _iterator4.return) {
+                                _iterator4.return();
+                            }
+                        } finally {
+                            if (_didIteratorError4) {
+                                throw _iteratorError4;
+                            }
+                        }
+                    }
+                }
+            } catch (err) {
+                _didIteratorError3 = true;
+                _iteratorError3 = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion3 && _iterator3.return) {
+                        _iterator3.return();
+                    }
+                } finally {
+                    if (_didIteratorError3) {
+                        throw _iteratorError3;
+                    }
+                }
+            }
+        }
+    } catch (err) {
+        _didIteratorError2 = true;
+        _iteratorError2 = err;
+    } finally {
+        try {
+            if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                _iterator2.return();
+            }
+        } finally {
+            if (_didIteratorError2) {
+                throw _iteratorError2;
+            }
+        }
+    }
+
+    var blob = new Blob([out], { type: contentType });
+    saveAs(blob, biom.id + ".citations.tsv");
 }
 'use strict';
 

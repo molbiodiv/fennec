@@ -22,7 +22,7 @@
         $("#search_{{ type }}").data("ui-autocomplete")._renderItem = function (ul, item) {
             {% if type == 'organism' %}
                 var details = Routing.generate('{{ type }}_details', {'dbversion': '{{ dbversion }}', 'fennec_id': item.fennec_id});
-                var link = "<a href='"+details+"'><span style='display:inline-block; width: 100%; font-style: italic;'>" + item.scientific_name + "</span><span style='color: #338C8C'>" + item.rank + "</span></a>";
+                var link = "<a href='"+details+"'><span style='display:inline-block; width: 100%; font-style: italic;'>" + item.scientific_name + "</span></a>";
             {% elseif type == 'trait' %}
                 var details = Routing.generate('{{ type }}_details', {'dbversion': '{{ dbversion }}', 'trait_type_id': item.trait_type_id});
                 var link = "<a href='"+details+"'><span style='display:inline-block; width: 100%; font-style: italic;'>" + item.name + "</span></a>";

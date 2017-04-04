@@ -73,6 +73,7 @@ class ProjectController extends Controller
         $query->set('dbversion', $dbversion);
         $query->set('internal_project_id', $project_id);
         $query->set('trait_type_id', $trait_type_id);
+        $query->set('include_citations', true);
         $traitResult = $projectTraitDetails->execute($query, $this->getFennecUser());
         $projectDetails = $this->get('app.api.webservice')->factory('details', 'projects');
         $query->set('ids', array($project_id));

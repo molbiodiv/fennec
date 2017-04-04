@@ -69,7 +69,10 @@ class Overview extends Webservice
 
     private function get_number_of_trait_entries(){
         $query = $this->manager->createQuery('SELECT COUNT(t.id) FROM AppBundle\Entity\TraitCategoricalEntry t WHERE t.deletionDate IS NULL ');
-        return $query->getSingleScalarResult();
+        $numberCategorical = $query->getSingleScalarResult();
+        $query = $this->manager->createQuery('SELECT COUNT(t.id) FROM AppBundle\Entity\TraitNumericalEntry t WHERE t.deletionDate IS NULL ');
+        $numberNumerical = $query->getSingleScalarResult();
+        return $numberCategorical + $numberNumerical;
     }
 
     private function get_number_of_trait_types(){

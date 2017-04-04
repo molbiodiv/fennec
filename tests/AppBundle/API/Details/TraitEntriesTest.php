@@ -57,5 +57,28 @@ class TraitEntriesTest extends WebserviceTestCase
         $results = $service->execute($parameterBag, $user);
         $expected = array('47484' => $expected1['47484'], '35123' => $expected2['35123']);
         $this->assertEquals($expected, $results);
+
+        //Test if the details for two trait entries with numerical value are returned correctly
+        $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'trait_entry_ids' => ['7100', '14136'], 'trait_format' => 'numerical'));
+        $results = $service->execute($parameterBag, $user);
+        $expected = [
+            '7100' => [
+                'fennec_id' => 5818,
+                'type' => 'Leaf size',
+                'type_definition' => '',
+                'value' => 279.0000000000,
+                'value_definition' => null,
+                'citation' => 'Source data from University of Groningen, Community and Conservation Ecology Group, NL (Steendam), Corresponding address: R.m.bekker@rug.nl'
+            ],
+            '14136' => [
+                'fennec_id' => 2866,
+                'type' => 'Leaf mass',
+                'type_definition' => '',
+                'value' => 376.7100000000,
+                'value_definition' => null,
+                'citation' => 'Source data from Carl von Ossietzky university of Oldenburg, Landscape Ecology Group, DE (Kunzmann), E-Mail: dkunzmann@gmx.de'
+            ]
+        ];
+        $this->assertEquals($expected, $results);
     }
 }

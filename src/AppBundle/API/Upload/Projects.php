@@ -6,6 +6,7 @@ use AppBundle\API\Webservice;
 use AppBundle\Entity\WebuserData;
 use AppBundle\User\FennecUser;
 use Symfony\Component\HttpFoundation\ParameterBag;
+use biomcs\BiomCS;
 
 /**
  * Web Service.
@@ -47,7 +48,7 @@ class Projects extends Webservice
             $create_if_not_exists = true;
             $webuser = $user->getWebuser($em, $create_if_not_exists);
             for ($i=0; $i<sizeof($_FILES); $i++) {
-                $valid = $this->validateFile($_FILES[$i]['tmp_name']);
+                $valid = $this->validateAndConvertFile($_FILES[$i]['tmp_name']);
                 if ($valid === true) {
                     $project = new WebuserData();
                     $project->setProject(json_decode(file_get_contents($_FILES[$i]['tmp_name'])));
@@ -68,29 +69,14 @@ class Projects extends Webservice
     }
 
     /**
-     * Function that checks the uploaded file for validity
+     * Function that checks the uploaded file for validity and converts it to BIOM v1 (json) from HDF5 or tsv
      * @param String $filename the uploaded file to check
      * @returns String|boolean Either true if the file is valid or a String containing the error message
      */
-    protected function validateFile($filename)
+    protected function validateAndConvertFile($filename)
     {
         if (!is_uploaded_file($filename)) {
             return Projects::ERROR_IN_REQUEST;
-        }
-        // Try to get file type with UNIX file command
-        $filetype = exec('file '.escapeshellarg($filename));
-        if (strpos($filetype, 'Hierarchical Data Format (version 5) data') !== false) {
-            $result = array();
-            $errorcode = 0;
-            exec('biom convert -i '.escapeshellarg($filename).
-                    ' -o '.escapeshellarg($filename).'.json --to-json', $result, $errorcode);
-            if ($errorcode === 0) {
-                rename($filename.'.json', $filename);
-            } else {
-                if (file_exists($filename.'json')) {
-                    unlink($filename.'.json');
-                }
-            }
         }
         $contents = file_get_contents($filename);
         if ($contents === false) {
@@ -98,7 +84,16 @@ class Projects extends Webservice
         }
         $json = json_decode($contents);
         if (json_last_error() !== JSON_ERROR_NONE) {
-            return Projects::ERROR_NOT_BIOM;
+            putenv("LC_ALL=C.UTF-8");
+            putenv("LANG=C.UTF-8");
+            $biomcs = new BiomCS();
+            try {
+                $json = $biomcs->convertToJSON($contents);
+                file_put_contents($filename, $json);
+                $json = json_decode($json);
+            } catch (\Exception $e){
+                return Projects::ERROR_NOT_BIOM;
+            }
         }
         if (!is_object($json)) {
             return Projects::ERROR_NOT_BIOM;

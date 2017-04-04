@@ -39,9 +39,9 @@ class ListTraitTypeCommand extends ContainerAwareCommand
         $em = $orm->getManagerForVersion($connection_name);
         $traitTypes = $em->getRepository('AppBundle:TraitType')->findAll();
         $table = new Table($output);
-        $table->setHeaders(['ID', 'type', 'format', 'description', 'ontology_url']);
+        $table->setHeaders(['ID', 'type', 'format', 'description', 'ontology_url', 'unit']);
         foreach($traitTypes as $traitType){
-            $table->addRow([$traitType->getId(), $traitType->getType(), $traitType->getTraitFormat()->getFormat(), $traitType->getDescription(), $traitType->getOntologyUrl()]);
+            $table->addRow([$traitType->getId(), $traitType->getType(), $traitType->getTraitFormat()->getFormat(), $traitType->getDescription(), $traitType->getOntologyUrl(), $traitType->getUnit()]);
         }
         $table->render();
     }

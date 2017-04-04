@@ -33,6 +33,16 @@ class TraitsTest extends WebserviceTestCase
                 "frequency" => 16819
             ),
             array(
+                "name" => "Leaf mass",
+                "trait_type_id" => 8,
+                "frequency" => 3667
+            ),
+            array(
+                "name" => "Leaf size",
+                "trait_type_id" => 7,
+                "frequency" => 3407
+            ),
+            array(
                 "name" => "Flower Color",
                 "trait_type_id" => 4,
                 "frequency" => 2556

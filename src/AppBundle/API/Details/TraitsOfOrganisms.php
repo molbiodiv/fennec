@@ -35,15 +35,24 @@ class TraitsOfOrganisms extends Webservice
         }
         $placeholders = implode(',', array_fill(0, count($fennec_ids), '?'));
         $query_get_categorical_traits = <<<EOF
-SELECT trait_categorical_entry.id, trait_categorical_entry.fennec_id, trait_categorical_entry.trait_type_id, trait_type.type, trait_format.format
+(SELECT trait_categorical_entry.id, trait_categorical_entry.fennec_id, trait_categorical_entry.trait_type_id, trait_type.type, trait_format.format
     FROM trait_categorical_entry, trait_type, trait_format
     WHERE trait_categorical_entry.trait_type_id = trait_type.id
     AND trait_format.id = trait_type.trait_format_id
     AND deletion_date IS NULL
+    AND fennec_id IN ($placeholders))
+UNION
+(SELECT
+    trait_numerical_entry.id, trait_numerical_entry.fennec_id, trait_numerical_entry.trait_type_id, trait_type.type, trait_format.format
+    FROM trait_numerical_entry, trait_type, trait_format
+    WHERE trait_numerical_entry.trait_type_id = trait_type.id
+    AND trait_format.id = trait_type.trait_format_id
+    AND deletion_date IS NULL
     AND fennec_id IN ($placeholders)
+)
 EOF;
         $stm_get_categorical_traits = $this->db->prepare($query_get_categorical_traits);
-        $stm_get_categorical_traits->execute(array_map('intval', $fennec_ids));
+        $stm_get_categorical_traits->execute(array_map('intval', array_merge($fennec_ids, $fennec_ids)));
 
         $result = array();
         while ($row = $stm_get_categorical_traits->fetch(PDO::FETCH_ASSOC)) {

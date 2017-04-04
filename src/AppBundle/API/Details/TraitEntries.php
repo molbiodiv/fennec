@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 class TraitEntries extends Webservice
 {
     private $db;
-    private $known_trait_formats = array('categorical_free');
+    private $known_trait_formats = array('categorical_free', 'numerical');
     const ERROR_UNKNOWN_TRAIT_FORMAT = "Error. Unknown trait_format.";
 
     /**
@@ -75,6 +75,23 @@ FROM trait_categorical_entry
     LEFT JOIN trait_citation
         ON trait_citation.id = trait_categorical_entry.trait_citation_id
 WHERE trait_categorical_entry.id IN ($placeholder)
+EOF;
+        } elseif ($format === 'numerical'){
+            $query = <<<EOF
+SELECT 
+    trait_numerical_entry.id,
+    trait_numerical_entry.fennec_id,
+    trait_numerical_entry.value AS value_name,
+    trait_citation.citation,
+    trait_type.type AS type_name,
+    trait_type.ontology_url AS type_definition,
+    NULL AS value_definition
+FROM trait_numerical_entry
+    JOIN trait_type
+        ON trait_type.id = trait_numerical_entry.trait_type_id
+    LEFT JOIN trait_citation
+        ON trait_citation.id = trait_numerical_entry.trait_citation_id
+WHERE trait_numerical_entry.id IN ($placeholder)
 EOF;
         }
         return $query;

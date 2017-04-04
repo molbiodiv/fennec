@@ -48,6 +48,10 @@ gulp.task('babel-trait-browse', function() {
     return runBabelOnFolder('trait', 'browse');
 });
 
+gulp.task('babel-organism-details', function() {
+    return runBabelOnFolder('organism', 'details');
+});
+
 gulp.task('test', function() {
     return gulp.src('tests/js/**/*.js', {read: false})
         .pipe(mocha({reporter: 'spec', useColors: true}))
@@ -69,7 +73,14 @@ gulp.task('sassLint', function() {
     .pipe(sassLint.failOnError());
 });
 
-gulp.task('babel', ['babel-helpers','babel-base','babel-project-details','babel-project-trait-details','babel-trait-browse'], function () {
+gulp.task('babel', [
+    'babel-helpers',
+    'babel-base',
+    'babel-project-details',
+    'babel-project-trait-details',
+    'babel-trait-browse',
+    'babel-organism-details'
+], function () {
 });
 
 gulp.task('css', ['sassLint','sass'], function () {

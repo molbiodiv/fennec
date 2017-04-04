@@ -29,6 +29,7 @@ class CreateTraitTypeCommand extends ContainerAwareCommand
         ->addOption('format', 'f', InputOption::VALUE_REQUIRED, 'The trait format (string), must already exist', 'categorical_free')
         ->addOption('description', 'd', InputOption::VALUE_REQUIRED, 'The description of this trait type', null)
         ->addOption('ontology_url', 'o', InputOption::VALUE_REQUIRED, 'The ontology url of this trait type', null)
+        ->addOption('unit', 'u', InputOption::VALUE_REQUIRED, 'The unit of this trait type', null)
     ;
     }
 
@@ -64,6 +65,7 @@ class CreateTraitTypeCommand extends ContainerAwareCommand
         $traitType->setType($input->getArgument('traitname'));
         $traitType->setDescription($input->getOption('description'));
         $traitType->setOntologyUrl($input->getOption('ontology_url'));
+        $traitType->setUnit($input->getOption('unit'));
         $em->persist($traitType);
         $em->flush();
         $output->writeln('<info>TraitType successfully created: '.$traitType->getType().'</info>');

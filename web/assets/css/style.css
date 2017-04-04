@@ -29,6 +29,18 @@ and open the template in the editor.
 .page-header {
   border-bottom: 1px solid #514535; }
 
+.btn-primary {
+  color: antiquewhite;
+  background-color: #514535;
+  border-color: #322b21; }
+  .btn-primary:hover, .btn-primary:active, .btn-primary:focus {
+    background-color: black; }
+
+a {
+  color: #9d8669; }
+  a:hover {
+    color: #705f49; }
+
 .btn-organism {
   color: #FFF;
   background-color: #8E7358;
@@ -252,6 +264,9 @@ div#trait-table_paginate > .pagination > .active > a:hover {
 a:focus {
   color: inherit; }
 
+#toggleCitationButton {
+  margin-top: 20px; }
+
 .panel-projects {
   background-color: #C19C78;
   border-color: #b98f67;
@@ -296,7 +311,7 @@ a:focus {
 #startpage-logo {
   margin-top: 20px;
   margin-bottom: 20px;
-  width: 250px; }
+  width: 600px; }
 
 #startpage-text {
   margin-bottom: 40px;
