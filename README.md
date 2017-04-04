@@ -38,7 +38,7 @@ gulp sassLint
 gulp sass
 ```
 ## Changes
-### 0.5.1
+### 0.5.1 <2017-04-04>
  - Add numerical trait format
  - Add trait citations to frontend
  - Allow upload of OTU tables as projects
