@@ -263,7 +263,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'Fennec.tex', 'Fennec Documentation',
-     'Markus J. Ankenbrand, Sonja Hohlfeld, Frank Förster, Alexander Keller', 'manual'),
+     'Markus J. Ankenbrand, Sonja Hohlfeld, Frank Foerster, Alexander Keller', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
