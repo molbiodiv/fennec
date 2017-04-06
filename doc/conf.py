@@ -52,8 +52,8 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'Fennec'
-copyright = '2017, Markus J. Ankenbrand, Sonja Hohlfeld, Frank Förster, Alexander Keller'
-author = 'Markus J. Ankenbrand, Sonja Hohlfeld, Frank Förster, Alexander Keller'
+copyright = '2017, Markus J. Ankenbrand, Sonja Hohlfeld, Frank Foerster, Alexander Keller'
+author = 'Markus J. Ankenbrand, Sonja Hohlfeld, Frank Foerster, Alexander Keller'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
