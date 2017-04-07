@@ -40,6 +40,7 @@ $('document').ready(function () {
 
     $('#project-export-trait-citation').click(exportTraitCitationsTable);
 
+    $('#project-add-metadata-sample').on("change", addMetadataSample);
 });
 
 /**
@@ -124,4 +125,31 @@ function exportTraitCitationsTable() {
     }
     const blob = new Blob([out], {type: contentType});
     saveAs(blob, biom.id+".citations.tsv");
+}
+
+/**
+ * Add sample metadata from selected files
+ * @param {event} event
+ * @returns {void}
+ */
+function addMetadataSample(event)
+{
+    let files = event.target.files;
+    $.each(files, function(key, value){
+        let fr = new FileReader(value)
+        fr.onload((data) => console.log(data))
+        console.log(key, value)
+    });
+
+    /*let webserviceUrl = Routing.generate('api', {'namespace': 'edit', 'classname': 'updateProject'});
+    $.ajax(webserviceUrl, {
+        data: {
+            "dbversion": dbversion,
+            "project_id": internalProjectId,
+            "biom": biom.toString()
+        },
+        method: "POST",
+        success: () => showMessageDialog('Successfully added sample metadata.', 'success'),
+        error: (error) => showMessageDialog(error, 'danger')
+    });*/
 }
