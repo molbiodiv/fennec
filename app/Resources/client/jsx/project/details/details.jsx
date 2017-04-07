@@ -160,5 +160,6 @@ function updateProject() {
  * @param {Function} callback
  */
 function addMetadataSampleToFile(result, callback){
+    console.log(Papa.parse(result, {header: true}))
     callback();
 }
