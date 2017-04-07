@@ -59,9 +59,11 @@
             </div>
             <table id="project-metadata-table" class="table">
                 <tbody>
-                    <tr><th scope="row">Add metadata</th>
+                    <tr><th scope="row">Add sample metadata</th>
                         <td id="project-metadata-table-add">
-                            <button type="button" class="btn btn-primary" id="project-add-metadata-sample">Sample</button>
+                            <form>
+                                <input class="btn" id="project-add-metadata-sample" type="file" name="files[]" multiple>
+                            </form>
                         </td></tr>
                 </tbody>
             </table>
