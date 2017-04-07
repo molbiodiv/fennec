@@ -135,13 +135,13 @@ function exportTraitCitationsTable() {
 function addMetadataSample(event)
 {
     let files = event.target.files;
-    $.each(files, function(key, value){
-        let fr = new FileReader()
-        fr.onload = (data) => addMetadataSampleToFile(fr.result)
-        fr.readAsText(value);
-    });
+    let fr = new FileReader()
+    fr.onload = () => addMetadataSampleToFile(fr.result, updateProject)
+    fr.readAsText(files[0]);
+}
 
-    /*let webserviceUrl = Routing.generate('api', {'namespace': 'edit', 'classname': 'updateProject'});
+function updateProject() {
+    let webserviceUrl = Routing.generate('api', {'namespace': 'edit', 'classname': 'updateProject'});
     $.ajax(webserviceUrl, {
         data: {
             "dbversion": dbversion,
@@ -151,13 +151,14 @@ function addMetadataSample(event)
         method: "POST",
         success: () => showMessageDialog('Successfully added sample metadata.', 'success'),
         error: (error) => showMessageDialog(error, 'danger')
-    });*/
+    });
 }
 
 /**
  * Add sample metadata content to file
  * @param {String} result
+ * @param {Function} callback
  */
-function addMetadataSampleToFile(result){
-
+function addMetadataSampleToFile(result, callback){
+    callback();
 }

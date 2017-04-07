@@ -237,15 +237,15 @@ function exportTraitCitationsTable() {
  */
 function addMetadataSample(event) {
     var files = event.target.files;
-    $.each(files, function (key, value) {
-        var fr = new FileReader();
-        fr.onload = function (data) {
-            return addMetadataSampleToFile(fr.result);
-        };
-        fr.readAsText(value);
-    });
+    var fr = new FileReader();
+    fr.onload = function () {
+        return addMetadataSampleToFile(fr.result, updateProject);
+    };
+    fr.readAsText(files[0]);
+}
 
-    /*let webserviceUrl = Routing.generate('api', {'namespace': 'edit', 'classname': 'updateProject'});
+function updateProject() {
+    var webserviceUrl = Routing.generate('api', { 'namespace': 'edit', 'classname': 'updateProject' });
     $.ajax(webserviceUrl, {
         data: {
             "dbversion": dbversion,
@@ -253,16 +253,23 @@ function addMetadataSample(event) {
             "biom": biom.toString()
         },
         method: "POST",
-        success: () => showMessageDialog('Successfully added sample metadata.', 'success'),
-        error: (error) => showMessageDialog(error, 'danger')
-    });*/
+        success: function success() {
+            return showMessageDialog('Successfully added sample metadata.', 'success');
+        },
+        error: function error(_error) {
+            return showMessageDialog(_error, 'danger');
+        }
+    });
 }
 
 /**
  * Add sample metadata content to file
  * @param {String} result
+ * @param {Function} callback
  */
-function addMetadataSampleToFile(result) {}
+function addMetadataSampleToFile(result, callback) {
+    callback();
+}
 'use strict';
 
 /* global dbversion */
