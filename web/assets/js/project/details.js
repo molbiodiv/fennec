@@ -38,13 +38,10 @@ $('document').ready(function () {
         exportProjectAsBiom(true);
     });
 
-    $('#project-export-pseudo-tax-biom').click(function () {
-        exportPseudoTaxTable();
-    });
+    $('#project-export-pseudo-tax-biom').click(exportPseudoTaxTable);
 
-    $('#project-export-trait-citation').click(function () {
-        exportTraitCitationsTable();
-    });
+    $('#project-export-trait-citation').click(exportTraitCitationsTable);
+
 });
 
 /**
