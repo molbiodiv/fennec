@@ -331,7 +331,7 @@ function addMetadataSampleToFile(result, callback) {
     }
 
     $.each(sampleMetadata, function (key, value) {
-        biom.addMetadata({ 'dimension': 'rows', 'attribute': key, 'values': value });
+        biom.addMetadata({ 'dimension': 'columns', 'attribute': key, 'values': value });
     });
     callback();
 }
