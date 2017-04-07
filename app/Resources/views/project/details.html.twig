@@ -31,7 +31,6 @@
                     <button type="button" class="btn btn-default fa fa-pencil" data-toggle="modal" data-target="#editProjectDialog"></button>
                 </h3>
             </div>
-            <div id="react-table-test"></div>
             <table id="project-overview-table" class="table">
                 <tbody>
                     <tr><th scope="row">ID</th><td id="project-overview-table-id"></td></tr>
@@ -47,6 +46,22 @@
                             <button type="button" class="btn btn-primary" id="project-export-as-biom-v2">BIOM v2</button>
                             <button type="button" class="btn btn-primary" id="project-export-pseudo-tax-biom">tsv (pseudotax)</button>
                             <button type="button" class="btn btn-primary" id="project-export-trait-citation">tsv (citations)</button>
+                        </td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    Metadata overview
+                </h3>
+            </div>
+            <table id="project-metadata-table" class="table">
+                <tbody>
+                    <tr><th scope="row">Add metadata</th>
+                        <td id="project-metadata-table-add">
+                            <button type="button" class="btn btn-primary" id="project-add-metadata-sample">Sample</button>
                         </td></tr>
                 </tbody>
             </table>
