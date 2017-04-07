@@ -254,7 +254,7 @@ function updateProject() {
         },
         method: "POST",
         success: function success() {
-            return showMessageDialog('Successfully added sample metadata.', 'success');
+            return showMessageDialog('Successfully added metadata.', 'success');
         },
         error: function error(_error) {
             return showMessageDialog(_error, 'danger');
@@ -268,7 +268,71 @@ function updateProject() {
  * @param {Function} callback
  */
 function addMetadataSampleToFile(result, callback) {
-    console.log(Papa.parse(result, { header: true }));
+    var csvData = Papa.parse(result, { header: true });
+    var sampleMetadata = {};
+    var metadataKeys = Object.keys(csvData.data[0]);
+    var idKey = metadataKeys.splice(0, 1)[0];
+    var _iteratorNormalCompletion5 = true;
+    var _didIteratorError5 = false;
+    var _iteratorError5 = undefined;
+
+    try {
+        for (var _iterator5 = metadataKeys[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+            var key = _step5.value;
+
+            sampleMetadata[key] = {};
+        }
+    } catch (err) {
+        _didIteratorError5 = true;
+        _iteratorError5 = err;
+    } finally {
+        try {
+            if (!_iteratorNormalCompletion5 && _iterator5.return) {
+                _iterator5.return();
+            }
+        } finally {
+            if (_didIteratorError5) {
+                throw _iteratorError5;
+            }
+        }
+    }
+
+    var _iteratorNormalCompletion6 = true;
+    var _didIteratorError6 = false;
+    var _iteratorError6 = undefined;
+
+    try {
+        var _loop2 = function _loop2() {
+            var row = _step6.value;
+
+            $.each(row, function (key, value) {
+                if (key !== idKey) {
+                    sampleMetadata[key][row[idKey]] = value;
+                }
+            });
+        };
+
+        for (var _iterator6 = csvData.data[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
+            _loop2();
+        }
+    } catch (err) {
+        _didIteratorError6 = true;
+        _iteratorError6 = err;
+    } finally {
+        try {
+            if (!_iteratorNormalCompletion6 && _iterator6.return) {
+                _iterator6.return();
+            }
+        } finally {
+            if (_didIteratorError6) {
+                throw _iteratorError6;
+            }
+        }
+    }
+
+    $.each(sampleMetadata, function (key, value) {
+        biom.addMetadata({ 'dimension': 'rows', 'attribute': key, 'values': value });
+    });
     callback();
 }
 'use strict';

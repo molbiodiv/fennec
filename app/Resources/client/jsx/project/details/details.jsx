@@ -149,7 +149,7 @@ function updateProject() {
             "biom": biom.toString()
         },
         method: "POST",
-        success: () => showMessageDialog('Successfully added sample metadata.', 'success'),
+        success: () => showMessageDialog('Successfully added metadata.', 'success'),
         error: (error) => showMessageDialog(error, 'danger')
     });
 }
@@ -160,6 +160,22 @@ function updateProject() {
  * @param {Function} callback
  */
 function addMetadataSampleToFile(result, callback){
-    console.log(Papa.parse(result, {header: true}))
+    let csvData = Papa.parse(result, {header: true})
+    let sampleMetadata = {}
+    let metadataKeys = Object.keys(csvData.data[0]);
+    let idKey = metadataKeys.splice(0,1)[0];
+    for(let key of metadataKeys){
+        sampleMetadata[key] = {}
+    }
+    for(let row of csvData.data){
+        $.each(row, (key, value) => {
+            if(key !== idKey){
+                sampleMetadata[key][row[idKey]] = value
+            }
+        })
+    }
+    $.each(sampleMetadata, (key,value)=>{
+        biom.addMetadata({'dimension': 'rows', 'attribute': key, 'values': value})
+    })
     callback();
 }
