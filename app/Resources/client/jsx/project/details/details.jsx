@@ -136,9 +136,9 @@ function addMetadataSample(event)
 {
     let files = event.target.files;
     $.each(files, function(key, value){
-        let fr = new FileReader(value)
-        fr.onload((data) => console.log(data))
-        console.log(key, value)
+        let fr = new FileReader()
+        fr.onload = (data) => addMetadataSampleToFile(fr.result)
+        fr.readAsText(value);
     });
 
     /*let webserviceUrl = Routing.generate('api', {'namespace': 'edit', 'classname': 'updateProject'});
@@ -152,4 +152,12 @@ function addMetadataSample(event)
         success: () => showMessageDialog('Successfully added sample metadata.', 'success'),
         error: (error) => showMessageDialog(error, 'danger')
     });*/
+}
+
+/**
+ * Add sample metadata content to file
+ * @param {String} result
+ */
+function addMetadataSampleToFile(result){
+
 }

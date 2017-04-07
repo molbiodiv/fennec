@@ -238,11 +238,11 @@ function exportTraitCitationsTable() {
 function addMetadataSample(event) {
     var files = event.target.files;
     $.each(files, function (key, value) {
-        var fr = new FileReader(value);
-        fr.onload(function (data) {
-            return console.log(data);
-        });
-        console.log(key, value);
+        var fr = new FileReader();
+        fr.onload = function (data) {
+            return addMetadataSampleToFile(fr.result);
+        };
+        fr.readAsText(value);
     });
 
     /*let webserviceUrl = Routing.generate('api', {'namespace': 'edit', 'classname': 'updateProject'});
@@ -257,6 +257,12 @@ function addMetadataSample(event) {
         error: (error) => showMessageDialog(error, 'danger')
     });*/
 }
+
+/**
+ * Add sample metadata content to file
+ * @param {String} result
+ */
+function addMetadataSampleToFile(result) {}
 'use strict';
 
 /* global dbversion */
