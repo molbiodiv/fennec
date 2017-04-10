@@ -5,7 +5,6 @@ namespace AppBundle\API\Details;
 use AppBundle\API\Webservice;
 use AppBundle\Entity\WebuserData;
 use AppBundle\User\FennecUser;
-use \PDO as PDO;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
 /**
@@ -45,7 +44,7 @@ class Projects extends Webservice
             foreach ($webuserData as $project) {
                 /** @var WebuserData $project */
                 $result['projects'][$project->getWebuserDataId()] = array(
-                    'biom' => json_encode($project->getProject()),
+                    'biom' => json_encode($project->getProject(), JSON_FORCE_OBJECT),
                     'import_date' => $project->getImportDate(),
                     'import_filename' => $project->getImportFilename()
                 );
