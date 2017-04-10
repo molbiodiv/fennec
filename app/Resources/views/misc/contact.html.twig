@@ -1,0 +1,9 @@
+{% extends 'base.navigation.html.twig' %}
+
+{% block content %}
+    <div class="col-lg-1"></div>
+    <div class="col-lg-10">
+        {% include ['misc/custom_contact.html.twig', 'misc/missing_contact.html.twig'] %}
+    </div>
+    <div class="col-lg-1"></div>
+{% endblock %}
