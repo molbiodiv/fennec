@@ -409,6 +409,16 @@ $('document').ready(function () {
         $('#mapping-metadata-observation-select').append(option);
     });
 
+    $('#mapping-dimension-select').on('change', function () {
+        if ($('#mapping-dimension-select').val() === 'rows') {
+            $('#mapping-metadata-sample-select').selectpicker('hide');
+            $('#mapping-metadata-observation-select').selectpicker('show');
+        } else {
+            $('#mapping-metadata-sample-select').selectpicker('show');
+            $('#mapping-metadata-observation-select').selectpicker('hide');
+        }
+    });
+
     $('.selectpicker').selectpicker('refresh');
 
     // Add semi-global dimension variable (stores last mapped dimension)
