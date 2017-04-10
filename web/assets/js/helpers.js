@@ -93,10 +93,15 @@ function condenseNumericalTraitValues(multipleValuesPerOrganism) {
 }
 'use strict';
 
+var _ = require('lodash');
+
 function getMetadataKeys(biom) {
     var dimension = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'columns';
 
     var elements = _.cloneDeep(dimension === 'columns' ? biom.columns : biom.rows);
+    if (typeof elements === 'undefined') {
+        return [];
+    }
     var keys = elements.map(function (element) {
         return element.metadata === null ? [] : Object.keys(element.metadata);
     });

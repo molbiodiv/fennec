@@ -54,7 +54,7 @@ gulp.task('babel-organism-details', function() {
 
 gulp.task('test', function() {
     return gulp.src('tests/js/**/*.js', {read: false})
-        .pipe(mocha({reporter: 'spec', useColors: true, require: ['lodash']}))
+        .pipe(mocha({reporter: 'spec', useColors: true}))
 });
 
 gulp.task('sass', function () {
