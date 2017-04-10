@@ -23,9 +23,21 @@ $('document').ready(() => {
         let option = $('<option>').prop('value', key).text(value)
         $('#mapping-method-select').append(option)
     })
-    $('.selectpicker').selectpicker('refresh')
 
+    let sampleMetadataKeys = getMetadataKeys(biom, 'columns');
+    $.each(sampleMetadataKeys, (key, value) => {
+        let option = $('<option>').prop('value', value).text(value)
+        $('#mapping-metadata-sample-select').append(option)
+    })
     $('#mapping-metadata-sample-select').selectpicker('hide');
+
+    let observationMetadataKeys = getMetadataKeys(biom, 'rows');
+    $.each(observationMetadataKeys, (key, value) => {
+        let option = $('<option>').prop('value', value).text(value)
+        $('#mapping-metadata-observation-select').append(option)
+    })
+
+    $('.selectpicker').selectpicker('refresh')
 
     // Add semi-global dimension variable (stores last mapped dimension)
     var dimension = 'rows';
