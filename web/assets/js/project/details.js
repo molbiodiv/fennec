@@ -268,9 +268,9 @@ function updateProject() {
  * @param {Function} callback
  */
 function addMetadataSampleToFile(result, callback) {
-    var csvData = Papa.parse(result, { header: true });
+    var csvData = Papa.parse(result, { header: true, skipEmptyLines: true });
     if (csvData.errors.length > 0) {
-        showMessageDialog(csvData.errors[0].message, 'danger');
+        showMessageDialog(csvData.errors[0].message + ' line: ' + csvData.errors[0].row, 'danger');
         return;
     }
     if (csvData.data.length === 0) {
