@@ -31,7 +31,6 @@
                     <button type="button" class="btn btn-default fa fa-pencil" data-toggle="modal" data-target="#editProjectDialog"></button>
                 </h3>
             </div>
-            <div id="react-table-test"></div>
             <table id="project-overview-table" class="table">
                 <tbody>
                     <tr><th scope="row">ID</th><td id="project-overview-table-id"></td></tr>
@@ -47,6 +46,32 @@
                             <button type="button" class="btn btn-primary" id="project-export-as-biom-v2">BIOM v2</button>
                             <button type="button" class="btn btn-primary" id="project-export-pseudo-tax-biom">tsv (pseudotax)</button>
                             <button type="button" class="btn btn-primary" id="project-export-trait-citation">tsv (citations)</button>
+                        </td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    Metadata overview
+                </h3>
+            </div>
+            <table id="project-metadata-table" class="table">
+                <tbody>
+                    <tr><th scope="row">Sample metadata</th><td id="metadata-overview-sample"></td></tr>
+                    <tr><th scope="row">Observation metadata</th><td id="metadata-overview-observation"></td></tr>
+                    <tr><th scope="row">Add sample metadata</th>
+                        <td id="project-metadata-table-add-sample">
+                            <form>
+                                <input class="btn" id="project-add-metadata-sample" type="file" name="files[]">
+                            </form>
+                        </td></tr>
+                    <tr><th scope="row">Add observation metadata</th>
+                        <td id="project-metadata-table-add-observation">
+                            <form>
+                                <input class="btn" id="project-add-metadata-observation" type="file" name="files[]">
+                            </form>
                         </td></tr>
                 </tbody>
             </table>
@@ -97,10 +122,10 @@
                         <option value="columns">Samples</option>
                     </select>
                     by
-                    <select class="selectpicker" id="mapping-method-select" data-style="btn-primary">
-                        <option value="ncbi_taxonomy">NCBI tax id</option>
-                        <option value="organism_name">Organism Name</option>
-                    </select>
+                    <select class="selectpicker" id="mapping-metadata-sample-select" data-style="btn-primary"></select>
+                    <select class="selectpicker" id="mapping-metadata-observation-select" data-style="btn-primary"></select>
+                    on
+                    <select class="selectpicker" id="mapping-method-select" data-style="btn-primary"></select>
                     <button class="btn btn-primary" id="mapping-action-button">GO</button>
                 </div>
                 <div id="mapping-action-busy-indicator" align="center" style="display: none">

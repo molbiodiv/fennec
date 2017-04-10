@@ -36,14 +36,15 @@ $('document').ready(function () {
         exportProjectAsBiom(true);
     });
 
-    $('#project-export-pseudo-tax-biom').click(() => {
-        exportPseudoTaxTable();
-    });
+    $('#project-export-pseudo-tax-biom').click(exportPseudoTaxTable);
 
-    $('#project-export-trait-citation').click(() => {
-        exportTraitCitationsTable();
-    });
+    $('#project-export-trait-citation').click(exportTraitCitationsTable);
 
+    $('#project-add-metadata-sample').on("change", addMetadataSample);
+    $('#project-add-metadata-observation').on("change", addMetadataObservation);
+
+    $('#metadata-overview-sample').text(getMetadataKeys(biom, 'columns').join(', '));
+    $('#metadata-overview-observation').text(getMetadataKeys(biom, 'rows').join(', '));
 });
 
 /**
@@ -128,4 +129,79 @@ function exportTraitCitationsTable() {
     }
     const blob = new Blob([out], {type: contentType});
     saveAs(blob, biom.id+".citations.tsv");
+}
+
+/**
+ * Add sample metadata from selected files
+ * @param {event} event
+ * @returns {void}
+ */
+function addMetadataSample(event)
+{
+    let files = event.target.files;
+    let fr = new FileReader()
+    fr.onload = () => addMetadataToFile(fr.result, updateProject, 'columns')
+    fr.readAsText(files[0]);
+}
+
+/**
+ * Add observation metadata from selected files
+ * @param {event} event
+ * @returns {void}
+ */
+function addMetadataObservation(event)
+{
+    let files = event.target.files;
+    let fr = new FileReader()
+    fr.onload = () => addMetadataToFile(fr.result, updateProject, 'rows')
+    fr.readAsText(files[0]);
+}
+
+function updateProject() {
+    let webserviceUrl = Routing.generate('api', {'namespace': 'edit', 'classname': 'updateProject'});
+    $.ajax(webserviceUrl, {
+        data: {
+            "dbversion": dbversion,
+            "project_id": internalProjectId,
+            "biom": biom.toString()
+        },
+        method: "POST",
+        success: () => showMessageDialog('Successfully added metadata.', 'success'),
+        error: (error) => showMessageDialog(error, 'danger')
+    });
+}
+
+/**
+ * Add sample metadata content to file
+ * @param {String} result
+ * @param {Function} callback
+ * @param {String} dimension
+ */
+function addMetadataToFile(result, callback, dimension='columns'){
+    let csvData = Papa.parse(result, {header: true, skipEmptyLines: true})
+    if(csvData.errors.length > 0){
+        showMessageDialog(csvData.errors[0].message+' line: '+csvData.errors[0].row, 'danger');
+        return;
+    }
+    if(csvData.data.length === 0){
+        showMessageDialog("Could not parse file. No data found.", 'danger');
+        return;
+    }
+    let sampleMetadata = {}
+    let metadataKeys = Object.keys(csvData.data[0]);
+    let idKey = metadataKeys.splice(0,1)[0];
+    for(let key of metadataKeys){
+        sampleMetadata[key] = {}
+    }
+    for(let row of csvData.data){
+        $.each(row, (key, value) => {
+            if(key !== idKey){
+                sampleMetadata[key][row[idKey]] = value
+            }
+        })
+    }
+    $.each(sampleMetadata, (key,value)=>{
+        biom.addMetadata({'dimension': dimension, 'attribute': key, 'values': value})
+    })
+    callback();
 }

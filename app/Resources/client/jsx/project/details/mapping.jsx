@@ -18,15 +18,51 @@ $('document').ready(() => {
     $('#progress-bar-mapping-sample').css('width', percentageMappedSamples + '%').attr('aria-valuenow', percentageMappedSamples);
     $('#progress-bar-mapping-sample').text(percentageMappedSamples.toFixed(0) + '%');
 
+    let methods = {ncbi_taxonomy: "NCBI taxid", organism_name: "Scientific name", iucn_redlist: "IUCN id", EOL: "EOL id"};
+    $.each(methods, (key, value) => {
+        addOptionToSelectpicker(key, value, 'mapping-method-select');
+    })
+
+    let sampleMetadataKeys = getMetadataKeys(biom, 'columns');
+    addOptionToSelectpicker('ID', 'ID', 'mapping-metadata-sample-select')
+    $.each(sampleMetadataKeys, (key, value) => {
+        addOptionToSelectpicker('md:'+value, value, 'mapping-metadata-sample-select')
+    })
+
+    let observationMetadataKeys = getMetadataKeys(biom, 'rows');
+    addOptionToSelectpicker('ID', 'ID', 'mapping-metadata-observation-select')
+    $.each(observationMetadataKeys, (key, value) => {
+        addOptionToSelectpicker('md:'+value, value, 'mapping-metadata-observation-select')
+    })
+
+    $('#mapping-dimension-select').on('change', () => {
+        if($('#mapping-dimension-select').val() === 'rows'){
+            $('#mapping-metadata-sample-select').selectpicker('hide');
+            $('#mapping-metadata-observation-select').selectpicker('show');
+        } else {
+            $('#mapping-metadata-sample-select').selectpicker('show');
+            $('#mapping-metadata-observation-select').selectpicker('hide');
+        }
+    })
+
+    $('.selectpicker').selectpicker('refresh')
+    $('#mapping-dimension-select').change();
+
     // Add semi-global dimension variable (stores last mapped dimension)
     var dimension = 'rows';
     var method = 'ncbi_taxonomy';
+    var attribute = '';
 
     // Set action for click on mapping "GO" button
     $('#mapping-action-button').on('click', function () {
         dimension = $('#mapping-dimension-select').val();
         method = $('#mapping-method-select').val();
-        let ids = getIdsForMethod(method, dimension);
+        if(dimension === 'rows'){
+            attribute = $('#mapping-metadata-observation-select').val();
+        } else {
+            attribute = $('#mapping-metadata-sample-select').val();
+        }
+        let ids = getIdsForAttribute(dimension, attribute);
         let uniq_ids = ids.filter(value => value !== null);
         uniq_ids = _.uniq(uniq_ids);
         $('#mapping-action-busy-indicator').show();
@@ -54,17 +90,22 @@ $('document').ready(() => {
         }
     });
 
+    function addOptionToSelectpicker(value, text, id) {
+        let option = $('<option>').prop('value', value).text(text)
+        $('#'+id).append(option)
+    }
+
     /**
      * Returns the array with search id for the respective method in the given dimension
-     * @param method
      * @param dimension
+     * @param attribute
      * @return {Array}
      */
-    function getIdsForMethod(method, dimension) {
+    function getIdsForAttribute(dimension, attribute) {
         let ids = [];
-        if(method === 'ncbi_taxonomy'){
-            ids = biom.getMetadata({dimension: dimension, attribute: 'ncbi_taxid'});
-        } else if(method === 'organism_name'){
+        if(attribute.substr(0,3) === 'md:'){
+            ids = biom.getMetadata({dimension: dimension, attribute: attribute.substr(3)});
+        } else {
             ids = biom[dimension].map((element) => element.id);
         }
         return ids;
@@ -78,6 +119,8 @@ $('document').ready(() => {
     function getWebserviceUrlForMethod(method) {
         let method2service = {
             'ncbi_taxonomy': 'byDbxrefId',
+            'EOL': 'byDbxrefId',
+            'iucn_redlist': 'byDbxrefId',
             'organism_name': 'byOrganismName'
         };
         let webserviceUrl = Routing.generate('api', {'namespace': 'mapping', 'classname': method2service[method]});
@@ -90,13 +133,7 @@ $('document').ready(() => {
      * @return {string}
      */
     function getIdStringForMethod(method) {
-        let idString = "";
-        if (method === 'ncbi_taxonomy'){
-            idString = "NCBI taxid";
-        } else if (method === 'organism_name') {
-            idString = "Organism name";
-        }
-        return idString;
+        return methods[method];
     }
 
     /**
@@ -136,7 +173,7 @@ $('document').ready(() => {
         let ids = biom[dimension].map(function (element) {
             return element.id;
         });
-        let mappingIds = getIdsForMethod(method, dimension);
+        let mappingIds = getIdsForAttribute(dimension, attribute);
         let fennecIds = biom.getMetadata({dimension: dimension, attribute: ['fennec', dbversion, 'fennec_id']});
         let idHeader = dimension === 'rows' ? 'OTU_ID' : 'Sample_ID';
         let idString = getIdStringForMethod(method);

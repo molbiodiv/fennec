@@ -38,6 +38,11 @@ gulp sassLint
 gulp sass
 ```
 ## Changes
+### 0.6.0 <2017-04-10>
+ - Add metadata overview to projects
+ - Add possibility to upload metadata tsv files
+ - Generalize mapping to fennec ids
+ - Add contact page
 ### 0.5.1 <2017-04-04>
  - Add numerical trait format
  - Add trait citations to frontend

@@ -38,13 +38,15 @@ $('document').ready(function () {
         exportProjectAsBiom(true);
     });
 
-    $('#project-export-pseudo-tax-biom').click(function () {
-        exportPseudoTaxTable();
-    });
+    $('#project-export-pseudo-tax-biom').click(exportPseudoTaxTable);
 
-    $('#project-export-trait-citation').click(function () {
-        exportTraitCitationsTable();
-    });
+    $('#project-export-trait-citation').click(exportTraitCitationsTable);
+
+    $('#project-add-metadata-sample').on("change", addMetadataSample);
+    $('#project-add-metadata-observation').on("change", addMetadataObservation);
+
+    $('#metadata-overview-sample').text(getMetadataKeys(biom, 'columns').join(', '));
+    $('#metadata-overview-observation').text(getMetadataKeys(biom, 'rows').join(', '));
 });
 
 /**
@@ -231,6 +233,137 @@ function exportTraitCitationsTable() {
     var blob = new Blob([out], { type: contentType });
     saveAs(blob, biom.id + ".citations.tsv");
 }
+
+/**
+ * Add sample metadata from selected files
+ * @param {event} event
+ * @returns {void}
+ */
+function addMetadataSample(event) {
+    var files = event.target.files;
+    var fr = new FileReader();
+    fr.onload = function () {
+        return addMetadataToFile(fr.result, updateProject, 'columns');
+    };
+    fr.readAsText(files[0]);
+}
+
+/**
+ * Add observation metadata from selected files
+ * @param {event} event
+ * @returns {void}
+ */
+function addMetadataObservation(event) {
+    var files = event.target.files;
+    var fr = new FileReader();
+    fr.onload = function () {
+        return addMetadataToFile(fr.result, updateProject, 'rows');
+    };
+    fr.readAsText(files[0]);
+}
+
+function updateProject() {
+    var webserviceUrl = Routing.generate('api', { 'namespace': 'edit', 'classname': 'updateProject' });
+    $.ajax(webserviceUrl, {
+        data: {
+            "dbversion": dbversion,
+            "project_id": internalProjectId,
+            "biom": biom.toString()
+        },
+        method: "POST",
+        success: function success() {
+            return showMessageDialog('Successfully added metadata.', 'success');
+        },
+        error: function error(_error) {
+            return showMessageDialog(_error, 'danger');
+        }
+    });
+}
+
+/**
+ * Add sample metadata content to file
+ * @param {String} result
+ * @param {Function} callback
+ * @param {String} dimension
+ */
+function addMetadataToFile(result, callback) {
+    var dimension = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'columns';
+
+    var csvData = Papa.parse(result, { header: true, skipEmptyLines: true });
+    if (csvData.errors.length > 0) {
+        showMessageDialog(csvData.errors[0].message + ' line: ' + csvData.errors[0].row, 'danger');
+        return;
+    }
+    if (csvData.data.length === 0) {
+        showMessageDialog("Could not parse file. No data found.", 'danger');
+        return;
+    }
+    var sampleMetadata = {};
+    var metadataKeys = Object.keys(csvData.data[0]);
+    var idKey = metadataKeys.splice(0, 1)[0];
+    var _iteratorNormalCompletion5 = true;
+    var _didIteratorError5 = false;
+    var _iteratorError5 = undefined;
+
+    try {
+        for (var _iterator5 = metadataKeys[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+            var key = _step5.value;
+
+            sampleMetadata[key] = {};
+        }
+    } catch (err) {
+        _didIteratorError5 = true;
+        _iteratorError5 = err;
+    } finally {
+        try {
+            if (!_iteratorNormalCompletion5 && _iterator5.return) {
+                _iterator5.return();
+            }
+        } finally {
+            if (_didIteratorError5) {
+                throw _iteratorError5;
+            }
+        }
+    }
+
+    var _iteratorNormalCompletion6 = true;
+    var _didIteratorError6 = false;
+    var _iteratorError6 = undefined;
+
+    try {
+        var _loop2 = function _loop2() {
+            var row = _step6.value;
+
+            $.each(row, function (key, value) {
+                if (key !== idKey) {
+                    sampleMetadata[key][row[idKey]] = value;
+                }
+            });
+        };
+
+        for (var _iterator6 = csvData.data[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
+            _loop2();
+        }
+    } catch (err) {
+        _didIteratorError6 = true;
+        _iteratorError6 = err;
+    } finally {
+        try {
+            if (!_iteratorNormalCompletion6 && _iterator6.return) {
+                _iterator6.return();
+            }
+        } finally {
+            if (_didIteratorError6) {
+                throw _iteratorError6;
+            }
+        }
+    }
+
+    $.each(sampleMetadata, function (key, value) {
+        biom.addMetadata({ 'dimension': dimension, 'attribute': key, 'values': value });
+    });
+    callback();
+}
 'use strict';
 
 /* global dbversion */
@@ -257,15 +390,51 @@ $('document').ready(function () {
     $('#progress-bar-mapping-sample').css('width', percentageMappedSamples + '%').attr('aria-valuenow', percentageMappedSamples);
     $('#progress-bar-mapping-sample').text(percentageMappedSamples.toFixed(0) + '%');
 
+    var methods = { ncbi_taxonomy: "NCBI taxid", organism_name: "Scientific name", iucn_redlist: "IUCN id", EOL: "EOL id" };
+    $.each(methods, function (key, value) {
+        addOptionToSelectpicker(key, value, 'mapping-method-select');
+    });
+
+    var sampleMetadataKeys = getMetadataKeys(biom, 'columns');
+    addOptionToSelectpicker('ID', 'ID', 'mapping-metadata-sample-select');
+    $.each(sampleMetadataKeys, function (key, value) {
+        addOptionToSelectpicker('md:' + value, value, 'mapping-metadata-sample-select');
+    });
+
+    var observationMetadataKeys = getMetadataKeys(biom, 'rows');
+    addOptionToSelectpicker('ID', 'ID', 'mapping-metadata-observation-select');
+    $.each(observationMetadataKeys, function (key, value) {
+        addOptionToSelectpicker('md:' + value, value, 'mapping-metadata-observation-select');
+    });
+
+    $('#mapping-dimension-select').on('change', function () {
+        if ($('#mapping-dimension-select').val() === 'rows') {
+            $('#mapping-metadata-sample-select').selectpicker('hide');
+            $('#mapping-metadata-observation-select').selectpicker('show');
+        } else {
+            $('#mapping-metadata-sample-select').selectpicker('show');
+            $('#mapping-metadata-observation-select').selectpicker('hide');
+        }
+    });
+
+    $('.selectpicker').selectpicker('refresh');
+    $('#mapping-dimension-select').change();
+
     // Add semi-global dimension variable (stores last mapped dimension)
     var dimension = 'rows';
     var method = 'ncbi_taxonomy';
+    var attribute = '';
 
     // Set action for click on mapping "GO" button
     $('#mapping-action-button').on('click', function () {
         dimension = $('#mapping-dimension-select').val();
         method = $('#mapping-method-select').val();
-        var ids = getIdsForMethod(method, dimension);
+        if (dimension === 'rows') {
+            attribute = $('#mapping-metadata-observation-select').val();
+        } else {
+            attribute = $('#mapping-metadata-sample-select').val();
+        }
+        var ids = getIdsForAttribute(dimension, attribute);
         var uniq_ids = ids.filter(function (value) {
             return value !== null;
         });
@@ -297,17 +466,22 @@ $('document').ready(function () {
         }
     });
 
+    function addOptionToSelectpicker(value, text, id) {
+        var option = $('<option>').prop('value', value).text(text);
+        $('#' + id).append(option);
+    }
+
     /**
      * Returns the array with search id for the respective method in the given dimension
-     * @param method
      * @param dimension
+     * @param attribute
      * @return {Array}
      */
-    function getIdsForMethod(method, dimension) {
+    function getIdsForAttribute(dimension, attribute) {
         var ids = [];
-        if (method === 'ncbi_taxonomy') {
-            ids = biom.getMetadata({ dimension: dimension, attribute: 'ncbi_taxid' });
-        } else if (method === 'organism_name') {
+        if (attribute.substr(0, 3) === 'md:') {
+            ids = biom.getMetadata({ dimension: dimension, attribute: attribute.substr(3) });
+        } else {
             ids = biom[dimension].map(function (element) {
                 return element.id;
             });
@@ -323,6 +497,8 @@ $('document').ready(function () {
     function getWebserviceUrlForMethod(method) {
         var method2service = {
             'ncbi_taxonomy': 'byDbxrefId',
+            'EOL': 'byDbxrefId',
+            'iucn_redlist': 'byDbxrefId',
             'organism_name': 'byOrganismName'
         };
         var webserviceUrl = Routing.generate('api', { 'namespace': 'mapping', 'classname': method2service[method] });
@@ -335,13 +511,7 @@ $('document').ready(function () {
      * @return {string}
      */
     function getIdStringForMethod(method) {
-        var idString = "";
-        if (method === 'ncbi_taxonomy') {
-            idString = "NCBI taxid";
-        } else if (method === 'organism_name') {
-            idString = "Organism name";
-        }
-        return idString;
+        return methods[method];
     }
 
     /**
@@ -381,7 +551,7 @@ $('document').ready(function () {
         var ids = biom[dimension].map(function (element) {
             return element.id;
         });
-        var mappingIds = getIdsForMethod(method, dimension);
+        var mappingIds = getIdsForAttribute(dimension, attribute);
         var fennecIds = biom.getMetadata({ dimension: dimension, attribute: ['fennec', dbversion, 'fennec_id'] });
         var idHeader = dimension === 'rows' ? 'OTU_ID' : 'Sample_ID';
         var idString = getIdStringForMethod(method);
