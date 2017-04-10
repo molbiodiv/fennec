@@ -46,6 +46,7 @@ $('document').ready(function () {
     $('#project-add-metadata-observation').on("change", addMetadataObservation);
 
     $('#metadata-overview-sample').text(getMetadataKeys('columns').toString());
+    $('#metadata-overview-observation').text(getMetadataKeys('rows').toString());
 });
 
 /**
