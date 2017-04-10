@@ -43,6 +43,7 @@ $('document').ready(function () {
     $('#project-export-trait-citation').click(exportTraitCitationsTable);
 
     $('#project-add-metadata-sample').on("change", addMetadataSample);
+    $('#project-add-metadata-observation').on("change", addMetadataObservation);
 });
 
 /**
@@ -239,7 +240,21 @@ function addMetadataSample(event) {
     var files = event.target.files;
     var fr = new FileReader();
     fr.onload = function () {
-        return addMetadataSampleToFile(fr.result, updateProject);
+        return addMetadataSampleToFile(fr.result, updateProject, 'columns');
+    };
+    fr.readAsText(files[0]);
+}
+
+/**
+ * Add observation metadata from selected files
+ * @param {event} event
+ * @returns {void}
+ */
+function addMetadataObservation(event) {
+    var files = event.target.files;
+    var fr = new FileReader();
+    fr.onload = function () {
+        return addMetadataSampleToFile(fr.result, updateProject, 'rows');
     };
     fr.readAsText(files[0]);
 }
@@ -266,8 +281,11 @@ function updateProject() {
  * Add sample metadata content to file
  * @param {String} result
  * @param {Function} callback
+ * @param {String} dimension
  */
 function addMetadataSampleToFile(result, callback) {
+    var dimension = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'columns';
+
     var csvData = Papa.parse(result, { header: true, skipEmptyLines: true });
     if (csvData.errors.length > 0) {
         showMessageDialog(csvData.errors[0].message + ' line: ' + csvData.errors[0].row, 'danger');
@@ -339,7 +357,7 @@ function addMetadataSampleToFile(result, callback) {
     }
 
     $.each(sampleMetadata, function (key, value) {
-        biom.addMetadata({ 'dimension': 'columns', 'attribute': key, 'values': value });
+        biom.addMetadata({ 'dimension': dimension, 'attribute': key, 'values': value });
     });
     callback();
 }
