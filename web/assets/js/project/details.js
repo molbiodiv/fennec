@@ -403,7 +403,7 @@ $('document').ready(function () {
     $('#progress-bar-mapping-sample').css('width', percentageMappedSamples + '%').attr('aria-valuenow', percentageMappedSamples);
     $('#progress-bar-mapping-sample').text(percentageMappedSamples.toFixed(0) + '%');
 
-    var methods = { ncbi_taxid: "NCBI taxid", organism_name: "Scientific name", iucn_id: "IUCN id", eol_id: "EOL id" };
+    var methods = { ncbi_taxonomy: "NCBI taxid", organism_name: "Scientific name", iucn_redlist: "IUCN id", EOL: "EOL id" };
     $.each(methods, function (key, value) {
         var option = $('<option>').prop('value', key).text(value);
         $('#mapping-method-select').append(option);
@@ -460,7 +460,7 @@ $('document').ready(function () {
         var ids = [];
         if (method === 'ncbi_taxonomy') {
             ids = biom.getMetadata({ dimension: dimension, attribute: 'ncbi_taxid' });
-        } else if (method === 'organism_name') {
+        } else {
             ids = biom[dimension].map(function (element) {
                 return element.id;
             });
@@ -476,6 +476,8 @@ $('document').ready(function () {
     function getWebserviceUrlForMethod(method) {
         var method2service = {
             'ncbi_taxonomy': 'byDbxrefId',
+            'EOL': 'byDbxrefId',
+            'iucn_redlist': 'byDbxrefId',
             'organism_name': 'byOrganismName'
         };
         var webserviceUrl = Routing.generate('api', { 'namespace': 'mapping', 'classname': method2service[method] });
@@ -488,13 +490,7 @@ $('document').ready(function () {
      * @return {string}
      */
     function getIdStringForMethod(method) {
-        var idString = "";
-        if (method === 'ncbi_taxonomy') {
-            idString = "NCBI taxid";
-        } else if (method === 'organism_name') {
-            idString = "Scientific name";
-        }
-        return idString;
+        return methods[method];
     }
 
     /**

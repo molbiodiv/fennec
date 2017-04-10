@@ -18,7 +18,7 @@ $('document').ready(() => {
     $('#progress-bar-mapping-sample').css('width', percentageMappedSamples + '%').attr('aria-valuenow', percentageMappedSamples);
     $('#progress-bar-mapping-sample').text(percentageMappedSamples.toFixed(0) + '%');
 
-    let methods = {ncbi_taxid: "NCBI taxid", organism_name: "Scientific name", iucn_id: "IUCN id", eol_id: "EOL id"};
+    let methods = {ncbi_taxonomy: "NCBI taxid", organism_name: "Scientific name", iucn_redlist: "IUCN id", EOL: "EOL id"};
     $.each(methods, (key, value) => {
         let option = $('<option>').prop('value', key).text(value)
         $('#mapping-method-select').append(option)
@@ -71,7 +71,7 @@ $('document').ready(() => {
         let ids = [];
         if(method === 'ncbi_taxonomy'){
             ids = biom.getMetadata({dimension: dimension, attribute: 'ncbi_taxid'});
-        } else if(method === 'organism_name'){
+        } else {
             ids = biom[dimension].map((element) => element.id);
         }
         return ids;
@@ -85,6 +85,8 @@ $('document').ready(() => {
     function getWebserviceUrlForMethod(method) {
         let method2service = {
             'ncbi_taxonomy': 'byDbxrefId',
+            'EOL': 'byDbxrefId',
+            'iucn_redlist': 'byDbxrefId',
             'organism_name': 'byOrganismName'
         };
         let webserviceUrl = Routing.generate('api', {'namespace': 'mapping', 'classname': method2service[method]});
@@ -97,13 +99,7 @@ $('document').ready(() => {
      * @return {string}
      */
     function getIdStringForMethod(method) {
-        let idString = "";
-        if (method === 'ncbi_taxonomy'){
-            idString = "NCBI taxid";
-        } else if (method === 'organism_name') {
-            idString = "Scientific name";
-        }
-        return idString;
+        return methods[method];
     }
 
     /**
