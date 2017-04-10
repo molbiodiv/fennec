@@ -44,7 +44,7 @@ class Projects extends Webservice
             foreach ($webuserData as $project) {
                 /** @var WebuserData $project */
                 $result['projects'][$project->getWebuserDataId()] = array(
-                    'biom' => json_encode($project->getProject(), JSON_FORCE_OBJECT),
+                    'biom' => json_encode($project->getProject()),
                     'import_date' => $project->getImportDate(),
                     'import_filename' => $project->getImportFilename()
                 );
