@@ -240,7 +240,7 @@ function addMetadataSample(event) {
     var files = event.target.files;
     var fr = new FileReader();
     fr.onload = function () {
-        return addMetadataSampleToFile(fr.result, updateProject, 'columns');
+        return addMetadataToFile(fr.result, updateProject, 'columns');
     };
     fr.readAsText(files[0]);
 }
@@ -254,7 +254,7 @@ function addMetadataObservation(event) {
     var files = event.target.files;
     var fr = new FileReader();
     fr.onload = function () {
-        return addMetadataSampleToFile(fr.result, updateProject, 'rows');
+        return addMetadataToFile(fr.result, updateProject, 'rows');
     };
     fr.readAsText(files[0]);
 }
@@ -283,7 +283,7 @@ function updateProject() {
  * @param {Function} callback
  * @param {String} dimension
  */
-function addMetadataSampleToFile(result, callback) {
+function addMetadataToFile(result, callback) {
     var dimension = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'columns';
 
     var csvData = Papa.parse(result, { header: true, skipEmptyLines: true });

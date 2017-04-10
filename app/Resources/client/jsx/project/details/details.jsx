@@ -137,7 +137,7 @@ function addMetadataSample(event)
 {
     let files = event.target.files;
     let fr = new FileReader()
-    fr.onload = () => addMetadataSampleToFile(fr.result, updateProject, 'columns')
+    fr.onload = () => addMetadataToFile(fr.result, updateProject, 'columns')
     fr.readAsText(files[0]);
 }
 
@@ -150,7 +150,7 @@ function addMetadataObservation(event)
 {
     let files = event.target.files;
     let fr = new FileReader()
-    fr.onload = () => addMetadataSampleToFile(fr.result, updateProject, 'rows')
+    fr.onload = () => addMetadataToFile(fr.result, updateProject, 'rows')
     fr.readAsText(files[0]);
 }
 
@@ -174,7 +174,7 @@ function updateProject() {
  * @param {Function} callback
  * @param {String} dimension
  */
-function addMetadataSampleToFile(result, callback, dimension='columns'){
+function addMetadataToFile(result, callback, dimension='columns'){
     let csvData = Papa.parse(result, {header: true, skipEmptyLines: true})
     if(csvData.errors.length > 0){
         showMessageDialog(csvData.errors[0].message+' line: '+csvData.errors[0].row, 'danger');
