@@ -6,7 +6,7 @@ parameters:
                 driver:   pdo_pgsql
                 host:     localhost
                 port:     5432
-                dbname:   testchado
+                dbname:   test
                 user:     postgres
                 password: ''
                 charset:  UTF8
