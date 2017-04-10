@@ -18,6 +18,13 @@ $('document').ready(() => {
     $('#progress-bar-mapping-sample').css('width', percentageMappedSamples + '%').attr('aria-valuenow', percentageMappedSamples);
     $('#progress-bar-mapping-sample').text(percentageMappedSamples.toFixed(0) + '%');
 
+    let methods = {ncbi_taxid: "NCBI taxid", organism_name: "Scientific name", iucn_id: "IUCN id", eol_id: "EOL id"};
+    $.each(methods, (key, value) => {
+        let option = $('<option>').prop('value', key).text(value)
+        $('#mapping-method-select').append(option)
+    })
+    $('.selectpicker').selectpicker('refresh')
+
     // Add semi-global dimension variable (stores last mapped dimension)
     var dimension = 'rows';
     var method = 'ncbi_taxonomy';
@@ -94,7 +101,7 @@ $('document').ready(() => {
         if (method === 'ncbi_taxonomy'){
             idString = "NCBI taxid";
         } else if (method === 'organism_name') {
-            idString = "Organism name";
+            idString = "Scientific name";
         }
         return idString;
     }
