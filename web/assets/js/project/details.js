@@ -410,7 +410,7 @@ $('document').ready(function () {
     });
     $('.selectpicker').selectpicker('refresh');
 
-    $('#mapping-metadata-observation-select').selectpicker('hide');
+    $('#mapping-metadata-sample-select').selectpicker('hide');
 
     // Add semi-global dimension variable (stores last mapped dimension)
     var dimension = 'rows';
