@@ -361,6 +361,12 @@ function addMetadataToFile(result, callback) {
     });
     callback();
 }
+
+function getMetadataKeys() {
+    var dimension = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'columns';
+
+    var elements = dimension === 'columns' ? biom.columns : biom.rows;
+}
 'use strict';
 
 /* global dbversion */

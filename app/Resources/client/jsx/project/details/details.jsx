@@ -202,3 +202,7 @@ function addMetadataToFile(result, callback, dimension='columns'){
     })
     callback();
 }
+
+function getMetadataKeys(dimension='columns'){
+    let elements = dimension === 'columns' ? biom.columns : biom.rows
+}
