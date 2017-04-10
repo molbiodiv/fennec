@@ -165,6 +165,10 @@ function addMetadataSampleToFile(result, callback){
         showMessageDialog(csvData.errors[0].message, 'danger');
         return;
     }
+    if(csvData.data.length === 0){
+        showMessageDialog("Could not parse file. No data found.", 'danger');
+        return;
+    }
     let sampleMetadata = {}
     let metadataKeys = Object.keys(csvData.data[0]);
     let idKey = metadataKeys.splice(0,1)[0];
