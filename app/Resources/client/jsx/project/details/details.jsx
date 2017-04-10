@@ -161,6 +161,10 @@ function updateProject() {
  */
 function addMetadataSampleToFile(result, callback){
     let csvData = Papa.parse(result, {header: true})
+    if(csvData.errors.length > 0){
+        showMessageDialog(csvData.errors[0].message, 'danger');
+        return;
+    }
     let sampleMetadata = {}
     let metadataKeys = Object.keys(csvData.data[0]);
     let idKey = metadataKeys.splice(0,1)[0];
