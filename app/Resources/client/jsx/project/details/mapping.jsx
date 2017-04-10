@@ -57,7 +57,13 @@ $('document').ready(() => {
     $('#mapping-action-button').on('click', function () {
         dimension = $('#mapping-dimension-select').val();
         method = $('#mapping-method-select').val();
-        let ids = getIdsForMethod(method, dimension);
+        let attribute;
+        if(dimension === 'rows'){
+            attribute = $('#mapping-metadata-observation-select').val();
+        } else {
+            attribute = $('#mapping-metadata-sample-select').val();
+        }
+        let ids = getIdsForAttribute(dimension, attribute);
         let uniq_ids = ids.filter(value => value !== null);
         uniq_ids = _.uniq(uniq_ids);
         $('#mapping-action-busy-indicator').show();
@@ -87,14 +93,14 @@ $('document').ready(() => {
 
     /**
      * Returns the array with search id for the respective method in the given dimension
-     * @param method
      * @param dimension
+     * @param attribute
      * @return {Array}
      */
-    function getIdsForMethod(method, dimension) {
+    function getIdsForAttribute(dimension, attribute) {
         let ids = [];
-        if(method === 'ncbi_taxonomy'){
-            ids = biom.getMetadata({dimension: dimension, attribute: 'ncbi_taxid'});
+        if(attribute !== 'ID'){
+            ids = biom.getMetadata({dimension: dimension, attribute: attribute});
         } else {
             ids = biom[dimension].map((element) => element.id);
         }
@@ -163,7 +169,7 @@ $('document').ready(() => {
         let ids = biom[dimension].map(function (element) {
             return element.id;
         });
-        let mappingIds = getIdsForMethod(method, dimension);
+        let mappingIds = getIdsForAttribute(dimension, attribute);
         let fennecIds = biom.getMetadata({dimension: dimension, attribute: ['fennec', dbversion, 'fennec_id']});
         let idHeader = dimension === 'rows' ? 'OTU_ID' : 'Sample_ID';
         let idString = getIdStringForMethod(method);
