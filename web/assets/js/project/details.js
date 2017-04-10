@@ -401,7 +401,6 @@ $('document').ready(function () {
         var option = $('<option>').prop('value', value).text(value);
         $('#mapping-metadata-sample-select').append(option);
     });
-    $('#mapping-metadata-sample-select').selectpicker('hide');
 
     var observationMetadataKeys = getMetadataKeys(biom, 'rows');
     $.each(observationMetadataKeys, function (key, value) {
@@ -420,6 +419,7 @@ $('document').ready(function () {
     });
 
     $('.selectpicker').selectpicker('refresh');
+    $('#mapping-dimension-select').change();
 
     // Add semi-global dimension variable (stores last mapped dimension)
     var dimension = 'rows';

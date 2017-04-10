@@ -29,7 +29,6 @@ $('document').ready(() => {
         let option = $('<option>').prop('value', value).text(value)
         $('#mapping-metadata-sample-select').append(option)
     })
-    $('#mapping-metadata-sample-select').selectpicker('hide');
 
     let observationMetadataKeys = getMetadataKeys(biom, 'rows');
     $.each(observationMetadataKeys, (key, value) => {
@@ -48,6 +47,7 @@ $('document').ready(() => {
     })
 
     $('.selectpicker').selectpicker('refresh')
+    $('#mapping-dimension-select').change();
 
     // Add semi-global dimension variable (stores last mapped dimension)
     var dimension = 'rows';
