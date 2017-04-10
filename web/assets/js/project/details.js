@@ -364,19 +364,6 @@ function addMetadataToFile(result, callback) {
     });
     callback();
 }
-
-function getMetadataKeys() {
-    var dimension = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'columns';
-
-    var elements = _.cloneDeep(dimension === 'columns' ? biom.columns : biom.rows);
-    var keys = elements.map(function (element) {
-        return element.metadata === null ? [] : Object.keys(element.metadata);
-    });
-    var uniqKeys = keys.reduce(function (acc, val) {
-        return _.uniq(acc.concat(val));
-    }, []);
-    return uniqKeys;
-}
 'use strict';
 
 /* global dbversion */
