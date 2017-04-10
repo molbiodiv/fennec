@@ -1,6 +1,7 @@
 # Fennec Web
 ## About
 Fennec - Functional Exploration of Natural Networks and Ecological Communities.
+[![DOI](https://zenodo.org/badge/51136300.svg)](https://zenodo.org/badge/latestdoi/51136300)
 ## Getting started
 To get started with the development do the following:
 ### Install prerequisits
