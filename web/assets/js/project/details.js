@@ -45,8 +45,8 @@ $('document').ready(function () {
     $('#project-add-metadata-sample').on("change", addMetadataSample);
     $('#project-add-metadata-observation').on("change", addMetadataObservation);
 
-    $('#metadata-overview-sample').text(getMetadataKeys('columns').toString());
-    $('#metadata-overview-observation').text(getMetadataKeys('rows').toString());
+    $('#metadata-overview-sample').text(getMetadataKeys('columns').join(', '));
+    $('#metadata-overview-observation').text(getMetadataKeys('rows').join(', '));
 });
 
 /**
