@@ -52,12 +52,12 @@ $('document').ready(() => {
     // Add semi-global dimension variable (stores last mapped dimension)
     var dimension = 'rows';
     var method = 'ncbi_taxonomy';
+    var attribute = '';
 
     // Set action for click on mapping "GO" button
     $('#mapping-action-button').on('click', function () {
         dimension = $('#mapping-dimension-select').val();
         method = $('#mapping-method-select').val();
-        let attribute;
         if(dimension === 'rows'){
             attribute = $('#mapping-metadata-observation-select').val();
         } else {
