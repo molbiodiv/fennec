@@ -2,6 +2,7 @@
 /app/config/databases.yml
 /app/config/parameters_test.yml
 /app/config/databases_test.yml
+/app/Resources/views/misc/custom_contact.html.twig
 /build/
 /phpunit.xml
 /var/*
