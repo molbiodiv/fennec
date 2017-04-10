@@ -20,20 +20,19 @@ $('document').ready(() => {
 
     let methods = {ncbi_taxonomy: "NCBI taxid", organism_name: "Scientific name", iucn_redlist: "IUCN id", EOL: "EOL id"};
     $.each(methods, (key, value) => {
-        let option = $('<option>').prop('value', key).text(value)
-        $('#mapping-method-select').append(option)
+        addOptionToSelectpicker(key, value, 'mapping-method-select');
     })
 
     let sampleMetadataKeys = getMetadataKeys(biom, 'columns');
+    addOptionToSelectpicker('ID', 'ID', 'mapping-metadata-sample-select')
     $.each(sampleMetadataKeys, (key, value) => {
-        let option = $('<option>').prop('value', value).text(value)
-        $('#mapping-metadata-sample-select').append(option)
+        addOptionToSelectpicker('md:'+value, value, 'mapping-metadata-sample-select')
     })
 
     let observationMetadataKeys = getMetadataKeys(biom, 'rows');
+    addOptionToSelectpicker('ID', 'ID', 'mapping-metadata-observation-select')
     $.each(observationMetadataKeys, (key, value) => {
-        let option = $('<option>').prop('value', value).text(value)
-        $('#mapping-metadata-observation-select').append(option)
+        addOptionToSelectpicker('md:'+value, value, 'mapping-metadata-observation-select')
     })
 
     $('#mapping-dimension-select').on('change', () => {
@@ -91,6 +90,11 @@ $('document').ready(() => {
         }
     });
 
+    function addOptionToSelectpicker(value, text, id) {
+        let option = $('<option>').prop('value', value).text(text)
+        $('#'+id).append(option)
+    }
+
     /**
      * Returns the array with search id for the respective method in the given dimension
      * @param dimension
@@ -99,8 +103,8 @@ $('document').ready(() => {
      */
     function getIdsForAttribute(dimension, attribute) {
         let ids = [];
-        if(attribute !== 'ID'){
-            ids = biom.getMetadata({dimension: dimension, attribute: attribute});
+        if(attribute.substr(0,3) === 'md:'){
+            ids = biom.getMetadata({dimension: dimension, attribute: attribute.substr(3)});
         } else {
             ids = biom[dimension].map((element) => element.id);
         }

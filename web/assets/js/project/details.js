@@ -392,20 +392,19 @@ $('document').ready(function () {
 
     var methods = { ncbi_taxonomy: "NCBI taxid", organism_name: "Scientific name", iucn_redlist: "IUCN id", EOL: "EOL id" };
     $.each(methods, function (key, value) {
-        var option = $('<option>').prop('value', key).text(value);
-        $('#mapping-method-select').append(option);
+        addOptionToSelectpicker(key, value, 'mapping-method-select');
     });
 
     var sampleMetadataKeys = getMetadataKeys(biom, 'columns');
+    addOptionToSelectpicker('ID', 'ID', 'mapping-metadata-sample-select');
     $.each(sampleMetadataKeys, function (key, value) {
-        var option = $('<option>').prop('value', value).text(value);
-        $('#mapping-metadata-sample-select').append(option);
+        addOptionToSelectpicker('md:' + value, value, 'mapping-metadata-sample-select');
     });
 
     var observationMetadataKeys = getMetadataKeys(biom, 'rows');
+    addOptionToSelectpicker('ID', 'ID', 'mapping-metadata-observation-select');
     $.each(observationMetadataKeys, function (key, value) {
-        var option = $('<option>').prop('value', value).text(value);
-        $('#mapping-metadata-observation-select').append(option);
+        addOptionToSelectpicker('md:' + value, value, 'mapping-metadata-observation-select');
     });
 
     $('#mapping-dimension-select').on('change', function () {
@@ -467,6 +466,11 @@ $('document').ready(function () {
         }
     });
 
+    function addOptionToSelectpicker(value, text, id) {
+        var option = $('<option>').prop('value', value).text(text);
+        $('#' + id).append(option);
+    }
+
     /**
      * Returns the array with search id for the respective method in the given dimension
      * @param dimension
@@ -475,8 +479,8 @@ $('document').ready(function () {
      */
     function getIdsForAttribute(dimension, attribute) {
         var ids = [];
-        if (attribute !== 'ID') {
-            ids = biom.getMetadata({ dimension: dimension, attribute: attribute });
+        if (attribute.substr(0, 3) === 'md:') {
+            ids = biom.getMetadata({ dimension: dimension, attribute: attribute.substr(3) });
         } else {
             ids = biom[dimension].map(function (element) {
                 return element.id;
