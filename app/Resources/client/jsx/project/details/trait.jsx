@@ -91,3 +91,19 @@ $('document').ready(() => {
         });
     }
 });
+
+function addTraitToProjectTableAction(traitTypeId){
+    $.ajax({
+            url: Routing.generate('api', {'namespace': 'details', 'classname': 'TraitOfProject'}),
+            data: {
+                "dbversion": dbversion,
+                "internal_project_id": internalProjectId,
+                "trait_type_id": traitTypeId,
+                "include_citations": true
+            },
+            method: "POST",
+            success: function (data) {
+                addTraitToProject(data.name, data.values, data.citations, biom, dbversion, internalProjectId, () => window.location.reload())
+            }
+        });
+}
