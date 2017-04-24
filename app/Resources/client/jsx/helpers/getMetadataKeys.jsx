@@ -7,5 +7,5 @@ function getMetadataKeys(biom, dimension='columns'){
     }
     let keys = elements.map(element => element.metadata === null ? [] : Object.keys(element.metadata))
     let uniqKeys = keys.reduce((acc, val) => _.uniq(acc.concat(val)), [])
-    return uniqKeys
+    return uniqKeys.sort((a,b) => a.toUpperCase().localeCompare(b.toUpperCase()))
 }
