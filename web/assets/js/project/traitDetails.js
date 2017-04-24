@@ -33,6 +33,6 @@ $('document').ready(function () {
         });
     });
 
-    var projectUrl = Routing.generate('project_details', { 'dbversion': dbversion, 'project_id': internalProjectId });
+    var projectUrl = Routing.generate('project_details', { 'dbversion': dbversion, 'project_id': internalProjectId }) + "#traits";
     $('#page-title').html('<a href="' + projectUrl + '"><i class="fa fa-arrow-circle-left" style="padding-right: 10px"></i></a>' + $('#page-title').html());
 });
