@@ -22,8 +22,9 @@
             drawPieChart(counts);
         </script>
         <script src="{{ asset('assets/js/project/traitDetails.js') }}"></script>
+        <script src="{{ asset('assets/js/project/helpers.js') }}"></script>
     </div>
-    {% elseif trait.trait_format == 'numerical' %}
+        {% elseif trait.trait_format == 'numerical' %}
     <div class='col-xs-12'>
         <button class="btn btn-primary" id="add-trait-to-project-button">Add trait to project</button>
         <div id='histogram'></div>
