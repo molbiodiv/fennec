@@ -40,6 +40,7 @@ $('document').ready(() => {
                 {data: 'count'},
                 {data: 'range'},
                 {data: null},
+                {data: null},
                 {data: null}
             ],
             order: [2, "desc"],
@@ -71,7 +72,7 @@ $('document').ready(() => {
                             'trait_type_id': full.id,
                             'project_id': internalProjectId
                         });
-                        return '<a href="' + href + '">Details</a>';
+                        return '<a href="' + href + '"><i class="fa fa-search"></i></a>';
                     }
                 },
                 {
