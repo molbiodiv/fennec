@@ -80,6 +80,12 @@ $('document').ready(() => {
                     render: (data, type, full) => {
                         return _.indexOf(metadataKeys, full.trait) != -1 ? '<i class="fa fa-check"></i>' : ''
                     }
+                },
+                {
+                    targets: 5,
+                    render: (data, type, full) => {
+                        return '<a onclick="addTraitToProjectTableAction('+full.id+')"><i class="fa fa-plus"></i></a>';
+                    }
                 }
             ]
         });

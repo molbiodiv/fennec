@@ -658,7 +658,7 @@ $('document').ready(function () {
     function initTraitsOfProjectTable() {
         $('#trait-table').DataTable({
             data: traits,
-            columns: [{ data: 'trait' }, { data: 'count' }, { data: 'range' }, { data: null }, { data: null }],
+            columns: [{ data: 'trait' }, { data: 'count' }, { data: 'range' }, { data: null }, { data: null }, { data: null }],
             order: [2, "desc"],
             columnDefs: [{
                 targets: 2,
