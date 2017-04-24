@@ -48,7 +48,9 @@ $('document').ready(function () {
     $('#metadata-overview-sample').append(getMetadataKeys(biom, 'columns').map(function (text) {
         return $("<li>").text(text);
     }));
-    $('#metadata-overview-observation').text(getMetadataKeys(biom, 'rows').join(', '));
+    $('#metadata-overview-observation').append(getMetadataKeys(biom, 'rows').map(function (text) {
+        return $("<li>").text(text);
+    }));
 });
 
 /**

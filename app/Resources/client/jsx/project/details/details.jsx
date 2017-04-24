@@ -44,7 +44,7 @@ $('document').ready(function () {
     $('#project-add-metadata-observation').on("change", addMetadataObservation);
 
     $('#metadata-overview-sample').append(getMetadataKeys(biom, 'columns').map((text) => $("<li>").text(text)));
-    $('#metadata-overview-observation').text(getMetadataKeys(biom, 'rows').join(', '));
+    $('#metadata-overview-observation').append(getMetadataKeys(biom, 'rows').map((text) => $("<li>").text(text)));
 });
 
 /**
