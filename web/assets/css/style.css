@@ -44,6 +44,9 @@ a {
 .panel {
   margin-top: 20px; }
 
+#metadata-overview-sample {
+  column-count: 4; }
+
 .btn-organism {
   color: #FFF;
   background-color: #8E7358;
