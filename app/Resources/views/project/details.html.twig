@@ -24,119 +24,139 @@
         <h3>Error: This project could not be found for the current user.</h3>
     {% else %}
         <!-- Overview -->
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">
-                    Project overview
-                    <button type="button" class="btn btn-default fa fa-pencil" data-toggle="modal" data-target="#editProjectDialog"></button>
-                </h3>
-            </div>
-            <table id="project-overview-table" class="table">
-                <tbody>
-                    <tr><th scope="row">ID</th><td id="project-overview-table-id"></td></tr>
-                    <tr><th scope="row">Comment</th><td id="project-overview-table-comment"></td></tr>
-                    <tr><th scope="row">#OTUs</th><td id="project-overview-table-rows"></td></tr>
-                    <tr><th scope="row">#Samples</th><td id="project-overview-table-cols"></td></tr>
-                    <tr><th scope="row">NNZ</th><td id="project-overview-table-nnz"></td></tr>
-                    <tr><th scope="row">Import Date</th><td id="project-overview-table-import-date">{{ project['projects'][internal_project_id]['import_date'] | date('Y-m-d H:i:s') }}</td></tr>
-                    <tr><th scope="row">Import Filename</th><td id="project-overview-table-import-filename">{{ project['projects'][internal_project_id]['import_filename'] }}</td></tr>
-                    <tr><th scope="row">Export</th>
-                        <td id="project-overview-table-export">
-                            <button type="button" class="btn btn-primary" id="project-export-as-biom-v1">BIOM v1</button>
-                            <button type="button" class="btn btn-primary" id="project-export-as-biom-v2">BIOM v2</button>
-                            <button type="button" class="btn btn-primary" id="project-export-pseudo-tax-biom">tsv (pseudotax)</button>
-                            <button type="button" class="btn btn-primary" id="project-export-trait-citation">tsv (citations)</button>
-                        </td></tr>
-                </tbody>
-            </table>
-        </div>
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a class="project-link" href="#projectOverview" role="tab" data-toggle="tab">Project overview</a></li>
+            <li role="presentation"><a class="project-link" href="#metadataOverview" role="tab" data-toggle="tab">Metadata overview</a></li>
+            <li role="presentation"><a class="project-link" href="#inspect" role="tab" data-toggle="tab">Inspect</a></li>
+            <li role="presentation"><a class="project-link" href="#traits" role="tab" data-toggle="tab">Traits</a></li>
+            <li role="presentation"><a class="project-link" href="#mapping" role="tab" data-toggle="tab">Mapping</a></li>
+        </ul>
 
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">
-                    Metadata overview
-                </h3>
-            </div>
-            <table id="project-metadata-table" class="table">
-                <tbody>
-                    <tr><th scope="row">Sample metadata</th><td id="metadata-overview-sample"></td></tr>
-                    <tr><th scope="row">Observation metadata</th><td id="metadata-overview-observation"></td></tr>
-                    <tr><th scope="row">Add sample metadata</th>
-                        <td id="project-metadata-table-add-sample">
-                            <form>
-                                <input class="btn" id="project-add-metadata-sample" type="file" name="files[]">
-                            </form>
-                        </td></tr>
-                    <tr><th scope="row">Add observation metadata</th>
-                        <td id="project-metadata-table-add-observation">
-                            <form>
-                                <input class="btn" id="project-add-metadata-observation" type="file" name="files[]">
-                            </form>
-                        </td></tr>
-                </tbody>
-            </table>
-        </div>
-
-        <!-- Explore -->
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">Explore</h3>
-            </div>
-            <button class='btn' id="inspect-with-phinch-button">Inspect with Phinch</button>
-            <i data-toggle="tooltip" title="This is an experimental integration of Phinch (see blackbird.iimog.org)." class="fa fa-question-circle"></i><br>
-        </div>
-        <div style="height: 100%"><iframe id='inspect-with-phinch-iframe' width="100%" height="100%" style="border: none; display: none"></iframe></div>
-
-        <!-- Traits -->
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">Traits</h3>
-            </div>
-            <table id="trait-table" class="table trait-table trait-table-striped table-bordered" width="100%" cellspacing="0">
-                <thead>
-                <tr><th>trait</th><th>count</th><th>range</th><th>actions</th></tr>
-                </thead>
-            </table>
-        </div>
-
-        <!-- Mapping -->
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">Mapping</h3>
-            </div>
-            <div class="panel-body">
-                <div class="panel-body">
-                    <h4>Summary</h4>
-                    <table id="mapping-table" class="table">
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="projectOverview">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            Project overview
+                            <button type="button" class="btn btn-default fa fa-pencil" data-toggle="modal" data-target="#editProjectDialog"></button>
+                        </h3>
+                    </div>
+                    <table id="project-overview-table" class="table">
                         <tbody>
-                            <tr><td id="mapping-otu">1024</td><td>OTUs are mapped</td><td><div class="progress"><div id="progress-bar-mapping-otu" class="progress-bar-trait progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">0%</div></div></td></tr>
-                            <tr><td id="mapping-sample">33</td><td>Samples are mapped</td><td><div class="progress"><div id="progress-bar-mapping-sample" class="progress-bar-trait progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">0%</div></div></td></tr>
+                            <tr><th scope="row">ID</th><td id="project-overview-table-id"></td></tr>
+                            <tr><th scope="row">Comment</th><td id="project-overview-table-comment"></td></tr>
+                            <tr><th scope="row">#OTUs</th><td id="project-overview-table-rows"></td></tr>
+                            <tr><th scope="row">#Samples</th><td id="project-overview-table-cols"></td></tr>
+                            <tr><th scope="row">NNZ</th><td id="project-overview-table-nnz"></td></tr>
+                            <tr><th scope="row">Import Date</th><td id="project-overview-table-import-date">{{ project['projects'][internal_project_id]['import_date'] | date('Y-m-d H:i:s') }}</td></tr>
+                            <tr><th scope="row">Import Filename</th><td id="project-overview-table-import-filename">{{ project['projects'][internal_project_id]['import_filename'] }}</td></tr>
+                            <tr><th scope="row">Export</th>
+                                <td id="project-overview-table-export">
+                                    <button type="button" class="btn btn-primary" id="project-export-as-biom-v1">BIOM v1</button>
+                                    <button type="button" class="btn btn-primary" id="project-export-as-biom-v2">BIOM v2</button>
+                                    <button type="button" class="btn btn-primary" id="project-export-pseudo-tax-biom">tsv (pseudotax)</button>
+                                    <button type="button" class="btn btn-primary" id="project-export-trait-citation">tsv (citations)</button>
+                                </td></tr>
                         </tbody>
                     </table>
                 </div>
-                <div class="panel-body">
-                    <h4>Actions</h4>
-                    Map
-                    <select class="selectpicker" id="mapping-dimension-select" data-style="btn-primary">
-                        <option value="rows">OTUs</option>
-                        <option value="columns">Samples</option>
-                    </select>
-                    by
-                    <select class="selectpicker" id="mapping-metadata-sample-select" data-style="btn-primary"></select>
-                    <select class="selectpicker" id="mapping-metadata-observation-select" data-style="btn-primary"></select>
-                    on
-                    <select class="selectpicker" id="mapping-method-select" data-style="btn-primary"></select>
-                    <button class="btn btn-primary" id="mapping-action-button">GO</button>
+            </div>
+
+            <div role="tabpanel" class="tab-pane" id="metadataOverview">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            Metadata overview
+                        </h3>
+                    </div>
+                    <table id="project-metadata-table" class="table">
+                        <tbody>
+                            <tr><th scope="row">Sample metadata</th><td id="metadata-overview-sample"></td></tr>
+                            <tr><th scope="row">Observation metadata</th><td id="metadata-overview-observation"></td></tr>
+                            <tr><th scope="row">Add sample metadata</th>
+                                <td id="project-metadata-table-add-sample">
+                                    <form>
+                                        <input class="btn" id="project-add-metadata-sample" type="file" name="files[]">
+                                    </form>
+                                </td></tr>
+                            <tr><th scope="row">Add observation metadata</th>
+                                <td id="project-metadata-table-add-observation">
+                                    <form>
+                                        <input class="btn" id="project-add-metadata-observation" type="file" name="files[]">
+                                    </form>
+                                </td></tr>
+                        </tbody>
+                    </table>
                 </div>
-                <div id="mapping-action-busy-indicator" align="center" style="display: none">
-                    <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
-                    <span class="sr-only">Loading...</span>
+            </div>
+
+            <!-- Explore -->
+            <div role="tabpanel" class="tab-pane" id="inspect">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Explore</h3>
+                    </div>
+                    <button class='btn' id="inspect-with-phinch-button">Inspect with Phinch</button>
+                    <i data-toggle="tooltip" title="This is an experimental integration of Phinch (see blackbird.iimog.org)." class="fa fa-question-circle"></i><br>
                 </div>
-                <div class="panel-body" id="mapping-results-section" style="display: none">
-                    <h4>Result</h4>
-                    <div id="mapping-results"></div></br>
-                    <button class="btn btn-primary" id="mapping-save-button">Save in database</button>
-                    <button class="btn btn-primary" id="mapping-download-csv-button">Download csv</button>
+                <div style="height: 100%"><iframe id='inspect-with-phinch-iframe' width="100%" height="100%" style="border: none; display: none"></iframe></div>
+            </div>
+
+            <!-- Traits -->
+            <div role="tabpanel" class="tab-pane" id="traits">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Traits</h3>
+                    </div>
+                    <table id="trait-table" class="table trait-table trait-table-striped table-bordered" width="100%" cellspacing="0">
+                        <thead>
+                        <tr><th>trait</th><th>count</th><th>range</th><th>actions</th></tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Mapping -->
+            <div role="tabpanel" class="tab-pane" id="mapping">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Mapping</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="panel-body">
+                            <h4>Summary</h4>
+                            <table id="mapping-table" class="table">
+                                <tbody>
+                                    <tr><td id="mapping-otu">1024</td><td>OTUs are mapped</td><td><div class="progress"><div id="progress-bar-mapping-otu" class="progress-bar-trait progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">0%</div></div></td></tr>
+                                    <tr><td id="mapping-sample">33</td><td>Samples are mapped</td><td><div class="progress"><div id="progress-bar-mapping-sample" class="progress-bar-trait progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">0%</div></div></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="panel-body">
+                            <h4>Actions</h4>
+                            Map
+                            <select class="selectpicker" id="mapping-dimension-select" data-style="btn-primary">
+                                <option value="rows">OTUs</option>
+                                <option value="columns">Samples</option>
+                            </select>
+                            by
+                            <select class="selectpicker" id="mapping-metadata-sample-select" data-style="btn-primary"></select>
+                            <select class="selectpicker" id="mapping-metadata-observation-select" data-style="btn-primary"></select>
+                            on
+                            <select class="selectpicker" id="mapping-method-select" data-style="btn-primary"></select>
+                            <button class="btn btn-primary" id="mapping-action-button">GO</button>
+                        </div>
+                        <div id="mapping-action-busy-indicator" align="center" style="display: none">
+                            <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                        <div class="panel-body" id="mapping-results-section" style="display: none">
+                            <h4>Result</h4>
+                            <div id="mapping-results"></div></br>
+                            <button class="btn btn-primary" id="mapping-save-button">Save in database</button>
+                            <button class="btn btn-primary" id="mapping-download-csv-button">Download csv</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
