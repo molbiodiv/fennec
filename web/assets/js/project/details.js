@@ -621,6 +621,7 @@ $('document').ready(function () {
 $('document').ready(function () {
     var traits = [];
     var webserviceUrl = Routing.generate('api', { 'namespace': 'details', 'classname': 'traitsOfOrganisms' });
+    var metadataKeys = getMetadataKeys(biom, 'rows');
 
     // Extract row fennec_ids from biom
     var fennec_ids = biom.getMetadata({ dimension: 'rows', attribute: ['fennec', dbversion, 'fennec_id'] }).filter(function (element) {
@@ -652,7 +653,7 @@ $('document').ready(function () {
     function initTraitsOfProjectTable() {
         $('#trait-table').DataTable({
             data: traits,
-            columns: [{ data: 'trait' }, { data: 'count' }, { data: 'range' }, { data: null }],
+            columns: [{ data: 'trait' }, { data: 'count' }, { data: 'range' }, { data: null }, { data: null }],
             order: [2, "desc"],
             columnDefs: [{
                 targets: 2,
@@ -678,6 +679,11 @@ $('document').ready(function () {
                         'project_id': internalProjectId
                     });
                     return '<a href="' + href + '">Details</a>';
+                }
+            }, {
+                targets: 4,
+                render: function render(data, type, full) {
+                    return _.indexOf(metadataKeys, full.trait) != -1 ? '<i class="fa fa-check"></i>' : '';
                 }
             }]
         });
