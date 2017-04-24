@@ -41,24 +41,26 @@
                             <button type="button" class="btn btn-default fa fa-pencil" data-toggle="modal" data-target="#editProjectDialog"></button>
                         </h3>
                     </div>
-                    <table id="project-overview-table" class="table">
-                        <tbody>
-                            <tr><th scope="row">ID</th><td id="project-overview-table-id"></td></tr>
-                            <tr><th scope="row">Comment</th><td id="project-overview-table-comment"></td></tr>
-                            <tr><th scope="row">#OTUs</th><td id="project-overview-table-rows"></td></tr>
-                            <tr><th scope="row">#Samples</th><td id="project-overview-table-cols"></td></tr>
-                            <tr><th scope="row">NNZ</th><td id="project-overview-table-nnz"></td></tr>
-                            <tr><th scope="row">Import Date</th><td id="project-overview-table-import-date">{{ project['projects'][internal_project_id]['import_date'] | date('Y-m-d H:i:s') }}</td></tr>
-                            <tr><th scope="row">Import Filename</th><td id="project-overview-table-import-filename">{{ project['projects'][internal_project_id]['import_filename'] }}</td></tr>
-                            <tr><th scope="row">Export</th>
-                                <td id="project-overview-table-export">
-                                    <button type="button" class="btn btn-primary" id="project-export-as-biom-v1">BIOM v1</button>
-                                    <button type="button" class="btn btn-primary" id="project-export-as-biom-v2">BIOM v2</button>
-                                    <button type="button" class="btn btn-primary" id="project-export-pseudo-tax-biom">tsv (pseudotax)</button>
-                                    <button type="button" class="btn btn-primary" id="project-export-trait-citation">tsv (citations)</button>
-                                </td></tr>
-                        </tbody>
-                    </table>
+                    <div class="panel-body">
+                        <table id="project-overview-table" class="table">
+                            <tbody>
+                                <tr><th scope="row">ID</th><td id="project-overview-table-id"></td></tr>
+                                <tr><th scope="row">Comment</th><td id="project-overview-table-comment"></td></tr>
+                                <tr><th scope="row">#OTUs</th><td id="project-overview-table-rows"></td></tr>
+                                <tr><th scope="row">#Samples</th><td id="project-overview-table-cols"></td></tr>
+                                <tr><th scope="row">NNZ</th><td id="project-overview-table-nnz"></td></tr>
+                                <tr><th scope="row">Import Date</th><td id="project-overview-table-import-date">{{ project['projects'][internal_project_id]['import_date'] | date('Y-m-d H:i:s') }}</td></tr>
+                                <tr><th scope="row">Import Filename</th><td id="project-overview-table-import-filename">{{ project['projects'][internal_project_id]['import_filename'] }}</td></tr>
+                                <tr><th scope="row">Export</th>
+                                    <td id="project-overview-table-export">
+                                        <button type="button" class="btn btn-primary" id="project-export-as-biom-v1">BIOM v1</button>
+                                        <button type="button" class="btn btn-primary" id="project-export-as-biom-v2">BIOM v2</button>
+                                        <button type="button" class="btn btn-primary" id="project-export-pseudo-tax-biom">tsv (pseudotax)</button>
+                                        <button type="button" class="btn btn-primary" id="project-export-trait-citation">tsv (citations)</button>
+                                    </td></tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
@@ -69,24 +71,26 @@
                             Metadata overview
                         </h3>
                     </div>
-                    <table id="project-metadata-table" class="table">
-                        <tbody>
-                            <tr><th scope="row">Sample metadata</th><td id="metadata-overview-sample"></td></tr>
-                            <tr><th scope="row">Observation metadata</th><td id="metadata-overview-observation"></td></tr>
-                            <tr><th scope="row">Add sample metadata</th>
-                                <td id="project-metadata-table-add-sample">
-                                    <form>
-                                        <input class="btn" id="project-add-metadata-sample" type="file" name="files[]">
-                                    </form>
-                                </td></tr>
-                            <tr><th scope="row">Add observation metadata</th>
-                                <td id="project-metadata-table-add-observation">
-                                    <form>
-                                        <input class="btn" id="project-add-metadata-observation" type="file" name="files[]">
-                                    </form>
-                                </td></tr>
-                        </tbody>
-                    </table>
+                    <div class="panel-body">
+                        <table id="project-metadata-table" class="table">
+                            <tbody>
+                                <tr><th scope="row">Sample metadata</th><td id="metadata-overview-sample"></td></tr>
+                                <tr><th scope="row">Observation metadata</th><td id="metadata-overview-observation"></td></tr>
+                                <tr><th scope="row">Add sample metadata</th>
+                                    <td id="project-metadata-table-add-sample">
+                                        <form>
+                                            <input class="btn" id="project-add-metadata-sample" type="file" name="files[]">
+                                        </form>
+                                    </td></tr>
+                                <tr><th scope="row">Add observation metadata</th>
+                                    <td id="project-metadata-table-add-observation">
+                                        <form>
+                                            <input class="btn" id="project-add-metadata-observation" type="file" name="files[]">
+                                        </form>
+                                    </td></tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
@@ -96,8 +100,10 @@
                     <div class="panel-heading">
                         <h3 class="panel-title">Explore</h3>
                     </div>
-                    <button class='btn' id="inspect-with-phinch-button">Inspect with Phinch</button>
-                    <i data-toggle="tooltip" title="This is an experimental integration of Phinch (see blackbird.iimog.org)." class="fa fa-question-circle"></i><br>
+                    <div class="panel-body">
+                        <button class='btn' id="inspect-with-phinch-button">Inspect with Phinch</button>
+                        <i data-toggle="tooltip" title="This is an experimental integration of Phinch (see blackbird.iimog.org)." class="fa fa-question-circle"></i><br>
+                    </div>
                 </div>
                 <div style="height: 100%"><iframe id='inspect-with-phinch-iframe' width="100%" height="100%" style="border: none; display: none"></iframe></div>
             </div>
@@ -108,11 +114,13 @@
                     <div class="panel-heading">
                         <h3 class="panel-title">Traits</h3>
                     </div>
-                    <table id="trait-table" class="table trait-table trait-table-striped table-bordered" width="100%" cellspacing="0">
-                        <thead>
-                        <tr><th>trait</th><th>count</th><th>range</th><th>actions</th></tr>
-                        </thead>
-                    </table>
+                    <div class="panel-body">
+                        <table id="trait-table" class="table trait-table trait-table-striped table-bordered" width="100%" cellspacing="0">
+                            <thead>
+                            <tr><th>trait</th><th>count</th><th>range</th><th>actions</th></tr>
+                            </thead>
+                        </table>
+                    </div>
                 </div>
             </div>
 
@@ -123,7 +131,7 @@
                         <h3 class="panel-title">Mapping</h3>
                     </div>
                     <div class="panel-body">
-                        <div class="panel-body">
+                        <div>
                             <h4>Summary</h4>
                             <table id="mapping-table" class="table">
                                 <tbody>
@@ -132,7 +140,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="panel-body">
+                        <div>
                             <h4>Actions</h4>
                             Map
                             <select class="selectpicker" id="mapping-dimension-select" data-style="btn-primary">
@@ -150,7 +158,7 @@
                             <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
                             <span class="sr-only">Loading...</span>
                         </div>
-                        <div class="panel-body" id="mapping-results-section" style="display: none">
+                        <div id="mapping-results-section" style="display: none">
                             <h4>Result</h4>
                             <div id="mapping-results"></div></br>
                             <button class="btn btn-primary" id="mapping-save-button">Save in database</button>
