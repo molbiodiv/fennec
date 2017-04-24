@@ -6,7 +6,7 @@
  */
 $('document').ready(function () {
     $('#add-trait-to-project-button').on('click', function () {
-        addTraitToProjectTableAction(traitName, traitValues, traitCitations, biom, dbversion, internalProjectId, function () {
+        addTraitToProject(traitName, traitValues, traitCitations, biom, dbversion, internalProjectId, function () {
             return showMessageDialog('Successfully added ' + traitName + ' to metadata.', 'success');
         });
     });

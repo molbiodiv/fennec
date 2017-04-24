@@ -103,7 +103,13 @@ function addTraitToProjectTableAction(traitTypeId){
             },
             method: "POST",
             success: function (data) {
-                addTraitToProject(data.name, data.values, data.citations, biom, dbversion, internalProjectId, () => window.location.reload())
+                var traitValues;
+                if(data.trait_format === 'numerical'){
+                    traitValues = condenseNumericalTraitValues(data.values)
+                } else {
+                    traitValues = condenseCategoricalTraitValues(data.values)
+                }
+                addTraitToProject(data.name, traitValues, data.citations, biom, dbversion, internalProjectId, () => window.location.reload())
             }
         });
 }

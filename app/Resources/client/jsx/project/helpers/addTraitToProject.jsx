@@ -1,5 +1,5 @@
 function addTraitToProject(traitName, traitValues, traitCitations, biom, dbVersion,internalProjectId, action) {
-    console.log('bla')
+    console.log(arguments)
     var trait_metadata = biom.getMetadata({dimension: 'rows', attribute: ['fennec', dbversion, 'fennec_id']}).map(
         function (value) {
             if (value in traitValues) {
