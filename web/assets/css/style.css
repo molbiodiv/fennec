@@ -41,6 +41,9 @@ a {
   a:hover {
     color: #705f49; }
 
+.panel {
+  margin-top: 20px; }
+
 .btn-organism {
   color: #FFF;
   background-color: #8E7358;
