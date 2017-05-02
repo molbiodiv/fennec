@@ -67,6 +67,15 @@
             {# own base and helper scripts #}
             <script src="{{ asset('assets/js/base.js') }}"></script>
             <script src="{{ asset('assets/js/helpers.js') }}"></script>
+
+            {# MathJax #}
+            <script type="text/x-mathjax-config">
+                MathJax.Hub.Config({
+                    tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+                });
+            </script>
+            <script type="text/javascript" async src="{{ asset('assets/vendor/MathJax/MathJax.js') }}?config=TeX-AMS_CHTML"></script>
+
         {% endblock %}
         {% block body %}{% endblock %}
     </body>

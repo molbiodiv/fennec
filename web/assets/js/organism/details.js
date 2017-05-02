@@ -19,7 +19,11 @@ function appendTraitEntries(domElement, traitEntries, traitFormat) {
                 if (value.value === null) {
                     realValue = value.value_definition;
                 }
-                domElement.append($('<div>').text(realValue).append($('<div class="trait-citation">').text(value.citation).css({ 'font-size': '11px' })));
+                if (value.unit != null) {
+                    domElement.append($('<div>').text(realValue + " $" + value.unit + "$").append($('<div class="trait-citation">').text(value.citation).css({ 'font-size': '11px' })));
+                } else {
+                    domElement.append($('<div>').text(realValue).append($('<div class="trait-citation">').text(value.citation).css({ 'font-size': '11px' })));
+                }
             });
         }
     });
