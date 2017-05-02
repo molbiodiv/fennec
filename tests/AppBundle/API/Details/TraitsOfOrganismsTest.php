@@ -48,15 +48,15 @@ class TraitsOfOrganismsTest extends WebserviceTestCase
             '1' => [
                 'trait_type' => 'Plant Habit',
                 'trait_format' => 'categorical_free',
-                'trait_entry_ids' => [50128, 50129, 61731, 61729, 50130, 61728, 61609, 61730],
+                'trait_entry_ids' => [50128, 50129, 50130, 61731, 61729, 61728, 61609, 61730],
                 'fennec_ids' => [4207, 23547, 5637],
                 'unit' => null
             ],
             '2' => [
                 'trait_type' => 'Plant Life Cycle Habit',
                 'trait_format' => 'categorical_free',
-                'trait_entry_ids' => [82072, 85589, 85541],
-                'fennec_ids' => [4207, 23547, 5637],
+                'trait_entry_ids' => [85589, 85541, 82072],
+                'fennec_ids' => [23547, 5637, 4207],
                 'unit' => null
             ],
             '3' => [
@@ -83,15 +83,15 @@ class TraitsOfOrganismsTest extends WebserviceTestCase
             '1' => [
                 'trait_type' => 'Plant Habit',
                 'trait_format' => 'categorical_free',
-                'trait_entry_ids' => [28957, 28954, 23398, 28956, 28955],
+                'trait_entry_ids' => [28955, 28954, 23398, 28956, 28957],
                 'fennec_ids' => [1262, 5514],
                 'unit' => null
             ],
             '2' => [
                 'trait_type' => 'Plant Life Cycle Habit',
                 'trait_format' => 'categorical_free',
-                'trait_entry_ids' => [74215, 72164],
-                'fennec_ids' => [1262, 5514],
+                'trait_entry_ids' => [72164, 74215],
+                'fennec_ids' => [5514, 1262],
                 'unit' => null
             ],
             '3' => [
@@ -111,14 +111,14 @@ class TraitsOfOrganismsTest extends WebserviceTestCase
             '7' => [
                 'trait_type' => 'Leaf size',
                 'trait_format' => 'numerical',
-                'trait_entry_ids' => [7094, 7075, 7090, 7093],
+                'trait_entry_ids' => [7094, 7093, 7075, 7090],
                 'fennec_ids' => [1262, 5514, 25219],
                 'unit' => 'mm^2'
             ],
             '8' => [
                 'trait_type' => 'Leaf mass',
                 'trait_format' => 'numerical',
-                'trait_entry_ids' => [10482, 10483, 10500, 10495, 10501],
+                'trait_entry_ids' => [10482, 10500, 10495, 10501, 10483],
                 'fennec_ids' => [5514, 1262, 25219],
                 'unit' => 'mg'
             ]
