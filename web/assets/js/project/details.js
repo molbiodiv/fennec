@@ -693,7 +693,7 @@ $('document').ready(function () {
             }, {
                 targets: 5,
                 render: function render(data, type, full) {
-                    return _.indexOf(metadataKeys, full.trait) != -1 ? '<a onclick="removeTraitFromProjectTableAction(' + full.trait + ')"><i class="fa fa-trash"></i></a>' : '<a onclick="addTraitToProjectTableAction(' + full.id + ')"><i class="fa fa-plus"></i></a>';
+                    return _.indexOf(metadataKeys, full.trait) != -1 ? '<a onclick="removeTraitFromProjectTableAction(' + "'" + full.trait + "'" + ')"><i class="fa fa-trash"></i></a>' : '<a onclick="addTraitToProjectTableAction(' + full.id + ')"><i class="fa fa-plus"></i></a>';
                 }
             }]
         });
