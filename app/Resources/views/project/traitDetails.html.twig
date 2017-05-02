@@ -1,7 +1,7 @@
 {% extends 'base.navigation.html.twig' %}
 {% block content %}
 {#call_webservice path="details/TraitOfProject" data=["trait_type_id"=>$trait_type_id, "dbversion"=>$DbVersion, "internal_project_id" => $internal_project_id] assign='data'#}
-<h2 class="page-header">{{ trait.name }}</h2>
+<h2 class="page-header">{{ trait.name }} {% if trait.unit %}<small> (in ${{ trait.unit }}$)</small>{% endif %}</h2>
 <div class='row'>
     {% if trait.trait_format == 'categorical_free' %}
     <div class='col-xs-12'>
