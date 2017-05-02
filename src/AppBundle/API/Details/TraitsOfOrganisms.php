@@ -35,7 +35,7 @@ class TraitsOfOrganisms extends Webservice
         }
         $placeholders = implode(',', array_fill(0, count($fennec_ids), '?'));
         $query_get_categorical_traits = <<<EOF
-(SELECT trait_categorical_entry.id, trait_categorical_entry.fennec_id, trait_categorical_entry.trait_type_id, trait_type.type, trait_format.format
+(SELECT trait_categorical_entry.id, trait_categorical_entry.fennec_id, trait_categorical_entry.trait_type_id, trait_type.type, trait_format.format, trait_type.unit
     FROM trait_categorical_entry, trait_type, trait_format
     WHERE trait_categorical_entry.trait_type_id = trait_type.id
     AND trait_format.id = trait_type.trait_format_id
@@ -43,7 +43,7 @@ class TraitsOfOrganisms extends Webservice
     AND fennec_id IN ($placeholders))
 UNION
 (SELECT
-    trait_numerical_entry.id, trait_numerical_entry.fennec_id, trait_numerical_entry.trait_type_id, trait_type.type, trait_format.format
+    trait_numerical_entry.id, trait_numerical_entry.fennec_id, trait_numerical_entry.trait_type_id, trait_type.type, trait_format.format, trait_type.unit
     FROM trait_numerical_entry, trait_type, trait_format
     WHERE trait_numerical_entry.trait_type_id = trait_type.id
     AND trait_format.id = trait_type.trait_format_id
