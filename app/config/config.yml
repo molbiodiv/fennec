@@ -57,6 +57,8 @@ swiftmailer:
 hwi_oauth:
     # list of names of the firewalls in which this bundle is active, this setting MUST be set
     firewall_names: [secured_area]
+    http_client:
+        timeout: 10
     resource_owners:
         github:
             type:                github
