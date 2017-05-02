@@ -61,12 +61,14 @@ EOF;
             $trait_format = $row['format'];
             $fennec_id = $row['fennec_id'];
             $trait_entry_id = $row['id'];
+            $unit = $row['unit'];
             if (!array_key_exists($type_cvterm_id, $result)) {
                 $result[$type_cvterm_id] = [
                     'trait_type' => $trait_type,
                     'trait_format' => $trait_format,
                     'trait_entry_ids' => [$trait_entry_id],
-                    'fennec_ids' => [$fennec_id]
+                    'fennec_ids' => [$fennec_id],
+                    'unit' => $unit
                 ];
             } else {
                 array_push($result[$type_cvterm_id]['trait_entry_ids'], $trait_entry_id);
