@@ -13,6 +13,11 @@
         {% else %}
             <a class='trait-link' href='{{ trait.ontology_url }}' target='_blank'>Go to definition</a>
         {% endif %}
+        {% if trait.unit %}
+        <div>
+            Unit: ${{ trait.unit }}$
+        </div>
+        {% endif %}
     </div>
     <div class="col-xs-4">
         <div class="panel panel-trait">
