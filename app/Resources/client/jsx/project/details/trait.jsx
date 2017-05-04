@@ -2,38 +2,42 @@
 /* global dbversion */
 
 $('document').ready(() => {
-    var traits = [];
-    var webserviceUrl = Routing.generate('api', {'namespace': 'details', 'classname': 'traitsOfOrganisms'});
-    var metadataKeys = getMetadataKeys(biom, 'rows')
+    getAndShowTraits('#trait-table', 'rows');
+    getAndShowTraits('#trait-table-sample', 'columns');
 
-    // Extract row fennec_ids from biom
-    var fennec_ids = biom.getMetadata({dimension: 'rows', attribute: ['fennec', dbversion, 'fennec_id']})
-        .filter( element => element !== null );
+    function getAndShowTraits(id, dimension){
+        var webserviceUrl = Routing.generate('api', {'namespace': 'details', 'classname': 'traitsOfOrganisms'});
+        // Extract row fennec_ids from biom
+        var fennec_ids = biom.getMetadata({dimension: dimension, attribute: ['fennec', dbversion, 'fennec_id']})
+            .filter( element => element !== null );
 
-    // Get traits for rows
-    $.ajax(webserviceUrl, {
-        data: {
-            "dbversion": dbversion,
-            "fennec_ids": fennec_ids
-        },
-        method: "POST",
-        success: function (data) {
-            $.each(data, function (key, value) {
-                var thisTrait = {
-                    id: key,
-                    trait: value['trait_type'],
-                    count: value['trait_entry_ids'].length,
-                    range: 100 * value['fennec_ids'].length / fennec_ids.length
-                };
-                traits.push(thisTrait);
-            });
-            initTraitsOfProjectTable();
-        }
-    });
+        // Get traits for rows
+        $.ajax(webserviceUrl, {
+            data: {
+                "dbversion": dbversion,
+                "fennec_ids": fennec_ids
+            },
+            method: "POST",
+            success: function (data) {
+                let traits = [];
+                $.each(data, function (key, value) {
+                    var thisTrait = {
+                        id: key,
+                        trait: value['trait_type'],
+                        count: value['trait_entry_ids'].length,
+                        range: 100 * value['fennec_ids'].length / fennec_ids.length
+                    };
+                    traits.push(thisTrait);
+                });
+                initTraitsOfProjectTable(id, dimension, traits);
+            }
+        });
+    }
 
     // Init traits of project table with values
-    function initTraitsOfProjectTable() {
-        $('#trait-table').DataTable({
+    function initTraitsOfProjectTable(tableId, dimension, traits) {
+        let metadataKeys = getMetadataKeys(biom, dimension)
+        $(tableId).DataTable({
             data: traits,
             columns: [
                 {data: 'trait'},
