@@ -1,6 +1,6 @@
-function addTraitToProject(traitName, traitValues, traitCitations, biom, dbVersion,internalProjectId, action) {
+function addTraitToProject(traitName, traitValues, traitCitations, biom, dimension, dbVersion,internalProjectId, action) {
     console.log(arguments)
-    var trait_metadata = biom.getMetadata({dimension: 'rows', attribute: ['fennec', dbversion, 'fennec_id']}).map(
+    var trait_metadata = biom.getMetadata({dimension: dimension, attribute: ['fennec', dbversion, 'fennec_id']}).map(
         function (value) {
             if (value in traitValues) {
                 return traitValues[value];
@@ -8,7 +8,7 @@ function addTraitToProject(traitName, traitValues, traitCitations, biom, dbVersi
             return null;
         }
     );
-    var trait_citations = biom.getMetadata({dimension: 'rows', attribute: ['fennec', dbversion, 'fennec_id']}).map(
+    var trait_citations = biom.getMetadata({dimension: dimension, attribute: ['fennec', dbversion, 'fennec_id']}).map(
         function (value) {
             if (value in traitCitations) {
                 return traitCitations[value];
@@ -16,8 +16,8 @@ function addTraitToProject(traitName, traitValues, traitCitations, biom, dbVersi
             return [];
         }
     );
-    biom.addMetadata({dimension: 'rows', attribute: traitName, values: trait_metadata});
-    biom.addMetadata({dimension: 'rows', attribute: ['trait_citations', traitName], values: trait_citations});
+    biom.addMetadata({dimension: dimension, attribute: traitName, values: trait_metadata});
+    biom.addMetadata({dimension: dimension, attribute: ['trait_citations', traitName], values: trait_citations});
     let webserviceUrl = Routing.generate('api', {'namespace': 'edit', 'classname': 'updateProject'});
     $.ajax(webserviceUrl, {
         data: {

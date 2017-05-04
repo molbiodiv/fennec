@@ -692,14 +692,14 @@ $('document').ready(function () {
             }, {
                 targets: 5,
                 render: function render(data, type, full) {
-                    return _.indexOf(metadataKeys, full.trait) != -1 ? '<a onclick="removeTraitFromProjectTableAction(' + "'" + full.trait + "'" + ')"><i class="fa fa-trash"></i></a>' : '<a onclick="addTraitToProjectTableAction(' + full.id + ')"><i class="fa fa-plus"></i></a>';
+                    return _.indexOf(metadataKeys, full.trait) != -1 ? '<a onclick="removeTraitFromProjectTableAction(' + "'" + full.trait + "','" + dimension + "'" + ')"><i class="fa fa-trash"></i></a>' : '<a onclick="addTraitToProjectTableAction(' + full.id + ',' + "'" + dimension + "'" + ')"><i class="fa fa-plus"></i></a>';
                 }
             }]
         });
     }
 });
 
-function addTraitToProjectTableAction(traitTypeId) {
+function addTraitToProjectTableAction(traitTypeId, dimension) {
     $.ajax({
         url: Routing.generate('api', { 'namespace': 'details', 'classname': 'TraitOfProject' }),
         data: {
@@ -716,15 +716,15 @@ function addTraitToProjectTableAction(traitTypeId) {
             } else {
                 traitValues = condenseCategoricalTraitValues(data.values);
             }
-            addTraitToProject(data.name, traitValues, data.citations, biom, dbversion, internalProjectId, function () {
+            addTraitToProject(data.name, traitValues, data.citations, biom, dimension, dbversion, internalProjectId, function () {
                 return window.location.reload();
             });
         }
     });
 }
 
-function removeTraitFromProjectTableAction(traitName) {
-    removeTraitFromProject(traitName, biom, dbversion, internalProjectId, function () {
+function removeTraitFromProjectTableAction(traitName, dimension) {
+    removeTraitFromProject(traitName, biom, dimension, dbversion, internalProjectId, function () {
         return window.location.reload();
     });
 }

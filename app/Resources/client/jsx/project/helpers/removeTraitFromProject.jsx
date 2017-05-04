@@ -1,9 +1,10 @@
-function removeTraitFromProject(traitName, biom, dbVersion,internalProjectId, action) {
-    for(let row of biom.rows){
-        if(row.metadata != null){
-            delete row.metadata[traitName]
-            if(row.metadata.trait_citations != null){
-                delete row.metadata.trait_citations[traitName]
+function removeTraitFromProject(traitName, biom, dimension, dbVersion,internalProjectId, action) {
+    let entries = dimension === 'columns' ? biom.columns : biom.rows
+    for(let entry of entries){
+        if(entry.metadata != null){
+            delete entry.metadata[traitName]
+            if(entry.metadata.trait_citations != null){
+                delete entry.metadata.trait_citations[traitName]
             }
         }
     }

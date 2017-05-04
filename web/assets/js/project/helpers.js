@@ -1,21 +1,21 @@
 'use strict';
 
-function addTraitToProject(traitName, traitValues, traitCitations, biom, dbVersion, internalProjectId, action) {
+function addTraitToProject(traitName, traitValues, traitCitations, biom, dimension, dbVersion, internalProjectId, action) {
     console.log(arguments);
-    var trait_metadata = biom.getMetadata({ dimension: 'rows', attribute: ['fennec', dbversion, 'fennec_id'] }).map(function (value) {
+    var trait_metadata = biom.getMetadata({ dimension: dimension, attribute: ['fennec', dbversion, 'fennec_id'] }).map(function (value) {
         if (value in traitValues) {
             return traitValues[value];
         }
         return null;
     });
-    var trait_citations = biom.getMetadata({ dimension: 'rows', attribute: ['fennec', dbversion, 'fennec_id'] }).map(function (value) {
+    var trait_citations = biom.getMetadata({ dimension: dimension, attribute: ['fennec', dbversion, 'fennec_id'] }).map(function (value) {
         if (value in traitCitations) {
             return traitCitations[value];
         }
         return [];
     });
-    biom.addMetadata({ dimension: 'rows', attribute: traitName, values: trait_metadata });
-    biom.addMetadata({ dimension: 'rows', attribute: ['trait_citations', traitName], values: trait_citations });
+    biom.addMetadata({ dimension: dimension, attribute: traitName, values: trait_metadata });
+    biom.addMetadata({ dimension: dimension, attribute: ['trait_citations', traitName], values: trait_citations });
     var webserviceUrl = Routing.generate('api', { 'namespace': 'edit', 'classname': 'updateProject' });
     $.ajax(webserviceUrl, {
         data: {
@@ -32,19 +32,20 @@ function addTraitToProject(traitName, traitValues, traitCitations, biom, dbVersi
 }
 'use strict';
 
-function removeTraitFromProject(traitName, biom, dbVersion, internalProjectId, action) {
+function removeTraitFromProject(traitName, biom, dimension, dbVersion, internalProjectId, action) {
+    var entries = dimension === 'columns' ? biom.columns : biom.rows;
     var _iteratorNormalCompletion = true;
     var _didIteratorError = false;
     var _iteratorError = undefined;
 
     try {
-        for (var _iterator = biom.rows[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-            var row = _step.value;
+        for (var _iterator = entries[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            var entry = _step.value;
 
-            if (row.metadata != null) {
-                delete row.metadata[traitName];
-                if (row.metadata.trait_citations != null) {
-                    delete row.metadata.trait_citations[traitName];
+            if (entry.metadata != null) {
+                delete entry.metadata[traitName];
+                if (entry.metadata.trait_citations != null) {
+                    delete entry.metadata.trait_citations[traitName];
                 }
             }
         }
