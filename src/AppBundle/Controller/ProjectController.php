@@ -64,15 +64,22 @@ class ProjectController extends Controller
      * @param $dbversion string
      * @param $project_id string
      * @param $trait_type_id
+     * @param $dimension
      * @return Response
-     * @Route("/{dbversion}/project/details/{project_id}/trait/{trait_type_id}", name="project_trait_details", options={"expose" = true})
+     * @Route(
+     *     "/{dbversion}/project/details/{project_id}/trait/{trait_type_id}/{dimension}",
+     *     name="project_trait_details",
+     *     options={"expose" = true},
+     *     requirements={"dimension": "rows|columns"}
+     * )
      */
-    public function traitDetailsAction(Request $request, $dbversion, $project_id, $trait_type_id){
+    public function traitDetailsAction(Request $request, $dbversion, $project_id, $trait_type_id, $dimension){
         $projectTraitDetails = $this->get('app.api.webservice')->factory('details', 'traitOfProject');
         $query = $request->query;
         $query->set('dbversion', $dbversion);
         $query->set('internal_project_id', $project_id);
         $query->set('trait_type_id', $trait_type_id);
+        $query->set('dimension', $dimension);
         $query->set('include_citations', true);
         $traitResult = $projectTraitDetails->execute($query, $this->getFennecUser());
         $projectDetails = $this->get('app.api.webservice')->factory('details', 'projects');

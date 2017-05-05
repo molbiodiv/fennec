@@ -680,7 +680,8 @@ $('document').ready(function () {
                     var href = Routing.generate('project_trait_details', {
                         'dbversion': dbversion,
                         'trait_type_id': full.id,
-                        'project_id': internalProjectId
+                        'project_id': internalProjectId,
+                        'dimension': dimension
                     });
                     return '<a href="' + href + '"><i class="fa fa-search"></i></a>';
                 }
