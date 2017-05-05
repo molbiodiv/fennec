@@ -28,7 +28,7 @@ class TraitOfProjectTest extends WebserviceTestCase
         $entries = $projectListing->execute(new ParameterBag(array('dbversion' => $default_db)), $this->user);
         $id = $entries['data'][0]['internal_project_id'];
 
-        $results = $service->execute(new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => 2, 'internal_project_id' => $id)), $this->user);
+        $results = $service->execute(new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => 2, 'internal_project_id' => $id, 'dimension' => 'rows')), $this->user);
         $expected = [
             "values" => [
                 "annual" => ["1340"],
@@ -42,7 +42,22 @@ class TraitOfProjectTest extends WebserviceTestCase
             "description" => "Determined for type of life cycle being annual, biannual, perennial etc. [database_cross_reference: GR:pj]",
             "unit" => null
         ];
-        $this->assertEquals($results, $expected, 'Example project, return trait details');
+        $this->assertEquals($results, $expected, 'Example project, return trait details for rows');
+
+        $results = $service->execute(new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => 4, 'internal_project_id' => $id, 'dimension' => 'columns')), $this->user);
+        $expected = [
+            "values" => [
+                "yellow" => ["1340","1630"]
+            ],
+            "trait_type_id" => 4,
+            "name" => "Flower Color",
+            "ontology_url" => "http://purl.obolibrary.org/obo/TO_0000537",
+            "trait_format" => "categorical_free",
+            "number_of_organisms" => 2,
+            "description" => "A flower morphology trait (TO:0000499) which is the color of the flower (PO:0009046)",
+            "unit" => null
+        ];
+        $this->assertEquals($results, $expected, 'Example project, return trait details for columns');
 
         $this->user = new FennecUser('noValidUserID',TraitOfProjectTest::NICKNAME,TraitOfProjectTest::PROVIDER);
         $results = $service->execute(new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => 1, 'internal_project_id' => $id)), $this->user);
