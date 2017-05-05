@@ -48,7 +48,11 @@ class SetupFixtures
             ["id" => "OTU_4", "metadata" => ["fennec" => "{\"test\": {\"fennec_id\": 3}}"]],
             ["id" => "OTU_5", "metadata" => ["fennec" => "{\"test\": {\"fennec_id\": 42}}"]]
         );
-        $this->insert_full_webuser_data(array_merge($smallBiom, array('rows'=>$rows)),'detailsOrganismsOfProjectTestUser', 'detailsOrganismsOfProjectTestUser', new \DateTime('2016-10-06T08:07:40+0000'), 'detailsOrganismsOfProjectFile.biom');
+        $columns = array(
+            ["id" => "Sample_1", "metadata" => ["fennec" => "{\"test\": {\"fennec_id\": 1340}}"]],
+            ["id" => "Sample_2", "metadata" => ["fennec" => "{\"test\": {\"fennec_id\": 1630}}"]]
+        );
+        $this->insert_full_webuser_data(array_merge($smallBiom, array('rows'=>$rows, 'columns' => $columns)),'detailsOrganismsOfProjectTestUser', 'detailsOrganismsOfProjectTestUser', new \DateTime('2016-10-06T08:07:40+0000'), 'detailsOrganismsOfProjectFile.biom');
         $rows =  array(
             ["id" => "OTU_1", "metadata" => ["fennec" => "{\"test\": {\"fennec_id\": 1340}}"]],
             ["id" => "OTU_2", "metadata" => ["fennec" => "{\"test\": {\"fennec_id\": 1630}}"]],
