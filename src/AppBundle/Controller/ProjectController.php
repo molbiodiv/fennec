@@ -93,7 +93,8 @@ class ProjectController extends Controller
                 'title' => 'Trait of Project',
                 'trait' => $traitResult,
                 'project' => $projectResult,
-                'internal_project_id' => $project_id
+                'internal_project_id' => $project_id,
+                'dimension' => $dimension
             ]
         );
     }
