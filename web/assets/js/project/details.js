@@ -40,7 +40,12 @@ $('document').ready(function () {
 
     $('#project-export-pseudo-tax-biom').click(exportPseudoTaxTable);
 
-    $('#project-export-trait-citation').click(exportTraitCitationsTable);
+    $('#project-export-trait-citation-otus').click(function () {
+        return exportTraitCitationsTable('rows');
+    });
+    $('#project-export-trait-citation-samples').click(function () {
+        return exportTraitCitationsTable('columns');
+    });
 
     $('#project-add-metadata-sample').on("change", addMetadataSample);
     $('#project-add-metadata-observation').on("change", addMetadataObservation);
@@ -159,32 +164,33 @@ function exportPseudoTaxTable() {
 /**
  * Opens a file download dialog of all trait citations for this project
  */
-function exportTraitCitationsTable() {
+function exportTraitCitationsTable(dimension) {
     var contentType = "text/plain";
-    var out = _.join(['#OTUId', 'fennec_id', 'traitType', 'citation', 'value'], "\t") + "\n";
+    var out = _.join([dimension === "rows" ? '#OTUId' : '#SampleId', 'fennec_id', 'traitType', 'citation', 'value'], "\t") + "\n";
+    var entries = biom[dimension];
     var _iteratorNormalCompletion2 = true;
     var _didIteratorError2 = false;
     var _iteratorError2 = undefined;
 
     try {
-        for (var _iterator2 = biom.rows[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-            var otu = _step2.value;
+        for (var _iterator2 = entries[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+            var entry = _step2.value;
 
-            var id = otu.id;
-            var fennec_id = _.get(otu, ['metadata', 'fennec', dbversion, 'fennec_id']) || '';
+            var id = entry.id;
+            var fennec_id = _.get(entry, ['metadata', 'fennec', dbversion, 'fennec_id']) || '';
             var _iteratorNormalCompletion3 = true;
             var _didIteratorError3 = false;
             var _iteratorError3 = undefined;
 
             try {
-                for (var _iterator3 = Object.keys(_.get(otu, ['metadata', 'trait_citations']) || {})[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+                for (var _iterator3 = Object.keys(_.get(entry, ['metadata', 'trait_citations']) || {})[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
                     var traitType = _step3.value;
                     var _iteratorNormalCompletion4 = true;
                     var _didIteratorError4 = false;
                     var _iteratorError4 = undefined;
 
                     try {
-                        for (var _iterator4 = _.get(otu, ['metadata', 'trait_citations', traitType])[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+                        for (var _iterator4 = _.get(entry, ['metadata', 'trait_citations', traitType])[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
                             var tc = _step4.value;
 
                             out += _.join([id, fennec_id, traitType, tc['citation'], tc['value']], "\t") + "\n";
@@ -235,7 +241,7 @@ function exportTraitCitationsTable() {
     }
 
     var blob = new Blob([out], { type: contentType });
-    saveAs(blob, biom.id + ".citations.tsv");
+    saveAs(blob, biom.id + (dimension === "rows" ? ".OTU" : ".sample") + ".citations.tsv");
 }
 
 /**
