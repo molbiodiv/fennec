@@ -1,11 +1,17 @@
 {% extends 'base.navigation.html.twig' %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        var dimension = '{{ dimension }}';
+    </script>
+{% endblock %}
 {% block content %}
 {#call_webservice path="details/TraitOfProject" data=["trait_type_id"=>$trait_type_id, "dbversion"=>$DbVersion, "internal_project_id" => $internal_project_id] assign='data'#}
-<h2 class="page-header">{{ trait.name }}</h2>
+<h2 class="page-header">{{ trait.name }} {% if trait.unit %}<small> (in ${{ trait.unit }}$)</small>{% endif %} of {% if dimension == 'rows' %}OTUs{% else %}Samples{% endif %}</h2>
 <div class='row'>
     {% if trait.trait_format == 'categorical_free' %}
     <div class='col-xs-12'>
-        <button class="btn btn-primary" id="add-trait-to-project-button">Add trait to project</button>
+        <button class="btn btn-primary" id="add-trait-to-project-button">Add trait to {% if dimension == 'rows' %}OTU{% else %}Sample{% endif %} metadata</button>
         <div id='pieChart'></div>
         <script>
             var internalProjectId = '{{ internal_project_id }}';
@@ -22,10 +28,11 @@
             drawPieChart(counts);
         </script>
         <script src="{{ asset('assets/js/project/traitDetails.js') }}"></script>
+        <script src="{{ asset('assets/js/project/helpers.js') }}"></script>
     </div>
-    {% elseif trait.trait_format == 'numerical' %}
+        {% elseif trait.trait_format == 'numerical' %}
     <div class='col-xs-12'>
-        <button class="btn btn-primary" id="add-trait-to-project-button">Add trait to project</button>
+        <button class="btn btn-primary" id="add-trait-to-project-button">Add trait to {% if dimension == 'rows' %}OTU{% else %}Sample{% endif %} metadata</button>
         <div id='histogram'></div>
         <script>
             var internalProjectId = '{{ internal_project_id }}';

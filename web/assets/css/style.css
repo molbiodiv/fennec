@@ -41,6 +41,12 @@ a {
   a:hover {
     color: #705f49; }
 
+.panel {
+  margin-top: 20px; }
+
+#metadata-overview-sample, #metadata-overview-observation {
+  column-count: 4; }
+
 .btn-organism {
   color: #FFF;
   background-color: #8E7358;

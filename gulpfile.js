@@ -40,6 +40,10 @@ gulp.task('babel-project-details', function() {
     return runBabelOnFolder('project', 'details');
 });
 
+gulp.task('babel-project-helpers', function() {
+    return runBabelOnFolder('project', 'helpers');
+});
+
 gulp.task('babel-project-trait-details', function() {
     return runBabelOnFolder('project', 'traitDetails');
 });
@@ -77,6 +81,7 @@ gulp.task('babel', [
     'babel-helpers',
     'babel-base',
     'babel-project-details',
+    'babel-project-helpers',
     'babel-project-trait-details',
     'babel-trait-browse',
     'babel-organism-details'

@@ -40,13 +40,22 @@ $('document').ready(function () {
 
     $('#project-export-pseudo-tax-biom').click(exportPseudoTaxTable);
 
-    $('#project-export-trait-citation').click(exportTraitCitationsTable);
+    $('#project-export-trait-citation-otus').click(function () {
+        return exportTraitCitationsTable('rows');
+    });
+    $('#project-export-trait-citation-samples').click(function () {
+        return exportTraitCitationsTable('columns');
+    });
 
     $('#project-add-metadata-sample').on("change", addMetadataSample);
     $('#project-add-metadata-observation').on("change", addMetadataObservation);
 
-    $('#metadata-overview-sample').text(getMetadataKeys(biom, 'columns').join(', '));
-    $('#metadata-overview-observation').text(getMetadataKeys(biom, 'rows').join(', '));
+    $('#metadata-overview-sample').append(getMetadataKeys(biom, 'columns').map(function (text) {
+        return $("<li>").text(text);
+    }));
+    $('#metadata-overview-observation').append(getMetadataKeys(biom, 'rows').map(function (text) {
+        return $("<li>").text(text);
+    }));
 });
 
 /**
@@ -155,32 +164,33 @@ function exportPseudoTaxTable() {
 /**
  * Opens a file download dialog of all trait citations for this project
  */
-function exportTraitCitationsTable() {
+function exportTraitCitationsTable(dimension) {
     var contentType = "text/plain";
-    var out = _.join(['#OTUId', 'fennec_id', 'traitType', 'citation', 'value'], "\t") + "\n";
+    var out = _.join([dimension === "rows" ? '#OTUId' : '#SampleId', 'fennec_id', 'traitType', 'citation', 'value'], "\t") + "\n";
+    var entries = biom[dimension];
     var _iteratorNormalCompletion2 = true;
     var _didIteratorError2 = false;
     var _iteratorError2 = undefined;
 
     try {
-        for (var _iterator2 = biom.rows[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-            var otu = _step2.value;
+        for (var _iterator2 = entries[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+            var entry = _step2.value;
 
-            var id = otu.id;
-            var fennec_id = _.get(otu, ['metadata', 'fennec', dbversion, 'fennec_id']) || '';
+            var id = entry.id;
+            var fennec_id = _.get(entry, ['metadata', 'fennec', dbversion, 'fennec_id']) || '';
             var _iteratorNormalCompletion3 = true;
             var _didIteratorError3 = false;
             var _iteratorError3 = undefined;
 
             try {
-                for (var _iterator3 = Object.keys(_.get(otu, ['metadata', 'trait_citations']) || {})[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+                for (var _iterator3 = Object.keys(_.get(entry, ['metadata', 'trait_citations']) || {})[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
                     var traitType = _step3.value;
                     var _iteratorNormalCompletion4 = true;
                     var _didIteratorError4 = false;
                     var _iteratorError4 = undefined;
 
                     try {
-                        for (var _iterator4 = _.get(otu, ['metadata', 'trait_citations', traitType])[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+                        for (var _iterator4 = _.get(entry, ['metadata', 'trait_citations', traitType])[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
                             var tc = _step4.value;
 
                             out += _.join([id, fennec_id, traitType, tc['citation'], tc['value']], "\t") + "\n";
@@ -231,7 +241,7 @@ function exportTraitCitationsTable() {
     }
 
     var blob = new Blob([out], { type: contentType });
-    saveAs(blob, biom.id + ".citations.tsv");
+    saveAs(blob, biom.id + (dimension === "rows" ? ".OTU" : ".sample") + ".citations.tsv");
 }
 
 /**
@@ -568,42 +578,46 @@ $('document').ready(function () {
 /* global db */
 /* global biom */
 /* global phinchPreviewPath */
+function adjustIframeHeight() {
+    setTimeout(function () {
+        $('#inspect-with-phinch-iframe').attr('height', $('#inspect-with-phinch-iframe').contents().height() + 20);
+    }, 100);
+}
+
 $('document').ready(function () {
     // Set action for click on inspect with Phinch
     // db is the browser webstorage
-    $('#inspect-with-phinch-button').click(function () {
-        db.open({
-            server: "BiomData",
-            version: 1,
-            schema: {
-                "biom": {
-                    key: {
-                        keyPath: 'id',
-                        autoIncrement: true
-                    }
+    db.open({
+        server: "BiomData",
+        version: 1,
+        schema: {
+            "biom": {
+                key: {
+                    keyPath: 'id',
+                    autoIncrement: true
                 }
             }
-        }).done(function (server) {
-            var biomToStore = {};
-            biomToStore.name = biom.id;
-            var biomString = biom.toString();
-            biomToStore.size = biomString.length;
-            biomToStore.data = biomString;
-            var d = new Date();
-            biomToStore.date = d.getUTCFullYear() + "-" + (d.getUTCMonth() + 1) + "-" + d.getUTCDate() + "T" + d.getUTCHours() + ":" + d.getUTCMinutes() + ":" + d.getUTCSeconds() + " UTC";
-            server.biom.add(biomToStore).done(function (item) {
-                $('#inspect-with-phinch-iframe').show();
-                $('#inspect-with-phinch-iframe').attr('src', phinchPreviewPath);
-            });
+        }
+    }).done(function (server) {
+        var biomToStore = {};
+        biomToStore.name = biom.id;
+        var biomString = biom.toString();
+        biomToStore.size = biomString.length;
+        biomToStore.data = biomString;
+        var d = new Date();
+        biomToStore.date = d.getUTCFullYear() + "-" + (d.getUTCMonth() + 1) + "-" + d.getUTCDate() + "T" + d.getUTCHours() + ":" + d.getUTCMinutes() + ":" + d.getUTCSeconds() + " UTC";
+        server.biom.add(biomToStore).done(function (item) {
+            $('#inspect-with-phinch-iframe').show();
+            $('#inspect-with-phinch-iframe').attr('src', phinchPreviewPath);
         });
     });
 
     // Adjust size of iframe after loading of Phinch
     $('#inspect-with-phinch-iframe').on("load", function () {
-        setTimeout(function () {
-            $('#inspect-with-phinch-iframe').attr('height', $('#inspect-with-phinch-iframe').contents().height() + 20);
-        }, 1000);
+        setTimeout(adjustIframeHeight, 1000);
     });
+
+    $('#inspect-with-phinch-tab').on('click', adjustIframeHeight);
 });
 'use strict';
 
@@ -611,40 +625,45 @@ $('document').ready(function () {
 /* global dbversion */
 
 $('document').ready(function () {
-    var traits = [];
-    var webserviceUrl = Routing.generate('api', { 'namespace': 'details', 'classname': 'traitsOfOrganisms' });
+    getAndShowTraits('#trait-table', 'rows');
+    getAndShowTraits('#trait-table-sample', 'columns');
 
-    // Extract row fennec_ids from biom
-    var fennec_ids = biom.getMetadata({ dimension: 'rows', attribute: ['fennec', dbversion, 'fennec_id'] }).filter(function (element) {
-        return element !== null;
-    });
+    function getAndShowTraits(id, dimension) {
+        var webserviceUrl = Routing.generate('api', { 'namespace': 'details', 'classname': 'traitsOfOrganisms' });
+        // Extract row fennec_ids from biom
+        var fennec_ids = biom.getMetadata({ dimension: dimension, attribute: ['fennec', dbversion, 'fennec_id'] }).filter(function (element) {
+            return element !== null;
+        });
 
-    // Get traits for rows
-    $.ajax(webserviceUrl, {
-        data: {
-            "dbversion": dbversion,
-            "fennec_ids": fennec_ids
-        },
-        method: "POST",
-        success: function success(data) {
-            $.each(data, function (key, value) {
-                var thisTrait = {
-                    id: key,
-                    trait: value['trait_type'],
-                    count: value['trait_entry_ids'].length,
-                    range: 100 * value['fennec_ids'].length / fennec_ids.length
-                };
-                traits.push(thisTrait);
-            });
-            initTraitsOfProjectTable();
-        }
-    });
+        // Get traits for rows
+        $.ajax(webserviceUrl, {
+            data: {
+                "dbversion": dbversion,
+                "fennec_ids": fennec_ids
+            },
+            method: "POST",
+            success: function success(data) {
+                var traits = [];
+                $.each(data, function (key, value) {
+                    var thisTrait = {
+                        id: key,
+                        trait: value['trait_type'],
+                        count: value['trait_entry_ids'].length,
+                        range: 100 * value['fennec_ids'].length / fennec_ids.length
+                    };
+                    traits.push(thisTrait);
+                });
+                initTraitsOfProjectTable(id, dimension, traits);
+            }
+        });
+    }
 
     // Init traits of project table with values
-    function initTraitsOfProjectTable() {
-        $('#trait-table').DataTable({
+    function initTraitsOfProjectTable(tableId, dimension, traits) {
+        var metadataKeys = getMetadataKeys(biom, dimension);
+        $(tableId).DataTable({
             data: traits,
-            columns: [{ data: 'trait' }, { data: 'count' }, { data: 'range' }, { data: null }],
+            columns: [{ data: 'trait' }, { data: 'count' }, { data: 'range' }, { data: null }, { data: null }, { data: null }],
             order: [2, "desc"],
             columnDefs: [{
                 targets: 2,
@@ -667,11 +686,52 @@ $('document').ready(function () {
                     var href = Routing.generate('project_trait_details', {
                         'dbversion': dbversion,
                         'trait_type_id': full.id,
-                        'project_id': internalProjectId
+                        'project_id': internalProjectId,
+                        'dimension': dimension
                     });
-                    return '<a href="' + href + '">Details</a>';
+                    return '<a href="' + href + '"><i class="fa fa-search"></i></a>';
+                }
+            }, {
+                targets: 4,
+                render: function render(data, type, full) {
+                    return _.indexOf(metadataKeys, full.trait) != -1 ? '<i class="fa fa-check"></i>' : '';
+                }
+            }, {
+                targets: 5,
+                render: function render(data, type, full) {
+                    return _.indexOf(metadataKeys, full.trait) != -1 ? '<a onclick="removeTraitFromProjectTableAction(' + "'" + full.trait + "','" + dimension + "'" + ')"><i class="fa fa-trash"></i></a>' : '<a onclick="addTraitToProjectTableAction(' + full.id + ',' + "'" + dimension + "'" + ')"><i class="fa fa-plus"></i></a>';
                 }
             }]
         });
     }
 });
+
+function addTraitToProjectTableAction(traitTypeId, dimension) {
+    $.ajax({
+        url: Routing.generate('api', { 'namespace': 'details', 'classname': 'TraitOfProject' }),
+        data: {
+            "dbversion": dbversion,
+            "internal_project_id": internalProjectId,
+            "trait_type_id": traitTypeId,
+            "include_citations": true
+        },
+        method: "POST",
+        success: function success(data) {
+            var traitValues;
+            if (data.trait_format === 'numerical') {
+                traitValues = condenseNumericalTraitValues(data.values);
+            } else {
+                traitValues = condenseCategoricalTraitValues(data.values);
+            }
+            addTraitToProject(data.name, traitValues, data.citations, biom, dimension, dbversion, internalProjectId, function () {
+                return window.location.reload();
+            });
+        }
+    });
+}
+
+function removeTraitFromProjectTableAction(traitName, dimension) {
+    removeTraitFromProject(traitName, biom, dimension, dbversion, internalProjectId, function () {
+        return window.location.reload();
+    });
+}

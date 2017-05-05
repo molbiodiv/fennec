@@ -38,13 +38,14 @@ $('document').ready(function () {
 
     $('#project-export-pseudo-tax-biom').click(exportPseudoTaxTable);
 
-    $('#project-export-trait-citation').click(exportTraitCitationsTable);
+    $('#project-export-trait-citation-otus').click(()=>exportTraitCitationsTable('rows'));
+    $('#project-export-trait-citation-samples').click(()=>exportTraitCitationsTable('columns'));
 
     $('#project-add-metadata-sample').on("change", addMetadataSample);
     $('#project-add-metadata-observation').on("change", addMetadataObservation);
 
-    $('#metadata-overview-sample').text(getMetadataKeys(biom, 'columns').join(', '));
-    $('#metadata-overview-observation').text(getMetadataKeys(biom, 'rows').join(', '));
+    $('#metadata-overview-sample').append(getMetadataKeys(biom, 'columns').map((text) => $("<li>").text(text)));
+    $('#metadata-overview-observation').append(getMetadataKeys(biom, 'rows').map((text) => $("<li>").text(text)));
 });
 
 /**
@@ -115,20 +116,21 @@ function exportPseudoTaxTable() {
 /**
  * Opens a file download dialog of all trait citations for this project
  */
-function exportTraitCitationsTable() {
+function exportTraitCitationsTable(dimension) {
     const contentType = "text/plain";
-    let out = _.join(['#OTUId', 'fennec_id', 'traitType', 'citation', 'value'], "\t")+"\n";
-    for(let otu of biom.rows){
-        let id = otu.id;
-        let fennec_id = _.get(otu, ['metadata', 'fennec', dbversion, 'fennec_id']) || '';
-        for(let traitType of Object.keys(_.get(otu, ['metadata', 'trait_citations'])||{})){
-            for(let tc of _.get(otu, ['metadata', 'trait_citations', traitType])){
+    let out = _.join([(dimension==="rows" ? '#OTUId' : '#SampleId'), 'fennec_id', 'traitType', 'citation', 'value'], "\t")+"\n";
+    let entries = biom[dimension]
+    for(let entry of entries){
+        let id = entry.id;
+        let fennec_id = _.get(entry, ['metadata', 'fennec', dbversion, 'fennec_id']) || '';
+        for(let traitType of Object.keys(_.get(entry, ['metadata', 'trait_citations'])||{})){
+            for(let tc of _.get(entry, ['metadata', 'trait_citations', traitType])){
                 out += _.join([id, fennec_id, traitType, tc['citation'], tc['value']], "\t")+"\n";
             }
         }
     }
     const blob = new Blob([out], {type: contentType});
-    saveAs(blob, biom.id+".citations.tsv");
+    saveAs(blob, biom.id+(dimension==="rows" ? ".OTU" : ".sample")+".citations.tsv");
 }
 
 /**

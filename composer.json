@@ -1,6 +1,6 @@
 {
-    "name": "s216121/fennec.web",
-    "license": "proprietary",
+    "name": "molbiodiv/fennec",
+    "license": "MIT",
     "type": "project",
     "autoload": {
         "psr-4": {

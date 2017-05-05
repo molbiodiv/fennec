@@ -5,7 +5,6 @@ namespace AppBundle\API\Details;
 use AppBundle\API\Webservice;
 use AppBundle\Entity\WebuserData;
 use AppBundle\User\FennecUser;
-use \PDO as PDO;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
 /**

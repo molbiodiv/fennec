@@ -38,7 +38,7 @@ describe('helpers/getMetadataKeys', () => {
             assert.deepEqual(getMetadataKeys(biom, 'columns'), ['beeSpecies', 'phinchID']);
         });
         it('function returns metadata keys for rows', () => {
-            assert.deepEqual(getMetadataKeys(biom, 'rows'), ['taxonomy', 'Plant Habit']);
+            assert.deepEqual(getMetadataKeys(biom, 'rows'), ['Plant Habit', 'taxonomy']);
         });
     });
 });

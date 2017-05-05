@@ -44,7 +44,8 @@ class TraitEntries extends Webservice
                 'type_definition' => $row['type_definition'],
                 'citation' => $row['citation'],
                 'value' => $row['value_name'],
-                'value_definition' => $row['value_definition']
+                'value_definition' => $row['value_definition'],
+                'unit' => $row['unit']
             );
         }
         return $result;
@@ -66,6 +67,7 @@ SELECT
     trait_categorical_value.ontology_url AS value_definition,
     trait_citation.citation,
     trait_type.type AS type_name,
+    trait_type.unit AS unit,
     trait_type.ontology_url AS type_definition
 FROM trait_categorical_entry
     JOIN trait_categorical_value
@@ -85,6 +87,7 @@ SELECT
     trait_citation.citation,
     trait_type.type AS type_name,
     trait_type.ontology_url AS type_definition,
+    trait_type.unit AS unit,
     NULL AS value_definition
 FROM trait_numerical_entry
     JOIN trait_type

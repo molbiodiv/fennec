@@ -108,7 +108,9 @@ function getMetadataKeys(biom) {
     var uniqKeys = keys.reduce(function (acc, val) {
         return _.uniq(acc.concat(val));
     }, []);
-    return uniqKeys;
+    return uniqKeys.sort(function (a, b) {
+        return a.toUpperCase().localeCompare(b.toUpperCase());
+    });
 }
 "use strict";
 
