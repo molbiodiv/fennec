@@ -39,7 +39,7 @@ gulp sassLint
 gulp sass
 ```
 ## Changes
-### Next release
+### 0.6.1 <2017-05-05>
  - Improve design of project details (tabs)
  - Add trait table for samples (#72)
  - Add better handling of traits via table

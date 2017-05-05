@@ -1,6 +1,6 @@
 {
   "name": "fennec-web",
-  "version": "0.4.1",
+  "version": "0.6.1",
   "description": "Fennec",
   "directories": {
     "test": "test"
