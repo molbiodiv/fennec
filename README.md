@@ -39,6 +39,13 @@ gulp sassLint
 gulp sass
 ```
 ## Changes
+### Next release
+ - Improve design of project details (tabs)
+ - Add trait table for samples (#72)
+ - Add better handling of traits via table
+ - Add capability to remove traits from project (#71)
+ - Add unit for numerical traits to frontend (#73)
+ - Fix github login timeout (#69)
 ### 0.6.0 <2017-04-10>
  - Add metadata overview to projects
  - Add possibility to upload metadata tsv files
