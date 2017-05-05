@@ -27,13 +27,21 @@ class OrganismsOfProjectTest extends WebserviceTestCase
         $entries = $projectListing->execute(new ParameterBag(array('dbversion' => $default_db)), $this->user);
         $id = $entries['data'][0]['internal_project_id'];
 
-        $results = $service->execute(new ParameterBag(array('dbversion' => $default_db, 'internal_project_id' => $id)), $this->user);
+        $results = $service->execute(new ParameterBag(array('dbversion' => $default_db, 'internal_project_id' => $id, 'dimension' => 'rows')), $this->user);
         $expected = array(
             3, 42
         );
-        $this->assertEquals(2, count($results), 'Example project, return uniq organism ids');
-        $this->assertContains($expected[0], $results, 'Example project, return uniq organism ids');
-        $this->assertContains($expected[1], $results, 'Example project, return uniq organism ids');
+        $this->assertEquals(2, count($results), 'Example project, return uniq organism ids for rows');
+        $this->assertContains($expected[0], $results, 'Example project, return uniq organism ids for rows');
+        $this->assertContains($expected[1], $results, 'Example project, return uniq organism ids for rows');
+
+        $results = $service->execute(new ParameterBag(array('dbversion' => $default_db, 'internal_project_id' => $id, 'dimension' => 'columns')), $this->user);
+        $expected = array(
+            1340, 1630
+        );
+        $this->assertEquals(2, count($results), 'Example project, return uniq organism ids for samples');
+        $this->assertContains($expected[0], $results, 'Example project, return uniq organism ids for samples');
+        $this->assertContains($expected[1], $results, 'Example project, return uniq organism ids for samples');
 
         $this->user = new FennecUser('noValidUserID',OrganismsOfProjectTest::NICKNAME,OrganismsOfProjectTest::PROVIDER);
         $results = $service->execute(new ParameterBag(array('dbversion' => $default_db, 'internal_project_id' => $id)), $this->user);

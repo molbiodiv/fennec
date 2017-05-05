@@ -45,7 +45,8 @@ class TraitsTest extends WebserviceTestCase
                 "ontology_url" => "http://eol.org/schema/terms/PlantHabit",
                 "trait_format" => "categorical_free",
                 "number_of_organisms" => 16417,
-                "description" => "general growth form, including size and branching. Some organisms have different growth habits depending on environment or location"
+                "description" => "general growth form, including size and branching. Some organisms have different growth habits depending on environment or location",
+                "unit" => null
             ];
         $results['values'] = array_map('count', $results['values']);
         $this->assertEquals($expected, $results);
@@ -75,7 +76,8 @@ class TraitsTest extends WebserviceTestCase
             "ontology_url" => "",
             "trait_format" => "categorical_free",
             "number_of_organisms" => 23185,
-            "description" => ""
+            "description" => "",
+            "unit" => null
         ];
         $results['values'] = array_map('count', $results['values']);
         $this->assertEquals($expected, $results);
@@ -94,7 +96,8 @@ class TraitsTest extends WebserviceTestCase
                 "ontology_url" => "http://purl.obolibrary.org/obo/TO_0002725",
                 "trait_format" => "categorical_free",
                 "number_of_organisms" => 5,
-                "description" => "Determined for type of life cycle being annual, biannual, perennial etc. [database_cross_reference: GR:pj]"
+                "description" => "Determined for type of life cycle being annual, biannual, perennial etc. [database_cross_reference: GR:pj]",
+                "unit" => null
             ];
         $this->assertEquals($expected, $results, 'Organism ids provided, should return trait details for only those organisms');
 
@@ -109,7 +112,8 @@ class TraitsTest extends WebserviceTestCase
             "ontology_url" => "http://eol.org/schema/terms/PlantHabit",
             "trait_format" => "categorical_free",
             "number_of_organisms" => 0,
-            "description" => "general growth form, including size and branching. Some organisms have different growth habits depending on environment or location"
+            "description" => "general growth form, including size and branching. Some organisms have different growth habits depending on environment or location",
+            "unit" => null
         ];
         $this->assertEquals($expected, $results, 'Array of organism ids is empty, should return empty values array and 0 as number_of_organisms');
 
@@ -131,7 +135,8 @@ class TraitsTest extends WebserviceTestCase
             "ontology_url" => null,
             "trait_format" => "numerical",
             "number_of_organisms" => 4,
-            "description" => "Leaf size is the one-sided projected surface area of an individual leaf or lamina expressed in mm^2"
+            "description" => "Leaf size is the one-sided projected surface area of an individual leaf or lamina expressed in mm^2",
+            "unit" => "mm^2"
         ];
         $this->assertEquals($expected, $results, 'Array of organism ids is empty, should return empty values array and 0 as number_of_organisms');
     }
@@ -171,7 +176,8 @@ class TraitsTest extends WebserviceTestCase
                 "ontology_url" => "http://purl.obolibrary.org/obo/TO_0002725",
                 "trait_format" => "categorical_free",
                 "number_of_organisms" => 5,
-                "description" => "Determined for type of life cycle being annual, biannual, perennial etc. [database_cross_reference: GR:pj]"
+                "description" => "Determined for type of life cycle being annual, biannual, perennial etc. [database_cross_reference: GR:pj]",
+                "unit" => null
             ];
         $this->assertEquals($expected, $results, 'Organism ids provided, should return trait details for only those organisms, incl. citations');
 
@@ -213,7 +219,8 @@ class TraitsTest extends WebserviceTestCase
             "ontology_url" => null,
             "trait_format" => "numerical",
             "number_of_organisms" => 4,
-            "description" => "Leaf size is the one-sided projected surface area of an individual leaf or lamina expressed in mm^2"
+            "description" => "Leaf size is the one-sided projected surface area of an individual leaf or lamina expressed in mm^2",
+            "unit" => "mm^2"
         ];
         $this->assertEquals($expected, $results, 'Array of organism ids is empty, should return empty values array and 0 as number_of_organisms');
     }

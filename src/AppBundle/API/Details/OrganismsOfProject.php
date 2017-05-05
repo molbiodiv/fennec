@@ -45,12 +45,16 @@ class OrganismsOfProject extends Webservice
             if($project === null){
                 $result['error'] = OrganismsOfProject::ERROR_PROJECT_NOT_FOUND;
             } else {
-                $rows = $project->getProject()['rows'];
+                $dimension = 'rows';
+                if($query->has('dimension') && $query->get('dimension') == 'columns'){
+                    $dimension = 'columns';
+                }
+                $entries = $project->getProject()[$dimension];
                 $fennec_ids = array();
-                foreach ($rows as $row){
-                    if (key_exists('metadata', $row)){
-                        if (is_array($row['metadata']) and key_exists('fennec', $row['metadata'])) {
-                            $fennec = json_decode($row['metadata']['fennec'], true);
+                foreach ($entries as $entry){
+                    if (key_exists('metadata', $entry)){
+                        if (is_array($entry['metadata']) and key_exists('fennec', $entry['metadata'])) {
+                            $fennec = json_decode($entry['metadata']['fennec'], true);
                             if(is_array($fennec) and
                                 key_exists($dbversion, $fennec) and
                                 is_array($fennec[$dbversion]) and

@@ -35,7 +35,7 @@ class TraitsOfOrganisms extends Webservice
         }
         $placeholders = implode(',', array_fill(0, count($fennec_ids), '?'));
         $query_get_categorical_traits = <<<EOF
-(SELECT trait_categorical_entry.id, trait_categorical_entry.fennec_id, trait_categorical_entry.trait_type_id, trait_type.type, trait_format.format
+(SELECT trait_categorical_entry.id, trait_categorical_entry.fennec_id, trait_categorical_entry.trait_type_id, trait_type.type, trait_format.format, trait_type.unit
     FROM trait_categorical_entry, trait_type, trait_format
     WHERE trait_categorical_entry.trait_type_id = trait_type.id
     AND trait_format.id = trait_type.trait_format_id
@@ -43,7 +43,7 @@ class TraitsOfOrganisms extends Webservice
     AND fennec_id IN ($placeholders))
 UNION
 (SELECT
-    trait_numerical_entry.id, trait_numerical_entry.fennec_id, trait_numerical_entry.trait_type_id, trait_type.type, trait_format.format
+    trait_numerical_entry.id, trait_numerical_entry.fennec_id, trait_numerical_entry.trait_type_id, trait_type.type, trait_format.format, trait_type.unit
     FROM trait_numerical_entry, trait_type, trait_format
     WHERE trait_numerical_entry.trait_type_id = trait_type.id
     AND trait_format.id = trait_type.trait_format_id
@@ -61,12 +61,14 @@ EOF;
             $trait_format = $row['format'];
             $fennec_id = $row['fennec_id'];
             $trait_entry_id = $row['id'];
+            $unit = $row['unit'];
             if (!array_key_exists($type_cvterm_id, $result)) {
                 $result[$type_cvterm_id] = [
                     'trait_type' => $trait_type,
                     'trait_format' => $trait_format,
                     'trait_entry_ids' => [$trait_entry_id],
-                    'fennec_ids' => [$fennec_id]
+                    'fennec_ids' => [$fennec_id],
+                    'unit' => $unit
                 ];
             } else {
                 array_push($result[$type_cvterm_id]['trait_entry_ids'], $trait_entry_id);
