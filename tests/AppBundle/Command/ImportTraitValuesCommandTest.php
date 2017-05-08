@@ -314,4 +314,69 @@ class ImportTraitValuesCommandTest extends KernelTestCase
         $this->assertEquals(23118, $dialycerasEntry->getFennec()->getFennecId(),
             'The trait has been assigned to the correct organism');
     }
+
+    public function testImportOfLongTable(){
+        $this->assertNull($this->em->getRepository('AppBundle:TraitType')->findOneBy(array(
+            'type' => 'Long Table Trait'
+        )), 'before import there is no trait type called "Long Table Trait"');
+        $this->assertNull($this->em->getRepository('AppBundle:TraitCitation')->findOneBy(array(
+            'citation' => 'Long Table Default Citation'
+        )), 'before import there is no citation "Long Table Default Citation"');
+        $this->commandTester->execute(array(
+            'command' => $this->command->getName(),
+            '--user-id' => 1,
+            '--default-citation' => "Long Table Default Citation",
+            '--long-table' => true,
+            'file' => __DIR__ . '/files/longTable.tsv'
+        ));
+        $output = $this->commandTester->getDisplay();
+        $this->assertContains('Unknown TraitType', $output);
+        $this->assertNull($this->em->getRepository('AppBundle:TraitCitation')->findOneBy(array(
+            'citation' => 'Long Table Default Citation'
+        )), 'after failed import there is still no citation "Long Table Default Citation"');
+
+        $longTableTraitType = new TraitType();
+        $longTableTraitType->setType('Long Table Trait');
+        $longTableTraitType->setUnit('m');
+        $numericalFormat = $this->em->getRepository('AppBundle:TraitFormat')->findOneBy(['format' => 'numerical']);
+        if($numericalFormat === null){
+            $numericalFormat = new TraitFormat();
+            $numericalFormat->setFormat('numerical');
+            $this->em->persist($numericalFormat);
+        }
+        $longTableTraitType->setTraitFormat($numericalFormat);
+        $this->em->persist($longTableTraitType);
+        $this->em->flush();
+        $this->commandTester->execute(array(
+            'command' => $this->command->getName(),
+            '--user-id' => 1,
+            '--default-citation' => "Long Table Default Citation",
+            '--long-table' => true,
+            'file' => __DIR__ . '/files/longTable.tsv'
+        ));
+        $this->assertNotNull($this->em->getRepository('AppBundle:TraitCitation')->findOneBy(array(
+            'citation' => 'Long Table Default Citation'
+        )), 'after import there is a citation "eol_fantasy_number"');
+
+        $this->assertEquals(3, count($this->em->getRepository('AppBundle:TraitNumericalEntry')->findBy(array(
+            'traitType' => $longTableTraitType
+        ))), 'There are three entries with type "testPlantHeight"');
+        /**
+         * @var TraitCategoricalEntry
+         */
+        $singleEntry = $this->em->getRepository('AppBundle:TraitNumericalEntry')->findOneBy(array(
+            'value' => 133,
+            'traitType' => $longTableTraitType
+        ));
+        $this->assertNotNull($singleEntry, 'The entry with value for eol id 1094535 exists');
+        $this->assertEquals(35729, $singleEntry->getFennec()->getFennecId(),
+            'The trait has been assigned to the correct organism');
+        $dialycerasEntry = $this->em->getRepository('AppBundle:TraitNumericalEntry')->findOneBy(array(
+            'originUrl' => 'http://example.com/plantHeight6875647',
+            'traitType' => $longTableTraitType
+        ));
+        $this->assertNotNull($dialycerasEntry, 'The entry with origin url for eol id 6875647 exists');
+        $this->assertEquals(23118, $dialycerasEntry->getFennec()->getFennecId(),
+            'The trait has been assigned to the correct organism');
+    }
 }
