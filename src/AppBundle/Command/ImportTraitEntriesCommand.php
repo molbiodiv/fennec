@@ -87,6 +87,7 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
         ->addOption('mapping', "m", InputOption::VALUE_REQUIRED, 'Method of mapping for id column. If not set fennec_ids are assumed and no mapping is performed', null)
         ->addOption('public', 'p', InputOption::VALUE_NONE, 'import traits as public (default is private)')
         ->addOption('skip-unmapped', 's', InputOption::VALUE_NONE, 'do not exit if a line can not be mapped (uniquely) to a fennec_id instead skip this entry', null)
+        ->addOption('long-table', null, InputOption::VALUE_NONE, 'The format of the table is long table', null)
     ;
     }
 
