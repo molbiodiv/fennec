@@ -102,11 +102,6 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
             return;
         }
         $this->initConnection($input);
-        $this->traitType = $this->em->getRepository('AppBundle:TraitType')->findOneBy(array('type' => $input->getOption('traittype')));
-        if($this->traitType === null){
-            $output->writeln('<error>TraitType does not exist in db. Check for typos or create with app:create-traittype.</error>');
-            return;
-        }
         $user = $this->em->getRepository('AppBundle:Webuser')->find($input->getOption('user-id'));
         if($user === null){
             $output->writeln('<error>User with provided id does not exist in db.</error>');
@@ -116,26 +111,31 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
         $progress = new ProgressBar($output, $lines);
         $progress->start();
         $needs_mapping = $input->getOption('mapping') !== null;
-        if($needs_mapping){
-            $this->mapping = $this->getMapping($input->getArgument('file'), $input->getOption('mapping'));
-            if(!$input->getOption('skip-unmapped')){
-                foreach($this->mapping as $id => $value){
-                    if($value === null){
-                        $output->writeln('<error>Error no mapping to fennec id found for: '.$id.'</error>');
+        if($needs_mapping) {
+            $this->mapping = $this->getMapping($input->getArgument('file'), $input->getOption('mapping'),
+                $input->hasOption('long-table'));
+            if (!$input->getOption('skip-unmapped')) {
+                foreach ($this->mapping as $id => $value) {
+                    if ($value === null) {
+                        $output->writeln('<error>Error no mapping to fennec id found for: ' . $id . '</error>');
                         return;
-                    } elseif (is_array($value)){
-                        $output->writeln('<error>Error multiple mappings to fennec ids found for: '.$id.' ('.implode(',',$value).')</error>');
+                    } elseif (is_array($value)) {
+                        $output->writeln('<error>Error multiple mappings to fennec ids found for: ' . $id . ' (' . implode(',',
+                                $value) . ')</error>');
                         return;
                     }
                 }
-            }$this->connectionName = $input->getOption('connection');
-        if($this->connectionName === null) {
-            $this->connectionName = $this->getContainer()->get('doctrine')->getDefaultConnectionName();
-        }
-        $orm = $this->getContainer()->get('app.orm');
-        $this->em = $orm->getManagerForVersion($this->connectionName);
+            }
         }
         $file = fopen($input->getArgument('file'), 'r');
+        $traitTypes = $input->getOption('traittype');
+        if($input->hasOption('long-table')){
+            $line = fgetcsv($file, 0, "\t");
+            $traitTypes = array_slice($line, 1);
+        }
+        if(!$this->checkTraitTypes($traitTypes, $output)){
+            return;
+        }
         $this->em->getConnection()->beginTransaction();
         try{
             while (($line = fgetcsv($file, 0, "\t")) != false) {
@@ -230,10 +230,12 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
         return $traitCitation;
     }
 
-    private function getMapping($filename, $method){
-        $mapping = array();
+    private function getMapping($filename, $method, $skip_first_line = false){
         $ids = array();
         $file = fopen($filename, 'r');
+        if($skip_first_line){
+            fgetcsv($file, 0, "\t");
+        }
         while (($line = fgetcsv($file, 0, "\t")) != false) {
             $ids[] = $line[0];
         }
@@ -288,5 +290,22 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
         }
         $orm = $this->getContainer()->get('app.orm');
         $this->em = $orm->getManagerForVersion($this->connectionName);
+    }
+
+    /**
+     * @param array $traitTypes
+     * @param OutputInterface $output
+     * @return boolean
+     */
+    protected function checkTraitTypes(array $traitTypes, OutputInterface $output)
+    {
+        foreach ($traitTypes as $type){
+            $this->traitType = $this->em->getRepository('AppBundle:TraitType')->findOneBy(array('type' => $type));
+            if ($this->traitType === null) {
+                $output->writeln('<error>TraitType does not exist in db. Check for typos or create with app:create-traittype.</error>');
+                return false;
+            }
+        }
+        return true;
     }
 }
