@@ -113,7 +113,7 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
         $needs_mapping = $input->getOption('mapping') !== null;
         if($needs_mapping) {
             $this->mapping = $this->getMapping($input->getArgument('file'), $input->getOption('mapping'),
-                $input->hasOption('long-table'));
+                $input->getOption('long-table'));
             if (!$input->getOption('skip-unmapped')) {
                 foreach ($this->mapping as $id => $value) {
                     if ($value === null) {
@@ -128,8 +128,8 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
             }
         }
         $file = fopen($input->getArgument('file'), 'r');
-        $traitTypes = $input->getOption('traittype');
-        if($input->hasOption('long-table')){
+        $traitTypes = array($input->getOption('traittype'));
+        if($input->getOption('long-table')){
             $line = fgetcsv($file, 0, "\t");
             $traitTypes = array_slice($line, 1);
         }
@@ -264,7 +264,7 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
      */
     protected function checkOptions(InputInterface $input, OutputInterface $output)
     {
-        if ($input->getOption('traittype') === null && !$input->hasOption('long-table')) {
+        if ($input->getOption('traittype') === null && !$input->getOption('long-table')) {
             $output->writeln('<error>No trait type given. Use --traittype or set --long-table</error>');
             return false;
         }
