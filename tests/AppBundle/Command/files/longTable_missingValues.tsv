@@ -1,5 +1,3 @@
-#FennecID	Flower Color	IUCN Threat Status	Long Table Trait	Plant Habit
-324	red	LC	17.3	tree
-23461		LC	29.57	forb/herb
-4652	green		0	tree
-45	blue	EN	43
+#FennecID	Flower Color	Plant Habit
+12345	purpurRed
+54321		mammutTree
