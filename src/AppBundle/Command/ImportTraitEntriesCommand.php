@@ -79,7 +79,11 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
         // the "--help" option
         ->setHelp("This command allows you to create trait types...\n".
             "The tsv file has to have the following columns (only the first two are required to have a value):\n".
-            "fennec_id\tvalue\tvalue_ontology\tcitation\torigin_url")
+            "fennec_id\tvalue\tvalue_ontology\tcitation\torigin_url\n\n".
+            "or with --long-table option:\n".
+            "#FennecID\tTraitType1\tTraitType2\t...\n".
+            "fennec_id\tTraitValue1\tTraitValue2\t...\n"
+        )
         ->addArgument('file', InputArgument::REQUIRED, 'The path to the input csv file')
         ->addOption('connection', 'c', InputOption::VALUE_REQUIRED, 'The database version')
         ->addOption('traittype', 't', InputOption::VALUE_REQUIRED, 'The name of the trait type', null)
