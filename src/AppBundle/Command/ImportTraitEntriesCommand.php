@@ -98,20 +98,10 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
             '====================',
             '',
         ]);
-        if($input->getOption('traittype') === null){
-            $output->writeln('<error>No trait type given. Use --traittype</error>');
+        if(!$this->checkOptions($input, $output)){
             return;
         }
-        if($input->getOption('user-id') === null){
-            $output->writeln('<error>No user ID given. Use --user-id</error>');
-            return;
-        }
-        $this->connectionName = $input->getOption('connection');
-        if($this->connectionName === null) {
-            $this->connectionName = $this->getContainer()->get('doctrine')->getDefaultConnectionName();
-        }
-        $orm = $this->getContainer()->get('app.orm');
-        $this->em = $orm->getManagerForVersion($this->connectionName);
+        $this->initConnection($input);
         $this->traitType = $this->em->getRepository('AppBundle:TraitType')->findOneBy(array('type' => $input->getOption('traittype')));
         if($this->traitType === null){
             $output->writeln('<error>TraitType does not exist in db. Check for typos or create with app:create-traittype.</error>');
@@ -120,10 +110,6 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
         $user = $this->em->getRepository('AppBundle:Webuser')->find($input->getOption('user-id'));
         if($user === null){
             $output->writeln('<error>User with provided id does not exist in db.</error>');
-            return;
-        }
-        if(!file_exists($input->getArgument('file'))){
-            $output->writeln('<error>File does not exist: '.$input->getArgument('file').'</error>');
             return;
         }
         $lines = intval(exec('wc -l '.escapeshellarg($input->getArgument('file')).' 2>/dev/null'));
@@ -142,7 +128,12 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
                         return;
                     }
                 }
-            }
+            }$this->connectionName = $input->getOption('connection');
+        if($this->connectionName === null) {
+            $this->connectionName = $this->getContainer()->get('doctrine')->getDefaultConnectionName();
+        }
+        $orm = $this->getContainer()->get('app.orm');
+        $this->em = $orm->getManagerForVersion($this->connectionName);
         }
         $file = fopen($input->getArgument('file'), 'r');
         $this->em->getConnection()->beginTransaction();
@@ -262,5 +253,40 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
             )), null);
         }
         return $mapping;
+    }
+
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return boolean
+     */
+    protected function checkOptions(InputInterface $input, OutputInterface $output)
+    {
+        if ($input->getOption('traittype') === null && !$input->hasOption('long-table')) {
+            $output->writeln('<error>No trait type given. Use --traittype or set --long-table</error>');
+            return false;
+        }
+        if ($input->getOption('user-id') === null) {
+            $output->writeln('<error>No user ID given. Use --user-id</error>');
+            return false;
+        }
+        if(!file_exists($input->getArgument('file'))){
+            $output->writeln('<error>File does not exist: '.$input->getArgument('file').'</error>');
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * @param InputInterface $input
+     */
+    protected function initConnection(InputInterface $input)
+    {
+        $this->connectionName = $input->getOption('connection');
+        if ($this->connectionName === null) {
+            $this->connectionName = $this->getContainer()->get('doctrine')->getDefaultConnectionName();
+        }
+        $orm = $this->getContainer()->get('app.orm');
+        $this->em = $orm->getManagerForVersion($this->connectionName);
     }
 }
