@@ -94,8 +94,12 @@ class ImportTraitValuesCommandTest extends KernelTestCase
             'citation' => 'fantasy3'
         ));
         $this->assertNotNull($traitCitation, 'after import there is a citation "fantasy3"');
-        $this->assertEquals(4, count($this->em->getRepository('AppBundle:TraitCitation')->findBy(array(
+        $traitCitation = $this->em->getRepository('AppBundle:TraitCitation')->findOneBy(array(
             'citation' => 'defaultFantasy'
+        ));
+        $this->assertNotNull($traitCitation, 'after import there is a citation "defaultFantasy"');
+        $this->assertEquals(4, count($this->em->getRepository('AppBundle:TraitCategoricalEntry')->findBy(array(
+            "traitCitation" => $traitCitation
         ))), 'There are four entries with flower color rainbow');
     }
 
