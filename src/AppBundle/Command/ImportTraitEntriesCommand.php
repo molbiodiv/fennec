@@ -27,7 +27,7 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
     private $em;
 
     /**
-     * @var TraitType
+     * @var array<TraitType>
      */
     private $traitType;
 
@@ -162,10 +162,10 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
                 }
                 if($input->getOption('long-table')){
                     for($i=1; $i<count($line); $i++){
-
+                        $this->insertTraitEntry($fennec_id, $this->traitType[$i-1], $line[$i], '', $citationText, $user, '', $input->getOption('public'));
                     }
                 } else {
-                    $this->insertTraitEntry($fennec_id, $this->traitType, $line[1], $line[2], $citationText, $user,
+                    $this->insertTraitEntry($fennec_id, $this->traitType[0], $line[1], $line[2], $citationText, $user,
                         $line[4], $input->getOption('public'));
                 }
                 $progress->advance();
@@ -290,9 +290,10 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
      */
     protected function checkTraitTypes(array $traitTypes, OutputInterface $output)
     {
+        $this->traitType = array();
         foreach ($traitTypes as $type){
-            $this->traitType = $this->em->getRepository('AppBundle:TraitType')->findOneBy(array('type' => $type));
-            if ($this->traitType === null) {
+            $this->traitType[] = $this->em->getRepository('AppBundle:TraitType')->findOneBy(array('type' => $type));
+            if ($this->traitType[count($this->traitType)-1] === null) {
                 $output->writeln('<error>TraitType does not exist in db: "'.$type.'". Check for typos or create with app:create-traittype.</error>');
                 return false;
             }
