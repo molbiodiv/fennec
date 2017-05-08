@@ -358,25 +358,40 @@ class ImportTraitValuesCommandTest extends KernelTestCase
             'citation' => 'Long Table Default Citation'
         )), 'after import there is a citation "eol_fantasy_number"');
 
-        $this->assertEquals(3, count($this->em->getRepository('AppBundle:TraitNumericalEntry')->findBy(array(
+        $this->assertEquals(4, count($this->em->getRepository('AppBundle:TraitNumericalEntry')->findBy(array(
             'traitType' => $longTableTraitType
-        ))), 'There are three entries with type "testPlantHeight"');
-        /**
-         * @var TraitCategoricalEntry
-         */
-        $singleEntry = $this->em->getRepository('AppBundle:TraitNumericalEntry')->findOneBy(array(
-            'value' => 133,
-            'traitType' => $longTableTraitType
+        ))), 'There are four entries with type "longTableTrait"');
+        $sparklingValue = $this->em->getRepository('AppBundle:TraitCategoricalValue')->findOneBy(array(
+            'value' => "sparkling"
         ));
-        $this->assertNotNull($singleEntry, 'The entry with value for eol id 1094535 exists');
-        $this->assertEquals(35729, $singleEntry->getFennec()->getFennecId(),
-            'The trait has been assigned to the correct organism');
-        $dialycerasEntry = $this->em->getRepository('AppBundle:TraitNumericalEntry')->findOneBy(array(
-            'originUrl' => 'http://example.com/plantHeight6875647',
-            'traitType' => $longTableTraitType
+        $this->assertNotNull($sparklingValue, 'The value sparkling exists');
+        $sparklingEntry = $this->em->getRepository("AppBundle:TraitCategoricalEntry")->findOneBy(array(
+            'traitCategoricalValue' => $sparklingValue
         ));
-        $this->assertNotNull($dialycerasEntry, 'The entry with origin url for eol id 6875647 exists');
-        $this->assertEquals(23118, $dialycerasEntry->getFennec()->getFennecId(),
-            'The trait has been assigned to the correct organism');
+        $this->assertEquals(23461, $sparklingEntry->getFennec()->getFennedId(),'The trait has been assigned to the correct organism');
+        $this->assertEquals("Flower color", $sparklingEntry->getTraitType()->getType(),
+            'The trait has been assigned to the correct trait type');
+
+        $iucnXXValue = $this->em->getRepository('AppBundle:TraitCategoricalValue')->findOneBy(array(
+            'value' => "iucn_XX"
+        ));
+        $this->assertNotNull($iucnXXValue, 'The value iucn_XX exists');
+        $iucnXXEntry = $this->em->getRepository("AppBundle:TraitCategoricalEntry")->findOneBy(array(
+            'traitCategoricalValue' => $iucnXXValue
+        ));
+        $this->assertEquals(23461, $iucnXXEntry->getFennec()->getFennedId(),'The trait has been assigned to the correct organism');
+        $this->assertEquals("IUCN Thread Status", $iucnXXEntry->getTraitType()->getType(),
+            'The trait has been assigned to the correct trait type');
+        
+        $strangeValue = $this->em->getRepository('AppBundle:TraitCategoricalValue')->findOneBy(array(
+            'value' => "strange"
+        ));
+        $this->assertNotNull($strangeValue, 'The value strange exists');
+        $strangeEntry = $this->em->getRepository("AppBundle:TraitCategoricalEntry")->findOneBy(array(
+            'traitCategoricalValue' => $strangeValue
+        ));
+        $this->assertEquals(45, $strangeEntry->getFennec()->getFennedId(),'The trait has been assigned to the correct organism');
+        $this->assertEquals("Plant Habit", $strangeEntry->getTraitType()->getType(),
+            'The trait has been assigned to the correct trait type');
     }
 }
