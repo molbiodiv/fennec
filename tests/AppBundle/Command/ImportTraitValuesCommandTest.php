@@ -368,8 +368,8 @@ class ImportTraitValuesCommandTest extends KernelTestCase
         $sparklingEntry = $this->em->getRepository("AppBundle:TraitCategoricalEntry")->findOneBy(array(
             'traitCategoricalValue' => $sparklingValue
         ));
-        $this->assertEquals(23461, $sparklingEntry->getFennec()->getFennedId(),'The trait has been assigned to the correct organism');
-        $this->assertEquals("Flower color", $sparklingEntry->getTraitType()->getType(),
+        $this->assertEquals(23461, $sparklingEntry->getFennec()->getFennecId(),'The trait has been assigned to the correct organism');
+        $this->assertEquals("Flower Color", $sparklingEntry->getTraitType()->getType(),
             'The trait has been assigned to the correct trait type');
 
         $iucnXXValue = $this->em->getRepository('AppBundle:TraitCategoricalValue')->findOneBy(array(
@@ -379,8 +379,8 @@ class ImportTraitValuesCommandTest extends KernelTestCase
         $iucnXXEntry = $this->em->getRepository("AppBundle:TraitCategoricalEntry")->findOneBy(array(
             'traitCategoricalValue' => $iucnXXValue
         ));
-        $this->assertEquals(23461, $iucnXXEntry->getFennec()->getFennedId(),'The trait has been assigned to the correct organism');
-        $this->assertEquals("IUCN Thread Status", $iucnXXEntry->getTraitType()->getType(),
+        $this->assertEquals(23461, $iucnXXEntry->getFennec()->getFennecId(),'The trait has been assigned to the correct organism');
+        $this->assertEquals("IUCN Threat Status", $iucnXXEntry->getTraitType()->getType(),
             'The trait has been assigned to the correct trait type');
         
         $strangeValue = $this->em->getRepository('AppBundle:TraitCategoricalValue')->findOneBy(array(
@@ -390,7 +390,7 @@ class ImportTraitValuesCommandTest extends KernelTestCase
         $strangeEntry = $this->em->getRepository("AppBundle:TraitCategoricalEntry")->findOneBy(array(
             'traitCategoricalValue' => $strangeValue
         ));
-        $this->assertEquals(45, $strangeEntry->getFennec()->getFennedId(),'The trait has been assigned to the correct organism');
+        $this->assertEquals(45, $strangeEntry->getFennec()->getFennecId(),'The trait has been assigned to the correct organism');
         $this->assertEquals("Plant Habit", $strangeEntry->getTraitType()->getType(),
             'The trait has been assigned to the correct trait type');
     }
@@ -417,24 +417,24 @@ class ImportTraitValuesCommandTest extends KernelTestCase
         $plantHabit = $this->em->getRepository('AppBundle:TraitType')->findOneBy(array(
             'type' => 'Plant Habit'
         ));
-        $flowerColorOf12345 = $this->em->getRepository('AppBundle:TraitCategoricalEntry')->findBy(array(
+        $flowerColorOf12345 = $this->em->getRepository('AppBundle:TraitCategoricalEntry')->findOneBy(array(
             'traitType' => $flowerColor,
             'fennec' => $this->em->getRepository('AppBundle:Organism')->find(12345)
         ));
         $this->assertNotNull($flowerColorOf12345, 'There is an entry for flowerColor and organism 12345');
         $this->assertEquals('purpurRed', $flowerColorOf12345->getTraitCategoricalValue()->getValue());
-        $this->assertNull($this->em->getRepository('AppBundle:TraitCategoricalEntry')->findBy(array(
+        $this->assertNull($this->em->getRepository('AppBundle:TraitCategoricalEntry')->findOneBy(array(
             'traitType' => $plantHabit,
             'fennec' => $this->em->getRepository('AppBundle:Organism')->find(12345)
         )), 'There is no entry for plantHabit and organism 12345');
 
-        $plantHabit54321 = $this->em->getRepository('AppBundle:TraitCategoricalEntry')->findBy(array(
+        $plantHabit54321 = $this->em->getRepository('AppBundle:TraitCategoricalEntry')->findOneBy(array(
             'traitType' => $plantHabit,
             'fennec' => $this->em->getRepository('AppBundle:Organism')->find(54321)
         ));
         $this->assertNotNull($plantHabit54321, 'There is an entry for plantHabit and organism 54321');
         $this->assertEquals('mammutTree', $plantHabit54321->getTraitCategoricalValue()->getValue());
-        $this->assertNull($this->em->getRepository('AppBundle:TraitCategoricalEntry')->findBy(array(
+        $this->assertNull($this->em->getRepository('AppBundle:TraitCategoricalEntry')->findOneBy(array(
             'traitType' => $flowerColor,
             'fennec' => $this->em->getRepository('AppBundle:Organism')->find(54321)
         )), 'There is no entry for flowerColor and organism 54321');

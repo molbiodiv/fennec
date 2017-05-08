@@ -140,9 +140,6 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
         $this->em->getConnection()->beginTransaction();
         try{
             while (($line = fgetcsv($file, 0, "\t")) != false) {
-                if(count($line) !== 5){
-                    throw new \Exception('Wrong number of elements in line. Expected: 5, Actual: '.count($line).': '.join(" ",$line));
-                }
                 $fennec_id = $line[0];
                 if($needs_mapping){
                     $fennec_id = $this->mapping[$fennec_id];
@@ -156,15 +153,22 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
                         continue;
                     }
                 }
-                $citationText = $line[3];
-                if ($citationText === "" && $input->hasOption('default-citation')) {
-                    $citationText = $input->getOption('default-citation');
-                }
                 if($input->getOption('long-table')){
+                    $citationText = $input->getOption('default-citation');
+                    if($citationText === null){
+                        $citationText = "";
+                    }
                     for($i=1; $i<count($line); $i++){
                         $this->insertTraitEntry($fennec_id, $this->traitType[$i-1], $line[$i], '', $citationText, $user, '', $input->getOption('public'));
                     }
                 } else {
+                    if(count($line) !== 5){
+                        throw new \Exception('Wrong number of elements in line. Expected: 5, Actual: '.count($line).': '.join(" ",$line));
+                    }
+                    $citationText = $line[3];
+                    if ($citationText === "" && $input->hasOption('default-citation')) {
+                        $citationText = $input->getOption('default-citation');
+                    }
                     $this->insertTraitEntry($fennec_id, $this->traitType[0], $line[1], $line[2], $citationText, $user,
                         $line[4], $input->getOption('public'));
                 }
@@ -189,15 +193,15 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
         $table->render();
     }
 
-    private function get_or_insert_trait_categorical_value($value, $ontology_url){
+    private function get_or_insert_trait_categorical_value($value, $ontology_url, $traitType){
         $traitCategoricalValue = $this->em->getRepository('AppBundle:TraitCategoricalValue')->findOneBy(array(
-            'traitType' => $this->traitType,
+            'traitType' => $traitType,
             'value' => $value,
             'ontologyUrl' => $ontology_url
         ));
         if($traitCategoricalValue === null){
             $traitCategoricalValue = new TraitCategoricalValue();
-            $traitCategoricalValue->setTraitType($this->traitType);
+            $traitCategoricalValue->setTraitType($traitType);
             $traitCategoricalValue->setValue($value);
             $traitCategoricalValue->setOntologyUrl($ontology_url);
             $this->em->persist($traitCategoricalValue);
@@ -315,7 +319,7 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
     {
         $traitEntry = null;
         if ($traitType->getTraitFormat()->getFormat() === "categorical_free") {
-            $traitCategoricalValue = $this->get_or_insert_trait_categorical_value($value, $valueOntology);
+            $traitCategoricalValue = $this->get_or_insert_trait_categorical_value($value, $valueOntology, $traitType);
             $traitEntry = new TraitCategoricalEntry();
             $traitEntry->setTraitCategoricalValue($traitCategoricalValue);
         } else {
@@ -323,7 +327,7 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
             $traitEntry->setValue($value);
         }
         $traitCitation = $this->get_or_insert_trait_citation($citation);
-        $traitEntry->setTraitType($this->traitType);
+        $traitEntry->setTraitType($traitType);
         $traitEntry->setTraitCitation($traitCitation);
         $traitEntry->setOriginUrl($originURL);
         $traitEntry->setFennec($this->em->getReference('AppBundle:Organism', $fennec_id));
