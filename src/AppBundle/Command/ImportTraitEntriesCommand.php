@@ -172,7 +172,11 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
                     $traitEntry = new TraitNumericalEntry();
                     $traitEntry->setValue($line[1]);
                 }
-                $traitCitation = $this->get_or_insert_trait_citation($line[3]);
+                $citationText = $line[3];
+                if($citationText === "" && $input->hasOption('default-citation')){
+                    $citationText = $input->getOption('default-citation');
+                }
+                $traitCitation = $this->get_or_insert_trait_citation($citationText);
                 $traitEntry->setTraitType($this->traitType);
                 $traitEntry->setTraitCitation($traitCitation);
                 $traitEntry->setOriginUrl($line[4]);
