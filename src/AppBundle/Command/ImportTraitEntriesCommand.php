@@ -302,7 +302,7 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
         foreach ($traitTypes as $type){
             $this->traitType = $this->em->getRepository('AppBundle:TraitType')->findOneBy(array('type' => $type));
             if ($this->traitType === null) {
-                $output->writeln('<error>TraitType does not exist in db. Check for typos or create with app:create-traittype.</error>');
+                $output->writeln('<error>TraitType does not exist in db: "'.$type.'". Check for typos or create with app:create-traittype.</error>');
                 return false;
             }
         }

@@ -330,7 +330,7 @@ class ImportTraitValuesCommandTest extends KernelTestCase
             'file' => __DIR__ . '/files/longTable.tsv'
         ));
         $output = $this->commandTester->getDisplay();
-        $this->assertContains('Unknown TraitType', $output);
+        $this->assertContains('TraitType does not exist in db: "Long Table Trait". Check for typos or create with app:create-traittype', $output);
         $this->assertNull($this->em->getRepository('AppBundle:TraitCitation')->findOneBy(array(
             'citation' => 'Long Table Default Citation'
         )), 'after failed import there is still no citation "Long Table Default Citation"');
