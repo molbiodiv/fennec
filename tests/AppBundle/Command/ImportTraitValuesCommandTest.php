@@ -76,6 +76,29 @@ class ImportTraitValuesCommandTest extends KernelTestCase
         ))), 'There are four entries with flower color rainbow');
     }
 
+    public function testImportByFennecIDDefaultCitation(){
+        $this->assertNull($this->em->getRepository('AppBundle:TraitCitation')->findOneBy(array(
+            'citation' => 'fantasy3'
+        )), 'before import there is no citation "fantasy3"');
+        $this->assertNull($this->em->getRepository('AppBundle:TraitCitation')->findOneBy(array(
+            'citation' => 'defaultFantasy'
+        )), 'before import there is no citation "defaultFantasy"');
+        $this->commandTester->execute(array(
+            'command' => $this->command->getName(),
+            '--user-id' => 1,
+            '--traittype' => 'Flower Color',
+            '--default-citation' => 'defaultFantasy',
+            'file' => __DIR__.'/files/flowerColors_defaultCitation.tsv'
+        ));
+        $traitCitation = $this->em->getRepository('AppBundle:TraitCitation')->findOneBy(array(
+            'citation' => 'fantasy3'
+        ));
+        $this->assertNotNull($traitCitation, 'after import there is a citation "fantasy3"');
+        $this->assertEquals(4, count($this->em->getRepository('AppBundle:TraitCitation')->findBy(array(
+            'citation' => 'defaultFantasy'
+        ))), 'There are four entries with flower color rainbow');
+    }
+
     public function testImportBySciname(){
         $this->assertNull($this->em->getRepository('AppBundle:TraitCategoricalValue')->findOneBy(array(
             'value' => 'XY'
