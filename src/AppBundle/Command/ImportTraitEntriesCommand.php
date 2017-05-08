@@ -8,6 +8,7 @@ use AppBundle\Entity\TraitCategoricalValue;
 use AppBundle\Entity\TraitCitation;
 use AppBundle\Entity\TraitNumericalEntry;
 use AppBundle\Entity\TraitType;
+use AppBundle\Entity\Webuser;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -155,28 +156,18 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
                         continue;
                     }
                 }
-                $traitEntry = null;
-                if($this->traitType->getTraitFormat()->getFormat() === "categorical_free"){
-                    $traitCategoricalValue = $this->get_or_insert_trait_categorical_value($line[1], $line[2]);
-                    $traitEntry = new TraitCategoricalEntry();
-                    $traitEntry->setTraitCategoricalValue($traitCategoricalValue);
-                } else {
-                    $traitEntry = new TraitNumericalEntry();
-                    $traitEntry->setValue($line[1]);
-                }
                 $citationText = $line[3];
-                if($citationText === "" && $input->hasOption('default-citation')){
+                if ($citationText === "" && $input->hasOption('default-citation')) {
                     $citationText = $input->getOption('default-citation');
                 }
-                $traitCitation = $this->get_or_insert_trait_citation($citationText);
-                $traitEntry->setTraitType($this->traitType);
-                $traitEntry->setTraitCitation($traitCitation);
-                $traitEntry->setOriginUrl($line[4]);
-                $traitEntry->setFennec($this->em->getReference('AppBundle:Organism', $fennec_id));
-                $traitEntry->setWebuser($this->em->getReference('AppBundle:Webuser', $input->getOption('user-id')));
-                $traitEntry->setPrivate(!$input->getOption('public'));
-                $this->em->persist($traitEntry);
-                ++$this->insertedEntries;
+                if($input->getOption('long-table')){
+                    for($i=1; $i<count($line); $i++){
+
+                    }
+                } else {
+                    $this->insertTraitEntry($fennec_id, $this->traitType, $line[1], $line[2], $citationText, $user,
+                        $line[4], $input->getOption('public'));
+                }
                 $progress->advance();
             }
             $this->em->flush();
@@ -307,5 +298,37 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
             }
         }
         return true;
+    }
+
+    /**
+     * @param int $fennec_id
+     * @param TraitType $traitType
+     * @param string $value
+     * @param string|null $valueOntology
+     * @param string $citation
+     * @param Webuser $user
+     * @param string $originURL
+     * @param boolean $public
+     */
+    protected function insertTraitEntry($fennec_id, $traitType, $value, $valueOntology, $citation, $user, $originURL, $public)
+    {
+        $traitEntry = null;
+        if ($traitType->getTraitFormat()->getFormat() === "categorical_free") {
+            $traitCategoricalValue = $this->get_or_insert_trait_categorical_value($value, $valueOntology);
+            $traitEntry = new TraitCategoricalEntry();
+            $traitEntry->setTraitCategoricalValue($traitCategoricalValue);
+        } else {
+            $traitEntry = new TraitNumericalEntry();
+            $traitEntry->setValue($value);
+        }
+        $traitCitation = $this->get_or_insert_trait_citation($citation);
+        $traitEntry->setTraitType($this->traitType);
+        $traitEntry->setTraitCitation($traitCitation);
+        $traitEntry->setOriginUrl($originURL);
+        $traitEntry->setFennec($this->em->getReference('AppBundle:Organism', $fennec_id));
+        $traitEntry->setWebuser($user);
+        $traitEntry->setPrivate(!$public);
+        $this->em->persist($traitEntry);
+        ++$this->insertedEntries;
     }
 }
