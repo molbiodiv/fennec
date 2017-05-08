@@ -159,7 +159,9 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
                         $citationText = "";
                     }
                     for($i=1; $i<count($line); $i++){
-                        $this->insertTraitEntry($fennec_id, $this->traitType[$i-1], $line[$i], '', $citationText, $user, '', $input->getOption('public'));
+                        if($line[$i] !== ''){
+                            $this->insertTraitEntry($fennec_id, $this->traitType[$i-1], $line[$i], '', $citationText, $user, '', $input->getOption('public'));
+                        }
                     }
                 } else {
                     if(count($line) !== 5){
