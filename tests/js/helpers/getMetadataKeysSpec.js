@@ -12,8 +12,10 @@ chai.should();
 // fs for reading test files
 let fs = require('fs');
 let rewire = require("rewire");
+global._ = require('lodash');
 
 let getMetadataKeysFile = rewire("../../../app/Resources/client/jsx/helpers/getMetadataKeys.jsx");
+
 
 describe('helpers/getMetadataKeys', () => {
     describe('getMetadataKeys works properly', () => {

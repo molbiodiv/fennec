@@ -93,8 +93,6 @@ function condenseNumericalTraitValues(multipleValuesPerOrganism) {
 }
 'use strict';
 
-var _ = require('lodash');
-
 function getMetadataKeys(biom) {
     var dimension = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'columns';
 
