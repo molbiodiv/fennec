@@ -12,6 +12,9 @@ parameters:
     google_client_id:     ~
     google_client_secret: ~
 
+    demo_user_name:     demo
+    demo_user_password: demo
+
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
     dbal:

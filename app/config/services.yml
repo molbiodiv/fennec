@@ -12,3 +12,6 @@ services:
         arguments: ['@app.orm']
     app.user.provider:
         class: AppBundle\User\FennecUserProvider
+    app.user.demo:
+        class: AppBundle\User\DemoUser
+        arguments: ["%demo_user_name%", "%demo_user_password%"]
