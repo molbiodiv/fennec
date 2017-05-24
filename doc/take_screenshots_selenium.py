@@ -5,7 +5,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import NoAlertPresentException
-import unittest, time, re
+import unittest, time, re, os
 
 ### INSTALLATION:
 # conda create --name selenium python=2
@@ -37,6 +37,9 @@ class Test(unittest.TestCase):
         driver.find_element_by_link_text("Projects").click()
         driver.find_element_by_xpath("//input[@type='search']").clear()
         driver.get_screenshot_as_file("screenshots/projects.png")
+        driver.find_element_by_id("project-fileupload").clear()
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        driver.find_element_by_id("project-fileupload").send_keys(dir_path + "/beta/J.biom")
         driver.find_element_by_link_text("No Table ID").click()
         driver.find_element_by_id("project-overview-table-id")
         driver.find_element_by_xpath("//*[contains(text(),'1002')]")
