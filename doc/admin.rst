@@ -36,6 +36,14 @@ However, Fennec does not contain any data, yet.
 Loading organisms
 -----------------
 
+.. ATTENTION::
+
+    The import of organism data (scientific names, identifiers, synonyms, taxonomy) will be substantially changed (and improved) in the next major release.
+    For now the steps below are required.
+
+NCBI Taxonomy
+^^^^^^^^^^^^^
+
 We will demonstrate loading organisms into the database using `NCBI Taxonomy <https://www.ncbi.nlm.nih.gov/taxonomy>`_.
 Inside the docker container execute the following commands::
 
@@ -57,6 +65,9 @@ In order to add synonyms and taxonomic relationships follow those steps::
     perl -F"\t" -ane 'BEGIN{open IN, "<fennec2ncbi.tsv";while(<IN>){chomp;($f,$n)=split(/\t/);$n2f{$n}=$f}} print "$n2f{$F[0]}\t$F[2]\t$F[6]\n" if($F[6] eq "synonym")' names.dmp >ncbi_synonyms.tsv
     python fennec-cli/bin/import_organism_names.py --db-host db ncbi_synonyms.tsv
     perl -F"\t" -ane 'BEGIN{open IN, "<fennec2ncbi.tsv";while(<IN>){chomp;($f,$n)=split(/\t/);$n2f{$n}=$f}} print "$n2f{$F[0]}\t$n2f{$F[2]}\t$F[4]\n"' nodes.dmp >ncbi_taxonomy.tsv
+    apt update
+    apt install libdbd-pg-perl
+    apt install liblog-log4perl-perl
     perl fennec-cli/bin/import_taxonomy.pl --input ncbi_taxonomy.tsv --provider ncbi_taxonomy --db-host db
 
 Again the last step will take some minutes and needs a few GB of memory.
