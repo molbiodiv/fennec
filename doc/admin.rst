@@ -43,4 +43,20 @@ Inside the docker container execute the following commands::
     curl ftp://ftp.ncbi.nih.gov/pub/taxonomy/taxdump.tar.gz >taxdump.tar.gz
     tar xzvf taxdump.tar.gz
     grep "scientific name" names.dmp | perl -F"\t" -ane 'print "$F[2]\t$F[0]\t\n"' >ncbi_organisms.tsv
+    # We still need some legacy cli tools (will be replaced by php commands in the future)
+    /fennec/web/miniconda.sh -b -f -p /usr/local
+    git clone https://github.com/molbiodiv/fennec-cli
+    conda install --yes --file fennec-cli/requirements.txt
+    python fennec-cli/bin/import_organism_db.py --db-host db --provider ncbi_taxonomy --description "NCBI Taxonomy" /tmp/ncbi_organisms.tsv
 
+The last step will take a couple of minutes but after that more than 1.6 million organisms will be stored in the database with their scientific name and NCBI taxid.
+In order to add synonyms and taxonomic relationships follow those steps::
+
+    # Create a fennec_id to ncbi_taxid map (will be obsolete in the future)
+    PGPASSWORD=fennec psql -F $'\t' -At -h db -U fennec -c "SELECT fennec_id,identifier as  ncbi_taxid FROM fennec_dbxref, db WHERE fennec_dbxref.db_id=db.db_id AND db.name='ncbi_taxonomy'" >fennec2ncbi.tsv
+    perl -F"\t" -ane 'BEGIN{open IN, "<fennec2ncbi.tsv";while(<IN>){chomp;($f,$n)=split(/\t/);$n2f{$n}=$f}} print "$n2f{$F[0]}\t$F[2]\t$F[6]\n" if($F[6] eq "synonym")' names.dmp >ncbi_synonyms.tsv
+    python fennec-cli/bin/import_organism_names.py --db-host db ncbi_synonyms.tsv
+    perl -F"\t" -ane 'BEGIN{open IN, "<fennec2ncbi.tsv";while(<IN>){chomp;($f,$n)=split(/\t/);$n2f{$n}=$f}} print "$n2f{$F[0]}\t$n2f{$F[2]}\t$F[4]\n"' nodes.dmp >ncbi_taxonomy.tsv
+    perl fennec-cli/bin/import_taxonomy.pl --input ncbi_taxonomy.tsv --provider ncbi_taxonomy --db-host db
+
+Again the last step will take some minutes and needs a few GB of memory.
