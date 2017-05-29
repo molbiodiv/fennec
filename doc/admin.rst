@@ -71,3 +71,21 @@ In order to add synonyms and taxonomic relationships follow those steps::
     perl fennec-cli/bin/import_taxonomy.pl --input ncbi_taxonomy.tsv --provider ncbi_taxonomy --db-host db
 
 Again the last step will take some minutes and needs a few GB of memory.
+
+EOL
+^^^
+
+The Encyclopedia of Life is a great resource for organism information.
+Because of the nice API organism pages in Fennec are dynamically created from EOL content.
+In order to link organisms to EOL we need to add EOL page IDs.
+For this purpose download `the hierarchy entries file <http://opendata.eol.org/dataset/da9635ec-71b6-4fb2-a4cb-518f71eeb45d/resource/dd1d5160-b56a-4541-ac88-494bc03b4bc8/download/hierarchyentries.tgz>`_
+and add it to the docker container via ``docker cp hierarchyentries.tgz fennec_web:/tmp``::
+
+    cd /tmp
+    tar xzf hierarchyentries.tgz
+    perl -F"\t" -ane 'print "$F[1]\t$F[4]\n" if($F[2] == 1172)' hierarchy_entries.tsv | perl -pe 's/"//g' | sort -u >eol2ncbi.tsv
+    # Now we create a file with three columns: 1) empty 2) eol_id 3) fennec_id
+    perl -F"\t" -ane 'BEGIN{open IN, "<fennec2ncbi.tsv";while(<IN>){chomp;($f,$n)=split(/\t/);$n2f{$n}=$f}} chomp $F[1]; print "\t$F[0]\t$n2f{$F[1]}\n" if(exists $n2f{$F[0]})' eol2ncbi.tsv | sort -u -k1,1 | sort -u -k2,2 >eol_ids.tsv
+    python fennec-cli/bin/import_organism_db.py --db-host db --provider EOL --description "Encyclopedia of Life" eol_ids.tsv
+
+Now you have 1.6 million organisms in the database of which roughly 170 thousand have a nice organism page provided by EOL.
