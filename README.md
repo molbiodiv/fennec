@@ -39,6 +39,11 @@ gulp sassLint
 gulp sass
 ```
 ## Changes
+### 0.6.2 <2017-05-29>
+ - Add long table import (#70)
+ - Add local demo user
+ - Add Quick Start documentation
+ - Add basic admin documentation
 ### 0.6.1 <2017-05-05>
  - Improve design of project details (tabs)
  - Add trait table for samples (#72)
