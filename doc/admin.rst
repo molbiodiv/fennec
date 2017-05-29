@@ -33,3 +33,14 @@ However, Fennec does not contain any data, yet.
 
         docker exec -it fennec_web /bin/bash
 
+Loading organisms
+-----------------
+
+We will demonstrate loading organisms into the database using `NCBI Taxonomy <https://www.ncbi.nlm.nih.gov/taxonomy>`_.
+Inside the docker container execute the following commands::
+
+    cd /tmp
+    curl ftp://ftp.ncbi.nih.gov/pub/taxonomy/taxdump.tar.gz >taxdump.tar.gz
+    tar xzvf taxdump.tar.gz
+    grep "scientific name" names.dmp | perl -F"\t" -ane 'print "$F[2]\t$F[0]\t\n"' >ncbi_organisms.tsv
+
