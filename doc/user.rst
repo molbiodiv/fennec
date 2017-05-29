@@ -43,19 +43,22 @@ Map ``OTUs`` by ``ncbi_taxid`` on ``NCBI taxid`` and click ``GO``.
 
 The result of the mapping will be displayed below where a click on ``Save in database`` will make this mapping persistent.
 For more details about mapping see the section in the tutorial TODO:ref
-TODO:add_screenshot
+
+.. image:: screenshots/project_mapping.png
 
 Now that the OTUs are mapped to organisms in the database switching to the ``Traits`` tab will show available traits.
 By clicking on the icon in the details column for a trait (e.g. ``Plant Habit``) you come to a page summarizing the trait values in this community.
 On this page trait values of all species present in any of the samples are summarized (without taking abundance into account).
 The trait values can be added to the project either via the ``Add trait to OTU metadata`` button on this page or the ``+`` icon in the trait table.
-TODO:add_screenshot
+
+.. image:: screenshots/project_traits.png
 
 Finally it is possible to interactively explore the trait values by navigating to the ``Inspect with Phinch`` tab.
 The first screen on this tab is the filter page which you can leave via the ``Proceed To Gallery`` button in the top right corner.
 You can select any of the visualizations.
 Taxonomy is derived from your original biom file and not altered by Fennec.
 The traits you added can be selected in the top right corner of each visualization (except in the Sankey Diagram).
-TODO:add_screenshot
+
+.. image:: screenshots/project_phinch.png
 
 Download of the enriched community data is possible in different formats via the ``Project overview`` tab.
