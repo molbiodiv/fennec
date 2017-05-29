@@ -1,5 +1,3 @@
-let _ = require('lodash');
-
 function getMetadataKeys(biom, dimension='columns'){
     let elements = _.cloneDeep(dimension === 'columns' ? biom.columns : biom.rows)
     if(typeof elements === 'undefined'){

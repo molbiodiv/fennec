@@ -76,6 +76,33 @@ class ImportTraitValuesCommandTest extends KernelTestCase
         ))), 'There are four entries with flower color rainbow');
     }
 
+    public function testImportByFennecIDDefaultCitation(){
+        $this->assertNull($this->em->getRepository('AppBundle:TraitCitation')->findOneBy(array(
+            'citation' => 'fantasy3'
+        )), 'before import there is no citation "fantasy3"');
+        $this->assertNull($this->em->getRepository('AppBundle:TraitCitation')->findOneBy(array(
+            'citation' => 'defaultFantasy'
+        )), 'before import there is no citation "defaultFantasy"');
+        $this->commandTester->execute(array(
+            'command' => $this->command->getName(),
+            '--user-id' => 1,
+            '--traittype' => 'Flower Color',
+            '--default-citation' => 'defaultFantasy',
+            'file' => __DIR__.'/files/flowerColors_defaultCitation.tsv'
+        ));
+        $traitCitation = $this->em->getRepository('AppBundle:TraitCitation')->findOneBy(array(
+            'citation' => 'fantasy3'
+        ));
+        $this->assertNotNull($traitCitation, 'after import there is a citation "fantasy3"');
+        $traitCitation = $this->em->getRepository('AppBundle:TraitCitation')->findOneBy(array(
+            'citation' => 'defaultFantasy'
+        ));
+        $this->assertNotNull($traitCitation, 'after import there is a citation "defaultFantasy"');
+        $this->assertEquals(4, count($this->em->getRepository('AppBundle:TraitCategoricalEntry')->findBy(array(
+            "traitCitation" => $traitCitation
+        ))), 'There are four entries with flower color rainbow');
+    }
+
     public function testImportBySciname(){
         $this->assertNull($this->em->getRepository('AppBundle:TraitCategoricalValue')->findOneBy(array(
             'value' => 'XY'
@@ -286,5 +313,130 @@ class ImportTraitValuesCommandTest extends KernelTestCase
         $this->assertNotNull($dialycerasEntry, 'The entry with origin url for eol id 6875647 exists');
         $this->assertEquals(23118, $dialycerasEntry->getFennec()->getFennecId(),
             'The trait has been assigned to the correct organism');
+    }
+
+    public function testImportOfLongTable(){
+        $this->assertNull($this->em->getRepository('AppBundle:TraitType')->findOneBy(array(
+            'type' => 'Long Table Trait'
+        )), 'before import there is no trait type called "Long Table Trait"');
+        $this->assertNull($this->em->getRepository('AppBundle:TraitCitation')->findOneBy(array(
+            'citation' => 'Long Table Default Citation'
+        )), 'before import there is no citation "Long Table Default Citation"');
+        $this->commandTester->execute(array(
+            'command' => $this->command->getName(),
+            '--user-id' => 1,
+            '--default-citation' => "Long Table Default Citation",
+            '--long-table' => true,
+            'file' => __DIR__ . '/files/longTable.tsv'
+        ));
+        $output = $this->commandTester->getDisplay();
+        $this->assertContains('TraitType does not exist in db: "Long Table Trait". Check for typos or create with app:create-traittype', $output);
+        $this->assertNull($this->em->getRepository('AppBundle:TraitCitation')->findOneBy(array(
+            'citation' => 'Long Table Default Citation'
+        )), 'after failed import there is still no citation "Long Table Default Citation"');
+
+        $longTableTraitType = new TraitType();
+        $longTableTraitType->setType('Long Table Trait');
+        $longTableTraitType->setUnit('m');
+        $numericalFormat = $this->em->getRepository('AppBundle:TraitFormat')->findOneBy(['format' => 'numerical']);
+        if($numericalFormat === null){
+            $numericalFormat = new TraitFormat();
+            $numericalFormat->setFormat('numerical');
+            $this->em->persist($numericalFormat);
+        }
+        $longTableTraitType->setTraitFormat($numericalFormat);
+        $this->em->persist($longTableTraitType);
+        $this->em->flush();
+        $this->commandTester->execute(array(
+            'command' => $this->command->getName(),
+            '--user-id' => 1,
+            '--default-citation' => "Long Table Default Citation",
+            '--long-table' => true,
+            'file' => __DIR__ . '/files/longTable.tsv'
+        ));
+        $this->assertNotNull($this->em->getRepository('AppBundle:TraitCitation')->findOneBy(array(
+            'citation' => 'Long Table Default Citation'
+        )), 'after import there is a citation "Long Table Default Citation"');
+
+        $this->assertEquals(4, count($this->em->getRepository('AppBundle:TraitNumericalEntry')->findBy(array(
+            'traitType' => $longTableTraitType
+        ))), 'There are four entries with type "longTableTrait"');
+        $sparklingValue = $this->em->getRepository('AppBundle:TraitCategoricalValue')->findOneBy(array(
+            'value' => "sparkling"
+        ));
+        $this->assertNotNull($sparklingValue, 'The value sparkling exists');
+        $sparklingEntry = $this->em->getRepository("AppBundle:TraitCategoricalEntry")->findOneBy(array(
+            'traitCategoricalValue' => $sparklingValue
+        ));
+        $this->assertEquals(23461, $sparklingEntry->getFennec()->getFennecId(),'The trait has been assigned to the correct organism');
+        $this->assertEquals("Flower Color", $sparklingEntry->getTraitType()->getType(),
+            'The trait has been assigned to the correct trait type');
+
+        $iucnXXValue = $this->em->getRepository('AppBundle:TraitCategoricalValue')->findOneBy(array(
+            'value' => "iucn_XX"
+        ));
+        $this->assertNotNull($iucnXXValue, 'The value iucn_XX exists');
+        $iucnXXEntry = $this->em->getRepository("AppBundle:TraitCategoricalEntry")->findOneBy(array(
+            'traitCategoricalValue' => $iucnXXValue
+        ));
+        $this->assertEquals(23461, $iucnXXEntry->getFennec()->getFennecId(),'The trait has been assigned to the correct organism');
+        $this->assertEquals("IUCN Threat Status", $iucnXXEntry->getTraitType()->getType(),
+            'The trait has been assigned to the correct trait type');
+        
+        $strangeValue = $this->em->getRepository('AppBundle:TraitCategoricalValue')->findOneBy(array(
+            'value' => "strange"
+        ));
+        $this->assertNotNull($strangeValue, 'The value strange exists');
+        $strangeEntry = $this->em->getRepository("AppBundle:TraitCategoricalEntry")->findOneBy(array(
+            'traitCategoricalValue' => $strangeValue
+        ));
+        $this->assertEquals(45, $strangeEntry->getFennec()->getFennecId(),'The trait has been assigned to the correct organism');
+        $this->assertEquals("Plant Habit", $strangeEntry->getTraitType()->getType(),
+            'The trait has been assigned to the correct trait type');
+    }
+
+    public function testImportOfLongTableMissingValues(){
+        $this->assertNull($this->em->getRepository('AppBundle:TraitCitation')->findOneBy(array(
+            'citation' => 'Long Table Missing Values Default Citation'
+        )), 'before import there is no citation "Long Table Missing Values Default Citation"');
+        $this->commandTester->execute(array(
+            'command' => $this->command->getName(),
+            '--user-id' => 1,
+            '--default-citation' => "Long Table Missing Values Default Citation",
+            '--long-table' => true,
+            'file' => __DIR__ . '/files/longTable_missingValues.tsv'
+        ));
+
+        $this->assertNotNull($this->em->getRepository('AppBundle:TraitCitation')->findOneBy(array(
+            'citation' => 'Long Table Missing Values Default Citation'
+        )), 'after import there is a citation "Long Table Missing Values Default Citation"');
+
+        $flowerColor = $this->em->getRepository('AppBundle:TraitType')->findOneBy(array(
+            'type' => 'Flower Color'
+        ));
+        $plantHabit = $this->em->getRepository('AppBundle:TraitType')->findOneBy(array(
+            'type' => 'Plant Habit'
+        ));
+        $flowerColorOf12345 = $this->em->getRepository('AppBundle:TraitCategoricalEntry')->findOneBy(array(
+            'traitType' => $flowerColor,
+            'fennec' => $this->em->getRepository('AppBundle:Organism')->find(12345)
+        ));
+        $this->assertNotNull($flowerColorOf12345, 'There is an entry for flowerColor and organism 12345');
+        $this->assertEquals('purpurRed', $flowerColorOf12345->getTraitCategoricalValue()->getValue());
+        $this->assertNull($this->em->getRepository('AppBundle:TraitCategoricalEntry')->findOneBy(array(
+            'traitType' => $plantHabit,
+            'fennec' => $this->em->getRepository('AppBundle:Organism')->find(12345)
+        )), 'There is no entry for plantHabit and organism 12345');
+
+        $plantHabit54321 = $this->em->getRepository('AppBundle:TraitCategoricalEntry')->findOneBy(array(
+            'traitType' => $plantHabit,
+            'fennec' => $this->em->getRepository('AppBundle:Organism')->find(54321)
+        ));
+        $this->assertNotNull($plantHabit54321, 'There is an entry for plantHabit and organism 54321');
+        $this->assertEquals('mammutTree', $plantHabit54321->getTraitCategoricalValue()->getValue());
+        $this->assertNull($this->em->getRepository('AppBundle:TraitCategoricalEntry')->findOneBy(array(
+            'traitType' => $flowerColor,
+            'fennec' => $this->em->getRepository('AppBundle:Organism')->find(54321)
+        )), 'There is no entry for flowerColor and organism 54321');
     }
 }
