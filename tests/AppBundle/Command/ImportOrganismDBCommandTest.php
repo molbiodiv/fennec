@@ -77,4 +77,10 @@ class ImportOrganismDBCommandTest extends KernelTestCase
         $this->assertEquals($rbUnicornID, 1357, 'The id of the rainbow Unicorn is 1357');
     }
 
+    public function testImportFennecID(){
+        $this->assertNull($this->em->getRepository('AppBundle:Organism')->findOneBy(array(
+            'scientificName' => 'rainbowFish'
+        )), 'before import there is no scientific name "rainbowFish"');
+    }
+
 }
