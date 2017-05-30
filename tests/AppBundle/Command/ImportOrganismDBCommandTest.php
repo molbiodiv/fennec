@@ -3,6 +3,7 @@
 namespace Tests\AppBundle\Command;
 
 
+use AppBundle\Command\ImportOrganismDBCommand;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -57,8 +58,8 @@ class ImportOrganismDBCommandTest extends KernelTestCase
         $this->commandTester->execute(array(
             'command' => $this->command->getName(),
             'file' => __DIR__ . '/files/organismDBWithoutFennecID.tsv',
-            'provider' => 'organismDBWithoutFennecIDProvider',
-            'description' => 'organismDBWithoutFennecIDDescription',
+            '--provider' => 'organismDBWithoutFennecIDProvider',
+            '--description' => 'organismDBWithoutFennecIDDescription',
         ));
         $provider = $this->em->getRepository('AppBundle:Db')->findOneBy(array(
             'name' => 'organismDBWithoutFennecIDProvider'
@@ -84,8 +85,8 @@ class ImportOrganismDBCommandTest extends KernelTestCase
         $this->commandTester->execute(array(
             'command' => $this->command->getName(),
             'file' => __DIR__ . '/files/organismDBWithFennecID.tsv',
-            'provider' => 'organismDBWithFennecIDProvider',
-            'description' => 'organismDBWithFennecIDDescription',
+            '--provider' => 'organismDBWithFennecIDProvider',
+            '--description' => 'organismDBWithFennecIDDescription',
         ));
         $provider = $this->em->getRepository('AppBundle:Db')->findOneBy(array(
             'name' => 'organismDBWithFennecIDProvider'
