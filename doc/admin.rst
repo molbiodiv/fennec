@@ -79,7 +79,8 @@ The Encyclopedia of Life is a great resource for organism information.
 Because of the nice API organism pages in Fennec are dynamically created from EOL content.
 In order to link organisms to EOL we need to add EOL page IDs.
 For this purpose download `the hierarchy entries file <http://opendata.eol.org/dataset/da9635ec-71b6-4fb2-a4cb-518f71eeb45d/resource/dd1d5160-b56a-4541-ac88-494bc03b4bc8/download/hierarchyentries.tgz>`_
-and add it to the docker container via ``docker cp hierarchyentries.tgz fennec_web:/tmp``::
+and add it to the docker container via ``docker cp hierarchyentries.tgz fennec_web:/tmp``
+(direct download via ``curl`` or ``wget`` produced errors in the past)::
 
     cd /tmp
     tar xzf hierarchyentries.tgz
@@ -89,3 +90,26 @@ and add it to the docker container via ``docker cp hierarchyentries.tgz fennec_w
     python fennec-cli/bin/import_organism_db.py --db-host db --provider EOL --description "Encyclopedia of Life" eol_ids.tsv
 
 Now you have 1.6 million organisms in the database of which roughly 170 thousand have a nice organism page provided by EOL.
+
+Loading traits
+--------------
+
+Initialize trait formats
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+In the docker container execute::
+
+    cd /fennec
+    bin/console app:create-traitformat categorical_free
+    bin/console app:create-traitformat numerical
+
+Plant Growth Habit
+^^^^^^^^^^^^^^^^^^
+
+As a first example we want to load growth habit data for plants from eol.
+First download the `file from opendata.eol.org <http://opendata.eol.org/dataset/3cd2c5c3-67c8-496c-a838-98c99cfaadc3/resource/5ed0d6d3-4261-4c1b-a5cb-9c2e985a9989/download/growth-habit.txt.gz>`_.
+After copying the file to the docker container via ``docker cp growth-habit.txt.gz fennec_web:/tmp``::
+
+    gunzip growth-habit.txt.gz
+    # We want to have a tsv with the following columns: eol_id, value, value_ontology, citation, origin_url
+
