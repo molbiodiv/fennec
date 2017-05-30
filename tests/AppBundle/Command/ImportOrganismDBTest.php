@@ -52,4 +52,10 @@ class ImportOrganismDBTest extends KernelTestCase
         $this->assertContains('Importer', $output);
     }
 
+    public function testImportWithoutFennecID(){
+        $this->assertNull($this->em->getRepository('AppBundle:Organism')->findOneBy(array(
+            'scientificName' => 'rainbowFish'
+        )), 'before import there is no scientific name "rainbowFish"');
+    }
+
 }
