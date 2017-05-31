@@ -65,7 +65,7 @@ class ImportOrganismDBCommandTest extends KernelTestCase
             'name' => 'organismDBWithoutFennecIDProvider'
         ));
         $this->assertNotNull($provider, 'after import there is a db named "organismDBWithoutFennecIDProvider"');
-        $this->assertNull($this->em->getRepository('AppBundle:Organism')->findOneBy(array(
+        $this->assertNotNull($this->em->getRepository('AppBundle:Organism')->findOneBy(array(
             'scientificName' => 'rainbowFish'
         )), 'after import there is a scientific name "rainbowFish"');
         $rbUnicorn = $this->em->getRepository('AppBundle:Organism')->findOneBy(array(
