@@ -4,6 +4,8 @@ namespace AppBundle\Command;
 
 
 use AppBundle\Entity\Db;
+use AppBundle\Entity\FennecDbxref;
+use AppBundle\Entity\Organism;
 use AppBundle\Entity\TraitCategoricalEntry;
 use AppBundle\Entity\TraitCategoricalValue;
 use AppBundle\Entity\TraitCitation;
@@ -67,10 +69,44 @@ class ImportOrganismDBCommand extends ContainerAwareCommand
             return;
         }
         $this->initConnection($input);
-        $this->getOrInsertProvider($input->getOption('provider'), $input->getOption('description'));
+        $provider = $this->getOrInsertProvider($input->getOption('provider'), $input->getOption('description'));
+        $lines = intval(exec('wc -l '.escapeshellarg($input->getArgument('file')).' 2>/dev/null'));
+        $progress = new ProgressBar($output, $lines);
+        $progress->start();
+        $file = fopen($input->getArgument('file'), 'r');
+        $this->em->getConnection()->beginTransaction();
+        try{
+            while (($line = fgetcsv($file, 0, "\t")) != false) {
+                $sciname = $line[0];
+                $dbid = $line[1];
+                $fennec_id = $line[2];
+                if($dbid == "" or ($sciname == "" and $fennec_id == "")){
+                    throw new \Exception('Illegal line: '.join(" ",$line));
+                }
+                if($fennec_id === "" or $fennec_id === null){
+                    $fennec_id = $this->insertOrganism($sciname);
+                }
+                $this->insertDbxref($fennec_id, $dbid, $provider);
+                $progress->advance();
+            }
+            $this->em->flush();
+            $this->em->getConnection()->commit();
+        } catch (\Exception $e){
+            $this->em->getConnection()->rollBack();
+            $output->writeln('<error>'.$e->getMessage().'</error>');
+            return;
+        }
+        fclose($file);
+        $progress->finish();
+
         $output->writeln('');
     }
 
+    /**
+     * @param $name
+     * @param $description
+     * @return Db
+     */
     protected function getOrInsertProvider($name, $description)
     {
         $provider = $this->em->getRepository('AppBundle:Db')->findOneBy(array(
@@ -88,6 +124,33 @@ class ImportOrganismDBCommand extends ContainerAwareCommand
     }
 
     /**
+     * @param $sciname
+     * @return int
+     */
+    protected function insertOrganism($sciname){
+        $organism = new Organism();
+        $organism->setScientificName($sciname);
+        $this->em->persist($organism);
+        $this->em->flush();
+        return $organism->getFennecId();
+    }
+
+    /**
+     * @param $fennec_id
+     * @param $dbid
+     * @param $provider
+     * @return FennecDbxref
+     */
+    protected function insertDbxref($fennec_id, $dbid, $provider){
+        $dbxref = new FennecDbxref();
+        $dbxref->setDb($provider);
+        $dbxref->setFennec($this->em->getRepository('AppBundle:Organism')->find($fennec_id));
+        $dbxref->setIdentifier($dbid);
+        $this->em->persist($dbxref);
+        return $dbxref;
+    }
+
+    /**
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return boolean
@@ -96,6 +159,10 @@ class ImportOrganismDBCommand extends ContainerAwareCommand
     {
         if($input->getOption('provider') === null){
             $output->writeln('<error>Provider (--provider) is required, none given.</error>');
+            return false;
+        }
+        if(!file_exists($input->getArgument('file'))){
+            $output->writeln('<error>File does not exist: '.$input->getArgument('file').'</error>');
             return false;
         }
         return true;
