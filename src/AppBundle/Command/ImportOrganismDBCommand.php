@@ -94,6 +94,10 @@ class ImportOrganismDBCommand extends ContainerAwareCommand
      */
     protected function checkOptions(InputInterface $input, OutputInterface $output)
     {
+        if($input->getOption('provider') === null){
+            $output->writeln('<error>Provider (--provider) is required, none given.</error>');
+            return false;
+        }
         return true;
     }
 
