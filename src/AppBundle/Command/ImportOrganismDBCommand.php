@@ -3,6 +3,7 @@
 namespace AppBundle\Command;
 
 
+use AppBundle\Entity\Db;
 use AppBundle\Entity\TraitCategoricalEntry;
 use AppBundle\Entity\TraitCategoricalValue;
 use AppBundle\Entity\TraitCitation;
@@ -66,10 +67,25 @@ class ImportOrganismDBCommand extends ContainerAwareCommand
             return;
         }
         $this->initConnection($input);
+        $this->getOrInsertProvider($input->getOption('provider'), $input->getOption('description'));
         $output->writeln('');
     }
 
-
+    protected function getOrInsertProvider($name, $description)
+    {
+        $provider = $this->em->getRepository('AppBundle:Db')->findOneBy(array(
+            'name' => $name
+        ));
+        if($provider === null){
+            $provider = new Db();
+            $provider->setName($name);
+            $provider->setDate(new \DateTime());
+            $provider->setDescription($description);
+            $this->em->persist($provider);
+            $this->em->flush();
+        }
+        return $provider;
+    }
 
     /**
      * @param InputInterface $input
