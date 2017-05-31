@@ -112,4 +112,7 @@ After copying the file to the docker container via ``docker cp growth-habit.txt.
 
     gunzip growth-habit.txt.gz
     # We want to have a tsv with the following columns: eol_id, value, value_ontology, citation, origin_url
-
+    perl -F"\t" -ane 'print "$F[0]\t$F[4]\t$F[6]\t$F[15]\t$F[14]\n" unless(/^EOL page ID/)' growth-habit.txt >growth-habit.tsv
+    /fennec/bin/console app:create-webuser EOL
+    /fennec/bin/console app:create-traittype --format categorical_free --description "general growth form, including size and branching. Some organisms have different growth habits depending on environment or location" --ontology_url "http://www.eol.org/data_glossary#http___eol_org_schema_terms_PlantHabit" "Plant Growth Habit"
+    /fennec/bin/console app:import-trait-entries --traittype "Plant Growth Habit" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" growth-habit.tsv
