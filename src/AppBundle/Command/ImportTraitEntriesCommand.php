@@ -143,6 +143,8 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
         }
         $this->em->getConnection()->beginTransaction();
         try{
+            $batchSize = 100;
+            $i = 0;
             while (($line = fgetcsv($file, 0, "\t")) != false) {
                 $fennec_id = $line[0];
                 if($needs_mapping){
@@ -179,6 +181,11 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
                         $line[4], $input->getOption('public'));
                 }
                 $progress->advance();
+                $i++;
+                if($i % $batchSize === 0){
+                    $this->em->flush();
+                    $this->em->clear();
+                }
             }
             $this->em->flush();
             $this->em->getConnection()->commit();
