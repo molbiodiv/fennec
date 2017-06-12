@@ -21,15 +21,21 @@ use Symfony\Component\HttpFoundation\ParameterBag;
 
 class ImportTraitEntriesCommand extends ContainerAwareCommand
 {
+    const BATCH_SIZE = 10;
     /**
      * @var EntityManager
      */
     private $em;
 
     /**
-     * @var array<TraitType>
+     * @var array<int> TraitType ids
      */
     private $traitType;
+
+    /**
+     * @var array<string> traitFormats
+     */
+    private $traitFormat;
 
     /**
      * @var int
@@ -112,6 +118,7 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
             $output->writeln('<error>User with provided id does not exist in db.</error>');
             return;
         }
+        $userID = $user->getWebuserId();
         $lines = intval(exec('wc -l '.escapeshellarg($input->getArgument('file')).' 2>/dev/null'));
         $progress = new ProgressBar($output, $lines);
         $progress->start();
@@ -143,7 +150,6 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
         }
         $this->em->getConnection()->beginTransaction();
         try{
-            $batchSize = 100;
             $i = 0;
             while (($line = fgetcsv($file, 0, "\t")) != false) {
                 $fennec_id = $line[0];
@@ -166,7 +172,7 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
                     }
                     for($i=1; $i<count($line); $i++){
                         if($line[$i] !== ''){
-                            $this->insertTraitEntry($fennec_id, $this->traitType[$i-1], $line[$i], '', $citationText, $user, '', $input->getOption('public'));
+                            $this->insertTraitEntry($fennec_id, $this->traitType[$i-1], $this->traitFormat[$i-1], $line[$i], '', $citationText, $userID, '', $input->getOption('public'));
                         }
                     }
                 } else {
@@ -177,12 +183,12 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
                     if ($citationText === "" && $input->hasOption('default-citation')) {
                         $citationText = $input->getOption('default-citation');
                     }
-                    $this->insertTraitEntry($fennec_id, $this->traitType[0], $line[1], $line[2], $citationText, $user,
+                    $this->insertTraitEntry($fennec_id, $this->traitType[0], $this->traitFormat[0], $line[1], $line[2], $citationText, $userID,
                         $line[4], $input->getOption('public'));
                 }
                 $progress->advance();
                 $i++;
-                if($i % $batchSize === 0){
+                if($i % ImportTraitEntriesCommand::BATCH_SIZE === 0){
                     $this->em->flush();
                     $this->em->clear();
                 }
@@ -214,7 +220,7 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
         ));
         if($traitCategoricalValue === null){
             $traitCategoricalValue = new TraitCategoricalValue();
-            $traitCategoricalValue->setTraitType($traitType);
+            $traitCategoricalValue->setTraitType($this->em->getReference('AppBundle:TraitType', $traitType));
             $traitCategoricalValue->setValue($value);
             $traitCategoricalValue->setOntologyUrl($ontology_url);
             $this->em->persist($traitCategoricalValue);
@@ -308,11 +314,16 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
     protected function checkTraitTypes(array $traitTypes, OutputInterface $output)
     {
         $this->traitType = array();
+        $this->traitFormat = array();
         foreach ($traitTypes as $type){
-            $this->traitType[] = $this->em->getRepository('AppBundle:TraitType')->findOneBy(array('type' => $type));
-            if ($this->traitType[count($this->traitType)-1] === null) {
+            $traitType = $this->em->getRepository('AppBundle:TraitType')->findOneBy(array('type' => $type));
+            if ($traitType === null) {
                 $output->writeln('<error>TraitType does not exist in db: "'.$type.'". Check for typos or create with app:create-traittype.</error>');
                 return false;
+            }
+            else{
+                $this->traitType[] = $traitType->getId();
+                $this->traitFormat[] = $traitType->getTraitFormat()->getFormat();
             }
         }
         return true;
@@ -324,14 +335,14 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
      * @param string $value
      * @param string|null $valueOntology
      * @param string $citation
-     * @param Webuser $user
+     * @param int $userID webuser_id
      * @param string $originURL
      * @param boolean $public
      */
-    protected function insertTraitEntry($fennec_id, $traitType, $value, $valueOntology, $citation, $user, $originURL, $public)
+    protected function insertTraitEntry($fennec_id, $traitType, $traitFormat, $value, $valueOntology, $citation, $userID, $originURL, $public)
     {
         $traitEntry = null;
-        if ($traitType->getTraitFormat()->getFormat() === "categorical_free") {
+        if ($traitFormat === "categorical_free") {
             $traitCategoricalValue = $this->get_or_insert_trait_categorical_value($value, $valueOntology, $traitType);
             $traitEntry = new TraitCategoricalEntry();
             $traitEntry->setTraitCategoricalValue($traitCategoricalValue);
@@ -340,11 +351,11 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
             $traitEntry->setValue($value);
         }
         $traitCitation = $this->get_or_insert_trait_citation($citation);
-        $traitEntry->setTraitType($traitType);
+        $traitEntry->setTraitType($this->em->getReference('AppBundle:TraitType', $traitType));
         $traitEntry->setTraitCitation($traitCitation);
         $traitEntry->setOriginUrl($originURL);
         $traitEntry->setFennec($this->em->getReference('AppBundle:Organism', $fennec_id));
-        $traitEntry->setWebuser($user);
+        $traitEntry->setWebuser($this->em->getReference('AppBundle:Webuser', $userID));
         $traitEntry->setPrivate(!$public);
         $this->em->persist($traitEntry);
         ++$this->insertedEntries;
