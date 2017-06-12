@@ -60,7 +60,13 @@ class TraitType
      */
     private $traitFormat;
 
-
+    /**
+     *
+     */
+    public function __toString()
+    {
+        return "TraitType: ".$this->getType();
+    }
 
     /**
      * Set type.
