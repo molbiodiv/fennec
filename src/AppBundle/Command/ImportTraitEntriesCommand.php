@@ -113,6 +113,9 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
             return;
         }
         $this->initConnection($input);
+        // Logger has to be disabled, otherwise memory increases linearly
+        $this->em->getConnection()->getConfiguration()->setSQLLogger(null);
+        gc_enable();
         $user = $this->em->getRepository('AppBundle:Webuser')->find($input->getOption('user-id'));
         if($user === null){
             $output->writeln('<error>User with provided id does not exist in db.</error>');
@@ -191,6 +194,7 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
                 if($i % ImportTraitEntriesCommand::BATCH_SIZE === 0){
                     $this->em->flush();
                     $this->em->clear();
+                    gc_collect_cycles();
                 }
             }
             $this->em->flush();
