@@ -33,6 +33,22 @@ However, Fennec does not contain any data, yet.
 
         docker exec -it fennec_web /bin/bash
 
+Configuration
+-------------
+
+Login with GitHub
+^^^^^^^^^^^^^^^^^
+
+1. Register an OAuth App with your account following [this guide](https://developer.github.com/apps/building-integrations/setting-up-and-registering-oauth-apps/).
+2. As "Authorization callback URL" enter your domain or ip address with `/login` appended.
+3. Modify `/fennec/app/config/parameters.yml` and add the respective values to `github_client_id` and `github_client_secret`
+
+Login with Google
+^^^^^^^^^^^^^^^^^
+
+To configure login with GitHub and Google follow these steps:
+
+
 Loading organisms
 -----------------
 
