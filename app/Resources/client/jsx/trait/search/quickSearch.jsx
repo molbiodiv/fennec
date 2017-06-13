@@ -1,3 +1,8 @@
+/*
+ * global $
+ * global dbversion
+ */
+
 $(document).ready(function(){
     //autocomplete for trait search
     $("#search_trait").autocomplete({
@@ -7,7 +12,7 @@ $(document).ready(function(){
         source: function (request, response) {
             var search = request.term;
             $.ajax({
-                url: Routing.generate('api', {'namespace': 'listing', 'classname': traits}),
+                url: Routing.generate('api', {'namespace': 'listing', 'classname': 'traits'}),
                 data: {term: request.term, limit: 500, search: search, dbversion: dbversion},
                 dataType: "json",
                 success: function (data) {
