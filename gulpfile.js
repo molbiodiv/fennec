@@ -56,6 +56,14 @@ gulp.task('babel-organism-details', function() {
     return runBabelOnFolder('organism', 'details');
 });
 
+gulp.task('babel-organism-search', function() {
+    return runBabelOnFolder('organism', 'search');
+});
+
+gulp.task('babel-trait-search', function() {
+    return runBabelOnFolder('trait', 'search');
+});
+
 gulp.task('test', function() {
     return gulp.src('tests/js/**/*.js', {read: false})
         .pipe(mocha({reporter: 'spec', useColors: true}))
@@ -84,7 +92,9 @@ gulp.task('babel', [
     'babel-project-helpers',
     'babel-project-trait-details',
     'babel-trait-browse',
-    'babel-organism-details'
+    'babel-organism-details',
+    'babel-organism-search',
+    'babel-trait-search'
 ], function () {
 });
 

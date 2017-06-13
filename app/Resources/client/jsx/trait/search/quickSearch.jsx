@@ -7,8 +7,8 @@ $(document).ready(function(){
         source: function (request, response) {
             var search = request.term;
             $.ajax({
-                url: "{{ path('api', {'namespace': 'listing', 'classname': type~'s'}) }}",
-                data: {term:  request.term, limit: 500, search: search, dbversion: '{{ dbversion }}'},
+                url: Routing.generate('api', {'namespace': 'listing', 'classname': traits}),
+                data: {term: request.term, limit: 500, search: search, dbversion: dbversion},
                 dataType: "json",
                 success: function (data) {
                     response(data);
@@ -19,7 +19,7 @@ $(document).ready(function(){
     });
 
     $("#search_trait").data("ui-autocomplete")._renderItem = function (ul, item) {
-        var details = Routing.generate('{{ type }}_details', {'dbversion': '{{ dbversion }}', 'trait_type_id': item.trait_type_id});
+        var details = Routing.generate('trait_details', {'dbversion': dbversion, 'trait_type_id': item.trait_type_id});
         var link = "<a href='"+details+"'><span style='display:inline-block; width: 100%; font-style: italic;'>" + item.name + "</span></a>";
         var li = $("<li>")
                 .append(link)
@@ -29,7 +29,7 @@ $(document).ready(function(){
 
     $("#btn_search_trait").click(function(){
         var searchTerm = $("#search_trait").val();
-        var resultPage = Routing.generate('{{ type }}_result', {'dbversion': '{{ dbversion }}', 'limit': 500, 'search': searchTerm});
+        var resultPage = Routing.generate('trait_result', {'dbversion': dbversion, 'limit': 500, 'search': searchTerm});
         window.location.href = resultPage;
     });
 });

@@ -1,5 +1,10 @@
 {% extends 'base.navigation.html.twig' %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/js/trait/search.js') }}"></script>
+{% endblock %}
+
 {% block content %}
     {% include 'components/searchForm.html.twig' %}
 {% endblock %}
