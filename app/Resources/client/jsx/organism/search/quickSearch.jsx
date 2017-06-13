@@ -32,4 +32,10 @@ $(document).ready(function(){
         var resultPage = Routing.generate('organism_result', {'dbversion': dbversion, 'limit': 500, 'search': searchTerm});
         window.location.href = resultPage;
     });
+
+    $("#search_organism").keyup(function(event){
+        if(event.keyCode == 13){
+            $("#btn_search_organism").click();
+        }
+    });
 });
