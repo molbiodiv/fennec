@@ -43,11 +43,4 @@ $(document).ready(function(){
             $("#btn_search_trait").click();
         }
     });
-
-    $(document).ready(function () {
-        $('#search_trait').on('autocompletechange change', function () {
-            console.log("bla");
-            $('#search_trait').val(this.value);
-        }).change();
-    });
 });
