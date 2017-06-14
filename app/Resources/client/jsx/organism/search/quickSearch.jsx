@@ -11,7 +11,7 @@ $(document).ready(function(){
                 data: {term:  request.term, limit: 500, search: search, dbversion: dbversion},
                 dataType: "json",
                 success: function (data) {
-                    response(data);
+                    response(data.map(x => {x.value = x.scientific_name; return x;}));
                 }
             });
         },

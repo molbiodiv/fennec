@@ -16,7 +16,7 @@ $(document).ready(function(){
                 data: {term: request.term, limit: 500, search: search, dbversion: dbversion},
                 dataType: "json",
                 success: function (data) {
-                    response(data);
+                    response(data.map(x => {x.value = x.name; return x;}));
                 }
             });
         },
@@ -42,5 +42,12 @@ $(document).ready(function(){
         if(event.keyCode == 13){
             $("#btn_search_trait").click();
         }
+    });
+
+    $(document).ready(function () {
+        $('#search_trait').on('autocompletechange change', function () {
+            console.log("bla");
+            $('#search_trait').val(this.value);
+        }).change();
     });
 });
