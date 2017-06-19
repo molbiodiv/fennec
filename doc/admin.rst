@@ -39,14 +39,20 @@ Configuration
 Login with GitHub
 ^^^^^^^^^^^^^^^^^
 
-1. Register an OAuth App with your account following [this guide](https://developer.github.com/apps/building-integrations/setting-up-and-registering-oauth-apps/).
-2. As "Authorization callback URL" enter your domain or ip address with `/login` appended.
-3. Modify `/fennec/app/config/parameters.yml` and add the respective values to `github_client_id` and `github_client_secret`
+1. Register an OAuth App with your account following [this guide](https://developer.github.com/apps/building-integrations/setting-up-and-registering-oauth-apps/)
+2. As "Authorization callback URL" enter your domain or ip address with ``/login`` appended
+3. Modify ``/fennec/app/config/parameters.yml`` and add the respective values to ``github_client_id`` and ``github_client_secret``
+
+That's it. Login with GitHub should now work.
 
 Login with Google
 ^^^^^^^^^^^^^^^^^
 
-To configure login with GitHub and Google follow these steps:
+1. Register an OAuth App with your account following [this guide](https://support.google.com/googleapi/answer/6158849?hl=en&ref_topic=7013279)
+2. If you want to set a redirect URI use your domain with path ``/login/check-google`` appended
+3. Modify ``/fennec/app/config/parameters.yml`` and add the respective values to ``google_client_id`` and ``google_client_secret``
+
+That's it. Login with Google should now work.
 
 Contact Page
 ^^^^^^^^^^^^
