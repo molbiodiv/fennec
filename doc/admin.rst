@@ -54,6 +54,14 @@ Login with Google
 
 That's it. Login with Google should now work.
 
+Demo User
+^^^^^^^^^
+
+A single demo user can be configured via ``demo_user_name`` and ``demo_user_password`` in ``/fennec/app/config/parameters.yml``.
+Be aware that this is a single user and everyone using those credentials will share the data.
+Therefore it is possible for everyone to add, modify and delete projects.
+We intend to improve user handling in the future (including demo users) until then feel free to use the demo user as needed.
+
 Contact Page
 ^^^^^^^^^^^^
 
