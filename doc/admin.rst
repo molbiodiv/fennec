@@ -48,6 +48,24 @@ Login with Google
 
 To configure login with GitHub and Google follow these steps:
 
+Contact Page
+^^^^^^^^^^^^
+
+A dummy contact page is present but has to be replaced by one showing the real content.
+In order to do this create a file called ``custom_contact.html.twig``.
+You can put content like this for example::
+
+    <div class="row">
+        <h1>Contact</h1>
+        This instance is maintained by <a href="mailto:mail@example.com">John Doe</a>.
+        The source code is available on <a href="https://github.com/molbiodiv/fennec">GitHub</a>.
+    </div>
+
+Next this file needs to be transferred to the docker container::
+
+    docker cp custom_contact.html.twig fennec_web:/fennec/app/Resources/views/misc/
+
+Please be aware that a proper contact page might be a legal requirement if you run a public instance.
 
 Loading organisms
 -----------------
