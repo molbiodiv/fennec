@@ -70,4 +70,29 @@ class ImportOrganismIDsCommandTest extends KernelTestCase
 
     }
 
+    public function testImportScientificName(){
+        $this->assertNull($this->em->getRepository('AppBundle:Db')->findOneBy(array(
+            'name' => 'organismDBWithScientificNameProvider'
+        )), 'before import there is no db named "organismDBWithScientificNameProvider"');
+        $this->commandTester->execute(array(
+            'command' => $this->command->getName(),
+            'file' => __DIR__ . '/files/organismIDs_scientificName.tsv',
+            '--provider' => 'organismDBWithScientificNameProvider',
+            '--description' => 'organismDBWithScientificNameDescription',
+        ));
+        $provider = $this->em->getRepository('AppBundle:Db')->findOneBy(array(
+            'name' => 'organismDBWithScientificNameProvider'
+        ));
+        $this->assertNotNull($provider, 'after import there is a db named "organismDBWithScientificNameProvider"');
+        $fennec = $this->em->getRepository("AppBundle:Organism")->findOneBy(array(
+            'scientificName' => 'Coptosperma littorale'
+        ));
+        $rbID = $this->em->getRepository('AppBundle:FennecDbxref')->findOneBy(array(
+            'db' => $provider,
+            'fennec' => $fennec
+        ))->getIdentifier();
+        $this->assertEquals($rbID, 362, 'Coptosperma littorale has been linked to id 362');
+
+    }
+
 }
