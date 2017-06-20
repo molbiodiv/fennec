@@ -6,21 +6,13 @@ namespace AppBundle\Command;
 use AppBundle\Entity\Db;
 use AppBundle\Entity\FennecDbxref;
 use AppBundle\Entity\Organism;
-use AppBundle\Entity\TraitCategoricalEntry;
-use AppBundle\Entity\TraitCategoricalValue;
-use AppBundle\Entity\TraitCitation;
-use AppBundle\Entity\TraitNumericalEntry;
-use AppBundle\Entity\TraitType;
-use AppBundle\Entity\Webuser;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Helper\ProgressBar;
-use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\HttpFoundation\ParameterBag;
 
 class ImportOrganismDBCommand extends ContainerAwareCommand
 {
