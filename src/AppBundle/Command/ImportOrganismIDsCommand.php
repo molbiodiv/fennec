@@ -70,12 +70,11 @@ class ImportOrganismIDsCommand extends ContainerAwareCommand
         $this->em->getConnection()->beginTransaction();
         try{
             while (($line = fgetcsv($file, 0, "\t")) != false) {
-                $sciname = $line[0];
+                $fennec_id = $line[0];
                 $dbid = $line[1];
-                if($dbid == "" or $sciname == ""){
+                if($dbid == "" or $fennec_id == ""){
                     throw new \Exception('Illegal line: '.join(" ",$line));
                 }
-                $fennec_id = $this->insertOrganism($sciname);
                 $this->insertDbxref($fennec_id, $dbid, $provider);
                 $progress->advance();
             }
