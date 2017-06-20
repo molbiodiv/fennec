@@ -126,12 +126,38 @@ class ImportOrganismIDsCommandTest extends KernelTestCase
         $provider = $this->em->getRepository('AppBundle:Db')->findOneBy(array(
             'name' => 'organismDBWithNcbiIDProvider'
         ));
+        $ncbi = $this->em->getRepository('AppBundle:Db')->findOneBy(array(
+            'name' => 'ncbi_taxonomy'
+        ));
         $this->assertNotNull($provider, 'after import there is a db named "organismDBWithNcbiIDProvider"');
+        $this->testDbxrefForNcbiID($ncbi, $provider, '1905655', 987);
+        $this->testDbxrefForNcbiID($ncbi, $provider, '301881', 19);
+        $this->testDbxrefForNcbiID($ncbi, $provider, '121176', 19);
+        $fennec = $this->em->getRepository('AppBundle:FennecDbxref')->findOneBy(array(
+            'db' => $ncbi,
+            'identifier' => '523875'
+        ))->getFennec();
+        $this->assertEquals(count($this->em->getRepository('AppBundle:FennecDbxref')->findAll(array(
+            'db' => $provider,
+            'fennec' => $fennec
+        ))),2, 'There are two identifiers for organism 523875 (ncbi id)');
+    }
+
+    /**
+     * @param $ncbi
+     * @param $provider
+     */
+    protected function testDbxrefForNcbiID($ncbi, $provider, $ncbiID, $linkedId)
+    {
+        $fennec = $this->em->getRepository('AppBundle:FennecDbxref')->findOneBy(array(
+            'db' => $ncbi,
+            'identifier' => $ncbiID
+        ))->getFennec();
         $rbID = $this->em->getRepository('AppBundle:FennecDbxref')->findOneBy(array(
             'db' => $provider,
             'fennec' => $fennec
         ))->getIdentifier();
-        $this->assertEquals($rbID, 362, 'Coptosperma littorale has been linked to id 362');
+        $this->assertEquals($rbID, $linkedId, 'Organism with NCBI ID '.$ncbiID.' linked to id '.$linkedId);
     }
 
 }
