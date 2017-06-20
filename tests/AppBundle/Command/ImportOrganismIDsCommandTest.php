@@ -79,14 +79,31 @@ class ImportOrganismIDsCommandTest extends KernelTestCase
             'file' => __DIR__ . '/files/organismIDs_scientificName.tsv',
             '--provider' => 'organismDBWithScientificNameProvider',
             '--description' => 'organismDBWithScientificNameDescription',
+            '--mapping' => 'scientific_name'
+        ));
+        $output = $this->commandTester->getDisplay();
+        // Expect error due to unmappable organism
+        $this->assertContains('Error', $output);
+        $fennec = $this->em->getRepository("AppBundle:Organism")->findOneBy(array(
+            'scientificName' => 'Coptosperma littorale'
+        ));
+        $provider = $this->em->getRepository('AppBundle:Db')->findOneBy(array(
+            'name' => 'organismDBWithScientificNameProvider'
+        ));
+        $this->assertNull($provider, 'nothing should be imported if there is an error due to unmappable scientific name');
+
+        $this->commandTester->execute(array(
+            'command' => $this->command->getName(),
+            'file' => __DIR__ . '/files/organismIDs_scientificName.tsv',
+            '--provider' => 'organismDBWithScientificNameProvider',
+            '--description' => 'organismDBWithScientificNameDescription',
+            '--mapping' => 'scientific_name',
+            '--skip-unmapped' => true
         ));
         $provider = $this->em->getRepository('AppBundle:Db')->findOneBy(array(
             'name' => 'organismDBWithScientificNameProvider'
         ));
         $this->assertNotNull($provider, 'after import there is a db named "organismDBWithScientificNameProvider"');
-        $fennec = $this->em->getRepository("AppBundle:Organism")->findOneBy(array(
-            'scientificName' => 'Coptosperma littorale'
-        ));
         $rbID = $this->em->getRepository('AppBundle:FennecDbxref')->findOneBy(array(
             'db' => $provider,
             'fennec' => $fennec
