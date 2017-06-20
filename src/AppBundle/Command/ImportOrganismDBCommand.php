@@ -38,8 +38,8 @@ class ImportOrganismDBCommand extends ContainerAwareCommand
         // the full command description shown when running the command with
         // the "--help" option
         ->setHelp("This command allows you to import organism databases...\n".
-            "The tsv file has to have the following columns (the second and either the third or the first need to have a value):\n".
-            "scientific_name\tdb_id\tfennec_id\n\n"
+            "The tsv file has to have the following columns:\n".
+            "scientific_name\tdb_id\n\n"
         )
         ->addArgument('file', InputArgument::REQUIRED, 'The path to the input csv file')
         ->addOption('connection', 'c', InputOption::VALUE_REQUIRED, 'The database version')
