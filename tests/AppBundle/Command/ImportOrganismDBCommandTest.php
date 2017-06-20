@@ -48,7 +48,8 @@ class ImportOrganismDBCommandTest extends KernelTestCase
         $this->assertContains('Importer', $output);
     }
 
-    public function testImportWithoutFennecID(){
+    public function testImportWithoutFennecID()
+    {
         $this->assertNull($this->em->getRepository('AppBundle:Organism')->findOneBy(array(
             'scientificName' => 'rainbowFish'
         )), 'before import there is no scientific name "rainbowFish"');
@@ -57,7 +58,7 @@ class ImportOrganismDBCommandTest extends KernelTestCase
         )), 'before import there is no db named "organismDBWithoutFennecIDProvider"');
         $this->commandTester->execute(array(
             'command' => $this->command->getName(),
-            'file' => __DIR__ . '/files/organismDBWithoutFennecID.tsv',
+            'file' => __DIR__ . '/files/organismDB.tsv',
             '--provider' => 'organismDBWithoutFennecIDProvider',
             '--description' => 'organismDBWithoutFennecIDDescription',
         ));

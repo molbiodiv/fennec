@@ -54,7 +54,7 @@ class ImportOrganismIDsCommandTest extends KernelTestCase
         )), 'before import there is no db named "organismDBWithFennecIDProvider"');
         $this->commandTester->execute(array(
             'command' => $this->command->getName(),
-            'file' => __DIR__ . '/files/organismDBWithFennecID.tsv',
+            'file' => __DIR__ . '/files/organismIDs_fennec_id.tsv',
             '--provider' => 'organismDBWithFennecIDProvider',
             '--description' => 'organismDBWithFennecIDDescription',
         ));
