@@ -78,26 +78,26 @@ class ImportOrganismDBCommandTest extends KernelTestCase
         $this->assertEquals($rbUnicornID, 1357, 'The id of the rainbow Unicorn is 1357');
     }
 
-    public function testImportFennecID(){
-        $this->assertNull($this->em->getRepository('AppBundle:Db')->findOneBy(array(
-            'name' => 'organismDBWithFennecIDProvider'
-        )), 'before import there is no db named "organismDBWithFennecIDProvider"');
-        $this->commandTester->execute(array(
-            'command' => $this->command->getName(),
-            'file' => __DIR__ . '/files/organismDBWithFennecID.tsv',
-            '--provider' => 'organismDBWithFennecIDProvider',
-            '--description' => 'organismDBWithFennecIDDescription',
-        ));
-        $provider = $this->em->getRepository('AppBundle:Db')->findOneBy(array(
-            'name' => 'organismDBWithFennecIDProvider'
-        ));
-        $this->assertNotNull($provider, 'after import there is a db named "organismDBWithFennecIDProvider"');
-        $rbID = $this->em->getRepository('AppBundle:FennecDbxref')->findOneBy(array(
-            'db' => $provider,
-            'fennec' => 27
-        ))->getIdentifier();
-        $this->assertEquals($rbID, 2, 'The fennec id 27 has been linked to id 2');
-
-    }
+//    public function testImportFennecID(){
+//        $this->assertNull($this->em->getRepository('AppBundle:Db')->findOneBy(array(
+//            'name' => 'organismDBWithFennecIDProvider'
+//        )), 'before import there is no db named "organismDBWithFennecIDProvider"');
+//        $this->commandTester->execute(array(
+//            'command' => $this->command->getName(),
+//            'file' => __DIR__ . '/files/organismDBWithFennecID.tsv',
+//            '--provider' => 'organismDBWithFennecIDProvider',
+//            '--description' => 'organismDBWithFennecIDDescription',
+//        ));
+//        $provider = $this->em->getRepository('AppBundle:Db')->findOneBy(array(
+//            'name' => 'organismDBWithFennecIDProvider'
+//        ));
+//        $this->assertNotNull($provider, 'after import there is a db named "organismDBWithFennecIDProvider"');
+//        $rbID = $this->em->getRepository('AppBundle:FennecDbxref')->findOneBy(array(
+//            'db' => $provider,
+//            'fennec' => 27
+//        ))->getIdentifier();
+//        $this->assertEquals($rbID, 2, 'The fennec id 27 has been linked to id 2');
+//
+//    }
 
 }
