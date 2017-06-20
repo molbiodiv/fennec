@@ -37,23 +37,24 @@ class ImportOrganismIDsCommand extends ContainerAwareCommand
 
         // the full command description shown when running the command with
         // the "--help" option
-        ->setHelp("This command allows you to import organism ids...\n".
-            "The tsv file has to have the following columns (the second and either the third or the first need to have a value):\n".
-            "scientific_name\tdb_id\tfennec_id\n\n"
+        ->setHelp("This command allows you to import ids for existing organisms...\n".
+            "The tsv file has to have the following columns:\n".
+            "fennec_id\tdb_id\n\n".
+            "instead of fennec_id the first column can be something that is mappable to fennec_id via --mapping\n\n"
         )
         ->addArgument('file', InputArgument::REQUIRED, 'The path to the input csv file')
         ->addOption('connection', 'c', InputOption::VALUE_REQUIRED, 'The database version')
         ->addOption('provider', 'p', InputOption::VALUE_REQUIRED, 'The name of the database provider (e.g. NCBI Taxonomy)', null)
-        //->addOption('mapping', "m", InputOption::VALUE_REQUIRED, 'Method of mapping for id column. If not set fennec_ids are assumed and no mapping is performed', null)
+        ->addOption('mapping', "m", InputOption::VALUE_REQUIRED, 'Method of mapping for id column. If not set fennec_ids are assumed and no mapping is performed', null)
         ->addOption('description', 'd', InputOption::VALUE_REQUIRED, 'Description of the database provider', null)
-        //->addOption('skip-unmapped', 's', InputOption::VALUE_NONE, 'do not exit if a line can not be mapped (uniquely) to a fennec_id instead skip this entry', null)
+        ->addOption('skip-unmapped', 's', InputOption::VALUE_NONE, 'do not exit if a line can not be mapped (uniquely) to a fennec_id instead skip this entry', null)
     ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln([
-            'Organism DB Importer',
+            'Organism ID Importer',
             '====================',
             '',
         ]);
