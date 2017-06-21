@@ -9,10 +9,12 @@ use AppBundle\Entity\Organism;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\HttpFoundation\ParameterBag;
 
 class ImportOrganismIDsCommand extends ContainerAwareCommand
 {
@@ -25,6 +27,14 @@ class ImportOrganismIDsCommand extends ContainerAwareCommand
      * @var string
      */
     private $connectionName;
+
+    private $mapping;
+
+    private $skippedNoHit;
+
+    private $skippedMultiHits;
+
+    private $insertedEntries;
 
     protected function configure()
     {
@@ -62,20 +72,49 @@ class ImportOrganismIDsCommand extends ContainerAwareCommand
             return;
         }
         $this->initConnection($input);
-        $provider = $this->getOrInsertProvider($input->getOption('provider'), $input->getOption('description'));
         $lines = intval(exec('wc -l '.escapeshellarg($input->getArgument('file')).' 2>/dev/null'));
         $progress = new ProgressBar($output, $lines);
         $progress->start();
+        $needs_mapping = $input->getOption('mapping') !== null;
+        if($needs_mapping) {
+            $this->mapping = $this->getMapping($input->getArgument('file'), $input->getOption('mapping'), false);
+            if (!$input->getOption('skip-unmapped')) {
+                foreach ($this->mapping as $id => $value) {
+                    if ($value === null) {
+                        $output->writeln('<error>Error no mapping to fennec id found for: ' . $id . '</error>');
+                        return;
+                    } elseif (is_array($value)) {
+                        $output->writeln('<error>Error multiple mappings to fennec ids found for: ' . $id . ' (' . implode(',',
+                                $value) . ')</error>');
+                        return;
+                    }
+                }
+            }
+        }
         $file = fopen($input->getArgument('file'), 'r');
         $this->em->getConnection()->beginTransaction();
         try{
+            $provider = $this->getOrInsertProvider($input->getOption('provider'), $input->getOption('description'));
             while (($line = fgetcsv($file, 0, "\t")) != false) {
                 $fennec_id = $line[0];
+                if($needs_mapping){
+                    $fennec_id = $this->mapping[$fennec_id];
+                    if($fennec_id === null){
+                        ++$this->skippedNoHit;
+                        $progress->advance();
+                        continue;
+                    } elseif (is_array($fennec_id)){
+                        ++$this->skippedMultiHits;
+                        $progress->advance();
+                        continue;
+                    }
+                }
                 $dbid = $line[1];
                 if($dbid == "" or $fennec_id == ""){
                     throw new \Exception('Illegal line: '.join(" ",$line));
                 }
                 $this->insertDbxref($fennec_id, $dbid, $provider);
+                ++$this->insertedEntries;
                 $progress->advance();
             }
             $this->em->flush();
@@ -89,6 +128,11 @@ class ImportOrganismIDsCommand extends ContainerAwareCommand
         $progress->finish();
 
         $output->writeln('');
+        $table = new Table($output);
+        $table->addRow(array('Imported IDs', $this->insertedEntries));
+        $table->addRow(array('Skipped (no hit)', $this->skippedNoHit));
+        $table->addRow(array('Skipped (multiple hits)', $this->skippedMultiHits));
+        $table->render();
     }
 
     /**
@@ -168,6 +212,33 @@ class ImportOrganismIDsCommand extends ContainerAwareCommand
         }
         $orm = $this->getContainer()->get('app.orm');
         $this->em = $orm->getManagerForVersion($this->connectionName);
+    }
+
+    private function getMapping($filename, $method, $skip_first_line = false){
+        $ids = array();
+        $file = fopen($filename, 'r');
+        if($skip_first_line){
+            fgetcsv($file, 0, "\t");
+        }
+        while (($line = fgetcsv($file, 0, "\t")) != false) {
+            $ids[] = $line[0];
+        }
+        fclose($file);
+        if($method === 'scientific_name'){
+            $mapper = $this->getContainer()->get('app.api.webservice')->factory('mapping', 'byOrganismName');
+            $mapping = $mapper->execute(new ParameterBag(array(
+                'ids' => array_values(array_unique($ids)),
+                'dbversion' => $this->connectionName
+            )), null);
+        } else {
+            $mapper = $this->getContainer()->get('app.api.webservice')->factory('mapping', 'byDbxrefId');
+            $mapping = $mapper->execute(new ParameterBag(array(
+                'ids' => array_values(array_unique($ids)),
+                'dbversion' => $this->connectionName,
+                'db' => $method
+            )), null);
+        }
+        return $mapping;
     }
 
 }
