@@ -30,11 +30,11 @@ class ImportOrganismIDsCommand extends ContainerAwareCommand
 
     private $mapping;
 
-    private $skippedNoHit;
+    private $skippedNoHit = 0;
 
-    private $skippedMultiHits;
+    private $skippedMultiHits = 0;
 
-    private $insertedEntries;
+    private $insertedEntries = 0;
 
     protected function configure()
     {
