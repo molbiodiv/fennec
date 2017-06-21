@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * FennecDbxref
  *
- * @ORM\Table(name="fennec_dbxref", uniqueConstraints={@ORM\UniqueConstraint(name="fennec_dbxref_db_id_identifier_uniq", columns={"db_id", "identifier"})}, indexes={@ORM\Index(name="IDX_74202DAAA2BF053A", columns={"db_id"}), @ORM\Index(name="IDX_74202DAA594DA73F", columns={"fennec_id"})})
+ * @ORM\Table(name="fennec_dbxref", uniqueConstraints={@ORM\UniqueConstraint(name="fennec_dbxref_db_id_identifier_uniq", columns={"fennec_id", "db_id", "identifier"})})
  * @ORM\Entity
  */
 class FennecDbxref
