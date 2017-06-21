@@ -130,14 +130,14 @@ class ImportOrganismIDsCommandTest extends KernelTestCase
             'name' => 'ncbi_taxonomy'
         ));
         $this->assertNotNull($provider, 'after import there is a db named "organismDBWithNcbiIDProvider"');
-        $this->testDbxrefForNcbiID($ncbi, $provider, '1905655', 987);
-        $this->testDbxrefForNcbiID($ncbi, $provider, '301881', 19);
-        $this->testDbxrefForNcbiID($ncbi, $provider, '121176', 19);
+        $this->performTestDbxrefForNcbiID($ncbi, $provider, '1905655', 987);
+        $this->performTestDbxrefForNcbiID($ncbi, $provider, '301881', 19);
+        $this->performTestDbxrefForNcbiID($ncbi, $provider, '121176', 19);
         $fennec = $this->em->getRepository('AppBundle:FennecDbxref')->findOneBy(array(
             'db' => $ncbi,
             'identifier' => '523875'
         ))->getFennec();
-        $this->assertEquals(count($this->em->getRepository('AppBundle:FennecDbxref')->findAll(array(
+        $this->assertEquals(count($this->em->getRepository('AppBundle:FennecDbxref')->findBy(array(
             'db' => $provider,
             'fennec' => $fennec
         ))),2, 'There are two identifiers for organism 523875 (ncbi id)');
@@ -147,7 +147,7 @@ class ImportOrganismIDsCommandTest extends KernelTestCase
      * @param $ncbi
      * @param $provider
      */
-    protected function testDbxrefForNcbiID($ncbi, $provider, $ncbiID, $linkedId)
+    protected function performTestDbxrefForNcbiID($ncbi, $provider, $ncbiID, $linkedId)
     {
         $fennec = $this->em->getRepository('AppBundle:FennecDbxref')->findOneBy(array(
             'db' => $ncbi,
