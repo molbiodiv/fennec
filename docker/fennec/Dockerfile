@@ -1,6 +1,6 @@
 FROM php:7.0-apache
 RUN apt-get update \
-&& apt-get install -yq git postgresql-client libpq-dev unzip npm\
+&& apt-get install -yq git postgresql-client libpq-dev unzip npm vim\
 && rm -rf /var/lib/apt/lists/* \
 && docker-php-ext-install pdo pdo_pgsql \
 && a2enmod rewrite \
