@@ -16,6 +16,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ImportOrganismDBCommand extends ContainerAwareCommand
 {
+    const BATCH_SIZE = 10;
     /**
      * @var EntityManager
      */
@@ -61,6 +62,8 @@ class ImportOrganismDBCommand extends ContainerAwareCommand
             return;
         }
         $this->initConnection($input);
+        $this->em->getConnection()->getConfiguration()->setSQLLogger(null);
+        gc_enable();
         $provider = $this->getOrInsertProvider($input->getOption('provider'), $input->getOption('description'));
         $lines = intval(exec('wc -l '.escapeshellarg($input->getArgument('file')).' 2>/dev/null'));
         $progress = new ProgressBar($output, $lines);
@@ -68,6 +71,7 @@ class ImportOrganismDBCommand extends ContainerAwareCommand
         $file = fopen($input->getArgument('file'), 'r');
         $this->em->getConnection()->beginTransaction();
         try{
+            $i = 0;
             while (($line = fgetcsv($file, 0, "\t")) != false) {
                 $sciname = $line[0];
                 $dbid = $line[1];
@@ -77,6 +81,12 @@ class ImportOrganismDBCommand extends ContainerAwareCommand
                 $fennec_id = $this->insertOrganism($sciname);
                 $this->insertDbxref($fennec_id, $dbid, $provider);
                 $progress->advance();
+                $i++;
+                if($i % ImportOrganismDBCommand::BATCH_SIZE === 0){
+                    $this->em->flush();
+                    $this->em->clear();
+                    gc_collect_cycles();
+                }
             }
             $this->em->flush();
             $this->em->getConnection()->commit();
@@ -94,7 +104,7 @@ class ImportOrganismDBCommand extends ContainerAwareCommand
     /**
      * @param $name
      * @param $description
-     * @return Db
+     * @return int Db id of provider
      */
     protected function getOrInsertProvider($name, $description)
     {
@@ -109,7 +119,7 @@ class ImportOrganismDBCommand extends ContainerAwareCommand
             $this->em->persist($provider);
             $this->em->flush();
         }
-        return $provider;
+        return $provider->getDbId();
     }
 
     /**
@@ -127,12 +137,12 @@ class ImportOrganismDBCommand extends ContainerAwareCommand
     /**
      * @param $fennec_id
      * @param $dbid
-     * @param $provider
+     * @param int $provider
      * @return FennecDbxref
      */
     protected function insertDbxref($fennec_id, $dbid, $provider){
         $dbxref = new FennecDbxref();
-        $dbxref->setDb($provider);
+        $dbxref->setDb($this->em->getReference('AppBundle:Db', $provider));
         $dbxref->setFennec($this->em->getRepository('AppBundle:Organism')->find($fennec_id));
         $dbxref->setIdentifier($dbid);
         $this->em->persist($dbxref);
