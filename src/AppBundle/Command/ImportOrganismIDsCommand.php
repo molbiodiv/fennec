@@ -77,6 +77,8 @@ class ImportOrganismIDsCommand extends ContainerAwareCommand
             return;
         }
         $this->initConnection($input);
+        $this->em->getConnection()->getConfiguration()->setSQLLogger(null);
+        gc_enable();
         $lines = intval(exec('wc -l '.escapeshellarg($input->getArgument('file')).' 2>/dev/null'));
         $this->batchSize = $input->getOption('batch-size');
         $progress = new ProgressBar($output, $lines);
@@ -85,7 +87,7 @@ class ImportOrganismIDsCommand extends ContainerAwareCommand
         try{
             $needs_mapping = $input->getOption('mapping') !== null;
             $this->file = fopen($input->getArgument('file'), 'r');
-            $provider = $this->getOrInsertProvider($input->getOption('provider'), $input->getOption('description'));
+            $providerID = $this->getOrInsertProvider($input->getOption('provider'), $input->getOption('description'))->getDbId();
             while(count($lines = $this->getNextBatchOfLines()) > 0){
                 if($needs_mapping) {
                     $this->mapping = $this->getMapping($lines, $input->getOption('mapping'));
@@ -118,11 +120,13 @@ class ImportOrganismIDsCommand extends ContainerAwareCommand
                     if($dbid == "" or $fennec_id == ""){
                         throw new \Exception('Illegal line: '.join(" ",$line));
                     }
-                    $this->insertDbxref($fennec_id, $dbid, $provider);
+                    $this->insertDbxref($fennec_id, $dbid, $providerID);
                     ++$this->insertedEntries;
                     $progress->advance();
                 }
                 $this->em->flush();
+                $this->em->clear();
+                gc_collect_cycles();
             }
             $this->em->getConnection()->commit();
         } catch (\Exception $e){
@@ -187,12 +191,12 @@ class ImportOrganismIDsCommand extends ContainerAwareCommand
     /**
      * @param $fennec_id
      * @param $dbid
-     * @param $provider
+     * @param int $providerID
      * @return FennecDbxref
      */
-    protected function insertDbxref($fennec_id, $dbid, $provider){
+    protected function insertDbxref($fennec_id, $dbid, $providerID){
         $dbxref = new FennecDbxref();
-        $dbxref->setDb($provider);
+        $dbxref->setDb($this->em->getReference('AppBundle:Db', $providerID));
         $dbxref->setFennec($this->em->getRepository('AppBundle:Organism')->find($fennec_id));
         $dbxref->setIdentifier($dbid);
         $this->em->persist($dbxref);
