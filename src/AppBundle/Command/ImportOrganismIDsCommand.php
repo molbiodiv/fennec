@@ -36,6 +36,10 @@ class ImportOrganismIDsCommand extends ContainerAwareCommand
 
     private $insertedEntries = 0;
 
+    private $file;
+
+    private $batchSize;
+
     protected function configure()
     {
         $this
@@ -58,6 +62,7 @@ class ImportOrganismIDsCommand extends ContainerAwareCommand
         ->addOption('mapping', "m", InputOption::VALUE_REQUIRED, 'Method of mapping for id column. If not set fennec_ids are assumed and no mapping is performed', null)
         ->addOption('description', 'd', InputOption::VALUE_REQUIRED, 'Description of the database provider', null)
         ->addOption('skip-unmapped', 's', InputOption::VALUE_NONE, 'do not exit if a line can not be mapped (uniquely) to a fennec_id instead skip this entry', null)
+        ->addOption('batch-size', 'b', InputOption::VALUE_REQUIRED, 'Process large files in batches of this number of lines. Avoid out of memory errors', 1000)
     ;
     }
 
@@ -73,58 +78,59 @@ class ImportOrganismIDsCommand extends ContainerAwareCommand
         }
         $this->initConnection($input);
         $lines = intval(exec('wc -l '.escapeshellarg($input->getArgument('file')).' 2>/dev/null'));
+        $this->batchSize = $input->getOption('batch-size');
         $progress = new ProgressBar($output, $lines);
         $progress->start();
-        $needs_mapping = $input->getOption('mapping') !== null;
-        if($needs_mapping) {
-            $this->mapping = $this->getMapping($input->getArgument('file'), $input->getOption('mapping'), false);
-            if (!$input->getOption('skip-unmapped')) {
-                foreach ($this->mapping as $id => $value) {
-                    if ($value === null) {
-                        $output->writeln('<error>Error no mapping to fennec id found for: ' . $id . '</error>');
-                        return;
-                    } elseif (is_array($value)) {
-                        $output->writeln('<error>Error multiple mappings to fennec ids found for: ' . $id . ' (' . implode(',',
-                                $value) . ')</error>');
-                        return;
-                    }
-                }
-            }
-        }
-        $file = fopen($input->getArgument('file'), 'r');
         $this->em->getConnection()->beginTransaction();
         try{
+            $needs_mapping = $input->getOption('mapping') !== null;
+            $this->file = fopen($input->getArgument('file'), 'r');
             $provider = $this->getOrInsertProvider($input->getOption('provider'), $input->getOption('description'));
-            while (($line = fgetcsv($file, 0, "\t")) != false) {
-                $fennec_id = $line[0];
-                if($needs_mapping){
-                    $fennec_id = $this->mapping[$fennec_id];
-                    if($fennec_id === null){
-                        ++$this->skippedNoHit;
-                        $progress->advance();
-                        continue;
-                    } elseif (is_array($fennec_id)){
-                        ++$this->skippedMultiHits;
-                        $progress->advance();
-                        continue;
+            while(count($lines = $this->getNextBatchOfLines()) > 0){
+                if($needs_mapping) {
+                    $this->mapping = $this->getMapping($lines, $input->getOption('mapping'));
+                    if (!$input->getOption('skip-unmapped')) {
+                        foreach ($this->mapping as $id => $value) {
+                            if ($value === null) {
+                                throw new \Exception('Error no mapping to fennec id found for: ' . $id);
+                            } elseif (is_array($value)) {
+                                throw new \Exception('Error multiple mappings to fennec ids found for: ' . $id . ' (' . implode(',',
+                                        $value) . ')');
+                            }
+                        }
                     }
                 }
-                $dbid = $line[1];
-                if($dbid == "" or $fennec_id == ""){
-                    throw new \Exception('Illegal line: '.join(" ",$line));
+                foreach ($lines as $line) {
+                    $fennec_id = $line[0];
+                    if($needs_mapping){
+                        $fennec_id = $this->mapping[$fennec_id];
+                        if($fennec_id === null){
+                            ++$this->skippedNoHit;
+                            $progress->advance();
+                            continue;
+                        } elseif (is_array($fennec_id)){
+                            ++$this->skippedMultiHits;
+                            $progress->advance();
+                            continue;
+                        }
+                    }
+                    $dbid = $line[1];
+                    if($dbid == "" or $fennec_id == ""){
+                        throw new \Exception('Illegal line: '.join(" ",$line));
+                    }
+                    $this->insertDbxref($fennec_id, $dbid, $provider);
+                    ++$this->insertedEntries;
+                    $progress->advance();
                 }
-                $this->insertDbxref($fennec_id, $dbid, $provider);
-                ++$this->insertedEntries;
-                $progress->advance();
+                $this->em->flush();
             }
-            $this->em->flush();
             $this->em->getConnection()->commit();
         } catch (\Exception $e){
             $this->em->getConnection()->rollBack();
             $output->writeln('<error>'.$e->getMessage().'</error>');
             return;
         }
-        fclose($file);
+        fclose($this->file);
         $progress->finish();
 
         $output->writeln('');
@@ -133,6 +139,16 @@ class ImportOrganismIDsCommand extends ContainerAwareCommand
         $table->addRow(array('Skipped (no hit)', $this->skippedNoHit));
         $table->addRow(array('Skipped (multiple hits)', $this->skippedMultiHits));
         $table->render();
+    }
+
+    private function getNextBatchOfLines(){
+        $lines = array();
+        $i = 0;
+        while ($i<$this->batchSize && ($line = fgetcsv($this->file, 0, "\t")) != false) {
+            $lines[] = $line;
+            $i++;
+        }
+        return $lines;
     }
 
     /**
@@ -214,16 +230,9 @@ class ImportOrganismIDsCommand extends ContainerAwareCommand
         $this->em = $orm->getManagerForVersion($this->connectionName);
     }
 
-    private function getMapping($filename, $method, $skip_first_line = false){
-        $ids = array();
-        $file = fopen($filename, 'r');
-        if($skip_first_line){
-            fgetcsv($file, 0, "\t");
-        }
-        while (($line = fgetcsv($file, 0, "\t")) != false) {
-            $ids[] = $line[0];
-        }
-        fclose($file);
+    private function getMapping($lines, $method){
+        $func = function($value) { return $value[0]; };
+        $ids = array_map($func, $lines);
         if($method === 'scientific_name'){
             $mapper = $this->getContainer()->get('app.api.webservice')->factory('mapping', 'byOrganismName');
             $mapping = $mapper->execute(new ParameterBag(array(

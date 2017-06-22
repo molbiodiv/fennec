@@ -57,7 +57,11 @@ class ImportOrganismIDsCommandTest extends KernelTestCase
             'file' => __DIR__ . '/files/organismIDs_fennec_id.tsv',
             '--provider' => 'organismDBWithFennecIDProvider',
             '--description' => 'organismDBWithFennecIDDescription',
+            '--batch-size' => 1
         ));
+        if($this->commandTester->getStatusCode() !== 0){
+            echo $this->commandTester->getDisplay();
+        }
         $provider = $this->em->getRepository('AppBundle:Db')->findOneBy(array(
             'name' => 'organismDBWithFennecIDProvider'
         ));
