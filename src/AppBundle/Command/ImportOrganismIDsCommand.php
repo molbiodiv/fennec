@@ -88,37 +88,33 @@ class ImportOrganismIDsCommand extends ContainerAwareCommand
             $needs_mapping = $input->getOption('mapping') !== null;
             $this->file = fopen($input->getArgument('file'), 'r');
             $providerID = $this->getOrInsertProvider($input->getOption('provider'), $input->getOption('description'))->getDbId();
+            if($needs_mapping) {
+                $this->mapping = $this->getMapping($input->getOption('mapping'));
+            }
             while(count($lines = $this->getNextBatchOfLines()) > 0){
-                if($needs_mapping) {
-                    $this->mapping = $this->getMapping($lines, $input->getOption('mapping'));
-                    if (!$input->getOption('skip-unmapped')) {
-                        foreach ($this->mapping as $id => $value) {
-                            if ($value === null) {
-                                throw new \Exception('Error no mapping to fennec id found for: ' . $id);
-                            } elseif (is_array($value)) {
-                                throw new \Exception('Error multiple mappings to fennec ids found for: ' . $id . ' (' . implode(',',
-                                        $value) . ')');
-                            }
-                        }
-                    }
-                }
                 foreach ($lines as $line) {
                     $fennec_id = $line[0];
                     if($needs_mapping){
-                        $fennec_id = $this->mapping[$fennec_id];
-                        if($fennec_id === null){
+                        if(! array_key_exists($fennec_id, $this->mapping)){
+                            if(!$input->getOption('skip-unmapped')){
+                                throw new \Exception('Error: No mapping found for: '.$fennec_id);
+                            }
                             ++$this->skippedNoHit;
                             $progress->advance();
                             continue;
-                        } elseif (is_array($fennec_id)){
+                        } elseif (is_array($this->mapping[$fennec_id])){
+                            if(!$input->getOption('skip-unmapped')){
+                                throw new \Exception('Error: Multiple mappings found for: '.$fennec_id.' ('.join(",",$this->mapping[$fennec_id]).').');
+                            }
                             ++$this->skippedMultiHits;
                             $progress->advance();
                             continue;
                         }
+                        $fennec_id = $this->mapping[$fennec_id];
                     }
                     $dbid = $line[1];
                     if($dbid == "" or $fennec_id == ""){
-                        throw new \Exception('Illegal line: '.join(" ",$line));
+                        throw new \Exception('Error: Illegal line: '.join(" ",$line));
                     }
                     $this->insertDbxref($fennec_id, $dbid, $providerID);
                     ++$this->insertedEntries;
@@ -234,19 +230,15 @@ class ImportOrganismIDsCommand extends ContainerAwareCommand
         $this->em = $orm->getManagerForVersion($this->connectionName);
     }
 
-    private function getMapping($lines, $method){
-        $func = function($value) { return $value[0]; };
-        $ids = array_map($func, $lines);
+    private function getMapping($method){
         if($method === 'scientific_name'){
-            $mapper = $this->getContainer()->get('app.api.webservice')->factory('mapping', 'byOrganismName');
+            $mapper = $this->getContainer()->get('app.api.webservice')->factory('mapping', 'fullByOrganismName');
             $mapping = $mapper->execute(new ParameterBag(array(
-                'ids' => array_values(array_unique($ids)),
                 'dbversion' => $this->connectionName
             )), null);
         } else {
-            $mapper = $this->getContainer()->get('app.api.webservice')->factory('mapping', 'byDbxrefId');
+            $mapper = $this->getContainer()->get('app.api.webservice')->factory('mapping', 'fullByDbxrefId');
             $mapping = $mapper->execute(new ParameterBag(array(
-                'ids' => array_values(array_unique($ids)),
                 'dbversion' => $this->connectionName,
                 'db' => $method
             )), null);

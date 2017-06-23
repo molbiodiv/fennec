@@ -81,10 +81,14 @@ class ImportOrganismIDsCommandTest extends KernelTestCase
         $this->commandTester->execute(array(
             'command' => $this->command->getName(),
             'file' => __DIR__ . '/files/organismIDs_scientificName.tsv',
-            '--provider' => 'organismDBWithScientificNameProvider',
+            '--provider' => 'organismDBWithScientificNameProviderNonExistent',
             '--description' => 'organismDBWithScientificNameDescription',
             '--mapping' => 'scientific_name'
         ));
+
+        // reset of em is required. otherwise last rollback might still be in process
+        self::$kernel->getContainer()->get('doctrine')->resetManager();
+
         $output = $this->commandTester->getDisplay();
         // Expect error due to unmappable organism
         $this->assertContains('Error', $output);
@@ -92,7 +96,7 @@ class ImportOrganismIDsCommandTest extends KernelTestCase
             'scientificName' => 'Coptosperma littorale'
         ));
         $provider = $this->em->getRepository('AppBundle:Db')->findOneBy(array(
-            'name' => 'organismDBWithScientificNameProvider'
+            'name' => 'organismDBWithScientificNameProviderNonExistent'
         ));
         $this->assertNull($provider, 'nothing should be imported if there is an error due to unmappable scientific name');
 
