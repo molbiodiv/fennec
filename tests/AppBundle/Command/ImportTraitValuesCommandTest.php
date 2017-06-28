@@ -167,6 +167,8 @@ class ImportTraitValuesCommandTest extends KernelTestCase
             'citation' => 'iucn_fantasy3'
         )), 'after failed import there is still no citation "iucn_fantasy3"');
 
+        // reset of em is required. otherwise last rollback might still be in process
+        self::$kernel->getContainer()->get('doctrine')->resetManager();
         // if skip-unmapped is set the trait entries without conflicts should be imported
         $this->commandTester->execute(array(
             'command' => $this->command->getName(),
@@ -245,6 +247,9 @@ class ImportTraitValuesCommandTest extends KernelTestCase
         $this->assertNull($this->em->getRepository('AppBundle:TraitCitation')->findOneBy(array(
             'citation' => 'eol_fantasy2'
         )), 'after failed import there is still no citation "eol_fantasy2"');
+
+        // reset of em is required. otherwise last rollback might still be in process
+        self::$kernel->getContainer()->get('doctrine')->resetManager();
         // check for correct application of --skip-unmapped flag
         $this->commandTester->execute(array(
             'command' => $this->command->getName(),
