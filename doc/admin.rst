@@ -177,3 +177,10 @@ Again there is a file at opendata.eol.org::
     /fennec/bin/console app:create-traittype --format categorical_free --description "Determined for type of life cycle being annual, binneal, perennial etc." --ontology_url "http://purl.obolibrary.org/obo/TO_0002725" "Life Cycle Habit"
     /fennec/bin/console app:import-trait-entries --traittype "Life Cycle Habit" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" life-cycle-habit.tsv
 
+
+Backup
+------
+
+To backup the database just execute the following command (on the host, not inside of docker)::
+
+    docker exec -it fennec_db pg_dump -U fennec fennec | xz >fennec.$(date +%F_%T).sql.xz
