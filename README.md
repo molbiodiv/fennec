@@ -39,6 +39,12 @@ gulp sassLint
 gulp sass
 ```
 ## Changes
+### 0.7.0 <2017-06-28>
+ - Add php importers for organisms (#79)
+ - Improve performance of trait importer
+ - Clean up design of organism search (#76)
+ - Make docker container ready to use (#66)
+ - Improve tutorial (#67)
 ### 0.6.2 <2017-05-29>
  - Add long table import (#70)
  - Add local demo user
