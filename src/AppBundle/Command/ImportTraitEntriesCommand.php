@@ -11,6 +11,7 @@ use AppBundle\Entity\TraitType;
 use AppBundle\Entity\Webuser;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
@@ -127,20 +128,7 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
         $progress->start();
         $needs_mapping = $input->getOption('mapping') !== null;
         if($needs_mapping) {
-            $this->mapping = $this->getMapping($input->getArgument('file'), $input->getOption('mapping'),
-                $input->getOption('long-table'));
-            if (!$input->getOption('skip-unmapped')) {
-                foreach ($this->mapping as $id => $value) {
-                    if ($value === null) {
-                        $output->writeln('<error>Error no mapping to fennec id found for: ' . $id . '</error>');
-                        return;
-                    } elseif (is_array($value)) {
-                        $output->writeln('<error>Error multiple mappings to fennec ids found for: ' . $id . ' (' . implode(',',
-                                $value) . ')</error>');
-                        return;
-                    }
-                }
-            }
+            $this->mapping = $this->getMapping($input->getOption('mapping'));
         }
         $file = fopen($input->getArgument('file'), 'r');
         $traitTypes = array($input->getOption('traittype'));
@@ -157,16 +145,22 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
             while (($line = fgetcsv($file, 0, "\t")) != false) {
                 $fennec_id = $line[0];
                 if($needs_mapping){
-                    $fennec_id = $this->mapping[$fennec_id];
-                    if($fennec_id === null){
+                    if(! array_key_exists($fennec_id,$this->mapping)){
+                        if(!$input->getOption('skip-unmapped')){
+                            throw new \Exception('Error no mapping to fennec id found for: ' . $fennec_id);
+                        }
                         ++$this->skippedNoHit;
                         $progress->advance();
                         continue;
-                    } elseif (is_array($fennec_id)){
+                    } elseif (is_array($this->mapping[$fennec_id])){
+                        if(!$input->getOption('skip-unmapped')){
+                            throw new \Exception('Error multiple mappings to fennec ids found for: ' . $fennec_id . ' (' . implode(',', $this->mapping[$fennec_id]) . ')');
+                        }
                         ++$this->skippedMultiHits;
                         $progress->advance();
                         continue;
                     }
+                    $fennec_id = $this->mapping[$fennec_id];
                 }
                 if($input->getOption('long-table')){
                     $citationText = $input->getOption('default-citation');
@@ -248,26 +242,15 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
         return $traitCitation;
     }
 
-    private function getMapping($filename, $method, $skip_first_line = false){
-        $ids = array();
-        $file = fopen($filename, 'r');
-        if($skip_first_line){
-            fgetcsv($file, 0, "\t");
-        }
-        while (($line = fgetcsv($file, 0, "\t")) != false) {
-            $ids[] = $line[0];
-        }
-        fclose($file);
+    private function getMapping($method){
         if($method === 'scientific_name'){
-            $mapper = $this->getContainer()->get('app.api.webservice')->factory('mapping', 'byOrganismName');
+            $mapper = $this->getContainer()->get('app.api.webservice')->factory('mapping', 'fullByOrganismName');
             $mapping = $mapper->execute(new ParameterBag(array(
-                'ids' => array_values(array_unique($ids)),
                 'dbversion' => $this->connectionName
             )), null);
         } else {
-            $mapper = $this->getContainer()->get('app.api.webservice')->factory('mapping', 'byDbxrefId');
+            $mapper = $this->getContainer()->get('app.api.webservice')->factory('mapping', 'fullByDbxrefId');
             $mapping = $mapper->execute(new ParameterBag(array(
-                'ids' => array_values(array_unique($ids)),
                 'dbversion' => $this->connectionName,
                 'db' => $method
             )), null);
