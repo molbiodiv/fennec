@@ -132,10 +132,9 @@ and add it to the docker container via ``docker cp hierarchyentries.tgz fennec_w
 
     cd /tmp
     tar xzf hierarchyentries.tgz
-    perl -F"\t" -ane 'print "$F[1]\t$F[4]\n" if($F[2] == 1172)' hierarchy_entries.tsv | perl -pe 's/"//g' | sort -u >eol2ncbi.tsv
-    # Now we create a file with three columns: 1) empty 2) eol_id 3) fennec_id
-    perl -F"\t" -ane 'BEGIN{open IN, "<fennec2ncbi.tsv";while(<IN>){chomp;($f,$n)=split(/\t/);$n2f{$n}=$f}} chomp $F[1]; print "\t$F[0]\t$n2f{$F[1]}\n" if(exists $n2f{$F[0]})' eol2ncbi.tsv | sort -u -k1,1 | sort -u -k2,2 >eol_ids.tsv
-    python fennec-cli/bin/import_organism_db.py --db-host db --provider EOL --description "Encyclopedia of Life" eol_ids.tsv
+    # Now we create a file with two columns: 1) ncbi_taxid 2) eol_id
+    perl -F"\t" -ane 'print "$F[4]\t$F[1]\n" if($F[2] == 1172)' hierarchy_entries.tsv | perl -pe 's/"//g' | sort -u >ncbi2eol.tsv
+    /fennec/bin/console app:import-organism-ids --provider EOL --description "Encyclopedia of Life" --mapping ncbi_taxonomy --skip-unmapped ncbi2eol.tsv
 
 Now you have 1.6 million organisms in the database of which roughly 170 thousand have a nice organism page provided by EOL.
 
@@ -147,9 +146,8 @@ Initialize trait formats
 
 In the docker container execute::
 
-    cd /fennec
-    bin/console app:create-traitformat categorical_free
-    bin/console app:create-traitformat numerical
+    /fennec/bin/console app:create-traitformat categorical_free
+    /fennec/bin/console app:create-traitformat numerical
 
 Plant Growth Habit
 ^^^^^^^^^^^^^^^^^^
@@ -165,7 +163,7 @@ After copying the file to the docker container via ``docker cp growth-habit.txt.
     /fennec/bin/console app:create-traittype --format categorical_free --description "general growth form, including size and branching. Some organisms have different growth habits depending on environment or location" --ontology_url "http://www.eol.org/data_glossary#http___eol_org_schema_terms_PlantHabit" "Plant Growth Habit"
     /fennec/bin/console app:import-trait-entries --traittype "Plant Growth Habit" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" growth-habit.tsv
 
-Approximately 45 thousand of the entries are imported into the database.
+More than 1 million of the entries are imported into the database.
 For the other EOL ids there is no organism in the database, therefore those are skipped (because of the ``--skip-unmapped`` parameter, otherwise the importer would fail).#
 
 Life Cycle Habit
