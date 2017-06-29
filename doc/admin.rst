@@ -178,6 +178,18 @@ Again there is a file at opendata.eol.org::
     /fennec/bin/console app:create-traittype --format categorical_free --description "Determined for type of life cycle being annual, binneal, perennial etc." --ontology_url "http://purl.obolibrary.org/obo/TO_0002725" "Life Cycle Habit"
     /fennec/bin/console app:import-trait-entries --traittype "Life Cycle Habit" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" life-cycle-habit.tsv
 
+EPPO List of Invasive Alien Plants (Europe)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The European and Mediterranean Plant Protection Organization (EPPO) provides a list of invasive alien species: https://www.eppo.int/INVASIVE_PLANTS/ias_lists.htm
+This categorizations can be obtained as csv file from: https://gd.eppo.int/rppo/EPPO/categorization.csv
+In order to import this file into FENNEC execute those commands in the docker container::
+
+    curl "https://gd.eppo.int/rppo/EPPO/categorization.csv" >/tmp/eppo_categorization.csv
+    perl -pe 's/"//g' /tmp/eppo_categorization.csv | perl -F"," -ane 'print "$F[3]\t$F[1]\t\tEPPO (2017) EPPO Global Database (available online). https://gd.eppo.int\thttps://gd.eppo.int/rppo/EPPO/categorization.csv\n" if($F[6]=="")' >/tmp/eppo_categorization.tsv
+    /fennec/bin/console app:create-traittype --format categorical_free --description "List of invasive alien species by the European and Mediterranean Plant Protection Organization (EPPO)" --ontology_url "https://www.eppo.int/INVASIVE_PLANTS/ias_lists.htm" "EPPO Categorization"
+    /fennec/bin/console app:create-webuser EPPO # Note user-id for next command
+    /fennec/bin/console app:import-trait-entries --traittype "EPPO Categorization" --user-id 2 --mapping scientific_name --skip-unmapped --public --default-citation "EPPO (2017) EPPO Global Database (available online). https://gd.eppo.int" /tmp/eppo_categorization.tsv
 
 Backup
 ------
