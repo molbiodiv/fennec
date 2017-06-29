@@ -5,7 +5,7 @@ RUN apt-get update \
 && docker-php-ext-install pdo pdo_pgsql \
 && a2enmod rewrite \
 && docker-php-source delete
-RUN git clone https://github.com/molbiodiv/fennec /fennec
+RUN git clone --recursive https://github.com/molbiodiv/fennec /fennec
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 COPY php.ini /usr/local/etc/php/
