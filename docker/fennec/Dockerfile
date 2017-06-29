@@ -14,7 +14,9 @@ RUN cd /fennec; composer install
 
 RUN ln -s /usr/bin/nodejs /usr/bin/node
 RUN npm install -g bower
+RUN npm install -g coffeescript
 RUN cd /fennec; bower install --allow-root
+RUN cd /fennec/web/assets/Phinch; coffee -o scripts src
 
 RUN rm -rf /var/www/html && ln -fs /fennec/web /var/www/html
 RUN chown -R www-data:www-data /fennec/var
