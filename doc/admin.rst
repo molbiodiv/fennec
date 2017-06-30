@@ -263,6 +263,29 @@ In order to create the categorical trait types and import them into FENNEC just 
 
 By now you should have an idea on how importing categorical traits into FENNEC works.
 
+Numerical Traits
+^^^^^^^^^^^^^^^^
+
+.. ATTENTION::
+    The numerical traits need a little more attention as there are two potential complications:
+
+    1. The values might have different units
+    2. The values might represent different kinds of statistics (single measurement, mean, median, min, max)
+
+    Regarding 1: FENNEC associates a single unit for each trait type. Therefore all numbers have to be converted to this unit.
+    Regarding 2: In order to allow simple usage of numerical values in community analyses FENNEC has no notion of those different types.
+    Instead FENNEC treats all values for one organism identically and uses their mean to aggregate them.
+    Therefore it is important to only import meaningful values (mean, median, in some cases measurements, in case of a symmetric distribution min and max together might make sense as well).
+    This short coming could be fixed in the future by adding more fine grained trait formats (e.g. numerical-range)
+
+To import the traits downloaded above in the plantae dataset from http://opendata.eol.org/dataset/plantae do this inside the docker container::
+
+    # TODO data preparation and import
+    # Create trait types (incl. unit)
+    /fennec/bin/console app:create-traittype --format numerical --description "A leaf anatomy and morphology trait (TO:0000748) which is associated with the total area of a leaf (PO:0025034)." --ontology_url "http://purl.obolibrary.org/obo/TO_0000540" --unit "" "Leaf Area"
+    /fennec/bin/console app:create-traittype --format numerical --description "A stature and vigor trait (TO:0000133) which is associated with the height of a whole plant (PO:0000003)." --ontology_url "http://purl.obolibrary.org/obo/TO_0000207" --unit "" "Plant Height"
+    /fennec/bin/console app:create-traittype --format numerical --description "The soil pH, of the top 12 inches of soil, within the plant’s known geographical range. For cultivars, the geographical range is defined as the area to which the cultivar is well adapted rather than marginally adapted." --ontology_url "http://eol.org/schema/terms/SoilPH" --unit "" "Soil pH"
+
 Backup
 ------
 
