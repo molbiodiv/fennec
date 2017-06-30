@@ -2,7 +2,8 @@
  * Created by s216121 on 14.03.17.
  */
 $('document').ready(function(){
-    var img_template = '<a class="thumbnail" href="<%= href %>"><img src="<%= src %>"/></a><a href="<%= source %>"><div>(c) <%= rightsHolder %> <%= license %></div></a>';
+    let img_template = '<a class="thumbnail" href="<%= href %>"><img src="<%= src %>"/></a><a href="<%= source %>"><div><%= rights %> <%= license %></div></a>';
+    let txt_template = '<div class="panel panel-default"><div class="panel-heading"><h3 class="panel-title"><%= title %></h3><a href="<%= href %>"><%= rights %> <%= license %></a></div><div class="panel-body"><%= body %></div></div>';
     $.ajax({
         method: "GET",
         url: "http://eol.org/api/pages/1.0.json",
@@ -33,20 +34,29 @@ $('document').ready(function(){
         },
         success: function(result){
             console.log(result);
-            var txtCounter = 1;
             $.each(result["dataObjects"], function (dob) {
                 if(result["dataObjects"][dob]["dataType"] === "http://purl.org/dc/dcmitype/StillImage"){
-                    var url = result["dataObjects"][dob]["eolMediaURL"];
-                    var license = result["dataObjects"][dob]["license"];
-                    var rightsHolder = result["dataObjects"][dob]["rightsHolder"];
-                    var source = result["dataObjects"][dob]["source"];
-                    var img_element = _.template(img_template)({src: url, href: url, license: license, rightsHolder: rightsHolder, source: source});
+                    let url = result["dataObjects"][dob]["eolMediaURL"];
+                    let license = result["dataObjects"][dob]["license"];
+                    let rights = result["dataObjects"][dob]["rights"];
+                    if(typeof rights === 'undefined'){
+                        rights = "(c)"+result["dataObjects"][dob]["rightsHolder"];
+                    }
+                    let source = result["dataObjects"][dob]["source"];
+                    let img_element = _.template(img_template)({src: url, href: url, license: license, rights: rights, source: source});
                     $('#organism-img-column').append(img_element);
                 }
                 if(result["dataObjects"][dob]["dataType"] === "http://purl.org/dc/dcmitype/Text"){
-                    $("#title"+txtCounter).text(result["dataObjects"][dob]["title"]);
-                    $("#txt"+txtCounter).html(result["dataObjects"][dob]["description"]);
-                    txtCounter++;
+                    let title = result["dataObjects"][dob]["title"];
+                    let body = result["dataObjects"][dob]["description"];
+                    let url = result["dataObjects"][dob]["source"];
+                    let license = result["dataObjects"][dob]["license"];
+                    let rights = result["dataObjects"][dob]["rights"];
+                    if(typeof rights === 'undefined'){
+                        rights = "(c)"+result["dataObjects"][dob]["rightsHolder"];
+                    }
+                    let txt_element = _.template(txt_template)({title: title, body: body, href: url, rights: rights, license: license});
+                    $('#organism-txt-column').append(txt_element);
                 }
             });
             $("#vernacularName").text(getBestVernacularNameEOL(result));

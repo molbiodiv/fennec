@@ -39,6 +39,10 @@ gulp sassLint
 gulp sass
 ```
 ## Changes
+### 0.7.2 <2017-06-30>
+ - Add attribution to text blocks on organism pages (#84)
+ - Add boxes for texts on organism pages
+ - Improve admin documentation
 ### 0.7.1 <2017-06-29>
  - Add Phinch to docker image (#90)
  - Add EPPO trait to docu

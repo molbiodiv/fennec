@@ -165,7 +165,17 @@ After copying the file to the docker container via ``docker cp growth-habit.txt.
     /fennec/bin/console app:import-trait-entries --traittype "Plant Growth Habit" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" growth-habit.tsv
 
 More than 1 million of the entries are imported into the database.
-For the other EOL ids there is no organism in the database, therefore those are skipped (because of the ``--skip-unmapped`` parameter, otherwise the importer would fail).#
+For the other EOL ids there is no organism in the database, therefore those are skipped (because of the ``--skip-unmapped`` parameter, otherwise the importer would fail).
+
+An important thing to note is that we are preparing the trait table by rearranging columns using ``perl``.
+However, you could just as well use ``Excel`` or any other tool to do this.
+The only requirement is that you end up with a tab delimited file with five columns:
+
+1. organism identifier (either fennec_id or something that can be mapped)
+2. trait value
+3. value ontology url (can be empty)
+4. citation (can be empty or set via default citation, if multiple sources have to be cited they have to be concatenated)
+5. origin url (can be empty, a link to the original source)
 
 Life Cycle Habit
 ^^^^^^^^^^^^^^^^
@@ -190,6 +200,91 @@ In order to import this file into FENNEC execute those commands in the docker co
     /fennec/bin/console app:create-traittype --format categorical_free --description "List of invasive alien species by the European and Mediterranean Plant Protection Organization (EPPO)" --ontology_url "https://www.eppo.int/INVASIVE_PLANTS/ias_lists.htm" "EPPO Categorization"
     /fennec/bin/console app:create-webuser EPPO # Note user-id for next command
     /fennec/bin/console app:import-trait-entries --traittype "EPPO Categorization" --user-id 2 --mapping scientific_name --skip-unmapped --public --default-citation "EPPO (2017) EPPO Global Database (available online). https://gd.eppo.int" /tmp/eppo_categorization.tsv
+
+More TraitBank plant traits
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+A couple more interesting plant traits from TraitBank are available at http://opendata.eol.org/dataset/plantae
+This dataset consists of thirteen traits:
+
+* conservation status
+* dispersal vector
+* flower color
+* invasive in
+* leaf area
+* leaf color
+* nitrogen fixation
+* plant height
+* plant propagation method
+* salt tolerance
+* soil pH
+* soil requirements
+* vegetative spread rate
+
+Three of them are numerical (leaf area, plant height, and soil pH) they are discussed in the next section.
+In order to create the categorical trait types and import them into FENNEC just follow the steps below (inside the container)::
+
+    # Download and prepare data
+    cd /tmp
+    curl http://opendata.eol.org/dataset/a44a37ad-27f5-45ef-8719-1a31ae4ed3e5/resource/c7c90510-402e-4ead-8204-d92c44723c1f/download/plantae.zip >plantae.zip
+    unzip plantae.zip
+    curl http://opendata.eol.org/dataset/a44a37ad-27f5-45ef-8719-1a31ae4ed3e5/resource/fb7e7de9-7ae9-4b63-8a64-d0a95f210da9/download/plantae-conservation-status.txt.gz >/tmp/Plantae/Plantae-conservation-status.txt.gz
+    for i in Plantae/*.txt.gz
+    do
+        BASE=$(basename $i .txt.gz)
+        zcat $i | perl -F"\t" -ane 'print "$F[0]\t$F[4]\t$F[6]\tSupplier:$F[12];Citation:$F[15];Reference:$F[29];Source:$F[14]\t$F[13]\n" unless(/^EOL page ID/)' >$BASE.tsv
+    done
+
+    # Create trait types (description and ontology url from http://eol.org/data_glossary )
+    /fennec/bin/console app:create-traittype --format categorical_free --ontology_url "http://rs.tdwg.org/ontology/voc/SPMInfoItems#ConservationStatus" "Conservation Status"
+    /fennec/bin/console app:create-traittype --format categorical_free --description "A dispersal vector is an agent transporting seeds or other dispersal units. Dispersal vectors may include biotic factors, such as animals, or abiotic factors, such as the wind or the ocean." --ontology_url "http://eol.org/schema/terms/DispersalVector" "Dispersal Vector"
+    /fennec/bin/console app:create-traittype --format categorical_free --description "A flower anatomy and morphology trait (TO:0000499) which is associated with the color of the flower (PO:0009046)." --ontology_url "http://purl.obolibrary.org/obo/TO_0000537" "Flower Color"
+    /fennec/bin/console app:create-traittype --format categorical_free --description "Information about the jurisdictions where the taxon is considered to be an invasive organism due to its negative impact on human welfare or ecosystems." --ontology_url "http://eol.org/schema/terms/InvasiveRange" "Invasive In"
+    /fennec/bin/console app:create-traittype --format categorical_free --description "A vascular leaf anatomy and morphology trait (TO:0000748) which is associated with the color of leaf (PO:0025034)." --ontology_url "http://purl.obolibrary.org/obo/TO_0000326" "Leaf Color"
+    /fennec/bin/console app:create-traittype --format categorical_free --description "The process in which nitrogen is taken from its relatively inert molecular form (N2) in the atmosphere and converted into nitrogen compounds useful for other chemical processes, such as ammonia, nitrate and nitrogen dioxide." --ontology_url "http://purl.obolibrary.org/obo/GO_0009399" "Nitrogen Fixation"
+    /fennec/bin/console app:create-traittype --format categorical_free --description "Methods used to produce new plants from a parent plant." --ontology_url "http://eol.org/schema/terms/PropagationMethod" "Plant Propagation Method"
+    /fennec/bin/console app:create-traittype --format categorical_free --description "Tolerance to the high salt content in the growth medium." --ontology_url "http://purl.obolibrary.org/obo/TO_0006001" "Salt Tolerance"
+    /fennec/bin/console app:create-traittype --format categorical_free --description "The soil requirements (texture, moisture, chemistry) needed for a plant to establish and grow." --ontology_url "http://eol.org/schema/terms/SoilRequirements" "Soil Requirements"
+    /fennec/bin/console app:create-traittype --format categorical_free --description "The rate at which this plant can spread compared to other species with the same growth habit." --ontology_url "http://eol.org/schema/terms/VegetativeSpreadRate" "Vegetative Spread Rate"
+
+    # Import traits
+    /fennec/bin/console app:import-trait-entries --traittype "Conservation Status" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-conservation-status.tsv
+    /fennec/bin/console app:import-trait-entries --traittype "Dispersal Vector" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-dispersal-vector.tsv
+    /fennec/bin/console app:import-trait-entries --traittype "Flower Color" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-flower-color.tsv
+    /fennec/bin/console app:import-trait-entries --traittype "Invasive In" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-invasive-in.tsv
+    /fennec/bin/console app:import-trait-entries --traittype "Leaf Color" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-leaf-color.tsv
+    /fennec/bin/console app:import-trait-entries --traittype "Nitrogen Fixation" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-nitrogen-fixation.tsv
+    /fennec/bin/console app:import-trait-entries --traittype "Plant Propagation Method" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-plant-propagation-method.tsv
+    /fennec/bin/console app:import-trait-entries --traittype "Salt Tolerance" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-salt-tolerance.tsv
+    /fennec/bin/console app:import-trait-entries --traittype "Soil Requirements" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-soil-requirements.tsv
+    /fennec/bin/console app:import-trait-entries --traittype "Vegetative Spread Rate" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-vegetative-spread-rate.tsv
+
+
+
+By now you should have an idea on how importing categorical traits into FENNEC works.
+
+Numerical Traits
+^^^^^^^^^^^^^^^^
+
+.. ATTENTION::
+    The numerical traits need a little more attention as there are two potential complications:
+
+    1. The values might have different units
+    2. The values might represent different kinds of statistics (single measurement, mean, median, min, max)
+
+    Regarding 1: FENNEC associates a single unit for each trait type. Therefore all numbers have to be converted to this unit.
+    Regarding 2: In order to allow simple usage of numerical values in community analyses FENNEC has no notion of those different types.
+    Instead FENNEC treats all values for one organism identically and uses their mean to aggregate them.
+    Therefore it is important to only import meaningful values (mean, median, in some cases measurements, in case of a symmetric distribution min and max together might make sense as well).
+    This short coming could be fixed in the future by adding more fine grained trait formats (e.g. numerical-range)
+
+To import the traits downloaded above in the plantae dataset from http://opendata.eol.org/dataset/plantae do this inside the docker container::
+
+    # TODO data preparation and import
+    # Create trait types (incl. unit)
+    /fennec/bin/console app:create-traittype --format numerical --description "A leaf anatomy and morphology trait (TO:0000748) which is associated with the total area of a leaf (PO:0025034)." --ontology_url "http://purl.obolibrary.org/obo/TO_0000540" --unit "" "Leaf Area"
+    /fennec/bin/console app:create-traittype --format numerical --description "A stature and vigor trait (TO:0000133) which is associated with the height of a whole plant (PO:0000003)." --ontology_url "http://purl.obolibrary.org/obo/TO_0000207" --unit "" "Plant Height"
+    /fennec/bin/console app:create-traittype --format numerical --description "The soil pH, of the top 12 inches of soil, within the plant’s known geographical range. For cultivars, the geographical range is defined as the area to which the cultivar is well adapted rather than marginally adapted." --ontology_url "http://eol.org/schema/terms/SoilPH" --unit "" "Soil pH"
 
 Backup
 ------
