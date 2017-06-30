@@ -39,6 +39,9 @@ gulp sassLint
 gulp sass
 ```
 ## Changes
+### 0.7.1 <2017-06-29>
+ - Add Phinch to docker image (#90)
+ - Add EPPO trait to docu
 ### 0.7.0 <2017-06-28>
  - Add php importers for organisms (#79)
  - Improve performance of trait importer
