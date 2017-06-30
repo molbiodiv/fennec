@@ -165,7 +165,17 @@ After copying the file to the docker container via ``docker cp growth-habit.txt.
     /fennec/bin/console app:import-trait-entries --traittype "Plant Growth Habit" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" growth-habit.tsv
 
 More than 1 million of the entries are imported into the database.
-For the other EOL ids there is no organism in the database, therefore those are skipped (because of the ``--skip-unmapped`` parameter, otherwise the importer would fail).#
+For the other EOL ids there is no organism in the database, therefore those are skipped (because of the ``--skip-unmapped`` parameter, otherwise the importer would fail).
+
+An important thing to note is that we are preparing the trait table by rearranging columns using ``perl``.
+However, you could just as well use ``Excel`` or any other tool to do this.
+The only requirement is that you end up with a tab delimited file with five columns:
+
+1. organism identifier (either fennec_id or something that can be mapped)
+2. trait value
+3. value ontology url (can be empty)
+4. citation (can be empty or set via default citation, if multiple sources have to be cited they have to be concatenated)
+5. origin url (can be empty, a link to the original source)
 
 Life Cycle Habit
 ^^^^^^^^^^^^^^^^
