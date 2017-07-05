@@ -280,11 +280,26 @@ Numerical Traits
 
 To import the traits downloaded above in the plantae dataset from http://opendata.eol.org/dataset/plantae do this inside the docker container::
 
-    # TODO data preparation and import
+    # data preparation
+    # For leaf area some values are numeric (unit mm^2 or cm^2) some categorical (large, medium, samll, ...) all methods are either measurement or average. Therefore all numeric values are used and converted to cm^2. Unit neads to be stripped from values.
+    zcat /tmp/Plantae/Plantae-leaf-area.txt.gz | perl -F"\t" -ane 'BEGIN{%factor=("cm^2" => 1, "mm^2" => 0.01)} $F[4]=~s/,//g;$F[4]=~s/ .*//g; print "$F[0]\t".($F[4] * $factor{$F[7]})."\t$F[6]\tSupplier:$F[12];Citation:$F[15];Reference:$F[29];Source:$F[14]\t$F[13]\n" unless(/^EOL page ID/ or $F[7] eq "")' >/tmp/Plantae-leaf-area.tsv
+    # For plant height we convert all units (cm, ft, inch, m) to cm and discard rows that use statistical method http://semanticscience.org/resource/SIO_001114 (max), retaining average, median and measurement
+    zcat /tmp/Plantae/Plantae-plant-height.txt.gz | perl -F"\t" -ane 'BEGIN{%factor=("cm" => 1, "m" => 100, "ft" => 30.48, "inch" => 2.54)} print "$F[0]\t".($F[4] * $factor{$F[7]})."\t$F[6]\tSupplier:$F[12];Citation:$F[15];Reference:$F[29];Source:$F[14]\t$F[13]\n" unless(/^EOL page ID/ or $F[17] eq "http://semanticscience.org/resource/SIO_001114")' >/tmp/Plantae-plant-height.tsv
+    # pH has no unit so that is not a problem. However the method here is either min or max. But we have both values for every EOL ID except 1114581 and 584907 (verify with zcat Plantae/Plantae-soil-pH.txt.gz | cut -f1,18 | sort -u | cut -f1 | sort | uniq -u ).
+    zcat /tmp/Plantae/Plantae-soil-pH.txt.gz | perl -F"\t" -ane 'print "$F[0]\t$F[4]\t$F[6]\tSupplier:$F[12];Citation:$F[15];Reference:$F[29];Source:$F[14]\t$F[13]\n" unless(/^EOL page ID/ or $F[0] eq "1114581" or $F[0] eq "584907")' >/tmp/Plantae-soil-pH.tsv
+
     # Create trait types (incl. unit)
-    /fennec/bin/console app:create-traittype --format numerical --description "A leaf anatomy and morphology trait (TO:0000748) which is associated with the total area of a leaf (PO:0025034)." --ontology_url "http://purl.obolibrary.org/obo/TO_0000540" --unit "" "Leaf Area"
-    /fennec/bin/console app:create-traittype --format numerical --description "A stature and vigor trait (TO:0000133) which is associated with the height of a whole plant (PO:0000003)." --ontology_url "http://purl.obolibrary.org/obo/TO_0000207" --unit "" "Plant Height"
-    /fennec/bin/console app:create-traittype --format numerical --description "The soil pH, of the top 12 inches of soil, within the plant’s known geographical range. For cultivars, the geographical range is defined as the area to which the cultivar is well adapted rather than marginally adapted." --ontology_url "http://eol.org/schema/terms/SoilPH" --unit "" "Soil pH"
+    /fennec/bin/console app:create-traittype --format numerical --description "A leaf anatomy and morphology trait (TO:0000748) which is associated with the total area of a leaf (PO:0025034)." --ontology_url "http://purl.obolibrary.org/obo/TO_0000540" --unit "cm^2" "Leaf Area"
+    /fennec/bin/console app:create-traittype --format numerical --description "A stature and vigor trait (TO:0000133) which is associated with the height of a whole plant (PO:0000003)." --ontology_url "http://purl.obolibrary.org/obo/TO_0000207" --unit "cm" "Plant Height"
+    /fennec/bin/console app:create-traittype --format numerical --description "The soil pH, of the top 12 inches of soil, within the plant’s known geographical range. For cultivars, the geographical range is defined as the area to which the cultivar is well adapted rather than marginally adapted." --ontology_url "http://eol.org/schema/terms/SoilPH" "Soil pH"
+
+    # import
+    /fennec/bin/console app:import-trait-entries --traittype "Leaf Area" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-leaf-area.tsv
+    /fennec/bin/console app:import-trait-entries --traittype "Plant Height" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-plant-height.tsv
+    /fennec/bin/console app:import-trait-entries --traittype "Soil pH" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-soil-pH.tsv
+
+This will import the numerical trait values into FENNEC.
+The count for "Distinct new values" will be displayed as 0 as this is specific for categorical values.
 
 Backup
 ------
