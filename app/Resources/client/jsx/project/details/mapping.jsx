@@ -150,7 +150,7 @@ $('document').ready(() => {
         for (let i = 0; i < idsFromBiom.length; i++) {
             if (idsFromBiom[i] !== null) {
                 idsFromBiomNotNullCount++;
-                if (idsFromBiom[i] in mapping && mapping[idsFromBiom[i]] !== null) {
+                if (idsFromBiom[i] in mapping && mapping[idsFromBiom[i]] !== null && !Array.isArray(mapping[idsFromBiom[i]])) {
                     idsFromBiomMappedCount++;
                     fennec_ids[i] = mapping[idsFromBiom[i]];
                 }
