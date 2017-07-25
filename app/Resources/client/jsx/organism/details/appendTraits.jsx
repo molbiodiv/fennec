@@ -21,7 +21,12 @@ function appendTraitEntries(domElement, traitEntries, traitFormat){
                 if(value.unit != null){
                     unitString = " $"+ value.unit +"$"
                 }
-                domElement.append($('<div>').text(realValue+unitString).append($('<div class="trait-citation">').text(value.citation).css({'font-size': '11px'})));
+                let traitCitationDiv = $('<div class="trait-citation">').text(value.citation).css({'font-size': '11px'})
+                let originUrl = $(`<a href="${value.origin_url}">`).text(" origin")
+                if(value.origin_url != ""){
+                    traitCitationDiv.append(originUrl)
+                }
+                domElement.append($('<div>').text(realValue+unitString).append(traitCitationDiv));
             });
         }
     });
