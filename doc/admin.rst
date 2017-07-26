@@ -201,6 +201,25 @@ In order to import this file into FENNEC execute those commands in the docker co
     /fennec/bin/console app:create-webuser EPPO # Note user-id for next command
     /fennec/bin/console app:import-trait-entries --traittype "EPPO Categorization" --user-id 2 --mapping scientific_name --skip-unmapped --public --default-citation "EPPO (2017) EPPO Global Database (available online). https://gd.eppo.int" /tmp/eppo_categorization.tsv
 
+World Crops Database
+^^^^^^^^^^^^^^^^^^^^
+
+The World Crops Database is a collection of cereals, fruits, vegetables and other crops that are grown by farmers all over the world collected by Hein Bijlmakers at http://world-crops.com/ .
+It has a list of plants by scientific name http://world-crops.com/showcase/scientific-names/ which can be used for import into FENNEC.
+Being on this list is a strong indication that the plant can be used for agriculture.
+The definition of crop used for the database is:
+"Agricultural crops are plants that are grown or deliberately managed by man for certain purposes." (see http://world-crops.com/the-world-crops-database/ )
+To prepare the data for import into FENNEC (just the info that a plant is listed) execute::
+
+    # Citation will be provided as default citation (therefore left empty here)
+    curl "http://world-crops.com/showcase/scientific-names/" | grep Abelmoschus | perl -pe 's/\|/\n/g;s/.*a href="([^"]+)" >([^<]+).*/$2\tlisted\t\t\t$1/g' | grep -v "</p>" | sort -u >/tmp/crops.tsv
+    /fennec/bin/console app:create-traittype --format categorical_free --description "The World Crops Database is a collection of cereals, fruits, vegetables and other crops that are grown by farmers all over the world. In this context crops are defined as 'Agricultural crops are plants that are grown or deliberately managed by man for certain purposes.'" --ontology_url "http://world-crops.com/" "World Crops Database"
+    /fennec/bin/console app:create-webuser "WorldCropsDatabase" # Note user-id for next command
+    /fennec/bin/console app:import-trait-entries --user-id 3 --default-citation "Hein Bijlmakers, 'World Crops Database', available online http://world-crops.com/showcase/scientific-names/ (retrieved $(date "+%Y-%m-%d"))" --traittype "World Crops Database" --mapping scientific_name --skip-unmapped /tmp/crops.tsv
+
+The database also contains categories like Vegetables, Cereals, Fruits, etc.
+So in the future those categories could be used as value instead of a generic "listed".
+
 More TraitBank plant traits
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -229,6 +248,7 @@ In order to create the categorical trait types and import them into FENNEC just 
     curl http://opendata.eol.org/dataset/a44a37ad-27f5-45ef-8719-1a31ae4ed3e5/resource/c7c90510-402e-4ead-8204-d92c44723c1f/download/plantae.zip >plantae.zip
     unzip plantae.zip
     curl http://opendata.eol.org/dataset/a44a37ad-27f5-45ef-8719-1a31ae4ed3e5/resource/fb7e7de9-7ae9-4b63-8a64-d0a95f210da9/download/plantae-conservation-status.txt.gz >/tmp/Plantae/Plantae-conservation-status.txt.gz
+    curl http://opendata.eol.org/dataset/a44a37ad-27f5-45ef-8719-1a31ae4ed3e5/resource/67410c56-d9d9-4e60-a223-39334e0081d5/download/uses.txt.gz >/tmp/Plantae/Plantae-uses.txt.gz
     for i in Plantae/*.txt.gz
     do
         BASE=$(basename $i .txt.gz)
@@ -246,6 +266,7 @@ In order to create the categorical trait types and import them into FENNEC just 
     /fennec/bin/console app:create-traittype --format categorical_free --description "Tolerance to the high salt content in the growth medium." --ontology_url "http://purl.obolibrary.org/obo/TO_0006001" "Salt Tolerance"
     /fennec/bin/console app:create-traittype --format categorical_free --description "The soil requirements (texture, moisture, chemistry) needed for a plant to establish and grow." --ontology_url "http://eol.org/schema/terms/SoilRequirements" "Soil Requirements"
     /fennec/bin/console app:create-traittype --format categorical_free --description "The rate at which this plant can spread compared to other species with the same growth habit." --ontology_url "http://eol.org/schema/terms/VegetativeSpreadRate" "Vegetative Spread Rate"
+    /fennec/bin/console app:create-traittype --format categorical_free --description "The uses of the organism or products derived from the organism." --ontology_url "http://eol.org/schema/terms/Uses" "Uses"
 
     # Import traits
     /fennec/bin/console app:import-trait-entries --traittype "Conservation Status" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-conservation-status.tsv
@@ -258,7 +279,7 @@ In order to create the categorical trait types and import them into FENNEC just 
     /fennec/bin/console app:import-trait-entries --traittype "Salt Tolerance" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-salt-tolerance.tsv
     /fennec/bin/console app:import-trait-entries --traittype "Soil Requirements" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-soil-requirements.tsv
     /fennec/bin/console app:import-trait-entries --traittype "Vegetative Spread Rate" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-vegetative-spread-rate.tsv
-
+    /fennec/bin/console app:import-trait-entries --traittype "Uses" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-uses.tsv
 
 
 By now you should have an idea on how importing categorical traits into FENNEC works.
