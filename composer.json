@@ -29,7 +29,7 @@
         "sensio/framework-extra-bundle": "^3.0.2",
         "incenteev/composer-parameter-handler": "^2.0",
         "friendsofsymfony/jsrouting-bundle": "^1.6",
-        "iimog/biom-conversion-server": "^1.0.3",
+        "iimog/biom-conversion-server": "^1.0.4",
         "hwi/oauth-bundle": "^0.5.3",
         "doctrine/dbal": "2.6.x-dev",
         "doctrine/common": "2.7.1",
