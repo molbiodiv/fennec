@@ -56,6 +56,11 @@ $('document').ready(function () {
     $('#metadata-overview-observation').append(getMetadataKeys(biom, 'rows').map(function (text) {
         return $("<li>").text(text);
     }));
+
+    $('#project-transpose').click(function () {
+        biom.transpose();
+        saveBiomToDB();
+    });
 });
 
 /**
