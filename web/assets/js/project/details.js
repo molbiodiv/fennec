@@ -624,6 +624,23 @@ $('document').ready(function () {
 
     $('#inspect-with-phinch-tab').on('click', adjustIframeHeight);
 });
+"use strict";
+
+$('document').ready(function () {
+    var sampleMetadata = biom.columns.map(function (x) {
+        var metadata = {
+            "sample": x.id,
+            "count": _.sum(biom.getDataColumn(x.id))
+        };
+        return metadata;
+    });
+    $('#sample-metadata-table').DataTable({
+        data: sampleMetadata,
+        columns: [{ data: 'sample', title: 'Sample ID' }, { data: 'count', title: 'Total Count' }],
+        order: [1, "desc"],
+        columnDefs: []
+    });
+});
 'use strict';
 
 /* global internalProjectId */
