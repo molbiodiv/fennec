@@ -1,24 +1,20 @@
 $('document').ready(() => {
-    let tableConfig = {
-        order: [1, "desc"],
-        dom: 'Bfrtip',
-        buttons: [
-            'colvis'
-        ],
-        scrollX: true,
-    }
-    let [sampleMetadata, sampleColumns] = getTableData('columns')
-    $('#sample-metadata-table').DataTable(Object.assign({}, tableConfig, {
-        data: sampleMetadata,
-        columns: sampleColumns,
-
-    }));
-    let [observationMetadata, observationColumns] = getTableData('rows')
-    $('#observation-metadata-table').DataTable(Object.assign({}, tableConfig, {
-        data: observationMetadata,
-        columns: observationColumns,
-    }));
+    $('#project-explore-otu-metadata').click(() => {
+        initTable('rows', 'observation-metadata-table')
+    })
+    $('#project-explore-sample-metadata').click(() => {
+        initTable('columns', 'sample-metadata-table')
+    })
 });
+
+const tableConfig = {
+    order: [1, "desc"],
+    dom: 'Bfrtip',
+    buttons: [
+        'colvis'
+    ],
+    scrollX: true,
+}
 
 const getTableData = (dimension) => {
     if(dimension !== 'columns' && dimension !== 'rows'){
@@ -43,4 +39,12 @@ const getTableData = (dimension) => {
     })
     let columns = Object.keys(dimMetadata[0]).map(x => ({data: x, title: x}))
     return [dimMetadata, columns]
+}
+
+const initTable = (dimension, id) => {
+    let [metadata, columns] = getTableData(dimension)
+    $(`#${id}`).DataTable(Object.assign({}, tableConfig, {
+        data: metadata,
+        columns: columns,
+    }));
 }

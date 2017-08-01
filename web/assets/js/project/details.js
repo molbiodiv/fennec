@@ -580,83 +580,23 @@ $('document').ready(function () {
 });
 'use strict';
 
-/* global db */
-/* global biom */
-/* global phinchPreviewPath */
-function adjustIframeHeight() {
-    setTimeout(function () {
-        $('#inspect-with-phinch-iframe').attr('height', $('#inspect-with-phinch-iframe').contents().height() + 20);
-    }, 100);
-}
-
-$('document').ready(function () {
-    // Set action for click on inspect with Phinch
-    // db is the browser webstorage
-    db.open({
-        server: "BiomData",
-        version: 1,
-        schema: {
-            "biom": {
-                key: {
-                    keyPath: 'id',
-                    autoIncrement: true
-                }
-            }
-        }
-    }).done(function (server) {
-        var biomToStore = {};
-        biomToStore.name = biom.id;
-        var biomString = biom.toString();
-        biomToStore.size = biomString.length;
-        biomToStore.data = biomString;
-        var d = new Date();
-        biomToStore.date = d.getUTCFullYear() + "-" + (d.getUTCMonth() + 1) + "-" + d.getUTCDate() + "T" + d.getUTCHours() + ":" + d.getUTCMinutes() + ":" + d.getUTCSeconds() + " UTC";
-        server.biom.add(biomToStore).done(function (item) {
-            $('#inspect-with-phinch-iframe').show();
-            $('#inspect-with-phinch-iframe').attr('src', phinchPreviewPath);
-        });
-    });
-
-    // Adjust size of iframe after loading of Phinch
-    $('#inspect-with-phinch-iframe').on("load", function () {
-        setTimeout(adjustIframeHeight, 1000);
-    });
-
-    $('#inspect-with-phinch-tab').on('click', adjustIframeHeight);
-});
-'use strict';
-
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
 $('document').ready(function () {
-    var tableConfig = {
-        order: [1, "desc"],
-        dom: 'Bfrtip',
-        buttons: ['colvis'],
-        scrollX: true
-    };
-
-    var _getTableData = getTableData('columns'),
-        _getTableData2 = _slicedToArray(_getTableData, 2),
-        sampleMetadata = _getTableData2[0],
-        sampleColumns = _getTableData2[1];
-
-    $('#sample-metadata-table').DataTable(Object.assign({}, tableConfig, {
-        data: sampleMetadata,
-        columns: sampleColumns
-
-    }));
-
-    var _getTableData3 = getTableData('rows'),
-        _getTableData4 = _slicedToArray(_getTableData3, 2),
-        observationMetadata = _getTableData4[0],
-        observationColumns = _getTableData4[1];
-
-    $('#observation-metadata-table').DataTable(Object.assign({}, tableConfig, {
-        data: observationMetadata,
-        columns: observationColumns
-    }));
+    $('#project-explore-otu-metadata').click(function () {
+        initTable('rows', 'observation-metadata-table');
+    });
+    $('#project-explore-sample-metadata').click(function () {
+        initTable('columns', 'sample-metadata-table');
+    });
 });
+
+var tableConfig = {
+    order: [1, "desc"],
+    dom: 'Bfrtip',
+    buttons: ['colvis'],
+    scrollX: true
+};
 
 var getTableData = function getTableData(dimension) {
     if (dimension !== 'columns' && dimension !== 'rows') {
@@ -706,6 +646,64 @@ var getTableData = function getTableData(dimension) {
     });
     return [dimMetadata, columns];
 };
+
+var initTable = function initTable(dimension, id) {
+    var _getTableData = getTableData(dimension),
+        _getTableData2 = _slicedToArray(_getTableData, 2),
+        metadata = _getTableData2[0],
+        columns = _getTableData2[1];
+
+    $('#' + id).DataTable(Object.assign({}, tableConfig, {
+        data: metadata,
+        columns: columns
+    }));
+};
+'use strict';
+
+/* global db */
+/* global biom */
+/* global phinchPreviewPath */
+function adjustIframeHeight() {
+    setTimeout(function () {
+        $('#inspect-with-phinch-iframe').attr('height', $('#inspect-with-phinch-iframe').contents().height() + 20);
+    }, 100);
+}
+
+$('document').ready(function () {
+    // Set action for click on inspect with Phinch
+    // db is the browser webstorage
+    db.open({
+        server: "BiomData",
+        version: 1,
+        schema: {
+            "biom": {
+                key: {
+                    keyPath: 'id',
+                    autoIncrement: true
+                }
+            }
+        }
+    }).done(function (server) {
+        var biomToStore = {};
+        biomToStore.name = biom.id;
+        var biomString = biom.toString();
+        biomToStore.size = biomString.length;
+        biomToStore.data = biomString;
+        var d = new Date();
+        biomToStore.date = d.getUTCFullYear() + "-" + (d.getUTCMonth() + 1) + "-" + d.getUTCDate() + "T" + d.getUTCHours() + ":" + d.getUTCMinutes() + ":" + d.getUTCSeconds() + " UTC";
+        server.biom.add(biomToStore).done(function (item) {
+            $('#inspect-with-phinch-iframe').show();
+            $('#inspect-with-phinch-iframe').attr('src', phinchPreviewPath);
+        });
+    });
+
+    // Adjust size of iframe after loading of Phinch
+    $('#inspect-with-phinch-iframe').on("load", function () {
+        setTimeout(adjustIframeHeight, 1000);
+    });
+
+    $('#inspect-with-phinch-tab').on('click', adjustIframeHeight);
+});
 'use strict';
 
 /* global internalProjectId */
