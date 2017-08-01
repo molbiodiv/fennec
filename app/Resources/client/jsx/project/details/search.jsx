@@ -12,7 +12,7 @@ $('document').ready(() => {
         data: sampleMetadata,
         columns: sampleColumns,
 
-    });
+    }));
     let [observationMetadata, observationColumns] = getTableData('rows')
     $('#observation-metadata-table').DataTable(Object.assign({}, tableConfig, {
         data: observationMetadata,
@@ -27,13 +27,16 @@ const getTableData = (dimension) => {
     let dimMetadata = biom[dimension].map(x => {
         let key = (dimension === 'columns' ? 'Sample ID' : 'OTU ID')
         let metadata = {}
-        metadata[key] =  x.id,
+        metadata[key] =  x.id
         if(dimension === 'columns'){
             metadata["Total Count"] = _.sum(biom.getDataColumn(x.id))
         } else {
             metadata["Total Count"] = _.sum(biom.getDataRow(x.id))
         }
         for(let m of Object.keys(x.metadata)){
+            if(m === 'fennec'){
+                continue;
+            }
             metadata[m] = x.metadata[m]
         }
         return metadata

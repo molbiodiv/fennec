@@ -629,35 +629,33 @@ $('document').ready(function () {
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
 $('document').ready(function () {
+    var tableConfig = {
+        order: [1, "desc"],
+        dom: 'Bfrtip',
+        buttons: ['colvis'],
+        scrollX: true
+    };
+
     var _getTableData = getTableData('columns'),
         _getTableData2 = _slicedToArray(_getTableData, 2),
         sampleMetadata = _getTableData2[0],
         sampleColumns = _getTableData2[1];
 
-    $('#sample-metadata-table').DataTable({
+    $('#sample-metadata-table').DataTable(Object.assign({}, tableConfig, {
         data: sampleMetadata,
-        columns: sampleColumns,
-        order: [1, "desc"],
-        dom: 'Bfrtip',
-        buttons: ['colvis'],
-        width: "100%",
-        scrollX: true
-    });
+        columns: sampleColumns
+
+    }));
 
     var _getTableData3 = getTableData('rows'),
         _getTableData4 = _slicedToArray(_getTableData3, 2),
         observationMetadata = _getTableData4[0],
         observationColumns = _getTableData4[1];
 
-    $('#observation-metadata-table').DataTable({
+    $('#observation-metadata-table').DataTable(Object.assign({}, tableConfig, {
         data: observationMetadata,
-        columns: observationColumns,
-        order: [1, "desc"],
-        dom: 'Bfrtip',
-        buttons: ['colvis'],
-        width: "100%",
-        scrollX: true
-    });
+        columns: observationColumns
+    }));
 });
 
 var getTableData = function getTableData(dimension) {
@@ -666,9 +664,8 @@ var getTableData = function getTableData(dimension) {
     }
     var dimMetadata = biom[dimension].map(function (x) {
         var key = dimension === 'columns' ? 'Sample ID' : 'OTU ID';
-        var metadata = {
-            "Sample ID": x.id
-        };
+        var metadata = {};
+        metadata[key] = x.id;
         if (dimension === 'columns') {
             metadata["Total Count"] = _.sum(biom.getDataColumn(x.id));
         } else {
@@ -682,6 +679,9 @@ var getTableData = function getTableData(dimension) {
             for (var _iterator = Object.keys(x.metadata)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
                 var m = _step.value;
 
+                if (m === 'fennec') {
+                    continue;
+                }
                 metadata[m] = x.metadata[m];
             }
         } catch (err) {
