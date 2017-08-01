@@ -1,14 +1,23 @@
 $('document').ready(() => {
-    let [sampleMetadata, sampleColumns] = getTableData('columns')
-    $('#sample-metadata-table').DataTable({
-        data: sampleMetadata,
-        columns: sampleColumns,
+    let tableConfig = {
         order: [1, "desc"],
         dom: 'Bfrtip',
         buttons: [
             'colvis'
-        ]
+        ],
+        scrollX: true,
+    }
+    let [sampleMetadata, sampleColumns] = getTableData('columns')
+    $('#sample-metadata-table').DataTable(Object.assign({}, tableConfig, {
+        data: sampleMetadata,
+        columns: sampleColumns,
+
     });
+    let [observationMetadata, observationColumns] = getTableData('rows')
+    $('#observation-metadata-table').DataTable(Object.assign({}, tableConfig, {
+        data: observationMetadata,
+        columns: observationColumns,
+    }));
 });
 
 const getTableData = (dimension) => {
@@ -16,9 +25,9 @@ const getTableData = (dimension) => {
         return [[],[]]
     }
     let dimMetadata = biom[dimension].map(x => {
-        let metadata = {
-            "Sample ID": x.id,
-        }
+        let key = (dimension === 'columns' ? 'Sample ID' : 'OTU ID')
+        let metadata = {}
+        metadata[key] =  x.id,
         if(dimension === 'columns'){
             metadata["Total Count"] = _.sum(biom.getDataColumn(x.id))
         } else {

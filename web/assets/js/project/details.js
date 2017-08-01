@@ -639,7 +639,24 @@ $('document').ready(function () {
         columns: sampleColumns,
         order: [1, "desc"],
         dom: 'Bfrtip',
-        buttons: ['colvis']
+        buttons: ['colvis'],
+        width: "100%",
+        scrollX: true
+    });
+
+    var _getTableData3 = getTableData('rows'),
+        _getTableData4 = _slicedToArray(_getTableData3, 2),
+        observationMetadata = _getTableData4[0],
+        observationColumns = _getTableData4[1];
+
+    $('#observation-metadata-table').DataTable({
+        data: observationMetadata,
+        columns: observationColumns,
+        order: [1, "desc"],
+        dom: 'Bfrtip',
+        buttons: ['colvis'],
+        width: "100%",
+        scrollX: true
     });
 });
 
@@ -648,6 +665,7 @@ var getTableData = function getTableData(dimension) {
         return [[], []];
     }
     var dimMetadata = biom[dimension].map(function (x) {
+        var key = dimension === 'columns' ? 'Sample ID' : 'OTU ID';
         var metadata = {
             "Sample ID": x.id
         };
