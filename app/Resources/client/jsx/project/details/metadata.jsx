@@ -42,9 +42,15 @@ const getTableData = (dimension) => {
 }
 
 const initTable = (dimension, id) => {
-    let [metadata, columns] = getTableData(dimension)
-    $(`#${id}`).DataTable(Object.assign({}, tableConfig, {
-        data: metadata,
-        columns: columns,
-    }));
+    $('#metadata-table-progress').show()
+    // The timeout is used to make the busy indicator show up before the heavy computation starts
+    // Web workers are a better solution to achieve this goal and avoid hanging of the interface in the future
+    window.setTimeout(() => {
+        let [metadata, columns] = getTableData(dimension)
+        $(`#${id}`).DataTable(Object.assign({}, tableConfig, {
+            data: metadata,
+            columns: columns,
+        }));
+        $('#metadata-table-progress').hide()
+    }, 5)
 }

@@ -648,15 +648,21 @@ var getTableData = function getTableData(dimension) {
 };
 
 var initTable = function initTable(dimension, id) {
-    var _getTableData = getTableData(dimension),
-        _getTableData2 = _slicedToArray(_getTableData, 2),
-        metadata = _getTableData2[0],
-        columns = _getTableData2[1];
+    $('#metadata-table-progress').show();
+    // The timeout is used to make the busy indicator show up before the heavy computation starts
+    // Web workers are a better solution to achieve this goal and avoid hanging of the interface in the future
+    window.setTimeout(function () {
+        var _getTableData = getTableData(dimension),
+            _getTableData2 = _slicedToArray(_getTableData, 2),
+            metadata = _getTableData2[0],
+            columns = _getTableData2[1];
 
-    $('#' + id).DataTable(Object.assign({}, tableConfig, {
-        data: metadata,
-        columns: columns
-    }));
+        $('#' + id).DataTable(Object.assign({}, tableConfig, {
+            data: metadata,
+            columns: columns
+        }));
+        $('#metadata-table-progress').hide();
+    }, 5);
 };
 'use strict';
 
