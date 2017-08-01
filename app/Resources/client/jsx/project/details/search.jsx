@@ -1,18 +1,34 @@
 $('document').ready(() => {
-    let sampleMetadata = biom.columns.map(x => {
+    let [sampleMetadata, sampleColumns] = getTableData('columns')
+    $('#sample-metadata-table').DataTable({
+        data: sampleMetadata,
+        columns: sampleColumns,
+        order: [1, "desc"],
+        dom: 'Bfrtip',
+        buttons: [
+            'colvis'
+        ]
+    });
+});
+
+const getTableData = (dimension) => {
+    if(dimension !== 'columns' && dimension !== 'rows'){
+        return [[],[]]
+    }
+    let dimMetadata = biom[dimension].map(x => {
         let metadata = {
-            "sample": x.id,
-            "count": _.sum(biom.getDataColumn(x.id))
+            "Sample ID": x.id,
+        }
+        if(dimension === 'columns'){
+            metadata["Total Count"] = _.sum(biom.getDataColumn(x.id))
+        } else {
+            metadata["Total Count"] = _.sum(biom.getDataRow(x.id))
+        }
+        for(let m of Object.keys(x.metadata)){
+            metadata[m] = x.metadata[m]
         }
         return metadata
     })
-    $('#sample-metadata-table').DataTable({
-        data: sampleMetadata,
-        columns: [
-            {data: 'sample', title: 'Sample ID'},
-            {data: 'count', title: 'Total Count'}
-        ],
-        order: [1, "desc"],
-        columnDefs: []
-    });
-});
+    let columns = Object.keys(dimMetadata[0]).map(x => ({data: x, title: x}))
+    return [dimMetadata, columns]
+}
