@@ -5,64 +5,8 @@ var sass = require('gulp-sass');
 var sassLint = require('gulp-sass-lint');
 var concat = require('gulp-concat');
 var sourcemaps = require('gulp-sourcemaps');
-var babel = require('gulp-babel');
-require('babel-core/register');
 // testing
 var mocha = require('gulp-mocha');
-
-/**
- *
- * @param outFolder string
- * @param outFileBase string
- * @return {*}
- */
-function runBabelOnFolder(outFolder, outFileBase) {
-    if(outFolder !== '' && outFolder.slice(-1) !== '/'){
-        outFolder += '/';
-    }
-    return gulp.src('app/Resources/client/jsx/'+outFolder+outFileBase+'/*.js?(x)')
-        .pipe(babel({
-            presets: ['es2015', 'react']
-        }))
-        .pipe(concat(outFileBase+'.js'))
-        .pipe(gulp.dest('web/assets/js/'+outFolder));
-}
-
-gulp.task('babel-helpers', function() {
-    return runBabelOnFolder('', 'helpers');
-});
-
-gulp.task('babel-base', function() {
-    return runBabelOnFolder('', 'base');
-});
-
-gulp.task('babel-project-details', function() {
-    return runBabelOnFolder('project', 'details');
-});
-
-gulp.task('babel-project-helpers', function() {
-    return runBabelOnFolder('project', 'helpers');
-});
-
-gulp.task('babel-project-trait-details', function() {
-    return runBabelOnFolder('project', 'traitDetails');
-});
-
-gulp.task('babel-trait-browse', function() {
-    return runBabelOnFolder('trait', 'browse');
-});
-
-gulp.task('babel-organism-details', function() {
-    return runBabelOnFolder('organism', 'details');
-});
-
-gulp.task('babel-organism-search', function() {
-    return runBabelOnFolder('organism', 'search');
-});
-
-gulp.task('babel-trait-search', function() {
-    return runBabelOnFolder('trait', 'search');
-});
 
 gulp.task('test', function() {
     return gulp.src('tests/js/**/*.js', {read: false})
@@ -85,23 +29,10 @@ gulp.task('sassLint', function() {
     .pipe(sassLint.failOnError());
 });
 
-gulp.task('babel', [
-    'babel-helpers',
-    'babel-base',
-    'babel-project-details',
-    'babel-project-helpers',
-    'babel-project-trait-details',
-    'babel-trait-browse',
-    'babel-organism-details',
-    'babel-organism-search',
-    'babel-trait-search'
-], function () {
-});
-
 gulp.task('css', ['sassLint','sass'], function () {
 });
 
-gulp.task('default', ['css','babel','test'], function() {
+gulp.task('default', ['css','test'], function() {
   // place code for your default task here
 });
 
