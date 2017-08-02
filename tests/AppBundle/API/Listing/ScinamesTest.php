@@ -22,4 +22,13 @@ class ScinamesTest extends WebserviceTestCase
         );
         $this->assertEquals($expected, $results);
     }
+
+    public function testExecuteNoIds()
+    {
+        $organisms = $this->webservice->factory('listing', 'scinames');
+        $parameterBag = new ParameterBag(array('dbversion' => $this->default_db));
+        $results = $organisms->execute($parameterBag, null);
+        $expected = array();
+        $this->assertEquals($expected, $results);
+    }
 }
