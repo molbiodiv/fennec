@@ -144,24 +144,51 @@ $('document').ready(() => {
      * @param {Array} mapping from ids to fennec_ids as returned by webservice
      * @param {string} method of mapping
      */
-    function handleMappingResult(dimension, idsFromBiom, mapping, method) {
-        let fennec_ids = new Array(idsFromBiom.length).fill(null);
-        var idsFromBiomNotNullCount = 0;
-        var idsFromBiomMappedCount = 0;
-        for (let i = 0; i < idsFromBiom.length; i++) {
-            if (idsFromBiom[i] !== null) {
-                idsFromBiomNotNullCount++;
-                if (idsFromBiom[i] in mapping && mapping[idsFromBiom[i]] !== null && !Array.isArray(mapping[idsFromBiom[i]])) {
-                    idsFromBiomMappedCount++;
-                    fennec_ids[i] = mapping[idsFromBiom[i]];
+    async function handleMappingResult(dimension, idsFromBiom, mapping, method) {
+        try{
+            let fennec_ids = new Array(idsFromBiom.length).fill(null);
+            let fennecIds2scinames = await getScinames(Object.values(mapping))
+            let scinames = new Array(idsFromBiom.length).fill('unmapped');
+            var idsFromBiomNotNullCount = 0;
+            var idsFromBiomMappedCount = 0;
+            for (let i = 0; i < idsFromBiom.length; i++) {
+                if (idsFromBiom[i] !== null) {
+                    idsFromBiomNotNullCount++;
+                    if (idsFromBiom[i] in mapping && mapping[idsFromBiom[i]] !== null && !Array.isArray(mapping[idsFromBiom[i]])) {
+                        idsFromBiomMappedCount++;
+                        fennec_ids[i] = mapping[idsFromBiom[i]];
+                        scinames[i] = fennecIds2scinames[fennec_ids[i]];
+                    }
                 }
             }
+            biom.addMetadata({dimension: dimension, attribute: ['fennec', dbversion, 'fennec_id'], values: fennec_ids});
+            biom.addMetadata({dimension: dimension, attribute: ['fennec', dbversion, 'assignment_method'], defaultValue: method});
+            biom.addMetadata({dimension: dimension, attribute: ['fennec', dbversion, 'scientific_name'], values: scinames});
+            var idString = getIdStringForMethod(method);
+            $('#mapping-results-section').show();
+            $('#mapping-results').text(`From a total of ${idsFromBiom.length} organisms:  ${idsFromBiomNotNullCount} have a ${idString}, of which ${idsFromBiomMappedCount} could be mapped to fennec_ids.`);
+        } catch (e){
+            showMessageDialog('There was an error: '+e.message, 'danger');
+            console.log(e);
         }
-        biom.addMetadata({dimension: dimension, attribute: ['fennec', dbversion, 'fennec_id'], values: fennec_ids});
-        biom.addMetadata({dimension: dimension, attribute: ['fennec', dbversion, 'assignment_method'], defaultValue: method});
-        var idString = getIdStringForMethod(method);
-        $('#mapping-results-section').show();
-        $('#mapping-results').text(`From a total of ${idsFromBiom.length} organisms:  ${idsFromBiomNotNullCount} have a ${idString}, of which ${idsFromBiomMappedCount} could be mapped to fennec_ids.`);
+        $('#mapping-action-busy-indicator').hide();
+    }
+
+    /**
+     * Get map from fennec_id to scientific name
+     * @param fennec_ids (array of ids, may contain sub-arrays and null: [1,2,[3,4],null,5])
+     * @return {Promise.<void>}
+     */
+    function getScinames(fennec_ids){
+        let webserviceUrl = Routing.generate('api', {'namespace': 'listing', 'classname': 'scinames'});
+        return $.ajax(webserviceUrl, {
+            data: {
+                dbversion: dbversion,
+                ids: _.flatten(fennec_ids).filter(x => x !== null),
+                db: method
+            },
+            method: 'POST'
+        });
     }
 
     // Set action for click on mapping "Save to database" button
