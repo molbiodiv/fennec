@@ -1,0 +1,11 @@
+{
+  "js/base.js": "/js/base.js",
+  "js/helpers.js": "/js/helpers.js",
+  "js/organism/details.js": "/js/organism/details.js",
+  "js/organism/search.js": "/js/organism/search.js",
+  "js/project/details.js": "/js/project/details.js",
+  "js/project/helpers.js": "/js/project/helpers.js",
+  "js/project/traitDetails.js": "/js/project/traitDetails.js",
+  "js/trait/browse.js": "/js/trait/browse.js",
+  "js/trait/search.js": "/js/trait/search.js"
+}
