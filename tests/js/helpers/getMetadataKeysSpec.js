@@ -14,6 +14,9 @@ let fs = require('fs');
 let rewire = require("rewire");
 global._ = require('lodash');
 
+// fake window as empty object
+global.window = {};
+
 let getMetadataKeysFile = rewire("../../../app/Resources/client/jsx/helpers/getMetadataKeys.jsx");
 
 

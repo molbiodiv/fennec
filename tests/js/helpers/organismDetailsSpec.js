@@ -13,6 +13,9 @@ chai.should();
 let fs = require('fs');
 let rewire = require("rewire");
 
+// fake window as empty object
+global.window = {};
+
 let organismDetails = rewire("../../../app/Resources/client/jsx/helpers/organismDetails.js");
 
 describe('helpers/organismDetails', () => {
