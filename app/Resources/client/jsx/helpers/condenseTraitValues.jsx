@@ -22,3 +22,7 @@ function condenseNumericalTraitValues(multipleValuesPerOrganism) {
     }
     return singleValue;
 }
+
+// export globally
+window.condenseCategoricalTraitValues = condenseCategoricalTraitValues;
+window.condenseNumericalTraitValues = condenseNumericalTraitValues;

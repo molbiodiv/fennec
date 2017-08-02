@@ -75,6 +75,9 @@ function saveBiomToDB() {
     });
 }
 
+// export globally
+window.saveBiomToDB = saveBiomToDB;
+
 /**
  * Opens a file download dialog of the current project in biom format
  * @param {boolean} asHdf5

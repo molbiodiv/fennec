@@ -103,3 +103,8 @@ function drawMap(){
         }
     });
 }
+
+// export globally
+window.drawHistogram = drawHistogram;
+window.drawPieChart = drawPieChart;
+window.drawMap = drawMap;

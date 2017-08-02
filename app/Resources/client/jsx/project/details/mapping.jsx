@@ -1,6 +1,7 @@
 /* global dbversion */
 /* global biom */
 /* global _ */
+
 $('document').ready(() => {
     // Calculate values for mapping overview table
     let sampleOrganismIDs = biom.getMetadata({dimension: 'columns', attribute: ['fennec', dbversion, 'fennec_id']}).filter(element => element !== null);

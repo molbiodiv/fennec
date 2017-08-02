@@ -62,3 +62,8 @@ function updateMessageDialogs() {
         document.getElementById('global-message-area')
     );
 }
+
+// export globally
+window.showMessageDialog = showMessageDialog;
+window.removeMessageDialog = removeMessageDialog;
+window.updateMessageDialogs = updateMessageDialogs;

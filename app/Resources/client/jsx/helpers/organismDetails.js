@@ -26,3 +26,6 @@ function getBestVernacularNameEOL(eolObject){
     }
     return bestName;
 };
+
+// export globally
+window.getBestVernacularNameEOL = getBestVernacularNameEOL;
