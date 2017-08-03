@@ -1,6 +1,7 @@
-/* global db */
 /* global biom */
 /* global phinchPreviewPath */
+const db = require('../../../../../../web/assets/Phinch/lib/db')
+
 function adjustIframeHeight() {
     setTimeout(() => {
         $('#inspect-with-phinch-iframe').attr('height', $('#inspect-with-phinch-iframe').contents().height() + 20)
