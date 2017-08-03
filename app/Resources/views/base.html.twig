@@ -4,21 +4,8 @@
         <meta charset="UTF-8" />
         <title>{% block title %}Fennec{% endblock %}</title>
         {% block stylesheets %}
-            {# Bootstrap SB-Admin2 stylesheets #}
-            <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap/dist/css/bootstrap.min.css') }}">
-            <link rel="stylesheet" href="{{ asset('assets/vendor/startbootstrap-sb-admin-2/dist/css/sb-admin-2.css') }}">
-            <link rel="stylesheet" href="{{ asset('assets/vendor/metisMenu/dist/metisMenu.min.css') }}">
-            <link rel="stylesheet" href="{{ asset('assets/vendor/font-awesome/css/font-awesome.min.css') }}">
-            {# Bootstrap select #}
-            <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}">
-            {# jQuery-UI #}
-            <link rel="stylesheet" href="{{ asset('assets/vendor/jquery-ui/themes/smoothness/jquery-ui.css') }}">
-            {# datatable #}
-            <link rel="stylesheet" href="{{ asset('assets/vendor/datatables/media/css/dataTables.bootstrap.css') }}">
-            {# datatable-buttons #}
-            <link rel="stylesheet" href="{{ asset('assets/vendor/datatables.net-buttons-bs/css/buttons.bootstrap.min.css') }}">
-            {# own css files #}
-            <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+            {# Global styles bundled with webpack #}
+            <link rel="stylesheet" href="{{ asset('assets/js/global.css') }}" />
             {# icon font via fontastic.me #}
             <link rel="stylesheet" href="{{ asset('assets/css/fennec-font.css') }}">
         {% endblock %}
