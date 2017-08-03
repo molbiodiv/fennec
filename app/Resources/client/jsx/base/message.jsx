@@ -1,6 +1,5 @@
-/* global ReactDOM */
-
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 // This is the react template,called from showMessageDialog later
 function MessageDialog(props) {

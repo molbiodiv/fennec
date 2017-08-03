@@ -51,6 +51,7 @@
     "lodash": "^4.17.4",
     "metismenu": "^2.7.0",
     "react": "^15.6.1",
+    "react-dom": "^15.6.1",
     "startbootstrap-sb-admin-2": "^3.3.7"
   }
 }
