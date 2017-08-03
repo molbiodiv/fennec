@@ -30,13 +30,6 @@
     "bootstrap-sass": "^3.3.7",
     "bower": "^1.7.7",
     "chai": "^3.5.0",
-    "gulp": "^3.9.1",
-    "gulp-babel": "^6.1.2",
-    "gulp-concat": "^2.6.1",
-    "gulp-mocha": "^3.0.1",
-    "gulp-sass": "^2.3.1",
-    "gulp-sass-lint": "^1.1.1",
-    "gulp-sourcemaps": "^2.0.0-alpha",
     "rewire": "^2.5.2",
     "sass-loader": "^6.0.6"
   },
