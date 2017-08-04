@@ -11,6 +11,8 @@ require('bootstrap-select');
 require('startbootstrap-sb-admin-2/dist/js/sb-admin-2.js');
 require('metismenu/dist/metisMenu.js');
 
+require('bootstrap-confirmation2/bootstrap-confirmation');
+
 require('datatables.net');
 require('datatables.net-bs');
 
