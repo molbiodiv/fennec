@@ -6,11 +6,6 @@
     <script type="text/javascript">
         var internalProjectId = '{{ internal_project_id }}';
         var phinchPreviewPath = '{{ asset('assets/Phinch/preview.html') }}';
-        var biom = function(){
-            var Biom = require('biojs-io-biom').Biom;
-            var biomObject = {{ project['projects'][internal_project_id]['biom']|raw }};
-            return new Biom(biomObject);
-        }();
     </script>
     
     <script src="{{ asset('assets/js/project/details.js') }}"></script>
@@ -23,6 +18,13 @@
     {% elseif project.projects < 1 %}
         <h3>Error: This project could not be found for the current user.</h3>
     {% else %}
+        <div
+                id="project-data"
+                style="display:none"
+                data-internal-project-id="{{ internal_project_id }}"
+                data-phinch-preview-path="{{ asset('assets/Phinch/preview.html') }}"
+                data-biom-raw="{{ project['projects'][internal_project_id]['biom']|e('html_attr') }}"
+        ></div>
         <!-- Overview -->
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active"><a class="project-link" href="#projectOverview" role="tab" data-toggle="tab">Project overview</a></li>

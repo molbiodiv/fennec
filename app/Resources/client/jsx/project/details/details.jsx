@@ -1,9 +1,12 @@
 /* global dbversion */
-/* global biom */
-/* global _ */
-/* global $ */
 /* global internalProjectId */
-$('document').ready(function () {
+
+const _ = require('lodash')
+const $ = require('jquery')
+const biomPromise = require('./biom')
+
+$('document').ready(async function () {
+    biom = await biomPromise;
     // Set header of page to project-id
     $('.page-header').text(biom.id);
 

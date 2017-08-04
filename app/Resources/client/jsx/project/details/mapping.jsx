@@ -1,8 +1,11 @@
 /* global dbversion */
-/* global biom */
-/* global _ */
 
-$('document').ready(() => {
+const _ = require('lodash')
+const $ = require('jquery')
+const biomPromise = require('./biom')
+
+$('document').ready(async () => {
+    let biom = await biomPromise
     // Calculate values for mapping overview table
     let sampleOrganismIDs = biom.getMetadata({dimension: 'columns', attribute: ['fennec', dbversion, 'fennec_id']}).filter(element => element !== null);
     let otuOrganismIDs = biom.getMetadata({dimension: 'rows', attribute: ['fennec', dbversion, 'fennec_id']}).filter(element => element !== null);

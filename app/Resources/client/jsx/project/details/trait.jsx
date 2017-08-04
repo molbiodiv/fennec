@@ -1,7 +1,11 @@
 /* global internalProjectId */
 /* global dbversion */
 
-$('document').ready(() => {
+const biomPromise = require('./biom')
+let biom
+
+$('document').ready(async () => {
+    biom = await biomPromise
     getAndShowTraits('#trait-table', 'rows');
     getAndShowTraits('#trait-table-sample', 'columns');
 

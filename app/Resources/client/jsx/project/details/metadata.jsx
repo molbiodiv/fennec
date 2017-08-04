@@ -1,3 +1,10 @@
+const biomPromise = require('./biom')
+let biom
+let getBiom = async () => {
+    biom = await biomPromise
+}
+getBiom()
+
 $('document').ready(() => {
     $('#project-explore-otu-metadata').click(() => {
         initTable('rows', 'observation-metadata-table')
