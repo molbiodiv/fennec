@@ -13,4 +13,5 @@ require('startbootstrap-sb-admin-2/dist/js/sb-admin-2.js');
 require('metismenu/dist/metisMenu.js');
 
 require('jquery-ui-dist/jquery-ui');
+require('plotly.js/dist/plotly');
 

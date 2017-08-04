@@ -2,6 +2,9 @@
 /* exported drawPieChart */
 /* exported drawMap */
 /* global $ */
+
+const Plotly = require('plotly.js/dist/plotly')
+
 function drawHistogram(data){
     var plot = [{
             x: data,

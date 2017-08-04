@@ -46,6 +46,7 @@
     "lodash": "^4.17.4",
     "metismenu": "^2.7.0",
     "mocha": "^3.5.0",
+    "plotly.js": "^1.29.3",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "startbootstrap-sb-admin-2": "^3.3.7"
