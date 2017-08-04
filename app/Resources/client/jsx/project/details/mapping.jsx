@@ -4,6 +4,7 @@ const _ = require('lodash')
 const $ = require('jquery')
 const biomPromise = require('./biom')
 require('bootstrap-select')
+const saveAs = require('file-saver').saveAs
 
 $('document').ready(async () => {
     let biom = await biomPromise

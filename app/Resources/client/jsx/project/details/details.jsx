@@ -4,6 +4,7 @@
 const _ = require('lodash')
 const $ = require('jquery')
 const biomPromise = require('./biom')
+const saveAs = require('file-saver').saveAs
 
 $('document').ready(async function () {
     biom = await biomPromise;
