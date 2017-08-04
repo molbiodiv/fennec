@@ -31,3 +31,6 @@ function appendTraitEntries(domElement, traitEntries, traitFormat){
         }
     });
 }
+
+// export function globally
+global.appendTraitEntries = appendTraitEntries;
