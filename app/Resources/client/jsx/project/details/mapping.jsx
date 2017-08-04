@@ -3,6 +3,7 @@
 const _ = require('lodash')
 const $ = require('jquery')
 const biomPromise = require('./biom')
+require('bootstrap-select')
 
 $('document').ready(async () => {
     let biom = await biomPromise
