@@ -1,50 +1,24 @@
 {% extends 'base.navigation.html.twig' %}
-{% block javascripts %}
-    {{ parent() }}
-    <script type="text/javascript">
-        var dimension = '{{ dimension }}';
-    </script>
-{% endblock %}
 {% block content %}
-{#call_webservice path="details/TraitOfProject" data=["trait_type_id"=>$trait_type_id, "dbversion"=>$DbVersion, "internal_project_id" => $internal_project_id] assign='data'#}
 <h2 class="page-header">{{ trait.name }} {% if trait.unit %}<small> (in ${{ trait.unit }}$)</small>{% endif %} of {% if dimension == 'rows' %}OTUs{% else %}Samples{% endif %}</h2>
 <div class='row'>
-    {% if trait.trait_format == 'categorical_free' %}
+    <div
+            id="project-data"
+            style="display:none"
+            data-internal-project-id="{{ internal_project_id }}"
+            data-dimension="{{ dimension }}"
+            data-phinch-preview-path="{{ asset('assets/Phinch/preview.html') }}"
+            data-biom-raw="{{ project['projects'][internal_project_id]['biom']|e('html_attr') }}"
+            data-trait-values="{{ trait.values|json_encode|e('html_attr') }}"
+            data-trait-format="{{ trait.trait_format }}"
+            data-trait-name="{{ trait.name }}"
+            data-trait-citations="{{ trait.citations|json_encode|e('html_attr') }}"
+    ></div>
+    {% if trait.trait_format == 'categorical_free' or trait.trait_format == 'numerical' %}
     <div class='col-xs-12'>
         <button class="btn btn-primary" id="add-trait-to-project-button">Add trait to {% if dimension == 'rows' %}OTU{% else %}Sample{% endif %} metadata</button>
         <div id='pieChart'></div>
-        <script>
-            var internalProjectId = '{{ internal_project_id }}';
-            var biom = function(){
-                var Biom = require('biojs-io-biom').Biom;
-                var biomObject = {{ project['projects'][internal_project_id]['biom']|raw }};
-                return new Biom(biomObject);
-            }();
-            var traitName = '{{ trait.name }}';
-            var traitValues = condenseCategoricalTraitValues({{ trait.values|json_encode()|raw }});
-            var traitCitations = {{ trait.citations|json_encode()|raw }};
-            var counts = _.countBy(traitValues);
-            counts['NA'] = biom.shape[0] - _.sum(Object.values(counts));
-            drawPieChart(counts);
-        </script>
-        <script src="{{ asset('assets/js/project/traitDetails.js') }}"></script>
-    </div>
-        {% elseif trait.trait_format == 'numerical' %}
-    <div class='col-xs-12'>
-        <button class="btn btn-primary" id="add-trait-to-project-button">Add trait to {% if dimension == 'rows' %}OTU{% else %}Sample{% endif %} metadata</button>
         <div id='histogram'></div>
-        <script>
-            var internalProjectId = '{{ internal_project_id }}';
-            var biom = function(){
-                var Biom = require('biojs-io-biom').Biom;
-                var biomObject = {{ project['projects'][internal_project_id]['biom']|raw }};
-                return new Biom(biomObject);
-            }();
-            var traitName = '{{ trait.name }}';
-            var traitValues = condenseNumericalTraitValues({{ trait.values|json_encode()|raw }});
-            var traitCitations = {{ trait.citations|json_encode()|raw }};
-            drawHistogram(Object.values(traitValues));
-        </script>
         <script src="{{ asset('assets/js/project/traitDetails.js') }}"></script>
     </div>
     {% else %}
@@ -52,6 +26,5 @@
         <h1>Unknown trait type</h1>
     </div>
     {% endif %}
-    <script src="{{ asset('assets/js/project/helpers.js') }}"></script>
 </div>
 {% endblock %}

@@ -1,6 +1,8 @@
 /* global internalProjectId */
 /* global dbversion */
 
+const addTraitToProject = require('../helpers/addTraitToProject');
+const removeTraitFromProject = require('../helpers/removeTraitFromProject');
 const biomPromise = require('./biom')
 let biom
 
@@ -126,3 +128,7 @@ function addTraitToProjectTableAction(traitTypeId, dimension){
 function removeTraitFromProjectTableAction(traitName, dimension){
     removeTraitFromProject(traitName, biom, dimension, dbversion, internalProjectId, () => window.location.reload())
 }
+
+// Make action functions global for now in order to work with the onclick string
+global.addTraitToProjectTableAction = addTraitToProjectTableAction;
+global.removeTraitFromProjectTableAction = removeTraitFromProjectTableAction;
