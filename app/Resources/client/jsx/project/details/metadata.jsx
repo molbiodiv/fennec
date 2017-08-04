@@ -1,4 +1,5 @@
 const biomPromise = require('./biom')
+
 let biom
 let getBiom = async () => {
     biom = await biomPromise
