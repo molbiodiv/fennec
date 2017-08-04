@@ -21,8 +21,6 @@ install:
   - nvm install stable
   - nvm use stable
   - npm install
-  - npm install -g gulp-cli
-  - node_modules/bower/bin/bower install
 
 services:
   - postgresql
@@ -39,4 +37,4 @@ before_script:
 
 script:
   - phpunit
-  - gulp test
+  - npm test
