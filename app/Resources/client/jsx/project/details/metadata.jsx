@@ -16,7 +16,7 @@ $('document').ready(() => {
 });
 
 const tableConfig = {
-    order: [1, "desc"],
+    order: [2, "desc"],
     dom: 'Bfrtip',
     buttons: [
         'colvis'
@@ -32,13 +32,20 @@ const getTableData = (dimension) => {
         let key = (dimension === 'columns' ? 'Sample ID' : 'OTU ID')
         let metadata = {}
         metadata[key] =  x.id
+        let fennec = _.get(x.metadata,["fennec", dbversion], null);
+        if(fennec === null){
+            metadata["fennec"] = "unmapped";
+        } else {
+            let href = Routing.generate('organism_details', {'dbversion': dbversion, 'fennec_id': fennec["fennec_id"]});
+            metadata["fennec"] = `<a href='${href}'>${fennec["scientific_name"]}</a>`;
+        }
         if(dimension === 'columns'){
             metadata["Total Count"] = _.sum(biom.getDataColumn(x.id))
         } else {
             metadata["Total Count"] = _.sum(biom.getDataRow(x.id))
         }
         for(let m of Object.keys(x.metadata)){
-            if(m === 'fennec'){
+            if(m === 'fennec' || m === 'trait_citations'){
                 continue;
             }
             metadata[m] = x.metadata[m]
