@@ -8,6 +8,14 @@ Encore
     .setPublicPath('/assets/js')
     // empty the outputPath dir before each build
     .cleanupOutputBeforeBuild()
+    .configureBabel(function(babelConfig) {
+        // add additional presets
+        babelConfig.presets.push('es2017');
+
+        // no plugins are added by default, but you can add some
+        // babelConfig.plugins = ['styled-jsx/babel'];
+    })
+    .enableReactPreset()
     // will output as web/build/app.js
     .addEntry('project/details', ['./app/Resources/client/jsx/project/details.jsx'])
     .addEntry('project/helpers', ['./app/Resources/client/jsx/project/helpers.jsx'])
