@@ -36,6 +36,11 @@ npm test
 Anything else should be in the [official documentation](http://fennec.readthedocs.io/en/latest/).
 
 ## Changes
+### 0.8.0 <2017-08-09>
+ - Add interactive metadata tables
+ - Add scientific name to fennec metadata in projects (breaking change: projects from versions <0.8 need to be re-mapped)
+ - Upgrade to Symfony 3.3 (from 3.1)
+ - Replace bower and gulp with yarn and webpack
 ### 0.7.2 <2017-06-30>
  - Add attribution to text blocks on organism pages (#84)
  - Add boxes for texts on organism pages
