@@ -46,6 +46,7 @@ const getTableData = (dimension) => {
         } else {
             metadata["Total Count"] = _.sum(biom.getDataRow(x.id))
         }
+        metadata["Total Count"] += `<i class="fa fa-bar-chart project-metadata-count-icon" aria-hidden="true" onclick="showDistributionPopup('${dimension}','${x.id}')"  data-toggle="tooltip" title="Distribution"></i>`
         let traitCitations = x.metadata["trait_citations"] || {};
         for(let m of Object.keys(x.metadata)){
             if(m === 'fennec' || m === 'trait_citations'){
@@ -53,7 +54,7 @@ const getTableData = (dimension) => {
             }
             metadata[m] = x.metadata[m]
             if(metadata[m] !== null && traitCitations.hasOwnProperty(m)){
-                metadata[m] += `<i class="fa fa-quote-right project-metadata-reference-icon" aria-hidden="true" onclick="showCitationPopup('${dimension}','${x.id}','${m}')"></i>`;
+                metadata[m] += `<i class="fa fa-quote-right project-metadata-reference-icon" aria-hidden="true" onclick="showCitationPopup('${dimension}','${x.id}','${m}')"  data-toggle="tooltip" title="References"></i>`;
             }
         }
         return metadata
@@ -90,6 +91,33 @@ const showCitationPopup = (dimension, id, traitName) => {
         title: `References for "${traitName}" of ${id}`,
         size: BootstrapDialog.SIZE_WIDE
     })
-}
+};
 
 global.showCitationPopup = showCitationPopup;
+
+const showDistributionPopup = (dimension, id) => {
+    let counts;
+    let [primary, secondary] = ['OTU', 'Sample'];
+    if(dimension === 'rows'){
+        counts = _.reverse(_.sortBy(_.zip(biom.columns.map(x => x.id),biom.getDataRow(id)),1))
+    } else {
+        counts = _.reverse(_.sortBy(_.zip(biom.rows.map(x => x.id),biom.getDataColumn(id)),1));
+        primary = 'Sample';
+        secondary = 'OTU';
+    }
+    let total = _.sum(counts.map(x => x[1]));
+    let table = $(`<table class="table table-striped"><thead><tr><th>${secondary}</th><th>Count</th><th>Relative Amount (highest count)</th></tr></thead></table>`);
+    let tbody = $('<tbody></tbody>');
+    table.append(tbody);
+    let barTemplate = _.template('<div class="progress"><div class="progress-bar" role="progressbar" style="width: <%= percent %>%;"></div></div>');
+    for (c of counts){
+        tbody.append($(`<tr><td>${c[0]}</td><td>${c[1]}</td><td>${barTemplate({value: c[1], percent: 100*c[1]/counts[0][1]})}</td></tr>`))
+    }
+    BootstrapDialog.show({
+        message: $('<div></div>').append(table),
+        title: `Distribution of ${primary} ${id} (Total: ${total})`,
+        //size: BootstrapDialog.SIZE_WIDE
+    })
+};
+
+global.showDistributionPopup = showDistributionPopup;
