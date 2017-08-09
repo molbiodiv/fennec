@@ -7,18 +7,16 @@ To get started with the development do the following:
 ### Install prerequisits
  - [composer](https://getcomposer.org/download/)
  - [node.js](https://nodejs.org/en/download/)
- - [bower](http://bower.io/#install-bower) (~npm install -g bower~)
- - [gulp](https://github.com/gulpjs/gulp/blob/master/docs/getting-started.md) (~npm install -g gulp-cli~)
+ - [yarn](https://yarnpkg.com/en/)
 ### Clone source code and initialize packages
 ```{bash}
-git clone https://github.com/iimog/fennec-web
-cd fennec-web
-npm install
-bower install
+git clone https://github.com/molbiodiv/fennec
+cd fennec
+yarn install
 composer install
 ```
 **Important: do not edit the js or css files in `web/assets` directly.
-They are generated with `gulp scss` and `gulp babel` from `app/Resources/client`**
+They are generated with `./node_modules/.bin/encore` from `app/Resources/client`**
 
 ### Test, LINT, generate API, ...
 Use gulp for all those things:
@@ -27,17 +25,16 @@ Use gulp for all those things:
 vendor/bin/phpunit
 
 # javascript testing (of helpers)
-gulp test
+npm test
 
-# transpile jsx to js
-gulp babel
-
-# check scss files for lints
-gulp sassLint
-
-# generate css files from scss
-gulp sass
+# transpile jsx to js and scss to css
+./node_modules/.bin/encore dev # or production
+# or
+# ./node_modules/.bin/encore production
 ```
+
+Anything else should be in the [official documentation](http://fennec.readthedocs.io/en/latest/).
+
 ## Changes
 ### 0.7.2 <2017-06-30>
  - Add attribution to text blocks on organism pages (#84)
