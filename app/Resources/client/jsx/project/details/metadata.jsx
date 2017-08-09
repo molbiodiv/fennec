@@ -1,10 +1,10 @@
 const biomPromise = require('./biom')
-
 let biom
 let getBiom = async () => {
     biom = await biomPromise
 }
 getBiom()
+const BootstrapDialog = require('bootstrap3-dialog')
 
 $('document').ready(() => {
     $('#project-explore-otu-metadata').click(() => {
