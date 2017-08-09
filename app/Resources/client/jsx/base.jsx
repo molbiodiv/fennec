@@ -1,5 +1,6 @@
 require('./base/drawCharts.jsx')
 require('./base/message.jsx')
+require('./base/tab.jsx')
 
 // require jQuery normally
 const $ = require('jquery');
