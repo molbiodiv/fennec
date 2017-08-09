@@ -29,11 +29,15 @@ $fa-font-path: "~font-awesome/fonts";
 @import "sidebar";
 @import "startpage";
 
+body {
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
 #page-wrapper {
   background: $background;
   min-height: calc(100vh - 51px);
   max-width: 100%;
-  overflow: auto;
 }
 
 #wrapper {
