@@ -3,6 +3,7 @@
 
 // Import libraries
 @import '~bootstrap-sass/assets/stylesheets/bootstrap';
+$icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
 @import '~metismenu/dist/metisMenu.css';
 $fa-font-path: "~font-awesome/fonts";
 @import '~font-awesome/scss/font-awesome';
@@ -24,6 +25,7 @@ $fa-font-path: "~font-awesome/fonts";
 @import "organism";
 @import "panels";
 @import "progress";
+@import "project";
 @import "sidebar";
 @import "startpage";
 
