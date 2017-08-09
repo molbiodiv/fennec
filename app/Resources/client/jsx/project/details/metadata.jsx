@@ -46,11 +46,15 @@ const getTableData = (dimension) => {
         } else {
             metadata["Total Count"] = _.sum(biom.getDataRow(x.id))
         }
+        let traitCitations = x.metadata["trait_citations"] || {};
         for(let m of Object.keys(x.metadata)){
             if(m === 'fennec' || m === 'trait_citations'){
                 continue;
             }
             metadata[m] = x.metadata[m]
+            if(metadata[m] !== null && traitCitations.hasOwnProperty(m)){
+                metadata[m] += `<i class="fa fa-quote-right project-metadata-reference-icon" aria-hidden="true" onclick="showCitationPopup('${dimension}','${x.id}','${m}')"></i>`;
+            }
         }
         return metadata
     })
@@ -71,3 +75,21 @@ const initTable = (dimension, id) => {
         $('#metadata-table-progress').hide()
     }, 5)
 }
+
+const showCitationPopup = (dimension, id, traitName) => {
+    let entries = (dimension === 'rows' ? biom.rows : biom.columns);
+    let citations = entries.filter(x => x.id === id)[0].metadata.trait_citations[traitName];
+    let table = $('<table class="table table-striped"><thead><tr><th>Value</th><th>Citation</th></tr></thead></table>');
+    let tbody = $('<tbody></tbody>');
+    table.append(tbody);
+    for (c of citations){
+        tbody.append($(`<tr><td>${c.value}</td><td>${c.citation}</td></tr>`))
+    }
+    BootstrapDialog.show({
+        message: $('<div></div>').append(table),
+        title: `References for "${traitName}" of ${id}`,
+        size: BootstrapDialog.SIZE_WIDE
+    })
+}
+
+global.showCitationPopup = showCitationPopup;
