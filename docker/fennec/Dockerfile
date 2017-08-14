@@ -5,7 +5,7 @@ RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
 RUN apt-get update \
 && apt-get install -yq nodejs git postgresql-client libpq-dev unzip vim libdbd-pg-perl liblog-log4perl-perl yarn\
 && rm -rf /var/lib/apt/lists/* \
-&& docker-php-ext-install pdo pdo_pgsql \
+&& docker-php-ext-install pdo pdo_pgsql zip \
 && a2enmod rewrite \
 && docker-php-source delete
 RUN git clone --branch develop --recursive https://github.com/molbiodiv/fennec /fennec
