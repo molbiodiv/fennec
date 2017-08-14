@@ -1,4 +1,4 @@
-FROM php:7.0-apache
+FROM php:7.1-apache
 RUN apt-get update \
 && apt-get install -yq git postgresql-client libpq-dev unzip npm vim libdbd-pg-perl liblog-log4perl-perl\
 && rm -rf /var/lib/apt/lists/* \
