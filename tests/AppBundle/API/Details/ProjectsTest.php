@@ -42,7 +42,7 @@ class ProjectsTest extends WebserviceTestCase
             . '"matrix_element_type": "float"'
             . '}';
         $this->assertEquals(json_decode($expected,true), json_decode($results['projects'][$id]['biom'], true));
-        $this->assertEquals(new \DateTime('2016-05-17T10:00:52+0000'), $results['projects'][$id]['import_date']);
+        $this->assertEquals(new \DateTime('2016-05-17T10:00:52+0200'), $results['projects'][$id]['import_date']);
         $this->assertEquals('detailsProjectsTestFile.biom', $results['projects'][$id]['import_filename']);
     }
 }
