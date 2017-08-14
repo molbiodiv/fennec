@@ -1,25 +1,24 @@
 FROM php:7.1-apache
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list
+RUN echo "deb http://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list
+RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
 RUN apt-get update \
-&& apt-get install -yq git postgresql-client libpq-dev unzip npm vim libdbd-pg-perl liblog-log4perl-perl yarn\
+&& apt-get install -yq nodejs git postgresql-client libpq-dev unzip vim libdbd-pg-perl liblog-log4perl-perl yarn\
 && rm -rf /var/lib/apt/lists/* \
 && docker-php-ext-install pdo pdo_pgsql \
 && a2enmod rewrite \
 && docker-php-source delete
-RUN git clone --recursive https://github.com/molbiodiv/fennec /fennec
+RUN git clone --branch develop --recursive https://github.com/molbiodiv/fennec /fennec
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 COPY php.ini /usr/local/etc/php/
 COPY parameters.yml /fennec/app/config/
 RUN cd /fennec; composer install
 
-RUN ln -s /usr/bin/nodejs /usr/bin/node
 RUN npm install -g coffeescript
 RUN cd /fennec; yarn install
 # RUN cd /fennec; ./node_modules/.bin/encore production
 RUN cd /fennec; ./node_modules/.bin/encore dev
-RUN cd /fennec; bower install --allow-root
 RUN cd /fennec/web/assets/Phinch; coffee -o scripts src
 
 RUN rm -rf /var/www/html && ln -fs /fennec/web /var/www/html
