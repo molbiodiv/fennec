@@ -1,14 +1,15 @@
-/* global db */
-/* global biom */
 /* global phinchPreviewPath */
+const db = require('../../../../../../web/assets/Phinch/lib/db')
+const biomPromise = require('./biom')
+
 function adjustIframeHeight() {
     setTimeout(() => {
         $('#inspect-with-phinch-iframe').attr('height', $('#inspect-with-phinch-iframe').contents().height() + 20)
     }, 100)
 }
 
-$('document').ready(() => {
-    // Set action for click on inspect with Phinch
+$('document').ready(async () => {
+    let biom = await biomPromise
     // db is the browser webstorage
     db.open({
         server: "BiomData",
@@ -22,7 +23,7 @@ $('document').ready(() => {
             }
         }
     }).done(function (server) {
-        var biomToStore = {};
+        let biomToStore = {};
         biomToStore.name = biom.id;
         let biomString = biom.toString();
         biomToStore.size = biomString.length;

@@ -41,7 +41,7 @@
                     var table = $('#project-table').DataTable({
                         retrieve: true
                     });
-                    var data = table.row( element.parents('tr') ).data();
+                    var data = table.row( $(this).parents('tr') ).data();
                     $.ajax({
                         url: '{{ path('api', {'namespace': 'delete', 'classname': 'projects', 'dbversion': dbversion}) }}',
                         type: 'GET',

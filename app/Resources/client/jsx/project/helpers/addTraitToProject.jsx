@@ -30,3 +30,5 @@ function addTraitToProject(traitName, traitValues, traitCitations, biom, dimensi
         error: (error) => showMessageDialog(error, 'danger')
     });
 }
+
+module.exports = addTraitToProject;

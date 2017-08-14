@@ -23,7 +23,7 @@ class ByDbxrefId extends Webservice
         $result = array_fill_keys($ids, null);
         $placeholders = implode(',', array_fill(0, count($ids), '?'));
         $query_get_mapping = <<<EOF
-SELECT fennec_id, identifier AS ncbi_taxid
+SELECT fennec_id, identifier
     FROM fennec_dbxref
         WHERE db_id=(SELECT db_id FROM db WHERE name=?)
         AND identifier IN ({$placeholders})
@@ -32,7 +32,15 @@ EOF;
         $stm_get_mapping->execute(array_merge([$query->get('db')], $ids));
 
         while($row = $stm_get_mapping->fetch(\PDO::FETCH_ASSOC)){
-            $result[$row['ncbi_taxid']] = $row['fennec_id'];
+            $id = $row['identifier'];
+            if($result[$id] === null){
+                $result[$id] = $row['fennec_id'];
+            } else {
+                if(! is_array($result[$id]) ){
+                    $result[$id] = [$result[$id]];
+                }
+                $result[$id][] = $row['fennec_id'];
+            }
         }
 
         return $result;

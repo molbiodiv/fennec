@@ -45,7 +45,8 @@ class TraitEntries extends Webservice
                 'citation' => $row['citation'],
                 'value' => $row['value_name'],
                 'value_definition' => $row['value_definition'],
-                'unit' => $row['unit']
+                'unit' => $row['unit'],
+                'origin_url' => $row['origin_url']
             );
         }
         return $result;
@@ -63,6 +64,7 @@ class TraitEntries extends Webservice
 SELECT 
     trait_categorical_entry.id,
     trait_categorical_entry.fennec_id,
+    trait_categorical_entry.origin_url AS origin_url,
     trait_categorical_value.value AS value_name,
     trait_categorical_value.ontology_url AS value_definition,
     trait_citation.citation,
@@ -84,6 +86,7 @@ SELECT
     trait_numerical_entry.id,
     trait_numerical_entry.fennec_id,
     trait_numerical_entry.value AS value_name,
+    trait_numerical_entry.origin_url AS origin_url,
     trait_citation.citation,
     trait_type.type AS type_name,
     trait_type.ontology_url AS type_definition,

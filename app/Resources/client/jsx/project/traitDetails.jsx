@@ -1,0 +1,1 @@
+require('./traitDetails/traitDetails.jsx')

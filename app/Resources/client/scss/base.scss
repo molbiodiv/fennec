@@ -1,10 +1,43 @@
+// Import variables
 @import "colors";
+
+// Import libraries
+@import '~bootstrap-sass/assets/stylesheets/bootstrap';
+$icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
+@import '~metismenu/dist/metisMenu.css';
+$fa-font-path: "~font-awesome/fonts";
+@import '~font-awesome/scss/font-awesome';
+@import '~bootstrap-select/sass/bootstrap-select.scss';
+@import '~jquery-ui-dist/jquery-ui.css';
+@import '~datatables.net-bs/css/dataTables.bootstrap.css';
+@import '~datatables.net-buttons-bs/css/buttons.bootstrap.css';
+@import '~startbootstrap-sb-admin-2/dist/css/sb-admin-2.css';
+@import '~bootstrap3-dialog/dist/css/bootstrap-dialog.css';
+
+// Import specific files
+@import 'alert';
+@import "autocomplete";
+@import "button";
+@import "dataTable";
+@import "grid";
+@import "linkHovering";
+@import "navigation";
+@import "organism";
+@import "panels";
+@import "progress";
+@import "project";
+@import "sidebar";
+@import "startpage";
+
+body {
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
 
 #page-wrapper {
   background: $background;
   min-height: calc(100vh - 51px);
   max-width: 100%;
-  overflow: auto;
 }
 
 #wrapper {

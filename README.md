@@ -7,38 +7,70 @@ To get started with the development do the following:
 ### Install prerequisits
  - [composer](https://getcomposer.org/download/)
  - [node.js](https://nodejs.org/en/download/)
- - [bower](http://bower.io/#install-bower) (~npm install -g bower~)
- - [gulp](https://github.com/gulpjs/gulp/blob/master/docs/getting-started.md) (~npm install -g gulp-cli~)
+ - [yarn](https://yarnpkg.com/en/)
 ### Clone source code and initialize packages
 ```{bash}
-git clone https://github.com/iimog/fennec-web
-cd fennec-web
-npm install
-bower install
+git clone https://github.com/molbiodiv/fennec
+cd fennec
+yarn install
 composer install
 ```
 **Important: do not edit the js or css files in `web/assets` directly.
-They are generated with `gulp scss` and `gulp babel` from `app/Resources/client`**
+They are generated with `./node_modules/.bin/encore` from `app/Resources/client`**
+
+### Docker setup for development
+For development it is advisable to set up three docker containers:
+1. A fennec container to serve the development version (include the repo as a volume)
+2. A database container with data for interactive testing
+3. A database container to run the unit tests
+
+```{bash}
+docker pull iimog/fennec
+docker pull postgres:9.6
+docker run -d -e POSTGRES_USER=fennec -e POSTGRES_PASSWORD=fennec -e POSTGRES_DB=fennec --name fennec_db postgres:9.6
+docker run -d -e POSTGRES_USER=fennectest -e POSTGRES_PASSWORD=fennectest -e POSTGRES_DB=fennectest --name fennec_db_test postgres:9.6
+# Run from inside your fennec repository
+# publish the port where our php dev server will run (8000) instead of the apache (80)
+docker run -d -v $PWD:/fennec-dev -p 3141:8000 --link fennec_db:db --link fennec_db_test:testdb --name fennec iimog/fennec
+
+# Optionally init the database with pre-existing data (fennec.sql.xz), replace 172.17.0.2 with the ip of the database container as determined by "docker inspect fennec_db"
+xzcat /tmp/fennec.sql.xz | psql -U fennec -h 172.17.0.2 -p 5432 -d fennec
+# Alternatively just init an empty db with the fennec schema
+#docker exec -it fennec php /fennec-dev/bin/console doctrine:schema:create
+
+# Modify parameters.yml and parameters_test.yml in app/config
+# You can use 'fennec_db' as hostname in parameters.yml
+# If you want to run the phpunit test on your development machine you have to insert the ip address of the fennec_db_test in parameters_test.yml
+
+# Run the development server
+docker exec fennec php /fennec-dev/bin/console server:run 0.0.0.0:8000
+```
+
+Now you can point your browser to [http://localhost:3141]().
 
 ### Test, LINT, generate API, ...
 Use gulp for all those things:
 ```{bash}
 # phpunit testing
-vendor/bin/phpunit
+vendor/bin/simple-phpunit
 
 # javascript testing (of helpers)
-gulp test
+npm test
 
-# transpile jsx to js
-gulp babel
-
-# check scss files for lints
-gulp sassLint
-
-# generate css files from scss
-gulp sass
+# transpile jsx to js and scss to css
+./node_modules/.bin/encore dev # or production
+# or
+# ./node_modules/.bin/encore production
 ```
+
+Anything else should be in the [official documentation](http://fennec.readthedocs.io/en/latest/).
+
 ## Changes
+### 0.8.0 <2017-08-09>
+ - Add interactive metadata tables
+ - Add scientific name to fennec metadata in projects (breaking change: projects from versions <0.8 need to be re-mapped)
+ - Upgrade to Symfony 3.3 (from 3.1)
+ - Replace bower and gulp with yarn and webpack
 ### 0.7.2 <2017-06-30>
  - Add attribution to text blocks on organism pages (#84)
  - Add boxes for texts on organism pages

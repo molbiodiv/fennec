@@ -201,6 +201,25 @@ In order to import this file into FENNEC execute those commands in the docker co
     /fennec/bin/console app:create-webuser EPPO # Note user-id for next command
     /fennec/bin/console app:import-trait-entries --traittype "EPPO Categorization" --user-id 2 --mapping scientific_name --skip-unmapped --public --default-citation "EPPO (2017) EPPO Global Database (available online). https://gd.eppo.int" /tmp/eppo_categorization.tsv
 
+World Crops Database
+^^^^^^^^^^^^^^^^^^^^
+
+The World Crops Database is a collection of cereals, fruits, vegetables and other crops that are grown by farmers all over the world collected by Hein Bijlmakers at http://world-crops.com/ .
+It has a list of plants by scientific name http://world-crops.com/showcase/scientific-names/ which can be used for import into FENNEC.
+Being on this list is a strong indication that the plant can be used for agriculture.
+The definition of crop used for the database is:
+"Agricultural crops are plants that are grown or deliberately managed by man for certain purposes." (see http://world-crops.com/the-world-crops-database/ )
+To prepare the data for import into FENNEC (just the info that a plant is listed) execute::
+
+    # Citation will be provided as default citation (therefore left empty here)
+    curl "http://world-crops.com/showcase/scientific-names/" | grep Abelmoschus | perl -pe 's/\|/\n/g;s/.*a href="([^"]+)" >([^<]+).*/$2\tlisted\t\t\t$1/g' | grep -v "</p>" | sort -u >/tmp/crops.tsv
+    /fennec/bin/console app:create-traittype --format categorical_free --description "The World Crops Database is a collection of cereals, fruits, vegetables and other crops that are grown by farmers all over the world. In this context crops are defined as 'Agricultural crops are plants that are grown or deliberately managed by man for certain purposes.'" --ontology_url "http://world-crops.com/" "World Crops Database"
+    /fennec/bin/console app:create-webuser "WorldCropsDatabase" # Note user-id for next command
+    /fennec/bin/console app:import-trait-entries --user-id 3 --default-citation "Hein Bijlmakers, 'World Crops Database', available online http://world-crops.com/showcase/scientific-names/ (retrieved $(date "+%Y-%m-%d"))" --traittype "World Crops Database" --mapping scientific_name --skip-unmapped /tmp/crops.tsv
+
+The database also contains categories like Vegetables, Cereals, Fruits, etc.
+So in the future those categories could be used as value instead of a generic "listed".
+
 More TraitBank plant traits
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -229,6 +248,7 @@ In order to create the categorical trait types and import them into FENNEC just 
     curl http://opendata.eol.org/dataset/a44a37ad-27f5-45ef-8719-1a31ae4ed3e5/resource/c7c90510-402e-4ead-8204-d92c44723c1f/download/plantae.zip >plantae.zip
     unzip plantae.zip
     curl http://opendata.eol.org/dataset/a44a37ad-27f5-45ef-8719-1a31ae4ed3e5/resource/fb7e7de9-7ae9-4b63-8a64-d0a95f210da9/download/plantae-conservation-status.txt.gz >/tmp/Plantae/Plantae-conservation-status.txt.gz
+    curl http://opendata.eol.org/dataset/a44a37ad-27f5-45ef-8719-1a31ae4ed3e5/resource/67410c56-d9d9-4e60-a223-39334e0081d5/download/uses.txt.gz >/tmp/Plantae/Plantae-uses.txt.gz
     for i in Plantae/*.txt.gz
     do
         BASE=$(basename $i .txt.gz)
@@ -246,6 +266,7 @@ In order to create the categorical trait types and import them into FENNEC just 
     /fennec/bin/console app:create-traittype --format categorical_free --description "Tolerance to the high salt content in the growth medium." --ontology_url "http://purl.obolibrary.org/obo/TO_0006001" "Salt Tolerance"
     /fennec/bin/console app:create-traittype --format categorical_free --description "The soil requirements (texture, moisture, chemistry) needed for a plant to establish and grow." --ontology_url "http://eol.org/schema/terms/SoilRequirements" "Soil Requirements"
     /fennec/bin/console app:create-traittype --format categorical_free --description "The rate at which this plant can spread compared to other species with the same growth habit." --ontology_url "http://eol.org/schema/terms/VegetativeSpreadRate" "Vegetative Spread Rate"
+    /fennec/bin/console app:create-traittype --format categorical_free --description "The uses of the organism or products derived from the organism." --ontology_url "http://eol.org/schema/terms/Uses" "Uses"
 
     # Import traits
     /fennec/bin/console app:import-trait-entries --traittype "Conservation Status" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-conservation-status.tsv
@@ -258,7 +279,7 @@ In order to create the categorical trait types and import them into FENNEC just 
     /fennec/bin/console app:import-trait-entries --traittype "Salt Tolerance" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-salt-tolerance.tsv
     /fennec/bin/console app:import-trait-entries --traittype "Soil Requirements" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-soil-requirements.tsv
     /fennec/bin/console app:import-trait-entries --traittype "Vegetative Spread Rate" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-vegetative-spread-rate.tsv
-
+    /fennec/bin/console app:import-trait-entries --traittype "Uses" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-uses.tsv
 
 
 By now you should have an idea on how importing categorical traits into FENNEC works.
@@ -280,11 +301,26 @@ Numerical Traits
 
 To import the traits downloaded above in the plantae dataset from http://opendata.eol.org/dataset/plantae do this inside the docker container::
 
-    # TODO data preparation and import
+    # data preparation
+    # For leaf area some values are numeric (unit mm^2 or cm^2) some categorical (large, medium, samll, ...) all methods are either measurement or average. Therefore all numeric values are used and converted to cm^2. Unit neads to be stripped from values.
+    zcat /tmp/Plantae/Plantae-leaf-area.txt.gz | perl -F"\t" -ane 'BEGIN{%factor=("cm^2" => 1, "mm^2" => 0.01)} $F[4]=~s/,//g;$F[4]=~s/ .*//g; print "$F[0]\t".($F[4] * $factor{$F[7]})."\t$F[6]\tSupplier:$F[12];Citation:$F[15];Reference:$F[29];Source:$F[14]\t$F[13]\n" unless(/^EOL page ID/ or $F[7] eq "")' >/tmp/Plantae-leaf-area.tsv
+    # For plant height we convert all units (cm, ft, inch, m) to cm and discard rows that use statistical method http://semanticscience.org/resource/SIO_001114 (max), retaining average, median and measurement
+    zcat /tmp/Plantae/Plantae-plant-height.txt.gz | perl -F"\t" -ane 'BEGIN{%factor=("cm" => 1, "m" => 100, "ft" => 30.48, "inch" => 2.54)} print "$F[0]\t".($F[4] * $factor{$F[7]})."\t$F[6]\tSupplier:$F[12];Citation:$F[15];Reference:$F[29];Source:$F[14]\t$F[13]\n" unless(/^EOL page ID/ or $F[17] eq "http://semanticscience.org/resource/SIO_001114")' >/tmp/Plantae-plant-height.tsv
+    # pH has no unit so that is not a problem. However the method here is either min or max. But we have both values for every EOL ID except 1114581 and 584907 (verify with zcat Plantae/Plantae-soil-pH.txt.gz | cut -f1,18 | sort -u | cut -f1 | sort | uniq -u ).
+    zcat /tmp/Plantae/Plantae-soil-pH.txt.gz | perl -F"\t" -ane 'print "$F[0]\t$F[4]\t$F[6]\tSupplier:$F[12];Citation:$F[15];Reference:$F[29];Source:$F[14]\t$F[13]\n" unless(/^EOL page ID/ or $F[0] eq "1114581" or $F[0] eq "584907")' >/tmp/Plantae-soil-pH.tsv
+
     # Create trait types (incl. unit)
-    /fennec/bin/console app:create-traittype --format numerical --description "A leaf anatomy and morphology trait (TO:0000748) which is associated with the total area of a leaf (PO:0025034)." --ontology_url "http://purl.obolibrary.org/obo/TO_0000540" --unit "" "Leaf Area"
-    /fennec/bin/console app:create-traittype --format numerical --description "A stature and vigor trait (TO:0000133) which is associated with the height of a whole plant (PO:0000003)." --ontology_url "http://purl.obolibrary.org/obo/TO_0000207" --unit "" "Plant Height"
-    /fennec/bin/console app:create-traittype --format numerical --description "The soil pH, of the top 12 inches of soil, within the plant’s known geographical range. For cultivars, the geographical range is defined as the area to which the cultivar is well adapted rather than marginally adapted." --ontology_url "http://eol.org/schema/terms/SoilPH" --unit "" "Soil pH"
+    /fennec/bin/console app:create-traittype --format numerical --description "A leaf anatomy and morphology trait (TO:0000748) which is associated with the total area of a leaf (PO:0025034)." --ontology_url "http://purl.obolibrary.org/obo/TO_0000540" --unit "cm^2" "Leaf Area"
+    /fennec/bin/console app:create-traittype --format numerical --description "A stature and vigor trait (TO:0000133) which is associated with the height of a whole plant (PO:0000003)." --ontology_url "http://purl.obolibrary.org/obo/TO_0000207" --unit "cm" "Plant Height"
+    /fennec/bin/console app:create-traittype --format numerical --description "The soil pH, of the top 12 inches of soil, within the plant’s known geographical range. For cultivars, the geographical range is defined as the area to which the cultivar is well adapted rather than marginally adapted." --ontology_url "http://eol.org/schema/terms/SoilPH" "Soil pH"
+
+    # import
+    /fennec/bin/console app:import-trait-entries --traittype "Leaf Area" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-leaf-area.tsv
+    /fennec/bin/console app:import-trait-entries --traittype "Plant Height" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-plant-height.tsv
+    /fennec/bin/console app:import-trait-entries --traittype "Soil pH" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-soil-pH.tsv
+
+This will import the numerical trait values into FENNEC.
+The count for "Distinct new values" will be displayed as 0 as this is specific for categorical values.
 
 Backup
 ------

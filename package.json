@@ -6,7 +6,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "gulp jasmine"
+    "test": "mocha tests/js/helpers/*"
   },
   "repository": {
     "type": "git",
@@ -23,20 +23,35 @@
     "url": "https://github.com/iimog/fennec-web/issues"
   },
   "devDependencies": {
+    "@symfony/webpack-encore": "^0.12.0",
     "babel-preset-es2015": "^6.18.0",
+    "babel-preset-es2017": "^6.24.1",
     "babel-preset-react": "^6.16.0",
-    "bower": "^1.7.7",
+    "bootstrap-sass": "^3.3.7",
     "chai": "^3.5.0",
-    "gulp": "^3.9.1",
-    "gulp-babel": "^6.1.2",
-    "gulp-concat": "^2.6.1",
-    "gulp-mocha": "^3.0.1",
-    "gulp-sass": "^2.3.1",
-    "gulp-sass-lint": "^1.1.1",
-    "gulp-sourcemaps": "^2.0.0-alpha",
-    "rewire": "^2.5.2"
+    "node-sass": "^4.5.3",
+    "rewire": "^2.5.2",
+    "sass-loader": "^6.0.6"
   },
   "dependencies": {
-    "lodash": "^4.17.4"
+    "babel-polyfill": "^6.23.0",
+    "biojs-io-biom": "^1.0.9",
+    "bootstrap-confirmation2": "^2.4.0",
+    "bootstrap-select": "^1.12.4",
+    "bootstrap3-dialog": "^1.35.4",
+    "datatables.net-bs": "^1.10.15",
+    "datatables.net-buttons-bs": "^1.3.1",
+    "file-saver": "^1.3.3",
+    "font-awesome": "^4.7.0",
+    "jquery": "^3.2.1",
+    "jquery-ui-dist": "^1.12.1",
+    "lodash": "^4.17.4",
+    "metismenu": "^2.7.0",
+    "mocha": "^3.5.0",
+    "papaparse": "^4.3.5",
+    "plotly.js": "^1.29.3",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "startbootstrap-sb-admin-2": "^3.3.7"
   }
 }

@@ -10,7 +10,7 @@ class StartpageControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/');
+        $client->request('GET', '/');
 
         $this->assertTrue(
             $client->getResponse()->isRedirect('/test/startpage'),
@@ -20,8 +20,8 @@ class StartpageControllerTest extends WebTestCase
         $crawler = $client->followRedirect();
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertContains('Projects', $crawler->filter('div')->text());
-        $this->assertContains('Organisms', $crawler->filter('div')->text());
-        $this->assertContains('Traits', $crawler->filter('div')->text());
+        $this->assertContains('Projects', $crawler->filter('#wrapper')->text());
+        $this->assertContains('Organisms', $crawler->filter('#wrapper')->text());
+        $this->assertContains('Traits', $crawler->filter('#wrapper')->text());
     }
 }

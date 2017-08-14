@@ -1,4 +1,5 @@
-/* global ReactDOM */
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 // This is the react template,called from showMessageDialog later
 function MessageDialog(props) {
@@ -62,3 +63,8 @@ function updateMessageDialogs() {
         document.getElementById('global-message-area')
     );
 }
+
+// export globally
+window.showMessageDialog = showMessageDialog;
+window.removeMessageDialog = removeMessageDialog;
+window.updateMessageDialogs = updateMessageDialogs;

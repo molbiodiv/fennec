@@ -3,6 +3,7 @@ dist: trusty
 language: php
 php:
   - '7.0'
+  - '7.1'
 
 # Setup anaconda
 before_install:
@@ -21,8 +22,6 @@ install:
   - nvm install stable
   - nvm use stable
   - npm install
-  - npm install -g gulp-cli
-  - node_modules/bower/bin/bower install
 
 services:
   - postgresql
@@ -38,5 +37,5 @@ before_script:
   - cp tests/.travis.parameters_test.yml app/config/parameters_test.yml
 
 script:
-  - phpunit
-  - gulp test
+  - vendor/bin/simple-phpunit
+  - npm test

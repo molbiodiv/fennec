@@ -21,3 +21,4 @@
 /web/assets/vendor/
 /node_modules/
 /.idea/
+.web-server-pid

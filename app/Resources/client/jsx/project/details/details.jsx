@@ -1,9 +1,14 @@
 /* global dbversion */
-/* global biom */
-/* global _ */
-/* global $ */
 /* global internalProjectId */
-$('document').ready(function () {
+
+const _ = require('lodash')
+const $ = require('jquery')
+const biomPromise = require('./biom')
+const saveAs = require('file-saver').saveAs
+const Papa = require('papaparse')
+
+$('document').ready(async function () {
+    biom = await biomPromise;
     // Set header of page to project-id
     $('.page-header').text(biom.id);
 
@@ -46,6 +51,11 @@ $('document').ready(function () {
 
     $('#metadata-overview-sample').append(getMetadataKeys(biom, 'columns').map((text) => $("<li>").text(text)));
     $('#metadata-overview-observation').append(getMetadataKeys(biom, 'rows').map((text) => $("<li>").text(text)));
+
+    $('#project-transpose').click(() => {
+        biom.transpose();
+        saveBiomToDB();
+    });
 });
 
 /**
@@ -69,6 +79,9 @@ function saveBiomToDB() {
         console.log(failure);
     });
 }
+
+// export globally
+window.saveBiomToDB = saveBiomToDB;
 
 /**
  * Opens a file download dialog of the current project in biom format

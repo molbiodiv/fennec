@@ -17,5 +17,6 @@ doctrine:
         default_entity_manager: test
         entity_managers:
             test:
+                lazy: true
                 connection: test
                 naming_strategy: doctrine.orm.naming_strategy.underscore

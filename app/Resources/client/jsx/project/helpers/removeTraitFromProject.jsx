@@ -20,3 +20,5 @@ function removeTraitFromProject(traitName, biom, dimension, dbVersion,internalPr
         error: (error) => showMessageDialog(error, 'danger')
     });
 }
+
+module.exports = removeTraitFromProject;

@@ -18,26 +18,29 @@
     },
     "require": {
         "php": ">=5.5.9",
-        "symfony/symfony": "3.1.*",
+        "symfony/symfony": "3.3.*",
         "doctrine/orm": "2.6.x-dev",
         "doctrine/doctrine-bundle": "^1.6",
         "doctrine/doctrine-cache-bundle": "^1.2",
-        "symfony/swiftmailer-bundle": "^2.3",
-        "symfony/monolog-bundle": "^2.8",
+        "symfony/swiftmailer-bundle": "^3.0",
+        "symfony/monolog-bundle": "^3.1",
         "symfony/polyfill-apcu": "^1.0",
         "sensio/distribution-bundle": "^5.0",
         "sensio/framework-extra-bundle": "^3.0.2",
         "incenteev/composer-parameter-handler": "^2.0",
         "friendsofsymfony/jsrouting-bundle": "^1.6",
-        "iimog/biom-conversion-server": "^1.0.3",
+        "iimog/biom-conversion-server": "^1.0.4",
         "hwi/oauth-bundle": "^0.5.3",
         "doctrine/dbal": "2.6.x-dev",
         "doctrine/common": "2.7.1",
-        "shivas/versioning-bundle": "^1.4"
+        "shivas/versioning-bundle": "^1.4",
+        "symfony/web-server-bundle": "^3.3",
+        "symfony/proxy-manager-bridge": "^3.3",
+        "ocramius/proxy-manager": "^2.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
-        "symfony/phpunit-bridge": "^3.0",
+        "symfony/phpunit-bridge": "^3.3",
         "phpunit/phpunit": "^5.6"
     },
     "scripts": {

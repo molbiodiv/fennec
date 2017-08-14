@@ -1,5 +1,5 @@
 <script type="text/javascript">
-    $( document ).ready(function(){
+    document.addEventListener("DOMContentLoaded", function(event) {
         $('.selectpicker').selectpicker();
         $('#dbVersionPicker').selectpicker('val', '{{ dbversion }}');
         $('#dbVersionPicker').on('changed.bs.select', function () {

@@ -7,3 +7,6 @@ function getMetadataKeys(biom, dimension='columns'){
     let uniqKeys = keys.reduce((acc, val) => _.uniq(acc.concat(val)), [])
     return uniqKeys.sort((a,b) => a.toUpperCase().localeCompare(b.toUpperCase()))
 }
+
+// export globally
+window.getMetadataKeys = getMetadataKeys;

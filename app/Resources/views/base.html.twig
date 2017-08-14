@@ -4,69 +4,27 @@
         <meta charset="UTF-8" />
         <title>{% block title %}Fennec{% endblock %}</title>
         {% block stylesheets %}
-            {# Bootstrap SB-Admin2 stylesheets #}
-            <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap/dist/css/bootstrap.min.css') }}">
-            <link rel="stylesheet" href="{{ asset('assets/vendor/startbootstrap-sb-admin-2/dist/css/sb-admin-2.css') }}">
-            <link rel="stylesheet" href="{{ asset('assets/vendor/metisMenu/dist/metisMenu.min.css') }}">
-            <link rel="stylesheet" href="{{ asset('assets/vendor/font-awesome/css/font-awesome.min.css') }}">
-            {# Bootstrap select #}
-            <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}">
-            {# jQuery-UI #}
-            <link rel="stylesheet" href="{{ asset('assets/vendor/jquery-ui/themes/smoothness/jquery-ui.css') }}">
-            {# datatable #}
-            <link rel="stylesheet" href="{{ asset('assets/vendor/datatables/media/css/dataTables.bootstrap.css') }}">
-            {# own css files #}
-            <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+            {# Global styles bundled with webpack #}
+            <link rel="stylesheet" href="{{ asset('assets/js/global.css') }}" />
             {# icon font via fontastic.me #}
             <link rel="stylesheet" href="{{ asset('assets/css/fennec-font.css') }}">
         {% endblock %}
         <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}" />
     </head>
     <body>
+        <div id="globals" style="display:none" data-dbversion="{{ dbversion }}"></div>
         {% block jsglobals %}
             <script type="text/javascript">
                 var dbversion = '{{ dbversion }}';
             </script>
         {% endblock %}
         {% block javascripts %}
+            {# Global dependencies bundled with webpack #}
+            <script src="{{ asset('assets/js/manifest.js') }}"></script>
+            <script src="{{ asset('assets/js/global.js') }}"></script>
             {# FOSJsRoutingBundle #}
             <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
             <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
-            {# Bootstrap SB-Admin2 stylesheets #}
-            <script src="{{ asset('assets/vendor/jquery/dist/jquery.min.js') }}"></script>
-            <script src="{{ asset('assets/vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-            <script src="{{ asset('assets/vendor/metisMenu/dist/metisMenu.min.js') }}"></script>
-            <script src="{{ asset('assets/vendor/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js') }}"></script>
-            {# jQuery-UI #}
-            <script src="{{ asset('assets/vendor/jquery-ui/jquery-ui.min.js') }}"></script>
-            {# Bootstrap select #}
-            <script src="{{ asset('assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
-            {# lodash.js #}
-            <script src="{{ asset('assets/vendor/lodash/dist/lodash.min.js') }}"></script>
-            {# Plot.ly #}
-            <script src="{{ asset('assets/vendor/plotlyjs/plotly.js') }}"></script>
-            {# datatable #}
-            <script src="{{ asset('assets/vendor/datatables/media/js/jquery.dataTables.min.js') }}"></script>
-            <script src="{{ asset('assets/vendor/datatables/media/js/dataTables.bootstrap.min.js') }}"></script>
-            {# bootstrap confirmation #}
-            <script src="{{ asset('assets/vendor/bs-confirmation/bootstrap-confirmation.min.js') }}"></script>
-            {# biojs-io-biom #}
-            <script src="{{ asset('assets/vendor/biojs-io-biom/build/biom.min.js') }}"></script>
-            {# d3.js #}
-            <script src="{{ asset('assets/vendor/d3/d3.min.js') }}"></script>
-            {# react #}
-            <script src="{{ asset('assets/vendor/react/react.js') }}"></script>
-            <script src="{{ asset('assets/vendor/react/react-dom.js') }}"></script>
-
-            {# filesaver #}
-            <script src="{{ asset('assets/vendor/file-saver/FileSaver.min.js') }}"></script>
-
-            {# papaparse #}
-            <script src="{{ asset('assets/vendor/papaparse/papaparse.min.js') }}"></script>
-
-            {# own base and helper scripts #}
-            <script src="{{ asset('assets/js/base.js') }}"></script>
-            <script src="{{ asset('assets/js/helpers.js') }}"></script>
 
             {# MathJax #}
             <script type="text/x-mathjax-config">
@@ -74,7 +32,7 @@
                     tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
                 });
             </script>
-            <script type="text/javascript" async src="{{ asset('assets/vendor/MathJax/MathJax.js') }}?config=TeX-AMS_CHTML"></script>
+            <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
         {% endblock %}
         {% block body %}{% endblock %}
