@@ -13,9 +13,9 @@ COPY parameters.yml /fennec/app/config/
 RUN cd /fennec; composer install
 
 RUN ln -s /usr/bin/nodejs /usr/bin/node
-RUN npm install -g bower
+RUN npm install -g yarn
 RUN npm install -g coffeescript
-RUN cd /fennec; npm install
+RUN cd /fennec; yarn install
 # RUN cd /fennec; ./node_modules/.bin/encore production
 RUN cd /fennec; ./node_modules/.bin/encore dev
 RUN cd /fennec; bower install --allow-root
