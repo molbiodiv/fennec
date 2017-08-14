@@ -22,7 +22,7 @@ They are generated with `./node_modules/.bin/encore` from `app/Resources/client`
 Use gulp for all those things:
 ```{bash}
 # phpunit testing
-vendor/bin/phpunit
+vendor/bin/simple-phpunit
 
 # javascript testing (of helpers)
 npm test
