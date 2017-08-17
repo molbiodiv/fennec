@@ -54,6 +54,11 @@ $('document').ready(async () => {
     $('.selectpicker').selectpicker('refresh')
     $('#mapping-dimension-select').change();
 
+    // For some reason the select boxes do not open on this page
+    $(".bootstrap-select").click(function () {
+         $(this).addClass("open");
+    });
+
     // Add semi-global dimension variable (stores last mapped dimension)
     var dimension = 'rows';
     var method = 'ncbi_taxonomy';
