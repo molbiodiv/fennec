@@ -66,6 +66,8 @@ npm test
 Anything else should be in the [official documentation](http://fennec.readthedocs.io/en/latest/).
 
 ## Changes
+### 0.8.2 <2017-08-21>
+ - Fix dialog problem on project details page
 ### 0.8.1 <2017-08-21>
  - Fix dropdown problem on project details page
 ### 0.8.0 <2017-08-09>
