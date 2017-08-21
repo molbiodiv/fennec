@@ -54,7 +54,7 @@ const getTableData = (dimension) => {
             }
             metadata[m] = x.metadata[m]
             if(metadata[m] !== null && traitCitations.hasOwnProperty(m)){
-                metadata[m] += `<i class="fa fa-quote-right project-metadata-reference-icon" aria-hidden="true" onclick="showCitationPopup('${dimension}','${x.id}','${m}')"  data-toggle="tooltip" title="References"></i>`;
+                metadata[m] += `<i class="fa fa-info-circle project-metadata-reference-icon" aria-hidden="true" onclick="showCitationPopup('${dimension}','${x.id}','${m}')"  data-toggle="tooltip" title="References"></i>`;
             }
         }
         return metadata
