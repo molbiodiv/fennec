@@ -110,7 +110,8 @@ function addTraitToProjectTableAction(traitTypeId, dimension){
                 "dbversion": dbversion,
                 "internal_project_id": internalProjectId,
                 "trait_type_id": traitTypeId,
-                "include_citations": true
+                "include_citations": true,
+                "dimension": dimension
             },
             method: "POST",
             success: function (data) {
