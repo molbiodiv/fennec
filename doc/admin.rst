@@ -322,6 +322,62 @@ To import the traits downloaded above in the plantae dataset from http://opendat
 This will import the numerical trait values into FENNEC.
 The count for "Distinct new values" will be displayed as 0 as this is specific for categorical values.
 
+SCALES Wasps & Bees Database
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This database (available at http://scales.ckff.si/scaletool/?menu=6&submenu=3 ) is an excellent resource for many traits of 162 bees and wasps.
+As data download is not easily possible here is a guide on downloading all the data and extracting the traits:
+First download the html pages of all organisms to an empty folder (sid ranges from 1 to 162, determined by trial and error)::
+
+    for i in $(seq 1 163)
+    do
+        curl "http://scales.ckff.si/scaletool/index.php?menu=6&submenu=3&sid=$i" >$i.html
+    done
+
+To extract all traits I wrote a short python script (using `Beautiful Soup<https://www.crummy.com/software/BeautifulSoup/>`_) available as `gist<https://gist.github.com/iimog/a6a36a7b03906f18ac490b0a4708224c>`_.
+If you download that you can extract traits with this command::
+
+    # Install beautiful soup (e.g. via "conda install beautifulsoup4")
+    # Inside the folder with the html files
+    python extract_scales_bee_traits_from_html.py
+    # Get rid of colon in filenames
+    rename 's/://g' *.tsv
+    # Osmia rufa and Osmia bicornis are synonyms but bicornis is used by NCBI taxonomy while rufa is used by SCALES, therefore: rename globally:
+    perl -i -pe 's/Osmia rufa/Osmia bicornis/g' *.tsv
+
+This will create a bunch of tsv files with categorical and numerical values for each trait as well as a file ``trait_types.tsv`` which lists all trait types with description.
+Using mapping by scientific name those files can be imported directly (transfer them to the docker container via ``docker cp`` if you did not execute the previous commands there)::
+
+    # Create trait types (incl. unit)
+    /fennec/bin/console app:create-traittype --format numerical --description "Average number of brood cells per nest" "Nest cells"
+    /fennec/bin/console app:create-traittype --format numerical --description "Approximate body length of female collection specimens" --unit "mm" "Body length: female"
+    /fennec/bin/console app:create-traittype --format numerical --description "Mean weight of a freshly hatched adult female" --unit "mg" "Adult weight: female"
+    /fennec/bin/console app:create-traittype --format numerical --description "Male/female rate of progeny" "Sex ratio"
+    /fennec/bin/console app:create-traittype --format categorical_free --description "Sex ratio categories: female biased (males/females<0.8), equal (males/females 0.8-1.3), male biased (males/females>1.3)" "Sex ratio (categorical)"
+    /fennec/bin/console app:create-traittype --format categorical_free "Larval food type"
+    /fennec/bin/console app:create-traittype --format categorical_free "Foraging mode"
+    /fennec/bin/console app:create-traittype --format categorical_free --description "Typical of a landscape species" "Landscape type"
+    /fennec/bin/console app:create-traittype --format categorical_free --description "Nest building material type" "Nest built of"
+    /fennec/bin/console app:create-traittype --format categorical_free --description "Trophic specialisation rank" "Trophic specialisation"
+    /fennec/bin/console app:create-traittype --format categorical_free --description "Taxonomic rank on which this organism is specialized on" "Specialized on"
+
+    # Create webuser
+    /fennec/bin/console app:create-webuser "SCALES_WaspsBeesDatabase" # Note user-id for next commands
+
+    # import
+    /fennec/bin/console app:import-trait-entries --traittype "Nest cells" --user-id 7 --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/tmp/Nest cells_numeric.tsv"
+    /fennec/bin/console app:import-trait-entries --traittype "Body length: female" --user-id 7 --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/tmp/Body length female_numeric.tsv"
+    /fennec/bin/console app:import-trait-entries --traittype "Adult weight: female" --user-id 7 --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/tmp/Adult weight female_numeric.tsv"
+    /fennec/bin/console app:import-trait-entries --traittype "Sex ratio" --user-id 7 --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/tmp/Sex ratio_numeric.tsv"
+    /fennec/bin/console app:import-trait-entries --traittype "Sex ratio (categorical)" --user-id 7 --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/tmp/Sex ratio_categorical.tsv"
+    /fennec/bin/console app:import-trait-entries --traittype "Larval food type" --user-id 7 --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/tmp/Larval food type_categorical.tsv"
+    /fennec/bin/console app:import-trait-entries --traittype "Foraging mode" --user-id 7 --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/tmp/Foraging mode_categorical.tsv"
+    /fennec/bin/console app:import-trait-entries --traittype "Landscape type" --user-id 7 --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/tmp/Landscape type_categorical.tsv"
+    /fennec/bin/console app:import-trait-entries --traittype "Nest built of" --user-id 7 --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/tmp/Nest built of_categorical.tsv"
+    /fennec/bin/console app:import-trait-entries --traittype "Trophic specialisation" --user-id 7 --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/tmp/Trophic specialisation_categorical.tsv"
+    /fennec/bin/console app:import-trait-entries --traittype "Specialized on" --user-id 7 --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/tmp/Trophic specialisation_numeric.tsv"
+
+
 Backup
 ------
 
