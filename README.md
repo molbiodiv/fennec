@@ -66,6 +66,9 @@ npm test
 Anything else should be in the [official documentation](http://fennec.readthedocs.io/en/latest/).
 
 ## Changes
+### 0.8.3 <2017-08-23>
+ - Fix bug (add sample trait to project from table via +)
+ - Add documentation for [SCALES bee traits](http://scales.ckff.si/scaletool/?menu=6&submenu=3) 
 ### 0.8.2 <2017-08-21>
  - Fix dialog problem on project details page
 ### 0.8.1 <2017-08-21>
