@@ -18,6 +18,20 @@ class Overview extends Webservice
 
     /**
      * @inheritdoc
+     *
+     * @api {get} /listing/overview Overview
+     * @apiName ListingOverview
+     * @apiGroup Listing
+     * @apiParam {String} dbversion Version of the internal fennec database
+     * @apiVersion 0.8.0
+     * @apiSuccessExample {json} Success-Response:
+     *     HTTP/1.1 200 OK
+     *     {
+     *       "projects": 0,
+     *       "organisms": 1400000,
+     *       "trait_entries": 200000,
+     *       "trait_types": 30,
+     *     }
      */
     public function execute(ParameterBag $query, FennecUser $user = null){
         $this->manager = $this->getManagerFromQuery($query);

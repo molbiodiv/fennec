@@ -33,6 +33,20 @@ class Organisms extends Webservice
      *     'scientific_name' => 'Dionaea muscipula'
      * );
      * </code>
+     *
+     * @api {get} /listing/organisms Organisms
+     * @apiName ListingOrganisms
+     * @apiGroup Listing
+     * @apiParam {String} dbversion Version of the internal fennec database
+     * @apiParam {Number} [limit=5] Limit number of results
+     * @apiParam {String} [search=""] Only return organisms where the scientific name matches this string (case insensitive)
+     * @apiVersion 0.8.0
+     * @apiSuccessExample {json} Success-Response:
+     *     HTTP/1.1 200 OK
+     *     {
+     *       "fennec_id": 22457,
+     *       "scientific_name": "Bellis perennis"
+     *     }
      */
     public function execute(ParameterBag $query, FennecUser $user = null)
     {
