@@ -3,7 +3,7 @@
 const _ = require('lodash')
 const $ = require('jquery')
 const biomPromise = require('./biom')
-require('bootstrap-select')
+// require('bootstrap-select')
 const saveAs = require('file-saver').saveAs
 
 $('document').ready(async () => {
@@ -56,7 +56,10 @@ $('document').ready(async () => {
 
     // For some reason the select boxes do not open on this page
     $(".bootstrap-select").click(function () {
-         $(this).addClass("open");
+         $(this).toggleClass("open");
+    });
+    $(".dropdown").click(function () {
+         $(this).toggleClass("open");
     });
 
     // Add semi-global dimension variable (stores last mapped dimension)
