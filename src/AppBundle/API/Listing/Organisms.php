@@ -43,10 +43,20 @@ class Organisms extends Webservice
      * @apiVersion 0.8.0
      * @apiSuccessExample {json} Success-Response:
      *     HTTP/1.1 200 OK
-     *     {
+     *     [{
      *       "fennec_id": 22457,
      *       "scientific_name": "Bellis perennis"
+     *     }]
+     * @apiParamExample {json} Request-Example:
+     *     {
+     *       "dbversion": "1.0",
+     *       "limit": 2,
+     *       "search": "Bellis perennis"
      *     }
+     * @apiSuccess {Array} results Array of result objects. Each result has keys fennec_id and scientific_name
+     * @apiExample {curl} Example usage:
+     *     curl http://fennec.molecular.eco/api/listing/organisms?dbversion=1.0&limit=1&search=bellis
+     * @apiSampleRequest http://fennec.molecular.eco/api/listing/organisms
      */
     public function execute(ParameterBag $query, FennecUser $user = null)
     {
