@@ -3,7 +3,10 @@
 Fennec - Functional Exploration of Natural Networks and Ecological Communities.
 [![DOI](https://zenodo.org/badge/51136300.svg)](https://zenodo.org/badge/latestdoi/51136300)
 ## Getting started
-To get started with the development do the following:
+If you want to learn how to use FENNEC or if you want to host your own instance please refer to the [official documentation](http://fennec.readthedocs.io/en/latest/).
+If you want to use the API please see the [API documentation](https://molbiodiv.github.io/fennec/doc/api/) (in development).
+
+To get started with the development read on:
 ### Install prerequisits
  - [composer](https://getcomposer.org/download/)
  - [node.js](https://nodejs.org/en/download/)
