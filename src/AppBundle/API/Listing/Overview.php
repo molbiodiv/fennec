@@ -18,6 +18,32 @@ class Overview extends Webservice
 
     /**
      * @inheritdoc
+     *
+     * @api {get} /listing/overview Overview
+     * @apiName ListingOverview
+     * @apiDescription This returns an object containing the number of elements in the database, split by organisms, projects and traits.
+     * @apiGroup Listing
+     * @apiParam {String} dbversion Version of the internal fennec database
+     * @apiVersion 0.8.0
+     * @apiSuccessExample {json} Success-Response:
+     *     HTTP/1.1 200 OK
+     *     {
+     *       "projects": 0,
+     *       "organisms": 1400000,
+     *       "trait_entries": 200000,
+     *       "trait_types": 30,
+     *     }
+     * @apiParamExample {json} Request-Example:
+     *     {
+     *       "dbversion": "1.0"
+     *     }
+     * @apiSuccess {Number} projects  Number of projects for the current user.
+     * @apiSuccess {Number} organisms  Number of organisms in the database.
+     * @apiSuccess {Number} trait_entries  Number of total trait entries in the database.
+     * @apiSuccess {Number} trait_types  Number of distinct trait types in the database.
+     * @apiExample {curl} Example usage:
+     *     curl http://fennec.molecular.eco/api/listing/overview?dbversion=1.0
+     * @apiSampleRequest http://fennec.molecular.eco/api/listing/overview
      */
     public function execute(ParameterBag $query, FennecUser $user = null){
         $this->manager = $this->getManagerFromQuery($query);

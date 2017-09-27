@@ -131,14 +131,15 @@ function exportPseudoTaxTable() {
  */
 function exportTraitCitationsTable(dimension) {
     const contentType = "text/plain";
-    let out = _.join([(dimension==="rows" ? '#OTUId' : '#SampleId'), 'fennec_id', 'traitType', 'citation', 'value'], "\t")+"\n";
+    let out = _.join([(dimension==="rows" ? '#OTUId' : '#SampleId'), 'fennec_id', 'scientific_name', 'traitType', 'citation', 'value'], "\t")+"\n";
     let entries = biom[dimension]
     for(let entry of entries){
         let id = entry.id;
         let fennec_id = _.get(entry, ['metadata', 'fennec', dbversion, 'fennec_id']) || '';
+        let scientific_name = _.get(entry, ['metadata', 'fennec', dbversion, 'scientific_name']) || '';
         for(let traitType of Object.keys(_.get(entry, ['metadata', 'trait_citations'])||{})){
             for(let tc of _.get(entry, ['metadata', 'trait_citations', traitType])){
-                out += _.join([id, fennec_id, traitType, tc['citation'], tc['value']], "\t")+"\n";
+                out += _.join([id, fennec_id, scientific_name, traitType, tc['citation'], tc['value']], "\t")+"\n";
             }
         }
     }

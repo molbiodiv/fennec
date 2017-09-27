@@ -29,7 +29,9 @@ class APIController extends Controller
             $user = $this->get('security.token_storage')->getToken()->getUser();
         }
         $result = $service->execute($queryData, $user);
-        return $this->json($result);
+        $response = $this->json($result);
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+        return $response;
     }
 
 }

@@ -3,7 +3,10 @@
 Fennec - Functional Exploration of Natural Networks and Ecological Communities.
 [![DOI](https://zenodo.org/badge/51136300.svg)](https://zenodo.org/badge/latestdoi/51136300)
 ## Getting started
-To get started with the development do the following:
+If you want to learn how to use FENNEC or if you want to host your own instance please refer to the [official documentation](http://fennec.readthedocs.io/en/latest/).
+If you want to use the API please see the [API documentation](https://molbiodiv.github.io/fennec/doc/api/) (in development).
+
+To get started with the development read on:
 ### Install prerequisits
  - [composer](https://getcomposer.org/download/)
  - [node.js](https://nodejs.org/en/download/)
@@ -66,6 +69,12 @@ npm test
 Anything else should be in the [official documentation](http://fennec.readthedocs.io/en/latest/).
 
 ## Changes
+### 0.8.4 <2017-09-27>
+ - Add API documentation
+ - Add cors header to make API accessible (#109)
+ - Make content wrapper expand automatically (#99)
+ - Fix dropdown on project details page (#98)
+ - Add scientific name to trait citation export (#97)
 ### 0.8.3 <2017-08-23>
  - Fix bug (add sample trait to project from table via +)
  - Add documentation for [SCALES bee traits](http://scales.ckff.si/scaletool/?menu=6&submenu=3) 
