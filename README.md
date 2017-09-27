@@ -69,6 +69,12 @@ npm test
 Anything else should be in the [official documentation](http://fennec.readthedocs.io/en/latest/).
 
 ## Changes
+### 0.8.4 <2017-09-27>
+ - Add API documentation
+ - Add cors header to make API accessible (#109)
+ - Make content wrapper expand automatically (#99)
+ - Fix dropdown on project details page (#98)
+ - Add scientific name to trait citation export (#97)
 ### 0.8.3 <2017-08-23>
  - Fix bug (add sample trait to project from table via +)
  - Add documentation for [SCALES bee traits](http://scales.ckff.si/scaletool/?menu=6&submenu=3) 
