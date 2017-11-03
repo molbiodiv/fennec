@@ -1,5 +1,10 @@
 {% extends 'base.html.twig' %}
 
+{% block head %}
+    {{ parent() }}
+    {% include 'googleAnalytics/code.html.twig' %}
+{% endblock %}
+
 {% block javascripts %}
     {{ parent() }}
     {% include 'components/base.navigation.dbversion.html.twig' %}
@@ -23,6 +28,7 @@
                     <option data-icon="glyphicon-tag" value="{{ dbversion }}" > {{ dbversion }} </option>
                     {% endfor %}
                 </select>
+
 
                 <li class="dropdown">
                     <a class="dropdown-toggle navbar-custom navbar-icon-custom" data-toggle="dropdown" href="#" style="background-color: transparent;">
@@ -81,6 +87,7 @@
                             </ul>
                         </li>
                     </ul>
+                    {% include 'googleAnalytics/info.html.twig' %}
                 </div>
                 <!-- /.sidebar-collapse -->
             </div>
@@ -100,4 +107,5 @@
             {% endblock %}
         </div>
     </div>
+    {% include 'googleAnalytics/dialog.html.twig' %}
 {% endblock %}

@@ -44,6 +44,7 @@ twig:
     globals:
         fennec_version: "%application_version%"
         dbversions: "%dbal%"
+        ga_tracking: "%ga_tracking%"
 
 # Swiftmailer Configuration
 swiftmailer:

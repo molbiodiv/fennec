@@ -154,7 +154,7 @@
     ],
     "sampleRequest": [
       {
-        "url": "http://localhost:3141/api/listing/overview"
+        "url": "http://fennec.molecular.eco/api/listing/overview"
       }
     ],
     "filename": "src/AppBundle/API/Listing/Overview.php",

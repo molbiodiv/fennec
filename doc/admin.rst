@@ -383,18 +383,19 @@ IUCN Redlist
 IUCN redlist data can be conveniently downloaded using the `API<http://apiv3.iucnredlist.org/>`_.
 Before you can query the API you need to register for a token.
 Also if you want to put this data into a public instance you have to make sure to always (automatically) update the data to the latest version in order to comply with the terms of use.
-For an initial import follow these steps inside your fennec container (you need `jq<https://stedolan.github.io/jq/>`_)::
+For convenience there are some scripts that help with download and update of IUCN data.
+You first have to do some initial preparation and then add an entry to crontab (in the fennec container)::
 
-    VERSION=$(curl -sS "apiv3.iucnredlist.org/api/v3/version" | jq --raw-output '.version')
-    OUT_FILE=IUCN-${VERSION}.json
-    # put your api token into a file called .iucn_token
-    wget https://raw.githubusercontent.com/molbiodiv/fennec-cli/master/bin/download_iucn_api.sh
-    bash download_iucn_api.sh $VERSION $OUT_FILE
-    perl -F"\t" -ane 'chomp $F[11];print "$F[7]\t$F[11]\t\t\t\n";' IUCN-${VERSION}.tsv >/tmp/iucn.tsv
-    /fennec/bin/console app:create-traittype --format categorical_free --description "The IUCN Red List of Threatened Species" --ontology_url "http://www.iucnredlist.org" "IUCN Red List"
-    /fennec/bin/console app:create-webuser "IUCN" # Note user-id for next commands
-    /fennec/bin/console app:import-trait-entries --user-id 8 --default-citation "IUCN $(date "+%Y"). IUCN Red List of Threatened Species. Version $VERSION <www.iucnredlist.org>" --traittype "IUCN Red List" --mapping scientific_name --skip-unmapped /tmp/iucn.tsv
+    mkdir -p /iucn
+    cd /iucn
+    echo "YOUR IUCN API TOKEN" >.iucn_token
+    crontab -e
+    # Add the following line (without the # at the beginning of the line)
+    #17 * * * * cd /iucn;/fennec/util/check_download_update_iucn.sh >>iucn_cron.log 2>>iucn_cron.err
 
+This will download the most current version of the IUCN red list via the api and add it to the fennec database.
+On the first run the webuser and traittype are automatically generated.
+On subsequent runs if the version of IUCN is unchanged nothing happens and if there is a new version the old traits are expired and the new data is loaded.
 You will notice that only about half the entries could be mapped by their scientific name.
 One reason for that is that many species on the red list are species with a small population size endemic to a small geographic region.
 

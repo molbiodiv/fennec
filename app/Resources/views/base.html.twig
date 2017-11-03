@@ -10,6 +10,7 @@
             <link rel="stylesheet" href="{{ asset('assets/css/fennec-font.css') }}">
         {% endblock %}
         <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}" />
+        {% block head %}{% endblock %}
     </head>
     <body>
         <div id="globals" style="display:none" data-dbversion="{{ dbversion }}"></div>

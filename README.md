@@ -69,6 +69,10 @@ npm test
 Anything else should be in the [official documentation](http://fennec.readthedocs.io/en/latest/).
 
 ## Changes
+### 0.9.0 <2017-11-03>
+ - Add cron capability to docker (#101)
+ - Add option to use google analytics
+ - Breaking changes: docker container has to be pulled, `ga_tracking` has to be added to `parameters.yml` (can be empty)
 ### 0.8.4 <2017-09-27>
  - Add API documentation
  - Add cors header to make API accessible (#109)
