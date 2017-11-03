@@ -1,0 +1,1 @@
+17 * * * * cd /home/iucn;/home/fennec-cli/check_download_update_iucn.sh >>/tmp/iucn.log 2>>/tmp/iucn.err
