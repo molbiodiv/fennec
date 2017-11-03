@@ -53,6 +53,9 @@ class ExpireTraitEntriesCommand extends ContainerAwareCommand
             return;
         }
         $this->initConnection($input);
+        // Logger has to be disabled, otherwise memory increases linearly
+        $this->em->getConnection()->getConfiguration()->setSQLLogger(null);
+        gc_enable();
         $traitType = $this->em->getRepository('AppBundle:TraitType')->findOneBy(array('type' => $input->getOption('traittype')));
         if($traitType === null){
             $output->writeln('<error>Error: Unknown traittype '.$traitType.'</error>');
