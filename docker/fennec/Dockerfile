@@ -3,7 +3,7 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 RUN echo "deb http://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
 RUN apt-get update \
-&& apt-get install -yq nodejs git postgresql-client libpq-dev unzip vim libdbd-pg-perl liblog-log4perl-perl yarn\
+&& apt-get install -yq nodejs git postgresql-client libpq-dev unzip vim libdbd-pg-perl liblog-log4perl-perl yarn jq cron\
 && rm -rf /var/lib/apt/lists/* \
 && docker-php-ext-install pdo pdo_pgsql zip \
 && a2enmod rewrite \
