@@ -3,6 +3,7 @@
 namespace Tests\AppBundle\Command;
 
 
+use AppBundle\Command\ExpireTraitEntriesCommand;
 use AppBundle\Entity\TraitCategoricalEntry;
 use AppBundle\Entity\TraitCategoricalValue;
 use AppBundle\Entity\TraitNumericalEntry;
@@ -12,7 +13,6 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
-use Symfony\Component\Validator\Constraints\DateTime;
 
 class ExpireTraitEntriesCommandTest extends KernelTestCase
 {
@@ -44,7 +44,7 @@ class ExpireTraitEntriesCommandTest extends KernelTestCase
     {
         $this->commandTester->execute(array(
             'command' => $this->command->getName(),
-            'traittype' => 'expire-test'
+            '--traittype' => 'expire-test'
         ));
         // the output of the command in the console
         $output = $this->commandTester->getDisplay();
@@ -64,9 +64,10 @@ class ExpireTraitEntriesCommandTest extends KernelTestCase
         $this->em->persist($value1);
         $entry1 = new TraitCategoricalEntry();
         $entry1->setTraitType($ttype);
-        $entry1->setFennec(725);
+        $entry1->setFennec($this->em->find('AppBundle:Organism', 725));
         $entry1->setTraitCategoricalValue($value1);
-        $entry1->setWebuser(1);
+        $entry1->setWebuser($this->em->find('AppBundle:Webuser', 1));
+        $entry1->setPrivate(false);
         $this->em->persist($entry1);
         $value2 = new TraitCategoricalValue();
         $value2->setValue('value2');
@@ -74,13 +75,14 @@ class ExpireTraitEntriesCommandTest extends KernelTestCase
         $this->em->persist($value2);
         $entry2 = new TraitCategoricalEntry();
         $entry2->setTraitType($ttype);
-        $entry2->setFennec(213);
+        $entry2->setFennec($this->em->find('AppBundle:Organism', 213));
         $entry2->setTraitCategoricalValue($value2);
-        $entry2->setWebuser(1);
+        $entry2->setWebuser($this->em->find('AppBundle:Webuser', 1));
+        $entry2->setPrivate(false);
         $this->em->persist($entry2);
         $this->em->flush();
         $entries = $this->em->getRepository('AppBundle:TraitCategoricalEntry')->findBy(array(
-            'traitType' => 'expireCategoricalTrait'
+            'traitType' => $ttype
         ));
         foreach($entries as $entry){
             $this->assertNull($entry->getDeletionDate(), 'Before expiry the deletion dates are null');
@@ -93,7 +95,7 @@ class ExpireTraitEntriesCommandTest extends KernelTestCase
         ));
 
         $entries = $this->em->getRepository('AppBundle:TraitCategoricalEntry')->findBy(array(
-            'traitType' => 'expireCategoricalTrait'
+            'traitType' => $ttype
         ));
         foreach($entries as $entry){
             $this->assertNotNull($entry->getDeletionDate(), 'After expiry the deletion dates are not null');
@@ -109,19 +111,21 @@ class ExpireTraitEntriesCommandTest extends KernelTestCase
         $this->em->persist($ttype);
         $entry1 = new TraitNumericalEntry();
         $entry1->setTraitType($ttype);
-        $entry1->setFennec(725);
+        $entry1->setFennec($this->em->find('AppBundle:Organism', 725));
         $entry1->setValue(13);
-        $entry1->setWebuser(1);
+        $entry1->setWebuser($this->em->find('AppBundle:Webuser', 1));
+        $entry1->setPrivate(false);
         $this->em->persist($entry1);
         $entry2 = new TraitNumericalEntry();
         $entry2->setTraitType($ttype);
-        $entry2->setFennec(213);
-        $entry2->setTraitCategoricalValue(36429);
-        $entry2->setWebuser(1);
+        $entry2->setFennec($this->em->find('AppBundle:Organism', 213));
+        $entry2->setValue(36429);
+        $entry2->setWebuser($this->em->find('AppBundle:Webuser', 1));
+        $entry2->setPrivate(false);
         $this->em->persist($entry2);
         $this->em->flush();
         $entries = $this->em->getRepository('AppBundle:TraitNumericalEntry')->findBy(array(
-            'traitType' => 'expireNumericalTrait'
+            'traitType' => $ttype
         ));
         foreach($entries as $entry){
             $this->assertNull($entry->getDeletionDate(), 'Before expiry the deletion dates are null');
@@ -134,7 +138,7 @@ class ExpireTraitEntriesCommandTest extends KernelTestCase
         ));
 
         $entries = $this->em->getRepository('AppBundle:TraitNumericalEntry')->findBy(array(
-            'traitType' => 'expireNumericalTrait'
+            'traitType' => $ttype
         ));
         foreach($entries as $entry){
             $this->assertNotNull($entry->getDeletionDate(), 'After expiry the deletion dates are not null');
@@ -151,27 +155,29 @@ class ExpireTraitEntriesCommandTest extends KernelTestCase
         $this->em->persist($ttype);
         $entry1 = new TraitNumericalEntry();
         $entry1->setTraitType($ttype);
-        $entry1->setFennec(8);
+        $entry1->setFennec($this->em->find('AppBundle:Organism', 8));
         $entry1->setValue(0);
-        $entry1->setWebuser(1);
-        $originalTime = new DateTime();
+        $entry1->setWebuser($this->em->find('AppBundle:Webuser', 1));
+        $entry1->setPrivate(false);
+        $originalTime = new \DateTime("yesterday");
         $entry1->setDeletionDate($originalTime);
         $this->em->persist($entry1);
         $entry2 = new TraitNumericalEntry();
         $entry2->setTraitType($ttype);
-        $entry2->setFennec(213);
-        $entry2->setTraitCategoricalValue(36429);
-        $entry2->setWebuser(1);
+        $entry2->setFennec($this->em->find('AppBundle:Organism', 382));
+        $entry2->setValue(36429);
+        $entry2->setWebuser($this->em->find('AppBundle:Webuser', 1));
+        $entry2->setPrivate(false);
         $this->em->persist($entry2);
         $this->em->flush();
         $alreadyDeletedEntry = $this->em->getRepository('AppBundle:TraitNumericalEntry')->findOneBy(array(
-            'traitType' => 'preserveDeletionDate',
-            'fennec' => 8
+            'traitType' => $ttype,
+            'fennec' => $this->em->find('AppBundle:Organism', 8)
         ));
         $this->assertEquals($originalTime, $alreadyDeletedEntry->getDeletionDate(), 'Before expiry the deletion dates is already set');
         $previouslyNotDeletedEntry = $this->em->getRepository('AppBundle:TraitNumericalEntry')->findOneBy(array(
-            'traitType' => 'preserveDeletionDate',
-            'fennec' => 213
+            'traitType' => $ttype,
+            'fennec' => $this->em->find('AppBundle:Organism', 382)
         ));
         $this->assertNull($previouslyNotDeletedEntry->getDeletionDate(), 'Before expiry the deletion date is null');
 
@@ -183,13 +189,13 @@ class ExpireTraitEntriesCommandTest extends KernelTestCase
         ));
 
         $alreadyDeletedEntry = $this->em->getRepository('AppBundle:TraitNumericalEntry')->findOneBy(array(
-            'traitType' => 'preserveDeletionDate',
-            'fennec' => 8
+            'traitType' => $ttype,
+            'fennec' => $this->em->find('AppBundle:Organism', 8)
         ));
         $this->assertEquals($originalTime, $alreadyDeletedEntry->getDeletionDate(), 'After expiry the deletion date is unchanged');
         $previouslyNotDeletedEntry = $this->em->getRepository('AppBundle:TraitNumericalEntry')->findOneBy(array(
-            'traitType' => 'preserveDeletionDate',
-            'fennec' => 213
+            'traitType' => $ttype,
+            'fennec' => $this->em->find('AppBundle:Organism', 382)
         ));
         $this->assertNotNull($previouslyNotDeletedEntry->getDeletionDate(), 'After expiry the deletion date is set');
         $this->assertNotEquals($originalTime, $previouslyNotDeletedEntry->getDeletionDate(), 'After expiry the deletion date is not the same as that of the manually set one');
