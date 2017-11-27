@@ -4,20 +4,26 @@ namespace AppBundle\User;
 
 use AppBundle\Entity\OauthProvider;
 use AppBundle\Entity\Webuser;
-use Doctrine\ORM\EntityManager;
-use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthUser;
+use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use FOS\UserBundle\Model\User as BaseUser;
 
-class FennecUser extends OAuthUser
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="fennec_user")
+ */
+class FennecUser extends BaseUser
 {
     /**
      * @var string
      */
     protected $username;
     /**
-     * @var string
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="integer")
      */
-    private $id;
+    protected $id;
     /**
      * @var string
      */
