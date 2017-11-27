@@ -54,27 +54,27 @@ swiftmailer:
     password:  "%mailer_password%"
     spool:     { type: memory }
 
-hwi_oauth:
-    # list of names of the firewalls in which this bundle is active, this setting MUST be set
-    firewall_names: [secured_area]
-    http_client:
-        timeout: 10
-    resource_owners:
-        github:
-            type:                github
-            client_id:           "%github_client_id%"
-            client_secret:       "%github_client_secret%"
-            scope:               'user:email,public_repo'
-            options:
-                csrf:            true
-        google:
-            type:                google
-            client_id:           "%google_client_id%"
-            client_secret:       "%google_client_secret%"
-            scope:               "email"
-            options:
-                access_type:     offline
-                csrf:            true
+#hwi_oauth:
+#    # list of names of the firewalls in which this bundle is active, this setting MUST be set
+#    firewall_names: [secured_area]
+#    http_client:
+#        timeout: 10
+#    resource_owners:
+#        github:
+#            type:                github
+#            client_id:           "%github_client_id%"
+#            client_secret:       "%github_client_secret%"
+#            scope:               'user:email,public_repo'
+#            options:
+#                csrf:            true
+#        google:
+#            type:                google
+#            client_id:           "%google_client_id%"
+#            client_secret:       "%google_client_secret%"
+#            scope:               "email"
+#            options:
+#                access_type:     offline
+#                csrf:            true
 
 shivas_versioning:
     version_file:  version.yml
