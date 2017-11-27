@@ -37,7 +37,8 @@
         "symfony/web-server-bundle": "^3.3",
         "symfony/proxy-manager-bridge": "^3.3",
         "ocramius/proxy-manager": "^2.0",
-        "friendsofsymfony/user-bundle": "^2.0"
+        "friendsofsymfony/user-bundle": "^2.0",
+        "doctrine/doctrine-migrations-bundle": "^1.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
