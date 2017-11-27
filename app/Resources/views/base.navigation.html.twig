@@ -41,23 +41,22 @@
                     <!-- /.dropdown-help -->
                 </li>
 
-                <li class="dropdown">
-                    <a class="dropdown-toggle navbar-custom navbar-icon-custom" data-toggle="dropdown" href="#" style="background-color: transparent;">
-                        <i class="fa fa-user fa-fw"></i>
-                        {{ app.user.username | default('login') }}
-                        <i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-user">
-                        {% if app.user %}
-                            <li><a href="{{ path('logout') }}"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
-                        {% else %}
-                            <li><a href="{{ path('github_login') }}"><i class="fa fa-github fa-fw"></i> Login with GitHub</a></li>
-                            <li><a href="{{ path('google_login') }}"><i class="fa fa-google fa-fw"></i> Login with Google</a></li>
-                            <li><a href="{{ path('login_demo') }}"><i class="fa fa-laptop fa-fw"></i> Demo User</a></li>
-                        {%  endif %}
-                    </ul>
-                    <!-- /.dropdown-user -->
-                </li>
+                {#<li class="dropdown">#}
+                    {#<a class="dropdown-toggle navbar-custom navbar-icon-custom" data-toggle="dropdown" href="#" style="background-color: transparent;">#}
+                        {#<i class="fa fa-user fa-fw"></i>#}
+                        {#{{ app.user.username | default('login') }}#}
+                        {#<i class="fa fa-caret-down"></i>#}
+                    {#</a>#}
+                    {#<ul class="dropdown-menu dropdown-user">#}
+                        {#{% if app.user %}#}
+                            {#<li><a href="{{ path('logout') }}"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>#}
+                        {#{% else %}#}
+                            {#<li><a href="{{ path('github_login') }}"><i class="fa fa-github fa-fw"></i> Login with GitHub</a></li>#}
+                            {#<li><a href="{{ path('google_login') }}"><i class="fa fa-google fa-fw"></i> Login with Google</a></li>#}
+                        {#{%  endif %}#}
+                    {#</ul>#}
+                    {#<!-- /.dropdown-user -->#}
+                {#</li>#}
                 <!-- /.dropdown -->
             </ul>
             <!-- /.navbar-top-links -->
