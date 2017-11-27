@@ -28,9 +28,9 @@ class StartpageController extends Controller
         $query = $request->query;
         $query->set('dbversion', $dbversion);
         $user = null;
-        if($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')){
-            $user = $this->get('security.token_storage')->getToken()->getUser();
-        }
+//        if($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')){
+//            $user = $this->get('security.token_storage')->getToken()->getUser();
+//        }
         $overview = $oc->execute($query, $user);
         $title = "Welcome";
         if($user !== null){
