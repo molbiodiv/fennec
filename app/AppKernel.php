@@ -18,7 +18,7 @@ class AppKernel extends Kernel
             new Symfony\Bundle\WebServerBundle\WebServerBundle(),
             new AppBundle\AppBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
-            //new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
+            new FOS\UserBundle\FOSUserBundle(),
             new Shivas\VersioningBundle\ShivasVersioningBundle(),
         ];
 
