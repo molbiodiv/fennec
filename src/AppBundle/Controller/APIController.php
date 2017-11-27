@@ -25,9 +25,9 @@ class APIController extends Controller
         }
         $queryData = new ParameterBag(array_merge($request->query->all(), $request->request->all()));
         $user = null;
-        if($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')){
-            $user = $this->get('security.token_storage')->getToken()->getUser();
-        }
+//        if($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')){
+//            $user = $this->get('security.token_storage')->getToken()->getUser();
+//        }
         $result = $service->execute($queryData, $user);
         $response = $this->json($result);
         $response->headers->set('Access-Control-Allow-Origin', '*');
