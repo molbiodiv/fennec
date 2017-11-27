@@ -37,11 +37,6 @@ security:
 
                 oauth_user_provider:
                     service: app.user.provider
-            simple_form:
-                authenticator: app.user.demo
-                check_path:    /login-demo
-                login_path:    /login-demo
-                provider:      hwi
             logout:
                 path: /logout
                 target: /
