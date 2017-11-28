@@ -18,11 +18,6 @@ class FennecUser extends BaseUser
      */
     protected $id;
 
-    /**
-     * @ORM\Column(type="string")
-     */
-    private $firstName;
-
     public function getId()
     {
         return $this->id;
