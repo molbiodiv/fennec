@@ -4,7 +4,7 @@ namespace AppBundle\API\Listing;
 
 use AppBundle\API\Webservice;
 use AppBundle\Entity\WebuserData;
-use AppBundle\User\FennecUser;
+use AppBundle\Entity\FennecUser;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\ParameterBag;
 

@@ -3,7 +3,7 @@
 namespace AppBundle\API\Mapping;
 
 use AppBundle\API\Webservice;
-use AppBundle\User\FennecUser;
+use AppBundle\Entity\FennecUser;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
 class ByOrganismName extends Webservice

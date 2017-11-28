@@ -3,7 +3,7 @@
 namespace AppBundle\API\Listing;
 
 use AppBundle\API\Webservice;
-use AppBundle\User\FennecUser;
+use AppBundle\Entity\FennecUser;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManager;

@@ -4,7 +4,7 @@ namespace Test\AppBundle\API\Details;
 
 use AppBundle\API\Details\OrganismsOfProject;
 use AppBundle\API\Webservice;
-use AppBundle\User\FennecUser;
+use AppBundle\Entity\FennecUser;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Tests\AppBundle\API\WebserviceTestCase;
 

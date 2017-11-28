@@ -57,7 +57,7 @@ swiftmailer:
 fos_user:
     db_driver: orm
     firewall_name: main
-    user_class: AppBundle\User\FennecUser
+    user_class: AppBundle\Entity\FennecUser
     from_email:
         address: "hello@fennec.com"
         sender_name: "Fennec"

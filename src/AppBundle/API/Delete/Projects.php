@@ -5,7 +5,7 @@ namespace AppBundle\API\Delete;
 use AppBundle\API\Webservice;
 use AppBundle\AppBundle;
 use AppBundle\Entity\WebuserData;
-use AppBundle\User\FennecUser;
+use AppBundle\Entity\FennecUser;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
 /**

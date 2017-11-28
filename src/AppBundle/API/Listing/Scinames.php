@@ -3,7 +3,7 @@
 namespace AppBundle\API\Listing;
 
 use AppBundle\API\Webservice;
-use AppBundle\User\FennecUser;
+use AppBundle\Entity\FennecUser;
 use \PDO as PDO;
 use Symfony\Component\HttpFoundation\ParameterBag;
 

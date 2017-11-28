@@ -3,7 +3,7 @@
 namespace AppBundle\API;
 
 use AppBundle\ORM;
-use AppBundle\User\FennecUser;
+use AppBundle\Entity\FennecUser;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\ParameterBag;

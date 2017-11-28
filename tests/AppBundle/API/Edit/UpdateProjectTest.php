@@ -2,7 +2,7 @@
 
 namespace Tests\AppBundle\API\Edit;
 
-use AppBundle\User\FennecUser;
+use AppBundle\Entity\FennecUser;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Tests\AppBundle\API\WebserviceTestCase;
 

@@ -4,7 +4,7 @@ namespace AppBundle\API\Edit;
 
 
 use AppBundle\API\Webservice;
-use AppBundle\User\FennecUser;
+use AppBundle\Entity\FennecUser;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
 class UpdateProject extends Webservice
