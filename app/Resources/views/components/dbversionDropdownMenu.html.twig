@@ -1,0 +1,5 @@
+<select class="selectpicker" id="dbVersionPicker">
+    {% for dbversion in dbversions.connections|keys %}
+    <option data-icon="glyphicon-tag" value="{{ dbversion }}" > {{ dbversion }} </option>
+    {% endfor %}
+</select>
