@@ -7,7 +7,7 @@
 </div>
 
 {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
-    {{ form_widget(form) }}
+{{ form_widget(form) }}
 <div>
     <input class="btn btn-register" type="submit" value="{{ 'registration.submit'|trans }}" />
 </div>
