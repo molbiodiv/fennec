@@ -14,3 +14,7 @@ services:
         class: AppBundle\Service\TwigProvider\DBVersion
         arguments: ['@twig', '%doctrine.default_connection%']
         tags: [{name: kernel.event_listener, event: kernel.request}]
+    app.twig_provider.types:
+        class: AppBundle\Service\TwigProvider\Types
+        arguments: ['@twig']
+        tags: [{name: kernel.event_listener, event: kernel.request}]
