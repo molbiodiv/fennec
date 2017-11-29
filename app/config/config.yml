@@ -61,6 +61,9 @@ fos_user:
     from_email:
         address: "hello@fennec.com"
         sender_name: "Fennec"
+    registration:
+        form:
+            type: AppBundle\Form\RegistrationFormType
 
 
 shivas_versioning:
