@@ -45,6 +45,7 @@ twig:
         fennec_version: "%application_version%"
         dbversions: "%dbal%"
         ga_tracking: "%ga_tracking%"
+    form_themes: ['bootstrap_3_horizontal_layout.html.twig']
 
 # Swiftmailer Configuration
 swiftmailer:
