@@ -1,8 +1,38 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h1 class="page-header" id="page-title">Register to Fennec </h1>
+    </div>
+</div>
+
 {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
-    {{ form_widget(form) }}
+<div class="row">
+    <div class="col-xs-6">
+        {{ form_row(form.email) }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-6">
+        {{ form_row(form.firstName) }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-6">
+        {{ form_row(form.lastName) }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-6">
+        {{ form_row(form.username) }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-6">
+        {{ form_row(form.plainPassword) }}
+    </div>
+</div>
 <div>
-    <input type="submit" value="{{ 'registration.submit'|trans }}" />
+    <input class="btn btn-primary" type="submit" value="{{ 'registration.submit'|trans }}" />
 </div>
 {{ form_end(form) }}
