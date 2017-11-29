@@ -20,4 +20,4 @@ services:
         tags: [{name: kernel.event_listener, event: kernel.request}]
     app.form.registration:
         class: AppBundle\Form\RegistrationFormType
-        tag: [{name: form.type}]
+        tags: [{name: form.type, alias: app_user_registration }]
