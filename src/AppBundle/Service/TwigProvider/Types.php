@@ -25,8 +25,7 @@ class Types
     }
 
     public function onKernelRequest(GetResponseEvent $event){
-        $this->twig->addGlobal('types', 'startpage');
-        $this->twig->addGlobal('title', 'Welcome');
+        $this->twig->addGlobal('type', 'startpage');
     }
 
 
