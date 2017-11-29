@@ -24,7 +24,11 @@
             <ul class="nav navbar-top-links navbar-right">
                 <font style="margin-right: 5px; font-size: 16px;">version: </font>
 
-                {{  render(controller('AppBundle:DBVersionDropdownMenu:index')) }}
+                <select class="selectpicker" id="dbVersionPicker">
+                    {% for dbversion in dbversions.connections|keys %}
+                        <option data-icon="glyphicon-tag" value="{{ dbversion }}" > {{ dbversion }} </option>
+                    {% endfor %}
+                </select>
 
                 <li class="dropdown">
                     <a class="dropdown-toggle navbar-custom navbar-icon-custom" data-toggle="dropdown" href="#" style="background-color: transparent;">
