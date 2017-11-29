@@ -7,65 +7,17 @@
 </div>
 
 {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
-<div class="row" style="margin: 10px;">
-    <div class="col-xs-1">
-        {{ form_label(form.email) }}
-    </div>
-    <div class="col-xs-6">
-        {{ form_errors(form.email) }}
-        {{ form_widget(form.email) }}
-    </div>
-</div>
-<div class="row" style="margin: 10px;">
-    <div class="col-xs-1">
-        {{ form_label(form.firstName) }}
-    </div>
-    <div class="col-xs-6">
-        {{ form_errors(form.firstName) }}
-        {{ form_widget(form.firstName) }}
-    </div>
-</div>
-<div class="row" style="margin: 10px;">
-    <div class="col-xs-1">
-        {{ form_label(form.lastName) }}
-    </div>
-    <div class="col-xs-6">
-        {{ form_errors(form.lastName) }}
-        {{ form_widget(form.lastName) }}
-    </div>
-</div>
-<div class="row" style="margin: 10px;">
-    <div class="col-xs-1">
-        {{ form_label(form.username) }}
-    </div>
-    <div class="col-xs-6">
-        {{ form_errors(form.username) }}
-        {{ form_widget(form.username) }}
-    </div>
-</div>
-<div class="row" style="margin: 10px;">
-    <div class="col-xs-1">
-        {{ form_label(form.plainPassword.first) }}
-    </div>
-    <div class="col-xs-6">
-        {{ form_errors(form.plainPassword.first) }}
-        {{ form_widget(form.plainPassword.first) }}
-    </div>
-</div>
-<div class="row" style="margin: 10px;">
-    <div class="col-xs-1">
-        {{ form_label(form.plainPassword.second) }}
-    </div>
-    <div class="col-xs-6">
-        {{ form_errors(form.plainPassword.second) }}
-        {{ form_widget(form.plainPassword.second) }}
-    </div>
-</div>
-<div class="row" style="margin: 10px;">
-    <div class="col-xs-12">
-        <div>
-            <input class="btn btn-primary" type="submit" value="{{ 'registration.submit'|trans }}" />
+    {{ form_row(form.firstName) }}
+    {{ form_row(form.lastName) }}
+    {{ form_row(form.email) }}
+    {{ form_row(form.username) }}
+    {{ form_row(form.plainPassword) }}
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+    <div class="row" style="margin: 10px;">
+        <div class="col-xs-12">
+            <div>
+                <input class="btn btn-primary" type="submit" value="{{ 'registration.submit'|trans }}" />
+            </div>
         </div>
     </div>
-</div>
 {{ form_end(form) }}
