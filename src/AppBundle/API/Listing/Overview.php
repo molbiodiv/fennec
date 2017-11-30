@@ -64,28 +64,7 @@ class Overview extends Webservice
             return 0;
         }
 
-        $provider = $this->manager->getRepository('AppBundle:OauthProvider')->findOneBy(['provider' => $user->getProvider()]);
-        if($provider === null){
-            return 0;
-        }
-
-        $criteria = Criteria::create()->where(
-            Criteria::expr()->eq(
-                'oauthId',
-                $user->getId()
-            )
-        )->setMaxResults(1);
-
-        /**
-         * @var Collection $webUsers
-         */
-        $webUsers = $provider->getWebUsers()->matching($criteria);
-
-        if ($webUsers->count() < 1){
-            return 0;
-        }
-
-        return $webUsers->first()->getData()->count();
+        return $user->getData()->count();
     }
 
     private function get_number_of_organisms(){

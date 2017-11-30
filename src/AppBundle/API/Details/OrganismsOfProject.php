@@ -30,13 +30,6 @@ class OrganismsOfProject extends Webservice
         if ($user === null) {
             $result['error'] = Webservice::ERROR_NOT_LOGGED_IN;
         } else {
-            $provider = $manager->getRepository('AppBundle:OauthProvider')->findOneBy(array(
-                'provider' => $user->getProvider()
-            ));
-            $user = $manager->getRepository('AppBundle:Webuser')->findOneBy(array(
-                'oauthId' => $user->getId(),
-                'oauthProvider' => $provider
-            ));
             $project = $manager->getRepository('AppBundle:WebuserData')->findOneBy(array(
                 'webuser' => $user,
                 'webuserDataId' => $query->get('internal_project_id')
