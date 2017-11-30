@@ -104,7 +104,7 @@ class ProjectController extends Controller
      */
     private function getFennecUser(){
         $user = null;
-        if($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')){
+        if($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')){
             $user = $this->get('security.token_storage')->getToken()->getUser();
         }
         return $user;
