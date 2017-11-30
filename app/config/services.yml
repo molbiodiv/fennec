@@ -9,7 +9,7 @@ services:
         arguments: [ '@doctrine' ]
     app.api.webservice:
         class: AppBundle\API\Webservice
-        arguments: ['@app.orm']
+        arguments: ['@app.orm','@security.token_storage']
     app.twig_provider.dbversion:
         class: AppBundle\Service\TwigProvider\DBVersion
         arguments: ['@twig', '%doctrine.default_connection%']
