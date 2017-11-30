@@ -28,6 +28,14 @@ class FennecUser extends BaseUser
      */
     private $lastName;
 
+
+    /**
+     * @var \AppBundle\Entity\WebuserData
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\WebuserData", mappedBy="webuser")
+     */
+    private $data;
+
     /**
      * @return mixed
      */
@@ -63,5 +71,41 @@ class FennecUser extends BaseUser
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Add datum.
+     *
+     * @param \AppBundle\Entity\WebuserData $data
+     *
+     * @return FennecUser
+     */
+    public function addData(\AppBundle\Entity\WebuserData $data)
+    {
+        $this->data[] = $data;
+
+        return $this;
+    }
+
+    /**
+     * Remove datum.
+     *
+     * @param \AppBundle\Entity\WebuserData $data
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeData(\AppBundle\Entity\WebuserData $data)
+    {
+        return $this->data->removeElement($data);
+    }
+
+    /**
+     * Get data.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getData()
+    {
+        return $this->data;
     }
 }

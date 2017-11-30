@@ -93,11 +93,11 @@ class TraitNumericalEntry
     private $traitType;
 
     /**
-     * @var \AppBundle\Entity\Webuser
+     * @var \AppBundle\Entity\FennecUser
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Webuser")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\FennecUser")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="webuser_id", referencedColumnName="webuser_id", nullable=false)
+     *   @ORM\JoinColumn(name="webuser_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $webuser;

@@ -44,10 +44,10 @@ class WebuserData
     private $webuserDataId;
 
     /**
-     * @var \AppBundle\Entity\Webuser
+     * @var \AppBundle\Entity\FennecUser
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Webuser", inversedBy="data")
-     * @ORM\JoinColumn(name="webuser_id", referencedColumnName="webuser_id", nullable=false)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\FennecUser", inversedBy="data")
+     * @ORM\JoinColumn(name="webuser_id", referencedColumnName="id", nullable=false)
      */
     private $webuser;
 
