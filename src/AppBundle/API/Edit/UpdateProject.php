@@ -21,7 +21,7 @@ class UpdateProject extends Webservice
         if($user == null){
             return array('error' => 'User not logged in');
         }
-        $webuser = $user->getWebuser($em);
+        $webuser = $user;
         if($webuser === null){
             return array('error' => 'Could not update project. Not found for user.');
         }
