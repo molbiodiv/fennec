@@ -30,7 +30,7 @@ class Projects extends Webservice
         if ($user === null) {
             $result['error'] = Webservice::ERROR_NOT_LOGGED_IN;
         } else {
-            $webuser = $user->getWebuser($em);
+            $webuser = $user;
             if($webuser === null){
                 $result['error'] = Projects::PROJECT_NOT_FOUND_FOR_USER;
             }
