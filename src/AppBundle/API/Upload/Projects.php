@@ -46,7 +46,7 @@ class Projects extends Webservice
             $files = array("error" => WebService::ERROR_NOT_LOGGED_IN);
         } else {
             $create_if_not_exists = true;
-            $webuser = $user->getWebuser($em, $create_if_not_exists);
+            $webuser = $user;
             for ($i=0; $i<sizeof($_FILES); $i++) {
                 $valid = $this->validateAndConvertFile($_FILES[$i]['tmp_name']);
                 if ($valid === true) {
