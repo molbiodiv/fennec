@@ -19,6 +19,32 @@ class FennecUser extends BaseUser
     protected $id;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    protected $github_id;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $github_access_token;
+
+    /**
+     * @return mixed
+     */
+    public function getGithubId()
+    {
+        return $this->github_id;
+    }
+
+    /**
+     * @param mixed $github_id
+     */
+    public function setGithubId($github_id)
+    {
+        $this->github_id = $github_id;
+    }
+
+    /**
      * @ORM\Column(type="string")
      */
     private $firstName;
