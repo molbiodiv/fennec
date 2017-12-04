@@ -24,6 +24,22 @@ class FennecUser extends BaseUser
     protected $github_id;
 
     /**
+     * @return mixed
+     */
+    public function getGithubAccessToken()
+    {
+        return $this->github_access_token;
+    }
+
+    /**
+     * @param mixed $github_access_token
+     */
+    public function setGithubAccessToken($github_access_token)
+    {
+        $this->github_access_token = $github_access_token;
+    }
+
+    /**
      * @ORM\Column(type="string", nullable=true)
      */
     protected $github_access_token;
