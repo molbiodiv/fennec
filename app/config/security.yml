@@ -24,6 +24,16 @@ security:
             logout:       true
             anonymous:    true
 
+            oauth:
+                resource_owners:
+                    github: "/login/check-github"
+                login_path: "/login"
+                failure_path: "/login"
+
+                oauth_user_provider:
+                    service: app.fennec_user.oauth_provider
+
+
     access_control:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
