@@ -66,6 +66,23 @@ fos_user:
         form:
             type: AppBundle\Form\RegistrationFormType
 
+hwi_oauth:
+    # list of names of the firewalls in which this bundle is active, this setting MUST be set
+    firewall_names: [main]
+    fosub:
+        username_iterations: 30
+        properties:
+            github: github_id
+    http_client:
+        timeout: 10
+    resource_owners:
+        github:
+            type:                github
+            client_id:           "%github_client_id%"
+            client_secret:       "%github_client_secret%"
+            scope:               'user:email,public_repo'
+            options:
+                csrf:            true
 
 shivas_versioning:
     version_file:  version.yml
