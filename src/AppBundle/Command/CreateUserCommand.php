@@ -58,13 +58,13 @@ class CreateUserCommand extends ContainerAwareCommand
             $output->writeln('<info>User ID is: '.$user->getId().'</info>');
             return;
         }
-        $user = new FennecUser();
-        $user->setUsername($input->getArgument('username'));
-        $user->setEmail($input->getArgument('email'));
-        $user->setPassword($input->getArgument('password'));
-        $em->persist($user);
-        $em->flush();
-        $output->writeln('<info>Webuser successfully created: '.$user->getUsername().'</info>');
-        $output->writeln('<info>Webuser ID is: '.$user->getId().'</info>');
+        $username = $input->getArgument('username');
+        $email = $input->getArgument('email');
+        $password = $input->getArgument('password');
+        $inactive = $input->getOption('inactive');
+        $superadmin = $input->getOption('super-admin');
+        $manipulator = $this->getContainer()->get('fos_user.util.user_manipulator');
+        $manipulator->create($username, $password, $email, !$inactive, $superadmin);
+        $output->writeln('<info>Webuser successfully created: '.$username.'</info>');
     }
 }
