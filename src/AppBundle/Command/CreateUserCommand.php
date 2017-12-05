@@ -4,9 +4,6 @@ namespace AppBundle\Command;
 
 
 use AppBundle\Entity\FennecUser;
-use AppBundle\Entity\OauthProvider;
-use AppBundle\Entity\TraitType;
-use AppBundle\Entity\Webuser;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

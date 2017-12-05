@@ -8,7 +8,6 @@ use AppBundle\Entity\TraitCategoricalValue;
 use AppBundle\Entity\TraitCitation;
 use AppBundle\Entity\TraitNumericalEntry;
 use AppBundle\Entity\TraitType;
-use AppBundle\Entity\Webuser;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Config\Definition\Exception\Exception;
