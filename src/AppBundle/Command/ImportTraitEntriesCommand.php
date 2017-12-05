@@ -117,12 +117,12 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
         // Logger has to be disabled, otherwise memory increases linearly
         $this->em->getConnection()->getConfiguration()->setSQLLogger(null);
         gc_enable();
-        $user = $this->em->getRepository('AppBundle:Webuser')->find($input->getOption('user-id'));
+        $user = $this->em->getRepository('AppBundle:FennecUser')->find($input->getOption('user-id'));
         if($user === null){
             $output->writeln('<error>User with provided id does not exist in db.</error>');
             return;
         }
-        $userID = $user->getWebuserId();
+        $userID = $user->getId();
         $lines = intval(exec('wc -l '.escapeshellarg($input->getArgument('file')).' 2>/dev/null'));
         $progress = new ProgressBar($output, $lines);
         $progress->start();
@@ -322,7 +322,7 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
      * @param string $value
      * @param string|null $valueOntology
      * @param string $citation
-     * @param int $userID webuser_id
+     * @param int $userID fennecUser_id
      * @param string $originURL
      * @param boolean $public
      */
@@ -342,7 +342,7 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
         $traitEntry->setTraitCitation($traitCitation);
         $traitEntry->setOriginUrl($originURL);
         $traitEntry->setFennec($this->em->getReference('AppBundle:Organism', $fennec_id));
-        $traitEntry->setWebuser($this->em->getReference('AppBundle:Webuser', $userID));
+        $traitEntry->setWebuser($this->em->getReference('AppBundle:FennecUser', $userID));
         $traitEntry->setPrivate(!$public);
         $this->em->persist($traitEntry);
         ++$this->insertedEntries;
