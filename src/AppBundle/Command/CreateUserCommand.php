@@ -30,6 +30,8 @@ class CreateUserCommand extends ContainerAwareCommand
         ->addArgument('username', InputArgument::REQUIRED, 'The username of the new user')
         ->addArgument('email', InputArgument::REQUIRED, 'The email address of the new user')
         ->addArgument('password', InputArgument::REQUIRED, 'The password of the new user')
+        ->addOption('super-admin', 'a', InputOption::VALUE_NONE, 'Set the user as admin user.')
+        ->addOption('inactive', null, InputOption::VALUE_NONE, 'Set the user as inactive')
         ->addOption('connection', 'c', InputOption::VALUE_REQUIRED, 'The database version')
         ->addOption('oauth_provider', 'p', InputOption::VALUE_REQUIRED, 'The oauth_provider (string), will be created if not exists', 'manually_created')
     ;
