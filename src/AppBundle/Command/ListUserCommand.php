@@ -37,9 +37,9 @@ class ListUserCommand extends ContainerAwareCommand
         $em = $orm->getManagerForVersion($connection_name);
         $users = $em->getRepository('AppBundle:FennecUser')->findAll();
         $table = new Table($output);
-        $table->setHeaders(['user_id', 'github_id', 'firstName', 'lastName']);
+        $table->setHeaders(['user_id', 'github_id', 'firstName', 'lastName', 'username']);
         foreach($users as $user){
-            $table->addRow([$user->getId(), $user->getGithubId(), $user->getFirstName(), $user->getLastName()]);
+            $table->addRow([$user->getId(), $user->getGithubId(), $user->getFirstName(), $user->getLastName(), $user->getUsername()]);
         }
         $table->render();
     }

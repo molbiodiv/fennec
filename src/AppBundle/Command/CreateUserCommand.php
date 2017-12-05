@@ -3,6 +3,7 @@
 namespace AppBundle\Command;
 
 
+use AppBundle\Entity\FennecUser;
 use AppBundle\Entity\OauthProvider;
 use AppBundle\Entity\TraitType;
 use AppBundle\Entity\Webuser;
@@ -12,21 +13,23 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CreateWebuserCommand extends ContainerAwareCommand
+class CreateUserCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
         $this
         // the name of the command (the part after "bin/console")
-        ->setName('app:create-webuser')
+        ->setName('app:create-user')
 
         // the short description shown while running "php bin/console list"
-        ->setDescription('Creates new Webuser.')
+        ->setDescription('Creates new User.')
 
         // the full command description shown when running the command with
         // the "--help" option
-        ->setHelp("This command allows you to create webusers...")
-        ->addArgument('oauth_id', InputArgument::REQUIRED, 'The oauth_id of the new webuser')
+        ->setHelp("This command allows you to create users...")
+        ->addArgument('username', InputArgument::REQUIRED, 'The username of the new user')
+        ->addArgument('email', InputArgument::REQUIRED, 'The email address of the new user')
+        ->addArgument('password', InputArgument::REQUIRED, 'The password of the new user')
         ->addOption('connection', 'c', InputOption::VALUE_REQUIRED, 'The database version')
         ->addOption('oauth_provider', 'p', InputOption::VALUE_REQUIRED, 'The oauth_provider (string), will be created if not exists', 'manually_created')
     ;
@@ -35,7 +38,7 @@ class CreateWebuserCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln([
-            'Webuser Creator',
+            'User Creator',
             '===============',
             '',
         ]);
@@ -45,29 +48,21 @@ class CreateWebuserCommand extends ContainerAwareCommand
         }
         $orm = $this->getContainer()->get('app.orm');
         $em = $orm->getManagerForVersion($connection_name);
-        $provider = $em->getRepository('AppBundle:OauthProvider')->findOneBy([
-            'provider' => $input->getOption('oauth_provider')
+        $user = $em->getRepository('AppBundle:FennecUser')->findOneBy([
+            'username' => $input->getArgument('username')
         ]);
-        if($provider === null){
-            $provider = new OauthProvider();
-            $provider->setProvider($input->getOption('oauth_provider'));
-            $em->persist($provider);
-        }
-        $webuser = $em->getRepository('AppBundle:Webuser')->findOneBy([
-            'oauthId' => $input->getArgument('oauth_id'),
-            'oauthProvider' => $provider
-        ]);
-        if($webuser !== null){
-            $output->writeln('<info>Webuser already exists, nothing to do.</info>');
-            $output->writeln('<info>Webuser ID is: '.$webuser->getWebuserId().'</info>');
+        if($user !== null){
+            $output->writeln('<info>User already exists, nothing to do.</info>');
+            $output->writeln('<info>User ID is: '.$user->getId().'</info>');
             return;
         }
-        $webuser = new Webuser();
-        $webuser->setOauthId($input->getArgument('oauth_id'));
-        $webuser->setOauthProvider($provider);
-        $em->persist($webuser);
+        $user = new FennecUser();
+        $user->setUsername($input->getArgument('username'));
+        $user->setEmail($input->getArgument('email'));
+        $user->setPassword($input->getArgument('password'));
+        $em->persist($user);
         $em->flush();
-        $output->writeln('<info>Webuser successfully created: '.$webuser->getOauthId().'</info>');
-        $output->writeln('<info>Webuser ID is: '.$webuser->getWebuserId().'</info>');
+        $output->writeln('<info>Webuser successfully created: '.$user->getUsername().'</info>');
+        $output->writeln('<info>Webuser ID is: '.$user->getId().'</info>');
     }
 }
