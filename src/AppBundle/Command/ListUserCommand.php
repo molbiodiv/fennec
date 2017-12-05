@@ -9,20 +9,20 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ListWebuserCommand extends ContainerAwareCommand
+class ListUserCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
         $this
         // the name of the command (the part after "bin/console")
-        ->setName('app:list-webuser')
+        ->setName('app:list-user')
 
         // the short description shown while running "php bin/console list"
-        ->setDescription('Lists existing Webusers.')
+        ->setDescription('Lists existing users.')
 
         // the full command description shown when running the command with
         // the "--help" option
-        ->setHelp("This command allows you to list all existing webusers...")
+        ->setHelp("This command allows you to list all existing users...")
         ->addOption('connection', 'c', InputOption::VALUE_REQUIRED, 'The database version')
     ;
     }
@@ -35,11 +35,11 @@ class ListWebuserCommand extends ContainerAwareCommand
         }
         $orm = $this->getContainer()->get('app.orm');
         $em = $orm->getManagerForVersion($connection_name);
-        $webusers = $em->getRepository('AppBundle:Webuser')->findAll();
+        $users = $em->getRepository('AppBundle:FennecUser')->findAll();
         $table = new Table($output);
-        $table->setHeaders(['webuser_id', 'oauth_id', 'oauth_provider']);
-        foreach($webusers as $webuser){
-            $table->addRow([$webuser->getWebuserId(), $webuser->getOauthId(), $webuser->getOauthProvider()->getProvider()]);
+        $table->setHeaders(['user_id', 'github_id', 'firstName', 'lastName']);
+        foreach($users as $user){
+            $table->addRow([$user->getId(), $user->getGithubId(), $user->getFirstName(), $user->getLastName()]);
         }
         $table->render();
     }
