@@ -23,10 +23,5 @@ services:
         tags: [{name: form.type, alias: app_user_registration }]
     app.fos_user.oauth_provider:
         # Change the class according to the location of the FOSUBUserProvider class
-        class: AppBundle\Entity\FOSUBUserProvider
+        class: AppBundle\Security\Core\User\FOSUBUserProvider
         arguments: ['@fos_user.user_manager.default', {github: github_id}]
-#            # Inject as first argument the user_manager of FOSUserBundle
-#            user_manager: "@fos_user.user_manager.default"
-#            # An object/array with the registered Social Media from config.yml
-#            user_response:
-#                github: github_id
