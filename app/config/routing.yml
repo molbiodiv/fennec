@@ -32,4 +32,4 @@ logout:
 easy_admin_bundle:
     resource: "@EasyAdminBundle/Controller/AdminController.php"
     type: annotation
-    admin: /admin
+    prefix: /admin
