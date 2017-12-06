@@ -50,6 +50,9 @@
                     <ul class="dropdown-menu dropdown-user">
                         {% if is_granted('ROLE_USER') %}
                             <li><a href="{{ path('fos_user_security_logout') }}"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
+                            {% if is_granted('ROLE_ADMIN')%}
+                                <li><a href="{{ path('easyadmin') }}"><i class="fa fa-lock fa-fw"></i> Admin Area</a> </li>
+                            {% endif %}
                         {% else %}
                             <li><a href="{{ path('fos_user_security_login') }}"><i class="fa fa-sign-in fa-fw"></i> Login</a></li>
                             <li><a href="{{ path('github_login') }}"><i class="fa fa-github fa-fw"></i> Login with GitHub</a></li>
