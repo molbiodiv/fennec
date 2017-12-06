@@ -90,3 +90,6 @@ shivas_versioning:
 easy_admin:
     entities:
         - AppBundle\Entity\FennecUser
+    site_name: 'Fennec Backend'
+    design:
+        brand_color: '#514535'
