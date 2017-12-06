@@ -8,6 +8,12 @@ use FOS\UserBundle\Model\User as BaseUser;
 /**
  * @ORM\Entity
  * @ORM\Table(name="`fennec_user`")
+ * @ORM\AttributeOverrides({
+ *     @ORM\AttributeOverride(name="password",
+ *          column=@ORM\Column(
+ *              nullable=true
+ *          ))
+ *     })
  */
 class FennecUser extends BaseUser
 {
