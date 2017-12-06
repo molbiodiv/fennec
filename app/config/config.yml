@@ -86,3 +86,7 @@ hwi_oauth:
 
 shivas_versioning:
     version_file:  version.yml
+
+easy_admin:
+    entities:
+        - AppBundle\Entity\FennecUser
