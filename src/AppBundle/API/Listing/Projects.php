@@ -23,30 +23,22 @@ class Projects extends Webservice
     */
     public function execute(ParameterBag $query, FennecUser $user = null)
     {
-        $em = $this->getManagerFromQuery($query);
         $result = array('data' => array());
         if ($user == null) {
             $result['error'] = Webservice::ERROR_NOT_LOGGED_IN;
         } else {
-            $webuser = $user;
-            if($webuser !== null) {
-                /**
-                 * @var Collection
-                 */
-                $projects = $webuser->getData();
-
-                foreach ($projects as $p) {
-                    /** @var WebuserData $p */
-                    $project = array();
-                    $project['internal_project_id'] = $p->getWebuserDataId();
-                    $data = $p->getProject();
-                    $project['id'] = $data['id'];
-                    $project['import_date'] = $p->getImportDate()->format('Y-m-d H:i:s');
-                    $project['rows'] = $data['shape'][0];
-                    $project['columns'] = $data['shape'][1];
-                    $project['import_filename'] = $p->getImportFilename();
-                    $result['data'][] = $project;
-                }
+            $projects = $user->getData();
+            foreach ($projects as $p) {
+                /** @var WebuserData $p */
+                $project = array();
+                $project['internal_project_id'] = $p->getWebuserDataId();
+                $data = $p->getProject();
+                $project['id'] = $data['id'];
+                $project['import_date'] = $p->getImportDate()->format('Y-m-d H:i:s');
+                $project['rows'] = $data['shape'][0];
+                $project['columns'] = $data['shape'][1];
+                $project['import_filename'] = $p->getImportFilename();
+                $result['data'][] = $project;
             }
         }
         return $result;
