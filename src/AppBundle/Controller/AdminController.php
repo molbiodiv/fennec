@@ -14,4 +14,8 @@ class AdminController extends BaseAdminController
     public function prePersistFennecUserEntity($user){
         $this->get('fos_user.user_manager')->updateUser($user, false);
     }
+
+    public function preUpdateFennecUserEntity($user){
+        $this->get('fos_user.user_manager')->updateUser($user, false);
+    }
 }
