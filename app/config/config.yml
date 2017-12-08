@@ -86,3 +86,26 @@ hwi_oauth:
 
 shivas_versioning:
     version_file:  version.yml
+
+easy_admin:
+    entities:
+        FennecUser:
+            class: AppBundle\Entity\FennecUser
+            label: 'User'
+            list:
+                title: 'All Users'
+            form:
+                fields:
+                    - 'username'
+                    - 'firstName'
+                    - 'lastName'
+                    - 'email'
+                    - 'enabled'
+                    - 'lastLogin'
+                    - { property: 'plainPassword', type: 'text', type_options: { required: false } }
+                    - { property: 'roles', type: 'choice', type_options: { multiple: true, choices: { 'ROLE_USER': 'ROLE_USER', 'ROLE_ADMIN': 'ROLE_ADMIN' } } }
+
+    site_name: 'Fennec Backend'
+    design:
+        brand_color: '#514535'
+        color_scheme: 'light'
