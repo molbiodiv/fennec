@@ -7,5 +7,11 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminContr
 
 class AdminController extends BaseAdminController
 {
+    public function createNewUserEntity(){
+        return $this->get('fos_user.user_manager')->createUser();
+    }
 
+    public function prePersistUserEntity($user){
+        $this->get('fos_user.user_manager')->updateUser($user, false);
+    }
 }
