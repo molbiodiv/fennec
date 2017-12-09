@@ -52,6 +52,9 @@ class UpdateProjectTest extends WebserviceTestCase
         $this->assertFalse(array_key_exists('comment', $biom));
     }
 
+    /**
+     * @depends testBeforeUpdate
+     */
     public function testAfterUpdate(){
         $service = $this->webservice->factory('edit', 'updateProject');
         $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
@@ -61,6 +64,12 @@ class UpdateProjectTest extends WebserviceTestCase
             'webuser' => $user
         ))->getWebuserDataId();
         $detailsProject = $this->webservice->factory('details', 'projects');
+        $results = $detailsProject->execute(new ParameterBag(array(
+            'dbversion' => $this->default_db,
+            'ids' => array($id))),
+            $user
+        );
+        $biom = json_decode($results['projects'][$id]['biom'], true);
         // Now update the project
         $biom['id'] = 'Updated ID';
         $biom['comment'] = 'New comment';
