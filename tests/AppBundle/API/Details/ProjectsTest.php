@@ -12,16 +12,38 @@ class ProjectsTest extends WebserviceTestCase
     const USERID = 'detailsProjectsTestUser';
     const PROVIDER = 'detailsProjectsTestUser';
 
-    public function testExecute()
+    private $em;
+
+    public function setUp()
+    {
+        $kernel = self::bootKernel();
+
+        $this->em = $kernel->getContainer()
+            ->get('app.orm')
+            ->getManagerForVersion('test');
+    }
+
+    public function tearDown()
+    {
+        parent::tearDown();
+
+        $this->em->close();
+        $this->em = null; // avoid memory leaks
+    }
+
+    public function testDetailsOfProject()
     {
         //Test if the details of one project are returned correctly
         $default_db = $this->default_db;
         $service = $this->webservice->factory('details', 'projects');
         $listingProjects = $this->webservice->factory('listing', 'projects');
-        $this->user = new FennecUser(ProjectsTest::USERID,ProjectsTest::NICKNAME,ProjectsTest::PROVIDER);
-        $entries = $listingProjects->execute(new ParameterBag(array('dbversion' => $default_db)), $this->user);
-        $id = $entries['data'][0]['internal_project_id'];
-        $results = $service->execute(new ParameterBag(array('dbversion' => $default_db, 'ids' => array($id))), $this->user);
+        $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
+            'username' => ProjectsTest::NICKNAME
+        ));
+        $id = $this->em->getRepository('AppBundle:WebuserData')->findOneBy(array(
+            'webuser' => $user
+        ))->getWebuserDataId();
+        $results = $service->execute(new ParameterBag(array('dbversion' => $default_db, 'ids' => array($id))), $user);
         $expected = '{'
             . '"id": "table_1", '
             . '"data": [[0, 0, 120.0], [3, 1, 12.0], [5, 2, 20.0], [7, 3, 12.7], [8, 4, 16.0]], '
