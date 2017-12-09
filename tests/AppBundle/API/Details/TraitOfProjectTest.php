@@ -14,17 +14,39 @@ class TraitOfProjectTest extends WebserviceTestCase
     const USERID = 'detailsTraitOfProjectTestUser';
     const PROVIDER = 'detailsTraitOfProjectTestUser';
 
-    public function testExecute()
+    private $em;
+
+    public function setUp()
+    {
+        $kernel = self::bootKernel();
+
+        $this->em = $kernel->getContainer()
+            ->get('app.orm')
+            ->getManagerForVersion('test');
+    }
+
+    public function tearDown()
+    {
+        parent::tearDown();
+
+        $this->em->close();
+        $this->em = null; // avoid memory leaks
+    }
+
+    public function testUserNotLoggedIn()
     {
         $default_db = $this->default_db;
         $projectListing = $this->webservice->factory('listing', 'projects');
         $service = $this->webservice->factory('details', 'traitOfProject');
-        $this->user = new FennecUser(TraitOfProjectTest::USERID,TraitOfProjectTest::NICKNAME,TraitOfProjectTest::PROVIDER);
+        $this->user = new FennecUser(TraitOfProjectTest::USERID, TraitOfProjectTest::NICKNAME, TraitOfProjectTest::PROVIDER);
 
         $results = $service->execute(new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => 1, 'internal_project_id' => 3)), null);
         $expected = array("error" => Webservice::ERROR_NOT_LOGGED_IN);
         $this->assertEquals($expected, $results, 'User is not loggend in, return error message');
+    }
 
+    public function testTraitsOfProject()
+    {
         $entries = $projectListing->execute(new ParameterBag(array('dbversion' => $default_db)), $this->user);
         $id = $entries['data'][0]['internal_project_id'];
 
@@ -47,7 +69,7 @@ class TraitOfProjectTest extends WebserviceTestCase
         $results = $service->execute(new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => 4, 'internal_project_id' => $id, 'dimension' => 'columns')), $this->user);
         $expected = [
             "values" => [
-                "yellow" => ["1340","1630"]
+                "yellow" => ["1340", "1630"]
             ],
             "trait_type_id" => 4,
             "name" => "Flower Color",
@@ -58,7 +80,9 @@ class TraitOfProjectTest extends WebserviceTestCase
             "unit" => null
         ];
         $this->assertEquals($results, $expected, 'Example project, return trait details for columns');
+    }
 
+    public function testNoValidUserForProject(){
         $this->user = new FennecUser('noValidUserID',TraitOfProjectTest::NICKNAME,TraitOfProjectTest::PROVIDER);
         $results = $service->execute(new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => 1, 'internal_project_id' => $id)), $this->user);
         $expected = array("error" => OrganismsOfProject::ERROR_PROJECT_NOT_FOUND);
