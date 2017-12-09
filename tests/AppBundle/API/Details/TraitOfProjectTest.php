@@ -36,10 +36,7 @@ class TraitOfProjectTest extends WebserviceTestCase
     public function testUserNotLoggedIn()
     {
         $default_db = $this->default_db;
-        $projectListing = $this->webservice->factory('listing', 'projects');
         $service = $this->webservice->factory('details', 'traitOfProject');
-        $this->user = new FennecUser(TraitOfProjectTest::USERID, TraitOfProjectTest::NICKNAME, TraitOfProjectTest::PROVIDER);
-
         $results = $service->execute(new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => 1, 'internal_project_id' => 3)), null);
         $expected = array("error" => Webservice::ERROR_NOT_LOGGED_IN);
         $this->assertEquals($expected, $results, 'User is not loggend in, return error message');
@@ -47,14 +44,20 @@ class TraitOfProjectTest extends WebserviceTestCase
 
     public function testTraitsOfProject()
     {
-        $entries = $projectListing->execute(new ParameterBag(array('dbversion' => $default_db)), $this->user);
-        $id = $entries['data'][0]['internal_project_id'];
+        $default_db = $this->default_db;
+        $service = $this->webservice->factory('details', 'traitOfProject');
+        $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
+            'username' => TraitOfProjectTest::NICKNAME
+        ));
+        $id = $this->em->getRepository('AppBundle:WebuserData')->findOneBy(array(
+            'webuser' => $user
+        ))->getWebuserDataId();
 
-        $results = $service->execute(new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => 2, 'internal_project_id' => $id, 'dimension' => 'rows')), $this->user);
+        $results = $service->execute(new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => 2, 'internal_project_id' => $id, 'dimension' => 'rows')), $user);
         $expected = [
             "values" => [
-                "annual" => ["1340"],
-                "perennial" => ["1630"]
+                "perennial" => ["1630"],
+                "annual" => ["1340"]
             ],
             "trait_type_id" => 2,
             "name" => "Plant Life Cycle Habit",
@@ -66,7 +69,7 @@ class TraitOfProjectTest extends WebserviceTestCase
         ];
         $this->assertEquals($results, $expected, 'Example project, return trait details for rows');
 
-        $results = $service->execute(new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => 4, 'internal_project_id' => $id, 'dimension' => 'columns')), $this->user);
+        $results = $service->execute(new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => 4, 'internal_project_id' => $id, 'dimension' => 'columns')), $user);
         $expected = [
             "values" => [
                 "yellow" => ["1340", "1630"]
@@ -83,8 +86,13 @@ class TraitOfProjectTest extends WebserviceTestCase
     }
 
     public function testNoValidUserForProject(){
-        $this->user = new FennecUser('noValidUserID',TraitOfProjectTest::NICKNAME,TraitOfProjectTest::PROVIDER);
-        $results = $service->execute(new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => 1, 'internal_project_id' => $id)), $this->user);
+        $default_db = $this->default_db;
+        $noValidProjectId = 20;
+        $service = $this->webservice->factory('details', 'traitOfProject');
+        $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
+            'username' => TraitOfProjectTest::NICKNAME
+        ));
+        $results = $service->execute(new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => 1, 'internal_project_id' => $noValidProjectId)), $user);
         $expected = array("error" => OrganismsOfProject::ERROR_PROJECT_NOT_FOUND);
         $this->assertEquals($expected, $results, 'Project does not belong to user, return error message');
 
