@@ -35,6 +35,7 @@ class Projects extends Webservice
                 return in_array($p->getWebuserDataId(), $query->get('ids'));
             });
             foreach($projects as $project){
+                $project = $manager->merge($project);
                 $manager->remove($project);
             }
             $manager->flush();

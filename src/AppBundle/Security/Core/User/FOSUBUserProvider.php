@@ -51,7 +51,6 @@ class FOSUBUserProvider extends BaseFOSUBProvider
             $user->setLastName($lastName);
             $user->setEmail($userEmail);
             $user->setEnabled(true);
-            $user->setEnabled(true);
         }
         //else update the access token of existing user
         //get service
