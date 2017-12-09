@@ -2,7 +2,6 @@
 
 namespace Tests\AppBundle\API\Delete;
 
-use AppBundle\Entity\FennecUser;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Tests\AppBundle\API\WebserviceTestCase;
 
@@ -13,8 +12,6 @@ class ProjectsTest extends WebserviceTestCase
     const PROVIDER = 'ProjectRemoveTestUser';
 
     private $em;
-
-    private $project_id;
 
     public function setUp()
     {
