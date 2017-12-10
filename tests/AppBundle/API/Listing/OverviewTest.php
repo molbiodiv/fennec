@@ -56,7 +56,13 @@ class OverviewTest extends WebserviceTestCase
         $overview = $this->webservice->factory('listing', 'overview');
         $parameterBag = new ParameterBag(array('dbversion' => $default_db));
         $results = $overview->execute($parameterBag, $user);
-        $expected['projects'] = 0;
+        $expected = array(
+            "projects" => 0,
+            "organisms" => 198102,
+            "trait_entries" => 91494 + 7074,
+            "trait_types" => 7
+        );
+        $expected['projects'] = 1;
         $this->assertEquals($expected, $results);
     }
 }
