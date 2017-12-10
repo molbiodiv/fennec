@@ -3,8 +3,6 @@
 namespace Tests;
 
 use AppBundle\Entity\FennecUser;
-use AppBundle\Entity\OauthProvider;
-use AppBundle\Entity\Webuser;
 use AppBundle\Entity\WebuserData;
 use Doctrine\ORM\EntityManager;
 

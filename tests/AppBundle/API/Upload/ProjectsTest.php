@@ -39,9 +39,9 @@ class ProjectsTest extends WebserviceTestCase
     {
         $default_db = $this->default_db;
         $service = $this->webservice->factory('upload', 'projects');
-        $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
-            'username' => ProjectsTest::NICKNAME
-        ));
+        $user = new FennecUser();
+        $user->setUsername('UploadProjectTestUser');
+        $user->setEmail('UploadProjectTestUser@test.de');
         // Test for error returned by empty file
         $_FILES = array(
             array(
@@ -68,13 +68,16 @@ class ProjectsTest extends WebserviceTestCase
         $this->assertEquals($expected, $results);
     }
 
+    /**
+     * @depends testUploadEmptyFile
+     */
     public function testUploadNoJSON()
     {
         $default_db = $this->default_db;
         $service = $this->webservice->factory('upload', 'projects');
-        $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
-            'username' => ProjectsTest::NICKNAME
-        ));
+        $user = new FennecUser();
+        $user->setUsername('UploadProjectTestUser');
+        $user->setEmail('UploadProjectTestUser@test.de');
         // Test for error returned by non json file
         $_FILES = array(
             array(
@@ -105,9 +108,9 @@ class ProjectsTest extends WebserviceTestCase
     {
         $default_db = $this->default_db;
         $service = $this->webservice->factory('upload', 'projects');
-        $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
-            'username' => ProjectsTest::NICKNAME
-        ));
+        $user = new FennecUser();
+        $user->setUsername('UploadProjectTestUser');
+        $user->setEmail('UploadProjectTestUser@test.de');
         // Test for error returned by non biom json file
         $_FILES = array(
             array(
@@ -137,9 +140,9 @@ class ProjectsTest extends WebserviceTestCase
     public function testUploadBiom(){
         $default_db = $this->default_db;
         $service = $this->webservice->factory('upload', 'projects');
-        $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
-            'username' => ProjectsTest::NICKNAME
-        ));
+        $user = new FennecUser();
+        $user->setUsername('UploadProjectTestUser');
+        $user->setEmail('UploadProjectTestUser@test.de');
         // Test for success returned by simple biom file
         $_FILES = array(
             array(
