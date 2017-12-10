@@ -13,7 +13,26 @@ class ProjectsTest extends WebserviceTestCase
     const USERID = 'listingProjectsTestUser';
     const PROVIDER = 'listingProjectsTestUser';
 
-    public function testExecute()
+    private $em;
+
+    public function setUp()
+    {
+        $kernel = self::bootKernel();
+
+        $this->em = $kernel->getContainer()
+            ->get('app.orm')
+            ->getManagerForVersion('test');
+    }
+
+    public function tearDown()
+    {
+        parent::tearDown();
+
+        $this->em->close();
+        $this->em = null; // avoid memory leaks
+    }
+
+    public function testIfUserIsNotLoggedIn()
     {
         $default_db = $this->default_db;
         $service = $this->webservice->factory('listing', 'projects');
@@ -21,17 +40,23 @@ class ProjectsTest extends WebserviceTestCase
         //Test for error returned by user is not logged in
         $results = $service->execute(
             new ParameterBag(array('dbversion' => $default_db)),
-            $this->user
+            null
         );
         $expected = array("error" => Webservice::ERROR_NOT_LOGGED_IN, "data" => array());
-        
+
         $this->assertEquals($expected, $results);
-        
+    }
+
+    public function testProjectIfUserIsLoggedIn(){
         //Test of correct project if the user has only one project
-        $this->user = new FennecUser(ProjectsTest::USERID,ProjectsTest::NICKNAME,ProjectsTest::PROVIDER);
+        $default_db = $this->default_db;
+        $service = $this->webservice->factory('listing', 'projects');
+        $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
+            'username' => ProjectsTest::NICKNAME
+        ));
         $results = $service->execute(
             new ParameterBag(array('dbversion' => $default_db)),
-            $this->user
+            $user
         );
         $expected = array("data" => array(
                 array(
