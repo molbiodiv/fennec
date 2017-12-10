@@ -286,11 +286,11 @@ class TraitNumericalEntry
     /**
      * Set webuser.
      *
-     * @param \AppBundle\Entity\Webuser|null $webuser
+     * @param \AppBundle\Entity\FennecUser|null $webuser
      *
      * @return TraitNumericalEntry
      */
-    public function setWebuser(\AppBundle\Entity\Webuser $webuser = null)
+    public function setWebuser(\AppBundle\Entity\FennecUser $webuser = null)
     {
         $this->webuser = $webuser;
 
@@ -300,7 +300,7 @@ class TraitNumericalEntry
     /**
      * Get webuser.
      *
-     * @return \AppBundle\Entity\Webuser|null
+     * @return \AppBundle\Entity\FennecUser|null
      */
     public function getWebuser()
     {

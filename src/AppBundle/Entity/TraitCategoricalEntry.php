@@ -96,11 +96,11 @@ class TraitCategoricalEntry
     private $traitType;
 
     /**
-     * @var \AppBundle\Entity\Webuser
+     * @var \AppBundle\Entity\FennecUser
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Webuser")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\FennecUser")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="webuser_id", referencedColumnName="webuser_id", nullable=false)
+     *   @ORM\JoinColumn(name="webuser_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $webuser;
@@ -312,11 +312,11 @@ class TraitCategoricalEntry
     /**
      * Set webuser.
      *
-     * @param \AppBundle\Entity\Webuser|null $webuser
+     * @param \AppBundle\Entity\FennecUser|null $webuser
      *
      * @return TraitCategoricalEntry
      */
-    public function setWebuser(\AppBundle\Entity\Webuser $webuser = null)
+    public function setWebuser(\AppBundle\Entity\FennecUser $webuser = null)
     {
         $this->webuser = $webuser;
 
@@ -326,7 +326,7 @@ class TraitCategoricalEntry
     /**
      * Get webuser.
      *
-     * @return \AppBundle\Entity\Webuser|null
+     * @return \AppBundle\Entity\FennecUser|null
      */
     public function getWebuser()
     {
