@@ -43,7 +43,6 @@ class CreateFennecUserCommandTest extends KernelTestCase
         $testUser = $em->getRepository('AppBundle:FennecUser')->findOneBy(array(
             'username' => CreateFennecUserCommandTest::NICKNAME
         ));
-        var_dump($testUser);
         $this->assertNotNull($testUser, 'After creation the "TestWebuserCreate" user does exist.');
         $this->assertEquals('CreateTestUser', $testUser->getUsername());
 
