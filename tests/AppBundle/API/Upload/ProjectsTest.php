@@ -35,11 +35,13 @@ class ProjectsTest extends WebserviceTestCase
     }
 
 
-    public function testExecute()
+    public function testUploadEmptyFile()
     {
         $default_db = $this->default_db;
         $service = $this->webservice->factory('upload', 'projects');
-        $this->user = new FennecUser(ProjectsTest::USERID, ProjectsTest::NICKNAME, ProjectsTest::PROVIDER);
+        $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
+            'username' => ProjectsTest::NICKNAME
+        ));
         // Test for error returned by empty file
         $_FILES = array(
             array(
@@ -50,13 +52,12 @@ class ProjectsTest extends WebserviceTestCase
                 'error' => 0
             )
         );
-
         $results = $service->execute(
             new ParameterBag(array('dbversion' => $default_db)),
-            $this->user
+            $user
         );
         $expected = array(
-            "files"=>array(
+            "files" => array(
                 array(
                     "name" => "empty",
                     "size" => 0,
@@ -65,7 +66,15 @@ class ProjectsTest extends WebserviceTestCase
             )
         );
         $this->assertEquals($expected, $results);
+    }
 
+    public function testUploadNoJSON()
+    {
+        $default_db = $this->default_db;
+        $service = $this->webservice->factory('upload', 'projects');
+        $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
+            'username' => ProjectsTest::NICKNAME
+        ));
         // Test for error returned by non json file
         $_FILES = array(
             array(
@@ -78,10 +87,10 @@ class ProjectsTest extends WebserviceTestCase
         );
         $results = $service->execute(
             new ParameterBag(array('dbversion' => $default_db)),
-            $this->user
+            $user
         );
         $expected = array(
-            "files"=>array(
+            "files" => array(
                 array(
                     "name" => "noJson",
                     "size" => 71,
@@ -90,7 +99,15 @@ class ProjectsTest extends WebserviceTestCase
             )
         );
         $this->assertEquals($expected, $results);
+    }
 
+    public function testUploadNoBIOM()
+    {
+        $default_db = $this->default_db;
+        $service = $this->webservice->factory('upload', 'projects');
+        $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
+            'username' => ProjectsTest::NICKNAME
+        ));
         // Test for error returned by non biom json file
         $_FILES = array(
             array(
@@ -103,10 +120,10 @@ class ProjectsTest extends WebserviceTestCase
         );
         $results = $service->execute(
             new ParameterBag(array('dbversion' => $default_db)),
-            $this->user
+            $user
         );
         $expected = array(
-            "files"=>array(
+            "files" => array(
                 array(
                     "name" => "noBiom.json",
                     "size" => 71,
@@ -115,7 +132,14 @@ class ProjectsTest extends WebserviceTestCase
             )
         );
         $this->assertEquals($expected, $results);
+    }
 
+    public function testUploadBiom(){
+        $default_db = $this->default_db;
+        $service = $this->webservice->factory('upload', 'projects');
+        $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
+            'username' => ProjectsTest::NICKNAME
+        ));
         // Test for success returned by simple biom file
         $_FILES = array(
             array(
@@ -128,7 +152,7 @@ class ProjectsTest extends WebserviceTestCase
         );
         $results = $service->execute(
             new ParameterBag(array('dbversion' => $default_db)),
-            $this->user
+            $user
         );
         $expected = array("files"=>array(array("name" => "simpleBiom.json", "size" => 1067, "error" => null)));
         $this->assertEquals($expected, $results);
@@ -166,7 +190,7 @@ EOF;
         );
         $results = $service->execute(
             new ParameterBag(array('dbversion' => $default_db)),
-            $this->user
+            $user
         );
         $expected = array("files"=>array(array("name" => "simpleBiom.hdf5", "size" => 33840, "error" => null)));
         $this->assertEquals($expected, $results);
@@ -185,7 +209,7 @@ EOF;
         );
         $results = $service->execute(
             new ParameterBag(array('dbversion' => $default_db)),
-            $this->user
+            $user
         );
         $expected = array("files"=>array(array("name" => "otuTable.tsv", "size" => 67, "error" => null)));
         $this->assertEquals($expected, $results);
