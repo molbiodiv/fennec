@@ -15,6 +15,26 @@ class ProjectsTest extends WebserviceTestCase
     const USERID = 'UploadProjectTestUser';
     const PROVIDER = 'UploadProjectTest';
 
+    private $em;
+
+    public function setUp()
+    {
+        $kernel = self::bootKernel();
+
+        $this->em = $kernel->getContainer()
+            ->get('app.orm')
+            ->getManagerForVersion('test');
+    }
+
+    public function tearDown()
+    {
+        parent::tearDown();
+
+        $this->em->close();
+        $this->em = null; // avoid memory leaks
+    }
+
+
     public function testExecute()
     {
         $default_db = $this->default_db;
