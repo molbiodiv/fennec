@@ -3,6 +3,7 @@
 namespace Tests\AppBundle\API\Edit;
 
 use AppBundle\Entity\FennecUser;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Tests\AppBundle\API\WebserviceTestCase;
 
@@ -13,6 +14,7 @@ class UpdateProjectTest extends WebserviceTestCase
     const PROVIDER = 'UpdateProjectTestUser';
     const TOKEN = 'UpdateProjectTestToken';
 
+    /** @var  EntityManagerInterface */
     private $em;
 
     public function setUp()
@@ -60,6 +62,7 @@ class UpdateProjectTest extends WebserviceTestCase
         $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
             'username' => UpdateProjectTest::NICKNAME
         ));
+        //project id of $user
         $id = $this->em->getRepository('AppBundle:WebuserData')->findOneBy(array(
             'webuser' => $user
         ))->getWebuserDataId();
@@ -82,6 +85,7 @@ class UpdateProjectTest extends WebserviceTestCase
             $user
         );
         $this->assertNull($results['error']);
+        $this->em->clear();
         $results = $detailsProject->execute(new ParameterBag(array(
             'dbversion' => $this->default_db,
             'ids' => array($id))),

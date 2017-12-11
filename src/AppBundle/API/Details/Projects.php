@@ -23,14 +23,13 @@ class Projects extends Webservice
     */
     public function execute(ParameterBag $query, FennecUser $user = null)
     {
-        $em = $this->getManagerFromQuery($query);
         $result = array('projects' => array());
         $ids = $query->get('ids');
-        $placeholders = implode(',', array_fill(0, count($ids), '?'));
+        $em = $this->getManagerFromQuery($query);
         if ($user === null) {
             $result['error'] = Webservice::ERROR_NOT_LOGGED_IN;
         } else {
-            $webuser = $user;
+            $webuser = $em->find('AppBundle:FennecUser', $user->getId());
             if($webuser === null){
                 $result['error'] = Projects::PROJECT_NOT_FOUND_FOR_USER;
             }

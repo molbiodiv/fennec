@@ -30,6 +30,7 @@ class UpdateProject extends Webservice
             return array('error' => 'Could not update project. Not found for user.');
         }
         $project->setProject(json_decode($query->get('biom'), true));
+        $em->persist($project);
         $em->flush();
         return array('error' => null);
     }
