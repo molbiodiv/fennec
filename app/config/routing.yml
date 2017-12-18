@@ -1,6 +1,13 @@
+defaultPage:
+    path: /
+    controller: AppBundle\Controller\StartpageController::indexAction
+
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation
+    prefix: /{dbversion}/
+    requirements:
+      dbversion: '%versions%'
 
 fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
