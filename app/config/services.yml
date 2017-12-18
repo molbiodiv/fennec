@@ -4,18 +4,28 @@ parameters:
 #    parameter_name: value
 
 services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    # makes classes in src/AppBundle available to be used as services
+    AppBundle\:
+        resource: '../../src/AppBundle/*'
+        # you can exclude directories or files
+        # but if a service is unused, it's removed anyway
+        exclude: '../../src/AppBundle/{Entity,Repository,Security}'
     app.orm:
         class: AppBundle\ORM
         arguments: [ '@doctrine' ]
     app.api.webservice:
         class: AppBundle\API\Webservice
         arguments: ['@app.orm','@security.token_storage']
-    app.twig_provider.dbversion:
-        class: AppBundle\Service\TwigProvider\DBVersion
-        arguments: ['@twig', '%doctrine.default_connection%']
+    AppBundle\Service\DBVersion:
+        arguments: ['@twig', '@doctrine', '%doctrine.default_connection%']
         tags: [{name: kernel.event_listener, event: kernel.request}]
-    app.twig_provider.types:
-        class: AppBundle\Service\TwigProvider\Types
+    AppBundle\Service\TwigProvider\Types:
         arguments: ['@twig']
         tags: [{name: kernel.event_listener, event: kernel.request}]
     app.form.registration:
