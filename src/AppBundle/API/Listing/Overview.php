@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Service\API\Listing;
+namespace AppBundle\API\Listing;
 
 use AppBundle\API\Webservice;
 use AppBundle\Entity\FennecUser;
