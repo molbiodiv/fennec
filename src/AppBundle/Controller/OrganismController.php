@@ -22,7 +22,7 @@ class OrganismController extends Controller
     /**
      * @param $request Request
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/{dbversion}/organism/search", name="organism_search")
+     * @Route("/organism/search", name="organism_search")
      */
     public function searchAction(Request $request, $dbversion){
         return $this->render('organism/search.html.twig', ['type' => 'organism', 'dbversion' => $dbversion, 'title' => 'Organism Search']);
@@ -32,7 +32,7 @@ class OrganismController extends Controller
      * @param $request Request
      * @param $dbversion
      * @return Response
-     * @Route("/{dbversion}/organism/result", name="organism_result", options={"expose" = true})
+     * @Route("/organism/result", name="organism_result", options={"expose" = true})
      * @Method({"GET"})
      */
     public function resultAction(Request $request, $dbversion){
@@ -54,7 +54,7 @@ class OrganismController extends Controller
      * @param $dbversion
      * @param $fennec_id
      * @return Response
-     * @Route("/{dbversion}/organism/details/{fennec_id}", name="organism_details", options={"expose" = true})
+     * @Route("/organism/details/{fennec_id}", name="organism_details", options={"expose" = true})
      */
     public function detailsAction(Request $request, $dbversion, $fennec_id){
         $user = null;
@@ -87,7 +87,7 @@ class OrganismController extends Controller
      * @param $dbversion
      * @param $trait_type_id
      * @return Response
-     * @Route("/{dbversion}/organism/byTrait/{trait_type_id}", name="organism_by_trait")
+     * @Route("/organism/byTrait/{trait_type_id}", name="organism_by_trait")
      */
     public function byTraitAction(Request $request, $dbversion, $trait_type_id){
         $organisms = $this->get('app.api.webservice')->factory('details', 'organismsWithTrait');

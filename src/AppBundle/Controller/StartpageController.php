@@ -21,10 +21,10 @@ class StartpageController extends Controller
     /**
      * @param Request $request
      * @return Response
-     * @Route("/{dbversion}/startpage", name="startpage")
+     * @Route("/startpage", name="startpage")
      */
     public function startpageAction(Request $request, $dbversion){
-        $oc = $this->get('app.api.webservice')->factory('Listing', 'Overview');
+        $oc = $this->container->get(Overview::class);
         $query = $request->query;
         $query->set('dbversion', $dbversion);
         $user = null;

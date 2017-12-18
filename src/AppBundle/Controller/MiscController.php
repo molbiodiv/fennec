@@ -11,7 +11,7 @@ class MiscController extends Controller
 
     /**
      * @return Response
-     * @Route("/{dbversion}/contact", name="contact")
+     * @Route("/contact", name="contact")
      */
     public function startpageAction($dbversion){
         $twig_parameter = array(

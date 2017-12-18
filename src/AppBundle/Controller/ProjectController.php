@@ -21,7 +21,7 @@ class ProjectController extends Controller
      * @param $request Request
      * @param $dbversion string
      * @return Response
-     * @Route("/{dbversion}/project/overview", name="project_overview")
+     * @Route("/project/overview", name="project_overview")
      */
     public function overviewAction(Request $request, $dbversion){
         return $this->render(
@@ -39,7 +39,7 @@ class ProjectController extends Controller
      * @param $dbversion string
      * @param $project_id string
      * @return Response
-     * @Route("/{dbversion}/project/details/{project_id}", name="project_details", options={"expose" = true})
+     * @Route("/project/details/{project_id}", name="project_details", options={"expose" = true})
      */
     public function detailsAction(Request $request, $dbversion, $project_id){
         $projectDetails = $this->get('app.api.webservice')->factory('details', 'projects');
@@ -67,7 +67,7 @@ class ProjectController extends Controller
      * @param $dimension
      * @return Response
      * @Route(
-     *     "/{dbversion}/project/details/{project_id}/trait/{trait_type_id}/{dimension}",
+     *     "/project/details/{project_id}/trait/{trait_type_id}/{dimension}",
      *     name="project_trait_details",
      *     options={"expose" = true},
      *     requirements={"dimension": "rows|columns"}
