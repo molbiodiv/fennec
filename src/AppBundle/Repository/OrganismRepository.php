@@ -12,4 +12,8 @@ use Doctrine\ORM\EntityRepository;
  */
 class OrganismRepository extends EntityRepository
 {
+    public function getNumber(): int {
+        $query = $this->getEntityManager()->createQuery('SELECT COUNT(o.fennecId) FROM AppBundle\Entity\Organism o');
+        return $query->getSingleScalarResult();
+    }
 }

@@ -1,7 +1,8 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace AppBundle\Repository;
 
+use AppBundle\Entity\FennecUser;
 use Doctrine\ORM\EntityRepository;
 
 /**
@@ -12,4 +13,11 @@ use Doctrine\ORM\EntityRepository;
  */
 class WebuserDataRepository extends EntityRepository
 {
+    public function getNumberOfProjects(FennecUser $user = null): int{
+        if ($user === null) {
+            return 0;
+        }
+
+        return $this->findBy(['webuser' => $user])->count();
+    }
 }

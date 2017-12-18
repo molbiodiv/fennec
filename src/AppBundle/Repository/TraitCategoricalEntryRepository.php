@@ -12,4 +12,9 @@ use Doctrine\ORM\EntityRepository;
  */
 class TraitCategoricalEntryRepository extends EntityRepository
 {
+    public function getNumber(): int
+    {
+        $query = $this->getEntityManager()->createQuery('SELECT COUNT(t.id) FROM AppBundle\Entity\TraitCategoricalEntry t WHERE t.deletionDate IS NULL ');
+        return $query->getSingleScalarResult();
+    }
 }

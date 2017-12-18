@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
@@ -12,4 +12,8 @@ use Doctrine\ORM\EntityRepository;
  */
 class TraitNumericalEntryRepository extends EntityRepository
 {
+    public function getNumber(): int {
+        $query = $this->getEntityManager()->createQuery('SELECT COUNT(t.id) FROM AppBundle\Entity\TraitNumericalEntry t WHERE t.deletionDate IS NULL ');
+        return $query->getSingleScalarResult();
+    }
 }

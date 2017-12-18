@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
@@ -12,4 +12,8 @@ use Doctrine\ORM\EntityRepository;
  */
 class TraitTypeRepository extends EntityRepository
 {
+    public function getNumber(){
+        $query = $this->getEntityManager()->createQuery('SELECT COUNT(tt.id) FROM AppBundle\Entity\TraitType tt');
+        return $query->getSingleScalarResult();
+    }
 }
