@@ -20,7 +20,7 @@ class ORM extends Controller
      * ORM constructor.
      * @param $orm Registry
      */
-    public function __construct($orm) {
+    public function __construct(\Doctrine\Bundle\DoctrineBundle\Registry $orm) {
         $this->orm = $orm;
     }
 
