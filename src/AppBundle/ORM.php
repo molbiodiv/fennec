@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
  * provides access to the various databases by static functions
+ * @deprecated
  */
 class ORM extends Controller
 {
@@ -28,6 +29,7 @@ class ORM extends Controller
      * returns the manager for database using $version
      * @param String $version the database version to use (has to be defined in parameters.yml)
      * @return EntityManager
+     * @deprecated
      */
     public function getManagerForVersion($version)
     {
