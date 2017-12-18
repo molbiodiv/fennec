@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\FennecUserRepository")
  * @ORM\Table(name="`fennec_user`")
  * @ORM\AttributeOverrides({
  *     @ORM\AttributeOverride(name="password",
@@ -60,6 +60,7 @@ class FennecUser extends BaseUser
      * @var \AppBundle\Entity\WebuserData
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\WebuserData", mappedBy="webuser")
+     * @deprecated
      */
     private $data;
 
@@ -106,6 +107,7 @@ class FennecUser extends BaseUser
      * @param \AppBundle\Entity\WebuserData $data
      *
      * @return FennecUser
+     * @deprecated
      */
     public function addData(\AppBundle\Entity\WebuserData $data)
     {
@@ -120,6 +122,7 @@ class FennecUser extends BaseUser
      * @param \AppBundle\Entity\WebuserData $data
      *
      * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     * @deprecated
      */
     public function removeData(\AppBundle\Entity\WebuserData $data)
     {
@@ -130,6 +133,7 @@ class FennecUser extends BaseUser
      * Get data.
      *
      * @return \Doctrine\Common\Collections\Collection
+     * @deprecated
      */
     public function getData()
     {

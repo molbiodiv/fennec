@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * TraitNumericalEntry
  *
  * @ORM\Table(name="trait_numerical_entry", indexes={@ORM\Index(columns={"fennec_id"}), @ORM\Index(columns={"trait_citation_id"}), @ORM\Index(columns={"trait_type_id"}), @ORM\Index(columns={"webuser_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\TraitNumericalEntryRepository")
  */
 class TraitNumericalEntry
 {
