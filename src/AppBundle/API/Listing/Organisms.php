@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
  * Web Service.
  * Returns Organisms up to a limit in the given db version (matching a search criterion if supplied)
  */
-class Organisms extends Webservice
+class Organisms
 {
     private $database;
 
