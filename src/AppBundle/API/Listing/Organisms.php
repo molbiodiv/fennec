@@ -2,11 +2,10 @@
 
 namespace AppBundle\API\Listing;
 
-use AppBundle\API\Webservice;
 use AppBundle\Entity\FennecUser;
+use AppBundle\Service\DBVersion;
 use \PDO as PDO;
 use Symfony\Component\HttpFoundation\ParameterBag;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
  * Web Service.
@@ -14,7 +13,17 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
  */
 class Organisms
 {
-    private $database;
+    private $manager;
+
+    /**
+     * Organisms constructor.
+     * @param $dbversion
+     */
+    public function __construct(DBVersion $dbversion)
+    {
+        $this->manager = $dbversion->getEntityManager();
+    }
+
 
     /**
      * @inheritdoc
