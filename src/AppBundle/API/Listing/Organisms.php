@@ -67,7 +67,7 @@ class Organisms
      *     curl http://fennec.molecular.eco/api/listing/organisms?dbversion=1.0&limit=1&search=bellis
      * @apiSampleRequest http://fennec.molecular.eco/api/listing/organisms
      */
-    public function execute(ParameterBag $query, FennecUser $user = null)
+    public function execute(ParameterBag $query)
     {
         $this->database = $this->getManagerFromQuery($query)->getConnection();
         $limit = 5;
