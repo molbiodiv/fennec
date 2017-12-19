@@ -2,20 +2,13 @@
 
 namespace AppBundle\API\Listing;
 
-use AppBundle\API\Webservice;
 use AppBundle\Entity\FennecUser;
 use AppBundle\Entity\Organism;
 use AppBundle\Entity\TraitCategoricalEntry;
 use AppBundle\Entity\TraitNumericalEntry;
 use AppBundle\Entity\TraitType;
 use AppBundle\Entity\WebuserData;
-use AppBundle\Repository\TraitNumericalEntryRepository;
-use AppBundle\Repository\WebuserDataRepository;
 use AppBundle\Service\DBVersion;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\Criteria;
-use Doctrine\ORM\EntityManager;
-use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class Overview
