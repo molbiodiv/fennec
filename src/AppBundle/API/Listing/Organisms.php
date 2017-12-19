@@ -69,32 +69,6 @@ class Organisms
      */
     public function execute(ParameterBag $query)
     {
-        $this->database = $this->getManagerFromQuery($query)->getConnection();
-        $limit = 5;
-        if ($query->has('limit')) {
-            $limit = $query->get('limit');
-        }
-        $search = "%%";
-        if ($query->has('search')) {
-            $search = "%".$query->get('search')."%";
-        }
-        $query_get_organisms = <<<EOF
-SELECT *
-    FROM organism WHERE organism.scientific_name ILIKE :search LIMIT :limit
-EOF;
-        $stm_get_organisms = $this->database->prepare($query_get_organisms);
-        $stm_get_organisms->bindValue('search', $search);
-        $stm_get_organisms->bindValue('limit', $limit);
-        $stm_get_organisms->execute();
-
-        $data = array();
-
-        while ($row = $stm_get_organisms->fetch(PDO::FETCH_ASSOC)) {
-            $result = array();
-            $result['fennec_id'] = $row['fennec_id'];
-            $result['scientific_name'] = $row['scientific_name'];
-            $data[] = $result;
-        }
-        return $data;
+        return $this->manager->getRepository(Organism::class)->getOrganisms($query);
     }
 }
