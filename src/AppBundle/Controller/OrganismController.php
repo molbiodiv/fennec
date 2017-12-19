@@ -9,6 +9,7 @@
 namespace AppBundle\Controller;
 
 
+use AppBundle\API\Listing\Organisms;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
