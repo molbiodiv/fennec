@@ -37,7 +37,7 @@ class OrganismController extends Controller
      * @Method({"GET"})
      */
     public function resultAction(Request $request, $dbversion){
-        $organisms = $this->get('app.api.webservice')->factory('listing', 'organisms');
+        $organisms = $this->container->get(Organisms::class);
         $query = $request->query;
         $query->set('dbversion', $dbversion);
         $result = $organisms->execute($query, null);
