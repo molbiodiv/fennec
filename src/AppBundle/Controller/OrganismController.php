@@ -39,7 +39,9 @@ class OrganismController extends Controller
         $organisms = $this->container->get(Listing\Organisms::class);
         $query = $request->query;
         $query->set('dbversion', $dbversion);
-        $result = $organisms->execute($query, null);
+        $limit = $query->get('limit');
+        $search = $query->get('search');
+        $result = $organisms->execute($limit, $search);
         return $this->render('organism/result.html.twig', [
             'type' => 'organism',
             'dbversion' => $dbversion,
