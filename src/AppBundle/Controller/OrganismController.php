@@ -75,8 +75,8 @@ class OrganismController extends Controller
         $organismResult = $organismDetails->execute($fennec_id);
 
 
-        $taxonomy = $this->get('app.api.webservice')->factory('listing', 'taxonomy');
-        $taxonomyResult = $taxonomy->execute($query, null);
+        $taxonomy = $this->container->get(Listing\Taxonomy::class);
+        $taxonomyResult = $taxonomy->execute($fennec_id);
 
 
         $traits = $this->get('app.api.webservice')->factory('details', 'traitsOfOrganisms');

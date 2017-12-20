@@ -34,7 +34,7 @@ class Taxonomy
      * @returns array of taxonomy information for a given organism id
      * array('lineage' => [grandgrandparent, grandparent, parent])
      */
-    public function execute(ParameterBag $query, FennecUser $user = null)
+    public function execute(ParameterBag $query)
     {
         $this->db = $this->getManagerFromQuery($query)->getConnection();
         $fennec_id = $query->get('id');
