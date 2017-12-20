@@ -4,12 +4,13 @@ namespace AppBundle\API\Details;
 
 use AppBundle\Entity\FennecUser;
 use AppBundle\Service\DBVersion;
+use AppBundle\Entity\Organism;
 
 /**
  * Web Service.
  * Returns details for Organisms with given ids
  */
-class Organism
+class Organisms
 {
 
     private $manager;
@@ -30,7 +31,7 @@ class Organism
      * @param $user FennecUser
      * @returns array of details
      */
-    public function execute(int $fennecId, DBVersion $dbversion, FennecUser $user = null)
+    public function execute($fennecId, $dbversion, $user = null)
     {
         return $this->manager->getRepository(Organism::class)->getDetailsOfOrganism($fennecId, $dbversion, $user);
     }

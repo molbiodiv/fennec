@@ -71,7 +71,7 @@ class OrganismController extends Controller
         if($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')){
             $user = $this->get('security.token_storage')->getToken()->getUser();
         }
-        $organismDetails = $this->container->get(Details\Organism::class);
+        $organismDetails = $this->container->get(Details\Organisms::class);
         $organismResult = $organismDetails->execute($fennec_id, $dbversion, $user);
 
 
