@@ -4,6 +4,7 @@ namespace AppBundle\API\Details;
 
 use AppBundle\API\Webservice;
 use AppBundle\Entity\FennecUser;
+use AppBundle\Service\DBVersion;
 use \PDO as PDO;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -12,10 +13,21 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
  * Web Service.
  * Returns details for Organisms with given ids
  */
-class Organism extends Webservice
+class Organism
 {
 
-    private $db;
+    private $manager;
+
+    /**
+     * Organism constructor.
+     * @param $dbversion
+     */
+    public function __construct(DBVersion $dbversion)
+    {
+        $this->manager = $dbversion->getEntityManager();
+    }
+
+
     /**
      * @param $query ParameterBag
      * @param $user FennecUser
