@@ -27,12 +27,10 @@ class Organisms
 
     /**
      * @param $fennecId
-     * @param $dbversion DBVersion
-     * @param $user FennecUser
      * @returns array of details
      */
-    public function execute($fennecId, $dbversion, $user = null)
+    public function execute($fennecId)
     {
-        return $this->manager->getRepository(Organism::class)->getDetailsOfOrganism($fennecId, $dbversion, $user);
+        return $this->manager->getRepository(Organism::class)->getDetailsOfOrganism($fennecId);
     }
 }

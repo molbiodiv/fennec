@@ -72,7 +72,7 @@ class OrganismController extends Controller
             $user = $this->get('security.token_storage')->getToken()->getUser();
         }
         $organismDetails = $this->container->get(Details\Organisms::class);
-        $organismResult = $organismDetails->execute($fennec_id, $dbversion, $user);
+        $organismResult = $organismDetails->execute($fennec_id);
 
 
         $taxonomy = $this->get('app.api.webservice')->factory('listing', 'taxonomy');
