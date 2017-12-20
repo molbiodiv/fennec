@@ -9,8 +9,7 @@
 namespace AppBundle\Controller;
 
 
-use AppBundle\API\Listing\Organisms;
-use Symfony\Component\Config\Definition\Exception\Exception;
+use AppBundle\API\Listing;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -37,7 +36,7 @@ class OrganismController extends Controller
      * @Method({"GET"})
      */
     public function resultAction(Request $request, $dbversion){
-        $organisms = $this->container->get(Organisms::class);
+        $organisms = $this->container->get(Listing\Organisms::class);
         $query = $request->query;
         $query->set('dbversion', $dbversion);
         $result = $organisms->execute($query, null);
