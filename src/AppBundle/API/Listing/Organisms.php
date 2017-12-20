@@ -65,8 +65,8 @@ class Organisms
      *     curl http://fennec.molecular.eco/api/listing/organisms?dbversion=1.0&limit=1&search=bellis
      * @apiSampleRequest http://fennec.molecular.eco/api/listing/organisms
      */
-    public function execute(ParameterBag $query)
+    public function execute(int $limit, string $search)
     {
-        return $this->manager->getRepository(Organism::class)->getOrganisms($query);
+        return $this->manager->getRepository(Organism::class)->getOrganisms($limit, $search);
     }
 }
