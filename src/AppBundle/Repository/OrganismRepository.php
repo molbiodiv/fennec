@@ -2,6 +2,8 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\FennecUser;
+use AppBundle\Service\DBVersion;
 use Doctrine\ORM\EntityRepository;
 
 /**
