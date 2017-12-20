@@ -17,7 +17,7 @@ class OrganismRepository extends EntityRepository
         return $query->getSingleScalarResult();
     }
 
-    public function getOrganisms($limit, $search): array {
+    public function getListOfOrganisms($limit, $search): array {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('organism')
             ->from('AppBundle\Entity\Organism', 'organism')

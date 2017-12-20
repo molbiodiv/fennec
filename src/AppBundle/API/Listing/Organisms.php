@@ -67,6 +67,6 @@ class Organisms
      */
     public function execute(int $limit, string $search)
     {
-        return $this->manager->getRepository(Organism::class)->getOrganisms($limit, $search);
+        return $this->manager->getRepository(Organism::class)->getListOfOrganisms($limit, $search);
     }
 }
