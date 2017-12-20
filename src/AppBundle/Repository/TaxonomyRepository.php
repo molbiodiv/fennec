@@ -9,7 +9,13 @@
 namespace AppBundle\Repository;
 
 
-class TaxonomyRepository
+class TaxonomyRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getDatabase(){
 
+    }
+
+    public function getLineage(){
+
+    }
 }
