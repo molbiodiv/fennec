@@ -17,24 +17,15 @@ class OrganismRepository extends EntityRepository
         return $query->getSingleScalarResult();
     }
 
-    public function getOrganisms($query): array{
-        $limit = 5;
-        if ($query->has('limit')) {
-            $limit = $query->get('limit');
-        }
-        $search = "%%";
-        if ($query->has('search')) {
-            $search = "%".$query->get('search')."%";
-        }
-        $query_get_organisms = <<<EOF
-SELECT *
-    FROM organism WHERE organism.scientific_name ILIKE :search LIMIT :limit
-EOF;
-        $stm_get_organisms = $this->getEntityManager()->createQuery($query_get_organisms);
-        $stm_get_organisms->bindValue('search', $search);
-        $stm_get_organisms->bindValue('limit', $limit);
-        $stm_get_organisms->execute();
-
+    public function getOrganisms($limit, $search): array {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('organism')
+            ->from('AppBundle\Entity\Organism', 'organism')
+            ->where('LOWER(organism.scientificName) LIKE LOWER(:search)')
+            ->setParameter('search', $search)
+            ->setMaxResults($limit);
+        $query = $qb->getQuery();
+        $result = $query->getArrayResult();
         $data = array();
 
         while ($row = $stm_get_organisms->fetch(PDO::FETCH_ASSOC)) {
