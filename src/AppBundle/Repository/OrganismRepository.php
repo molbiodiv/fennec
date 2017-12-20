@@ -27,12 +27,11 @@ class OrganismRepository extends EntityRepository
         $query = $qb->getQuery();
         $result = $query->getArrayResult();
         $data = array();
-
-        while ($row = $stm_get_organisms->fetch(PDO::FETCH_ASSOC)) {
-            $result = array();
-            $result['fennec_id'] = $row['fennec_id'];
-            $result['scientific_name'] = $row['scientific_name'];
-            $data[] = $result;
+        for($i=0; $i<sizeof($result);$i++){
+            $thisResult = array();
+            $thisResult['fennec_id'] = $result[$i]['fennecId'];
+            $thisResult['scientific_name'] = $result[$i]['scientificName'];
+            $data[] = $thisResult;
         }
         return $data;
     }
