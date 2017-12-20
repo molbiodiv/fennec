@@ -38,7 +38,7 @@ class OrganismRepository extends EntityRepository
         return $data;
     }
 
-    public function getDetailsOfOrganism($fennec_id, $dbversion, $user){
+    public function getDetailsOfOrganism($fennec_id){
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('organism')
             ->from('AppBundle\Entity\Organism','organism')
