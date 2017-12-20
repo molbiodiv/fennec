@@ -10,6 +10,7 @@ namespace AppBundle\Controller;
 
 
 use AppBundle\API\Listing;
+use AppBundle\API\Details;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -21,6 +22,7 @@ class OrganismController extends Controller
 {
     /**
      * @param $request Request
+     * @param $dbversion
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route("/organism/search", name="organism_search")
      */
@@ -69,7 +71,7 @@ class OrganismController extends Controller
         if($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')){
             $user = $this->get('security.token_storage')->getToken()->getUser();
         }
-        $organismDetails = $this->get('app.api.webservice')->factory('details', 'organism');
+        $organismDetails = $this->container->get(Details\Organism::class);
         $query = $request->query;
         $query->set('dbversion', $dbversion);
         $query->set('id', $fennec_id);
