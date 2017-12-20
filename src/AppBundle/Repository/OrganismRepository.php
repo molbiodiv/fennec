@@ -37,4 +37,71 @@ class OrganismRepository extends EntityRepository
         }
         return $data;
     }
+
+    public function getDetailsOfOrganism($fennec_id, $dbversion, $user){
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('organism')
+            ->from('AppBundle\Entity\Organism','organism')
+            ->where('organism.fennecId = :id')
+            ->setParameter('id', $fennec_id);
+        $query = $qb->getQuery();
+        $result = $query->getArrayResult();
+
+        $data = array();
+        for($i=0; $i<sizeof($result);$i++) {
+            $data['fennec_id'] = $result[$i]['fennecId'];
+            $data['scientific_name'] = $result[$i]['scientificName'];
+            $data['eol_identifier'] = $this->getIdentifierDbxref($result[$i]['fennecId'], 'EOL');
+            $data['ncbi_identifier'] = $this->getIdentifierDbxref($result[$i]['fennecId'], 'ncbi_taxonomy');
+        }
+        return $result;
+    }
+
+    /**
+     * @param int $fennec_id
+     * @param string $db_name
+     * @return string $identifier identifier of the current organism in the defined database
+     */
+    private function getIdentifierDbxref($fennec_id, $db_name)
+    {
+        $db_id = $this->getDBId($db_name);
+        return $this->getIdentifier($fennec_id, $db_id);
+    }
+
+    private function getDBId($db_name){
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('db.dbId')
+            ->from('AppBundle\Entity\Db', 'db')
+            ->where('db.name = :dbName')
+            ->setParameter('dbName', $db_name);
+        $query = $qb->getQuery();
+        $result = $query->getArrayResult();
+        for($i=0; $i < sizeof($result); $i++) {
+            $db_id = $result[$i]['dbId'];
+        }
+        if (!isset($db_id)) {
+            return "";
+        }
+        return $db_id;
+    }
+
+    private function getIdentifier($fennec_id, $db_id){
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('d.identifier')
+            ->from('AppBundle\Entity\FennecDbxref','d')
+            ->where('d.db = :dbId')
+            ->andWhere('d.fennec = :fennecId')
+            ->setParameter('dbId',$db_id)
+            ->setParameter('fennecId', $fennec_id);
+
+        $query = $qb->getQuery();
+        $result = $query->getArrayResult();
+        for($i=0; $i < sizeof($result); $i++) {
+            $identifier = $result[$i]['identifier'];
+        }
+        if (!isset($identifier)) {
+            return "";
+        }
+        return $identifier;
+    }
 }
