@@ -36,8 +36,6 @@ class Taxonomy
      */
     public function execute(ParameterBag $query)
     {
-        $this->db = $this->getManagerFromQuery($query)->getConnection();
-        $fennec_id = $query->get('id');
         $result = array();
         $taxonomy_databases = $this->getTaxomomyDatabases($fennec_id);
         foreach($taxonomy_databases as $name => $taxonomy_node_id){
@@ -59,27 +57,6 @@ class Taxonomy
             array_unshift($result, $this->getOrganismName($parent));
             $previousParent = $parent;
             $parent = $this->getParent($previousParent);
-        }
-        return $result;
-    }
-
-    /**
-     * @param $fennec_id id of organism
-     * @return array $result = (db_name => taxonomy_node_id)
-     */
-    private function getTaxomomyDatabases($fennec_id){
-        $query_get_taxonomy_databases = <<<EOF
-SELECT name, taxonomy_node_id
-    FROM taxonomy_node, db
-    WHERE taxonomy_node.db_id = db.db_id AND fennec_id = :fennec_id
-EOF;
-        $stm_get_taxonomy_databases = $this->db->prepare($query_get_taxonomy_databases);
-        $stm_get_taxonomy_databases->bindValue('fennec_id', $fennec_id);
-        $stm_get_taxonomy_databases->execute();
-
-        $result = array();
-        while($row = $stm_get_taxonomy_databases->fetch(PDO::FETCH_ASSOC)){
-            $result[$row['name']] = $row['taxonomy_node_id'];
         }
         return $result;
     }
