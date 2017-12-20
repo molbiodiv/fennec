@@ -72,12 +72,13 @@ class OrganismController extends Controller
             $user = $this->get('security.token_storage')->getToken()->getUser();
         }
         $organismDetails = $this->container->get(Details\Organism::class);
-        $query = $request->query;
-        $query->set('dbversion', $dbversion);
-        $query->set('id', $fennec_id);
-        $organismResult = $organismDetails->execute($query, $user);
+        $organismResult = $organismDetails->execute($fennec_id, $dbversion, $user);
+
+
         $taxonomy = $this->get('app.api.webservice')->factory('listing', 'taxonomy');
         $taxonomyResult = $taxonomy->execute($query, null);
+
+
         $traits = $this->get('app.api.webservice')->factory('details', 'traitsOfOrganisms');
         $traitResult = $traits->execute(new ParameterBag(array(
             'dbversion' => $dbversion,
