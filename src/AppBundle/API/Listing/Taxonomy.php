@@ -2,12 +2,9 @@
 
 namespace AppBundle\API\Listing;
 
-use AppBundle\API\Webservice;
-use AppBundle\Entity\FennecUser;
+use AppBundle\Entity\TaxonomyNode;
 use AppBundle\Service\DBVersion;
 use \PDO as PDO;
-use Symfony\Component\HttpFoundation\ParameterBag;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
  * Web Service.
