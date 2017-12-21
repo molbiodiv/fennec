@@ -26,15 +26,14 @@ class Taxonomy
 
 
     /**
-     * @param $query ParameterBag $query[ids] array of organism ids
-     * @param $user FennecUser
+     * @param $fennec_id
      * @returns array of taxonomy information for a given organism id
      * array('lineage' => [grandgrandparent, grandparent, parent])
      */
-    public function execute(ParameterBag $query)
+    public function execute($fennec_id)
     {
         $result = array();
-        $taxonomy_databases = $this->getTaxomomyDatabases($fennec_id);
+        $taxonomy_databases = $this->manager->getRepository(TaxonomyNode::class)->getDatabases($fennec_id);
         foreach($taxonomy_databases as $name => $taxonomy_node_id){
             $result[$name] = $this->getLineage($taxonomy_node_id);
         }
