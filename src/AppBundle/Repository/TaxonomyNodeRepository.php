@@ -12,4 +12,23 @@ use Doctrine\ORM\EntityRepository;
  */
 class TaxonomyNodeRepository extends EntityRepository
 {
+    public function getDatabases($fennec_id){
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('t.taxonomyNodeId', 'db.name')
+            ->from('AppBundle\Entity\TaxonomyNode', 't')
+            ->innerJoin('AppBundle/Entity/Db','db','t.db_id = db.db_id')
+            ->where('t.fennec = db.db_id');
+        $query = $qb->getQuery();
+        $result = $query->getArrayResult();
+
+//        $result = array();
+//        while($row = $stm_get_taxonomy_databases->fetch(PDO::FETCH_ASSOC)){
+//            $result[$row['name']] = $row['taxonomy_node_id'];
+//        }
+//        return $result;
+    }
+
+    public function getLineage(){
+
+    }
 }
