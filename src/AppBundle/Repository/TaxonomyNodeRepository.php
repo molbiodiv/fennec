@@ -20,13 +20,13 @@ class TaxonomyNodeRepository extends EntityRepository
             ->where('t.fennec = :fennec_id')
             ->setParameter('fennec_id', $fennec_id);
         $query = $qb->getQuery();
-        $result = $query->getArrayResult();
+        $data = $query->getArrayResult();
 
-//        $result = array();
-//        while($row = $stm_get_taxonomy_databases->fetch(PDO::FETCH_ASSOC)){
-//            $result[$row['name']] = $row['taxonomy_node_id'];
-//        }
-//        return $result;
+        $result = array();
+        for($i=0;$i<sizeof($data);$i++){
+            $result[$data[$i]['name']] = $data[$i]['taxonomyNodeId'];
+        }
+        return $result;
     }
 
     public function getLineage(){
