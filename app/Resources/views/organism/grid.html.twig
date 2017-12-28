@@ -1,5 +1,5 @@
 <ul>
 {% for organism in organisms %}
-    <li><a href="{{ path('organism_details', {'dbversion': dbversion, 'fennec_id': organism.fennec_id}) }}">{{ organism.scientific_name }}</a></li>
+    <li><a href="{{ path('organism_details', {'dbversion': dbversion, 'fennec_id': organism.fennecId}) }}">{{ organism.scientificName }}</a></li>
 {% endfor %}
 </ul>
