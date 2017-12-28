@@ -40,13 +40,11 @@ class OrganismRepository extends EntityRepository
         $result = $query->getArrayResult();
 
         $data = array();
-        for($i=0; $i<sizeof($result);$i++) {
-            $data['fennec_id'] = $result[$i]['fennecId'];
-            $data['scientific_name'] = $result[$i]['scientificName'];
-            $data['eol_identifier'] = $this->getIdentifierDbxref($result[$i]['fennecId'], 'EOL');
-            $data['ncbi_identifier'] = $this->getIdentifierDbxref($result[$i]['fennecId'], 'ncbi_taxonomy');
-        }
-        return $result;
+        $data['fennec_id'] = $result[0]['fennecId'];
+        $data['scientific_name'] = $result[0]['scientificName'];
+        $data['eol_identifier'] = $this->getIdentifierDbxref($result[0]['fennecId'], 'EOL');
+        $data['ncbi_identifier'] = $this->getIdentifierDbxref($result[0]['fennecId'], 'ncbi_taxonomy');
+        return $data;
     }
 
     /**
