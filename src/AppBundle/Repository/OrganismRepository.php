@@ -27,15 +27,7 @@ class OrganismRepository extends EntityRepository
             ->setParameter('search', $search)
             ->setMaxResults($limit);
         $query = $qb->getQuery();
-        $result = $query->getArrayResult();
-        $data = array();
-        for($i=0; $i<sizeof($result);$i++){
-            $thisResult = array();
-            $thisResult['fennec_id'] = $result[$i]['fennecId'];
-            $thisResult['scientific_name'] = $result[$i]['scientificName'];
-            $data[] = $thisResult;
-        }
-        return $data;
+        return $query->getResult();
     }
 
     public function getDetailsOfOrganism($fennec_id){
