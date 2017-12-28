@@ -2,18 +2,29 @@
 
 namespace AppBundle\API\Details;
 
-use AppBundle\API\Webservice;
 use AppBundle\Entity\FennecUser;
-use \PDO as PDO;
+use AppBundle\Service\DBVersion;
 use Symfony\Component\HttpFoundation\ParameterBag;
+use AppBundle\Entity\Organism;
 
 /**
  * Web Service.
  * Returns trait information to a list of organism ids
  */
-class TraitsOfOrganisms extends Webservice
+class TraitsOfOrganisms
 {
-    private $db;
+    private $manager;
+
+    /**
+     * TraitsOfOrganisms constructor.
+     * @param $dbversion
+     */
+    public function __construct(DBVersion $dbversion)
+    {
+        $this->manager = $dbversion->getEntityManager();
+    }
+
+
     /**
      * @param $query['fennec_ids' => [13,7,12,5]]
      * @param $user FennecUser
