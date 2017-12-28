@@ -78,10 +78,8 @@ class OrganismController extends Controller
         $taxonomy = $this->container->get(Listing\Taxonomy::class);
         $taxonomyResult = $taxonomy->execute($fennec_id);
 
-
-        $traits = $this->get('app.api.webservice')->factory('details', 'traitsOfOrganisms');
+        $traits = $this->container->get(Details\TraitsOfOrganisms::class);
         $traitResult = $traits->execute(new ParameterBag(array(
-            'dbversion' => $dbversion,
             'fennec_ids' => array($fennec_id)
         )), null);
         return $this->render('organism/details.html.twig', [
