@@ -26,8 +26,7 @@ class TraitsOfOrganisms
 
 
     /**
-     * @param $query['fennec_ids' => [13,7,12,5]]
-     * @param $user FennecUser
+     * @param 'fennec_ids' => [13,7,12,5]
      * @returns array $result
      * <code>
      * array(type_cvterm_id => array(
