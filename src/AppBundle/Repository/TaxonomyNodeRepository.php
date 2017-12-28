@@ -29,7 +29,44 @@ class TaxonomyNodeRepository extends EntityRepository
         return $result;
     }
 
-    public function getLineage(){
+    public function getLineage($taxonomy_node_id){
+        $result = array();
+        $previousParent = $taxonomy_node_id;
+        $parent = $this->getParent($taxonomy_node_id);
+        while ($parent !== $previousParent) {
+            array_unshift($result, $this->getOrganismName($parent));
+            $previousParent = $parent;
+            $parent = $this->getParent($previousParent);
+        }
+        return $result;
+    }
 
+    /**
+     * @param $taxonomy_node_id
+     * @return $parent_taxonomy_node_id
+     */
+    private function getParent($taxonomy_node_id)
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('t.parentTaxonomyNodeId')
+            ->from('AppBundle\Entity\TaxonomyNode', 't')
+            ->where('t.taxonomyNodeId = :taxonomyNodeId')
+            ->setParameter('taxonomyNodeId', $taxonomy_node_id);
+        $query = $qb->getQuery();
+
+        $result = $query->getSingleResult();
+        return $result['parentTaxonomyNodeId'];
+    }
+
+    private function getOrganismName($taxonomy_node_id)
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('o.scientificName')
+            ->from('AppBundle:Organism', 'o')
+            ->innerJoin('AppBundle\Entity\TaxonomyNode','t','WITH', 'o.fennecId = t.fennec')
+            ->where('t.taxonomyNodeId = :taxonomyNodeId')
+            ->setParameter('taxonomyNodeId', $taxonomy_node_id);
+        $query = $qb->getQuery();
+        return $query->getSingleResult()['scientificName'];
     }
 }
