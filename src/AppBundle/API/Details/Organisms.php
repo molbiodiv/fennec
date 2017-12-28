@@ -2,7 +2,6 @@
 
 namespace AppBundle\API\Details;
 
-use AppBundle\Entity\FennecUser;
 use AppBundle\Service\DBVersion;
 use AppBundle\Entity\Organism;
 
