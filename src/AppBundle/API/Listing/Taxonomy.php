@@ -35,7 +35,7 @@ class Taxonomy
         $result = array();
         $taxonomy_databases = $this->manager->getRepository(TaxonomyNode::class)->getDatabases($fennec_id);
         foreach($taxonomy_databases as $name => $taxonomy_node_id){
-            $result[$name] = $this->getLineage($taxonomy_node_id);
+            $result[$name] = $this->manager->getRepository(TaxonomyNode::class)->getLineage($taxonomy_node_id);
         }
         return $result;
     }
