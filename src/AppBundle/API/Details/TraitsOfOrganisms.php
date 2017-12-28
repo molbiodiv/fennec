@@ -36,9 +36,8 @@ class TraitsOfOrganisms
      * );
      * </code>
      */
-    public function execute(ParameterBag $query, FennecUser $user = null)
+    public function execute($fennec_ids)
     {
-        $fennec_ids = $query->get('fennec_ids');
         if(count($fennec_ids) == 0){
             return array();
         }
