@@ -73,23 +73,55 @@ class OrganismRepository extends EntityRepository
         return $db_id;
     }
 
-    private function getIdentifier($fennec_id, $db_id){
+    private function getIdentifier($fennec_id, $db_id)
+    {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('d.identifier')
-            ->from('AppBundle\Entity\FennecDbxref','d')
+            ->from('AppBundle\Entity\FennecDbxref', 'd')
             ->where('d.db = :dbId')
             ->andWhere('d.fennec = :fennecId')
-            ->setParameter('dbId',$db_id)
+            ->setParameter('dbId', $db_id)
             ->setParameter('fennecId', $fennec_id);
 
         $query = $qb->getQuery();
         $result = $query->getArrayResult();
-        for($i=0; $i < sizeof($result); $i++) {
+        for ($i = 0; $i < sizeof($result); $i++) {
             $identifier = $result[$i]['identifier'];
         }
         if (!isset($identifier)) {
             return "";
         }
         return $identifier;
+    }
+
+    public function getTraits($fennec_ids){
+        $categoricalTraits = $this->getCategoricalTraits($fennec_ids);
+        $numericalTraits = $this->getNumericalTraits($fennec_ids);
+        var_dump(array_merge($categoricalTraits, $numericalTraits));
+        return array_merge($categoricalTraits, $numericalTraits);
+    }
+
+    private function getCategoricalTraits($fennec_ids){
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('t.id', 'IDENTITY(t.fennec) AS fennec', 'IDENTITY(t.traitType) AS traitType', 'ttype.type','ttype.unit','tformat.format')
+            ->from('AppBundle\Entity\TraitCategoricalEntry', 't')
+            ->innerJoin('AppBundle\Entity\TraitType','ttype','WITH', 't.traitType = ttype.id')
+            ->innerJoin('AppBundle\Entity\TraitFormat','tformat','WITH', 'ttype.traitFormat = tformat.id')
+            ->where('t.deletionDate IS NOT NULL')
+            ->add('where', $qb->expr()->in('t.fennec', $fennec_ids));
+        $query = $qb->getQuery();
+        return $query->getResult();
+    }
+    
+    private function getNumericalTraits($fennec_ids){
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('t.id', 'IDENTITY(t.fennec) AS fennec', 'IDENTITY(t.traitType) AS traitType', 'ttype.type','ttype.unit','tformat.format')
+            ->from('AppBundle\Entity\TraitNumericalEntry', 't')
+            ->innerJoin('AppBundle\Entity\TraitType','ttype','WITH', 't.traitType = ttype.id')
+            ->innerJoin('AppBundle\Entity\TraitFormat','tformat','WITH', 'ttype.traitFormat = tformat.id')
+            ->where('t.deletionDate IS NOT NULL')
+            ->add('where', $qb->expr()->in('t.fennec', $fennec_ids));
+        $query = $qb->getQuery();
+        return $query->getResult();
     }
 }
