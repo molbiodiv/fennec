@@ -43,10 +43,10 @@
                 <div role="tabpanel" class="tab-pane" id="traits">
                     <div class="btn btn-primary" id="toggleCitationButton">Show/Hide citations</div>
                     {% for tid, current in traits %}
-                        <h4 class='page-header'>{{ current.trait_type }}</h4>
+                        <h4 class='page-header'>{{ current.traitType }}</h4>
                     <div id="trait_{{ tid }}"></div>
                     <script type="text/javascript">
-                        appendTraitEntries($('#trait_{{ tid }}'),[{{ current.trait_entry_ids|join(',') }}], '{{ current.trait_format }}');
+                        appendTraitEntries($('#trait_{{ tid }}'),[{{ current.traitEntryIds|join(',') }}], '{{ current.traitFormat }}');
                     </script>
                     {% endfor %}
                 </div>

@@ -97,13 +97,37 @@ class OrganismRepository extends EntityRepository
     public function getTraits($fennec_ids){
         $categoricalTraits = $this->getCategoricalTraits($fennec_ids);
         $numericalTraits = $this->getNumericalTraits($fennec_ids);
-        var_dump(array_merge($categoricalTraits, $numericalTraits));
-        return array_merge($categoricalTraits, $numericalTraits);
+        $data = array_merge($categoricalTraits, $numericalTraits);
+        $result = array();
+        for($i=0;$i<sizeof($data);$i++) {
+            $trait_type = $data[$i]['traitType'];
+            $type_cvterm_id = $data[$i]['traitTypeId'];
+            $trait_format = $data[$i]['format'];
+            $fennec_id = $data[$i]['fennec'];
+            $trait_entry_id = $data[$i]['id'];
+            $unit = $data[$i]['unit'];
+            if (!array_key_exists($type_cvterm_id, $result)) {
+                $result[$type_cvterm_id] = [
+                    'traitType' => $trait_type,
+                    'traitFormat' => $trait_format,
+                    'traitEntryIds' => [$trait_entry_id],
+                    'fennec' => [$fennec_id],
+                    'unit' => $unit
+                    ];
+            } else {
+                array_push($result[$type_cvterm_id]['traitEntryIds'], $trait_entry_id);
+                if (!in_array($fennec_id, $result[$type_cvterm_id]['fennec'])) {
+                        array_push($result[$type_cvterm_id]['fennec'], $fennec_id);
+                    }
+            }
+        }
+        var_dump($result);
+        return $result;
     }
 
     private function getCategoricalTraits($fennec_ids){
         $qb = $this->getEntityManager()->createQueryBuilder();
-        $qb->select('t.id', 'IDENTITY(t.fennec) AS fennec', 'IDENTITY(t.traitType) AS traitType', 'ttype.type','ttype.unit','tformat.format')
+        $qb->select('t.id', 'IDENTITY(t.fennec) AS fennec', 'IDENTITY(t.traitType) AS traitTypeId', 'ttype.type AS traitType','ttype.unit','tformat.format')
             ->from('AppBundle\Entity\TraitCategoricalEntry', 't')
             ->innerJoin('AppBundle\Entity\TraitType','ttype','WITH', 't.traitType = ttype.id')
             ->innerJoin('AppBundle\Entity\TraitFormat','tformat','WITH', 'ttype.traitFormat = tformat.id')
@@ -112,7 +136,7 @@ class OrganismRepository extends EntityRepository
         $query = $qb->getQuery();
         return $query->getResult();
     }
-    
+
     private function getNumericalTraits($fennec_ids){
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('t.id', 'IDENTITY(t.fennec) AS fennec', 'IDENTITY(t.traitType) AS traitType', 'ttype.type','ttype.unit','tformat.format')
