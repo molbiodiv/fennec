@@ -38,10 +38,6 @@ class TraitsOfOrganisms
      */
     public function execute($fennec_ids)
     {
-        if(count($fennec_ids) == 0){
-            return array();
-        }
-        $placeholders = implode(',', array_fill(0, count($fennec_ids), '?'));
-        return $this->manager->getRepository(Organism::class)->getTraits($placeholders);
+        return $this->manager->getRepository(Organism::class)->getTraits($fennec_ids);
     }
 }
