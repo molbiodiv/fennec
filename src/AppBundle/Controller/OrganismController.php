@@ -79,9 +79,7 @@ class OrganismController extends Controller
         $taxonomyResult = $taxonomy->execute($fennec_id);
 
         $traits = $this->container->get(Details\TraitsOfOrganisms::class);
-        $traitResult = $traits->execute(new ParameterBag(array(
-            'fennec_ids' => array($fennec_id)
-        )), null);
+        $traitResult = $traits->execute(array($fennec_id));
         return $this->render('organism/details.html.twig', [
             'type' => 'organism',
             'dbversion' => $dbversion,
