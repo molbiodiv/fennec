@@ -18,6 +18,6 @@ class WebuserDataRepository extends EntityRepository
             return 0;
         }
 
-        return $this->findBy(['webuser' => $user])->count();
+        return count($this->findBy(['webuser' => $user]));
     }
 }
