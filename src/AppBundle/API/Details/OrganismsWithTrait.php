@@ -4,6 +4,8 @@ namespace AppBundle\API\Details;
 
 use AppBundle\API\Webservice;
 use AppBundle\Entity\FennecUser;
+use AppBundle\Entity\Organism;
+use AppBundle\Service\DBVersion;
 use \PDO as PDO;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
