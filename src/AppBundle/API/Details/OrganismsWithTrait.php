@@ -15,7 +15,6 @@ use Symfony\Component\HttpFoundation\ParameterBag;
  */
 class OrganismsWithTrait
 {
-    const DEFAULT_LIMIT = 100;
 
     private $manager;
 
@@ -29,8 +28,8 @@ class OrganismsWithTrait
     }
 
 
-    public function execute($trait_type_id)
+    public function execute($trait_type_id, $limit)
     {
-        return $this->manager->getRepository(Organism::class)->getOrganismByTrait($trait_type_id);
+        return $this->manager->getRepository(Organism::class)->getOrganismByTrait($trait_type_id, $limit);
     }
 }
