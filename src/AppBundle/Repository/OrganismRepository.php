@@ -147,4 +147,35 @@ class OrganismRepository extends EntityRepository
         $query = $qb->getQuery();
         return $query->getResult();
     }
+
+    /**
+     * @param $trait_type_id
+     * @returns array of organisms according to a specific trait type
+     */
+    public function getOrganismByTrait($trait_type_id, $limit){
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('DISTINCT IDENTITY(t.fennec) AS id', 'o.scientificName')
+            ->from('AppBundle\Entity\TraitCategoricalEntry', 't')
+            ->innerJoin('AppBundle\Entity\Organism','o','WITH', 't.fennec = o.fennecId')
+            ->where('t.traitType = :traitTypeId')
+            ->setParameter('traitTypeId', $trait_type_id)
+            ->setMaxResults($limit)
+            ->expr()->isNotNull('t.deletionDate');
+        $query = $qb->getQuery();
+        $idsFromCategoricalTraits = $query->getResult();
+
+        $this->getEntityManager()->clear();
+
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('DISTINCT IDENTITY(t.fennec) AS id', 'o.scientificName')
+            ->from('AppBundle\Entity\TraitNumericalEntry', 't')
+            ->innerJoin('AppBundle\Entity\Organism','o','WITH', 't.fennec = o.fennecId')
+            ->where('t.traitType = :traitTypeId')
+            ->setParameter('traitTypeId', $trait_type_id)
+            ->setMaxResults($limit)
+            ->expr()->isNotNull('t.deletionDate');
+        $query = $qb->getQuery();
+        $idsFromNumericalTraits = $query->getResult();
+        return array_merge($idsFromCategoricalTraits, $idsFromNumericalTraits);
+    }
 }
