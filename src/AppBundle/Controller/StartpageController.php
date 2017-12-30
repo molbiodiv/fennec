@@ -25,7 +25,7 @@ class StartpageController extends Controller
      * @Route("/startpage", name="startpage")
      */
     public function startpageAction(Request $request, $dbversion){
-        $oc = $this->container->get(Overview::class);
+        $oc = $this->container->get(Listing\Overview::class);
         $query = $request->query;
         $query->set('dbversion', $dbversion);
         $user = null;
