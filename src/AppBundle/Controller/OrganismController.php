@@ -94,12 +94,14 @@ class OrganismController extends Controller
      * @Route("/organism/byTrait/{trait_type_id}", name="organism_by_trait")
      */
     public function byTraitAction(Request $request, $dbversion, $trait_type_id){
-        $organisms = $this->get('app.api.webservice')->factory('details', 'organismsWithTrait');
-        $trait = $this->get('app.api.webservice')->factory('details', 'traits');
         $query = $request->query;
-        $query->set('dbversion', $dbversion);
-        $query->set('trait_type_id', $trait_type_id);
-        $organismResult = $organisms->execute($query, null);
+        $organisms = $this->container->get(Details\OrganismsWithTrait::class);
+        $limit = 100;
+        if ($query->has('limit')) {
+            $limit = $query->get('limit');
+        }
+        $organismResult = $organisms->execute($trait_type_id, $limit);
+        $trait = $this->container->get(Details\Traits::class);
         $traitResult = $trait->execute($query, null);
         return $this->render('organism/byTrait.html.twig', [
             'type' => 'organism',
