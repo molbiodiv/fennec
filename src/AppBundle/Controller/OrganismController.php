@@ -11,7 +11,6 @@ namespace AppBundle\Controller;
 
 use AppBundle\API\Listing;
 use AppBundle\API\Details;
-use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -60,20 +59,18 @@ class OrganismController extends Controller
     }
 
     /**
-     * @param Request $request
      * @param $dbversion
      * @param $fennec_id
      * @return Response
      * @Route("/organism/details/{fennec_id}", name="organism_details", options={"expose" = true})
      */
-    public function detailsAction(Request $request, $dbversion, $fennec_id){
+    public function detailsAction($dbversion, $fennec_id){
         $user = null;
         if($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')){
             $user = $this->get('security.token_storage')->getToken()->getUser();
         }
         $organismDetails = $this->container->get(Details\Organisms::class);
         $organismResult = $organismDetails->execute($fennec_id);
-
 
         $taxonomy = $this->container->get(Listing\Taxonomy::class);
         $taxonomyResult = $taxonomy->execute($fennec_id);

@@ -19,6 +19,8 @@ class Overview
     private $user;
     /**
      * Overview constructor.
+     * @param DBVersion $dbversion
+     * @param TokenStorage $tokenStorage
      */
     public function __construct(DBVersion $dbversion, TokenStorage $tokenStorage)
     {
