@@ -47,7 +47,16 @@ class Traits
     {
         $result = $this->manager->getRepository(TraitType::class)->getInfo($trait_type_id);
         $format = $this->manager->getRepository(TraitFormat::class)->getFormat($result['trait_format_id']) === 'categorical_free' ? 'categorical' : 'numerical';
-        $result['values'] = $this->get_values($trait_type_id, $fennec_ids, $format);
+        $result['values'] = null;
+        if ($fennec_ids !== null and count($fennec_ids) === 0){
+            return array();
+        } else {
+            if($format === 'categorical'){
+                $result['values'] = $this->manager->getRepository(TraitCategoricalEntry::class)->getValues($trait_type_id, $fennec_ids);
+            } else {
+                $result['values'] = $this->manager->getRepository(TraitNumericalEntry::class)->getValues($trait_type_id, $fennec_ids);
+            }
+        }
         $result['number_of_organisms'] = $this->get_number_of_organisms($trait_type_id, $fennec_ids, $format);
         if ($query->has('include_citations') && $query->get('include_citations')){
             $result['citations'] = $this->get_citations($trait_type_id, $fennec_ids, $format);
