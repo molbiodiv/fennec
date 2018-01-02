@@ -2,6 +2,7 @@
 
 namespace AppBundle\API\Details;
 
+use AppBundle\Entity\TraitFormat;
 use AppBundle\Entity\TraitType;
 use AppBundle\Service\DBVersion;
 use \PDO as PDO;
@@ -44,7 +45,7 @@ class Traits
     public function execute($trait_type_id, $fennec_ids)
     {
         $result = $this->manager->getRepository(TraitType::class)->getInfo($trait_type_id);
-        $format = $result['trait_format'] === 'categorical_free' ? 'categorical' : 'numerical';
+        $format = $this->manager->getRepository(TraitFormat::class)->getFormat($result['trait_format_id']) === 'categorical_free' ? 'categorical' : 'numerical';
         $result['values'] = $this->get_values($trait_type_id, $fennec_ids, $format);
         $result['number_of_organisms'] = $this->get_number_of_organisms($trait_type_id, $fennec_ids, $format);
         if ($query->has('include_citations') && $query->get('include_citations')){
