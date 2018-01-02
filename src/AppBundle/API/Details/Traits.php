@@ -67,23 +67,6 @@ class Traits
     /**
      * @param $trait_type_id
      * @param $fennec_ids
-     * @param $trait_format string - one of categorical|numerical
-     * @return array values of specific trait
-     */
-    private function get_values($trait_type_id, $fennec_ids, $trait_format){
-        if ($fennec_ids !== null and count($fennec_ids) === 0){
-            return array();
-        }
-        if($trait_format === 'categorical'){
-            return $this->get_categorical_values($trait_type_id, $fennec_ids);
-        } else {
-            return $this->get_numerical_values($trait_type_id, $fennec_ids);
-        }
-    }
-
-    /**
-     * @param $trait_type_id
-     * @param $fennec_ids
      * @return array values of specific trait
      */
     private function get_categorical_values($trait_type_id, $fennec_ids){
@@ -113,40 +96,6 @@ EOF;
 
         foreach ($values as $key => $value){
             $values[$key] = array_values(array_unique($value));
-        }
-
-        return $values;
-    }
-
-    /**
-     * @param $trait_type_id
-     * @param $fennec_ids
-     * @return array values of specific trait
-     */
-    private function get_numerical_values($trait_type_id, $fennec_ids){
-        $organism_constraint = $this->get_organism_constraint($fennec_ids);
-        $query_get_values = <<<EOF
-SELECT fennec_id, value
-    FROM trait_numerical_entry
-    WHERE trait_type_id = ?
-    AND deletion_date IS NULL
-    {$organism_constraint}
-EOF;
-        $stm_get_values= $this->db->prepare($query_get_values);
-
-        $values = array();
-        if($fennec_ids !== null){
-            $values = array_fill_keys($fennec_ids, array());
-            $stm_get_values->execute(array_merge(array($trait_type_id), $fennec_ids));
-        } else {
-            $stm_get_values->execute(array($trait_type_id));
-        }
-
-        while ($row = $stm_get_values->fetch(PDO::FETCH_ASSOC)) {
-            if(!array_key_exists($row['fennec_id'], $values)){
-                $values[$row['fennec_id']] = array();
-            }
-            $values[$row['fennec_id']][] = $row['value'];
         }
 
         return $values;
@@ -211,15 +160,6 @@ EOF;
         }
 
         return $citations;
-    }
-
-    private function get_organism_constraint($fennec_ids){
-        $organism_constraint = '';
-        if($fennec_ids !== null){
-            $placeholders = implode(',', array_fill(0, count($fennec_ids), '?'));
-            $organism_constraint = "AND fennec_id IN (".$placeholders.") ";
-        }
-        return $organism_constraint;
     }
 
     /**
