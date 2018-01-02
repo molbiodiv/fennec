@@ -67,43 +67,6 @@ class Traits
     /**
      * @param $trait_type_id
      * @param $fennec_ids
-     * @return array values of specific trait
-     */
-    private function get_categorical_values($trait_type_id, $fennec_ids){
-        $organism_constraint = $this->get_organism_constraint($fennec_ids);
-        $query_get_values = <<<EOF
-SELECT fennec_id, value
-    FROM trait_categorical_entry, trait_categorical_value
-    WHERE trait_categorical_value_id=trait_categorical_value.id
-    AND trait_categorical_entry.trait_type_id = ?
-    AND deletion_date IS NULL
-    {$organism_constraint}
-EOF;
-        $stm_get_values= $this->db->prepare($query_get_values);
-        if($fennec_ids !== null){
-            $stm_get_values->execute(array_merge(array($trait_type_id), $fennec_ids));
-        } else {
-            $stm_get_values->execute(array($trait_type_id));
-        }
-
-        $values = array();
-        while ($row = $stm_get_values->fetch(PDO::FETCH_ASSOC)) {
-            if(!array_key_exists($row['value'], $values)){
-                $values[$row['value']] = array();
-            }
-            $values[$row['value']][] = $row['fennec_id'];
-        }
-
-        foreach ($values as $key => $value){
-            $values[$key] = array_values(array_unique($value));
-        }
-
-        return $values;
-    }
-
-    /**
-     * @param $trait_type_id
-     * @param $fennec_ids
      * @param $trait_format string - one of categorical|numerical
      * @return integer number of organisms which have this trait
      */
