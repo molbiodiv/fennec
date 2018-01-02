@@ -37,18 +37,11 @@ class Traits
     }
 
     /**
-     * @param $query ParameterBag
-     * @param $user FennecUser
+     * @param $trait_type_id
      * @returns array of traits
      */
-    public function execute(ParameterBag $query, FennecUser $user = null)
+    public function execute($trait_type_id, $fennec_ids)
     {
-        $this->db = $this->getManagerFromQuery($query)->getConnection();
-        $trait_type_id = $query->get('trait_type_id');
-        $fennec_ids = null;
-        if ($query->has('fennec_ids') and is_array($query->get('fennec_ids'))){
-            $fennec_ids = $query->get('fennec_ids');
-        }
         $result = $this->get_info($trait_type_id);
         $format = $result['trait_format'] === 'categorical_free' ? 'categorical' : 'numerical';
         $result['values'] = $this->get_values($trait_type_id, $fennec_ids, $format);
