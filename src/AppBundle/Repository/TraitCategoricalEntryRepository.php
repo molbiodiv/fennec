@@ -51,4 +51,30 @@ class TraitCategoricalEntryRepository extends EntityRepository
         }
         return $values;
     }
+
+    /**
+     * @param $trait_type_id
+     * @param $fennec_ids
+     * @return integer number of organisms which have this trait
+     */
+    public function getNumberOfOrganisms($trait_type_id, $fennec_ids){
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        if($fennec_ids !== null){
+            $qb->select('count(IDENTITY(t.fennec))')
+                ->from('AppBundle\Entity\TraitCategoricalEntry', 't')
+                ->where('IDENTITY(t.traitType) = :trait_type_id')
+                ->setParameter('trait_type_id', $trait_type_id)
+                ->andWhere('t.deletionDate IS NOT NULL')
+                ->add('where', $qb->expr()->in('t.fennec', $fennec_ids));
+        } else {
+            $qb->select('count(IDENTITY(t.fennec))')
+                ->from('AppBundle\Entity\TraitCategoricalEntry', 't')
+                ->where('t.traitType = :trait_type_id')
+                ->setParameter('trait_type_id', $trait_type_id)
+                ->expr()->isNotNull('t.deletionDate');
+        }
+        $query = $qb->getQuery();
+        $result = $query->getSingleResult();
+        return $result['1'];
+    }
 }
