@@ -28,6 +28,6 @@ class TraitTypeRepository extends EntityRepository
             ->where('t.id = :trait_type_id')
             ->setParameter('trait_type_id', $trait_type_id);
         $query = $qb->getQuery();
-        return $query->getResult();
+        return $query->getSingleResult();
     }
 }
