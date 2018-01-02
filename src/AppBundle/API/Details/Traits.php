@@ -2,10 +2,11 @@
 
 namespace AppBundle\API\Details;
 
-use AppBundle\Entity\TraitFormat;
-use AppBundle\Entity\TraitType;
 use AppBundle\Service\DBVersion;
-use \PDO as PDO;
+use AppBundle\Entity\TraitCategoricalEntry;
+use AppBundle\Entity\TraitFormat;
+use AppBundle\Entity\TraitNumericalEntry;
+use AppBundle\Entity\TraitType;
 
 /**
  * Web Service.
