@@ -2,8 +2,8 @@
 
 namespace AppBundle\API\Details;
 
-use AppBundle\API\Webservice;
 use AppBundle\Entity\FennecUser;
+use AppBundle\Service\DBVersion;
 use \PDO as PDO;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
@@ -24,10 +24,19 @@ use Symfony\Component\HttpFoundation\ParameterBag;
  *   );
  * </code>
  */
-class Traits extends Webservice
+class Traits
 {
 
-    private $db;
+    private $manager;
+
+    /**
+     * Traits constructor.
+     * @param $dbversion
+     */
+    public function __construct(DBVersion $dbversion)
+    {
+        $this->manager = $dbversion->getEntityManager();
+    }
 
     /**
      * @param $query ParameterBag
