@@ -46,12 +46,12 @@ class Traits
     public function execute($trait_type_id, $fennec_ids)
     {
         $result = $this->manager->getRepository(TraitType::class)->getInfo($trait_type_id);
-        $format = $this->manager->getRepository(TraitFormat::class)->getFormat($result['trait_format_id']) === 'categorical_free' ? 'categorical' : 'numerical';
+        $format = $this->manager->getRepository(TraitFormat::class)->getFormat($result['trait_format_id']);
         $result['values'] = null;
         if ($fennec_ids !== null and count($fennec_ids) === 0){
             return array();
         } else {
-            if($format === 'categorical'){
+            if($format['format'] === 'categorical_free'){
                 $result['values'] = $this->manager->getRepository(TraitCategoricalEntry::class)->getValues($trait_type_id, $fennec_ids);
             } else {
                 $result['values'] = $this->manager->getRepository(TraitNumericalEntry::class)->getValues($trait_type_id, $fennec_ids);
