@@ -70,34 +70,6 @@ class Traits
      * @param $trait_type_id
      * @param $fennec_ids
      * @param $trait_format string - one of categorical|numerical
-     * @return integer number of organisms which have this trait
-     */
-    private function get_number_of_organisms($trait_type_id, $fennec_ids, $trait_format){
-        if ($fennec_ids !== null and count($fennec_ids) === 0){
-            return 0;
-        }
-        $organism_constraint = $this->get_organism_constraint($fennec_ids);
-        $query_get_number_of_organisms = <<<EOF
-SELECT count(DISTINCT fennec_id) FROM trait_{$trait_format}_entry WHERE trait_type_id = ? AND deletion_date IS NULL
-    {$organism_constraint}
-EOF;
-        $stm_get_number_of_organisms= $this->db->prepare($query_get_number_of_organisms);
-        if($fennec_ids !== null){
-            $stm_get_number_of_organisms->execute(array_merge(array($trait_type_id), $fennec_ids));
-        } else {
-            $stm_get_number_of_organisms->execute(array($trait_type_id));
-        }
-
-        $row = $stm_get_number_of_organisms->fetch(PDO::FETCH_ASSOC);
-        $number_of_organisms = $row['count'];
-
-        return $number_of_organisms;
-    }
-
-    /**
-     * @param $trait_type_id
-     * @param $fennec_ids
-     * @param $trait_format string - one of categorical|numerical
      * @return array citations by fennec_id
      */
     private function get_citations($trait_type_id, $fennec_ids, $trait_format){
