@@ -100,9 +100,13 @@ class OrganismController extends Controller
         if ($query->has('limit')) {
             $limit = $query->get('limit');
         }
+        $fennec_ids = null;
+        if ($query->has('fennec_ids') and is_array($query->get('fennec_ids'))){
+            $fennec_ids = $query->get('fennec_ids');
+        }
         $organismResult = $organisms->execute($trait_type_id, $limit);
         $trait = $this->container->get(Details\Traits::class);
-        $traitResult = $trait->execute($query, null);
+        $traitResult = $trait->execute($trait_type_id, $fennec_ids);
         return $this->render('organism/byTrait.html.twig', [
             'type' => 'organism',
             'dbversion' => $dbversion,
