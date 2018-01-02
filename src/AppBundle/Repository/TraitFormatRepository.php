@@ -18,5 +18,7 @@ class TraitFormatRepository extends EntityRepository
             ->from('AppBundle\Entity\TraitFormat', 't')
             ->where('t.id = :trait_format_id')
             ->setParameter('trait_format_id', $traitFormatId);
+        $query = $qb->getQuery();
+        return $query->getSingleResult();
     }
 }
