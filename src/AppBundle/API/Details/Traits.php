@@ -142,26 +142,6 @@ EOF;
 
     /**
      * @param $trait_type_id
-     * @return array type, format, trait_type_id and ontology_url of specific trait
-     */
-    private function get_info($trait_type_id){
-        $query_get_info = <<<EOF
-SELECT trait_type.id AS trait_type_id, type AS name, ontology_url, format AS trait_format, trait_type.description AS description, trait_type.unit
-    FROM trait_type, trait_format
-    WHERE trait_type.id = :trait_type_id
-    AND trait_format_id = trait_format.id;
-EOF;
-        $stm_get_info= $this->db->prepare($query_get_info);
-        $stm_get_info->bindValue('trait_type_id', $trait_type_id);
-        $stm_get_info->execute();
-
-        $info = $stm_get_info->fetch(PDO::FETCH_ASSOC);
-
-        return $info;
-    }
-
-    /**
-     * @param $trait_type_id
      * @param $fennec_ids
      * @param $trait_format string - one of categorical|numerical
      * @return integer number of organisms which have this trait
