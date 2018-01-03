@@ -104,9 +104,13 @@ class OrganismController extends Controller
         if ($query->has('fennec_ids') and is_array($query->get('fennec_ids'))){
             $fennec_ids = $query->get('fennec_ids');
         }
+        $include_citations = false;
+        if ($query->has('include_citations')){
+            $include_citations = $query->get('include_citations');
+        }
         $organismResult = $organisms->execute($trait_type_id, $limit);
         $trait = $this->container->get(Details\Traits::class);
-        $traitResult = $trait->execute($trait_type_id, $fennec_ids);
+        $traitResult = $trait->execute($trait_type_id, $fennec_ids, $include_citations);
         return $this->render('organism/byTrait.html.twig', [
             'type' => 'organism',
             'dbversion' => $dbversion,
