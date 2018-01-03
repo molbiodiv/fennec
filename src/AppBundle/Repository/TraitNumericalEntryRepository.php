@@ -49,4 +49,38 @@ class TraitNumericalEntryRepository extends EntityRepository
         }
         return $values;
     }
+
+    public function getCitations($trait_type_id, $fennec_ids){
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        if($fennec_ids !== null){
+            $qb->select('IDENTITY(t.fennec) AS id', 't.value', 'traitCitation.citation')
+                ->from('AppBundle\Entity\TraitNumericalEntry', 't')
+                ->innerJoin('AppBundle\Entity\TraitCitation', 'traitCitation', 'WITH', 't.traitCitationId = traitCitation.id')
+                ->where('IDENTITY(t.traitType) = :trait_type_id')
+                ->setParameter('trait_type_id', $trait_type_id)
+                ->andWhere('t.deletionDate IS NOT NULL')
+                ->add('where', $qb->expr()->in('t.fennec', $fennec_ids));
+        } else {
+            $qb->select('IDENTITY(t.fennec) AS id', 't.value', 'traitCitation.citation')
+                ->from('AppBundle\Entity\TraitNumericalEntry', 't')
+                ->innerJoin('AppBundle\Entity\TraitCitation', 'traitCitation', 'WITH', 't.traitCitationId = traitCitation.id')
+                ->where('IDENTITY(t.traitType) = :trait_type_id')
+                ->setParameter('trait_type_id', $trait_type_id)
+                ->expr()->isNotNull('t.deletionDate');
+        }
+        $query = $qb->getQuery();
+        $result = $query->getSingleResult();
+        $citations = array();
+        for($i=0;$i<sizeof($result);$i++) {
+            if(!array_key_exists($result[$i]['id'], $citations)){
+                $citations[$result[$i]['id']] = array();
+            }
+            $citations[$result[$i]['id']][] = [
+                "citation" => $result[$i]['citation'],
+                "value" => $result[$i]['value']
+            ];
+        }
+
+        return $citations;
+    }
 }
