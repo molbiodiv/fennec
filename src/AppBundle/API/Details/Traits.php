@@ -41,18 +41,20 @@ class Traits
 
     /**
      * @param $trait_type_id
+     * @param $fennec_ids
+     * @param $include_citations
      * @returns array of traits
      */
-    public function execute($trait_type_id, $fennec_ids)
+    public function execute($trait_type_id, $fennec_ids, $include_citations)
     {
         $result = $this->manager->getRepository(TraitType::class)->getInfo($trait_type_id);
         $format = $this->manager->getRepository(TraitFormat::class)->getFormat($result['trait_format_id']);
         $result['values'] = null;
-        if ($fennec_ids !== null and count($fennec_ids) === 0){
+        if ($fennec_ids !== null and count($fennec_ids) === 0) {
             $result['values'] = array();
             $result['number_of_organisms'] = 0;
         } else {
-            if($format['format'] === 'categorical_free'){
+            if ($format['format'] === 'categorical_free') {
                 $result['values'] = $this->manager->getRepository(TraitCategoricalEntry::class)->getValues($trait_type_id, $fennec_ids);
                 $result['number_of_organisms'] = $this->manager->getRepository(TraitCategoricalEntry::class)->getNumberOfOrganisms($trait_type_id, $fennec_ids);
             } else {
