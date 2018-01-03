@@ -77,4 +77,45 @@ class TraitCategoricalEntryRepository extends EntityRepository
         $result = $query->getSingleResult();
         return $result['1'];
     }
+
+    /**
+     * @param $trait_type_id
+     * @param $fennec_ids
+     * @return array citations by fennec_id
+     */
+    public function getCitations($trait_type_id, $fennec_ids){
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        if($fennec_ids !== null){
+            $qb->select('IDENTITY(t.fennec) AS id', 'traitCitation.citation', 'traitValue.value')
+                ->from('AppBundle\Entity\TraitCategoricalEntry', 't')
+                ->innerJoin('AppBundle\Entity\TraitCitation', 'traitCitation', 'WITH', 't.traitCitation = traitCitation.id')
+                ->innerJoin('AppBundle\Entity\TraitCategoricalValue', 'traitValue', 'WITH', 't.traitCategoricalValue = traitValue.id')
+                ->where('t.traitType = :trait_type_id')
+                ->setParameter('trait_type_id', $trait_type_id)
+                ->add('where', $qb->expr()->in('t.fennec', $fennec_ids))
+                ->expr()->isNotNull('t.deletionDate');
+        } else {
+            $qb->select('IDENTITY(t.fennec) AS id', 'traitCitation.citation', 'traitValue.value')
+                ->from('AppBundle\Entity\TraitCategoricalEntry', 't')
+                ->innerJoin('AppBundle\Entity\TraitCitation', 'traitCitation', 'WITH', 't.traitCitation = traitCitation.id')
+                ->innerJoin('AppBundle\Entity\TraitCategoricalValue', 'traitValue', 'WITH', 't.traitCategoricalValue = traitValue.id')
+                ->where('t.traitType = :trait_type_id')
+                ->setParameter('trait_type_id', $trait_type_id)
+                ->expr()->isNotNull('t.deletionDate');
+        }
+        $query = $qb->getQuery();
+        $result = $query->getSingleResult();
+        $citations = array();
+        for($i=0;$i<sizeof($result);$i++) {
+            if(!array_key_exists($result[$i]['id'], $citations)){
+                $citations[$result[$i]['id']] = array();
+            }
+            $citations[$result[$i]['id']][] = [
+                "citation" => $result[$i]['citation'],
+                "value" => $result[$i]['value']
+            ];
+        }
+
+        return $citations;
+    }
 }
