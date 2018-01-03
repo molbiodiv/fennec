@@ -138,7 +138,7 @@ class OrganismRepository extends EntityRepository
 
     private function getNumericalTraits($fennec_ids){
         $qb = $this->getEntityManager()->createQueryBuilder();
-        $qb->select('t.id', 'IDENTITY(t.fennec) AS fennec', 'IDENTITY(t.traitType) AS traitType', 'ttype.type','ttype.unit','tformat.format')
+        $qb->select('t.id', 'IDENTITY(t.fennec) AS fennec', 'IDENTITY(t.traitType) AS traitTypeId', 'ttype.type AS traitType','ttype.unit','tformat.format')
             ->from('AppBundle\Entity\TraitNumericalEntry', 't')
             ->innerJoin('AppBundle\Entity\TraitType','ttype','WITH', 't.traitType = ttype.id')
             ->innerJoin('AppBundle\Entity\TraitFormat','tformat','WITH', 'ttype.traitFormat = tformat.id')
