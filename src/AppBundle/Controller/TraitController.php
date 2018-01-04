@@ -14,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\API\Listing;
+use AppBundle\API\Details;
 
 class TraitController extends Controller
 {
@@ -73,19 +74,17 @@ class TraitController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param $trait_type_id
      * @param $dbversion
-     * @param $trait_id
      * @return Response
      * @Route("/trait/details/{trait_type_id}", name="trait_details", options={"expose" = true})
      */
-    public function detailsAction(Request $request, $dbversion, $trait_type_id){
-        $query = $request->query;
-        $query->set('dbversion', $dbversion);
-        $query->set('trait_type_id', $trait_type_id);
-        $traitsDetails = $this->get('app.api.webservice')->factory('details', 'traits');
-        $trait = $traitsDetails->execute($query, null);
-        if($trait['trait_format'] === 'categorical_free'){
+    public function detailsAction($trait_type_id, $dbversion){
+        $traitsDetails = $this->container->get(Details\Traits::class);
+        $fennec_ids = null;
+        $include_citations = array();
+        $trait = $traitsDetails->execute($trait_type_id, $fennec_ids, $include_citations);
+        if($trait['format'] === 'categorical_free'){
             array_walk($trait['values'], function(&$val, $key) { $val = count($val); });
         }
         return $this->render('trait/details.html.twig', [
