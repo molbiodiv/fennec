@@ -23,7 +23,7 @@ class TraitTypeRepository extends EntityRepository
      */
     public function getInfo($trait_type_id){
         $qb = $this->getEntityManager()->createQueryBuilder();
-        $qb->select('t.id AS trait_type_id', 't.type', 't.ontologyUrl', 'IDENTITY(t.traitFormat) AS trait_format_id', 't.description', 't.unit')
+        $qb->select('t.id AS traitTypeId', 't.type', 't.ontologyUrl', 'IDENTITY(t.traitFormat) AS trait_format_id', 't.description', 't.unit')
             ->from('AppBundle\Entity\TraitType', 't')
             ->where('t.id = :trait_type_id')
             ->setParameter('trait_type_id', $trait_type_id);
