@@ -17,27 +17,30 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
  * Web Service.
  * Returns Trait information
  */
-class Traits extends Webservice
+class Traits
 {
+    private $manager;
 
     /**
-     * @param $query ParameterBag
-     * @param $user FennecUser
+     * Traits constructor.
+     * @param $dbversion
+     */
+    public function __construct(DBVersion $dbversion)
+    {
+        $this->manager = $dbversion->getEntityManager();
+    }
+
+
+    /**
+     * @param $limit Integer
+     * @param $search String_
      * @returns array of traits
      */
-    public function execute(ParameterBag $query, FennecUser $user = null)
+    public function execute($limit, $search)
     {
-        $db = $this->getManagerFromQuery($query)->getConnection();
-        $limit = 1000;
-        if ($query->has('limit')) {
-            $limit = $query->get('limit');
-        }
-        $search = "%%";
-        if ($query->has('search')) {
-            $search = "%".$query->get('search')."%";
-        }
-        $data = $this->get_traits($db, $search, $limit, "categorical");
-        $data = array_merge($data,$this->get_traits($db, $search, $limit, "numerical"));
+        $categoricalTraits = $this->manager->getRepository(TraitCategoricalEntry::class)->getTraits($search, $limit);
+        $numericalTraits = $this->manager->getRepository(TraitNumericalEntry::class)->getTraits($search, $limit);
+        $data = array_merge($numericalTraits, $categoricalTraits);
         //if performance-tuning is required:
         //Merge-Step of MergeSort would be sufficient but not natively available in PHP
         usort($data, function($a,$b){return $b['frequency'] - $a['frequency'];});
