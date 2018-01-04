@@ -5,19 +5,19 @@
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-3">
-                        {% if trait.name in traitWithIcon %}
-                            <img src="{{ asset('assets/img/trait/'~trait.name~'.png') }}" height="100px" style="float: left">
+                        {% if trait.type in traitWithIcon %}
+                            <img src="{{ asset('assets/img/trait/'~trait.type~'.png') }}" height="100px" style="float: left">
                         {% else %}
                             <img src="{{ asset('assets/img/trait/fallback.png') }}" height="100px" style="float: left">
                         {% endif %}
                     </div>
                     <div class="col-xs-9 text-right">
                         <div class="huge">{{ trait.frequency }}</div>
-                        <div>{{ trait.name }}</div>
+                        <div>{{ trait.type }}</div>
                     </div>
                 </div>
             </div>
-            <a href="{{ path('trait_details', {'dbversion': dbversion, 'trait_type_id': trait.trait_type_id}) }}">
+            <a href="{{ path('trait_details', {'dbversion': dbversion, 'trait_type_id': trait.traitTypeId}) }}">
                 <div class="panel-footer info-trait">
                     <span class="pull-left">View Details</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
