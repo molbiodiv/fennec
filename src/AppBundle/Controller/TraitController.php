@@ -57,10 +57,17 @@ class TraitController extends Controller
      * @Route("/trait/result", name="trait_result", options={"expose" = true})
      */
     public function resultAction(Request $request, $dbversion){
-        $traitsListing = $this->get('app.api.webservice')->factory('listing', 'traits');
         $query = $request->query;
-        $query->set('dbversion', $dbversion);
-        $traits = $traitsListing->execute($query, null);
+        $traitsListing = $this->container->get(Listing\Traits::class);
+        $limit = 50;
+        if($query->has('limit')){
+            $limit = $query->get('limit');
+        }
+        $search = "%%";
+        if($query->has('search')){
+            $search = "%".$query->get('search')."%";
+        };
+        $traits = $traitsListing->execute($limit, $search);
         return $this->render(
             'trait/result.html.twig',
             [
