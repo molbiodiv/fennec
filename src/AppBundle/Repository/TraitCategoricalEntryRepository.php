@@ -118,4 +118,32 @@ class TraitCategoricalEntryRepository extends EntityRepository
 
         return $citations;
     }
+
+    public function getTraits($search, $limit){
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('IDENTITY(t.traitType) AS traitTypeId', 'traitType.type')
+            ->from('AppBundle\Entity\TraitCategoricalEntry', 't')
+            ->innerJoin('AppBundle\Entity\TraitType', 'traitType', 'WITH', 't.traitType = traitType.id')
+            ->where('lower(traitType.type) LIKE lower(:search)')
+            ->groupBy('t.traitType', 'traitType.type')
+            ->setParameter('search', $search)
+            ->setMaxResults($limit);
+        $query = $qb->getQuery();
+        $result = $query->getResult();
+        $this->getEntityManager()->clear();
+
+        for($i=0;$i<sizeof($result);$i++){
+            $qb = $this->getEntityManager()->createQueryBuilder();
+            $qb->select('COUNT(IDENTITY(t.traitType)) AS count')
+                ->from('AppBundle\Entity\TraitCategoricalEntry', 't')
+                ->where('t.traitType = :traitTypeId')
+                ->setParameter('traitTypeId', $result[$i]['traitTypeId'])
+                ->groupBy('t.traitType');
+            $query = $qb->getQuery();
+            $data = $query->getSingleResult();
+            $result[$i]['frequency'] = $data['count'];
+            $this->getEntityManager()->clear();
+        }
+        return $result;
+    }
 }
