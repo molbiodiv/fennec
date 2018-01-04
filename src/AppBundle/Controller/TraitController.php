@@ -30,13 +30,17 @@ class TraitController extends Controller
      * @Route("/trait/overview", name="trait_overview")
      */
     public function overviewAction(Request $request, $dbversion){
-        $traitsListing = $this->get('app.api.webservice')->factory('listing', 'traits');
-        $query = new ParameterBag(array(
-            'search' => '',
-            'limit' => 12,
-            'dbversion' => $dbversion
-        ));
-        $traits = $traitsListing->execute($query, null);
+        $query = $request->query;
+        $limit = 1000;
+        if ($query->has('limit')) {
+            $limit = $query->get('limit');
+        }
+        $search = "%%";
+        if ($query->has('search')) {
+            $search = "%".$query->get('search')."%";
+        }
+        $traitsListing = $this->container->get(Listing\Traits::class);
+        $traits = $traitsListing->execute($limit, $search);
         return $this->render(
             'trait/overview.html.twig',
             [
