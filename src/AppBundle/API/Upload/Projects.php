@@ -2,11 +2,9 @@
 
 namespace AppBundle\API\Upload;
 
-use AppBundle\API\Webservice;
 use AppBundle\Entity\WebuserData;
 use AppBundle\Entity\FennecUser;
 use AppBundle\Service\DBVersion;
-use Symfony\Component\HttpFoundation\ParameterBag;
 use biomcs\BiomCS;
 
 /**
