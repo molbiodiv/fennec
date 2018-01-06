@@ -28,7 +28,6 @@ class APIController extends Controller
         } catch (Exception $e){
             throw $this->createNotFoundException('Webservice not found in the API');
         }
-        $queryData = new ParameterBag(array_merge($request->query->all(), $request->request->all()));
         $user = null;
         if($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')){
             $user = $this->get('security.token_storage')->getToken()->getUser();
