@@ -10,6 +10,7 @@ namespace AppBundle\Controller;
 
 
 use AppBundle\Entity\FennecUser;
+use AppBundle\API\Details;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -42,11 +43,9 @@ class ProjectController extends Controller
      * @Route("/project/details/{project_id}", name="project_details", options={"expose" = true})
      */
     public function detailsAction(Request $request, $dbversion, $project_id){
-        $projectDetails = $this->get('app.api.webservice')->factory('details', 'projects');
-        $query = $request->query;
-        $query->set('dbversion', $dbversion);
-        $query->set('ids', array($project_id));
-        $projectResult = $projectDetails->execute($query, $this->getFennecUser());
+        $projectDetails = $this->container->get(Details\Projects::class);
+        $user = $this->getFennecUser();
+        $projectResult = $projectDetails->execute($project_id, $user);
         return $this->render(
             'project/details.html.twig',
             [
