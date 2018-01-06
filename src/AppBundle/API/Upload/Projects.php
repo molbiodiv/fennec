@@ -5,6 +5,7 @@ namespace AppBundle\API\Upload;
 use AppBundle\API\Webservice;
 use AppBundle\Entity\WebuserData;
 use AppBundle\Entity\FennecUser;
+use AppBundle\Service\DBVersion;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use biomcs\BiomCS;
 
@@ -12,26 +13,38 @@ use biomcs\BiomCS;
  * Web Service.
  * Uploads Project biom files and save them in the database
  */
-class Projects extends Webservice
+class Projects
 {
     const ERROR_IN_REQUEST = "Error. There was an error in your request.";
     const ERROR_NOT_BIOM = "Error. Not a biom file.";
     const ERROR_DB_INSERT = "Error. Could not insert into database.";
 
-    public $required_biom1_toplevel_keys = array(
-        'id',
-        'format',
-        'format_url',
-        'type',
-        'generated_by',
-        'date',
-        'rows',
-        'columns',
-        'matrix_type',
-        'matrix_element_type',
-        'shape',
-        'data'
-    );
+    private $manager;
+
+    private $required_biom1_toplevel_keys;
+
+    /**
+     * Projects constructor.
+     */
+    public function __construct(DBVersion $dbversion)
+    {
+        $this->manager = $dbversion->getEntityManager();
+        $this->required_biom1_toplevel_keys = array(
+            'id',
+            'format',
+            'format_url',
+            'type',
+            'generated_by',
+            'date',
+            'rows',
+            'columns',
+            'matrix_type',
+            'matrix_element_type',
+            'shape',
+            'data'
+        );
+    }
+
 
     /**
      * @inheritdoc
