@@ -16,6 +16,7 @@ class Projects
     const ERROR_IN_REQUEST = "Error. There was an error in your request.";
     const ERROR_NOT_BIOM = "Error. Not a biom file.";
     const ERROR_DB_INSERT = "Error. Could not insert into database.";
+    const ERROR_NOT_LOGGED_IN = "Error. You are not logged in.";
 
     private $manager;
 
@@ -48,23 +49,21 @@ class Projects
      * @inheritdoc
      * @returns array result of file upload
      */
-    public function execute(ParameterBag $query, FennecUser $user = null)
+    public function execute(FennecUser $user = null)
     {
         ini_set('memory_limit', '512M');
-        $em = $this->getManagerFromQuery($query);
         $files = array();
         if ($user === null) {
-            $files = array("error" => WebService::ERROR_NOT_LOGGED_IN);
+            $files = array("error" => Projects::ERROR_NOT_LOGGED_IN);
         } else {
-            $webuser = $user;
             for ($i=0; $i<sizeof($_FILES); $i++) {
                 $valid = $this->validateAndConvertFile($_FILES[$i]['tmp_name']);
                 if ($valid === true) {
                     $project = new WebuserData();
                     $project->setProject(json_decode(file_get_contents($_FILES[$i]['tmp_name'])));
-                    $project->setWebuser($webuser);
+                    $project->setWebuser($user);
                     $project->setImportFilename($_FILES[$i]['name']);
-                    $em->persist($project);
+                    $this->manager->persist($project);
                 }
                 $file = array(
                     "name" => $_FILES[$i]['name'],
@@ -74,7 +73,7 @@ class Projects
                 $files[] = $file;
             }
         }
-        $em->flush();
+        $this->manager->flush();
         return array("files" => $files);
     }
 
