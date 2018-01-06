@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\ParameterBag;
  * Web Service.
  * Returns information of all users projects
  */
-class Projects extends Webservice
+class Projects
 {
     /**
     * @inheritdoc
@@ -21,7 +21,7 @@ class Projects extends Webservice
     * array(array('project_id','import_date','OTUs','sample size'));
     * </code>
     */
-    public function execute(ParameterBag $query, FennecUser $user = null)
+    public function execute(FennecUser $user = null)
     {
         $result = array('data' => array());
         if ($user == null) {
