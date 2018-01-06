@@ -5,6 +5,7 @@ namespace AppBundle\API\Listing;
 use AppBundle\API\Webservice;
 use AppBundle\Entity\WebuserData;
 use AppBundle\Entity\FennecUser;
+use AppBundle\Service\DBVersion;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
@@ -14,6 +15,20 @@ use Symfony\Component\HttpFoundation\ParameterBag;
  */
 class Projects
 {
+    const ERROR_NOT_LOGGED_IN = "Error: You are not logged in.";
+
+    private $manager;
+
+    /**
+     * Projects constructor.
+     * @param $dbversion
+     */
+    public function __construct(DBVersion $dbversion)
+    {
+        $this->manager = $dbversion->getEntityManager();
+    }
+
+
     /**
     * @inheritdoc
     * @returns array $result
