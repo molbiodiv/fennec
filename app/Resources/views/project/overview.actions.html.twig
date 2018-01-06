@@ -91,9 +91,10 @@
             {
                 data.append(key, value);
             });
-
+            var url = Routing.generate('api', {'namespace': 'upload', 'classname': 'projects', 'dbversion': '1.0' });
+            console.log(url);
             $.ajax({
-                url: '{{ path('api', {'namespace': 'upload', 'classname': 'projects', 'dbversion': dbversion}) }}',
+                url: url,
                 type: 'POST',
                 data: data,
                 cache: false,
