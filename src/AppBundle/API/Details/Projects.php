@@ -36,26 +36,24 @@ class Projects
     * array('project_id': {biomFile});
     * </code>
     */
-    public function execute(ParameterBag $query, FennecUser $user = null)
+    public function execute($project_id, FennecUser $user = null)
     {
         $result = array('projects' => array());
-        $ids = $query->get('ids');
-        $em = $this->getManagerFromQuery($query);
         if ($user === null) {
-            $result['error'] = Webservice::ERROR_NOT_LOGGED_IN;
+            $result['error'] = Projects::ERROR_NOT_LOGGED_IN;
         } else {
-            $webuser = $em->find('AppBundle:FennecUser', $user->getId());
-            if($webuser === null){
+            $user = $this->manager->find('AppBundle:FennecUser', $user->getId());
+            if($user === null){
                 $result['error'] = Projects::PROJECT_NOT_FOUND_FOR_USER;
             }
-            $webuserData = $webuser->getData()->filter(function($data) use($ids){
+            $userData = $user->getData()->filter(function($data) use($project_id){
                 /** @var WebuserData $data */
-                return in_array($data->getWebuserDataId(), $ids);
+                return in_array($data->getWebuserDataId(), $project_id);
             });
-            if (count($webuserData) < 1) {
+            if (count($userData) < 1) {
                 $result['error'] = Projects::PROJECT_NOT_FOUND_FOR_USER;
             }
-            foreach ($webuserData as $project) {
+            foreach ($userData as $project) {
                 /** @var WebuserData $project */
                 $result['projects'][$project->getWebuserDataId()] = array(
                     'biom' => json_encode($project->getProject()),
