@@ -147,11 +147,7 @@ class OrganismRepository extends EntityRepository
         $query = $qb->getQuery();
         return $query->getResult();
     }
-
-    /**
-     * @param $trait_type_id
-     * @returns array of organisms according to a specific trait type
-     */
+    
     public function getOrganismByTrait($trait_type_id, $limit){
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('DISTINCT IDENTITY(t.fennec) AS fennecId', 'o.scientificName')
