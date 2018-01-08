@@ -4,7 +4,7 @@
     {{ parent() }}
     {% if organism.eol_identifier is defined %}
         <script type="text/javascript">
-            var eol_id = {{ organism.eol_identifier }};
+            eol_id = {{ organism.eol_identifier }};
         </script>
     {% endif %}
     <script src="{{ asset('assets/js/organism/details.js') }}"></script>
