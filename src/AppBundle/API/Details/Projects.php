@@ -46,19 +46,17 @@ class Projects
             if($user === null){
                 $result['error'] = Projects::PROJECT_NOT_FOUND_FOR_USER;
             }
-            $userData = $user->getData()->filter(function($data) use($project_id){
-                /** @var WebuserData $data */
-                return in_array($data->getWebuserDataId(), $project_id);
-            });
+            $userId = $user->getId();
+            $userData = $this->manager->getRepository(WebuserData::class)->getDataForUser($userId);
             if (count($userData) < 1) {
                 $result['error'] = Projects::PROJECT_NOT_FOUND_FOR_USER;
             }
             foreach ($userData as $project) {
                 /** @var WebuserData $project */
-                $result['projects'][$project->getWebuserDataId()] = array(
-                    'biom' => json_encode($project->getProject()),
-                    'import_date' => $project->getImportDate(),
-                    'import_filename' => $project->getImportFilename()
+                $result['projects'][$project['webuserDataId']] = array(
+                    'biom' => json_encode($project['project']),
+                    'import_date' => $project['importDate'],
+                    'import_filename' => $project['importFilename']
                 );
             }
         }
