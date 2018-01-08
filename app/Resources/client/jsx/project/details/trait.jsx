@@ -104,7 +104,7 @@ $('document').ready(async () => {
 
 function addTraitToProjectTableAction(traitTypeId, dimension){
     $.ajax({
-            url: Routing.generate('api', {'namespace': 'details', 'classname': 'TraitOfProject'}),
+            url: Routing.generate('api', {'namespace': 'details', 'classname': 'TraitOfProject', 'dbversion': dbversion}),
             data: {
                 "dbversion": dbversion,
                 "internal_project_id": internalProjectId,
