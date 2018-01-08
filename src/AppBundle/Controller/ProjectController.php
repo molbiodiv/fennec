@@ -36,13 +36,12 @@ class ProjectController extends Controller
     }
 
     /**
-     * @param $request Request
      * @param $dbversion string
      * @param $project_id string
      * @return Response
      * @Route("/project/details/{project_id}", name="project_details", options={"expose" = true})
      */
-    public function detailsAction(Request $request, $dbversion, $project_id){
+    public function detailsAction($dbversion, $project_id){
         $projectDetails = $this->container->get(Details\Projects::class);
         $user = $this->getFennecUser();
         $projectResult = $projectDetails->execute($project_id, $user);
