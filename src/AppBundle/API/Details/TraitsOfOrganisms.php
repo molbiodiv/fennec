@@ -38,6 +38,9 @@ class TraitsOfOrganisms
      */
     public function execute($fennec_ids)
     {
+        if(isset($_REQUEST['fennec_ids'])){
+            $fennec_ids = $_REQUEST['fennec_ids'];
+        }
         return $this->manager->getRepository(Organism::class)->getTraits($fennec_ids);
     }
 }
