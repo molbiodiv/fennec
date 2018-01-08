@@ -28,9 +28,9 @@ $('document').ready(async () => {
                 $.each(data, function (key, value) {
                     var thisTrait = {
                         id: key,
-                        trait: value['trait_type'],
-                        count: value['trait_entry_ids'].length,
-                        range: 100 * value['fennec_ids'].length / fennec_ids.length
+                        trait: value['traitType'],
+                        count: value['traitEntryIds'].length,
+                        range: 100 * value['fennec'].length / fennec_ids.length
                     };
                     traits.push(thisTrait);
                 });
