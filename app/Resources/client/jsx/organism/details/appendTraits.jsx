@@ -4,7 +4,7 @@
 
 function appendTraitEntries(domElement, traitEntries, traitFormat){
     $.ajax({
-        url: Routing.generate('api', {'namespace': 'details', 'classname': 'TraitEntries'}),
+        url: Routing.generate('api', {'namespace': 'details', 'classname': 'TraitEntries', 'dbversion': dbversion}),
         data: {
             "dbversion": dbversion,
             "trait_entry_ids": traitEntries,

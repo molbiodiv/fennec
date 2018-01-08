@@ -7,7 +7,7 @@ $(document).ready(function(){
         source: function (request, response) {
             var search = request.term;
             $.ajax({
-                url: Routing.generate('api', {'namespace': 'listing', 'classname': 'organisms'}),
+                url: Routing.generate('api', {'namespace': 'listing', 'classname': 'organisms', 'dbversion': dbversion}),
                 data: {term:  request.term, limit: 500, search: search, dbversion: dbversion},
                 dataType: "json",
                 success: function (data) {

@@ -12,11 +12,10 @@ $('document').ready(async () => {
     getAndShowTraits('#trait-table-sample', 'columns');
 
     function getAndShowTraits(id, dimension){
-        var webserviceUrl = Routing.generate('api', {'namespace': 'details', 'classname': 'traitsOfOrganisms'});
+        var webserviceUrl = Routing.generate('api', {'namespace': 'details', 'classname': 'traitsOfOrganisms', 'dbversion': dbversion});
         // Extract row fennec_ids from biom
         var fennec_ids = biom.getMetadata({dimension: dimension, attribute: ['fennec', dbversion, 'fennec_id']})
             .filter( element => element !== null );
-
         // Get traits for rows
         $.ajax(webserviceUrl, {
             data: {
