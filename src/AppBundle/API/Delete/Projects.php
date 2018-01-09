@@ -2,12 +2,10 @@
 
 namespace AppBundle\API\Delete;
 
-use AppBundle\API\Webservice;
 use AppBundle\AppBundle;
 use AppBundle\Entity\WebuserData;
 use AppBundle\Entity\FennecUser;
 use AppBundle\Service\DBVersion;
-use Symfony\Component\HttpFoundation\ParameterBag;
 
 /**
  * Web Service.
@@ -15,6 +13,8 @@ use Symfony\Component\HttpFoundation\ParameterBag;
  */
 class Projects
 {
+    const ERROR_NOT_LOGGED_IN = "Error. You are not logged in.";
+
     private $manager;
 
     /**
@@ -39,21 +39,15 @@ class Projects
     */
     public function execute(FennecUser $user = null)
     {
-        $manager = $this->getManagerFromQuery($query);
+        $projectId = $_REQUEST['ids'];
         $result = array('deletedProjects' => 0);
         if ($user === null) {
-            $result['error'] = Webservice::ERROR_NOT_LOGGED_IN;
+            $result['error'] = Projects::ERROR_NOT_LOGGED_IN;
         } else {
-            $projects = $user->getData()->filter(function (WebuserData $p) use($query){
-                return in_array($p->getWebuserDataId(), $query->get('ids'));
-            });
-            foreach($projects as $project){
-                $project = $manager->merge($project);
-                $manager->remove($project);
-            }
-            $manager->flush();
-
-            $result['deletedProjects'] = count($projects);
+            $projects = $this->manager->getRepository(WebuserData::class)->findOneBy(array('webuser' => $user, 'webuserDataId' => $projectId));
+            $this->manager->remove($projects);
+            $this->manager->flush();
+            $result['deletedProjects'] = 1;
         }
         return $result;
     }
