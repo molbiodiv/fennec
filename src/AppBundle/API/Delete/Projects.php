@@ -6,14 +6,27 @@ use AppBundle\API\Webservice;
 use AppBundle\AppBundle;
 use AppBundle\Entity\WebuserData;
 use AppBundle\Entity\FennecUser;
+use AppBundle\Service\DBVersion;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
 /**
  * Web Service.
  * Delete Project with given internal_ids from the database (user has to be logged in and owner)
  */
-class Projects extends Webservice
+class Projects
 {
+    private $manager;
+
+    /**
+     * Projects constructor.
+     * @param $dbversion
+     */
+    public function __construct(DBVersion $dbversion)
+    {
+        $this->manager = $dbversion->getEntityManager();
+    }
+
+
     /**
     * @inheritdoc
     * <code>
