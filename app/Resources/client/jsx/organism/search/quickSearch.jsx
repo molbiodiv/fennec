@@ -7,8 +7,7 @@ $(document).ready(function(){
         source: function (request, response) {
             var search = request.term;
             $.ajax({
-                url: Routing.generate('api_listing_organisms', {'dbversion': dbversion}),
-                data: {limit: 500, search: search},
+                url: Routing.generate('api_listing_organisms', {'dbversion': dbversion, 'limit': 500, 'search': search}),
                 dataType: "json",
                 success: function (data) {
                     response(data.map(x => {x.value = x.scientificName; return x;}));
