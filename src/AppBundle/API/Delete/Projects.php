@@ -37,7 +37,7 @@ class Projects
     * array(array('project_id','import_date','OTUs','sample size'));
     * </code>
     */
-    public function execute(ParameterBag $query, FennecUser $user = null)
+    public function execute(FennecUser $user = null)
     {
         $manager = $this->getManagerFromQuery($query);
         $result = array('deletedProjects' => 0);
