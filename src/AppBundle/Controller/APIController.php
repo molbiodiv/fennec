@@ -14,7 +14,7 @@ class APIController extends Controller
     /**
      * @Route("/api/listing/organisms", name="api_listing_organisms", options={"expose"=true})
      */
-    public function listingOrganismsAction(Request $request){
+    public function listingOrganismsAction(){
         $organisms = $this->container->get(Listing\Organisms::class);
         $response = $this->json($organisms->execute($request->query->get('limit'), "%".$request->query->get('search')."%"));
         $response->headers->set('Access-Control-Allow-Origin', '*');
