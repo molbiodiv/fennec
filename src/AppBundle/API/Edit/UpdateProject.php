@@ -27,10 +27,8 @@ class UpdateProject
     /**
      * @inheritdoc
      */
-    public function execute(FennecUser $user = null)
+    public function execute($projectId, $biom, FennecUser $user = null)
     {
-        $project_id = $_REQUEST['project_id'];
-        $biom = $_REQUEST['biom'];
         if($biom === null || $project_id === null){
             return array('error' => 'Missing parameter "biom" or "project_id"');
         }
@@ -40,7 +38,7 @@ class UpdateProject
         if($user === null){
             return array('error' => 'Could not update project. Not found for user.');
         }
-        $project = $this->manager->getRepository(WebuserData::class)->findOneBy(array('webuser' => $user, 'webuserDataId' => $project_id));
+        $project = $this->manager->getRepository(WebuserData::class)->findOneBy(array('webuser' => $user, 'webuserDataId' => $projectId));
         if($project === null){
             return array('error' => 'Could not update project. Not found for user.');
         }
