@@ -35,6 +35,19 @@ class APIController extends Controller
         return $response;
     }
 
+    /**
+     * @param Request $request
+     * @return Response $response
+     * @Route("/api/details/traitEntries/", name="api_details_trait_entries", options={"expose"=true})
+     */
+    public function detailsTraitEntriesAction(Request $request){
+        $traitEntries = $this->container->get(Details\TraitEntries::class);
+        $result = $traitEntries->execute($request->query->get('trait_entry_ids'), $request->query->get('trait_format'));
+        $response = $this->json($result);
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+        return $response;
+    }
+
     private function getFennecUser(){
         $user = null;
         if($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')){
