@@ -63,13 +63,8 @@ $('document').ready(async function () {
  */
 function saveBiomToDB() {
     biom.write().then(function (biomJson) {
-        var webserviceUrl = Routing.generate('api', {'namespace': 'edit', 'classname': 'updateProject', 'dbversion': dbversion});
+        var webserviceUrl = Routing.generate('api_edit_update_project', {'biom': biomJson, 'projectId': internalProjectId, 'dbversion': dbversion});
         $.ajax(webserviceUrl, {
-            data: {
-                "dbversion": dbversion,
-                "project_id": internalProjectId,
-                "biom": biomJson
-            },
             method: "POST",
             success: function () {
                 location.reload();
