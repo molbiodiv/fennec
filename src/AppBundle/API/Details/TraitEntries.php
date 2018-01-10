@@ -2,25 +2,35 @@
 
 namespace AppBundle\API\Details;
 
-use AppBundle\API\Webservice;
 use AppBundle\Entity\FennecUser;
 use \PDO as PDO;
 use Symfony\Component\HttpFoundation\ParameterBag;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use AppBundle\Service\DBVersion;
 
 /**
  * Web Service.
  * Returns Trait Entry information
  */
-class TraitEntries extends Webservice
+class TraitEntries
 {
-    private $db;
-    private $known_trait_formats = array('categorical_free', 'numerical');
+    private $manager;
+    private $known_trait_formats;
     const ERROR_UNKNOWN_TRAIT_FORMAT = "Error. Unknown trait_format.";
 
     /**
-     * @param $query ParameterBag
-     * @param $user FennecUser|null
+     * TraitEntries constructor.
+     * @param $dbversion
+     */
+    public function __construct(DBVersion $dbversion)
+    {
+        $this->manager = $dbversion->getEntityManager();
+        $this->known_trait_formats = array('categorical_free', 'numerical');
+    }
+
+
+    /**
+     * @param $traitFormat
+     * @param $traitEntryIds
      * @returns array with details of the requested trait entries
      */
     public function execute(ParameterBag $query, FennecUser $user = null)
