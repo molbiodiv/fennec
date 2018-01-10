@@ -18,7 +18,7 @@ $(document).ready(function(){
     });
 
     $("#search_organism").data("ui-autocomplete")._renderItem = function (ul, item) {
-            var details = Routing.generate('organism_details', {'dbversion': dbversion, 'fennec_id': item.fennec_id});
+            var details = Routing.generate('organism_details', {'dbversion': dbversion, 'fennec_id': item.fennecId});
             var link = "<a href='"+details+"'><span style='display:inline-block; width: 100%; font-style: italic;'>" + item.scientificName + "</span></a>";
         var li = $("<li>")
                 .append(link)
