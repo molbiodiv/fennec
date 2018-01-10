@@ -51,7 +51,7 @@ class Traits
         $format = $this->manager->getRepository(TraitFormat::class)->getFormat($result['trait_format_id']);
         $result['format'] = $format['format'];
         $result['values'] = null;
-        if ($fennec_ids !== null and count($fennec_ids) === 0) {
+        if ($fennec_ids !== null && count($fennec_ids) === 0) {
             $result['values'] = array();
             $result['numberOfOrganisms'] = 0;
         } else {
