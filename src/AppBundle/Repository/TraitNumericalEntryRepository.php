@@ -137,4 +137,16 @@ class TraitNumericalEntryRepository extends EntityRepository
         }
         return $result;
     }
+
+    public function getTraitEntry($traitEntryIds){
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('t.id', 'IDENTITY(t.fennec) AS fennec', 't.originUrl', 't.value AS valueName', 'traitType.type AS typeName', 'traitType.unit AS unit', 'traitType.ontologyUrl AS typeDefinition', 'traitCitation.citation')
+            ->from('AppBundle\Entity\TraitNumericalEntry', 't')
+            ->innerJoin('AppBundle\Entity\TraitType', 'traitType', 'WITH', 't.traitType = traitType.id')
+            ->innerJoin('AppBundle\Entity\TraitCitation', 'traitCitation', 'WITH', 't.traitCitation = traitCitation.id')
+            ->add('where', $qb->expr()->in('t.id', $traitEntryIds));
+        $query = $qb->getQuery();
+        $result = $query->getResult();
+        return $result;
+    }
 }
