@@ -32,8 +32,8 @@ class Traits
 
 
     /**
-     * @param $limit Integer
-     * @param $search String_
+     * @param $limit
+     * @param $search
      * @returns array of traits
      */
     public function execute($limit, $search)

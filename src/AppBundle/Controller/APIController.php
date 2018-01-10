@@ -5,11 +5,14 @@ namespace AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\API\Listing;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class APIController extends Controller
 {
     /**
+     * @param Request $request
+     * @return Response $response
      * @Route("/api/listing/organisms", name="api_listing_organisms", options={"expose"=true})
      */
     public function listingOrganismsAction(Request $request){
