@@ -8,6 +8,7 @@ use AppBundle\API\Listing;
 use AppBundle\API\Details;
 use AppBundle\API\Delete;
 use AppBundle\API\Upload;
+use AppBundle\API\Edit;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -102,9 +103,7 @@ class APIController extends Controller
     public function detailsTraitsOfOrganismsAction(Request $request){
         $traitDetails = $this->container->get(Details\TraitsOfOrganisms::class);
         $result = $traitDetails->execute($request->query->get('fennecIds'));
-        $response = $this->json($result);
-        $response->headers->set('Access-Control-Allow-Origin', '*');
-        return $response;
+        return $this->createResponse($result);
     }
 
     /**
@@ -118,11 +117,29 @@ class APIController extends Controller
         return $this->createResponse($result);
     }
 
+    /**
+     * @param Request $request
+     * @return Response $response
+     * @Route("/api/edit/updateProject/", name="api_edit_update_project", options={"expose"=true})
+     */
+    public function editUpdateProjectAction(Request $request){
+        $updateProjects = $this->container->get(Edit\UpdateProject::class);
+        $user = $this->getFennecUser();
+        $result = $updateProjects->execute($request->query->get('projectId'), $request->query->get('biom'), $user);
+        return $this->createResponse($result);
+    }
+
     private function getFennecUser(){
         $user = null;
         if($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')){
             $user = $this->get('security.token_storage')->getToken()->getUser();
         }
         return $user;
+    }
+
+    private function createResponse($result){
+        $response = $this->json($result);
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+        return $response;
     }
 }
