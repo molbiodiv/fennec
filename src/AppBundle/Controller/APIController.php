@@ -97,17 +97,20 @@ class APIController extends Controller
     /**
      * @param Request $request
      * @return Response $response
-     * @Route("/api/upload/projects/", name="api_details_traits_of_organisms", options={"expose"=true})
+     * @Route("/api/details/traitsOfOrganisms/", name="api_details_traits_of_organisms", options={"expose"=true})
      */
     public function detailsTraitsOfOrganismsAction(Request $request){
         $traitDetails = $this->container->get(Details\TraitsOfOrganisms::class);
         $result = $traitDetails->execute($request->query->get('fennecIds'));
-        return $this->createResponse($result);
+        $response = $this->json($result);
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+        return $response;
     }
-/**
+
+    /**
      * @param Request $request
      * @return Response $response
-     * @Route("/api/details/traitOfProject/", name="api_details_trait_of_project'", options={"expose"=true})
+     * @Route("/api/details/traitOfProject/", name="api_details_trait_of_project", options={"expose"=true})
      */
     public function detailsTraitOfProjectAction(Request $request){
         $traitDetails = $this->container->get(Details\TraitOfProject::class);
