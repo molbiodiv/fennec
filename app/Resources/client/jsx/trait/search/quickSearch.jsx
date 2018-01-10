@@ -12,11 +12,10 @@ $(document).ready(function(){
         source: function (request, response) {
             var search = request.term;
             $.ajax({
-                url: Routing.generate('api', {'namespace': 'listing', 'classname': 'traits'}),
-                data: {term: request.term, limit: 500, search: search, dbversion: dbversion},
+                url: Routing.generate('api_listing_traits', {'dbversion': dbversion, 'limit': 500, 'search': search}),
                 dataType: "json",
                 success: function (data) {
-                    response(data.map(x => {x.value = x.name; return x;}));
+                    response(data.map(x => {x.value = x.type; return x;}));
                 }
             });
         },
@@ -24,8 +23,8 @@ $(document).ready(function(){
     });
 
     $("#search_trait").data("ui-autocomplete")._renderItem = function (ul, item) {
-        var details = Routing.generate('trait_details', {'dbversion': dbversion, 'trait_type_id': item.trait_type_id});
-        var link = "<a href='"+details+"'><span style='display:inline-block; width: 100%; font-style: italic;'>" + item.name + "</span></a>";
+        var details = Routing.generate('trait_details', {'dbversion': dbversion, 'trait_type_id': item.traitTypeId});
+        var link = "<a href='"+details+"'><span style='display:inline-block; width: 100%; font-style: italic;'>" + item.value + "</span></a>";
         var li = $("<li>")
                 .append(link)
                 .appendTo(ul);
