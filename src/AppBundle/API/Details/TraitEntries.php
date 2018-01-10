@@ -2,9 +2,9 @@
 
 namespace AppBundle\API\Details;
 
-use AppBundle\Entity\FennecUser;
+use AppBundle\Entity\TraitCategoricalEntry;
+use AppBundle\Entity\TraitNumericalEntry;
 use \PDO as PDO;
-use Symfony\Component\HttpFoundation\ParameterBag;
 use AppBundle\Service\DBVersion;
 
 /**
