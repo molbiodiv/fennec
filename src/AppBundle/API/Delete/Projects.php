@@ -37,9 +37,8 @@ class Projects
     * array(array('project_id','import_date','OTUs','sample size'));
     * </code>
     */
-    public function execute(FennecUser $user = null)
+    public function execute(FennecUser $user = null, $projectId)
     {
-        $projectId = $_REQUEST['ids'];
         $result = array('deletedProjects' => 0);
         if ($user === null) {
             $result['error'] = Projects::ERROR_NOT_LOGGED_IN;
