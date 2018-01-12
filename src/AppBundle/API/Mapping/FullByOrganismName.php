@@ -24,7 +24,7 @@ class FullByOrganismName
     /**
      * @inheritdoc
      */
-    public function execute(ParameterBag $query, FennecUser $user = null)
+    public function execute()
     {
         return $this->manager->getRepository('AppBundle:Organism')->getFullIds();
     }
