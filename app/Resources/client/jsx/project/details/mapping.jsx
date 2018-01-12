@@ -137,7 +137,9 @@ $('document').ready(async () => {
             'iucn_redlist': 'byDbxrefId',
             'organism_name': 'byOrganismName'
         };
-        let webserviceUrl = Routing.generate('api', {'namespace': 'mapping', 'classname': method2service[method], 'dbversion': dbversion});
+        let route = 'api_mapping_' + method2service[method]
+        console.log(route)
+        let webserviceUrl = Routing.generate(route, {'dbversion': dbversion});
         return webserviceUrl;
     }
 
