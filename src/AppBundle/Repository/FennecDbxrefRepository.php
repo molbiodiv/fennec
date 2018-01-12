@@ -12,4 +12,41 @@ use Doctrine\ORM\EntityRepository;
  */
 class FennecDbxrefRepository extends EntityRepository
 {
+    public function getIds($ids, $dbname){
+        $dbId = $this->getDbId($dbname);
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('IDENTITY(dbxref.fennec) AS fennecId', 'dbxref.identifier')
+            ->from('AppBundle:FennecDbxref', 'dbxref')
+            ->where('dbxref.db = :dbId')
+            ->andWhere('dbxref.identifier IN (:ids)')
+            ->setParameter('dbId', $dbId)
+            ->setParameter('ids', $ids);
+        $query = $qb->getQuery();
+        $result = $query->getResult();
+        $data = array_fill_keys($ids, null);
+
+        for($i=0;$i<sizeof($result);$i++){
+            $id = $result[$i]['identifier'];
+            if($data[$id] === null){
+                $data[$id] = $result[$i]['fennecId'];
+            } else {
+                if(!is_array($data[$id]) ){
+                    $data[$id] = [$data[$id]];
+                }
+                $data[$id][] = $result[$i]['fennecId'];
+            }
+        }
+        return $data;
+    }
+
+    private function getDbId($dbname){
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('db.dbId')
+            ->from('AppBundle:Db', 'db')
+            ->where('db.name = :dbname')
+            ->setParameter('dbname', $dbname);
+        $query = $qb->getQuery();
+        $result = $query->getResult();
+        return $result;
+    }
 }
