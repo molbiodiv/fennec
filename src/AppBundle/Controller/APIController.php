@@ -126,8 +126,10 @@ class APIController extends Controller
      */
     public function mappingByDbxredIdAction(Request $request){
         $mapping = $this->container->get(Mapping\ByDbxrefId::class);
-        $user = $this->getFennecUser();
-        $result = $updateProjects->execute($request->query->get('projectId'), $request->query->get('biom'), $user);
+        //        if(!$query->has('ids') || !is_array($query->get('ids')) || count($query->get('ids')) === 0 || !$query->has('db')){
+//            return array();
+//        }
+        $result = $mapping->execute($request->query->get('ids'), $request->query->get('db'));
         return $this->createResponse($result);
     }
 
