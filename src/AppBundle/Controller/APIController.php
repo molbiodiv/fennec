@@ -153,11 +153,8 @@ class APIController extends Controller
      * @Route("/api/listing/scinames/", name="api_listing_scinames", options={"expose"=true})
      */
     public function listingScinamesAction(Request $request){
-        $mapping = $this->container->get(Mapping\ByDbxrefId::class);
-        //        if(!$query->has('ids') || !is_array($query->get('ids')) || count($query->get('ids')) === 0 || !$query->has('db')){
-//            return array();
-//        }
-        $result = $mapping->execute($request->query->get('ids'), $request->query->get('db'));
+        $listingScinames = $this->container->get(Listing\Scinames::class);
+        $result = $listingScinames->execute($request->query->get('ids'));
         return $this->createResponse($result);
     }
 
