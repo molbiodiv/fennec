@@ -8,6 +8,7 @@ use AppBundle\API\Listing;
 use AppBundle\API\Details;
 use AppBundle\API\Delete;
 use AppBundle\API\Upload;
+use AppBundle\API\Mapping;
 use AppBundle\API\Edit;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -113,6 +114,30 @@ class APIController extends Controller
      */
     public function editUpdateProjectAction(Request $request){
         $updateProjects = $this->container->get(Edit\UpdateProject::class);
+        $user = $this->getFennecUser();
+        $result = $updateProjects->execute($request->query->get('projectId'), $request->query->get('biom'), $user);
+        return $this->createResponse($result);
+    }
+
+    /**
+     * @param Request $request
+     * @return Response $response
+     * @Route("/api/mapping/byDbxrefId/", name="api_mapping_byDbxrefId", options={"expose"=true})
+     */
+    public function mappingByDbxredIdAction(Request $request){
+        $mapping = $this->container->get(Mapping\ByDbxrefId::class);
+        $user = $this->getFennecUser();
+        $result = $updateProjects->execute($request->query->get('projectId'), $request->query->get('biom'), $user);
+        return $this->createResponse($result);
+    }
+
+    /**
+     * @param Request $request
+     * @return Response $response
+     * @Route("/api/mapping/byOrganismName/", name="api_mapping_byOrganismName", options={"expose"=true})
+     */
+    public function mappingByOrganismNameAction(Request $request){
+        $mapping = $this->container->get(Mapping\ByDbxrefId::class);
         $user = $this->getFennecUser();
         $result = $updateProjects->execute($request->query->get('projectId'), $request->query->get('biom'), $user);
         return $this->createResponse($result);
