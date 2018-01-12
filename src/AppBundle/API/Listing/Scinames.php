@@ -12,9 +12,19 @@ use Symfony\Component\HttpFoundation\ParameterBag;
  * Web Service.
  * Returns scientific names for the supplied fennec ids
  */
-class Scinames extends Webservice
+class Scinames
 {
-    private $database;
+    private $manager;
+
+    /**
+     * Scinames constructor.
+     * @param $dbversion
+     */
+    public function __construct(DBVersion $dbversion)
+    {
+        $this->manager = $dbversion->getEntityManager();
+    }
+
 
     /**
      * @inheritdoc
