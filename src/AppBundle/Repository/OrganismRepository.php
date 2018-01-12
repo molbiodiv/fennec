@@ -189,4 +189,27 @@ class OrganismRepository extends EntityRepository
         }
         return $data;
     }
+
+    public function getFennecIdsToScientificNames($scinames){
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('o.fennecId', 'o.scientificName')
+            ->from('AppBundle\Entity\Organism', 'o')
+            ->where('o.fennecId IN (:scinames)')
+            ->setParameter('scinames', $scinames);
+        $query = $qb->getQuery();
+        $result = $query->getResult();
+        $data = array_fill_keys($scinames, null);;
+        for($i=0;$i<sizeof($result);$i++){
+            $name = $result[$i]['fennecId'];
+            if($data[$name] === null){
+                $data[$name] = $result[$i]['scientificName'];
+            } else {
+                if(!is_array($data[$name]) ){
+                    $data[$name] = [$data[$name]];
+                }
+                $data[$name][] = $result[$i]['scientificName'];
+            }
+        }
+        return $data;
+    }
 }
