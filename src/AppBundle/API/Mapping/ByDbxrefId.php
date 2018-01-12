@@ -4,11 +4,22 @@ namespace AppBundle\API\Mapping;
 
 use AppBundle\API\Webservice;
 use AppBundle\Entity\FennecUser;
+use AppBundle\Service\DBVersion;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
-class ByDbxrefId extends Webservice
+class ByDbxrefId
 {
-    private $db;
+    private $manager;
+
+    /**
+     * ByDbxrefId constructor.
+     * @param $dbversion
+     */
+    public function __construct(DBVersion $dbversion)
+    {
+        $this->manager = $dbversion->getEntityManager();
+    }
+
 
     /**
      * @inheritdoc
