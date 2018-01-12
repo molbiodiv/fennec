@@ -212,4 +212,25 @@ class OrganismRepository extends EntityRepository
         }
         return $data;
     }
+
+    public function getFullIds(){
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('o.fennecId', 'o.scientificName')
+            ->from('AppBundle\Entity\Organism', 'o');
+        $query = $qb->getQuery();
+        $result = $query->getResult();
+        $data = array();
+        for($i=0;$i<sizeof($result);$i++){
+            $name = $result[$i]['scientificName'];
+            if(!array_key_exists($name, $data)){
+                $data[$result[$i]['scientificName']] = $result[$i]['fennecId'];
+            } else {
+                if(! is_array($data[$name]) ){
+                    $data[$name] = [$data[$name]];
+                }
+                $data[$name][] = $result[$i]['fennecId'];
+            }
+        }
+        return $result;
+    }
 }
