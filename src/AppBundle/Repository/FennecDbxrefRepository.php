@@ -49,4 +49,29 @@ class FennecDbxrefRepository extends EntityRepository
         $result = $query->getResult();
         return $result;
     }
+
+    public function getFullIds($dbname){
+        $dbId = $this->getDbId($dbname);
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('IDENTITY(dbxref.fennec) AS fennecId', 'dbxref.identifier AS ncbiTaxid')
+            ->from('AppBundle:FennecDbxref', 'dbxref')
+            ->where('dbxref.db = :dbId')
+            ->setParameter('dbId', $dbId);
+        $query = $qb->getQuery();
+        $result = $query->getResult();
+        $data = array_fill_keys($ids, null);
+
+        for($i=0;$i<sizeof($result);$i++){
+            $ncbiID = $result[$i]['ncbiTaxid'];
+            if($data[$ncbiID] === null){
+                $data[$ncbiID] = $result[$i]['fennecId'];
+            } else {
+                if(!is_array($data[$ncbiID]) ){
+                    $data[$ncbiID] = [$data[$ncbiID]];
+                }
+                $data[$ncbiID][] = $result[$i]['fennecId'];
+            }
+        }
+        return $data;
+    }
 }
