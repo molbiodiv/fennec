@@ -21,9 +21,8 @@ class APIController extends Controller
      */
     public function listingOrganismsAction(Request $request){
         $organisms = $this->container->get(Listing\Organisms::class);
-        $response = $this->json($organisms->execute($request->query->get('limit'), "%".$request->query->get('search')."%"));
-        $response->headers->set('Access-Control-Allow-Origin', '*');
-        return $response;
+        $result = $organisms->execute($request->query->get('limit'), "%".$request->query->get('search')."%");
+        return $this->createResponse($result);
     }
 
     /**
@@ -34,9 +33,7 @@ class APIController extends Controller
     public function listingTraitsAction(Request $request){
         $traits = $this->container->get(Listing\Traits::class);
         $result = $traits->execute($request->query->get('limit'), "%".$request->query->get('search')."%");
-        $response = $this->json($result);
-        $response->headers->set('Access-Control-Allow-Origin', '*');
-        return $response;
+        return $this->createResponse($result);
     }
 
     /**
@@ -47,9 +44,7 @@ class APIController extends Controller
     public function detailsTraitEntriesAction(Request $request){
         $traitEntries = $this->container->get(Details\TraitEntries::class);
         $result = $traitEntries->execute($request->query->get('trait_entry_ids'), $request->query->get('trait_format'));
-        $response = $this->json($result);
-        $response->headers->set('Access-Control-Allow-Origin', '*');
-        return $response;
+        return $this->createResponse($result);
     }
 
     /**
@@ -61,9 +56,7 @@ class APIController extends Controller
         $projects = $this->container->get(Listing\Projects::class);
         $user = $this->getFennecUser();
         $result = $projects->execute($user);
-        $response = $this->json($result);
-        $response->headers->set('Access-Control-Allow-Origin', '*');
-        return $response;
+        return $this->createResponse($result);
     }
 
     /**
@@ -76,9 +69,7 @@ class APIController extends Controller
         $deleteProjects = $this->container->get(Delete\Projects::class);
         $user = $this->getFennecUser();
         $result = $deleteProjects->execute($user, $projectId);
-        $response = $this->json($result);
-        $response->headers->set('Access-Control-Allow-Origin', '*');
-        return $response;
+        return $this->createResponse($result);
     }
 
     /**
@@ -90,9 +81,7 @@ class APIController extends Controller
         $uploadProjects = $this->container->get(Upload\Projects::class);
         $user = $this->getFennecUser();
         $result = $uploadProjects->execute($user);
-        $response = $this->json($result);
-        $response->headers->set('Access-Control-Allow-Origin', '*');
-        return $response;
+        return $this->createResponse($result);
     }
 
     /**
