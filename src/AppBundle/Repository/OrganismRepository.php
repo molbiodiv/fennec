@@ -174,4 +174,19 @@ class OrganismRepository extends EntityRepository
         $idsFromNumericalTraits = $query->getResult();
         return array_merge($idsFromCategoricalTraits, $idsFromNumericalTraits);
     }
+
+    public function getScientificNamesToFennecids($ids){
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('o.fennecId', 'o.scientificName')
+            ->from('AppBundle\Entity\Organism', 'o')
+            ->where('o.fennecId IN (:ids)')
+            ->setParameter('ids', $ids);
+        $query = $qb->getQuery();
+        $result = $query->getResult();
+        $data = array();
+        for($i=0; $i < sizeof($result); $i++){
+            $data[$result[$i]['fennecId']] = $result[$i]['scientificName'];
+        }
+        return $data;
+    }
 }
