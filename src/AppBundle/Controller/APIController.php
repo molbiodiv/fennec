@@ -124,7 +124,7 @@ class APIController extends Controller
      * @return Response $response
      * @Route("/api/mapping/byDbxrefId/", name="api_mapping_byDbxrefId", options={"expose"=true})
      */
-    public function mappingByDbxredIdAction(Request $request){
+    public function mappingByDbxrefIdAction(Request $request){
         $mapping = $this->container->get(Mapping\ByDbxrefId::class);
         //        if(!$query->has('ids') || !is_array($query->get('ids')) || count($query->get('ids')) === 0 || !$query->has('db')){
 //            return array();
