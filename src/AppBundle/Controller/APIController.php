@@ -139,11 +139,11 @@ class APIController extends Controller
      * @Route("/api/mapping/byOrganismName/", name="api_mapping_byOrganismName", options={"expose"=true})
      */
     public function mappingByOrganismNameAction(Request $request){
-        $mapping = $this->container->get(Mapping\ByDbxrefId::class);
+        $mapping = $this->container->get(Mapping\ByOrganismName::class);
 //        if(!$query->has('ids') || !is_array($query->get('ids')) || count($query->get('ids')) === 0 || !$query->has('db')){
 //            return array();
 //        }
-        $result = $mapping->execute($request->query->get('ids'), $request->query->get('db'));
+        $result = $mapping->execute($request->query->get('ids'));
         return $this->createResponse($result);
     }
 
