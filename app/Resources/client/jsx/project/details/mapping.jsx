@@ -189,7 +189,7 @@ $('document').ready(async () => {
      * @return {Promise.<void>}
      */
     function getScinames(fennec_ids){
-        let webserviceUrl = Routing.generate('api_listing_scinames', {'dbversion': dbversion, 'ids': _.flatten(fennec_ids).filter(x => x !== null), 'db': method});
+        let webserviceUrl = Routing.generate('api_listing_scinames', {'dbversion': dbversion, 'ids': _.flatten(fennec_ids).filter(x => x !== null)});
         return $.ajax(webserviceUrl, {
             method: 'POST'
         });
