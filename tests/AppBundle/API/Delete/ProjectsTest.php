@@ -4,6 +4,7 @@ namespace Tests\AppBundle\API\Delete;
 
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Tests\AppBundle\API\WebserviceTestCase;
+use AppBundle\Entity\WebuserData;
 
 class ProjectsTest extends WebserviceTestCase 
 {
@@ -18,8 +19,8 @@ class ProjectsTest extends WebserviceTestCase
         $kernel = self::bootKernel();
 
         $this->em = $kernel->getContainer()
-            ->get('app.orm')
-            ->getManagerForVersion('test');
+            ->get('doctrine')
+            ->getManager('test');
     }
 
     public function tearDown()
