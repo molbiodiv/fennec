@@ -35,14 +35,8 @@ class ProjectsTest extends WebserviceTestCase
         $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
             'username' => ProjectsTest::NICKNAME
         ));
-        $projectListing = $this->webservice->factory('listing', 'projects');
-        $entries = $projectListing->execute(
-            new ParameterBag(
-                array('dbversion' => $this->default_db)
-            ),
-            $user
-        );
-        $this->assertEquals(1, count($entries['data']));
+        $projectListing = $this->em->getRepository(WebuserData::class)->getDataForUser($user->getId());
+        $this->assertEquals(1, count($projectListing));
     }
 
     /**
