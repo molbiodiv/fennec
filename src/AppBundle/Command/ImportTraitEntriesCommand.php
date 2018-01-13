@@ -8,6 +8,7 @@ use AppBundle\Entity\TraitCategoricalValue;
 use AppBundle\Entity\TraitCitation;
 use AppBundle\Entity\TraitNumericalEntry;
 use AppBundle\Entity\TraitType;
+use AppBundle\API\Mapping;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Config\Definition\Exception\Exception;
@@ -243,16 +244,11 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
 
     private function getMapping($method){
         if($method === 'scientific_name'){
-            $mapper = $this->getContainer()->get('app.api.webservice')->factory('mapping', 'fullByOrganismName');
-            $mapping = $mapper->execute(new ParameterBag(array(
-                'dbversion' => $this->connectionName
-            )), null);
+            $mapper = $this->getContainer()->get(Mapping\FullByOrganismName::class);
+            $mapping = $mapper->execute();
         } else {
-            $mapper = $this->getContainer()->get('app.api.webservice')->factory('mapping', 'fullByDbxrefId');
-            $mapping = $mapper->execute(new ParameterBag(array(
-                'dbversion' => $this->connectionName,
-                'db' => $method
-            )), null);
+            $mapper = $this->getContainer()->get(Mapping\FullByDbxrefId::class);
+            $mapping = $mapper->execute($method);
         }
         return $mapping;
     }

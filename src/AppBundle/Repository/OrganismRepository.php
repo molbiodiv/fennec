@@ -174,4 +174,63 @@ class OrganismRepository extends EntityRepository
         $idsFromNumericalTraits = $query->getResult();
         return array_merge($idsFromCategoricalTraits, $idsFromNumericalTraits);
     }
+
+    public function getScientificNamesToFennecids($ids){
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('o.fennecId', 'o.scientificName')
+            ->from('AppBundle\Entity\Organism', 'o')
+            ->where('o.fennecId IN (:ids)')
+            ->setParameter('ids', $ids);
+        $query = $qb->getQuery();
+        $result = $query->getResult();
+        $data = array();
+        for($i=0; $i < sizeof($result); $i++){
+            $data[$result[$i]['fennecId']] = $result[$i]['scientificName'];
+        }
+        return $data;
+    }
+
+    public function getFennecIdsToScientificNames($scinames){
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('o.fennecId', 'o.scientificName')
+            ->from('AppBundle\Entity\Organism', 'o')
+            ->where('o.fennecId IN (:scinames)')
+            ->setParameter('scinames', $scinames);
+        $query = $qb->getQuery();
+        $result = $query->getResult();
+        $data = array_fill_keys($scinames, null);;
+        for($i=0;$i<sizeof($result);$i++){
+            $name = $result[$i]['fennecId'];
+            if($data[$name] === null){
+                $data[$name] = $result[$i]['scientificName'];
+            } else {
+                if(!is_array($data[$name]) ){
+                    $data[$name] = [$data[$name]];
+                }
+                $data[$name][] = $result[$i]['scientificName'];
+            }
+        }
+        return $data;
+    }
+
+    public function getFullIds(){
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('o.fennecId', 'o.scientificName')
+            ->from('AppBundle\Entity\Organism', 'o');
+        $query = $qb->getQuery();
+        $result = $query->getResult();
+        $data = array();
+        for($i=0;$i<sizeof($result);$i++){
+            $name = $result[$i]['scientificName'];
+            if(!array_key_exists($name, $data)){
+                $data[$result[$i]['scientificName']] = $result[$i]['fennecId'];
+            } else {
+                if(! is_array($data[$name]) ){
+                    $data[$name] = [$data[$name]];
+                }
+                $data[$name][] = $result[$i]['fennecId'];
+            }
+        }
+        return $result;
+    }
 }

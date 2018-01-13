@@ -84,13 +84,8 @@ $('document').ready(async () => {
         if (uniq_ids.length === 0) {
             handleMappingResult(dimension, ids, [], method);
         } else {
-            var webserviceUrl = getWebserviceUrlForMethod(method);
+            var webserviceUrl = getWebserviceUrlForMethod(method, uniq_ids);
             $.ajax(webserviceUrl, {
-                data: {
-                    dbversion: dbversion,
-                    ids: uniq_ids,
-                    db: method
-                },
                 method: 'POST',
                 success: function (data) {
                     handleMappingResult(dimension, ids, data, method);
@@ -130,14 +125,15 @@ $('document').ready(async () => {
      * @param method
      * @return {string}
      */
-    function getWebserviceUrlForMethod(method) {
+    function getWebserviceUrlForMethod(method, uniq_ids) {
         let method2service = {
             'ncbi_taxonomy': 'byDbxrefId',
             'EOL': 'byDbxrefId',
             'iucn_redlist': 'byDbxrefId',
             'organism_name': 'byOrganismName'
         };
-        let webserviceUrl = Routing.generate('api', {'namespace': 'mapping', 'classname': method2service[method], 'dbversion': dbversion});
+        let route = 'api_mapping_' + method2service[method]
+        let webserviceUrl = Routing.generate(route, {'dbversion': dbversion, db: method, ids: uniq_ids});
         return webserviceUrl;
     }
 
@@ -193,13 +189,8 @@ $('document').ready(async () => {
      * @return {Promise.<void>}
      */
     function getScinames(fennec_ids){
-        let webserviceUrl = Routing.generate('api', {'namespace': 'listing', 'classname': 'scinames'});
+        let webserviceUrl = Routing.generate('api_listing_scinames', {'dbversion': dbversion, 'ids': _.flatten(fennec_ids).filter(x => x !== null)});
         return $.ajax(webserviceUrl, {
-            data: {
-                dbversion: dbversion,
-                ids: _.flatten(fennec_ids).filter(x => x !== null),
-                db: method
-            },
             method: 'POST'
         });
     }

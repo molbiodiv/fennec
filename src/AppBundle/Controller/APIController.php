@@ -8,6 +8,7 @@ use AppBundle\API\Listing;
 use AppBundle\API\Details;
 use AppBundle\API\Delete;
 use AppBundle\API\Upload;
+use AppBundle\API\Mapping;
 use AppBundle\API\Edit;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,9 +22,8 @@ class APIController extends Controller
      */
     public function listingOrganismsAction(Request $request){
         $organisms = $this->container->get(Listing\Organisms::class);
-        $response = $this->json($organisms->execute($request->query->get('limit'), "%".$request->query->get('search')."%"));
-        $response->headers->set('Access-Control-Allow-Origin', '*');
-        return $response;
+        $result = $organisms->execute($request->query->get('limit'), "%".$request->query->get('search')."%");
+        return $this->createResponse($result);
     }
 
     /**
@@ -34,9 +34,7 @@ class APIController extends Controller
     public function listingTraitsAction(Request $request){
         $traits = $this->container->get(Listing\Traits::class);
         $result = $traits->execute($request->query->get('limit'), "%".$request->query->get('search')."%");
-        $response = $this->json($result);
-        $response->headers->set('Access-Control-Allow-Origin', '*');
-        return $response;
+        return $this->createResponse($result);
     }
 
     /**
@@ -47,9 +45,7 @@ class APIController extends Controller
     public function detailsTraitEntriesAction(Request $request){
         $traitEntries = $this->container->get(Details\TraitEntries::class);
         $result = $traitEntries->execute($request->query->get('trait_entry_ids'), $request->query->get('trait_format'));
-        $response = $this->json($result);
-        $response->headers->set('Access-Control-Allow-Origin', '*');
-        return $response;
+        return $this->createResponse($result);
     }
 
     /**
@@ -61,9 +57,7 @@ class APIController extends Controller
         $projects = $this->container->get(Listing\Projects::class);
         $user = $this->getFennecUser();
         $result = $projects->execute($user);
-        $response = $this->json($result);
-        $response->headers->set('Access-Control-Allow-Origin', '*');
-        return $response;
+        return $this->createResponse($result);
     }
 
     /**
@@ -76,9 +70,7 @@ class APIController extends Controller
         $deleteProjects = $this->container->get(Delete\Projects::class);
         $user = $this->getFennecUser();
         $result = $deleteProjects->execute($user, $projectId);
-        $response = $this->json($result);
-        $response->headers->set('Access-Control-Allow-Origin', '*');
-        return $response;
+        return $this->createResponse($result);
     }
 
     /**
@@ -90,9 +82,7 @@ class APIController extends Controller
         $uploadProjects = $this->container->get(Upload\Projects::class);
         $user = $this->getFennecUser();
         $result = $uploadProjects->execute($user);
-        $response = $this->json($result);
-        $response->headers->set('Access-Control-Allow-Origin', '*');
-        return $response;
+        return $this->createResponse($result);
     }
 
     /**
@@ -126,6 +116,45 @@ class APIController extends Controller
         $updateProjects = $this->container->get(Edit\UpdateProject::class);
         $user = $this->getFennecUser();
         $result = $updateProjects->execute($request->query->get('projectId'), $request->query->get('biom'), $user);
+        return $this->createResponse($result);
+    }
+
+    /**
+     * @param Request $request
+     * @return Response $response
+     * @Route("/api/mapping/byDbxrefId/", name="api_mapping_byDbxrefId", options={"expose"=true})
+     */
+    public function mappingByDbxrefIdAction(Request $request){
+        $mapping = $this->container->get(Mapping\ByDbxrefId::class);
+        //        if(!$query->has('ids') || !is_array($query->get('ids')) || count($query->get('ids')) === 0 || !$query->has('db')){
+//            return array();
+//        }
+        $result = $mapping->execute($request->query->get('ids'), $request->query->get('db'));
+        return $this->createResponse($result);
+    }
+
+    /**
+     * @param Request $request
+     * @return Response $response
+     * @Route("/api/mapping/byOrganismName/", name="api_mapping_byOrganismName", options={"expose"=true})
+     */
+    public function mappingByOrganismNameAction(Request $request){
+        $mapping = $this->container->get(Mapping\ByOrganismName::class);
+//        if(!$query->has('ids') || !is_array($query->get('ids')) || count($query->get('ids')) === 0 || !$query->has('db')){
+//            return array();
+//        }
+        $result = $mapping->execute($request->query->get('ids'));
+        return $this->createResponse($result);
+    }
+
+    /**
+     * @param Request $request
+     * @return Response $response
+     * @Route("/api/listing/scinames/", name="api_listing_scinames", options={"expose"=true})
+     */
+    public function listingScinamesAction(Request $request){
+        $listingScinames = $this->container->get(Listing\Scinames::class);
+        $result = $listingScinames->execute($request->query->get('ids'));
         return $this->createResponse($result);
     }
 

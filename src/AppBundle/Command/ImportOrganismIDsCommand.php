@@ -6,6 +6,7 @@ namespace AppBundle\Command;
 use AppBundle\Entity\Db;
 use AppBundle\Entity\FennecDbxref;
 use AppBundle\Entity\Organism;
+use AppBundle\API\Mapping;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -232,16 +233,11 @@ class ImportOrganismIDsCommand extends ContainerAwareCommand
 
     private function getMapping($method){
         if($method === 'scientific_name'){
-            $mapper = $this->getContainer()->get('app.api.webservice')->factory('mapping', 'fullByOrganismName');
-            $mapping = $mapper->execute(new ParameterBag(array(
-                'dbversion' => $this->connectionName
-            )), null);
+            $mapper = $this->getContainer()->get(Mapping\FullByOrganismName::class);
+            $mapping = $mapper->execute();
         } else {
-            $mapper = $this->getContainer()->get('app.api.webservice')->factory('mapping', 'fullByDbxrefId');
-            $mapping = $mapper->execute(new ParameterBag(array(
-                'dbversion' => $this->connectionName,
-                'db' => $method
-            )), null);
+            $mapper = $this->getContainer()->get(Mapping\FullByDbxrefId::class);
+            $mapping = $mapper->execute($method);
         }
         return $mapping;
     }
