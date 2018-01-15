@@ -65,9 +65,10 @@ class TraitCategoricalEntryRepository extends EntityRepository
             $qb->select('count(IDENTITY(t.fennec))')
                 ->from('AppBundle\Entity\TraitCategoricalEntry', 't')
                 ->where('IDENTITY(t.traitType) = :trait_type_id')
+                ->andWhere('t.deletionDate IS NULL')
+                ->andWhere('t.fennec IN (:fennec_ids)')
                 ->setParameter('trait_type_id', $trait_type_id)
-                ->andWhere('t.deletionDate IS NOT NULL')
-                ->add('where', $qb->expr()->in('t.fennec', $fennec_ids));
+                ->setParameter('fennec_ids', $fennec_ids);
         } else {
             $qb->select('count(IDENTITY(t.fennec))')
                 ->from('AppBundle\Entity\TraitCategoricalEntry', 't')
