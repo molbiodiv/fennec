@@ -4,21 +4,39 @@ namespace Test\AppBundle\API\Details;
 
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Tests\AppBundle\API\WebserviceTestCase;
+use AppBundle\API\Details;
 
 class TraitsOfOrganismsTest extends WebserviceTestCase
 {
+    private $em;
+    private $traitsOfOrganisms;
 
-    public function testExecute()
+    public function setUp()
     {
-        $default_db = $this->default_db;
-        $user = null;
-        $traitsOfOrganisms = $this->webservice->factory('details', 'traitsOfOrganisms');
+        $kernel = self::bootKernel();
 
-        //Test if an empty array is returned if fennec_ids is empty
-        $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'fennec_ids' => array()));
-        $results = $traitsOfOrganisms->execute($parameterBag, $user);
+        $this->em = $kernel->getContainer()
+            ->get('doctrine')
+            ->getManager('test');
+        $this->traitsOfOrganisms = $kernel->getContainer()->get(Details\TraitsOfOrganisms::class);
+
+    }
+
+    public function tearDown()
+    {
+        parent::tearDown();
+
+        $this->em->close();
+        $this->em = null; // avoid memory leaks
+    }
+
+    public function testWithEmptyFennecIds()
+    {
+        $fennecIds = array();
+        $results = $this->traitsOfOrganisms->execute($fennecIds);
         $expected = [];
         $this->assertEquals($expected, $results);
+    }
 
         //Test if the traits to one organism is returned correctly
         $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'fennec_ids' => array('615')));
