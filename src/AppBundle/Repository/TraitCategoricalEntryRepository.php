@@ -149,7 +149,7 @@ class TraitCategoricalEntryRepository extends EntityRepository
 
     public function getTraitEntry($traitEntryIds){
         $qb = $this->getEntityManager()->createQueryBuilder();
-        $qb->select('t.id', 'IDENTITY(t.fennec) AS fennec', 't.originUrl', 'traitValue.value AS valueName', 'traitValue.ontologyUrl AS valueDefinition', 'traitType.type AS typeName', 'traitType.unit AS unit', 'traitType.ontologyUrl AS typeDefinition', 'traitCitation.citation')
+        $qb->select('t.id AS id', 'IDENTITY(t.fennec) AS fennec', 't.originUrl', 'traitValue.value AS valueName', 'traitValue.ontologyUrl AS valueDefinition', 'traitType.type AS typeName', 'traitType.unit AS unit', 'traitType.ontologyUrl AS typeDefinition', 'traitCitation.citation')
             ->from('AppBundle\Entity\TraitCategoricalEntry', 't')
             ->innerJoin('AppBundle\Entity\TraitCategoricalValue', 'traitValue', 'WITH', 't.traitCategoricalValue = traitValue.id')
             ->innerJoin('AppBundle\Entity\TraitType', 'traitType', 'WITH', 't.traitType = traitType.id')

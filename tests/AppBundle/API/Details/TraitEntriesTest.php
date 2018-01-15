@@ -23,10 +23,11 @@ class TraitEntriesTest extends WebserviceTestCase
         $this->traitEntries = $kernel->getContainer()->get(Details\TraitEntries::class);
         $this->resultForOneTraitEntry = [
             '47484' => [
+                'id' => 47484,
                 'fennec' => 97935,
-                'type' => 'Plant Habit',
+                'typeName' => 'Plant Habit',
                 'typeDefinition' => 'http://eol.org/schema/terms/PlantHabit',
-                'value' => 'vine',
+                'valueName' => 'vine',
                 'valueDefinition' => 'http://eol.org/schema/terms/vine',
                 'citation' => 'Smithsonian Institution, National Museum of Narutal History, Department of Botany. http://collections.mnh.si.edu/search/botany/',
                 'unit' => null,
@@ -35,14 +36,15 @@ class TraitEntriesTest extends WebserviceTestCase
         ];
         $this->resultForAnotherTraitEntry = [
             '35123' => [
-                'fennec_id' => 55850,
-                'type' => 'Plant Habit',
-                'type_definition' => 'http://eol.org/schema/terms/PlantHabit',
-                'value' => 'subshrub',
-                'value_definition' => 'http://eol.org/schema/terms/subshrub',
+                'id' => 35123,
+                'fennec' => 55850,
+                'typeName' => 'Plant Habit',
+                'typeDefinition' => 'http://eol.org/schema/terms/PlantHabit',
+                'valueName' => 'subshrub',
+                'valueDefinition' => 'http://eol.org/schema/terms/subshrub',
                 'citation' => 'The PLANTS Database, United States Department of Agriculture, National Resources Conservation Service. http://plants.usda.gov/',
                 'unit' => null,
-                'origin_url' => 'http://eol.org/pages/231283/data#data_point_5580717'
+                'originUrl' => 'http://eol.org/pages/231283/data#data_point_5580717'
             ]
         ];
 
@@ -62,7 +64,7 @@ class TraitEntriesTest extends WebserviceTestCase
         $traitFormat = 'non_existing_format';
         $results = $this->traitEntries->execute($traitEntryIds, $traitFormat);
         $expected = [
-            'error' => TraitEntries::ERROR_UNKNOWN_TRAIT_FORMAT
+            'error' => Details\TraitEntries::ERROR_UNKNOWN_TRAIT_FORMAT
         ];
         $this->assertEquals($expected, $results);
     }
@@ -100,24 +102,24 @@ class TraitEntriesTest extends WebserviceTestCase
         $results = $this->traitEntries->execute($traitEntryIds, $traitFormat);
         $expected = [
             '7100' => [
-                'fennec_id' => 5818,
-                'type' => 'Leaf size',
-                'type_definition' => '',
-                'value' => 279.0000000000,
-                'value_definition' => null,
-                'citation' => 'Source data from University of Groningen, Community and Conservation Ecology Group, NL (Steendam), Corresponding address: R.m.bekker@rug.nl',
+                'id' => 7100,
+                'fennec' => 5818,
+                'originUrl' => '',
+                'valueName' => 279.0000000000,
+                'typeName' => 'Leaf size',
                 'unit' => 'mm^2',
-                'origin_url' => ''
+                'typeDefinition' => null,
+                'citation' => 'Source data from University of Groningen, Community and Conservation Ecology Group, NL (Steendam), Corresponding address: R.m.bekker@rug.nl'
             ],
             '14136' => [
-                'fennec_id' => 2866,
-                'type' => 'Leaf mass',
-                'type_definition' => '',
-                'value' => 376.7100000000,
-                'value_definition' => null,
-                'citation' => 'Source data from Carl von Ossietzky university of Oldenburg, Landscape Ecology Group, DE (Kunzmann), E-Mail: dkunzmann@gmx.de',
+                'id' => 14136,
+                'fennec' => 2866,
+                'originUrl' => '',
+                'valueName' => 376.7100000000,
+                'typeName' => 'Leaf mass',
                 'unit' => 'mg',
-                'origin_url' => ''
+                'typeDefinition' => null,
+                'citation' => 'Source data from Carl von Ossietzky university of Oldenburg, Landscape Ecology Group, DE (Kunzmann), E-Mail: dkunzmann@gmx.de'
             ]
         ];
         $this->assertEquals($expected, $results);
