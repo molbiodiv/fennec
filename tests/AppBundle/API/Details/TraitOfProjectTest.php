@@ -2,9 +2,7 @@
 
 namespace Test\AppBundle\API\Details;
 
-use AppBundle\API\Details\OrganismsOfProject;
-use AppBundle\API\Webservice;
-use AppBundle\Entity\FennecUser;
+use AppBundle\API\Details;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Tests\AppBundle\API\WebserviceTestCase;
 
@@ -15,14 +13,17 @@ class TraitOfProjectTest extends WebserviceTestCase
     const PROVIDER = 'detailsTraitOfProjectTestUser';
 
     private $em;
+    private $traitOfProject;
 
     public function setUp()
     {
         $kernel = self::bootKernel();
 
         $this->em = $kernel->getContainer()
-            ->get('app.orm')
-            ->getManagerForVersion('test');
+            ->get('doctrine')
+            ->getManager('test');
+
+        $this->traitOfProject = $kernel->getContainer()->get(Details\TraitOfProject::class);
     }
 
     public function tearDown()
