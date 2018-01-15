@@ -4,54 +4,75 @@ namespace Test\AppBundle\API\Details;
 
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Tests\AppBundle\API\WebserviceTestCase;
+use AppBundle\API\Details;
 
 class TraitsTest extends WebserviceTestCase
 {
+    private $em;
+    private $traitDetails;
 
-    public function testExecute()
+    public function setUp()
     {
-        $default_db = $this->default_db;
-        $service = $this->webservice->factory('details', 'traits');
-        $trait_type_id = '1';
-        $results = $service->execute(
-            new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => $trait_type_id)),
-            null
-        );
-        $expected = [
-                "values" => [
-                     "liana" => "66",
-                     "nonvascular" => "819",
-                     "forb/herb" => "9191",
-                     "suffrutescent" => "58",
-                     "procumbent" => "34",
-                     "trailing" => "42",
-                     "decumbent" => "44",
-                     "epiphyte" => "53",
-                     "tree" => "2456",
-                     "twining" => "20",
-                     "climbing plant" => "206",
-                     "arborescent" => "3",
-                     "graminoid" => "1902",
-                     "shrub" => "3527",
-                     "large shrub" => "38",
-                     "geophyte" => "41",
-                     "vine" => "1056",
-                     "subshrub" => "1916",
-                     "woody" => "60",
+        $kernel = self::bootKernel();
 
-                ],
-                "trait_type_id" => 1,
-                "name" => "Plant Habit",
-                "ontology_url" => "http://eol.org/schema/terms/PlantHabit",
-                "trait_format" => "categorical_free",
-                "number_of_organisms" => 16417,
-                "description" => "general growth form, including size and branching. Some organisms have different growth habits depending on environment or location",
-                "unit" => null
-            ];
+        $this->em = $kernel->getContainer()
+            ->get('doctrine')
+            ->getManager('test');
+        $this->traitDetails = $kernel->getContainer()->get(Details\Traits::class);
+
+    }
+
+    public function tearDown()
+    {
+        parent::tearDown();
+
+        $this->em->close();
+        $this->em = null; // avoid memory leaks
+    }
+
+    public function testSimpleTrait()
+    {
+        $traitTypeId = '1';
+        $fennecIds = array();
+        $includeCitations = false;
+        $results = $this->traitDetails->execute($traitTypeId, $fennecIds, $includeCitations);
+        $expected = [
+            "values" => [
+                "liana" => "66",
+                "nonvascular" => "819",
+                "forb/herb" => "9191",
+                "suffrutescent" => "58",
+                "procumbent" => "34",
+                "trailing" => "42",
+                "decumbent" => "44",
+                "epiphyte" => "53",
+                "tree" => "2456",
+                "twining" => "20",
+                "climbing plant" => "206",
+                "arborescent" => "3",
+                "graminoid" => "1902",
+                "shrub" => "3527",
+                "large shrub" => "38",
+                "geophyte" => "41",
+                "vine" => "1056",
+                "subshrub" => "1916",
+                "woody" => "60",
+
+            ],
+            "traitTypeId" => 1,
+            "type" => "Plant Habit",
+            "ontologyUrl" => "http://eol.org/schema/terms/PlantHabit",
+            "format" => "categorical_free",
+            "numberOfOrganisms" => 16417,
+            "description" => "general growth form, including size and branching. Some organisms have different growth habits depending on environment or location",
+            "unit" => null
+        ];
         $results['values'] = array_map('count', $results['values']);
         $this->assertEquals($expected, $results);
+    }
 
-        # Test with type that has deleted traits
+    public function testWithSimpleDeletedTraits()
+    {
         $iucn_trait_type = 3;
         $results = $service->execute(
             new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => $iucn_trait_type)),
@@ -81,26 +102,32 @@ class TraitsTest extends WebserviceTestCase
         ];
         $results['values'] = array_map('count', $results['values']);
         $this->assertEquals($expected, $results);
+    }
 
+    public function testWithAdvancedDeletedTraits()
+    {
         $results = $service->execute(
             new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => 2, 'fennec_ids' => [46032, 6661, 25517, 2888, 109884])),
             null
         );
         $expected = [
-                "values" => [
-                     "annual" => [2888, 109884],
-                     "perennial" => [46032, 6661, 25517]
-                ],
-                "trait_type_id" => 2,
-                "name" => "Plant Life Cycle Habit",
-                "ontology_url" => "http://purl.obolibrary.org/obo/TO_0002725",
-                "trait_format" => "categorical_free",
-                "number_of_organisms" => 5,
-                "description" => "Determined for type of life cycle being annual, biannual, perennial etc. [database_cross_reference: GR:pj]",
-                "unit" => null
-            ];
+            "values" => [
+                "annual" => [2888, 109884],
+                "perennial" => [46032, 6661, 25517]
+            ],
+            "trait_type_id" => 2,
+            "name" => "Plant Life Cycle Habit",
+            "ontology_url" => "http://purl.obolibrary.org/obo/TO_0002725",
+            "trait_format" => "categorical_free",
+            "number_of_organisms" => 5,
+            "description" => "Determined for type of life cycle being annual, biannual, perennial etc. [database_cross_reference: GR:pj]",
+            "unit" => null
+        ];
         $this->assertEquals($expected, $results, 'Organism ids provided, should return trait details for only those organisms');
+    }
 
+    public function testWithNoFennecIds()
+    {
         $results = $service->execute(
             new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => $trait_type_id, 'fennec_ids' => [])),
             null
@@ -116,7 +143,9 @@ class TraitsTest extends WebserviceTestCase
             "unit" => null
         ];
         $this->assertEquals($expected, $results, 'Array of organism ids is empty, should return empty values array and 0 as number_of_organisms');
+    }
 
+    public function testNumericalTraits(){
         $leaf_size = '7';
         $results = $service->execute(
             new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => $leaf_size, 'fennec_ids' => [5514,10979,878,879,1])),
@@ -141,46 +170,49 @@ class TraitsTest extends WebserviceTestCase
         $this->assertEquals($expected, $results, 'Array of organism ids is empty, should return empty values array and 0 as number_of_organisms');
     }
 
-    public function testWithCitations(){
+    public function testCategoricalTraitsWithCitations()
+    {
         $default_db = $this->default_db;
         $service = $this->webservice->factory('details', 'traits');
         $results = $service->execute(
-            new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' =>  2, 'fennec_ids' => [46032, 6661, 25517, 2888, 109884], 'include_citations' => 'TRUE')),
+            new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => 2, 'fennec_ids' => [46032, 6661, 25517, 2888, 109884], 'include_citations' => 'TRUE')),
             null
         );
         $expected = [
-                "values" => [
-                     "annual" => [2888, 109884],
-                     "perennial" => [46032, 6661, 25517]
+            "values" => [
+                "annual" => [2888, 109884],
+                "perennial" => [46032, 6661, 25517]
+            ],
+            "citations" => [
+                "2888" => [
+                    ["citation" => "Paula S, Arianoutsou M, Kazanis D, Tavsanoglu Ç, Lloret F, Buhk C, Ojeda F, Luna B, Moreno JM, Rodrigo A, Espelta JM, Palacio S, Fernández-Santos B, Fernandes PM, and Pausas JG. 2009. Fire-related traits for plant species of the Mediterranean Basin. Ecology 90:1420. http://esapubs.org/archive/ecol/E090/094/default.htm", "value" => "annual"],
+                    ["citation" => "The PLANTS Database, United States Department of Agriculture, National Resources Conservation Service. http://plants.usda.gov/", "value" => "annual"]
                 ],
-                "citations" => [
-                    "2888" => [
-                        ["citation" => "Paula S, Arianoutsou M, Kazanis D, Tavsanoglu Ç, Lloret F, Buhk C, Ojeda F, Luna B, Moreno JM, Rodrigo A, Espelta JM, Palacio S, Fernández-Santos B, Fernandes PM, and Pausas JG. 2009. Fire-related traits for plant species of the Mediterranean Basin. Ecology 90:1420. http://esapubs.org/archive/ecol/E090/094/default.htm", "value" => "annual"],
-                        ["citation" => "The PLANTS Database, United States Department of Agriculture, National Resources Conservation Service. http://plants.usda.gov/", "value" => "annual"]
-                    ],
-                    "109884" => [
-                        ["citation" => "The PLANTS Database, United States Department of Agriculture, National Resources Conservation Service. http://plants.usda.gov/", "value" => "annual"]
-                    ],
-                    "46032" => [
-                        ["citation" => "The PLANTS Database, United States Department of Agriculture, National Resources Conservation Service. http://plants.usda.gov/", "value" => "perennial"]
-                    ],
-                    "6661" => [
-                        ["citation" => "The PLANTS Database, United States Department of Agriculture, National Resources Conservation Service. http://plants.usda.gov/", "value" => "perennial"]
-                    ],
-                    "25517" => [
-                        ["citation" => "The PLANTS Database, United States Department of Agriculture, National Resources Conservation Service. http://plants.usda.gov/", "value" => "perennial"]
-                    ]
+                "109884" => [
+                    ["citation" => "The PLANTS Database, United States Department of Agriculture, National Resources Conservation Service. http://plants.usda.gov/", "value" => "annual"]
                 ],
-                "trait_type_id" => 2,
-                "name" => "Plant Life Cycle Habit",
-                "ontology_url" => "http://purl.obolibrary.org/obo/TO_0002725",
-                "trait_format" => "categorical_free",
-                "number_of_organisms" => 5,
-                "description" => "Determined for type of life cycle being annual, biannual, perennial etc. [database_cross_reference: GR:pj]",
-                "unit" => null
-            ];
+                "46032" => [
+                    ["citation" => "The PLANTS Database, United States Department of Agriculture, National Resources Conservation Service. http://plants.usda.gov/", "value" => "perennial"]
+                ],
+                "6661" => [
+                    ["citation" => "The PLANTS Database, United States Department of Agriculture, National Resources Conservation Service. http://plants.usda.gov/", "value" => "perennial"]
+                ],
+                "25517" => [
+                    ["citation" => "The PLANTS Database, United States Department of Agriculture, National Resources Conservation Service. http://plants.usda.gov/", "value" => "perennial"]
+                ]
+            ],
+            "trait_type_id" => 2,
+            "name" => "Plant Life Cycle Habit",
+            "ontology_url" => "http://purl.obolibrary.org/obo/TO_0002725",
+            "trait_format" => "categorical_free",
+            "number_of_organisms" => 5,
+            "description" => "Determined for type of life cycle being annual, biannual, perennial etc. [database_cross_reference: GR:pj]",
+            "unit" => null
+        ];
         $this->assertEquals($expected, $results, 'Organism ids provided, should return trait details for only those organisms, incl. citations');
+    }
 
+    public function testNumericalTraitsWithCitations(){
         $leaf_size = '7';
         $results = $service->execute(
             new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => $leaf_size, 'fennec_ids' => [5514,10979,878,879,1], 'include_citations' => 'TRUE')),
