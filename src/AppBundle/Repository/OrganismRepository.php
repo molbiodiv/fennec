@@ -130,7 +130,7 @@ class OrganismRepository extends EntityRepository
             ->from('AppBundle\Entity\TraitCategoricalEntry', 't')
             ->innerJoin('AppBundle\Entity\TraitType','ttype','WITH', 't.traitType = ttype.id')
             ->innerJoin('AppBundle\Entity\TraitFormat','tformat','WITH', 'ttype.traitFormat = tformat.id')
-            ->where('t.deletionDate IS NOT NULL')
+            ->where('t.deletionDate IS NULL')
             ->andWhere('t.fennec IN (:fennec_ids)')
             ->setParameter('fennec_ids', $fennec_ids);
         $query = $qb->getQuery();
@@ -143,7 +143,7 @@ class OrganismRepository extends EntityRepository
             ->from('AppBundle\Entity\TraitNumericalEntry', 't')
             ->innerJoin('AppBundle\Entity\TraitType','ttype','WITH', 't.traitType = ttype.id')
             ->innerJoin('AppBundle\Entity\TraitFormat','tformat','WITH', 'ttype.traitFormat = tformat.id')
-            ->where('t.deletionDate IS NOT NULL')
+            ->where('t.deletionDate IS NULL')
             ->andWhere('t.fennec IN (:fennecIds)')
             ->setParameter('fennecIds', $fennec_ids);
         $query = $qb->getQuery();
@@ -158,7 +158,7 @@ class OrganismRepository extends EntityRepository
             ->where('t.traitType = :traitTypeId')
             ->setParameter('traitTypeId', $trait_type_id)
             ->setMaxResults($limit)
-            ->expr()->isNotNull('t.deletionDate');
+            ->expr()->isNull('t.deletionDate');
         $query = $qb->getQuery();
         $idsFromCategoricalTraits = $query->getResult();
 
@@ -171,7 +171,7 @@ class OrganismRepository extends EntityRepository
             ->where('t.traitType = :traitTypeId')
             ->setParameter('traitTypeId', $trait_type_id)
             ->setMaxResults($limit)
-            ->expr()->isNotNull('t.deletionDate');
+            ->expr()->isNull('t.deletionDate');
         $query = $qb->getQuery();
         $idsFromNumericalTraits = $query->getResult();
         return array_merge($idsFromCategoricalTraits, $idsFromNumericalTraits);
