@@ -74,7 +74,7 @@ class TraitCategoricalEntryRepository extends EntityRepository
                 ->from('AppBundle\Entity\TraitCategoricalEntry', 't')
                 ->where('t.traitType = :trait_type_id')
                 ->setParameter('trait_type_id', $trait_type_id)
-                ->expr()->isNotNull('t.deletionDate');
+                ->expr()->isNull('t.deletionDate');
         }
         $query = $qb->getQuery();
         $result = $query->getSingleResult();
