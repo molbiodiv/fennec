@@ -6,6 +6,8 @@ use AppBundle\Entity\FennecUser;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Tests\AppBundle\API\WebserviceTestCase;
+use AppBundle\API\Details;
+use AppBundle\API\Edit;
 
 class UpdateProjectTest extends WebserviceTestCase
 {
@@ -16,14 +18,18 @@ class UpdateProjectTest extends WebserviceTestCase
 
     /** @var  EntityManagerInterface */
     private $em;
+    private $projectDetails;
+    private $updateProject;
 
     public function setUp()
     {
         $kernel = self::bootKernel();
 
         $this->em = $kernel->getContainer()
-            ->get('app.orm')
-            ->getManagerForVersion('test');
+            ->get('doctrine')
+            ->getManager('test');
+        $this->projectDetails = $kernel->getContainer()->get(Details\Projects::class);
+        $this->projectDetails = $kernel->getContainer()->get(Edit\UpdateProject::class);
     }
 
     public function tearDown()
@@ -39,16 +45,11 @@ class UpdateProjectTest extends WebserviceTestCase
         $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
             'username' => UpdateProjectTest::NICKNAME
         ));
-        $id = $this->em->getRepository('AppBundle:WebuserData')->findOneBy(array(
+        $projectId = $this->em->getRepository('AppBundle:WebuserData')->findOneBy(array(
             'webuser' => $user
         ))->getWebuserDataId();
-        $detailsProject = $this->webservice->factory('details', 'projects');
-        $results = $detailsProject->execute(new ParameterBag(array(
-            'dbversion' => $this->default_db,
-            'ids' => array($id))),
-            $user
-        );
-        $biom = json_decode($results['projects'][$id]['biom'], true);
+        $results = $this->projectDetails->execute($projectId, $user);
+        $biom = json_decode($results['projects'][$projectId]['biom'], true);
         // Check for initial state
         $this->assertEquals('table_1', $biom['id']);
         $this->assertFalse(array_key_exists('comment', $biom));
@@ -58,40 +59,22 @@ class UpdateProjectTest extends WebserviceTestCase
      * @depends testBeforeUpdate
      */
     public function testAfterUpdate(){
-        $service = $this->webservice->factory('edit', 'updateProject');
         $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
             'username' => UpdateProjectTest::NICKNAME
         ));
-        //project id of $user
-        $id = $this->em->getRepository('AppBundle:WebuserData')->findOneBy(array(
+        $projectId = $this->em->getRepository('AppBundle:WebuserData')->findOneBy(array(
             'webuser' => $user
         ))->getWebuserDataId();
-        $detailsProject = $this->webservice->factory('details', 'projects');
-        $results = $detailsProject->execute(new ParameterBag(array(
-            'dbversion' => $this->default_db,
-            'ids' => array($id))),
-            $user
-        );
-        $biom = json_decode($results['projects'][$id]['biom'], true);
+        $results = $this->projectDetails->execute($projectId,$user);
+        $biom = json_decode($results['projects'][$projectId]['biom'], true);
         // Now update the project
         $biom['id'] = 'Updated ID';
         $biom['comment'] = 'New comment';
-        $results = $service->execute(
-            new ParameterBag(array(
-                'dbversion' => $this->default_db,
-                'biom' => json_encode($biom),
-                'project_id' => $id
-            )),
-            $user
-        );
+        $results = $this->updateProject->execute($biom, $projectId, $user);
         $this->assertNull($results['error']);
         $this->em->clear();
-        $results = $detailsProject->execute(new ParameterBag(array(
-            'dbversion' => $this->default_db,
-            'ids' => array($id))),
-            $user
-        );
-        $biom = json_decode($results['projects'][$id]['biom'], true);
+        $results = $this->detailsProject->execute($projectId,$user);
+        $biom = json_decode($results['projects'][$projectIdd]['biom'], true);
         // Check for initial state
         $this->assertEquals('Updated ID', $biom['id']);
         $this->assertEquals('New comment', $biom['comment']);
