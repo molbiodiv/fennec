@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\ParameterBag;
 use Tests\AppBundle\API\WebserviceTestCase;
 use AppBundle\Entity\WebuserData;
 use AppBundle\API\Delete;
+use AppBundle\API\Listing;
 
 class ProjectsTest extends WebserviceTestCase 
 {
@@ -14,7 +15,8 @@ class ProjectsTest extends WebserviceTestCase
     const PROVIDER = 'ProjectRemoveTestUser';
 
     private $em;
-    private $service;
+    private $deleteProject;
+    private $listingProject;
 
     public function setUp()
     {
@@ -23,7 +25,8 @@ class ProjectsTest extends WebserviceTestCase
         $this->em = $kernel->getContainer()
             ->get('doctrine')
             ->getManager('test');
-        $this->service = $kernel->getContainer()->get(Delete\Projects::class);
+        $this->deleteProject = $kernel->getContainer()->get(Delete\Projects::class);
+        $this->listingProject = $kernel->getContainer()->get(Listing\Projects::class);
 
     }
 
