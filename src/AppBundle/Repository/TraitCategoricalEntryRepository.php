@@ -21,19 +21,21 @@ class TraitCategoricalEntryRepository extends EntityRepository
     public function getValues($trait_type_id, $fennec_ids){
         $qb = $this->getEntityManager()->createQueryBuilder();
         if($fennec_ids !== null){
-            $qb->select('IDENTITY(t.fennec) AS id', 't.value')
-                ->from('AppBundle\Entity\TraitNumericalEntry', 't')
-                ->where('IDENTITY(t.traitType) = :trait_type_id')
+            $qb->select('IDENTITY(t.fennec) AS id', 'value.value')
+                ->from('AppBundle\Entity\TraitCategoricalEntry', 't')
+                ->innerJoin('AppBundle\Entity\TraitCategoricalValue', 'value', 'WITH', 't.traitCategoricalValue = value.id')
+                ->where('t.traitType = :trait_type_id')
+                ->andWhere('t.fennec in (:fennec_ids)')
+                ->andWhere('t.deletionDate IS NULL')
                 ->setParameter('trait_type_id', $trait_type_id)
-                ->andWhere('t.deletionDate IS NOT NULL')
-                ->add('where', $qb->expr()->in('t.fennec', $fennec_ids));
+                ->setParameter('fennec_ids', $fennec_ids);
         } else {
             $qb->select('IDENTITY(t.fennec) AS id', 'value.value')
                 ->from('AppBundle\Entity\TraitCategoricalEntry', 't')
                 ->innerJoin('AppBundle\Entity\TraitCategoricalValue', 'value', 'WITH', 't.traitCategoricalValue = value.id')
                 ->where('t.traitType = :trait_type_id')
-                ->setParameter('trait_type_id', $trait_type_id)
-                ->expr()->isNotNull('t.deletionDate');
+                ->andWhere('t.deletionDate IS NULL')
+                ->setParameter('trait_type_id', $trait_type_id);
         }
         $query = $qb->getQuery();
         $result = $query->getResult();
