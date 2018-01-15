@@ -2,30 +2,26 @@
 
 namespace Test\AppBundle\API\Details;
 
-use AppBundle\API\Details\TraitEntries;
-use Symfony\Component\HttpFoundation\ParameterBag;
+use AppBundle\API\Details;
 use Tests\AppBundle\API\WebserviceTestCase;
 
 class TraitEntriesTest extends WebserviceTestCase
 {
+    private $em;
+    private $traitEntries;
+    private $resultForOneTraitEntry;
+    private $resultForAnotherTraitEntry;
 
-    public function testExecute()
+
+    public function setUp()
     {
-        $default_db = $this->default_db;
-        $user = null;
-        $service = $this->webservice->factory('details', 'traitEntries');
-        //Test for error on unknown trait_format
-        $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'trait_entry_ids' => ['1'], 'trait_format' => 'non_existing_format'));
-        $results = $service->execute($parameterBag, $user);
-        $expected = [
-            'error' => TraitEntries::ERROR_UNKNOWN_TRAIT_FORMAT
-        ];
-        $this->assertEquals($expected, $results);
+        $kernel = self::bootKernel();
 
-        //Test if the details for one trait entry with categorical value is returned correctly
-        $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'trait_entry_ids' => ['47484'], 'trait_format' => 'categorical_free'));
-        $results = $service->execute($parameterBag, $user);
-        $expected1 = [
+        $this->em = $kernel->getContainer()
+            ->get('doctrine')
+            ->getManager('test');
+        $this->traitEntries = $kernel->getContainer()->get(Details\TraitEntries::class);
+        $this->resultForOneTraitEntry = [
             '47484' => [
                 'fennec_id' => 97935,
                 'type' => 'Plant Habit',
