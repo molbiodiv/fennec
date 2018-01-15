@@ -44,18 +44,18 @@ class OrganismsOfProjectTest extends WebserviceTestCase
     }
 
 
-    public function testOrganismsOfProject()
+    public function testOrganismsOfProjectWithRows()
     {
-        $default_db = $this->default_db;
-        $service = $this->webservice->factory('details', 'OrganismsOfProject');
+        $dbversion = $this->default_db;
+        $dimension = "rows";
         $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
             'username' => OrganismsOfProjectTest::NICKNAME
         ));
-        $id = $this->em->getRepository('AppBundle:WebuserData')->findOneBy(array(
+        $projectId = $this->em->getRepository('AppBundle:WebuserData')->findOneBy(array(
             'webuser' => $user
         ))->getWebuserDataId();
 
-        $results = $service->execute(new ParameterBag(array('dbversion' => $default_db, 'internal_project_id' => $id, 'dimension' => 'rows')), $user);
+        $results = $this->organismsOfProject->execute($projectId, $dimension, $user, $dbversion);
         $expected = array(
             3, 42
         );
@@ -85,14 +85,13 @@ class OrganismsOfProjectTest extends WebserviceTestCase
     }
 
     public function testNoValidUserOfProject(){
-
-        $default_db = $this->default_db;
-        $service = $this->webservice->factory('details', 'OrganismsOfProject');
+        $dbversion = $this->default_db;
+        $dimension = "rows";
         $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
             'username' => OrganismsOfProjectTest::NICKNAME
         ));
         $noValidProjectId = 15;
-        $results = $service->execute(new ParameterBag(array('dbversion' => $default_db, 'internal_project_id' => $noValidProjectId)), $user);
+        $results = $this->organismsOfProject->execute($noValidProjectId, $dimension, $user, $dbversion);
         $expected = array("error" => OrganismsOfProject::ERROR_PROJECT_NOT_FOUND);
         $this->assertEquals($expected, $results, 'Project does not belong to user, return error message');
 
