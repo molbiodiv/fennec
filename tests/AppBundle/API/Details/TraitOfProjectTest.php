@@ -36,39 +36,45 @@ class TraitOfProjectTest extends WebserviceTestCase
 
     public function testUserNotLoggedIn()
     {
-        $default_db = $this->default_db;
-        $service = $this->webservice->factory('details', 'traitOfProject');
-        $results = $service->execute(new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => 1, 'internal_project_id' => 3)), null);
-        $expected = array("error" => Webservice::ERROR_NOT_LOGGED_IN);
+        $traitTypeId = 1;
+        $projectId = 3;
+        $user = null;
+        $dimension = null;
+        $dbversion = $this->default_db;
+        $results = $this->traitOfProject->execute($traitTypeId, $projectId, $dimension, $user, $dbversion);
+        $expected = array("error" => 'Error: User not logged in.');
         $this->assertEquals($expected, $results, 'User is not loggend in, return error message');
     }
 
-    public function testTraitsOfProject()
+    public function testOneTraitOfProject()
     {
-        $default_db = $this->default_db;
-        $service = $this->webservice->factory('details', 'traitOfProject');
+        $traitTypeId = 2;
+        $dimension = 'rows';
+        $dbversion = $this->default_db;
         $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
             'username' => TraitOfProjectTest::NICKNAME
         ));
-        $id = $this->em->getRepository('AppBundle:WebuserData')->findOneBy(array(
+        $projectId = $this->em->getRepository('AppBundle:WebuserData')->findOneBy(array(
             'webuser' => $user
         ))->getWebuserDataId();
 
-        $results = $service->execute(new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => 2, 'internal_project_id' => $id, 'dimension' => 'rows')), $user);
+        $results = $this->traitOfProject->execute($traitTypeId, $projectId, $dimension, $user, $dbversion);
         $expected = [
             "values" => [
                 "perennial" => ["1630"],
                 "annual" => ["1340"]
             ],
-            "trait_type_id" => 2,
-            "name" => "Plant Life Cycle Habit",
-            "ontology_url" => "http://purl.obolibrary.org/obo/TO_0002725",
-            "trait_format" => "categorical_free",
-            "number_of_organisms" => 2,
+            "traitTypeId" => 2,
+            "type" => "Plant Life Cycle Habit",
+            "ontologyUrl" => "http://purl.obolibrary.org/obo/TO_0002725",
+            "format" => "categorical_free",
+            "trait_format_id" => 1,
+            "number_of_organisms" => 3,
             "description" => "Determined for type of life cycle being annual, biannual, perennial etc. [database_cross_reference: GR:pj]",
             "unit" => null
         ];
         $this->assertEquals($results, $expected, 'Example project, return trait details for rows');
+    }
 
         $results = $service->execute(new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => 4, 'internal_project_id' => $id, 'dimension' => 'columns')), $user);
         $expected = [
