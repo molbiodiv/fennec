@@ -30,11 +30,8 @@ class OrganismTest extends WebserviceTestCase
 
     public function testExecute()
     {
-        $default_db = $this->default_db;
-        $user = null;
-        $organisms = $this->webservice->factory('details', 'organism');
-        $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'id' => 42));
-        $results = $organisms->execute($parameterBag, $user);
+        $organismId = 42;
+        $results = $this->em->getRepository(Entity\Organism::class)->getDetailsOforganism($organismId);
         $expected = array(
             "fennec_id" => 42,
             "scientific_name" => "Trebouxiophyceae sp. TP-2016a",
