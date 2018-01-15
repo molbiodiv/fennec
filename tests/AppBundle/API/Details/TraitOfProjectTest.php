@@ -69,23 +69,34 @@ class TraitOfProjectTest extends WebserviceTestCase
             "ontologyUrl" => "http://purl.obolibrary.org/obo/TO_0002725",
             "format" => "categorical_free",
             "trait_format_id" => 1,
-            "number_of_organisms" => 3,
+            "numberOfOrganisms" => 3,
             "description" => "Determined for type of life cycle being annual, biannual, perennial etc. [database_cross_reference: GR:pj]",
             "unit" => null
         ];
         $this->assertEquals($results, $expected, 'Example project, return trait details for rows');
     }
 
-        $results = $service->execute(new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => 4, 'internal_project_id' => $id, 'dimension' => 'columns')), $user);
+    public function testGetAnotherTraitOfProject(){
+        $traitTypeId = 4;
+        $dimension = 'columns';
+        $dbversion = $this->default_db;
+        $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
+            'username' => TraitOfProjectTest::NICKNAME
+        ));
+        $projectId = $this->em->getRepository('AppBundle:WebuserData')->findOneBy(array(
+            'webuser' => $user
+        ))->getWebuserDataId();
+        $results = $this->traitOfProject->execute($traitTypeId, $projectId, $dimension, $user, $dbversion);
         $expected = [
             "values" => [
                 "yellow" => ["1340", "1630"]
             ],
-            "trait_type_id" => 4,
-            "name" => "Flower Color",
-            "ontology_url" => "http://purl.obolibrary.org/obo/TO_0000537",
-            "trait_format" => "categorical_free",
-            "number_of_organisms" => 2,
+            "traitTypeId" => 4,
+            "type" => "Flower Color",
+            "ontologyUrl" => "http://purl.obolibrary.org/obo/TO_0000537",
+            "format" => "categorical_free",
+            "trait_format_id" => 1,
+            "numberOfOrganisms" => 2,
             "description" => "A flower morphology trait (TO:0000499) which is the color of the flower (PO:0009046)",
             "unit" => null
         ];
@@ -93,14 +104,15 @@ class TraitOfProjectTest extends WebserviceTestCase
     }
 
     public function testNoValidUserForProject(){
-        $default_db = $this->default_db;
+        $traitTypeId = 1;
         $noValidProjectId = 20;
-        $service = $this->webservice->factory('details', 'traitOfProject');
+        $dimension = "row";
+        $dbversion = $this->default_db;
         $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
             'username' => TraitOfProjectTest::NICKNAME
         ));
-        $results = $service->execute(new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => 1, 'internal_project_id' => $noValidProjectId)), $user);
-        $expected = array("error" => OrganismsOfProject::ERROR_PROJECT_NOT_FOUND);
+        $results = $this->traitOfProject->execute($traitTypeId, $noValidProjectId, $dimension, $user, $dbversion);
+        $expected = array("error" => Details\OrganismsOfProject::ERROR_PROJECT_NOT_FOUND);
         $this->assertEquals($expected, $results, 'Project does not belong to user, return error message');
 
     }
