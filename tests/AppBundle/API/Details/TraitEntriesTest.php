@@ -23,22 +23,17 @@ class TraitEntriesTest extends WebserviceTestCase
         $this->traitEntries = $kernel->getContainer()->get(Details\TraitEntries::class);
         $this->resultForOneTraitEntry = [
             '47484' => [
-                'fennec_id' => 97935,
+                'fennec' => 97935,
                 'type' => 'Plant Habit',
-                'type_definition' => 'http://eol.org/schema/terms/PlantHabit',
+                'typeDefinition' => 'http://eol.org/schema/terms/PlantHabit',
                 'value' => 'vine',
-                'value_definition' => 'http://eol.org/schema/terms/vine',
+                'valueDefinition' => 'http://eol.org/schema/terms/vine',
                 'citation' => 'Smithsonian Institution, National Museum of Narutal History, Department of Botany. http://collections.mnh.si.edu/search/botany/',
                 'unit' => null,
-                'origin_url' => 'http://eol.org/pages/5626774/data#data_point_15414795'
+                'originUrl' => 'http://eol.org/pages/5626774/data#data_point_15414795'
             ]
         ];
-        $this->assertEquals($expected1, $results);
-
-        //Test if the details for another trait entry with categorical value is returned correctly
-        $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'trait_entry_ids' => ['35123'], 'trait_format' => 'categorical_free'));
-        $results = $service->execute($parameterBag, $user);
-        $expected2 = [
+        $this->resultForAnotherTraitEntry = [
             '35123' => [
                 'fennec_id' => 55850,
                 'type' => 'Plant Habit',
@@ -50,17 +45,59 @@ class TraitEntriesTest extends WebserviceTestCase
                 'origin_url' => 'http://eol.org/pages/231283/data#data_point_5580717'
             ]
         ];
-        $this->assertEquals($expected2, $results);
 
-        //Test if the details for two trait entries are returned correctly
-        $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'trait_entry_ids' => ['47484', '35123'], 'trait_format' => 'categorical_free'));
-        $results = $service->execute($parameterBag, $user);
-        $expected = array('47484' => $expected1['47484'], '35123' => $expected2['35123']);
+    }
+
+    public function tearDown()
+    {
+        parent::tearDown();
+
+        $this->em->close();
+        $this->em = null; // avoid memory leaks
+    }
+
+    public function testUnknownTraitFormat()
+    {
+        $traitEntryIds = array('1');
+        $traitFormat = 'non_existing_format';
+        $results = $this->traitEntries->execute($traitEntryIds, $traitFormat);
+        $expected = [
+            'error' => TraitEntries::ERROR_UNKNOWN_TRAIT_FORMAT
+        ];
         $this->assertEquals($expected, $results);
+    }
 
-        //Test if the details for two trait entries with numerical value are returned correctly
-        $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'trait_entry_ids' => ['7100', '14136'], 'trait_format' => 'numerical'));
-        $results = $service->execute($parameterBag, $user);
+    public function testOneTraitWithCategoricalValue()
+    {
+        $traitEntryIds = array('47484');
+        $traitFormat = 'categorical_free';
+        $results = $this->traitEntries->execute($traitEntryIds, $traitFormat);
+        $expected = $this->resultForOneTraitEntry;
+        $this->assertEquals($expected, $results);
+    }
+
+    public function testAnotherTraitWithCategoricalValue()
+    {
+        $traitEntryIds = array('35123');
+        $traitFormat = 'categorical_free';
+        $results = $this->traitEntries->execute($traitEntryIds, $traitFormat);
+        $expected = $this->resultForAnotherTraitEntry;
+        $this->assertEquals($expected, $results);
+    }
+
+    public function testTwoTraitsWithCategoricalValue()
+    {
+        $traitEntryIds = array('47484', '35123');
+        $traitFormat = 'categorical_free';
+        $results = $this->traitEntries->execute($traitEntryIds, $traitFormat);
+        $expected = array('47484' => $this->resultForOneTraitEntry['47484'], '35123' => $this->resultForAnotherTraitEntry['35123']);
+        $this->assertEquals($expected, $results);
+    }
+
+    public function testDetailsForNumericalTraits(){
+        $traitEntryIds = array('7100', '14136');
+        $traitFormat = 'numerical';
+        $results = $this->traitEntries->execute($traitEntryIds, $traitFormat);
         $expected = [
             '7100' => [
                 'fennec_id' => 5818,
