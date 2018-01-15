@@ -38,9 +38,10 @@ class TraitsOfOrganismsTest extends WebserviceTestCase
         $this->assertEquals($expected, $results);
     }
 
-        //Test if the traits to one organism is returned correctly
-        $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'fennec_ids' => array('615')));
-        $results = $traitsOfOrganisms->execute($parameterBag, $user);
+    public function testWithOneFennecId()
+    {
+        $fennecIds = array('615');
+        $results = $this->traitsOfOrganisms->execute($fennecIds);
         $expected = [
             '1' => [
                 'trait_type' => 'Plant Habit',
@@ -58,10 +59,12 @@ class TraitsOfOrganismsTest extends WebserviceTestCase
             ]
         ];
         $this->assertEquals($expected, $results);
+    }
 
-        //Test if the traits to a collection of organisms is returned correctly
-        $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'fennec_ids' => array(4207, 5637, 23547, 181840)));
-        $results = $traitsOfOrganisms->execute($parameterBag, $user);
+    public function testWithMoreFennecIds()
+    {
+        $fennecIds = array('4207', '5637', '23547', '181840');
+        $results = $this->traitsOfOrganisms->execute($fennecIds);
         $expected = [
             '1' => [
                 'trait_type' => 'Plant Habit',
@@ -93,10 +96,11 @@ class TraitsOfOrganismsTest extends WebserviceTestCase
             ]
         ];
         $this->assertEquals($expected, $results);
+    }
 
-        //Test if both categorical and numerical traits are returned correctly
-        $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'fennec_ids' => array(1262, 5514, 25219)));
-        $results = $traitsOfOrganisms->execute($parameterBag, $user);
+    public function testWithDifferentFormats(){
+        $fennecIds = array('1262', '5514', '25219');
+        $results = $this->traitsOfOrganisms->execute($fennecIds);
         $expected = [
             '1' => [
                 'trait_type' => 'Plant Habit',
