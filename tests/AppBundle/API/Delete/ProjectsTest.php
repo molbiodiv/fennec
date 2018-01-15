@@ -5,6 +5,7 @@ namespace Tests\AppBundle\API\Delete;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Tests\AppBundle\API\WebserviceTestCase;
 use AppBundle\Entity\WebuserData;
+use AppBundle\API\Delete;
 
 class ProjectsTest extends WebserviceTestCase 
 {
@@ -13,6 +14,7 @@ class ProjectsTest extends WebserviceTestCase
     const PROVIDER = 'ProjectRemoveTestUser';
 
     private $em;
+    private $service;
 
     public function setUp()
     {
@@ -21,6 +23,8 @@ class ProjectsTest extends WebserviceTestCase
         $this->em = $kernel->getContainer()
             ->get('doctrine')
             ->getManager('test');
+        $this->service = $kernel->getContainer()->get(Delete\Projects::class);
+
     }
 
     public function tearDown()
