@@ -60,7 +60,20 @@ class OrganismsOfProjectTest extends WebserviceTestCase
         $this->assertEquals(2, count($results), 'Example project, return uniq organism ids for rows');
         $this->assertContains($expected[0], $results, 'Example project, return uniq organism ids for rows');
         $this->assertContains($expected[1], $results, 'Example project, return uniq organism ids for rows');
-        $results = $service->execute(new ParameterBag(array('dbversion' => $default_db, 'internal_project_id' => $id, 'dimension' => 'columns')), $user);
+    }
+
+
+    public function testOrganismsOfProjectWithColumns()
+    {
+        $dbversion = $this->default_db;
+        $dimension = "columns";
+        $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
+            'username' => OrganismsOfProjectTest::NICKNAME
+        ));
+        $projectId = $this->em->getRepository('AppBundle:WebuserData')->findOneBy(array(
+            'webuser' => $user
+        ))->getWebuserDataId();
+        $results = $this->organismsOfProject->execute($projectId, $dimension, $user, $dbversion);
         $expected = array(
             1340, 1630
         );
