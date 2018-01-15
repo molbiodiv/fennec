@@ -20,7 +20,7 @@ class TraitCategoricalEntryRepository extends EntityRepository
 
     public function getValues($trait_type_id, $fennec_ids){
         $qb = $this->getEntityManager()->createQueryBuilder();
-        if($fennec_ids !== null){
+        if($fennec_ids !== null && count($fennec_ids) !== 0){
             $qb->select('IDENTITY(t.fennec) AS id', 'value.value')
                 ->from('AppBundle\Entity\TraitCategoricalEntry', 't')
                 ->innerJoin('AppBundle\Entity\TraitCategoricalValue', 'value', 'WITH', 't.traitCategoricalValue = value.id')
@@ -61,7 +61,7 @@ class TraitCategoricalEntryRepository extends EntityRepository
      */
     public function getNumberOfOrganisms($trait_type_id, $fennec_ids){
         $qb = $this->getEntityManager()->createQueryBuilder();
-        if($fennec_ids !== null){
+        if($fennec_ids !== null && count($fennec_ids) !== 0){
             $qb->select('count(IDENTITY(t.fennec))')
                 ->from('AppBundle\Entity\TraitCategoricalEntry', 't')
                 ->where('IDENTITY(t.traitType) = :trait_type_id')
