@@ -131,7 +131,8 @@ class OrganismRepository extends EntityRepository
             ->innerJoin('AppBundle\Entity\TraitType','ttype','WITH', 't.traitType = ttype.id')
             ->innerJoin('AppBundle\Entity\TraitFormat','tformat','WITH', 'ttype.traitFormat = tformat.id')
             ->where('t.deletionDate IS NOT NULL')
-            ->add('where', $qb->expr()->in('t.fennec', $fennec_ids));
+            ->andWhere('t.fennec IN (:fennec_ids)')
+            ->setParameter('fennec_ids', $fennec_ids);
         $query = $qb->getQuery();
         return $query->getResult();
     }
@@ -143,7 +144,8 @@ class OrganismRepository extends EntityRepository
             ->innerJoin('AppBundle\Entity\TraitType','ttype','WITH', 't.traitType = ttype.id')
             ->innerJoin('AppBundle\Entity\TraitFormat','tformat','WITH', 'ttype.traitFormat = tformat.id')
             ->where('t.deletionDate IS NOT NULL')
-            ->add('where', $qb->expr()->in('t.fennec', $fennec_ids));
+            ->andWhere('t.fennec IN (:fennecIds)')
+            ->setParameter('fennecIds', $fennec_ids);
         $query = $qb->getQuery();
         return $query->getResult();
     }
