@@ -2,10 +2,7 @@
 
 namespace AppBundle\API\Details;
 
-use AppBundle\API\Webservice;
-use AppBundle\Entity\FennecUser;
-use Symfony\Component\HttpFoundation\ParameterBag;
-use Tests\AppBundle\API\Delete\ProjectsTest;
+use AppBundle\API\Details;
 use Tests\AppBundle\API\WebserviceTestCase;
 
 class OrganismsOfProjectTest extends WebserviceTestCase
@@ -15,14 +12,16 @@ class OrganismsOfProjectTest extends WebserviceTestCase
     const PROVIDER = 'detailsOrganismsOfProjectTestUser';
 
     private $em;
+    private $organismsOfProject;
 
     public function setUp()
     {
         $kernel = self::bootKernel();
 
         $this->em = $kernel->getContainer()
-            ->get('app.orm')
-            ->getManagerForVersion('test');
+            ->get('doctrine')
+            ->getManager('test');
+        $this->organismsOfProject = $kernel->getContainer()->get(Details\OrganismsOfProject::class);
     }
 
     public function tearDown()
