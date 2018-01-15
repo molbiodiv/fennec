@@ -30,10 +30,10 @@ class TraitsTest extends WebserviceTestCase
         $this->em = null; // avoid memory leaks
     }
 
-    public function testSimpleTrait()
+    public function testTraitsWithNotDefinedFennecIds()
     {
         $traitTypeId = '1';
-        $fennecIds = array();
+        $fennecIds = null;
         $includeCitations = false;
         $results = $this->traitDetails->execute($traitTypeId, $fennecIds, $includeCitations);
         $expected = [
@@ -74,10 +74,9 @@ class TraitsTest extends WebserviceTestCase
     public function testWithSimpleDeletedTraits()
     {
         $iucn_trait_type = 3;
-        $results = $service->execute(
-            new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => $iucn_trait_type)),
-            null
-        );
+        $fennecIds = null;
+        $includeCitations = false;
+        $results = $this->traitDetails->execute($iucn_trait_type, $fennecIds, $includeCitations);
         $expected = [
             "values" => [
                 "LR/cd" => "221",
@@ -106,10 +105,10 @@ class TraitsTest extends WebserviceTestCase
 
     public function testWithAdvancedDeletedTraits()
     {
-        $results = $service->execute(
-            new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => 2, 'fennec_ids' => [46032, 6661, 25517, 2888, 109884])),
-            null
-        );
+        $traitTypeId = 2;
+        $fennecIds = [46032, 6661, 25517, 2888, 109884];
+        $includeCitations = false;
+        $results = $this->traitDetails->execute($traitTypeId, $fennecIds, $includeCitations);
         $expected = [
             "values" => [
                 "annual" => [2888, 109884],
@@ -128,10 +127,10 @@ class TraitsTest extends WebserviceTestCase
 
     public function testWithNoFennecIds()
     {
-        $results = $service->execute(
-            new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => $trait_type_id, 'fennec_ids' => [])),
-            null
-        );
+        $traitTypeId = 2;
+        $fennecIds = [];
+        $includeCitations = false;
+        $results = $this->traitDetails->execute($traitTypeId, $fennecIds, $includeCitations);
         $expected = [
             "values" => [],
             "trait_type_id" => 1,
@@ -146,11 +145,10 @@ class TraitsTest extends WebserviceTestCase
     }
 
     public function testNumericalTraits(){
-        $leaf_size = '7';
-        $results = $service->execute(
-            new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => $leaf_size, 'fennec_ids' => [5514,10979,878,879,1])),
-            null
-        );
+        $traitTypeId = '7';
+        $fennecIds = [5514,10979,878,879,1];
+        $includeCitations = false;
+        $results = $this->traitDetails->execute($traitTypeId, $fennecIds, $includeCitations);
         $expected = [
             "values" => [
                 '1' => [],
@@ -172,12 +170,10 @@ class TraitsTest extends WebserviceTestCase
 
     public function testCategoricalTraitsWithCitations()
     {
-        $default_db = $this->default_db;
-        $service = $this->webservice->factory('details', 'traits');
-        $results = $service->execute(
-            new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => 2, 'fennec_ids' => [46032, 6661, 25517, 2888, 109884], 'include_citations' => 'TRUE')),
-            null
-        );
+        $traitTypeId = 2;
+        $fennecIds = [46032, 6661, 25517, 2888, 109884];
+        $includeCitations = true;
+        $results = $this->traitDetails->execute($traitTypeId, $fennecIds, $includeCitations);
         $expected = [
             "values" => [
                 "annual" => [2888, 109884],
@@ -213,11 +209,10 @@ class TraitsTest extends WebserviceTestCase
     }
 
     public function testNumericalTraitsWithCitations(){
-        $leaf_size = '7';
-        $results = $service->execute(
-            new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => $leaf_size, 'fennec_ids' => [5514,10979,878,879,1], 'include_citations' => 'TRUE')),
-            null
-        );
+        $traitTypeId = '7';
+        $fennecIds = [5514,10979,878,879,1];
+        $includeCitations = true;
+        $results = $this->traitDetails->execute($traitTypeId, $fennecIds, $includeCitations);
         $expected = [
             "values" => [
                 '1' => [],
