@@ -34,10 +34,12 @@ class OrganismsOfProjectTest extends WebserviceTestCase
 
     public function testNotLoggedIn()
     {
-        $default_db = $this->default_db;
-        $service = $this->webservice->factory('details', 'OrganismsOfProject');
-        $results = $service->execute(new ParameterBag(array('dbversion' => $default_db)), null);
-        $expected = array("error" => Webservice::ERROR_NOT_LOGGED_IN);
+        $dbversion = $this->default_db;
+        $projectId = 1;
+        $dimension = "row";
+        $user = null;
+        $results = $this->organismsOfProject->execute($projectId, $dimension, $user, $dbversion);
+        $expected = array("error" => Details\OrganismsOfProject::ERROR_NOT_LOGGED_IN);
         $this->assertEquals($expected, $results, 'User is not loggend in, return error message');
     }
 
