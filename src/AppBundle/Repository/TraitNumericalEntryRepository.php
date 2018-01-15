@@ -147,6 +147,11 @@ class TraitNumericalEntryRepository extends EntityRepository
             ->add('where', $qb->expr()->in('t.id', $traitEntryIds));
         $query = $qb->getQuery();
         $result = $query->getResult();
-        return $result;
+        $data = array();
+        for($i=0;$i<sizeof($result);$i++) {
+            $id = $result[$i]['id'];
+            $data[$id] = $result[$i];
+        }
+        return $data;
     }
 }
