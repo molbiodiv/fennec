@@ -2,9 +2,9 @@
 
 namespace Test\AppBundle\API\Details;
 
-use AppBundle\Entity\FennecUser;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Tests\AppBundle\API\WebserviceTestCase;
+use AppBundle\API\Details;
 
 class ProjectsTest extends WebserviceTestCase
 {
@@ -13,14 +13,16 @@ class ProjectsTest extends WebserviceTestCase
     const PROVIDER = 'detailsProjectsTestUser';
 
     private $em;
+    private $detailsProjects;
 
     public function setUp()
     {
         $kernel = self::bootKernel();
 
         $this->em = $kernel->getContainer()
-            ->get('app.orm')
-            ->getManagerForVersion('test');
+            ->get('doctrine')
+            ->getManager('test');
+        $this->detailsProjects = $kernel->getContainer()->get(Details\Projects::class);
     }
 
     public function tearDown()
