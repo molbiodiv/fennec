@@ -53,11 +53,10 @@ class ProjectsTest extends WebserviceTestCase
         $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
             'username' => ProjectsTest::NICKNAME
         ));
-        $deleteProjects = $this->service;
         $project = $this->em->getRepository(WebuserData::class)->getDataForUser($user->getId());
         $projectId = $project[0]['webuserDataId'];
         $expected = array("deletedProjects"=>1);
-        $results = $deleteProjects->execute($user, $projectId);
+        $results = $this->deleteProject->execute($user, $projectId);
         $this->assertEquals($expected, $results);
     }
 
