@@ -2,7 +2,6 @@
 
 namespace Test\AppBundle\API\Details;
 
-use Symfony\Component\HttpFoundation\ParameterBag;
 use Tests\AppBundle\API\WebserviceTestCase;
 use AppBundle\API\Details;
 
@@ -63,7 +62,7 @@ class TraitsTest extends WebserviceTestCase
             "type" => "Plant Habit",
             "ontologyUrl" => "http://eol.org/schema/terms/PlantHabit",
             "format" => "categorical_free",
-            "numberOfOrganisms" => 16417,
+            "numberOfOrganisms" => 69781,
             "description" => "general growth form, including size and branching. Some organisms have different growth habits depending on environment or location",
             "unit" => null
         ];
@@ -91,11 +90,11 @@ class TraitsTest extends WebserviceTestCase
                 "LC" => "6246",
                 "VU" => "5898",
             ],
-            "trait_type_id" => 3,
-            "name" => "IUCN Threat Status",
-            "ontology_url" => "",
-            "trait_format" => "categorical_free",
-            "number_of_organisms" => 23185,
+            "traitTypeId" => 3,
+            "type" => "IUCN Threat Status",
+            "ontologyUrl" => "",
+            "format" => "categorical_free",
+            "numberOfOrganisms" => 46379,
             "description" => "",
             "unit" => null
         ];
