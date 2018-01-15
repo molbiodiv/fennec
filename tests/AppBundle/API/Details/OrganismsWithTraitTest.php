@@ -2,8 +2,6 @@
 
 namespace Test\AppBundle\API\Details;
 
-use AppBundle\API\Details\OrganismsWithTrait;
-use Symfony\Component\HttpFoundation\ParameterBag;
 use Tests\AppBundle\API\WebserviceTestCase;
 use AppBundle\Entity;
 
@@ -56,7 +54,6 @@ class OrganismsWithTraitTest extends WebserviceTestCase
     }
 
     public function testNumericalTrait(){
-        // Use numerical trait
         $traitTypeId = 7;
         $limit = 12;
         $results = $this->em->getRepository(Entity\Organism::class)->getOrganismByTrait($traitTypeId, $limit);
