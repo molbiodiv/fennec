@@ -2,7 +2,6 @@
 
 namespace Tests\AppBundle\API\Delete;
 
-use Symfony\Component\HttpFoundation\ParameterBag;
 use Tests\AppBundle\API\WebserviceTestCase;
 use AppBundle\Entity\WebuserData;
 use AppBundle\API\Delete;

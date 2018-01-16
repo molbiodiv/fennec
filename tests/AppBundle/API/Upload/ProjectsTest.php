@@ -125,8 +125,8 @@ class ProjectsTest extends WebserviceTestCase
     public function testUploadBiom()
     {
         $user = new FennecUser();
-        $user->setUsername('UploadProjectTestUser');
-        $user->setEmail('UploadProjectTestUser@test.de');
+        $user->setUsername('UploadBiomTestUser');
+        $user->setEmail('UploadBiomTestUser@test.de');
         $_FILES = array(
             array(
                 'name' => 'simpleBiom.json',
@@ -144,8 +144,8 @@ class ProjectsTest extends WebserviceTestCase
     public function testUploadSimpleBiomInHdf5()
     {
         $user = new FennecUser();
-        $user->setUsername('UploadProjectTestUser');
-        $user->setEmail('UploadProjectTestUser@test.de');
+        $user->setUsername('UploadHdf5TestUser');
+        $user->setEmail('UploadHdf5TestUser@test.de');
         copy(__DIR__ . '/testFiles/simpleBiom.hdf5', __DIR__ . '/testFiles/simpleBiom.hdf5.backup');
         $_FILES = array(
             array(
@@ -164,8 +164,8 @@ class ProjectsTest extends WebserviceTestCase
 
     public function testUploadOtuTable(){
         $user = new FennecUser();
-        $user->setUsername('UploadProjectTestUser');
-        $user->setEmail('UploadProjectTestUser@test.de');
+        $user->setUsername('UploadOTUTestUser');
+        $user->setEmail('UploadOTUTestUser@test.de');
         copy(__DIR__ . '/testFiles/otuTable.tsv', __DIR__ . '/testFiles/otuTable.tsv.backup');
         $_FILES = array(
             array(
