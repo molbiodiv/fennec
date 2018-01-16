@@ -3,7 +3,7 @@
 namespace Tests\AppBundle\API\Listing;
 
 use Tests\AppBundle\API\WebserviceTestCase;
-use AppBundle\API\Listing;
+use AppBundle\Entity\Organism;
 
 class OrganismsTest extends WebserviceTestCase
 {
