@@ -30,6 +30,7 @@ class ByOrganismNameTest extends WebserviceTestCase
         $this->em->close();
         $this->em = null; // avoid memory leaks
     }
+
     public function testWithExistingIds()
     {
         $names = [
