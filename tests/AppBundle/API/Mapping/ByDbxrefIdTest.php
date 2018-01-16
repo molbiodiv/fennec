@@ -4,12 +4,34 @@ namespace Tests\AppBundle\API\Mapping;
 
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Tests\AppBundle\API\WebserviceTestCase;
+use AppBundle\API\Mapping;
 
 class ByDbxrefIdTest extends WebserviceTestCase
 {
+    private $em;
+    private $mappingByDbxrefId;
+
+    public function setUp()
+    {
+        $kernel = self::bootKernel();
+
+        $this->em = $kernel->getContainer()
+            ->get('doctrine')
+            ->getManager('test');
+        $this->mappingByDbxrefId = $kernel->getContainer()->get(Mapping\ByDbxrefId::class);
+
+    }
+
+    public function tearDown()
+    {
+        parent::tearDown();
+
+        $this->em->close();
+        $this->em = null; // avoid memory leaks
+    }
+
     public function testExecute()
     {
-        $service = $this->webservice->factory('mapping', 'byDbxrefId');
 
         // Test with existing NCBI IDs
         $ncbi_ids = [1174942, 471708, 1097649, 1331079];
