@@ -48,10 +48,22 @@ class TaxonomyTest extends WebserviceTestCase
                 "Ceratophyllales",
                 "Ceratophyllaceae",
                 "Ceratophyllum"
+            ),
+            "iucn_redliste" => array(
+                "Plantae",
+                "Tracheophyta",
+                "Magnoliidae",
+                "Nymphaeales",
+                "Ceratophyllaceae",
+                "Ceratophyllum"
             )
         );
-        $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'id' => '3720'));
-        $results = $organisms->execute($parameterBag, $user);
+        $this->assertEquals($expected, $results);
+    }
+
+    public function testNCBIAndEOLTaxonomay(){
+        $fennecId = '3720';
+        $results = $this->listingTaxonomy->execute($fennecId);
         $expected = array(
             "ncbi_taxonomy" => array(
                 "Viridiplantae",
