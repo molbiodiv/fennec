@@ -83,21 +83,22 @@ class TraitNumericalEntryRepository extends EntityRepository
         if($fennec_ids !== null){
             $qb->select('IDENTITY(t.fennec) AS id', 't.value', 'traitCitation.citation')
                 ->from('AppBundle\Entity\TraitNumericalEntry', 't')
-                ->innerJoin('AppBundle\Entity\TraitCitation', 'traitCitation', 'WITH', 't.traitCitationId = traitCitation.id')
+                ->innerJoin('AppBundle\Entity\TraitCitation', 'traitCitation', 'WITH', 't.traitCitation = traitCitation.id')
                 ->where('IDENTITY(t.traitType) = :trait_type_id')
+                ->andWhere('t.deletionDate IS NULL')
+                ->andWhere('t.fennec IN (:fennecIds)')
                 ->setParameter('trait_type_id', $trait_type_id)
-                ->andWhere('t.deletionDate IS NOT NULL')
-                ->add('where', $qb->expr()->in('t.fennec', $fennec_ids));
+                ->setParameter('fennecIds', $fennec_ids);
         } else {
             $qb->select('IDENTITY(t.fennec) AS id', 't.value', 'traitCitation.citation')
                 ->from('AppBundle\Entity\TraitNumericalEntry', 't')
-                ->innerJoin('AppBundle\Entity\TraitCitation', 'traitCitation', 'WITH', 't.traitCitationId = traitCitation.id')
+                ->innerJoin('AppBundle\Entity\TraitCitation', 'traitCitation', 'WITH', 't.traitCitation = traitCitation.id')
                 ->where('IDENTITY(t.traitType) = :trait_type_id')
-                ->setParameter('trait_type_id', $trait_type_id)
-                ->expr()->isNotNull('t.deletionDate');
+                ->andWhere('t.deletionDate IS NULL')
+                ->setParameter('trait_type_id', $trait_type_id);
         }
         $query = $qb->getQuery();
-        $result = $query->getSingleResult();
+        $result = $query->getResult();
         $citations = array();
         for($i=0;$i<sizeof($result);$i++) {
             if(!array_key_exists($result[$i]['id'], $citations)){
