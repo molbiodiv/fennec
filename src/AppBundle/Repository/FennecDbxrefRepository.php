@@ -59,11 +59,10 @@ class FennecDbxrefRepository extends EntityRepository
             ->setParameter('dbId', $dbId);
         $query = $qb->getQuery();
         $result = $query->getResult();
-        $data = array_fill_keys($ids, null);
-
+        $data = array();
         for($i=0;$i<sizeof($result);$i++){
             $ncbiID = $result[$i]['ncbiTaxid'];
-            if($data[$ncbiID] === null){
+            if(!array_key_exists($ncbiID, $data)){
                 $data[$ncbiID] = $result[$i]['fennecId'];
             } else {
                 if(!is_array($data[$ncbiID]) ){
