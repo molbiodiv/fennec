@@ -44,10 +44,12 @@ class ByOrganismNameTest extends WebserviceTestCase
             'Cyclogramma sp. 73' => 130395,
             'Willkommia' => 83683
         ];
-        $result = $service->execute(new ParameterBag(array('dbversion' => $this->default_db, 'ids' => $names)), null);
+        $result = $this->mappingByOrganismName->execute($names);
         $this->assertEquals($expected, $result);
+    }
 
-        // Test with some non-existing IDs
+    public function testWithSomeNonExistingIds()
+    {
         $names = [
             'Austrolejeunea bidentata',
             'Melilotus infestus',
@@ -62,12 +64,12 @@ class ByOrganismNameTest extends WebserviceTestCase
             'Willkommia' => 83683,
             'non_existing' => null
         ];
-        $result = $service->execute(new ParameterBag(array('dbversion' => $this->default_db, 'ids' => $names)), null);
+        $result = $this->mappingByOrganismName->execute($names);
         $this->assertEquals($expected, $result);
+    }
 
-        // Test with non-unique IDs
-        $em = $this->container->get('app.orm')->getDefaultManager();
-        $organismRepository = $em->getRepository('AppBundle:Organism');
+    public function testWithNonUniqueIds(){
+        $organismRepository = $this->em->getRepository('AppBundle:Organism');
         $organism1 = $organismRepository->find(1);
         $organismWithSameName = new Organism();
         $organismWithSameName->setScientificName($organism1->getScientificName());
