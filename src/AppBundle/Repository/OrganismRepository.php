@@ -233,6 +233,6 @@ class OrganismRepository extends EntityRepository
                 $data[$name][] = $result[$i]['fennecId'];
             }
         }
-        return $result;
+        return $data;
     }
 }
