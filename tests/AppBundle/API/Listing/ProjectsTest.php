@@ -35,30 +35,16 @@ class ProjectsTest extends WebserviceTestCase
 
     public function testIfUserIsNotLoggedIn()
     {
-        $default_db = $this->default_db;
-        $service = $this->webservice->factory('listing', 'projects');
-
-        //Test for error returned by user is not logged in
-        $results = $service->execute(
-            new ParameterBag(array('dbversion' => $default_db)),
-            null
-        );
-        $expected = array("error" => Webservice::ERROR_NOT_LOGGED_IN, "data" => array());
-
+        $results = $this->listingProjects->execute();
+        $expected = array("error" => Listing\Projects::ERROR_NOT_LOGGED_IN, "data" => array());
         $this->assertEquals($expected, $results);
     }
 
     public function testProjectIfUserIsLoggedIn(){
-        //Test of correct project if the user has only one project
-        $default_db = $this->default_db;
-        $service = $this->webservice->factory('listing', 'projects');
         $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
             'username' => ProjectsTest::NICKNAME
         ));
-        $results = $service->execute(
-            new ParameterBag(array('dbversion' => $default_db)),
-            $user
-        );
+        $results = $this->listingProjects->execute($user);
         $expected = array("data" => array(
                 array(
                     "id" => "table_1",
