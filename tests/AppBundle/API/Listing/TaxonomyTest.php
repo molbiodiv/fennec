@@ -49,7 +49,7 @@ class TaxonomyTest extends WebserviceTestCase
                 "Ceratophyllaceae",
                 "Ceratophyllum"
             ),
-            "iucn_redliste" => array(
+            "iucn_redlist" => array(
                 "Plantae",
                 "Tracheophyta",
                 "Magnoliidae",
