@@ -80,7 +80,7 @@ class ByDbxrefIdTest extends WebserviceTestCase
             64325342 => 196269
         ];
         $iucn_ids = array_keys($expected);
-        $result = $service->execute($iucn_ids, $dbname);
+        $result = $this->mappingByDbxrefId->execute($iucn_ids, $dbname);
         $this->assertEquals($expected, $result);
     }
 }
