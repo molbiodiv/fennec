@@ -70,29 +70,27 @@ class ByOrganismNameTest extends WebserviceTestCase
     }
 
     public function testWithNonUniqueIds(){
-        $organismRepository = $this->em->getRepository('AppBundle:Organism');
-        $organism1 = $organismRepository->find(1);
         $organismWithSameName = new Organism();
-        $organismWithSameName->setScientificName($organism1->getScientificName());
-        $em->persist($organismWithSameName);
-        $em->flush();
+        $organismWithSameName->setScientificName("Citrus");
+        $this->em->persist($organismWithSameName);
+        $this->em->flush();
         $names = [
             'Austrolejeunea bidentata',
             'Melilotus infestus',
             'Cyclogramma sp. 73',
             'Willkommia',
-            $organism1->getScientificName()
+            'Citrus'
         ];
         $expected = [
             'Austrolejeunea bidentata' => 160643,
             'Melilotus infestus' => 167801,
             'Cyclogramma sp. 73' => 130395,
             'Willkommia' => 83683,
-            $organism1->getScientificName() => array(1, $organismWithSameName->getFennecId())
+            'Citrus' => array(1, $organismWithSameName->getFennecId())
         ];
-        $result = $service->execute(new ParameterBag(array('dbversion' => $this->default_db, 'ids' => $names)), null);
+        $result = $this->mappingByOrganismName->execute($names);
         $this->assertEquals($expected, $result);
-        $em->remove($organismWithSameName);
-        $em->flush();
+        $this->em->remove($organismWithSameName);
+        $this->em->flush();
     }
 }
