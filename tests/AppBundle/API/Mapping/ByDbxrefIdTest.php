@@ -32,24 +32,25 @@ class ByDbxrefIdTest extends WebserviceTestCase
 
     public function testWithExistingNCBIIds()
     {
+        $dbname = "ncbi_taxonomy";
         $ncbi_ids = [1174942, 471708, 1097649, 1331079];
         $expected = [1174942 => 134560, 471708 => 88648, 1097649 => 127952, 1331079 => 146352];
-        $result = $service->execute(new ParameterBag(array('dbversion' => $this->default_db, 'ids' => $ncbi_ids, 'db' => 'ncbi_taxonomy')),
-            null);
+        $result = $this->mappingByDbxrefId->execute($ncbi_ids, $dbname);
         $this->assertEquals($expected, $result);
     }
 
     public function testWithSomeNonExistingIds()
     {
+        $dbname = "ncbi_taxonomy";
         $ncbi_ids = [1174942, 471708, 1097649, 1331079, -99, 'non_existing'];
         $expected = [1174942 => 134560, 471708 => 88648, 1097649 => 127952, 1331079 => 146352, -99 => null, 'non_existing' => null];
-        $result = $service->execute(new ParameterBag(array('dbversion' => $this->default_db, 'ids' => $ncbi_ids, 'db' => 'ncbi_taxonomy')),
-            null);
+        $result = $this->mappingByDbxrefId->execute($ncbi_ids, $dbname);
         $this->assertEquals($expected, $result);
     }
 
     public function testWithExistingEOLIds()
     {
+        $dbname = "EOL";
         $expected = [
             1116106 => 99273,
             38161 => 23857,
@@ -63,12 +64,12 @@ class ByDbxrefIdTest extends WebserviceTestCase
             72298 => 1684
         ];
         $eol_ids = array_keys($expected);
-        $result = $service->execute(new ParameterBag(array('dbversion' => $this->default_db, 'ids' => $eol_ids, 'db' => 'EOL')),
-            null);
+        $result = $this->mappingByDbxrefId->execute($eol_ids, $dbname);
         $this->assertEquals($expected, $result);
     }
 
     public function testWithExistingIUCNIds(){
+        $dbname = "iucn_redlist";
         $expected = [
             44392527 => 192982,
             45608 => 193968,
@@ -79,8 +80,7 @@ class ByDbxrefIdTest extends WebserviceTestCase
             64325342 => 196269
         ];
         $iucn_ids = array_keys($expected);
-        $result = $service->execute(new ParameterBag(array('dbversion' => $this->default_db, 'ids' => $iucn_ids, 'db' => 'iucn_redlist')),
-            null);
+        $result = $service->execute($iucn_ids, $dbname);
         $this->assertEquals($expected, $result);
     }
 }
