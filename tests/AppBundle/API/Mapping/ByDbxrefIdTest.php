@@ -30,24 +30,26 @@ class ByDbxrefIdTest extends WebserviceTestCase
         $this->em = null; // avoid memory leaks
     }
 
-    public function testExecute()
+    public function testWithExistingNCBIIds()
     {
-
-        // Test with existing NCBI IDs
         $ncbi_ids = [1174942, 471708, 1097649, 1331079];
         $expected = [1174942 => 134560, 471708 => 88648, 1097649 => 127952, 1331079 => 146352];
         $result = $service->execute(new ParameterBag(array('dbversion' => $this->default_db, 'ids' => $ncbi_ids, 'db' => 'ncbi_taxonomy')),
             null);
         $this->assertEquals($expected, $result);
+    }
 
-        // Test with some non-existing IDs
+    public function testWithSomeNonExistingIds()
+    {
         $ncbi_ids = [1174942, 471708, 1097649, 1331079, -99, 'non_existing'];
         $expected = [1174942 => 134560, 471708 => 88648, 1097649 => 127952, 1331079 => 146352, -99 => null, 'non_existing' => null];
         $result = $service->execute(new ParameterBag(array('dbversion' => $this->default_db, 'ids' => $ncbi_ids, 'db' => 'ncbi_taxonomy')),
             null);
         $this->assertEquals($expected, $result);
+    }
 
-        // Test with existing EOL IDs
+    public function testWithExistingEOLIds()
+    {
         $expected = [
             1116106 => 99273,
             38161 => 23857,
@@ -64,8 +66,9 @@ class ByDbxrefIdTest extends WebserviceTestCase
         $result = $service->execute(new ParameterBag(array('dbversion' => $this->default_db, 'ids' => $eol_ids, 'db' => 'EOL')),
             null);
         $this->assertEquals($expected, $result);
+    }
 
-        // Test with existing IUCN IDs
+    public function testWithExistingIUCNIds(){
         $expected = [
             44392527 => 192982,
             45608 => 193968,
