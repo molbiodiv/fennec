@@ -115,32 +115,34 @@ class TraitsTest extends WebserviceTestCase
                 "annual" => [2888, 109884],
                 "perennial" => [46032, 6661, 25517]
             ],
-            "trait_type_id" => 2,
-            "name" => "Plant Life Cycle Habit",
-            "ontology_url" => "http://purl.obolibrary.org/obo/TO_0002725",
-            "trait_format" => "categorical_free",
-            "number_of_organisms" => 5,
+            "traitTypeId" => 2,
+            "type" => "Plant Life Cycle Habit",
+            "ontologyUrl" => "http://purl.obolibrary.org/obo/TO_0002725",
+            "format" => "categorical_free",
+            "numberOfOrganisms" => 5,
             "description" => "Determined for type of life cycle being annual, biannual, perennial etc. [database_cross_reference: GR:pj]",
-            "unit" => null
+            "unit" => null,
+            "trait_format_id" => 1
         ];
         $this->assertEquals($expected, $results, 'Organism ids provided, should return trait details for only those organisms');
     }
 
     public function testWithNoFennecIds()
     {
-        $traitTypeId = 2;
+        $traitTypeId = 1;
         $fennecIds = [];
         $includeCitations = false;
         $results = $this->traitDetails->execute($traitTypeId, $fennecIds, $includeCitations);
         $expected = [
             "values" => [],
-            "trait_type_id" => 1,
-            "name" => "Plant Habit",
-            "ontology_url" => "http://eol.org/schema/terms/PlantHabit",
-            "trait_format" => "categorical_free",
-            "number_of_organisms" => 0,
+            "traitTypeId" => 1,
+            "type" => "Plant Habit",
+            "ontologyUrl" => "http://eol.org/schema/terms/PlantHabit",
+            "format" => "categorical_free",
+            "numberOfOrganisms" => 0,
             "description" => "general growth form, including size and branching. Some organisms have different growth habits depending on environment or location",
-            "unit" => null
+            "unit" => null,
+            "trait_format_id" => 1
         ];
         $this->assertEquals($expected, $results, 'Array of organism ids is empty, should return empty values array and 0 as number_of_organisms');
     }
@@ -158,13 +160,14 @@ class TraitsTest extends WebserviceTestCase
                 '878' => [8756.5000000000, 6824.8000000000, 0.0000000000],
                 '879' => [7967.2000000000, 5435.1000000000, 11726.4000000000, 8332.0000000000]
             ],
-            "trait_type_id" => 7,
-            "name" => "Leaf size",
-            "ontology_url" => null,
-            "trait_format" => "numerical",
-            "number_of_organisms" => 4,
+            "traitTypeId" => 7,
+            "type" => "Leaf size",
+            "ontologyUrl" => null,
+            "format" => "numerical",
+            "numberOfOrganisms" => 4,
             "description" => "Leaf size is the one-sided projected surface area of an individual leaf or lamina expressed in mm^2",
-            "unit" => "mm^2"
+            "unit" => "mm^2",
+            "trait_format_id" => 2
         ];
         $this->assertEquals($expected, $results, 'Array of organism ids is empty, should return empty values array and 0 as number_of_organisms');
     }
@@ -198,13 +201,14 @@ class TraitsTest extends WebserviceTestCase
                     ["citation" => "The PLANTS Database, United States Department of Agriculture, National Resources Conservation Service. http://plants.usda.gov/", "value" => "perennial"]
                 ]
             ],
-            "trait_type_id" => 2,
-            "name" => "Plant Life Cycle Habit",
-            "ontology_url" => "http://purl.obolibrary.org/obo/TO_0002725",
-            "trait_format" => "categorical_free",
-            "number_of_organisms" => 5,
+            "traitTypeId" => 2,
+            "type" => "Plant Life Cycle Habit",
+            "ontologyUrl" => "http://purl.obolibrary.org/obo/TO_0002725",
+            "format" => "categorical_free",
+            "numberOfOrganisms" => 5,
             "description" => "Determined for type of life cycle being annual, biannual, perennial etc. [database_cross_reference: GR:pj]",
-            "unit" => null
+            "unit" => null,
+            "trait_format_id" => 1
         ];
         $this->assertEquals($expected, $results, 'Organism ids provided, should return trait details for only those organisms, incl. citations');
     }
@@ -242,13 +246,14 @@ class TraitsTest extends WebserviceTestCase
                     ["citation" => "Source data from University of Sheffield, Dept. of Animal and Plant Sciences, UK (Thompson), E-Mail: ken.thompson@sheffield.ac.uk", "value" => "8332.0000000000"]
                 ]
             ],
-            "trait_type_id" => 7,
-            "name" => "Leaf size",
-            "ontology_url" => null,
-            "trait_format" => "numerical",
-            "number_of_organisms" => 4,
+            "traitTypeId" => 7,
+            "type" => "Leaf size",
+            "ontologyUrl" => null,
+            "format" => "numerical",
+            "numberOfOrganisms" => 4,
             "description" => "Leaf size is the one-sided projected surface area of an individual leaf or lamina expressed in mm^2",
-            "unit" => "mm^2"
+            "unit" => "mm^2",
+            "trait_format_id" => 2
         ];
         $this->assertEquals($expected, $results, 'Array of organism ids is empty, should return empty values array and 0 as number_of_organisms');
     }

@@ -27,16 +27,17 @@ class TraitNumericalEntryRepository extends EntityRepository
         if($fennec_ids !== null){
             $qb->select('IDENTITY(t.fennec) AS id', 't.value')
                 ->from('AppBundle\Entity\TraitNumericalEntry', 't')
-                ->where('IDENTITY(t.traitType) = :trait_type_id')
+                ->where('t.traitType = :trait_type_id')
+                ->andWhere('t.deletionDate IS NULL')
+                ->andWhere('t.fennec IN (:fennecIds)')
                 ->setParameter('trait_type_id', $trait_type_id)
-                ->andWhere('t.deletionDate IS NOT NULL')
-                ->add('where', $qb->expr()->in('t.fennec', $fennec_ids));
+                ->setParameter('fennecIds', $fennec_ids);
         } else {
             $qb->select('IDENTITY(t.fennec) AS id', 't.value')
                 ->from('AppBundle\Entity\TraitNumericalEntry', 't')
-                ->where('IDENTITY(t.traitType) = :trait_type_id')
-                ->setParameter('trait_type_id', $trait_type_id)
-                ->expr()->isNotNull('t.deletionDate');
+                ->where('t.traitType = :trait_type_id')
+                ->andWhere('t.deletionDate IS NULL')
+                ->setParameter('trait_type_id', $trait_type_id);
         }
         $query = $qb->getQuery();
         $result = $query->getResult();
@@ -60,16 +61,17 @@ class TraitNumericalEntryRepository extends EntityRepository
         if($fennec_ids !== null){
             $qb->select('count(DISTINCT IDENTITY(t.fennec))')
                 ->from('AppBundle\Entity\TraitNumericalEntry', 't')
-                ->where('IDENTITY(t.traitType) = :trait_type_id')
+                ->where('t.traitType = :trait_type_id')
+                ->andWhere('t.deletionDate IS NULL')
+                ->andWhere('t.fennec IN (:fennecIds)')
                 ->setParameter('trait_type_id', $trait_type_id)
-                ->andWhere('t.deletionDate IS NOT NULL')
-                ->add('where', $qb->expr()->in('t.fennec', $fennec_ids));
+                ->setParameter('fennecIds', $fennec_ids);
         } else {
             $qb->select('count(DISTINCT IDENTITY(t.fennec))')
                 ->from('AppBundle\Entity\TraitNumericalEntry', 't')
                 ->where('t.traitType = :trait_type_id')
-                ->setParameter('trait_type_id', $trait_type_id)
-                ->expr()->isNotNull('t.deletionDate');
+                ->andWhere('t.deletionDate IS NULL')
+                ->setParameter('trait_type_id', $trait_type_id);
         }
         $query = $qb->getQuery();
         $result = $query->getSingleResult();
