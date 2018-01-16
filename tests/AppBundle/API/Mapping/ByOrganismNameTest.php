@@ -5,14 +5,33 @@ namespace Tests\AppBundle\API\Mapping;
 use AppBundle\Entity\Organism;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Tests\AppBundle\API\WebserviceTestCase;
+use AppBundle\API\Mapping;
 
 class ByOrganismNameTest extends WebserviceTestCase
 {
-    public function testExecute()
-    {
-        $service = $this->webservice->factory('mapping', 'byOrganismName');
+    private $em;
+    private $mappingByOrganismName;
 
-        // Test with existing IDs
+    public function setUp()
+    {
+        $kernel = self::bootKernel();
+
+        $this->em = $kernel->getContainer()
+            ->get('doctrine')
+            ->getManager('test');
+        $this->mappingByOrganismName = $kernel->getContainer()->get(Mapping\ByOrganismName::class);
+
+    }
+
+    public function tearDown()
+    {
+        parent::tearDown();
+
+        $this->em->close();
+        $this->em = null; // avoid memory leaks
+    }
+    public function testWithExistingIds()
+    {
         $names = [
             'Austrolejeunea bidentata',
             'Melilotus infestus',
