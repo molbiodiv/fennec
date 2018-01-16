@@ -4,18 +4,36 @@ namespace Tests\AppBundle\API\Listing;
 
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Tests\AppBundle\API\WebserviceTestCase;
+use AppBundle\Api\Listing;
 
 class TraitsTest extends WebserviceTestCase
 {
+    private $em;
+    private $listingTraits;
 
-    public function testExecute()
+    public function setUp()
     {
-        $default_db = $this->default_db;
-        $service = $this->webservice->factory('listing', 'traits');
-        $results = $service->execute(
-            new ParameterBag(array('dbversion' => $default_db, 'search' => '')),
-            null
-        );
+        $kernel = self::bootKernel();
+
+        $this->em = $kernel->getContainer()
+            ->get('doctrine')
+            ->getManager('test');
+        $this->listingTraits = $kernel->getContainer()->get(Listing\Traits::class);
+
+    }
+
+    public function tearDown()
+    {
+        parent::tearDown();
+
+        $this->em->close();
+        $this->em = null; // avoid memory leaks
+    }
+
+    public function testListAllTraits()
+    {
+        $search = "%%";
+        $results = $this->listingTraits->execute($search);
         $expected = array(
             array(
                 "name" => "Plant Habit",
