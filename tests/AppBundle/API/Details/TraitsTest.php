@@ -154,7 +154,6 @@ class TraitsTest extends WebserviceTestCase
         $results = $this->traitDetails->execute($traitTypeId, $fennecIds, $includeCitations);
         $expected = [
             "values" => [
-                '1' => [],
                 '5514' => [41.2500000000],
                 '10979' => [5570.0000000000, 3913.0000000000],
                 '878' => [8756.5000000000, 6824.8000000000, 0.0000000000],
@@ -220,7 +219,6 @@ class TraitsTest extends WebserviceTestCase
         $results = $this->traitDetails->execute($traitTypeId, $fennecIds, $includeCitations);
         $expected = [
             "values" => [
-                '1' => [],
                 '5514' => [41.2500000000],
                 '10979' => [5570.0000000000, 3913.0000000000],
                 '878' => [8756.5000000000, 6824.8000000000, 0.0000000000],
