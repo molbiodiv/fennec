@@ -2,8 +2,7 @@
 
 namespace Tests\AppBundle\API\Listing;
 
-use AppBundle\API\Webservice;
-use AppBundle\Entity\FennecUser;
+use AppBundle\API\Listing;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Tests\AppBundle\API\WebserviceTestCase;
 
@@ -14,14 +13,16 @@ class ProjectsTest extends WebserviceTestCase
     const PROVIDER = 'listingProjectsTestUser';
 
     private $em;
+    private $listingProjects;
 
     public function setUp()
     {
         $kernel = self::bootKernel();
 
         $this->em = $kernel->getContainer()
-            ->get('app.orm')
-            ->getManagerForVersion('test');
+            ->get('doctrine')
+            ->getManager('test');
+        $this->listingProjects = $kernel->getContainer()->get(Listing\Projects::class);
     }
 
     public function tearDown()
