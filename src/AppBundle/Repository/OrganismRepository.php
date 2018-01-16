@@ -19,13 +19,13 @@ class OrganismRepository extends EntityRepository
 
     public function getListOfOrganisms($limit, $search): array {
         $qb = $this->getEntityManager()->createQueryBuilder();
-        $qb->select('organism')
+        $qb->select('organism.fennecId', 'organism.scientificName')
             ->from('AppBundle\Entity\Organism', 'organism')
             ->where('LOWER(organism.scientificName) LIKE LOWER(:search)')
             ->setParameter('search', $search)
             ->setMaxResults($limit);
         $query = $qb->getQuery();
-        return $query->getArrayResult();
+        return $query->getResult();
     }
 
     public function getDetailsOfOrganism($fennec_id){
