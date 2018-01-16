@@ -69,7 +69,7 @@ class TraitOfProjectTest extends WebserviceTestCase
             "ontologyUrl" => "http://purl.obolibrary.org/obo/TO_0002725",
             "format" => "categorical_free",
             "trait_format_id" => 1,
-            "numberOfOrganisms" => 3,
+            "numberOfOrganisms" => 2,
             "description" => "Determined for type of life cycle being annual, biannual, perennial etc. [database_cross_reference: GR:pj]",
             "unit" => null
         ];

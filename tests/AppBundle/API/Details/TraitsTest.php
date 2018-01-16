@@ -62,9 +62,10 @@ class TraitsTest extends WebserviceTestCase
             "type" => "Plant Habit",
             "ontologyUrl" => "http://eol.org/schema/terms/PlantHabit",
             "format" => "categorical_free",
-            "numberOfOrganisms" => 69781,
+            "numberOfOrganisms" => 16417,
             "description" => "general growth form, including size and branching. Some organisms have different growth habits depending on environment or location",
-            "unit" => null
+            "unit" => null,
+            "trait_format_id" => 1
         ];
         $results['values'] = array_map('count', $results['values']);
         $this->assertEquals($expected, $results);
@@ -94,9 +95,10 @@ class TraitsTest extends WebserviceTestCase
             "type" => "IUCN Threat Status",
             "ontologyUrl" => "",
             "format" => "categorical_free",
-            "numberOfOrganisms" => 46379,
+            "numberOfOrganisms" => 23194,
             "description" => "",
-            "unit" => null
+            "unit" => null,
+            "trait_format_id" => 1
         ];
         $results['values'] = array_map('count', $results['values']);
         $this->assertEquals($expected, $results);

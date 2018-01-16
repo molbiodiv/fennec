@@ -58,14 +58,14 @@ class TraitNumericalEntryRepository extends EntityRepository
     public function getNumberOfOrganisms($trait_type_id, $fennec_ids){
         $qb = $this->getEntityManager()->createQueryBuilder();
         if($fennec_ids !== null){
-            $qb->select('count(IDENTITY(t.fennec))')
+            $qb->select('count(DISTINCT IDENTITY(t.fennec))')
                 ->from('AppBundle\Entity\TraitNumericalEntry', 't')
                 ->where('IDENTITY(t.traitType) = :trait_type_id')
                 ->setParameter('trait_type_id', $trait_type_id)
                 ->andWhere('t.deletionDate IS NOT NULL')
                 ->add('where', $qb->expr()->in('t.fennec', $fennec_ids));
         } else {
-            $qb->select('count(IDENTITY(t.fennec))')
+            $qb->select('count(DISTINCT IDENTITY(t.fennec))')
                 ->from('AppBundle\Entity\TraitNumericalEntry', 't')
                 ->where('t.traitType = :trait_type_id')
                 ->setParameter('trait_type_id', $trait_type_id)
