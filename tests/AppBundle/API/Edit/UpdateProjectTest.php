@@ -4,7 +4,6 @@ namespace Tests\AppBundle\API\Edit;
 
 use AppBundle\Entity\FennecUser;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\ParameterBag;
 use Tests\AppBundle\API\WebserviceTestCase;
 use AppBundle\API\Details;
 use AppBundle\API\Edit;
@@ -29,7 +28,7 @@ class UpdateProjectTest extends WebserviceTestCase
             ->get('doctrine')
             ->getManager('test');
         $this->projectDetails = $kernel->getContainer()->get(Details\Projects::class);
-        $this->projectDetails = $kernel->getContainer()->get(Edit\UpdateProject::class);
+        $this->updateProject = $kernel->getContainer()->get(Edit\UpdateProject::class);
     }
 
     public function tearDown()
@@ -73,8 +72,8 @@ class UpdateProjectTest extends WebserviceTestCase
         $results = $this->updateProject->execute($biom, $projectId, $user);
         $this->assertNull($results['error']);
         $this->em->clear();
-        $results = $this->detailsProject->execute($projectId,$user);
-        $biom = json_decode($results['projects'][$projectIdd]['biom'], true);
+        $results = $this->projectDetails->execute($projectId,$user);
+        $biom = json_decode($results['projects'][$projectId]['biom'], true);
         // Check for initial state
         $this->assertEquals('Updated ID', $biom['id']);
         $this->assertEquals('New comment', $biom['comment']);

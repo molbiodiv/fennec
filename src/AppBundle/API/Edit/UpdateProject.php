@@ -29,8 +29,8 @@ class UpdateProject
      */
     public function execute($projectId, $biom, FennecUser $user = null)
     {
-        if($biom === null || $project_id === null){
-            return array('error' => 'Missing parameter "biom" or "project_id"');
+        if($biom === null || $projectId === null){
+            return array('error' => 'Missing parameter "biom" or "projectId"');
         }
         if($user == null){
             return array('error' => 'User not logged in');
