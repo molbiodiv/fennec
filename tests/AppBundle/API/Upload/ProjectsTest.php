@@ -6,6 +6,7 @@ use AppBundle\API\Upload\Projects;
 use AppBundle\Entity\FennecUser;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Tests\AppBundle\API\WebserviceTestCase;
+use AppBundle\API\Upload;
 
 require_once __DIR__.'/overload_is_uploaded_file.php';
 
@@ -16,14 +17,16 @@ class ProjectsTest extends WebserviceTestCase
     const PROVIDER = 'UploadProjectTest';
 
     private $em;
+    private $uploadProjects;
 
     public function setUp()
     {
         $kernel = self::bootKernel();
 
         $this->em = $kernel->getContainer()
-            ->get('app.orm')
-            ->getManagerForVersion('test');
+            ->get('doctrine')
+            ->getManager('test');
+        $this->uploadProjects = $kernel->getContainer()->get(Upload\Projects::class);
     }
 
     public function tearDown()
@@ -37,12 +40,9 @@ class ProjectsTest extends WebserviceTestCase
 
     public function testUploadEmptyFile()
     {
-        $default_db = $this->default_db;
-        $service = $this->webservice->factory('upload', 'projects');
         $user = new FennecUser();
         $user->setUsername('UploadProjectTestUser');
         $user->setEmail('UploadProjectTestUser@test.de');
-        // Test for error returned by empty file
         $_FILES = array(
             array(
                 'name' => 'empty',
@@ -52,10 +52,7 @@ class ProjectsTest extends WebserviceTestCase
                 'error' => 0
             )
         );
-        $results = $service->execute(
-            new ParameterBag(array('dbversion' => $default_db)),
-            $user
-        );
+        $results = $this->uploadProjects->execute($user);
         $expected = array(
             "files" => array(
                 array(
@@ -73,12 +70,9 @@ class ProjectsTest extends WebserviceTestCase
      */
     public function testUploadNoJSON()
     {
-        $default_db = $this->default_db;
-        $service = $this->webservice->factory('upload', 'projects');
         $user = new FennecUser();
         $user->setUsername('UploadProjectTestUser');
         $user->setEmail('UploadProjectTestUser@test.de');
-        // Test for error returned by non json file
         $_FILES = array(
             array(
                 'name' => 'noJson',
@@ -88,10 +82,7 @@ class ProjectsTest extends WebserviceTestCase
                 'error' => 0
             )
         );
-        $results = $service->execute(
-            new ParameterBag(array('dbversion' => $default_db)),
-            $user
-        );
+        $results = $this->uploadProjects->execute($user);
         $expected = array(
             "files" => array(
                 array(
@@ -106,12 +97,9 @@ class ProjectsTest extends WebserviceTestCase
 
     public function testUploadNoBIOM()
     {
-        $default_db = $this->default_db;
-        $service = $this->webservice->factory('upload', 'projects');
         $user = new FennecUser();
         $user->setUsername('UploadProjectTestUser');
         $user->setEmail('UploadProjectTestUser@test.de');
-        // Test for error returned by non biom json file
         $_FILES = array(
             array(
                 'name' => 'noBiom.json',
@@ -121,10 +109,7 @@ class ProjectsTest extends WebserviceTestCase
                 'error' => 0
             )
         );
-        $results = $service->execute(
-            new ParameterBag(array('dbversion' => $default_db)),
-            $user
-        );
+        $results = $this->uploadProjects->execute($user);
         $expected = array(
             "files" => array(
                 array(
@@ -138,12 +123,9 @@ class ProjectsTest extends WebserviceTestCase
     }
 
     public function testUploadBiom(){
-        $default_db = $this->default_db;
-        $service = $this->webservice->factory('upload', 'projects');
         $user = new FennecUser();
         $user->setUsername('UploadProjectTestUser');
         $user->setEmail('UploadProjectTestUser@test.de');
-        // Test for success returned by simple biom file
         $_FILES = array(
             array(
                 'name' => 'simpleBiom.json',
@@ -153,10 +135,7 @@ class ProjectsTest extends WebserviceTestCase
                 'error' => 0
             )
         );
-        $results = $service->execute(
-            new ParameterBag(array('dbversion' => $default_db)),
-            $user
-        );
+        $results = $this->uploadProjects->execute($user);
         $expected = array("files"=>array(array("name" => "simpleBiom.json", "size" => 1067, "error" => null)));
         $this->assertEquals($expected, $results);
         $jsonContent = file_get_contents($_FILES[0]['tmp_name']);
