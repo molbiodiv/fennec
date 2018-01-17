@@ -18,7 +18,7 @@ class APIController extends Controller
     /**
      * @param Request $request
      * @return Response $response
-     * @Route("/api/listing/organisms", name="api_listing_organisms", options={"expose"=true})
+     * @Route("/api/listing/organisms/", name="api_listing_organisms", options={"expose"=true})
      */
     public function listingOrganismsAction(Request $request){
         $organisms = $this->container->get(Listing\Organisms::class);
@@ -49,11 +49,10 @@ class APIController extends Controller
     }
 
     /**
-     * @param Request $request
      * @return Response $response
      * @Route("/api/listing/projects/", name="api_listing_projects", options={"expose"=true})
      */
-    public function listingProjectsAction(Request $request){
+    public function listingProjectsAction(){
         $projects = $this->container->get(Listing\Projects::class);
         $user = $this->getFennecUser();
         $result = $projects->execute($user);
@@ -126,9 +125,6 @@ class APIController extends Controller
      */
     public function mappingByDbxrefIdAction(Request $request){
         $mapping = $this->container->get(Mapping\ByDbxrefId::class);
-        //        if(!$query->has('ids') || !is_array($query->get('ids')) || count($query->get('ids')) === 0 || !$query->has('db')){
-//            return array();
-//        }
         $result = $mapping->execute($request->query->get('ids'), $request->query->get('db'));
         return $this->createResponse($result);
     }
