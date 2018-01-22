@@ -82,17 +82,17 @@ class Permissions
     /**
      * @return mixed
      */
-    public function getWebuserDataId()
+    public function getWebuserData()
     {
-        return $this->webuserDataId;
+        return $this->webuserData;
     }
 
     /**
-     * @param mixed $webuserDataId
+     * @param mixed $webuserData
      */
-    public function setWebuserDataId($webuserDataId)
+    public function setWebuserData($webuserData)
     {
-        $this->webuserDataId = $webuserDataId;
+        $this->webuserData = $webuserData;
     }
 
 
