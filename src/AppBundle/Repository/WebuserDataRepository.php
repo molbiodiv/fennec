@@ -23,8 +23,9 @@ class WebuserDataRepository extends EntityRepository
 
     public function getDataForUser($userId) {
         $qb = $this->getEntityManager()->createQueryBuilder();
-        $qb->select('IDENTITY(data.webuser) AS webuserId', 'data.webuserDataId', 'data.importDate', 'data.importFilename', 'data.project')
+        $qb->select('IDENTITY(data.webuser) AS webuserId', 'p.permission', 'data.webuserDataId', 'data.importDate', 'data.importFilename', 'data.project')
             ->from('AppBundle\Entity\WebuserData', 'data')
+            ->innerJoin('AppBundle\Entity\Permissions', 'p', 'WITH', 'data.webuserDataId = p.webuserData')
             ->where('data.webuser = :userId')
             ->setParameter('userId', $userId);
         $query = $qb->getQuery();
