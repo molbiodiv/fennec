@@ -68,7 +68,7 @@ class Projects
                     $permission = new Permissions();
                     $permission->setWebuser($user);
                     $permission->setWebuserData($project);
-                    $permission->setPermission('edit');
+                    $permission->setPermission('owner');
                     $this->manager->persist($permission);
                 }
                 $file = array(

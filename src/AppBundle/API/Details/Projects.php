@@ -36,7 +36,7 @@ class Projects
     * array('project_id': {biomFile});
     * </code>
     */
-    public function execute($project_id, FennecUser $user = null, $permission)
+    public function execute($project_id, FennecUser $user = null)
     {
         $result = array('projects' => array());
         if ($user === null) {
