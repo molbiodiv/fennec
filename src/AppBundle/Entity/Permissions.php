@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="permissions", uniqueConstraints={@ORM\UniqueConstraint(name="db_name_uniq", columns={"name"})})
+ * @ORM\Table(name="permissions")
  */
 class Permissions
 {
