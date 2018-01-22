@@ -41,10 +41,10 @@ class ProjectController extends Controller
      * @return Response
      * @Route("/project/details/{project_id}", name="project_details", options={"expose" = true})
      */
-    public function detailsAction($dbversion, $project_id){
+    public function detailsAction($dbversion, $project_id, $permission){
         $projectDetails = $this->container->get(Details\Projects::class);
         $user = $this->getFennecUser();
-        $projectResult = $projectDetails->execute($project_id, $user);
+        $projectResult = $projectDetails->execute($project_id, $user, $permission);
         return $this->render(
             'project/details.html.twig',
             [

@@ -50,7 +50,7 @@ class Projects
                 $project['rows'] = $data['shape'][0];
                 $project['columns'] = $data['shape'][1];
                 $project['import_filename'] = $p['importFilename'];
-                $project['permission'] = $p['permission'];
+                $project['permissionStatus'] = $p['permission'];
                 $result['data'][] = $project;
             }
         }
