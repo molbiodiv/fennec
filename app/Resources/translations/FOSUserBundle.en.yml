@@ -1,0 +1,5 @@
+registration:
+    confirmed: "Welcome %username%! Now let's do some science!"
+
+form:
+    firstName: First name

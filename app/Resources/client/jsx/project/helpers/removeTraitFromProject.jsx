@@ -8,7 +8,7 @@ function removeTraitFromProject(traitName, biom, dimension, dbVersion,internalPr
             }
         }
     }
-    let webserviceUrl = Routing.generate('api', {'namespace': 'edit', 'classname': 'updateProject'});
+    let webserviceUrl = Routing.generate('api', {'namespace': 'edit', 'classname': 'updateProject', 'dbversion': dbversion});
     $.ajax(webserviceUrl, {
         data: {
             "dbversion": dbVersion,

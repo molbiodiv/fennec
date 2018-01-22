@@ -4,28 +4,53 @@ namespace Tests\AppBundle\API\Mapping;
 
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Tests\AppBundle\API\WebserviceTestCase;
+use AppBundle\API\Mapping;
 
 class ByDbxrefIdTest extends WebserviceTestCase
 {
-    public function testExecute()
-    {
-        $service = $this->webservice->factory('mapping', 'byDbxrefId');
+    private $em;
+    private $mappingByDbxrefId;
 
-        // Test with existing NCBI IDs
+    public function setUp()
+    {
+        $kernel = self::bootKernel();
+
+        $this->em = $kernel->getContainer()
+            ->get('doctrine')
+            ->getManager('test');
+        $this->mappingByDbxrefId = $kernel->getContainer()->get(Mapping\ByDbxrefId::class);
+
+    }
+
+    public function tearDown()
+    {
+        parent::tearDown();
+
+        $this->em->close();
+        $this->em = null; // avoid memory leaks
+    }
+
+    public function testWithExistingNCBIIds()
+    {
+        $dbname = "ncbi_taxonomy";
         $ncbi_ids = [1174942, 471708, 1097649, 1331079];
         $expected = [1174942 => 134560, 471708 => 88648, 1097649 => 127952, 1331079 => 146352];
-        $result = $service->execute(new ParameterBag(array('dbversion' => $this->default_db, 'ids' => $ncbi_ids, 'db' => 'ncbi_taxonomy')),
-            null);
+        $result = $this->mappingByDbxrefId->execute($ncbi_ids, $dbname);
         $this->assertEquals($expected, $result);
+    }
 
-        // Test with some non-existing IDs
+    public function testWithSomeNonExistingIds()
+    {
+        $dbname = "ncbi_taxonomy";
         $ncbi_ids = [1174942, 471708, 1097649, 1331079, -99, 'non_existing'];
         $expected = [1174942 => 134560, 471708 => 88648, 1097649 => 127952, 1331079 => 146352, -99 => null, 'non_existing' => null];
-        $result = $service->execute(new ParameterBag(array('dbversion' => $this->default_db, 'ids' => $ncbi_ids, 'db' => 'ncbi_taxonomy')),
-            null);
+        $result = $this->mappingByDbxrefId->execute($ncbi_ids, $dbname);
         $this->assertEquals($expected, $result);
+    }
 
-        // Test with existing EOL IDs
+    public function testWithExistingEOLIds()
+    {
+        $dbname = "EOL";
         $expected = [
             1116106 => 99273,
             38161 => 23857,
@@ -39,11 +64,12 @@ class ByDbxrefIdTest extends WebserviceTestCase
             72298 => 1684
         ];
         $eol_ids = array_keys($expected);
-        $result = $service->execute(new ParameterBag(array('dbversion' => $this->default_db, 'ids' => $eol_ids, 'db' => 'EOL')),
-            null);
+        $result = $this->mappingByDbxrefId->execute($eol_ids, $dbname);
         $this->assertEquals($expected, $result);
+    }
 
-        // Test with existing IUCN IDs
+    public function testWithExistingIUCNIds(){
+        $dbname = "iucn_redlist";
         $expected = [
             44392527 => 192982,
             45608 => 193968,
@@ -54,8 +80,7 @@ class ByDbxrefIdTest extends WebserviceTestCase
             64325342 => 196269
         ];
         $iucn_ids = array_keys($expected);
-        $result = $service->execute(new ParameterBag(array('dbversion' => $this->default_db, 'ids' => $iucn_ids, 'db' => 'iucn_redlist')),
-            null);
+        $result = $this->mappingByDbxrefId->execute($iucn_ids, $dbname);
         $this->assertEquals($expected, $result);
     }
 }

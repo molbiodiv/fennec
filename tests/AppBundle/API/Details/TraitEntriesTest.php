@@ -2,89 +2,124 @@
 
 namespace Test\AppBundle\API\Details;
 
-use AppBundle\API\Details\TraitEntries;
-use Symfony\Component\HttpFoundation\ParameterBag;
+use AppBundle\API\Details;
 use Tests\AppBundle\API\WebserviceTestCase;
 
 class TraitEntriesTest extends WebserviceTestCase
 {
+    private $em;
+    private $traitEntries;
+    private $resultForOneTraitEntry;
+    private $resultForAnotherTraitEntry;
 
-    public function testExecute()
+
+    public function setUp()
     {
-        $default_db = $this->default_db;
-        $user = null;
-        $service = $this->webservice->factory('details', 'traitEntries');
-        //Test for error on unknown trait_format
-        $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'trait_entry_ids' => ['1'], 'trait_format' => 'non_existing_format'));
-        $results = $service->execute($parameterBag, $user);
-        $expected = [
-            'error' => TraitEntries::ERROR_UNKNOWN_TRAIT_FORMAT
-        ];
-        $this->assertEquals($expected, $results);
+        $kernel = self::bootKernel();
 
-        //Test if the details for one trait entry with categorical value is returned correctly
-        $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'trait_entry_ids' => ['47484'], 'trait_format' => 'categorical_free'));
-        $results = $service->execute($parameterBag, $user);
-        $expected1 = [
+        $this->em = $kernel->getContainer()
+            ->get('doctrine')
+            ->getManager('test');
+        $this->traitEntries = $kernel->getContainer()->get(Details\TraitEntries::class);
+        $this->resultForOneTraitEntry = [
             '47484' => [
-                'fennec_id' => 97935,
-                'type' => 'Plant Habit',
-                'type_definition' => 'http://eol.org/schema/terms/PlantHabit',
-                'value' => 'vine',
-                'value_definition' => 'http://eol.org/schema/terms/vine',
+                'id' => 47484,
+                'fennec' => 97935,
+                'typeName' => 'Plant Habit',
+                'typeDefinition' => 'http://eol.org/schema/terms/PlantHabit',
+                'valueName' => 'vine',
+                'valueDefinition' => 'http://eol.org/schema/terms/vine',
                 'citation' => 'Smithsonian Institution, National Museum of Narutal History, Department of Botany. http://collections.mnh.si.edu/search/botany/',
                 'unit' => null,
-                'origin_url' => 'http://eol.org/pages/5626774/data#data_point_15414795'
+                'originUrl' => 'http://eol.org/pages/5626774/data#data_point_15414795'
             ]
         ];
-        $this->assertEquals($expected1, $results);
-
-        //Test if the details for another trait entry with categorical value is returned correctly
-        $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'trait_entry_ids' => ['35123'], 'trait_format' => 'categorical_free'));
-        $results = $service->execute($parameterBag, $user);
-        $expected2 = [
+        $this->resultForAnotherTraitEntry = [
             '35123' => [
-                'fennec_id' => 55850,
-                'type' => 'Plant Habit',
-                'type_definition' => 'http://eol.org/schema/terms/PlantHabit',
-                'value' => 'subshrub',
-                'value_definition' => 'http://eol.org/schema/terms/subshrub',
+                'id' => 35123,
+                'fennec' => 55850,
+                'typeName' => 'Plant Habit',
+                'typeDefinition' => 'http://eol.org/schema/terms/PlantHabit',
+                'valueName' => 'subshrub',
+                'valueDefinition' => 'http://eol.org/schema/terms/subshrub',
                 'citation' => 'The PLANTS Database, United States Department of Agriculture, National Resources Conservation Service. http://plants.usda.gov/',
                 'unit' => null,
-                'origin_url' => 'http://eol.org/pages/231283/data#data_point_5580717'
+                'originUrl' => 'http://eol.org/pages/231283/data#data_point_5580717'
             ]
         ];
-        $this->assertEquals($expected2, $results);
 
-        //Test if the details for two trait entries are returned correctly
-        $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'trait_entry_ids' => ['47484', '35123'], 'trait_format' => 'categorical_free'));
-        $results = $service->execute($parameterBag, $user);
-        $expected = array('47484' => $expected1['47484'], '35123' => $expected2['35123']);
+    }
+
+    public function tearDown()
+    {
+        parent::tearDown();
+
+        $this->em->close();
+        $this->em = null; // avoid memory leaks
+    }
+
+    public function testUnknownTraitFormat()
+    {
+        $traitEntryIds = array('1');
+        $traitFormat = 'non_existing_format';
+        $results = $this->traitEntries->execute($traitEntryIds, $traitFormat);
+        $expected = [
+            'error' => Details\TraitEntries::ERROR_UNKNOWN_TRAIT_FORMAT
+        ];
         $this->assertEquals($expected, $results);
+    }
 
-        //Test if the details for two trait entries with numerical value are returned correctly
-        $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'trait_entry_ids' => ['7100', '14136'], 'trait_format' => 'numerical'));
-        $results = $service->execute($parameterBag, $user);
+    public function testOneTraitWithCategoricalValue()
+    {
+        $traitEntryIds = array('47484');
+        $traitFormat = 'categorical_free';
+        $results = $this->traitEntries->execute($traitEntryIds, $traitFormat);
+        $expected = $this->resultForOneTraitEntry;
+        $this->assertEquals($expected, $results);
+    }
+
+    public function testAnotherTraitWithCategoricalValue()
+    {
+        $traitEntryIds = array('35123');
+        $traitFormat = 'categorical_free';
+        $results = $this->traitEntries->execute($traitEntryIds, $traitFormat);
+        $expected = $this->resultForAnotherTraitEntry;
+        $this->assertEquals($expected, $results);
+    }
+
+    public function testTwoTraitsWithCategoricalValue()
+    {
+        $traitEntryIds = array('47484', '35123');
+        $traitFormat = 'categorical_free';
+        $results = $this->traitEntries->execute($traitEntryIds, $traitFormat);
+        $expected = array('47484' => $this->resultForOneTraitEntry['47484'], '35123' => $this->resultForAnotherTraitEntry['35123']);
+        $this->assertEquals($expected, $results);
+    }
+
+    public function testDetailsForNumericalTraits(){
+        $traitEntryIds = array('7100', '14136');
+        $traitFormat = 'numerical';
+        $results = $this->traitEntries->execute($traitEntryIds, $traitFormat);
         $expected = [
             '7100' => [
-                'fennec_id' => 5818,
-                'type' => 'Leaf size',
-                'type_definition' => '',
-                'value' => 279.0000000000,
-                'value_definition' => null,
-                'citation' => 'Source data from University of Groningen, Community and Conservation Ecology Group, NL (Steendam), Corresponding address: R.m.bekker@rug.nl',
+                'id' => 7100,
+                'fennec' => 5818,
+                'originUrl' => '',
+                'valueName' => 279.0000000000,
+                'typeName' => 'Leaf size',
                 'unit' => 'mm^2',
-                'origin_url' => ''
+                'typeDefinition' => null,
+                'citation' => 'Source data from University of Groningen, Community and Conservation Ecology Group, NL (Steendam), Corresponding address: R.m.bekker@rug.nl'
             ],
             '14136' => [
-                'fennec_id' => 2866,
-                'type' => 'Leaf mass',
-                'type_definition' => '',
-                'value' => 376.7100000000,
-                'value_definition' => null,
-                'citation' => 'Source data from Carl von Ossietzky university of Oldenburg, Landscape Ecology Group, DE (Kunzmann), E-Mail: dkunzmann@gmx.de',
+                'id' => 14136,
+                'fennec' => 2866,
+                'originUrl' => '',
+                'valueName' => 376.7100000000,
+                'typeName' => 'Leaf mass',
                 'unit' => 'mg',
-                'origin_url' => ''
+                'typeDefinition' => null,
+                'citation' => 'Source data from Carl von Ossietzky university of Oldenburg, Landscape Ecology Group, DE (Kunzmann), E-Mail: dkunzmann@gmx.de'
             ]
         ];
         $this->assertEquals($expected, $results);

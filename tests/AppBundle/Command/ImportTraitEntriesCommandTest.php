@@ -37,7 +37,7 @@ class ImportTraitValuesCommandTest extends KernelTestCase
 
         $this->command = $application->find('app:import-trait-entries');
         $this->commandTester = new CommandTester($this->command);
-        $this->em = self::$kernel->getContainer()->get('app.orm')->getManagerForVersion('test');
+        $this->em = self::$kernel->getContainer()->get('doctrine')->getManager('test');
     }
 
     public function testExecute()

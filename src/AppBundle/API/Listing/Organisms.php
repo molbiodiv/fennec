@@ -2,19 +2,26 @@
 
 namespace AppBundle\API\Listing;
 
-use AppBundle\API\Webservice;
-use AppBundle\User\FennecUser;
-use \PDO as PDO;
-use Symfony\Component\HttpFoundation\ParameterBag;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use AppBundle\Service\DBVersion;
+use AppBundle\Entity\Organism;
 
 /**
  * Web Service.
  * Returns Organisms up to a limit in the given db version (matching a search criterion if supplied)
  */
-class Organisms extends Webservice
+class Organisms
 {
-    private $database;
+    private $manager;
+
+    /**
+     * Organisms constructor.
+     * @param $dbversion
+     */
+    public function __construct(DBVersion $dbversion)
+    {
+        $this->manager = $dbversion->getEntityManager();
+    }
+
 
     /**
      * @inheritdoc
@@ -58,34 +65,8 @@ class Organisms extends Webservice
      *     curl http://fennec.molecular.eco/api/listing/organisms?dbversion=1.0&limit=1&search=bellis
      * @apiSampleRequest http://fennec.molecular.eco/api/listing/organisms
      */
-    public function execute(ParameterBag $query, FennecUser $user = null)
+    public function execute($limit, $search)
     {
-        $this->database = $this->getManagerFromQuery($query)->getConnection();
-        $limit = 5;
-        if ($query->has('limit')) {
-            $limit = $query->get('limit');
-        }
-        $search = "%%";
-        if ($query->has('search')) {
-            $search = "%".$query->get('search')."%";
-        }
-        $query_get_organisms = <<<EOF
-SELECT *
-    FROM organism WHERE organism.scientific_name ILIKE :search LIMIT :limit
-EOF;
-        $stm_get_organisms = $this->database->prepare($query_get_organisms);
-        $stm_get_organisms->bindValue('search', $search);
-        $stm_get_organisms->bindValue('limit', $limit);
-        $stm_get_organisms->execute();
-
-        $data = array();
-
-        while ($row = $stm_get_organisms->fetch(PDO::FETCH_ASSOC)) {
-            $result = array();
-            $result['fennec_id'] = $row['fennec_id'];
-            $result['scientific_name'] = $row['scientific_name'];
-            $data[] = $result;
-        }
-        return $data;
+        return $this->manager->getRepository(Organism::class)->getListOfOrganisms($limit, $search);
     }
 }

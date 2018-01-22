@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * TraitCategoricalEntry
  *
  * @ORM\Table(name="trait_categorical_entry", indexes={@ORM\Index(name="IDX_DDFBB816594DA73F", columns={"fennec_id"}), @ORM\Index(name="IDX_DDFBB8163B8FE7EB", columns={"trait_categorical_value_id"}), @ORM\Index(name="IDX_DDFBB81650F4882D", columns={"trait_citation_id"}), @ORM\Index(name="IDX_DDFBB816788909E7", columns={"trait_type_id"}), @ORM\Index(name="IDX_DDFBB81649279951", columns={"webuser_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\TraitCategoricalEntryRepository")
  */
 class TraitCategoricalEntry
 {
@@ -96,11 +96,11 @@ class TraitCategoricalEntry
     private $traitType;
 
     /**
-     * @var \AppBundle\Entity\Webuser
+     * @var \AppBundle\Entity\FennecUser
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Webuser")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\FennecUser")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="webuser_id", referencedColumnName="webuser_id", nullable=false)
+     *   @ORM\JoinColumn(name="webuser_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $webuser;
@@ -312,11 +312,11 @@ class TraitCategoricalEntry
     /**
      * Set webuser.
      *
-     * @param \AppBundle\Entity\Webuser|null $webuser
+     * @param \AppBundle\Entity\FennecUser|null $webuser
      *
      * @return TraitCategoricalEntry
      */
-    public function setWebuser(\AppBundle\Entity\Webuser $webuser = null)
+    public function setWebuser(\AppBundle\Entity\FennecUser $webuser = null)
     {
         $this->webuser = $webuser;
 
@@ -326,7 +326,7 @@ class TraitCategoricalEntry
     /**
      * Get webuser.
      *
-     * @return \AppBundle\Entity\Webuser|null
+     * @return \AppBundle\Entity\FennecUser|null
      */
     public function getWebuser()
     {

@@ -2,33 +2,46 @@
 
 namespace AppBundle\API\Details;
 
-use AppBundle\API\Webservice;
-use AppBundle\User\FennecUser;
-use Symfony\Component\HttpFoundation\ParameterBag;
+use AppBundle\API\Details;
+use AppBundle\Service\DBVersion;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Web Service.
  * Return trait details of project
  */
-class TraitOfProject extends Webservice
+class TraitOfProject
 {
+    private $manager;
+    private $container;
+
+    /**
+     * TraitOfProject constructor.
+     * @param $dbversion
+     * @param $container
+     */
+    public function __construct(DBVersion $dbversion, ContainerInterface $container)
+    {
+        $this->manager = $dbversion->getEntityManager();
+        $this->container = $container;
+
+    }
+
 
     /**
      * @inheritdoc
      * @returns array $result
      * see output of details/Traits.php
      */
-    public function execute(ParameterBag $query, FennecUser $user = null)
+    public function execute($traitTypeId, $projectId, $dimension, $user, $dbversion)
     {
-        $service = $this->factory('details', 'OrganismsOfProject');
-        $results = $service->execute($query, $user);
-        if (key_exists('error', $results)){
-            return $results;
+        $organismsOfProject = $this->container->get(Details\OrganismsOfProject::class);
+        $fennecIds = $organismsOfProject->execute($projectId, $dimension, $user, $dbversion);
+        if (key_exists('error', $fennecIds)){
+            return $fennecIds;
         }
-        $service = $this->factory('details', 'traits');
-        $query->set('fennec_ids', $results);
-        $results = $service->execute($query, $user);
-
+        $traitsOfProject = $this->container->get(Details\Traits::class);
+        $results = $traitsOfProject->execute($traitTypeId, $fennecIds, $include_citations = false);
         return $results;
     }
 }

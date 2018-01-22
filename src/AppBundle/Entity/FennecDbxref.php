@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * FennecDbxref
  *
  * @ORM\Table(name="fennec_dbxref", uniqueConstraints={@ORM\UniqueConstraint(name="fennec_dbxref_db_id_identifier_uniq", columns={"fennec_id", "db_id", "identifier"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\FennecDbxrefRepository")
  */
 class FennecDbxref
 {
@@ -132,4 +132,6 @@ class FennecDbxref
     {
         return $this->fennec;
     }
+
+
 }

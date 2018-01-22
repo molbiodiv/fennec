@@ -8,6 +8,8 @@ RUN apt-get update \
 && docker-php-ext-install pdo pdo_pgsql zip \
 && a2enmod rewrite \
 && docker-php-source delete
+RUN pecl install xdebug-2.5.0 \
+    && docker-php-ext-enable xdebug
 RUN git clone --branch master --recursive https://github.com/molbiodiv/fennec /fennec
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
@@ -15,7 +17,7 @@ COPY php.ini /usr/local/etc/php/
 COPY parameters.yml /fennec/app/config/
 RUN cd /fennec; composer install
 
-RUN npm install -g coffee-script@1.12.7
+RUN npm install -g coffeescript@1.12.7
 RUN cd /fennec; yarn install
 RUN cd /fennec; ./node_modules/.bin/encore production
 # RUN cd /fennec; ./node_modules/.bin/encore dev

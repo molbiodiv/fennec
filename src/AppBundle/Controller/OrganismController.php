@@ -9,8 +9,8 @@
 namespace AppBundle\Controller;
 
 
-use Symfony\Component\Config\Definition\Exception\Exception;
-use Symfony\Component\HttpFoundation\ParameterBag;
+use AppBundle\API\Listing;
+use AppBundle\API\Details;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,8 +21,9 @@ class OrganismController extends Controller
 {
     /**
      * @param $request Request
+     * @param $dbversion
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/{dbversion}/organism/search", name="organism_search")
+     * @Route("/organism/search", name="organism_search")
      */
     public function searchAction(Request $request, $dbversion){
         return $this->render('organism/search.html.twig', ['type' => 'organism', 'dbversion' => $dbversion, 'title' => 'Organism Search']);
@@ -32,14 +33,22 @@ class OrganismController extends Controller
      * @param $request Request
      * @param $dbversion
      * @return Response
-     * @Route("/{dbversion}/organism/result", name="organism_result", options={"expose" = true})
+     * @Route("/organism/result", name="organism_result", options={"expose" = true})
      * @Method({"GET"})
      */
     public function resultAction(Request $request, $dbversion){
-        $organisms = $this->get('app.api.webservice')->factory('listing', 'organisms');
+        $organisms = $this->container->get(Listing\Organisms::class);
         $query = $request->query;
         $query->set('dbversion', $dbversion);
-        $result = $organisms->execute($query, null);
+        $limit = 50;
+        if($query->has('limit')){
+            $limit = $query->get('limit');
+        }
+        $search = "%%";
+        if($query->has('search')){
+            $search = "%".$query->get('search')."%";
+        }
+        $result = $organisms->execute($limit, $search);
         return $this->render('organism/result.html.twig', [
             'type' => 'organism',
             'dbversion' => $dbversion,
@@ -50,29 +59,24 @@ class OrganismController extends Controller
     }
 
     /**
-     * @param Request $request
      * @param $dbversion
      * @param $fennec_id
      * @return Response
-     * @Route("/{dbversion}/organism/details/{fennec_id}", name="organism_details", options={"expose" = true})
+     * @Route("/organism/details/{fennec_id}", name="organism_details", options={"expose" = true})
      */
-    public function detailsAction(Request $request, $dbversion, $fennec_id){
+    public function detailsAction($dbversion, $fennec_id){
         $user = null;
         if($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')){
             $user = $this->get('security.token_storage')->getToken()->getUser();
         }
-        $organismDetails = $this->get('app.api.webservice')->factory('details', 'organism');
-        $query = $request->query;
-        $query->set('dbversion', $dbversion);
-        $query->set('id', $fennec_id);
-        $organismResult = $organismDetails->execute($query, $user);
-        $taxonomy = $this->get('app.api.webservice')->factory('listing', 'taxonomy');
-        $taxonomyResult = $taxonomy->execute($query, null);
-        $traits = $this->get('app.api.webservice')->factory('details', 'traitsOfOrganisms');
-        $traitResult = $traits->execute(new ParameterBag(array(
-            'dbversion' => $dbversion,
-            'fennec_ids' => array($fennec_id)
-        )), null);
+        $organismDetails = $this->container->get(Details\Organisms::class);
+        $organismResult = $organismDetails->execute($fennec_id);
+
+        $taxonomy = $this->container->get(Listing\Taxonomy::class);
+        $taxonomyResult = $taxonomy->execute($fennec_id);
+
+        $traits = $this->container->get(Details\TraitsOfOrganisms::class);
+        $traitResult = $traits->execute(array($fennec_id));
         return $this->render('organism/details.html.twig', [
             'type' => 'organism',
             'dbversion' => $dbversion,
@@ -87,16 +91,26 @@ class OrganismController extends Controller
      * @param $dbversion
      * @param $trait_type_id
      * @return Response
-     * @Route("/{dbversion}/organism/byTrait/{trait_type_id}", name="organism_by_trait")
+     * @Route("/organism/byTrait/{trait_type_id}", name="organism_by_trait")
      */
     public function byTraitAction(Request $request, $dbversion, $trait_type_id){
-        $organisms = $this->get('app.api.webservice')->factory('details', 'organismsWithTrait');
-        $trait = $this->get('app.api.webservice')->factory('details', 'traits');
         $query = $request->query;
-        $query->set('dbversion', $dbversion);
-        $query->set('trait_type_id', $trait_type_id);
-        $organismResult = $organisms->execute($query, null);
-        $traitResult = $trait->execute($query, null);
+        $organisms = $this->container->get(Details\OrganismsWithTrait::class);
+        $limit = 100;
+        if ($query->has('limit')) {
+            $limit = $query->get('limit');
+        }
+        $fennec_ids = null;
+        if ($query->has('fennec_ids') and is_array($query->get('fennec_ids'))){
+            $fennec_ids = $query->get('fennec_ids');
+        }
+        $include_citations = false;
+        if ($query->has('include_citations')){
+            $include_citations = $query->get('include_citations');
+        }
+        $organismResult = $organisms->execute($trait_type_id, $limit);
+        $trait = $this->container->get(Details\Traits::class);
+        $traitResult = $trait->execute($trait_type_id, $fennec_ids, $include_citations);
         return $this->render('organism/byTrait.html.twig', [
             'type' => 'organism',
             'dbversion' => $dbversion,

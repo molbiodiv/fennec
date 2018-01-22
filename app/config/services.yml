@@ -4,14 +4,34 @@ parameters:
 #    parameter_name: value
 
 services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    # makes classes in src/AppBundle available to be used as services
+    AppBundle\:
+        resource: '../../src/AppBundle/*'
+        # you can exclude directories or files
+        # but if a service is unused, it's removed anyway
+        exclude: '../../src/AppBundle/{Entity,Repository,Security}'
     app.orm:
         class: AppBundle\ORM
-        arguments: [ "@doctrine" ]
+        arguments: [ '@doctrine' ]
     app.api.webservice:
         class: AppBundle\API\Webservice
-        arguments: ['@app.orm']
-    app.user.provider:
-        class: AppBundle\User\FennecUserProvider
-    app.user.demo:
-        class: AppBundle\User\DemoUser
-        arguments: ["%demo_user_name%", "%demo_user_password%"]
+        arguments: ['@app.orm','@security.token_storage']
+    AppBundle\Service\DBVersion:
+        arguments: ['@twig', '@doctrine', '%doctrine.default_connection%']
+        tags: [{name: kernel.event_listener, event: kernel.request}]
+    AppBundle\Service\TwigProvider\Types:
+        arguments: ['@twig']
+        tags: [{name: kernel.event_listener, event: kernel.request}]
+    app.form.registration:
+        class: AppBundle\Form\RegistrationFormType
+        tags: [{name: form.type, alias: app_user_registration }]
+    app.fos_user.oauth_provider:
+        # Change the class according to the location of the FOSUBUserProvider class
+        class: AppBundle\Security\Core\User\FOSUBUserProvider
+        arguments: ['@fos_user.user_manager.default', {github: github_id}]

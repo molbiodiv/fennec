@@ -8,7 +8,7 @@ use AppBundle\Entity\TraitCategoricalValue;
 use AppBundle\Entity\TraitCitation;
 use AppBundle\Entity\TraitNumericalEntry;
 use AppBundle\Entity\TraitType;
-use AppBundle\Entity\Webuser;
+use AppBundle\API\Mapping;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Config\Definition\Exception\Exception;
@@ -117,12 +117,12 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
         // Logger has to be disabled, otherwise memory increases linearly
         $this->em->getConnection()->getConfiguration()->setSQLLogger(null);
         gc_enable();
-        $user = $this->em->getRepository('AppBundle:Webuser')->find($input->getOption('user-id'));
+        $user = $this->em->getRepository('AppBundle:FennecUser')->find($input->getOption('user-id'));
         if($user === null){
             $output->writeln('<error>User with provided id does not exist in db.</error>');
             return;
         }
-        $userID = $user->getWebuserId();
+        $userID = $user->getId();
         $lines = intval(exec('wc -l '.escapeshellarg($input->getArgument('file')).' 2>/dev/null'));
         $progress = new ProgressBar($output, $lines);
         $progress->start();
@@ -244,16 +244,11 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
 
     private function getMapping($method){
         if($method === 'scientific_name'){
-            $mapper = $this->getContainer()->get('app.api.webservice')->factory('mapping', 'fullByOrganismName');
-            $mapping = $mapper->execute(new ParameterBag(array(
-                'dbversion' => $this->connectionName
-            )), null);
+            $mapper = $this->getContainer()->get(Mapping\FullByOrganismName::class);
+            $mapping = $mapper->execute();
         } else {
-            $mapper = $this->getContainer()->get('app.api.webservice')->factory('mapping', 'fullByDbxrefId');
-            $mapping = $mapper->execute(new ParameterBag(array(
-                'dbversion' => $this->connectionName,
-                'db' => $method
-            )), null);
+            $mapper = $this->getContainer()->get(Mapping\FullByDbxrefId::class);
+            $mapping = $mapper->execute($method);
         }
         return $mapping;
     }
@@ -322,7 +317,7 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
      * @param string $value
      * @param string|null $valueOntology
      * @param string $citation
-     * @param int $userID webuser_id
+     * @param int $userID fennecUser_id
      * @param string $originURL
      * @param boolean $public
      */
@@ -342,7 +337,7 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
         $traitEntry->setTraitCitation($traitCitation);
         $traitEntry->setOriginUrl($originURL);
         $traitEntry->setFennec($this->em->getReference('AppBundle:Organism', $fennec_id));
-        $traitEntry->setWebuser($this->em->getReference('AppBundle:Webuser', $userID));
+        $traitEntry->setWebuser($this->em->getReference('AppBundle:FennecUser', $userID));
         $traitEntry->setPrivate(!$public);
         $this->em->persist($traitEntry);
         ++$this->insertedEntries;

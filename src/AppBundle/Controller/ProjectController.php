@@ -9,7 +9,8 @@
 namespace AppBundle\Controller;
 
 
-use AppBundle\User\FennecUser;
+use AppBundle\Entity\FennecUser;
+use AppBundle\API\Details;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,7 +22,7 @@ class ProjectController extends Controller
      * @param $request Request
      * @param $dbversion string
      * @return Response
-     * @Route("/{dbversion}/project/overview", name="project_overview")
+     * @Route("/project/overview", name="project_overview")
      */
     public function overviewAction(Request $request, $dbversion){
         return $this->render(
@@ -35,18 +36,15 @@ class ProjectController extends Controller
     }
 
     /**
-     * @param $request Request
      * @param $dbversion string
      * @param $project_id string
      * @return Response
-     * @Route("/{dbversion}/project/details/{project_id}", name="project_details", options={"expose" = true})
+     * @Route("/project/details/{project_id}", name="project_details", options={"expose" = true})
      */
-    public function detailsAction(Request $request, $dbversion, $project_id){
-        $projectDetails = $this->get('app.api.webservice')->factory('details', 'projects');
-        $query = $request->query;
-        $query->set('dbversion', $dbversion);
-        $query->set('ids', array($project_id));
-        $projectResult = $projectDetails->execute($query, $this->getFennecUser());
+    public function detailsAction($dbversion, $project_id){
+        $projectDetails = $this->container->get(Details\Projects::class);
+        $user = $this->getFennecUser();
+        $projectResult = $projectDetails->execute($project_id, $user);
         return $this->render(
             'project/details.html.twig',
             [
@@ -67,7 +65,7 @@ class ProjectController extends Controller
      * @param $dimension
      * @return Response
      * @Route(
-     *     "/{dbversion}/project/details/{project_id}/trait/{trait_type_id}/{dimension}",
+     *     "/project/details/{project_id}/trait/{trait_type_id}/{dimension}",
      *     name="project_trait_details",
      *     options={"expose" = true},
      *     requirements={"dimension": "rows|columns"}
@@ -104,7 +102,7 @@ class ProjectController extends Controller
      */
     private function getFennecUser(){
         $user = null;
-        if($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')){
+        if($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')){
             $user = $this->get('security.token_storage')->getToken()->getUser();
         }
         return $user;

@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * WebuserData
  *
  * @ORM\Table(name="webuser_data", indexes={@ORM\Index(name="IDX_EEEDEB2749279951", columns={"webuser_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\WebuserDataRepository")
  */
 class WebuserData
 {
@@ -44,10 +44,10 @@ class WebuserData
     private $webuserDataId;
 
     /**
-     * @var \AppBundle\Entity\Webuser
+     * @var \AppBundle\Entity\FennecUser
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Webuser", inversedBy="data")
-     * @ORM\JoinColumn(name="webuser_id", referencedColumnName="webuser_id", nullable=false)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\FennecUser", inversedBy="data",cascade={"persist"})
+     * @ORM\JoinColumn(name="webuser_id", referencedColumnName="id", nullable=false)
      */
     private $webuser;
 
@@ -141,11 +141,11 @@ class WebuserData
     /**
      * Set webuser.
      *
-     * @param \AppBundle\Entity\Webuser|null $webuser
+     * @param \AppBundle\Entity\FennecUser|null $webuser
      *
      * @return WebuserData
      */
-    public function setWebuser(\AppBundle\Entity\Webuser $webuser = null)
+    public function setWebuser(\AppBundle\Entity\FennecUser $webuser = null)
     {
         $this->webuser = $webuser;
 
@@ -155,7 +155,7 @@ class WebuserData
     /**
      * Get webuser.
      *
-     * @return \AppBundle\Entity\Webuser|null
+     * @return \AppBundle\Entity\FennecUser|null
      */
     public function getWebuser()
     {

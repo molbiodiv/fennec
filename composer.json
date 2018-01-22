@@ -18,7 +18,7 @@
     },
     "require": {
         "php": ">=5.5.9",
-        "symfony/symfony": "3.3.*",
+        "symfony/symfony": "3.4.*",
         "doctrine/orm": "2.6.x-dev",
         "doctrine/doctrine-bundle": "^1.6",
         "doctrine/doctrine-cache-bundle": "^1.2",
@@ -36,7 +36,10 @@
         "shivas/versioning-bundle": "^1.4",
         "symfony/web-server-bundle": "^3.3",
         "symfony/proxy-manager-bridge": "^3.3",
-        "ocramius/proxy-manager": "^2.0"
+        "ocramius/proxy-manager": "^2.0",
+        "friendsofsymfony/user-bundle": "^2.0",
+        "doctrine/doctrine-migrations-bundle": "^1.0",
+        "javiereguiluz/easyadmin-bundle": "^1.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

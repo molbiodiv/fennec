@@ -2,7 +2,7 @@
     $('document').ready(function () {
         $('#project-table').DataTable( {
             ajax: {
-                url: '{{ path('api', {'namespace': 'listing', 'classname': 'projects', 'dbversion': dbversion}) }}',
+                url: '{{ path('api_listing_projects', {'dbversion': dbversion}) }}',
                 dataSrc: 'data',
                 complete: function(){
                     addProjectTableActionButtonFunctionality();
@@ -27,7 +27,7 @@
                 {
                     "targets": -1,
                     "data": null,
-                    "defaultContent": "<a class=\"btn fa fa-trash project-remove-button\" data-toggle=\"confirmation\"></a>"
+                    "defaultContent": "<a class=\"btn fa fa-trash project-remove-button\" data-toggle=\"confirFeditation\"></a>"
                 }
             ],
             drawCallback: function( settings ) {
@@ -42,13 +42,10 @@
                         retrieve: true
                     });
                     var data = table.row( $(this).parents('tr') ).data();
+                    var url = Routing.generate('api_delete_projects', {'projectId': data.internal_project_id, 'dbversion': dbversion });
                     $.ajax({
-                        url: '{{ path('api', {'namespace': 'delete', 'classname': 'projects', 'dbversion': dbversion}) }}',
+                        url: url,
                         type: 'GET',
-                        data: {
-                            'dbversion': '{{ dbversion }}',
-                            'ids': [data.internal_project_id]
-                        },
                         cache: false,
                         dataType: 'json',
                         /* jshint unused:vars */
@@ -91,9 +88,9 @@
             {
                 data.append(key, value);
             });
-
+            var url = Routing.generate('api_upload_projects', { 'dbversion': dbversion });
             $.ajax({
-                url: '{{ path('api', {'namespace': 'upload', 'classname': 'projects', 'dbversion': dbversion}) }}',
+                url: url,
                 type: 'POST',
                 data: data,
                 cache: false,

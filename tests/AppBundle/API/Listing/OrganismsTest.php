@@ -2,22 +2,42 @@
 
 namespace Tests\AppBundle\API\Listing;
 
-use Symfony\Component\HttpFoundation\ParameterBag;
 use Tests\AppBundle\API\WebserviceTestCase;
+use AppBundle\Entity\Organism;
 
 class OrganismsTest extends WebserviceTestCase
 {
+    private $em;
+
+    public function setUp()
+    {
+        $kernel = self::bootKernel();
+
+        $this->em = $kernel->getContainer()
+            ->get('doctrine')
+            ->getManager('test');
+
+    }
+
+    public function tearDown()
+    {
+        parent::tearDown();
+
+        $this->em->close();
+        $this->em = null; // avoid memory leaks
+    }
+
     public function testExecute()
     {
-        $organisms = $this->webservice->factory('listing', 'organisms');
-        $parameterBag = new ParameterBag(array('dbversion' => $this->default_db, 'search' => 'bla', 'limit' => 5));
-        $results = $organisms->execute($parameterBag, null);
+        $search = '%bla%';
+        $limit = 5;
+        $results = $this->em->getRepository(Organism::class)->getListOfOrganisms($limit, $search);
         $expected = array(
-            array("fennec_id" => 2243, "scientific_name" => "Anemone blanda"),
-            array("fennec_id" => 3520, "scientific_name" => "Lablab purpureus"),
-            array("fennec_id" => 4295, "scientific_name" => "Tmesipteris oblanceolata"),
-            array("fennec_id" => 4357, "scientific_name" => "Silene oblanceolata"),
-            array("fennec_id" => 5588, "scientific_name" => "Verbascum blattaria")
+            array("fennecId" => 2243, "scientificName" => "Anemone blanda"),
+            array("fennecId" => 3520, "scientificName" => "Lablab purpureus"),
+            array("fennecId" => 4295, "scientificName" => "Tmesipteris oblanceolata"),
+            array("fennecId" => 4357, "scientificName" => "Silene oblanceolata"),
+            array("fennecId" => 5588, "scientificName" => "Verbascum blattaria")
         );
         $this->assertEquals($expected, $results);
     }

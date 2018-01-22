@@ -2,8 +2,7 @@
 
 namespace Tests;
 
-use AppBundle\Entity\OauthProvider;
-use AppBundle\Entity\Webuser;
+use AppBundle\Entity\FennecUser;
 use AppBundle\Entity\WebuserData;
 use Doctrine\ORM\EntityManager;
 
@@ -77,19 +76,13 @@ class SetupFixtures
 
     private function insert_full_webuser_data($project, $oauth_id, $provider, $import_date, $import_filename)
     {
-        $oauth_repo = $this->em->getRepository('AppBundle:OauthProvider');
-        $providerEntity = $oauth_repo->findOneBy(array('provider' => $provider));
-        if ($providerEntity === null) {
-            $providerEntity = new OauthProvider();
-            $providerEntity->setProvider($provider);
-            $this->em->persist($providerEntity);
-        }
-        $wuser_repo = $this->em->getRepository('AppBundle:Webuser');
-        $webuser = $wuser_repo->findOneBy(array('oauthProvider' => $providerEntity, 'oauthId' => $oauth_id));
+        $user_repo = $this->em->getRepository('AppBundle:FennecUser');
+        $webuser = $user_repo->findOneBy(array('github_access_token' => $oauth_id));
         if ($webuser === null) {
-            $webuser = new Webuser();
-            $webuser->setOauthProvider($providerEntity);
-            $webuser->setOauthId($oauth_id);
+            $webuser = new FennecUser();
+            $webuser->setGithubAccessToken($oauth_id);
+            $webuser->setUsername($oauth_id);
+            $webuser->setEmail($oauth_id);
             $this->em->persist($webuser);
         }
         $webuserData = new WebuserData();

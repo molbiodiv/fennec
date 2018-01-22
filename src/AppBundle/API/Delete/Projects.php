@@ -2,18 +2,31 @@
 
 namespace AppBundle\API\Delete;
 
-use AppBundle\API\Webservice;
 use AppBundle\AppBundle;
 use AppBundle\Entity\WebuserData;
-use AppBundle\User\FennecUser;
-use Symfony\Component\HttpFoundation\ParameterBag;
+use AppBundle\Entity\FennecUser;
+use AppBundle\Service\DBVersion;
 
 /**
  * Web Service.
  * Delete Project with given internal_ids from the database (user has to be logged in and owner)
  */
-class Projects extends Webservice
+class Projects
 {
+    const ERROR_NOT_LOGGED_IN = "Error. You are not logged in.";
+
+    private $manager;
+
+    /**
+     * Projects constructor.
+     * @param $dbversion
+     */
+    public function __construct(DBVersion $dbversion)
+    {
+        $this->manager = $dbversion->getEntityManager();
+    }
+
+
     /**
     * @inheritdoc
     * <code>
@@ -24,28 +37,16 @@ class Projects extends Webservice
     * array(array('project_id','import_date','OTUs','sample size'));
     * </code>
     */
-    public function execute(ParameterBag $query, FennecUser $user = null)
+    public function execute(FennecUser $user = null, $projectId)
     {
-        $manager = $this->getManagerFromQuery($query);
         $result = array('deletedProjects' => 0);
         if ($user === null) {
-            $result['error'] = Webservice::ERROR_NOT_LOGGED_IN;
+            $result['error'] = Projects::ERROR_NOT_LOGGED_IN;
         } else {
-            $provider = $manager->getRepository('AppBundle:OauthProvider')->findOneBy(array(
-                'provider' => $user->getProvider()
-            ));
-            $projects = $manager->getRepository('AppBundle:Webuser')->findOneBy(array(
-                'oauthId' => $user->getId(),
-                'oauthProvider' => $provider
-            ))->getData()->filter(function (WebuserData $p) use($query){
-                return in_array($p->getWebuserDataId(), $query->get('ids'));
-            });
-            foreach($projects as $project){
-                $manager->remove($project);
-            }
-            $manager->flush();
-
-            $result['deletedProjects'] = count($projects);
+            $projects = $this->manager->getRepository(WebuserData::class)->findOneBy(array('webuser' => $user, 'webuserDataId' => $projectId));
+            $this->manager->remove($projects);
+            $this->manager->flush();
+            $result['deletedProjects'] = 1;
         }
         return $result;
     }

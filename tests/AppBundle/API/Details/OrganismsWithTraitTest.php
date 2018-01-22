@@ -2,54 +2,63 @@
 
 namespace Test\AppBundle\API\Details;
 
-use AppBundle\API\Details\OrganismsWithTrait;
-use Symfony\Component\HttpFoundation\ParameterBag;
 use Tests\AppBundle\API\WebserviceTestCase;
+use AppBundle\Entity;
 
 class OrganismsWithTraitTest extends WebserviceTestCase
 {
-    public function testExecute()
+    private $em;
+
+    public function setUp()
     {
-        $default_db = $this->default_db;
-        $service = $this->webservice->factory('details', 'organismsWithTrait');
-        //Test for the correct number of elements in the returned array
-        $results = $service->execute(new ParameterBag(array(
-            'dbversion' => $default_db,
-            'trait_type_id' => 1)),
-            null
-        );
-        $this->assertEquals(OrganismsWithTrait::DEFAULT_LIMIT, count($results));
+        $kernel = self::bootKernel();
 
-        $results = $service->execute(
-            new ParameterBag(array(
-                'dbversion' => $default_db,
-                'trait_type_id' => 3, 'limit' => 30000
-            )),
-            null
-        );
-        $this->assertEquals(23185, count($results));
+        $this->em = $kernel->getContainer()
+            ->get('doctrine')
+            ->getManager('test');
 
-        $results = $service->execute(
-            new ParameterBag(array(
-                'dbversion' => $default_db,
-                'trait_type_id' => 1, 'limit' => 10
-            )),
-            null
-        );
+    }
+
+    public function tearDown()
+    {
+        parent::tearDown();
+
+        $this->em->close();
+        $this->em = null; // avoid memory leaks
+    }
+
+    public function testCategoricalTraitsWithDefaultLimit()
+    {
+        $traitTypeId = 1;
+        $limit = 100;
+        $results = $this->em->getRepository(Entity\Organism::class)->getOrganismByTrait($traitTypeId, $limit);
+        $this->assertEquals(100, count($results));
+    }
+
+    public function testCategoricalTraitsWithHighLimit()
+    {
+        $traitTypeId = 3;
+        $limit = 30000;
+        $results = $this->em->getRepository(Entity\Organism::class)->getOrganismByTrait($traitTypeId, $limit);
+        $this->assertEquals(23194, count($results));
+    }
+
+    public function testCategoricalTraitsWithLowLimit()
+    {
+        $traitTypeId = 1;
+        $limit = 10;
+        $results = $this->em->getRepository(Entity\Organism::class)->getOrganismByTrait($traitTypeId, $limit);
         $this->assertEquals(10, count($results));
-        $this->assertTrue(array_key_exists('fennec_id',$results[0]));
-        $this->assertTrue(array_key_exists('scientific_name',$results[0]));
+        $this->assertTrue(array_key_exists('fennecId', $results[0]));
+        $this->assertTrue(array_key_exists('scientificName', $results[0]));
+    }
 
-        // Use numerical trait
-        $results = $service->execute(
-            new ParameterBag(array(
-                'dbversion' => $default_db,
-                'trait_type_id' => 7, 'limit' => 12
-            )),
-            null
-        );
+    public function testNumericalTrait(){
+        $traitTypeId = 7;
+        $limit = 12;
+        $results = $this->em->getRepository(Entity\Organism::class)->getOrganismByTrait($traitTypeId, $limit);
         $this->assertEquals(12, count($results));
-        $this->assertTrue(array_key_exists('fennec_id',$results[0]));
-        $this->assertTrue(array_key_exists('scientific_name',$results[0]));
+        $this->assertTrue(array_key_exists('fennecId',$results[0]));
+        $this->assertTrue(array_key_exists('scientificName',$results[0]));
     }
 }

@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\API\Listing;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\BrowserKit\Response;
@@ -12,7 +13,7 @@ class StartpageController extends Controller
     /**
      * @Route("/", name="index")
      */
-    public function indexAction(Request $request)
+    public function indexAction()
     {
         $default_db = $this->getParameter('dbal')['default_connection'];
         return $this->redirectToRoute('startpage', array('dbversion' => $default_db));
@@ -21,10 +22,10 @@ class StartpageController extends Controller
     /**
      * @param Request $request
      * @return Response
-     * @Route("/{dbversion}/startpage", name="startpage")
+     * @Route("/startpage", name="startpage")
      */
     public function startpageAction(Request $request, $dbversion){
-        $oc = $this->get('app.api.webservice')->factory('Listing', 'Overview');
+        $oc = $this->container->get(Listing\Overview::class);
         $query = $request->query;
         $query->set('dbversion', $dbversion);
         $user = null;

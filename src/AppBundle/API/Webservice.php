@@ -3,11 +3,12 @@
 namespace AppBundle\API;
 
 use AppBundle\ORM;
-use AppBundle\User\FennecUser;
+use AppBundle\Entity\FennecUser;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
+/** @deprecated */
 class Webservice
 {
     const ERROR_NOT_LOGGED_IN = "Error. Not logged in.";
@@ -23,6 +24,7 @@ class Webservice
      * @param ParameterBag $query
      * @param FennecUser $user
      * @return array result
+     * @deprecated
      */
     public function execute(ParameterBag $query, FennecUser $user = null){
         return array();
@@ -33,6 +35,7 @@ class Webservice
      * @param $classname string
      * @throws Exception
      * @return Webservice
+     * @deprecated
      */
     public function factory($namespace, $classname)
     {
@@ -48,6 +51,7 @@ class Webservice
     /**
      * @param $query ParameterBag
      * @return EntityManager
+     * @deprecated
      */
     protected function getManagerFromQuery($query){
         if (! $query->has('dbversion')){

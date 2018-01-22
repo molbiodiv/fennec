@@ -3,9 +3,10 @@
 namespace Tests\AppBundle\API\Upload;
 
 use AppBundle\API\Upload\Projects;
-use AppBundle\User\FennecUser;
+use AppBundle\Entity\FennecUser;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Tests\AppBundle\API\WebserviceTestCase;
+use AppBundle\API\Upload;
 
 require_once __DIR__.'/overload_is_uploaded_file.php';
 
@@ -15,12 +16,33 @@ class ProjectsTest extends WebserviceTestCase
     const USERID = 'UploadProjectTestUser';
     const PROVIDER = 'UploadProjectTest';
 
-    public function testExecute()
+    private $em;
+    private $uploadProjects;
+
+    public function setUp()
     {
-        $default_db = $this->default_db;
-        $service = $this->webservice->factory('upload', 'projects');
-        $this->user = new FennecUser(ProjectsTest::USERID, ProjectsTest::NICKNAME, ProjectsTest::PROVIDER);
-        // Test for error returned by empty file
+        $kernel = self::bootKernel();
+
+        $this->em = $kernel->getContainer()
+            ->get('doctrine')
+            ->getManager('test');
+        $this->uploadProjects = $kernel->getContainer()->get(Upload\Projects::class);
+    }
+
+    public function tearDown()
+    {
+        parent::tearDown();
+
+        $this->em->close();
+        $this->em = null; // avoid memory leaks
+    }
+
+
+    public function testUploadEmptyFile()
+    {
+        $user = new FennecUser();
+        $user->setUsername('UploadProjectTestUser');
+        $user->setEmail('UploadProjectTestUser@test.de');
         $_FILES = array(
             array(
                 'name' => 'empty',
@@ -30,13 +52,9 @@ class ProjectsTest extends WebserviceTestCase
                 'error' => 0
             )
         );
-
-        $results = $service->execute(
-            new ParameterBag(array('dbversion' => $default_db)),
-            $this->user
-        );
+        $results = $this->uploadProjects->execute($user);
         $expected = array(
-            "files"=>array(
+            "files" => array(
                 array(
                     "name" => "empty",
                     "size" => 0,
@@ -45,8 +63,16 @@ class ProjectsTest extends WebserviceTestCase
             )
         );
         $this->assertEquals($expected, $results);
+    }
 
-        // Test for error returned by non json file
+    /**
+     * @depends testUploadEmptyFile
+     */
+    public function testUploadNoJSON()
+    {
+        $user = new FennecUser();
+        $user->setUsername('UploadProjectTestUser');
+        $user->setEmail('UploadProjectTestUser@test.de');
         $_FILES = array(
             array(
                 'name' => 'noJson',
@@ -56,12 +82,9 @@ class ProjectsTest extends WebserviceTestCase
                 'error' => 0
             )
         );
-        $results = $service->execute(
-            new ParameterBag(array('dbversion' => $default_db)),
-            $this->user
-        );
+        $results = $this->uploadProjects->execute($user);
         $expected = array(
-            "files"=>array(
+            "files" => array(
                 array(
                     "name" => "noJson",
                     "size" => 71,
@@ -70,8 +93,13 @@ class ProjectsTest extends WebserviceTestCase
             )
         );
         $this->assertEquals($expected, $results);
+    }
 
-        // Test for error returned by non biom json file
+    public function testUploadNoBIOM()
+    {
+        $user = new FennecUser();
+        $user->setUsername('UploadProjectTestUser');
+        $user->setEmail('UploadProjectTestUser@test.de');
         $_FILES = array(
             array(
                 'name' => 'noBiom.json',
@@ -81,12 +109,9 @@ class ProjectsTest extends WebserviceTestCase
                 'error' => 0
             )
         );
-        $results = $service->execute(
-            new ParameterBag(array('dbversion' => $default_db)),
-            $this->user
-        );
+        $results = $this->uploadProjects->execute($user);
         $expected = array(
-            "files"=>array(
+            "files" => array(
                 array(
                     "name" => "noBiom.json",
                     "size" => 71,
@@ -95,8 +120,13 @@ class ProjectsTest extends WebserviceTestCase
             )
         );
         $this->assertEquals($expected, $results);
+    }
 
-        // Test for success returned by simple biom file
+    public function testUploadBiom()
+    {
+        $user = new FennecUser();
+        $user->setUsername('UploadBiomTestUser');
+        $user->setEmail('UploadBiomTestUser@test.de');
         $_FILES = array(
             array(
                 'name' => 'simpleBiom.json',
@@ -106,33 +136,16 @@ class ProjectsTest extends WebserviceTestCase
                 'error' => 0
             )
         );
-        $results = $service->execute(
-            new ParameterBag(array('dbversion' => $default_db)),
-            $this->user
-        );
-        $expected = array("files"=>array(array("name" => "simpleBiom.json", "size" => 1067, "error" => null)));
+        $results = $this->uploadProjects->execute($user);
+        $expected = array("files" => array(array("name" => "simpleBiom.json", "size" => 1067, "error" => null)));
         $this->assertEquals($expected, $results);
-        $jsonContent = file_get_contents($_FILES[0]['tmp_name']);
-        $db = $this->container->get('app.orm')->getManagerForVersion($default_db)->getConnection();
-        $constant = 'constant';
-        $query_get_project_from_db = <<<EOF
-SELECT project, import_filename
-    FROM webuser_data WHERE webuser_id =
-        (SELECT webuser_id FROM webuser WHERE oauth_provider_id =
-            (SELECT oauth_provider_id FROM oauth_provider
-                WHERE provider = '{$constant('Tests\AppBundle\API\Upload\ProjectsTest::PROVIDER')}'
-            )
-            AND oauth_id = '{$constant('Tests\AppBundle\API\Upload\ProjectsTest::USERID')}'
-        )
-        AND project::jsonb = '{$jsonContent}'::jsonb
-EOF;
-        $stm_get_project_from_db = $db->prepare($query_get_project_from_db);
-        $stm_get_project_from_db->execute();
-        $this->assertEquals(1, $stm_get_project_from_db->rowCount());
-        $result = $stm_get_project_from_db->fetch(\PDO::FETCH_ASSOC);
-        $this->assertEquals('simpleBiom.json', $result['import_filename']);
+    }
 
-        // Test for success returned by simple biom file in hdf5 format
+    public function testUploadSimpleBiomInHdf5()
+    {
+        $user = new FennecUser();
+        $user->setUsername('UploadHdf5TestUser');
+        $user->setEmail('UploadHdf5TestUser@test.de');
         copy(__DIR__ . '/testFiles/simpleBiom.hdf5', __DIR__ . '/testFiles/simpleBiom.hdf5.backup');
         $_FILES = array(
             array(
@@ -143,15 +156,16 @@ EOF;
                 'error' => 0
             )
         );
-        $results = $service->execute(
-            new ParameterBag(array('dbversion' => $default_db)),
-            $this->user
-        );
-        $expected = array("files"=>array(array("name" => "simpleBiom.hdf5", "size" => 33840, "error" => null)));
+        $results = $this->uploadProjects->execute($user);
+        $expected = array("files" => array(array("name" => "simpleBiom.hdf5", "size" => 33840, "error" => null)));
         $this->assertEquals($expected, $results);
         rename(__DIR__ . '/testFiles/simpleBiom.hdf5.backup', __DIR__ . '/testFiles/simpleBiom.hdf5');
+    }
 
-        // Test for success returned by plain otu table file
+    public function testUploadOtuTable(){
+        $user = new FennecUser();
+        $user->setUsername('UploadOTUTestUser');
+        $user->setEmail('UploadOTUTestUser@test.de');
         copy(__DIR__ . '/testFiles/otuTable.tsv', __DIR__ . '/testFiles/otuTable.tsv.backup');
         $_FILES = array(
             array(
@@ -162,10 +176,7 @@ EOF;
                 'error' => 0
             )
         );
-        $results = $service->execute(
-            new ParameterBag(array('dbversion' => $default_db)),
-            $this->user
-        );
+        $results = $this->uploadProjects->execute($user);
         $expected = array("files"=>array(array("name" => "otuTable.tsv", "size" => 67, "error" => null)));
         $this->assertEquals($expected, $results);
         rename(__DIR__ . '/testFiles/otuTable.tsv.backup', __DIR__ . '/testFiles/otuTable.tsv');

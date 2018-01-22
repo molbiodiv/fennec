@@ -8,30 +8,26 @@ let biom
 
 $('document').ready(async () => {
     biom = await biomPromise
+    console.log(biom)
     getAndShowTraits('#trait-table', 'rows');
     getAndShowTraits('#trait-table-sample', 'columns');
 
     function getAndShowTraits(id, dimension){
-        var webserviceUrl = Routing.generate('api', {'namespace': 'details', 'classname': 'traitsOfOrganisms'});
         // Extract row fennec_ids from biom
         var fennec_ids = biom.getMetadata({dimension: dimension, attribute: ['fennec', dbversion, 'fennec_id']})
             .filter( element => element !== null );
-
         // Get traits for rows
+        var webserviceUrl = Routing.generate('api_details_traits_of_organisms', {'fennecIds': fennec_ids, 'dbversion': dbversion});
         $.ajax(webserviceUrl, {
-            data: {
-                "dbversion": dbversion,
-                "fennec_ids": fennec_ids
-            },
             method: "POST",
             success: function (data) {
                 let traits = [];
                 $.each(data, function (key, value) {
                     var thisTrait = {
                         id: key,
-                        trait: value['trait_type'],
-                        count: value['trait_entry_ids'].length,
-                        range: 100 * value['fennec_ids'].length / fennec_ids.length
+                        trait: value['traitType'],
+                        count: value['traitEntryIds'].length,
+                        range: 100 * value['fennec'].length / fennec_ids.length
                     };
                     traits.push(thisTrait);
                 });
@@ -105,14 +101,7 @@ $('document').ready(async () => {
 
 function addTraitToProjectTableAction(traitTypeId, dimension){
     $.ajax({
-            url: Routing.generate('api', {'namespace': 'details', 'classname': 'TraitOfProject'}),
-            data: {
-                "dbversion": dbversion,
-                "internal_project_id": internalProjectId,
-                "trait_type_id": traitTypeId,
-                "include_citations": true,
-                "dimension": dimension
-            },
+            url: Routing.generate('api_details_trait_of_project', {'projectId': internalProjectId, 'traitTypeId': traitTypeId, 'includeCitations': true, 'dimension': dimension, 'dbversion': dbversion}),
             method: "POST",
             success: function (data) {
                 var traitValues;

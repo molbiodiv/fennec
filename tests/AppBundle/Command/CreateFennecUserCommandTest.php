@@ -2,33 +2,37 @@
 
 namespace Tests\AppBundle\Command;
 
-use AppBundle\Command\CreateWebuserCommand;
+use AppBundle\Command\CreateUserCommand;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
-class CreateWebuserCommandTest extends KernelTestCase
+class CreateFennecUserCommandTest extends KernelTestCase
 {
+    const NICKNAME = 'CreateTestUser';
+    const USERID = 'CreateTestUser';
+
     public function testExecute()
     {
         self::bootKernel();
 
-        $em = self::$kernel->getContainer()->get('app.orm')->getDefaultManager();
-        $testUser = $em->getRepository('AppBundle:Webuser')->findOneBy(array(
-            'oauthId' => 'TestWebuserCreate'
+        $em = self::$kernel->getContainer()->get('doctrine')->getManager('test');
+        $testUser = $em->getRepository('AppBundle:FennecUser')->findOneBy(array(
+            'username' => CreateFennecUserCommandTest::NICKNAME
         ));
         $this->assertNull($testUser, 'Before creation the "TestWebuserCreate" user does not exist.');
 
         $application = new Application(self::$kernel);
 
-        $application->add(new CreateWebuserCommand());
+        $application->add(new CreateUserCommand());
 
-        $command = $application->find('app:create-webuser');
+        $command = $application->find('app:create-user');
         $commandTester = new CommandTester($command);
         $args = array(
             'command'  => $command->getName(),
-            '--oauth_provider' => 'TestWebuserCreateProvider',
-            'oauth_id' => 'TestWebuserCreate',
+            'username' => 'CreateTestUser',
+            'email' => 'CreateTestUser@test.de',
+            'password' => 'password'
         );
         $commandTester->execute($args);
 
@@ -36,14 +40,14 @@ class CreateWebuserCommandTest extends KernelTestCase
         $output = $commandTester->getDisplay();
         $this->assertContains('Webuser successfully created', $output);
 
-        $testUser = $em->getRepository('AppBundle:Webuser')->findOneBy(array(
-            'oauthId' => 'TestWebuserCreate'
+        $testUser = $em->getRepository('AppBundle:FennecUser')->findOneBy(array(
+            'username' => CreateFennecUserCommandTest::NICKNAME
         ));
         $this->assertNotNull($testUser, 'After creation the "TestWebuserCreate" user does exist.');
-        $this->assertEquals('TestWebuserCreateProvider', $testUser->getOauthProvider()->getProvider());
+        $this->assertEquals('CreateTestUser', $testUser->getUsername());
 
         $commandTester->execute($args);
         $output = $commandTester->getDisplay();
-        $this->assertContains('Webuser already exists, nothing to do.', $output);
+        $this->assertContains('User already exists, nothing to do.', $output);
     }
 }

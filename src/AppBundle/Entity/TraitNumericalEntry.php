@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * TraitNumericalEntry
  *
  * @ORM\Table(name="trait_numerical_entry", indexes={@ORM\Index(columns={"fennec_id"}), @ORM\Index(columns={"trait_citation_id"}), @ORM\Index(columns={"trait_type_id"}), @ORM\Index(columns={"webuser_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\TraitNumericalEntryRepository")
  */
 class TraitNumericalEntry
 {
@@ -93,11 +93,11 @@ class TraitNumericalEntry
     private $traitType;
 
     /**
-     * @var \AppBundle\Entity\Webuser
+     * @var \AppBundle\Entity\FennecUser
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Webuser")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\FennecUser")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="webuser_id", referencedColumnName="webuser_id", nullable=false)
+     *   @ORM\JoinColumn(name="webuser_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $webuser;
@@ -286,11 +286,11 @@ class TraitNumericalEntry
     /**
      * Set webuser.
      *
-     * @param \AppBundle\Entity\Webuser|null $webuser
+     * @param \AppBundle\Entity\FennecUser|null $webuser
      *
      * @return TraitNumericalEntry
      */
-    public function setWebuser(\AppBundle\Entity\Webuser $webuser = null)
+    public function setWebuser(\AppBundle\Entity\FennecUser $webuser = null)
     {
         $this->webuser = $webuser;
 
@@ -300,7 +300,7 @@ class TraitNumericalEntry
     /**
      * Get webuser.
      *
-     * @return \AppBundle\Entity\Webuser|null
+     * @return \AppBundle\Entity\FennecUser|null
      */
     public function getWebuser()
     {

@@ -4,17 +4,36 @@ namespace Tests\AppBundle\API\Listing;
 
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Tests\AppBundle\API\WebserviceTestCase;
+use AppBundle\API\Listing;
 
 class TaxonomyTest extends WebserviceTestCase
 {
+    private $em;
+    private $listingTaxonomy;
 
-    public function testExecute()
+    public function setUp()
     {
-        $default_db = $this->default_db;
-        $user = null;
-        $organisms = $this->webservice->factory('listing', 'taxonomy');
-        $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'id' => '1234'));
-        $results = $organisms->execute($parameterBag, $user);
+        $kernel = self::bootKernel();
+
+        $this->em = $kernel->getContainer()
+            ->get('doctrine')
+            ->getManager('test');
+        $this->listingTaxonomy = $kernel->getContainer()->get(Listing\Taxonomy::class);
+
+    }
+
+    public function tearDown()
+    {
+        parent::tearDown();
+
+        $this->em->close();
+        $this->em = null; // avoid memory leaks
+    }
+
+    public function testNCBITaxonomy()
+    {
+        $fennecId = '1234';
+        $results = $this->listingTaxonomy->execute($fennecId);
         $expected = array(
             "ncbi_taxonomy" => array(
                 "Viridiplantae",
@@ -29,10 +48,22 @@ class TaxonomyTest extends WebserviceTestCase
                 "Ceratophyllales",
                 "Ceratophyllaceae",
                 "Ceratophyllum"
+            ),
+            "iucn_redlist" => array(
+                "Plantae",
+                "Tracheophyta",
+                "Magnoliidae",
+                "Nymphaeales",
+                "Ceratophyllaceae",
+                "Ceratophyllum"
             )
         );
-        $parameterBag = new ParameterBag(array('dbversion' => $default_db, 'id' => '3720'));
-        $results = $organisms->execute($parameterBag, $user);
+        $this->assertEquals($expected, $results);
+    }
+
+    public function testNCBIAndEOLTaxonomay(){
+        $fennecId = '3720';
+        $results = $this->listingTaxonomy->execute($fennecId);
         $expected = array(
             "ncbi_taxonomy" => array(
                 "Viridiplantae",

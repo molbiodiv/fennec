@@ -3,7 +3,8 @@
 namespace AppBundle\API\Details;
 
 use AppBundle\API\Webservice;
-use AppBundle\User\FennecUser;
+use AppBundle\Entity\FennecUser;
+use AppBundle\Service\DBVersion;
 use \PDO as PDO;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
@@ -11,9 +12,22 @@ use Symfony\Component\HttpFoundation\ParameterBag;
  * Web Service.
  * Returns all fennec_ids of a project
  */
-class OrganismsOfProject extends Webservice
+class OrganismsOfProject
 {
     const ERROR_PROJECT_NOT_FOUND = 'Error: Project not found.';
+    const ERROR_NOT_LOGGED_IN = 'Error: User not logged in.';
+
+    private $manager;
+
+    /**
+     * OrganismsOfProject constructor.
+     * @param $dbversion
+     */
+    public function __construct(DBVersion $dbversion)
+    {
+        $this->manager = $dbversion->getEntityManager();
+    }
+
 
     /**
      * @inheritdoc
@@ -22,33 +36,20 @@ class OrganismsOfProject extends Webservice
      * array('fennec_id_1', 'fennec_id_2');
      * </code>
      */
-    public function execute(ParameterBag $query, FennecUser $user = null)
+    public function execute($projectId, $dimension, $user, $dbversion)
     {
-        $manager = $this->getManagerFromQuery($query);
-        $dbversion = $query->get('dbversion');
         $result = array();
         if ($user === null) {
-            $result['error'] = Webservice::ERROR_NOT_LOGGED_IN;
+            $result['error'] = OrganismsOfProject::ERROR_NOT_LOGGED_IN;
         } else {
-            $provider = $manager->getRepository('AppBundle:OauthProvider')->findOneBy(array(
-                'provider' => $user->getProvider()
-            ));
-            $user = $manager->getRepository('AppBundle:Webuser')->findOneBy(array(
-                'oauthId' => $user->getId(),
-                'oauthProvider' => $provider
-            ));
-            $project = $manager->getRepository('AppBundle:WebuserData')->findOneBy(array(
+            $project = $this->manager->getRepository('AppBundle:WebuserData')->findOneBy(array(
                 'webuser' => $user,
-                'webuserDataId' => $query->get('internal_project_id')
+                'webuserDataId' => $projectId
             ));
 
             if($project === null){
                 $result['error'] = OrganismsOfProject::ERROR_PROJECT_NOT_FOUND;
             } else {
-                $dimension = 'rows';
-                if($query->has('dimension') && $query->get('dimension') == 'columns'){
-                    $dimension = 'columns';
-                }
                 $entries = $project->getProject()[$dimension];
                 $fennec_ids = array();
                 foreach ($entries as $entry){
