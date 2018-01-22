@@ -39,6 +39,14 @@ class Permissions
     }
 
     /**
+     * @param FennecUser $webuser
+     */
+    public function setWebuser($webuser)
+    {
+        $this->webuser = $webuser;
+    }
+
+    /**
      * @return mixed
      */
     public function getPermission()
