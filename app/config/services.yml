@@ -35,3 +35,5 @@ services:
         # Change the class according to the location of the FOSUBUserProvider class
         class: AppBundle\Security\Core\User\FOSUBUserProvider
         arguments: ['@fos_user.user_manager.default', {github: github_id}]
+    AppBundle\Security\Voter\ProjectVoter:
+        tags: [{name: security.voter}]
