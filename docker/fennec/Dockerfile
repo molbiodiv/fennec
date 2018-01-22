@@ -19,8 +19,8 @@ RUN cd /fennec; composer install
 
 RUN npm install -g coffeescript@1.12.7
 RUN cd /fennec; yarn install
-# RUN cd /fennec; ./node_modules/.bin/encore production
-RUN cd /fennec; ./node_modules/.bin/encore dev
+RUN cd /fennec; ./node_modules/.bin/encore production
+# RUN cd /fennec; ./node_modules/.bin/encore dev
 RUN cd /fennec/web/assets/Phinch; coffee -o scripts src
 
 RUN rm -rf /var/www/html && ln -fs /fennec/web /var/www/html

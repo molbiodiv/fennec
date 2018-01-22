@@ -6,7 +6,7 @@ $('document').ready(function(){
     let txt_template = '<div class="panel panel-default"><div class="panel-heading"><h3 class="panel-title"><%= title %></h3><a href="<%= href %>"><%= rights %> <%= license %></a></div><div class="panel-body"><%= body %></div></div>';
     $.ajax({
         method: "GET",
-        url: "http://eol.org/api/pages/1.0.json",
+        url: "https://eol.org/api/pages/1.0.json",
         data: {
             id: eol_id,
             batch: false,
