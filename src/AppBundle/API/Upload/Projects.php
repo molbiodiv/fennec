@@ -5,6 +5,7 @@ namespace AppBundle\API\Upload;
 use AppBundle\Entity\WebuserData;
 use AppBundle\Entity\FennecUser;
 use AppBundle\Service\DBVersion;
+use AppBundle\Entity\Permissions;
 use biomcs\BiomCS;
 
 /**
@@ -64,6 +65,11 @@ class Projects
                     $project->setWebuser($user);
                     $project->setImportFilename($_FILES[$i]['name']);
                     $this->manager->persist($project);
+                    $permission = new Permissions();
+                    $permission->setWebuser($user);
+                    $permission->setWebuserData($project);
+                    $permission->setPermission('owner');
+                    $this->manager->persist($permission);
                 }
                 $file = array(
                     "name" => $_FILES[$i]['name'],
