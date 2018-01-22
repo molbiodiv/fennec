@@ -12,6 +12,23 @@ use Doctrine\ORM\Mapping as ORM;
 class Permissions
 {
     /**
+     * @var int
+     *
+     * @ORM\Column(name="permission_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $permissionId;
+
+    /**
+     * @return int
+     */
+    public function getPermissionId()
+    {
+        return $this->permissionId;
+    }
+
+    /**
      * @var \AppBundle\Entity\FennecUser
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\FennecUser")
