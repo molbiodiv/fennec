@@ -32,7 +32,7 @@ class Permissions
      * @var \AppBundle\Entity\FennecUser
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\FennecUser")
-     * @ORM\JoinColumn(name="webuser_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="id", referencedColumnName="id", nullable=false)
      */
     private $webuser;
 
@@ -43,9 +43,9 @@ class Permissions
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\WebuserData")
-     * @ORM\JoinColumn(name="webuser_data_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="webuser_data_id", referencedColumnName="webuser_data_id", nullable=false)
      */
-    private $webuserDataId;
+    private $webuserData;
 
     /**
      * @return FennecUser
