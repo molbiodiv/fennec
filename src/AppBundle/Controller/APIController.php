@@ -56,6 +56,9 @@ class APIController extends Controller
         $projects = $this->container->get(Listing\Projects::class);
         $user = $this->getFennecUser();
         $result = $projects->execute($user);
+        for($i=0;sizeof($result);$i++){
+            $this->denyAccessUnlessGranted($result[$i]['permission'], $result[$i]);
+        }
         return $this->createResponse($result);
     }
 
