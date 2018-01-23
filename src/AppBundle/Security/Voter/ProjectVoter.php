@@ -67,7 +67,7 @@ class ProjectVoter extends Voter
     private function canView(WebuserData $project, FennecUser $user)
     {
         // if they can edit, they can view
-        if ($this->canEdit($project, $user)) {
+        if ($this->canEdit($project)) {
             return true;
         }
 
@@ -76,10 +76,10 @@ class ProjectVoter extends Voter
         return !$project->isPrivate();
     }
 
-    private function canEdit(WebuserData $project, $user)
+    private function canEdit(WebuserData $project)
     {
         // this assumes that the data object has a getOwner() method
         // to get the entity of the user who owns this data object
-        return $user === $project->getWebuser();
+        return 'edit' === $project->getPermissions();
     }
 }
