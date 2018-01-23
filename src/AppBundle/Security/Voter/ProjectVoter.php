@@ -16,7 +16,6 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class ProjectVoter extends Voter
 {
-    // these strings are just invented: you can use anything
     const VIEW = 'view';
     const EDIT = 'edit';
     const OWNER = 'owner';
@@ -42,15 +41,11 @@ class ProjectVoter extends Voter
         $user = $token->getUser();
 
         if (!$user instanceof FennecUser) {
-            // the user must be logged in; if not, deny access
             return false;
         }
 
-        // you know $subject is a Post object, thanks to supports
-        /** @var WebuserData $post */
         $project = $this->manager->getRepository('AppBundle:WebuserData')->findOneBy(array(
-            'webuserDataId' => $projectId,
-            'webuser' => $user->getId()
+            'webuserDataId' => $projectId
         ));
 
         switch ($attribute) {
