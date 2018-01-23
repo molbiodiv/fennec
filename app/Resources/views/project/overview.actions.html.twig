@@ -22,7 +22,7 @@
                     targets: 0,
                     render: function (data, type, full, meta) {
                         console.log(full);
-                        var href = Routing.generate('project_details', {'dbversion': '{{ dbversion}}', 'project_id': full.internal_project_id});
+                        var href = Routing.generate('project_details', {'dbversion': '{{ dbversion}}', 'project_id': full.internal_project_id, 'attribute': full.permissionStatus});
                         return '<a href="'+href+'">'+full.id+'</a>';
                     }
                 },
