@@ -11,6 +11,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\FennecUser;
 use AppBundle\API\Details;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -39,6 +40,7 @@ class ProjectController extends Controller
      * @param $dbversion string
      * @param $project_id string
      * @return Response
+     * @Security("is_granted('edit', project_id)")
      * @Route("/project/details/{project_id}", name="project_details", options={"expose" = true})
      */
     public function detailsAction($dbversion, $project_id){
