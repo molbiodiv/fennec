@@ -39,7 +39,7 @@ class WebuserData
      * @ORM\Column(name="webuser_data_id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @ORM\SequenceGenerator(sequenceName="webuser_data_webuser_data_id_seq", allocationSize=1, initialValue=1)
+     * @ORM\SequenceGenerator(sequenceName="webuser_data_id_seq", allocationSize=1, initialValue=1)
      */
     private $webuserDataId;
 
@@ -50,6 +50,15 @@ class WebuserData
      * @ORM\JoinColumn(name="webuser_id", referencedColumnName="id", nullable=false)
      */
     private $webuser;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Permissions")
+     * @ORM\JoinTable(name="webuser_data_permissions",
+     *      joinColumns={@ORM\JoinColumn(name="webuser_data_id", referencedColumnName="webuser_data_id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="permission_id", referencedColumnName="permission_id")}
+     * )
+     */
+    protected $permissions;
 
     public function __construct()
     {

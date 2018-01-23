@@ -55,14 +55,15 @@ class FennecUser extends BaseUser
      */
     private $lastName;
 
-
     /**
-     * @var \AppBundle\Entity\WebuserData
-     *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\WebuserData", mappedBy="webuser")
-     * @deprecated
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Permissions")
+     * @ORM\JoinTable(name="user_permissions",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="permission_id", referencedColumnName="permission_id")}
+     * )
      */
-    private $data;
+    protected $permissions;
+
 
     /**
      * @return mixed
