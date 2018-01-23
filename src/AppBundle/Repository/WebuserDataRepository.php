@@ -26,7 +26,7 @@ class WebuserDataRepository extends EntityRepository
         $qb->select('IDENTITY(data.webuser) AS webuserId', 'p.permission', 'data.webuserDataId', 'data.importDate', 'data.importFilename', 'data.project')
             ->from('AppBundle\Entity\Permissions', 'p')
             ->innerJoin('AppBundle\Entity\WebuserData', 'data', 'WITH', 'p.webuserData = data.webuserDataId')
-            ->where('data.webuser = :userId')
+            ->where('p.webuser = :userId')
             ->setParameter('userId', $userId);
         $query = $qb->getQuery();
         return $query->getResult();
