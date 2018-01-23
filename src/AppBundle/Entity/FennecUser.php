@@ -100,43 +100,4 @@ class FennecUser extends BaseUser
     {
         return $this->id;
     }
-
-    /**
-     * Add datum.
-     *
-     * @param \AppBundle\Entity\WebuserData $data
-     *
-     * @return FennecUser
-     * @deprecated
-     */
-    public function addData(\AppBundle\Entity\WebuserData $data)
-    {
-        $this->data[] = $data;
-
-        return $this;
-    }
-
-    /**
-     * Remove datum.
-     *
-     * @param \AppBundle\Entity\WebuserData $data
-     *
-     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
-     * @deprecated
-     */
-    public function removeData(\AppBundle\Entity\WebuserData $data)
-    {
-        return $this->data->removeElement($data);
-    }
-
-    /**
-     * Get data.
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     * @deprecated
-     */
-    public function getData()
-    {
-        return $this->data;
-    }
 }
