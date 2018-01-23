@@ -62,20 +62,29 @@ class ProjectVoter extends Voter
 
     private function canView(WebuserData $project, FennecUser $user)
     {
-        // if they can edit, they can view
-        if ($this->canEdit($project)) {
+        if ($this->canEdit($project, $user)) {
             return true;
         }
-
-        // the Post object could have, for example, a method isPrivate()
-        // that checks a boolean $private property
-        return !$project->isPrivate();
+        return 'view' === $this->getPermission($project, $user);
     }
 
-    private function canEdit(WebuserData $project)
+    private function canEdit(WebuserData $project, FennecUser $user)
     {
-        // this assumes that the data object has a getOwner() method
-        // to get the entity of the user who owns this data object
-        return 'edit' === $project->getPermissions();
+        if($this->isOwner($project, $user)){
+            return true;
+        }
+        return 'edit' === $this->getPermission($project, $user);
+    }
+
+    private function isOwner(WebuserData $project, FennecUser $user){
+        return $user === $project->getWebuser();
+    }
+
+    private function getPermission(WebuserData $project, FennecUser $user){
+        $permission = $this->manager->getRepository('AppBundle:Permissions')->findOneBy(array(
+            'webuserData' => $project->getWebuserDataId(),
+            'webuser' => $user->getId()
+        ));
+        return $permission->getPermission();
     }
 }
