@@ -60,6 +60,22 @@ class WebuserData
      */
     protected $permissions;
 
+    /**
+     * @param mixed $permissions
+     */
+    public function setPermissions($permissions)
+    {
+        $this->permissions = $permissions;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPermissions()
+    {
+        return $this->permissions;
+    }
+
     public function __construct()
     {
         $this->setImportDate(new \DateTime());
