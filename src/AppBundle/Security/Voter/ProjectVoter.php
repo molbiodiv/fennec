@@ -53,6 +53,8 @@ class ProjectVoter extends Voter
              return $this->canView($project, $user);
             case self::EDIT:
                 return $this->canEdit($project, $user);
+            case self::OWNER:
+                return $this->isOwner($project, $user);
         }
 
         throw new \LogicException('This code should not be reached!');
