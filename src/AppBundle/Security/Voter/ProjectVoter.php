@@ -38,7 +38,7 @@ class ProjectVoter extends Voter
         return true;
     }
 
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
+    protected function voteOnAttribute($attribute, $projectId, TokenInterface $token)
     {
         $user = $token->getUser();
 
@@ -49,34 +49,34 @@ class ProjectVoter extends Voter
 
         // you know $subject is a Post object, thanks to supports
         /** @var WebuserData $post */
-        $post = $subject;
+        $project = $this->manager->getRepository('AppBundle:WebuserData')->getDataForUserByProjectId($projectId, $user->getId());
 
         switch ($attribute) {
             case self::VIEW:
-                return $this->canView($post, $user);
+             return $this->canView($project, $user);
             case self::EDIT:
-                return $this->canEdit($post, $user);
+                return $this->canEdit($project, $user);
         }
 
         throw new \LogicException('This code should not be reached!');
     }
 
-    private function canView(WebuserData $post, FennecUser $user)
+    private function canView(WebuserData $project, FennecUser $user)
     {
         // if they can edit, they can view
-        if ($this->canEdit($post, $user)) {
+        if ($this->canEdit($project, $user)) {
             return true;
         }
 
         // the Post object could have, for example, a method isPrivate()
         // that checks a boolean $private property
-        return !$post->isPrivate();
+        return !$project->isPrivate();
     }
 
-    private function canEdit($post, $user)
+    private function canEdit(WebuserData $project, $user)
     {
         // this assumes that the data object has a getOwner() method
         // to get the entity of the user who owns this data object
-        return $user === $post[''];
+        return $user === $project->getWebuser();
     }
 }
