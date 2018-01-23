@@ -59,7 +59,8 @@ class ProjectController extends Controller
                 'type' => 'project',
                 'title' => 'Projects',
                 'project' => $projectResult,
-                'internal_project_id' => $project_id
+                'internal_project_id' => $project_id,
+                'attribute' => $attribute
             ]
         );
     }
