@@ -11,11 +11,12 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\FennecUser;
 use AppBundle\API\Details;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 
 class ProjectController extends Controller
 {
@@ -39,11 +40,15 @@ class ProjectController extends Controller
     /**
      * @param $dbversion string
      * @param $project_id string
+     * @param Request $request
      * @return Response
-     * @Security("is_granted('edit', project_id)")
      * @Route("/project/details/{project_id}", name="project_details", options={"expose" = true})
      */
-    public function detailsAction($dbversion, $project_id){
+    public function detailsAction($dbversion, $project_id, Request $request){
+        $attribute = $request->query->get('attribute');
+        if(!$this->get('security.authorization_checker')->isGranted($attribute, $project_id)){
+            throw new AccessDeniedHttpException();
+        }
         $projectDetails = $this->container->get(Details\Projects::class);
         $user = $this->getFennecUser();
         $projectResult = $projectDetails->execute($project_id, $user);
