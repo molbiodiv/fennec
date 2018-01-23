@@ -47,7 +47,7 @@ class Projects
                 $result['error'] = Projects::PROJECT_NOT_FOUND_FOR_USER;
             }
             $userId = $user->getId();
-            $userData = $this->manager->getRepository(WebuserData::class)->getDataForUserByProjectId($project_id, $userId);
+            $userData = $this->manager->getRepository(WebuserData::class)->getDataByProjectId($project_id);
             if (count($userData) < 1) {
                 $result['error'] = Projects::PROJECT_NOT_FOUND_FOR_USER;
             }

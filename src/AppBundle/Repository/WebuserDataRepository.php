@@ -32,13 +32,11 @@ class WebuserDataRepository extends EntityRepository
         return $query->getResult();
     }
 
-    public function getDataForUserByProjectId($projectId, $userId) {
+    public function getDataByProjectId($projectId) {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('IDENTITY(data.webuser) AS webuserId', 'data.webuserDataId', 'data.importDate', 'data.importFilename', 'data.project')
             ->from('AppBundle\Entity\WebuserData', 'data')
-            ->where('data.webuser = :userId')
-            ->andWhere('data.webuserDataId = :projectId')
-            ->setParameter('userId', $userId)
+            ->where('data.webuserDataId = :projectId')
             ->setParameter('projectId', $projectId);
         $query = $qb->getQuery();
         return $query->getResult();
