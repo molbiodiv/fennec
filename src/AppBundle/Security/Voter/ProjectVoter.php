@@ -30,8 +30,7 @@ class ProjectVoter extends Voter
 
     protected function supports($attribute, $projectId)
     {
-        // if the attribute isn't one we support, return false
-        if (!in_array($attribute, array(self::VIEW, self::EDIT))) {
+        if (!in_array($attribute, array(self::VIEW, self::EDIT, self::OWNER))) {
             return false;
         }
 
