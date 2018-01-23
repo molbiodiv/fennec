@@ -10,6 +10,7 @@ namespace AppBundle\Security\Voter;
 
 use AppBundle\Entity\WebuserData;
 use AppBundle\Entity\FennecUser;
+use AppBundle\Service\DBVersion;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
@@ -20,7 +21,14 @@ class ProjectVoter extends Voter
     const EDIT = 'edit';
     const OWNER = 'owner';
 
-    protected function supports($attribute, $subject)
+    private $manager;
+
+    public function __construct(DBVersion $dbversion)
+    {
+        $this->manager = $dbversion->getEntityManager();
+    }
+
+    protected function supports($attribute, $projectId)
     {
         // if the attribute isn't one we support, return false
         if (!in_array($attribute, array(self::VIEW, self::EDIT))) {
