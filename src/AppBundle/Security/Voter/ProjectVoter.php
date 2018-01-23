@@ -49,7 +49,10 @@ class ProjectVoter extends Voter
 
         // you know $subject is a Post object, thanks to supports
         /** @var WebuserData $post */
-        $project = $this->manager->getRepository('AppBundle:WebuserData')->getDataForUserByProjectId($projectId, $user->getId());
+        $project = $this->manager->getRepository('AppBundle:WebuserData')->findOneBy(array(
+            'webuserDataId' => $projectId,
+            'webuser' => $user->getId()
+        ));
 
         switch ($attribute) {
             case self::VIEW:
