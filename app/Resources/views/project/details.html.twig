@@ -30,7 +30,9 @@
             <li role="presentation"><a class="project-link" href="#metadataOverview" role="tab" data-toggle="tab">Metadata overview</a></li>
             <li role="presentation"><a class="project-link" href="#inspect" role="tab" data-toggle="tab" id="inspect-with-phinch-tab">Inspect with Phinch</a></li>
             <li role="presentation"><a class="project-link" href="#traits" role="tab" data-toggle="tab">Traits</a></li>
-            <li role="presentation"><a class="project-link" href="#mapping" role="tab" data-toggle="tab">Mapping</a></li>
+            {% if is_granted('edit', internal_project_id) %}
+                <li role="presentation"><a class="project-link" href="#mapping" role="tab" data-toggle="tab">Mapping</a></li>
+            {% endif %}
         </ul>
 
         <div class="tab-content">
@@ -155,6 +157,7 @@
                 </div>
             </div>
 
+        {% if is_granted('edit', internal_project_id) %}
             <!-- Mapping -->
             <div role="tabpanel" class="tab-pane" id="mapping">
                 <div class="panel panel-default">
@@ -198,6 +201,7 @@
                     </div>
                 </div>
             </div>
+        {% endif %}
         </div>
 
         <!-- Edit Dialog -->
