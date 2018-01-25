@@ -27,9 +27,11 @@
                     }
                 },
                 {
-                    "targets": -1,
-                    "data": null,
-                    "defaultContent": "<a class=\"btn fa fa-trash project-remove-button\" data-toggle=\"confirFeditation\"></a>"
+                    targets: -1,
+                    data: null,
+                    render: function(data, type, full, meta){
+                        return "<a class=\"btn fa fa-trash project-remove-button\" data-toggle=\"confirFeditation\"></a>{% if is_granted('owner', 35) %}<a class=\"btn fa fa-share-alt project-share-button\" data-toggle=\"confirFeditation\"></a>{% endif %}"
+                    }
                 }
             ],
             drawCallback: function( settings ) {
