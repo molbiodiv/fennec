@@ -83,8 +83,11 @@
                         btnClass: 'btn-blue',
                         action: function () {
                             var name = this.$content.find('.name').val();
+                            //check ob gültige email evtl ob email existiert
+                            //check ob permission passt
+                            //webservice aufrufen der project mit einem anderen nutzer teilt
                             if(!name){
-                                $.alert('provide a valid name');
+                                $.alert('provide a valid mail');
                                 return false;
                             }
                             $.alert('Your name is ' + name);
