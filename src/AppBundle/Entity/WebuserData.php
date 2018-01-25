@@ -46,7 +46,7 @@ class WebuserData
     /**
      * @var \AppBundle\Entity\FennecUser
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\FennecUser", inversedBy="data",cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\FennecUser")
      * @ORM\JoinColumn(name="webuser_id", referencedColumnName="id", nullable=false)
      */
     private $webuser;
