@@ -2,10 +2,10 @@
 
 namespace AppBundle\API\Delete;
 
-use AppBundle\AppBundle;
 use AppBundle\Entity\WebuserData;
 use AppBundle\Entity\FennecUser;
 use AppBundle\Service\DBVersion;
+use AppBundle\Entity\Permissions;
 
 /**
  * Web Service.
@@ -44,6 +44,11 @@ class Projects
             $result['error'] = Projects::ERROR_NOT_LOGGED_IN;
         } else {
             $projects = $this->manager->getRepository(WebuserData::class)->findOneBy(array('webuser' => $user, 'webuserDataId' => $projectId));
+            $permission = $this->manager->getRepository(Permissions::class)->findOneBy(array(
+                'webuser' => $user,
+                'webuserData' => $projectId
+            ));
+            $this->manager->remove($permission);
             $this->manager->remove($projects);
             $this->manager->flush();
             $result['deletedProjects'] = 1;
