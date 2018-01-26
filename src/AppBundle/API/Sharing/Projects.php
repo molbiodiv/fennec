@@ -9,7 +9,20 @@
 namespace AppBundle\API\Sharing;
 
 
+use AppBundle\Service\DBVersion;
+
 class Projects
 {
+    private $manager;
+
+    /**
+     * Projects constructor.
+     * @param $dbversion
+     */
+    public function __construct(DBVersion $dbversion)
+    {
+        $this->manager = $dbversion->getEntityManager();
+    }
+
 
 }
