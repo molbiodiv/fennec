@@ -46,7 +46,8 @@ class Projects
             $projects = $this->manager->getRepository(WebuserData::class)->findOneBy(array('webuser' => $user, 'webuserDataId' => $projectId));
             $permission = $this->manager->getRepository(Permissions::class)->findOneBy(array(
                 'webuser' => $user,
-                'webuserData' => $projectId
+                'webuserData' => $projectId,
+                'permission' => 'owner'
             ));
             $this->manager->remove($permission);
             $this->manager->remove($projects);

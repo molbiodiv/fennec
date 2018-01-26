@@ -185,7 +185,7 @@ class TraitsTest extends WebserviceTestCase
             "citations" => [
                 "2888" => [
                     ["citation" => "Paula S, Arianoutsou M, Kazanis D, Tavsanoglu Ç, Lloret F, Buhk C, Ojeda F, Luna B, Moreno JM, Rodrigo A, Espelta JM, Palacio S, Fernández-Santos B, Fernandes PM, and Pausas JG. 2009. Fire-related traits for plant species of the Mediterranean Basin. Ecology 90:1420. http://esapubs.org/archive/ecol/E090/094/default.htm", "value" => "annual"],
-                    ["citation" => "The PLANTS Database, United States Department of Agriculture, National Resources Conservation Service. http://plants.usda.gov/", "value" => "annual"]
+                    ["citation" => "The PLANTS Database, United States Department of Agriculture, National Resources Conservation Service. http://plants.usda.gov/", "value" => "annual"],
                 ],
                 "109884" => [
                     ["citation" => "The PLANTS Database, United States Department of Agriculture, National Resources Conservation Service. http://plants.usda.gov/", "value" => "annual"]
