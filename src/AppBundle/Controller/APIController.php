@@ -10,6 +10,7 @@ use AppBundle\API\Delete;
 use AppBundle\API\Upload;
 use AppBundle\API\Mapping;
 use AppBundle\API\Edit;
+use AppBundle\API\Sharing;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -163,7 +164,9 @@ class APIController extends Controller
      * @Route("/api/sharing/projects/", name="api_sharing_projects", options={"expose"=true})
      */
     public function shareProjectAction(Request $request){
-
+        $shareProject = $this->container->get(Sharing\Projects::class);
+        $result = $shareProject->execute($request->query->get('email'), $request->query->get('projectId'), $request->query->get('action'));
+        return $this->createResponse($result);
     }
 
     private function getFennecUser(){
