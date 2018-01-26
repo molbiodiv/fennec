@@ -3,6 +3,7 @@
 namespace Tests;
 
 use AppBundle\Entity\FennecUser;
+use AppBundle\Entity\Permissions;
 use AppBundle\Entity\WebuserData;
 use Doctrine\ORM\EntityManager;
 
@@ -90,6 +91,11 @@ class SetupFixtures
         $webuserData->setWebuser($webuser);
         $webuserData->setImportDate($import_date);
         $webuserData->setImportFilename($import_filename);
+        $permission = new Permissions();
+        $permission->setPermission('owner');
+        $permission->setWebuser($webuser);
+        $permission->setWebuserData($webuserData);
+        $this->em->persist($permission);
         $this->em->persist($webuserData);
         $this->em->flush();
     }
