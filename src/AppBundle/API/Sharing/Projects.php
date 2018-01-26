@@ -11,6 +11,7 @@ namespace AppBundle\API\Sharing;
 
 use AppBundle\Entity\FennecUser;
 use AppBundle\Entity\Permissions;
+use AppBundle\Entity\WebuserData;
 use AppBundle\Service\DBVersion;
 
 class Projects
@@ -32,9 +33,12 @@ class Projects
         $user = $this->manager->getRepository(FennecUser::class)->findOneBy(array(
             'email' => $email
         ));
+        $project = $this->manager->getRepository(WebuserData::class)->findOneBy(array(
+            'webuserDataId' => $projectId
+        ));
         $permission = new Permissions();
         $permission->setWebuser($user);
-        $permission->setWebuserData($projectId);
+        $permission->setWebuserData($project);
         $permission->setPermission($action);
         $this->manager->persist($permission);
         $this->manager->flush();
