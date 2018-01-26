@@ -42,7 +42,7 @@ class Projects
         $permission->setPermission($action);
         $this->manager->persist($permission);
         $this->manager->flush();
-        $message = "The permission was setted successfully";
+        $message = "The permission '".$action."' of project ".$projectId." was granted to ".$user->getUsername()." successfully.";
         return $message;
     }
 }
