@@ -157,6 +157,15 @@ class APIController extends Controller
         return $this->createResponse($result);
     }
 
+    /**
+     * @param Request $request
+     * @return Response $response
+     * @Route("/api/sharing/projects/", name="api_sharing_projects", options={"expose"=true})
+     */
+    public function shareProjectAction(Request $request){
+
+    }
+
     private function getFennecUser(){
         $user = null;
         if($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')){
