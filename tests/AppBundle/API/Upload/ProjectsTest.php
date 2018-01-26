@@ -4,7 +4,6 @@ namespace Tests\AppBundle\API\Upload;
 
 use AppBundle\API\Upload\Projects;
 use AppBundle\Entity\FennecUser;
-use Symfony\Component\HttpFoundation\ParameterBag;
 use Tests\AppBundle\API\WebserviceTestCase;
 use AppBundle\API\Upload;
 
