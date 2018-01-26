@@ -71,18 +71,19 @@
                 }
             });
             $('.project-share-button').confirm({
+                title: false,
                 content: '' +
                 '<form action="" class="formName">' +
-                '<div class="form-group">' +
-                '<label>Enter the email address</label>' +
-                '<input type="text" placeholder="email address" class="email form-control" required />' +
-                '<input type="text" placeholder="action" class="action form-control" required />' +
+                '<div class="form-group projects">' +
+                '<label>Enter the email of the user you want to share the project with</label>' +
+                '<input style="margin-bottom: 15px;" type="text" placeholder="email address" class="email form-control" required />' +
+                '<div class="btn-group" data-toggle="buttons"><label class="btn btn-primary active"><input type="radio" name="view" id="view">view</label><label class="btn btn-primary active"><input type="radio" name="edit" id="edit">edit</label></div>' +
                 '</div>' +
                 '</form>',
                 buttons: {
                     formSubmit: {
                         text: 'Submit',
-                        btnClass: 'btn-blue',
+                        btnClass: 'btn-default',
                         action: function () {
                             var email = this.$content.find('.email').val();
                             var action = this.$content.find('.action').val();
@@ -91,9 +92,6 @@
                             });
                             var data = table.row().data();
                             var url = Routing.generate('api_sharing_projects', {'projectId': data.internal_project_id, 'dbversion': dbversion, 'email': email, 'action': action });
-                            //check ob gültige email evtl ob email existiert
-                            //check ob permission passt
-                            //webservice aufrufen der project mit einem anderen nutzer teilt
                             if(!email){
                                 $.alert('provide a valid mail');
                                 return false;
