@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\API\Listing;
@@ -157,12 +158,14 @@ class APIController extends Controller
 
     /**
      * @param Request $request
+     * @param $projectId
      * @return Response $response
-     * @Route("/api/sharing/projects/", name="api_sharing_projects", options={"expose"=true})
+     * @Security("is_granted('owner', projectId)")
+     * @Route("/api/sharing/projects/{projectId}", name="api_sharing_projects", options={"expose"=true})
      */
-    public function shareProjectAction(Request $request){
+    public function shareProjectAction($projectId, Request $request){
         $shareProject = $this->container->get(Sharing\Projects::class);
-        $result = $shareProject->execute($request->query->get('email'), $request->query->get('projectId'), $request->query->get('action'));
+        $result = $shareProject->execute($request->query->get('email'), $projectId, $request->query->get('attribute'));
         return $this->createResponse($result);
     }
 
