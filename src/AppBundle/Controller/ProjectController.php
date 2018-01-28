@@ -49,9 +49,6 @@ class ProjectController extends Controller
      * @Route("/project/details/{project_id}/{attribute}", name="project_details", options={"expose" = true})
      */
     public function detailsAction($dbversion, $project_id, $attribute){
-        if(!$this->get('security.authorization_checker')->isGranted($attribute, $project_id)){
-            throw new AccessDeniedHttpException();
-        }
         $projectDetails = $this->container->get(Details\Projects::class);
         $user = $this->getFennecUser();
         $projectResult = $projectDetails->execute($project_id, $user);
