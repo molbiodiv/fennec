@@ -70,66 +70,54 @@
                     });
                 }
             });
-            $('.project-share-button').confirm({
-                title: false,
-                content: '' +
-                '<form action="" class="formName">' +
-                '<div class="form-group projects">' +
-                '<label>Enter the email of the user you want to share the project with</label>' +
-                '<input style="margin-bottom: 15px;" type="text" placeholder="email address" class="email form-control" required />' +
-                '<div class="btn-group" data-toggle="buttons"><label class="btn btn-primary active"><input type="radio" name="view" id="view">view</label><label class="btn btn-primary active"><input type="radio" name="edit" id="edit">edit</label></div>' +
-                '</div>' +
-                '</form>',
-                buttons: {
-                    formSubmit: {
-                        text: 'Submit',
-                        btnClass: 'btn-default',
-                        action: function () {
-                            var email = this.$content.find('.email').val();
-                            var attribute = this.$content.find('.action').val();
-                            var table = $('#project-table').DataTable({
-                                retrieve: true
-                            });
-                            var data = table.row().data();
-                            var url = Routing.generate('api_sharing_projects', {'projectId': data.internal_project_id, 'dbversion': dbversion, 'email': email, 'attribute': attribute });
-                            if(!email){
-                                $.alert('provide a valid mail');
-                                return false;
-                            }
-                            $.ajax({
-                                url: url,
-                                type: 'GET',
-                                cache: false,
-                                dataType: 'json',
-                                /* jshint unused:vars */
-                                success: function(data, textStatus, jqXHR)
-                                {
-                                    showMessageDialog(data, 'alert-success');
-                                    $('#project-table').DataTable({
-                                        retrieve: true
-                                    }).ajax.reload();
-                                },
-                                error: function(jqXHR, textStatus, errorThrown)
-                                {
-                                    showMessageDialog("There was an error: "+textStatus, 'alert-danger');
+            $('.project-share-button').on("click", function(){
+                var table = $('#project-table').DataTable({
+                    retrieve: true
+                });
+                var projectId = table.row( $(this).parents('tr') ).data().internal_project_id;
+                bootbox.dialog({
+                    message: '<form action="" class="formName"><div class="form-group projects">' +
+                            '<label>Enter the email of the user you want to share the project with</label>' +
+                    '<input style="margin-bottom: 15px;" type="text" placeholder="email address" id="email" class="email form-control" required />' +
+                    '<select class="form-control" style="width: 100%" id="sharingOptions"><option value="edit" >edit</option><option value="view">view</option></select>' +
+                    '</div>' +
+                    '</form>',
+                    buttons: {
+                        submit: {
+                            label: "Share",
+                            callback: function(){
+                                var email = $('#email').val();
+                                var attribute = $('#sharingOptions').val();
+                                console.log(email, attribute);
+                                var url = Routing.generate('api_sharing_projects', {'projectId': projectId, 'dbversion': dbversion, 'email': email, 'attribute': attribute });
+                                if(!email){
+                                    $.alert('provide a valid mail');
+                                    return false;
                                 }
-                            });
+                                $.ajax({
+                                    url: url,
+                                    type: 'GET',
+                                    cache: false,
+                                    dataType: 'json',
+                                    /* jshint unused:vars */
+                                    success: function(data, textStatus, jqXHR)
+                                    {
+                                        showMessageDialog(data, 'alert-success');
+                                        $('#project-table').DataTable({
+                                            retrieve: true
+                                        }).ajax.reload();
+                                    },
+                                    error: function(jqXHR, textStatus, errorThrown)
+                                    {
+                                        showMessageDialog("There was an error: "+textStatus, 'alert-danger');
+                                    }
+                                });
+                            }
                         }
-                    },
-                    cancel: function () {
-                        //close
                     }
-                },
-                onContentReady: function () {
-                    // bind to events
-                    var jc = this;
-                    this.$content.find('form').on('submit', function (e) {
-                        // if the user submits the form by pressing enter in the field.
-                        e.preventDefault();
-                        jc.$$formSubmit.trigger('click'); // reference the button and click it
-                    });
-                }
+                });
             });
+
         }
 
         // The procedure here in is adjusted from the plugin https://github.com/Abban/jQuery-Ajax-File-Upload
@@ -189,5 +177,5 @@
                 }
             });
         }
-    })
+    });
 </script>
