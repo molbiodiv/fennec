@@ -86,12 +86,12 @@
                         btnClass: 'btn-default',
                         action: function () {
                             var email = this.$content.find('.email').val();
-                            var action = this.$content.find('.action').val();
+                            var attribute = this.$content.find('.action').val();
                             var table = $('#project-table').DataTable({
                                 retrieve: true
                             });
                             var data = table.row().data();
-                            var url = Routing.generate('api_sharing_projects', {'projectId': data.internal_project_id, 'dbversion': dbversion, 'email': email, 'action': action });
+                            var url = Routing.generate('api_sharing_projects', {'projectId': data.internal_project_id, 'dbversion': dbversion, 'email': email, 'attribute': attribute });
                             if(!email){
                                 $.alert('provide a valid mail');
                                 return false;
