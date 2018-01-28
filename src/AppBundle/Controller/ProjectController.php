@@ -11,6 +11,9 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\FennecUser;
 use AppBundle\API\Details;
+use AppBundle\Service\DBVersion;
+use phpDocumentor\Reflection\Types\String_;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -40,12 +43,12 @@ class ProjectController extends Controller
     /**
      * @param $dbversion string
      * @param $project_id string
-     * @param Request $request
+     * @param $attribute string
      * @return Response
-     * @Route("/project/details/{project_id}", name="project_details", options={"expose" = true})
+     * @Security("is_granted(attribute, project_id)")
+     * @Route("/project/details/{project_id}/{attribute}", name="project_details", options={"expose" = true})
      */
-    public function detailsAction($dbversion, $project_id, Request $request){
-        $attribute = $request->query->get('attribute');
+    public function detailsAction($dbversion, $project_id, $attribute){
         if(!$this->get('security.authorization_checker')->isGranted($attribute, $project_id)){
             throw new AccessDeniedHttpException();
         }
