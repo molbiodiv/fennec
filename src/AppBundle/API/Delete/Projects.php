@@ -43,16 +43,23 @@ class Projects
         if ($user === null) {
             $result['error'] = Projects::ERROR_NOT_LOGGED_IN;
         } else {
-            $permission = $this->manager->getRepository(Permissions::class)->findOneBy(array(
-                'webuser' => $user,
-                'webuserData' => $projectId,
-                'permission' => $attribute
-            ));
-            $this->manager->remove($permission);
             if($attribute === 'owner'){
-                $projects = $this->manager->getRepository(WebuserData::class)->findOneBy(array('webuser' => $user, 'webuserDataId' => $projectId));
-                $this->manager->remove($projects);
+                $permission = $this->manager->getRepository(Permissions::class)->findBy(array(
+                    'webuserData' => $projectId
+                ));
+                foreach ($permission as $p){
+                    $this->manager->remove($p);
+                }
+            } else {
+                $permission = $this->manager->getRepository(Permissions::class)->findOneBy(array(
+                    'webuser' => $user,
+                    'webuserData' => $projectId,
+                    'permission' => $attribute
+                ));
+                $this->manager->remove($permission);
             }
+            $projects = $this->manager->getRepository(WebuserData::class)->findOneBy(array('webuser' => $user, 'webuserDataId' => $projectId));
+            $this->manager->remove($projects);
             $this->manager->flush();
             $result['deletedProjects'] = 1;
         }
