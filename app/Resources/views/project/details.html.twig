@@ -63,11 +63,13 @@
                                         <button type="button" class="btn btn-primary" id="project-export-trait-citation-samples">tsv (trait citations samples)</button>
                                     </td>
                                 </tr>
-                                <tr><th scope="row">Edit</th>
-                                    <td id="project-overview-table-edit">
-                                        <button type="button" class="btn btn-primary" id="project-transpose">Transpose</button>
-                                    </td>
-                                </tr>
+                                {% if (is_granted('edit', internal_project_id) or  is_granted('owner', internal_project_id)) %}
+                                     <tr><th scope="row">Edit</th>
+                                        <td id="project-overview-table-edit">
+                                            <button type="button" class="btn btn-primary" id="project-transpose">Transpose</button>
+                                        </td>
+                                    </tr>
+                                {% endif %}
                             </tbody>
                         </table>
                     </div>
@@ -144,13 +146,13 @@
                         <h4>OTUs</h4>
                         <table id="trait-table" class="table trait-table trait-table-striped table-bordered" width="100%" cellspacing="0">
                             <thead>
-                            <tr><th>trait</th><th>count</th><th>range</th><th>details</th><th>in biom</th><th>add to biom</th></tr>
+                            <tr><th>trait</th><th>count</th><th>range</th><th>details</th><th>in biom</th>{% if (is_granted('edit', internal_project_id) or  is_granted('owner', internal_project_id)) %}<th>add to biom</th>{% endif %}</tr>
                             </thead>
                         </table>
                         <h4>Samples</h4>
                         <table id="trait-table-sample" class="table trait-table trait-table-striped table-bordered" width="100%" cellspacing="0">
                             <thead>
-                            <tr><th>trait</th><th>count</th><th>range</th><th>details</th><th>in biom</th><th>add to biom</th></tr>
+                            <tr><th>trait</th><th>count</th><th>range</th><th>details</th><th>in biom</th>            {% if (is_granted('edit', internal_project_id) or  is_granted('owner', internal_project_id)) %}<th>add to biom</th>{% endif %}</tr>
                             </thead>
                         </table>
                     </div>
