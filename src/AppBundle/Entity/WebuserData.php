@@ -52,11 +52,7 @@ class WebuserData
     private $webuser;
 
     /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Permissions")
-     * @ORM\JoinTable(name="webuser_data_permissions",
-     *      joinColumns={@ORM\JoinColumn(name="webuser_data_id", referencedColumnName="webuser_data_id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="permission_id", referencedColumnName="permission_id")}
-     * )
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Permissions", mappedBy="webuserData")
      */
     protected $permissions;
 
