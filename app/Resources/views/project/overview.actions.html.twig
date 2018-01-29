@@ -48,7 +48,7 @@
                         retrieve: true
                     });
                     var data = table.row( $(this).parents('tr') ).data();
-                    var url = Routing.generate('api_delete_projects', {'projectId': data.internal_project_id, 'dbversion': dbversion });
+                    var url = Routing.generate('api_delete_projects', {'projectId': data.internal_project_id, 'dbversion': dbversion, 'attribute': data.permissionStatus });
                     $.ajax({
                         url: url,
                         type: 'GET',
