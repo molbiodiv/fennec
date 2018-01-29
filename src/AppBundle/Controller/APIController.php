@@ -118,7 +118,7 @@ class APIController extends Controller
     public function editUpdateProjectAction(Request $request){
         $updateProjects = $this->container->get(Edit\UpdateProject::class);
         $user = $this->getFennecUser();
-        $result = $updateProjects->execute($request->query->get('projectId'), $request->query->get('biom'), $user);
+        $result = $updateProjects->execute($request->request->get('projectId'), $request->request->get('biom'), $user);
         return $this->createResponse($result);
     }
 
