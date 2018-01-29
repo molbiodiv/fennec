@@ -19,6 +19,7 @@ class Projects
     private $manager;
 
     const ERROR_NOT_LOGGED_IN = "Error. You are not logged in.";
+    const ERROR_PERMISSION_EXISTS = "Error. The permission for the user and the project exists.";
 
     /**
      * Projects constructor.
@@ -36,6 +37,14 @@ class Projects
         $project = $this->manager->getRepository(WebuserData::class)->findOneBy(array(
             'webuserDataId' => $projectId
         ));
+        $permission = $this->manager->getRepository(Permissions::class)->findOneBy(array(
+            'webuser' => $user->getId(),
+            'webuserData' => $projectId,
+            'permission' => $action
+        ));
+        if($permission !== null){
+            return Projects::ERROR_PERMISSION_EXISTS;
+        }
         $permission = new Permissions();
         $permission->setWebuser($user);
         $permission->setWebuserData($project);
