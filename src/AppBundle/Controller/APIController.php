@@ -14,6 +14,7 @@ use AppBundle\API\Edit;
 use AppBundle\API\Sharing;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\Email as EmailConstraint;
 
 class APIController extends Controller
 {
@@ -139,9 +140,6 @@ class APIController extends Controller
      */
     public function mappingByOrganismNameAction(Request $request){
         $mapping = $this->container->get(Mapping\ByOrganismName::class);
-//        if(!$query->has('ids') || !is_array($query->get('ids')) || count($query->get('ids')) === 0 || !$query->has('db')){
-//            return array();
-//        }
         $result = $mapping->execute($request->query->get('ids'));
         return $this->createResponse($result);
     }
@@ -165,8 +163,15 @@ class APIController extends Controller
      * @Route("/api/sharing/projects/{projectId}", name="api_sharing_projects", options={"expose"=true})
      */
     public function shareProjectAction($projectId, Request $request){
+        $email = $request->query->get('email');
+        $emailConstraint = new EmailConstraint();
+        $validator = $this->get('validator');
+        $errors = $validator->validate($email, $emailConstraint);
+        if(count($errors) > 1){
+            $this->createResponse($errors);
+        }
         $shareProject = $this->container->get(Sharing\Projects::class);
-        $result = $shareProject->execute($request->query->get('email'), $projectId, $request->query->get('attribute'));
+        $result = $shareProject->execute($email, $projectId, $request->query->get('attribute'));
         return $this->createResponse($result);
     }
 
