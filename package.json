@@ -52,6 +52,7 @@
     "mocha": "^3.5.0",
     "papaparse": "^4.3.5",
     "plotly.js": "^1.29.3",
+    "popper.js": "^1.12.9",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "startbootstrap-sb-admin-2": "^3.3.7"
