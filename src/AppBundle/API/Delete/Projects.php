@@ -50,6 +50,8 @@ class Projects
                 foreach ($permission as $p){
                     $this->manager->remove($p);
                 }
+                $projects = $this->manager->getRepository(WebuserData::class)->findOneBy(array('webuser' => $user, 'webuserDataId' => $projectId));
+                $this->manager->remove($projects);
             } else {
                 $permission = $this->manager->getRepository(Permissions::class)->findOneBy(array(
                     'webuser' => $user,
@@ -58,8 +60,6 @@ class Projects
                 ));
                 $this->manager->remove($permission);
             }
-            $projects = $this->manager->getRepository(WebuserData::class)->findOneBy(array('webuser' => $user, 'webuserDataId' => $projectId));
-            $this->manager->remove($projects);
             $this->manager->flush();
             $result['deletedProjects'] = 1;
         }
