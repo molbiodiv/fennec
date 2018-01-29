@@ -37,20 +37,22 @@ class Projects
     * array(array('project_id','import_date','OTUs','sample size'));
     * </code>
     */
-    public function execute(FennecUser $user = null, $projectId)
+    public function execute(FennecUser $user = null, $projectId, $attribute)
     {
         $result = array('deletedProjects' => 0);
         if ($user === null) {
             $result['error'] = Projects::ERROR_NOT_LOGGED_IN;
         } else {
-            $projects = $this->manager->getRepository(WebuserData::class)->findOneBy(array('webuser' => $user, 'webuserDataId' => $projectId));
             $permission = $this->manager->getRepository(Permissions::class)->findOneBy(array(
                 'webuser' => $user,
                 'webuserData' => $projectId,
-                'permission' => 'owner'
+                'permission' => $attribute
             ));
             $this->manager->remove($permission);
-            $this->manager->remove($projects);
+            if($attribute === 'owner'){
+                $projects = $this->manager->getRepository(WebuserData::class)->findOneBy(array('webuser' => $user, 'webuserDataId' => $projectId));
+                $this->manager->remove($projects);
+            }
             $this->manager->flush();
             $result['deletedProjects'] = 1;
         }
