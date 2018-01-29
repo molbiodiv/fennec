@@ -42,7 +42,7 @@ class UpdateProject
         if($project === null){
             return array('error' => 'Could not update project. Not found for user.');
         }
-        $project->setProject($biom);
+        $project->setProject(json_decode($biom));
         $this->manager->persist($project);
         $this->manager->flush();
         return array('error' => null);
