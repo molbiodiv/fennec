@@ -55,7 +55,8 @@ class ProjectsTest extends WebserviceTestCase
         $project = $this->em->getRepository(WebuserData::class)->getDataForUser($user->getId());
         $projectId = $project[0]['webuserDataId'];
         $expected = array("deletedProjects"=>1);
-        $results = $this->deleteProject->execute($user, $projectId);
+        $attribute = 'owner';
+        $results = $this->deleteProject->execute($user, $projectId, $attribute);
         $this->assertEquals($expected, $results);
     }
 
