@@ -129,7 +129,7 @@ class APIController extends Controller
      */
     public function mappingByDbxrefIdAction(Request $request){
         $mapping = $this->container->get(Mapping\ByDbxrefId::class);
-        $result = $mapping->execute($request->query->get('ids'), $request->query->get('db'));
+        $result = $mapping->execute($request->request->get('ids'), $request->request->get('db'));
         return $this->createResponse($result);
     }
 
