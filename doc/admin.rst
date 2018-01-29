@@ -405,3 +405,35 @@ Backup
 To backup the database just execute the following command (on the host, not inside of docker)::
 
     docker exec -it fennec_db pg_dump -U fennec fennec | xz >fennec.$(date +%F_%T).sql.xz
+
+Upgrade
+-------
+
+To upgrade to a new version of FENNEC please review the change log and pay special attention to any breaking changes.
+Always make a full backup of your database (see above) and all files you modified before upgrading.
+The cleanest way to upgrade (if you are using docker) is by replacing the docker container with the latest version like this::
+
+    # Backups of data files (for database see backup section above)
+    docker cp fennec_web:/fennec/app/config/parameters.yml parameters.yml
+    # If you modified your contact page
+    docker cp fennec_web:/fennec/app/Resources/views/misc/contact.html.twig contact.html.twig
+    # If you use the IUCN cron job
+    docker cp fennec_web:/iucn iucn
+
+    # pull new image
+    docker pull iimog/fennec
+    # replace old docker container with new one
+    docker stop fennec_web
+    docker rename fennec_web fennec_web_legacy
+    docker run -d -p 8889:80 --link fennec_db:db --name fennec_web iimog/fennec
+
+    # put all files back into place
+    docker cp parameters.yml fennec_web:/fennec/app/config/parameters.yml
+    # If you modified your contact page
+    docker cp contact.html.twig fennec_web:/fennec/app/Resources/views/misc/contact.html.twig
+    # If you use the IUCN cron job
+    docker cp iucn fennec_web:/iucn
+    # You also have to re-create the crontab entry (see IUCN Redlist section)
+
+    # after carefully checking that everything works
+    docker rm fennec_web_legacy
