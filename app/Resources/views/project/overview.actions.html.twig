@@ -75,10 +75,11 @@
                     retrieve: true
                 });
                 var projectId = table.row( $(this).parents('tr') ).data().internal_project_id;
+                bootbox.hideAll();
                 bootbox.dialog({
                     message: '<form action="" class="formName"><div class="form-group projects">' +
                             '<label>Enter the email of the user you want to share the project with</label>' +
-                    '<input style="margin-bottom: 15px;" type="text" placeholder="email address" id="email" class="email form-control" required />' +
+                    '<input style="margin-bottom: 15px;" type="text" placeholder="email address" id="emailAddress" class="email form-control" required />' +
                     '<select class="form-control" style="width: 100%" id="sharingOptions"><option value="edit" >edit</option><option value="view">view</option></select>' +
                     '</div>' +
                     '</form>',
@@ -86,12 +87,10 @@
                         submit: {
                             label: "Share",
                             callback: function(){
-                                var email = $('#email').val();
+                                var email = $('#emailAddress').val();
                                 var attribute = $('#sharingOptions').val();
-                                console.log(email, attribute);
                                 var url = Routing.generate('api_sharing_projects', {'projectId': projectId, 'dbversion': dbversion, 'email': email, 'attribute': attribute });
                                 if(!email){
-                                    $.alert('provide a valid mail');
                                     return false;
                                 }
                                 $.ajax({
