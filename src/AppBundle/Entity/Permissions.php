@@ -14,7 +14,7 @@ class Permissions
     /**
      * @var int
      *
-     * @ORM\Column(name="permission_id", type="integer")
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -32,7 +32,7 @@ class Permissions
      * @var \AppBundle\Entity\FennecUser
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\FennecUser", cascade={"persist"}, inversedBy="permissions")
-     * @ORM\JoinColumn(name="id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="webuser_id", referencedColumnName="id", nullable=false)
      */
     private $webuser;
 
