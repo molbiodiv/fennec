@@ -68,9 +68,10 @@ class APIController extends Controller
      */
     public function deleteProjectsAction(Request $request){
         $projectId = $request->query->get('projectId');
+        $permission = $request->query->get('attribute');
         $deleteProjects = $this->container->get(Delete\Projects::class);
         $user = $this->getFennecUser();
-        $result = $deleteProjects->execute($user, $projectId);
+        $result = $deleteProjects->execute($user, $projectId, $permission);
         return $this->createResponse($result);
     }
 
