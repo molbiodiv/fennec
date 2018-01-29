@@ -3,6 +3,7 @@
 namespace AppBundle\Repository;
 
 use AppBundle\Entity\FennecUser;
+use AppBundle\Entity\Permissions;
 use AppBundle\Entity\WebuserData;
 use Doctrine\ORM\EntityRepository;
 
@@ -18,7 +19,9 @@ class WebuserDataRepository extends EntityRepository
         if ($user === null) {
             return 0;
         }
-        return count($this->findBy(['webuser' => $user]));
+        return count($this->getEntityManager()->getRepository(Permissions::class)->findBy(array(
+            'webuser' => $user
+        )));
     }
 
     public function getDataForUser($userId) {
