@@ -28,7 +28,9 @@
                 {
                     targets: -1,
                     render: function(data, type, full, meta){
-                        var actions = "<a class='btn fa fa-trash project-remove-button' data-toggle='confirFeditation'></a>";
+                        var actions = "<a class='btn fa fa-trash project-remove-button' data-toggle='confirFeditation' data-btn-ok-label='Yes' data-btn-ok-icon='glyphicon glyphicon-share-alt' " +
+                            "data-btn-ok-class='btn-success' data-btn-cancel-label='Stop' data-btn-cancel-icon='glyphicon glyphicon-ban-circle' data-btn-cancel-class='btn-danger' " +
+                            "data-title='Are you sure?'></a>";
                         if(full.permissionStatus === 'owner'){
                             actions = "<a class='btn fa fa-trash project-remove-button' data-toggle='confirFeditation' " +
                                 "data-btn-ok-label='Continue' data-btn-ok-icon='glyphicon glyphicon-share-alt' " +
