@@ -42,7 +42,9 @@
                     <div class="panel-heading">
                         <h3 class="panel-title">
                             Project overview
-                            <button type="button" class="btn btn-default fa fa-pencil" onclick="$('#editProjectDialog').modal()"></button>
+                            {% if (is_granted('edit', internal_project_id) or  is_granted('owner', internal_project_id)) %}
+                                <button type="button" class="btn btn-default fa fa-pencil" onclick="$('#editProjectDialog').modal()"></button>
+                            {% endif %}
                         </h3>
                     </div>
                     <div class="panel-body">
