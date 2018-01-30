@@ -65,7 +65,7 @@ class UpdateProjectTest extends WebserviceTestCase
             'webuser' => $user
         ))->getWebuserDataId();
         $results = $this->projectDetails->execute($projectId,$user);
-        $biom = json_encode($results['projects'][$projectId]['biom']);
+        $biom = json_decode($results['projects'][$projectId]['biom'], true);
         // Now update the project
         $biom['id'] = 'Updated ID';
         $biom['comment'] = 'New comment';
@@ -73,7 +73,7 @@ class UpdateProjectTest extends WebserviceTestCase
         $this->assertNull($results['error']);
         $this->em->clear();
         $results = $this->projectDetails->execute($projectId,$user);
-        $biom = json_encode($results['projects'][$projectId]['biom']);
+        $biom = json_decode($results['projects'][$projectId]['biom'], true);
         // Check for initial state
         $this->assertEquals('Updated ID', $biom['id']);
         $this->assertEquals('New comment', $biom['comment']);
