@@ -6,6 +6,7 @@
     <script type="text/javascript">
         var internalProjectId = '{{ internal_project_id }}';
         var phinchPreviewPath = '{{ asset('assets/Phinch/preview.html') }}';
+        var permission = '{{ attribute }}';
     </script>
     
     <script src="{{ asset('assets/js/project/details.js') }}"></script>
@@ -146,13 +147,13 @@
                         <h4>OTUs</h4>
                         <table id="trait-table" class="table trait-table trait-table-striped table-bordered" width="100%" cellspacing="0">
                             <thead>
-                            <tr><th>trait</th><th>count</th><th>range</th><th>details</th><th>in biom</th>{% if (is_granted('edit', internal_project_id) or  is_granted('owner', internal_project_id)) %}<th>add to biom</th>{% endif %}</tr>
+                            <tr><th>trait</th><th>count</th><th>range</th><th>details</th><th>in biom</th><th>add to biom</th></tr>
                             </thead>
                         </table>
                         <h4>Samples</h4>
                         <table id="trait-table-sample" class="table trait-table trait-table-striped table-bordered" width="100%" cellspacing="0">
                             <thead>
-                            <tr><th>trait</th><th>count</th><th>range</th><th>details</th><th>in biom</th>            {% if (is_granted('edit', internal_project_id) or  is_granted('owner', internal_project_id)) %}<th>add to biom</th>{% endif %}</tr>
+                            <tr><th>trait</th><th>count</th><th>range</th><th>details</th><th>in biom</th><th>add to biom</th></tr>
                             </thead>
                         </table>
                     </div>

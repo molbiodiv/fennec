@@ -95,7 +95,7 @@ class APIController extends Controller
      */
     public function detailsTraitsOfOrganismsAction(Request $request){
         $traitDetails = $this->container->get(Details\TraitsOfOrganisms::class);
-        $result = $traitDetails->execute($request->query->get('fennecIds'));
+        $result = $traitDetails->execute($request->request->get('fennecIds'));
         return $this->createResponse($result);
     }
 
