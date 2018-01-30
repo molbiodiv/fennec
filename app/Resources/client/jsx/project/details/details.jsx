@@ -174,10 +174,9 @@ function addMetadataObservation(event)
 }
 
 function updateProject() {
-    let webserviceUrl = Routing.generate('api', {'namespace': 'edit', 'classname': 'updateProject', 'dbversion': dbversion});
+    let webserviceUrl = Routing.generate('api_edit_update_project', {'dbversion': dbversion});
     $.ajax(webserviceUrl, {
         data: {
-            "dbversion": dbversion,
             "project_id": internalProjectId,
             "biom": biom.toString()
         },
