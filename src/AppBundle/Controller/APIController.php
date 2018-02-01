@@ -14,7 +14,9 @@ use AppBundle\API\Edit;
 use AppBundle\API\Sharing;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Constraints\Email as EmailConstraint;
+use Symfony\Component\Validator\Validation;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Email;
 
 class APIController extends Controller
 {
@@ -165,12 +167,11 @@ class APIController extends Controller
      */
     public function shareProjectAction($projectId, Request $request){
         $email = $request->query->get('email');
-        $emailConstraint = new EmailConstraint();
-        $validator = $this->get('validator');
-        $errors = $validator->validate($email, $emailConstraint);
-        if(count($errors) > 1){
-            $this->createResponse($errors);
-        }
+        $validator = Validation::createValidator();
+        $violations = $validator->validate($email, array(
+            new Email(),
+            new NotBlank(),
+        ));
         $shareProject = $this->container->get(Sharing\Projects::class);
         $result = $shareProject->execute($email, $projectId, $request->query->get('attribute'));
         return $this->createResponse($result);
