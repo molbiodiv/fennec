@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use Swagger\Annotations as SWG;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\API\Listing;
@@ -16,9 +17,28 @@ use Symfony\Component\Routing\Annotation\Route;
 class APIController extends Controller
 {
     /**
-     * @param Request $request
-     * @return Response $response
-     * @Route("/api/listing/organisms/", name="api_listing_organisms", options={"expose"=true})
+     * List organisms.
+     * You can provide a case-insensitive part of the scientific name or provide a limit.
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns a list of organisms"
+     * )
+     * @SWG\Parameter(
+     *     name="search",
+     *     in="query",
+     *     type="string",
+     *     description="search term, part of the scientific name (case insensitive)"
+     * )
+     * @SWG\Parameter(
+     *     name="limit",
+     *     in="query",
+     *     type="integer",
+     *     description="max number of organisms to return"
+     * )
+     * @SWG\Tag(name="Listing")
+     *
+     * @Route("/api/listing/organisms/", name="api_listing_organisms", options={"expose"=true}, methods={"GET"})
      */
     public function listingOrganismsAction(Request $request){
         $organisms = $this->container->get(Listing\Organisms::class);
