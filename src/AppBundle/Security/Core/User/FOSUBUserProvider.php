@@ -38,7 +38,11 @@ class FOSUBUserProvider extends BaseFOSUBProvider
     public function loadUserByOAuthUserResponse(UserResponseInterface $response)
     {
         $userEmail = $response->getEmail();
+        $username = $response->getUsername();
         $user = $this->userManager->findUserByEmail($userEmail);
+        if($user === null){
+            $user = $this->userManager->findUserByUsername($username);
+        }
 
         //if null create new user and set it properties
         if(null === $user){
