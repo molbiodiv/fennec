@@ -62,3 +62,46 @@ The traits you added can be selected in the top right corner of each visualizati
 .. image:: screenshots/project_phinch.png
 
 Download of the enriched community data is possible in different formats via the ``Project overview`` tab.
+
+Upload own data
+---------------
+
+It is possible to upload your own projects into FENNEC.
+By default those projects are only visible to you.
+There are a couple of features corrently in development that will enhance management of your own data, including upload of own traits and sharing of projects.
+
+Projects
+^^^^^^^^
+
+Internally FENNEC stores projects in BIOM (1.0) format.
+By integrating the `biom-conversion-server <https://github.com/molbiodiv/biom-conversion-server>`_ it is also possible to upload projects in BIOM 2.x and even tabular (tsv) format.
+
+BIOM
+""""
+
+Upload in BIOM format should be straight forward.
+After login navigate to the 'Projects' page and on the top of the page hit the 'Browse' button under 'Upload projects'.
+There select one or more biom files (can be 1.0, 2.x, or a mixture).
+After you close the file selection dialog a message will appear, telling you '1 project uploaded successfully' and the project(s) will show up in the table.
+
+You can upload BIOM files containing all of your metadata (e.g. files previously exported from FENNEC).
+Alternatively, you can also upload BIOM files that only contain your observation matrix and add metadata later.
+More details about the latter approach is given in the next section.
+
+Table (tsv)
+"""""""""""
+
+It is also possible to upload the observation matrix of a project in tsv (tab separated values) format.
+No metadata can be included in this table, instead all metadata needs to be added afterwards.
+
+The process of uploading the observation tsv file and adding metadata is demonstrated with an example.
+Given your observation matrix stored in a file called :download:`otu_table.tsv <example/otu_table.tsv>` looks like this::
+
+    #OTUId	Sample1	Sample2	Sample3	Sample4
+    OTU1	33	76	12	8
+    OTU2	50	44	17	23
+    OTU3	9	99	15	55
+    OTU4	1	63	39	54
+
+
+
