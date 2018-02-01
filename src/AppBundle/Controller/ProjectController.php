@@ -80,17 +80,12 @@ class ProjectController extends Controller
      * )
      */
     public function traitDetailsAction(Request $request, $dbversion, $project_id, $trait_type_id, $dimension){
-        $projectTraitDetails = $this->get('app.api.webservice')->factory('details', 'traitOfProject');
-        $query = $request->query;
-        $query->set('dbversion', $dbversion);
-        $query->set('internal_project_id', $project_id);
-        $query->set('trait_type_id', $trait_type_id);
-        $query->set('dimension', $dimension);
-        $query->set('include_citations', true);
-        $traitResult = $projectTraitDetails->execute($query, $this->getFennecUser());
-        $projectDetails = $this->get('app.api.webservice')->factory('details', 'projects');
-        $query->set('ids', array($project_id));
-        $projectResult = $projectDetails->execute($query, $this->getFennecUser());
+        $projectTraitDetails = $this->container->get(Details\TraitOfProject::class);
+        $includeCitations = true;
+        $user = $this->getFennecUser();
+        $traitResult = $projectTraitDetails->execute($trait_type_id, $project_id, $dimension, $user, $dbversion, $includeCitations);
+        $projectDetails = $this->container->get(Details\Projects::class);
+        $projectResult = $projectDetails->execute($project_id, $user);
         return $this->render(
             'project/traitDetails.html.twig',
             [
