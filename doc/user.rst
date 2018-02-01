@@ -129,7 +129,10 @@ and :download:`sample_metadata.tsv <example/sample_metadata.tsv>`::
 We can click the 'Metadata overview' tab and there we can add observation and sample metadata by sequentially clicking the 'Browse' buttons and selecting our respective tsv files.
 In both cases you should see a green message 'Successfully added metadata'.
 Now you can proceed by clicking 'Explore Sample metadata' and 'Explore OTU metadata' to see that both were added successfully.
-Attention: By default the rows are ordered by 'Total Count' and not by 'ID'.
+
+.. ATTENTION::
+
+    By default the rows are ordered by 'Total Count' and not by 'ID'.
 
 If we look on the 'Traits' tab we see, that both tables are still empty.
 But now we can head to the 'Mapping' tab and connect our OTUs and Samples with the corresponding FENNEC organisms in the database.
@@ -161,8 +164,12 @@ Samples:
 Now it is time to 'Inspect with Phinch'.
 You can accept the default filters by clicking the 'Proceed to Gallery' button in the top right corner.
 Now select some visualizations and play around with the settings.
-Attention: The Sankey Diagram as well as the taxonomic rank selection in Phinch will not work.
-           This is because Phinch expects taxonomy information to be available as metadata in the 'taxonomy' field for OTUs.
-           We did not provide this information with our metadata table and it is not automatically added by FENNEC.
-           If you want to use this feature as well upload this :download:`otu_taxonomy.tsv <example/otu_taxonomy.tsv>` file as additional OTU metadata.
-           Don't worry, new metadata is added and will only overwrite existing metadata if it uses the same column name.
+
+.. ATTENTION::
+
+    The Sankey Diagram as well as the taxonomic rank selection in Phinch will not work.
+    This is because Phinch expects taxonomy information to be available as metadata in the 'taxonomy' field for OTUs.
+    We did not provide this information with our metadata table and it is not automatically added by FENNEC.
+    If you want to use this feature as well upload this :download:`otu_taxonomy.tsv <example/otu_taxonomy.tsv>` file as additional OTU metadata.
+    Don't worry, new metadata is added and will only overwrite existing metadata if it uses the same column name.
+
