@@ -4,6 +4,7 @@ namespace AppBundle\Command;
 
 
 use AppBundle\Entity\FennecUser;
+use AppBundle\Service\DBVersion;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -45,8 +46,7 @@ class CreateUserCommand extends ContainerAwareCommand
         if($connection_name == null) {
             $connection_name = $this->getContainer()->get('doctrine')->getDefaultConnectionName();
         }
-        $orm = $this->getContainer()->get('app.orm');
-        $em = $orm->getManagerForVersion($connection_name);
+        $em = $this->getContainer()->get(DBVersion::class)->getEntityManager();
         $user = $em->getRepository('AppBundle:FennecUser')->findOneBy([
             'username' => $input->getArgument('username')
         ]);

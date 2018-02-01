@@ -2,6 +2,7 @@
 
 namespace AppBundle\Command;
 
+use AppBundle\Service\DBVersion;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -107,7 +108,6 @@ class ExpireTraitEntriesCommand extends ContainerAwareCommand
         if ($this->connectionName === null) {
             $this->connectionName = $this->getContainer()->get('doctrine')->getDefaultConnectionName();
         }
-        $orm = $this->getContainer()->get('app.orm');
-        $this->em = $orm->getManagerForVersion($this->connectionName);
+        $this->em = $this->getContainer()->get(DBVersion::class)->getEntityManager();
     }
 }

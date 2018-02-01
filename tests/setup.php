@@ -4,6 +4,7 @@ namespace Tests;
 
 require_once __DIR__.'/../app/autoload.php';
 
+use AppBundle\Service\DBVersion;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Console\Input\StringInput;
@@ -34,7 +35,7 @@ class Setup extends  WebTestCase
             ' -h '.$db['host'].
             ' -p '.$db['port'].
             ' -d '.$db['dbname'].'\'');
-        $em = $client->getContainer()->get('app.orm')->getDefaultManager();
+        $em = $client->getContainer()->get(DBVersion::class)->getEntityManager();
         $setupFixtures = new SetupFixtures($em);
         $setupFixtures->insertUserData();
     }

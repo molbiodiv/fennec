@@ -45,4 +45,12 @@ class DBVersion
         return $this->orm->getManager($this->connectionName);
     }
 
+    /**
+     * @return mixed
+     */
+    public function getDefaultConnection()
+    {
+        return $this->defaultConnection;
+    }
+
 }
