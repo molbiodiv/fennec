@@ -16,12 +16,6 @@ services:
         # you can exclude directories or files
         # but if a service is unused, it's removed anyway
         exclude: '../../src/AppBundle/{Entity,Repository,Security}'
-    app.orm:
-        class: AppBundle\ORM
-        arguments: [ '@doctrine' ]
-    app.api.webservice:
-        class: AppBundle\API\Webservice
-        arguments: ['@app.orm','@security.token_storage']
     AppBundle\Service\DBVersion:
         arguments: ['@twig', '@doctrine', '%doctrine.default_connection%']
         tags: [{name: kernel.event_listener, event: kernel.request}]
