@@ -94,7 +94,7 @@ Table (tsv)
 It is also possible to upload the observation matrix of a project in tsv (tab separated values) format.
 No metadata can be included in this table, instead all metadata needs to be added afterwards.
 
-The process of uploading the observation tsv file and adding metadata is demonstrated with an example.
+The process of uploading the observation tsv file and adding metadata is demonstrated with an example (Warning: no real data, do not look for biological signals).
 Given your observation matrix stored in a file called :download:`otu_table.tsv <example/otu_table.tsv>` looks like this::
 
     #OTUId	Sample1	Sample2	Sample3	Sample4
@@ -103,5 +103,66 @@ Given your observation matrix stored in a file called :download:`otu_table.tsv <
     OTU3	9	99	15	55
     OTU4	1	63	39	54
 
+After normal upload on the project page it will appear in the table with ID 'None'.
+When you click the project you will see on the details page that upload was successful (you have 4 OTUs and 4 Samples).
+You can use the little pen icon beside 'Project overview' to edit the 'ID' and 'Comment' for the project.
 
+However, as it is you can not do much with this project.
+To use the traits from FENNEC you need some way to map your OTUs (and/or samples) to organisms in the database.
+For this purpose we need to add metadata.
+So, assuming we have the following metadata files (also in tsv format), :download:`otu_metadata.tsv <example/otu_metadata.tsv>`::
 
+    #OTUId      Scientific Name
+    OTU1        Bellis perennis
+    OTU2        Centaurea cyanus
+    OTU3        Medicago sativa
+    OTU4        Plantago lanceolata
+
+and :download:`sample_metadata.tsv <example/sample_metadata.tsv>`::
+
+    #Sample     Bee     Season
+    Sample1     Osmia caerulescens      Spring
+    Sample2     Megachile rotundata     Spring
+    Sample3     Osmia caerulescens      Summer
+    Sample4     Megachile rotundata     Summer
+
+We can click the 'Metadata overview' tab and there we can add observation and sample metadata by sequentially clicking the 'Browse' buttons and selecting our respective tsv files.
+In both cases you should see a green message 'Successfully added metadata'.
+Now you can proceed by clicking 'Explore Sample metadata' and 'Explore OTU metadata' to see that both were added successfully.
+Attention: By default the rows are ordered by 'Total Count' and not by 'ID'.
+
+If we look on the 'Traits' tab we see, that both tables are still empty.
+But now we can head to the 'Mapping' tab and connect our OTUs and Samples with the corresponding FENNEC organisms in the database.
+First select:
+
+Map ``OTUs`` by ``Scientific Name`` on ``Scientific name``
+
+and hit ``GO``. If only ``ID`` is available in the second drop down, please reload the page.
+The Result should be that all 4 organisms have a scientific name and could be mapped to fennec_ids.
+So click the ``Save in database`` button to permanently store this mapping.
+After that the page should reload automatically and the bar for OTUs should show 100% mapped.
+Repeat those steps with ``Samples`` by ``Bee`` on ``Scientific name`` (do not forget to ``Save in database``).
+
+Now the tables on the 'Traits' tab are properly populated.
+You can inspect them and add them to your project.
+Lets add a couple of trais (using the ``+`` icon) for the OTUs and Samples
+
+OTUs:
+
+* Plant Growth Habit
+* Life Cycle Habit
+* Dispersal Vector
+
+Samples:
+
+* Sex ratio
+* Foraging mode
+
+Now it is time to 'Inspect with Phinch'.
+You can accept the default filters by clicking the 'Proceed to Gallery' button in the top right corner.
+Now select some visualizations and play around with the settings.
+Attention: The Sankey Diagram as well as the taxonomic rank selection in Phinch will not work.
+           This is because Phinch expects taxonomy information to be available as metadata in the 'taxonomy' field for OTUs.
+           We did not provide this information with our metadata table and it is not automatically added by FENNEC.
+           If you want to use this feature as well upload this :download:`otu_taxonomy.tsv <example/otu_taxonomy.tsv>` file as additional OTU metadata.
+           Don't worry, new metadata is added and will only overwrite existing metadata if it uses the same column name.
