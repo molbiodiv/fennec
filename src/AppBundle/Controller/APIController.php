@@ -17,6 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Email;
+use AppBundle\Validator\Constraints\IsValidEmailForUser;
 
 class APIController extends Controller
 {
@@ -170,8 +171,13 @@ class APIController extends Controller
         $validator = Validation::createValidator();
         $violations = $validator->validate($email, array(
             new Email(),
-            new NotBlank(),
+            new NotBlank()
+//            new IsValidEmailForUser()
         ));
+        if(count($violations) > 0){
+            $errorMessage = (string) $violations;
+            return new Response($errorMessage);
+        }
         $shareProject = $this->container->get(Sharing\Projects::class);
         $result = $shareProject->execute($email, $projectId, $request->query->get('attribute'));
         return $this->createResponse($result);
