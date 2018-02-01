@@ -24,6 +24,7 @@ const tableConfig = {
         'colvis'
     ],
     scrollX: true,
+    destroy: true,
 }
 
 const getTableData = (dimension) => {
