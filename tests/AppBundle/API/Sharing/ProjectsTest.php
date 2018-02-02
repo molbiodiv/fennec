@@ -37,13 +37,15 @@ class ProjectsTest extends WebserviceTestCase
         $this->em = null; // avoid memory leaks
     }
 
-    public function testReadOnlySharingOfProject(){
+    public function testSharingOfProject(){
         $user = new FennecUser();
         $user->setUsername(ProjectsTest::NICKNAME);
         $user->setEmail(ProjectsTest::EMAIL);
         $anotherUser = new FennecUser();
         $anotherUser->setUsername(ProjectsTest::ANOTHER_NICKNAME);
         $anotherUser->setEmail(ProjectsTest::ANOTHER_EMAIL);
+
+        //Upload test data for SharingProjectsTestUser and AnotherSharingProjectsTestUser
         $_FILES = array(
             array(
                 'name' => 'simpleBiom.json',
@@ -64,6 +66,8 @@ class ProjectsTest extends WebserviceTestCase
             )
         );
         $results = $this->uploadProjects->execute($anotherUser);
+
+        //Test if both users have the permission 'owner' on their own projects
         $permission = $this->em->getRepository(Permissions::class)->findOneBy(array(
             'webuser' => $user
         ));
@@ -72,6 +76,8 @@ class ProjectsTest extends WebserviceTestCase
         ));
         $this->assertEquals('owner', $permission->getPermission());
         $this->assertEquals('owner', $anotherPermission->getPermission());
+
+        //Add permission 'view' for project to AnotherProjectsTestUser
         $project = $this->em->getRepository(WebuserData::class)->findOneBy(array(
             'webuser' => $user
         ));
@@ -83,10 +89,23 @@ class ProjectsTest extends WebserviceTestCase
             'webuser' => $anotherUser
         ));
         $this->assertEquals('view', $permissionAfterShare->getPermission());
+
+        //Add permission 'edit' for anotherProject to ProjectsTestUser
         $this->sharingProjects->execute(ProjectsTest::EMAIL, $anotherProject->getWebuserDataId(), 'edit');
         $anotherPermissionAfterShare = $this->em->getRepository(Permissions::class)->findOneBy(array(
             'webuser' => $user
         ));
         $this->assertEquals('edit', $anotherPermissionAfterShare->getPermission());
+
+        //Add permission 'edit' for project to AnotherProjectsTestUser
+        $project = $this->em->getRepository(WebuserData::class)->findOneBy(array(
+            'webuser' => $user
+        ));
+        $this->sharingProjects->execute(ProjectsTest::ANOTHER_EMAIL, $project->getWebuserDataId(), 'edit');
+        $permissionAfterShare = $this->em->getRepository(Permissions::class)->findOneBy(array(
+            'webuser' => $anotherUser
+        ));
+        $this->assertEquals('view', $permissionAfterShare->getPermission());
+
     }
 }
