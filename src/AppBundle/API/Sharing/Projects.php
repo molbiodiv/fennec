@@ -56,8 +56,7 @@ class Projects
     private function isValid($email, $user){
         $validator = Validation::createValidator();
         $violations = $validator->validate($email, array(
-            new Email(),
-            new NotBlank()
+            new Email()
         ));
         if(count($violations) > 0){
             return (string) $violations;

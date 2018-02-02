@@ -77,13 +77,20 @@ class ProjectsTest extends WebserviceTestCase
         $this->assertEquals('owner', $permission->getPermission());
         $this->assertEquals('owner', $anotherPermission->getPermission());
 
-        //Add permission 'view' for project to AnotherProjectsTestUser
+
         $project = $this->em->getRepository(WebuserData::class)->findOneBy(array(
             'webuser' => $user
         ));
         $anotherProject = $this->em->getRepository(WebuserData::class)->findOneBy(array(
             'webuser' => $anotherUser
         ));
+
+        //Test for error message if there is no user for the email
+        $result = $this->sharingProjects->execute('thisIsNotValid@example.com', $project->getWebuserDataId(), 'view');
+        $this->assertFalse($result['error']);
+        $this->assertEquals('bla', $result['message']);
+
+        //Add permission 'view' for project to AnotherProjectsTestUser
         $this->sharingProjects->execute(ProjectsTest::ANOTHER_EMAIL, $project->getWebuserDataId(), 'view');
         $permissionAfterShare = $this->em->getRepository(Permissions::class)->findOneBy(array(
             'webuser' => $anotherUser
