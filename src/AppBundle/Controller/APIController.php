@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\API\Listing;
 use AppBundle\API\Details;
@@ -12,12 +13,7 @@ use AppBundle\API\Upload;
 use AppBundle\API\Mapping;
 use AppBundle\API\Edit;
 use AppBundle\API\Sharing;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Validation;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\Email;
-use AppBundle\Validator\Constraints;
 
 class APIController extends Controller
 {
@@ -168,21 +164,6 @@ class APIController extends Controller
      */
     public function shareProjectAction($projectId, Request $request){
         $email = $request->query->get('email');
-        $validator = Validation::createValidator();
-        $violations = $validator->validate($email, array(
-            new Email(),
-            new NotBlank()
-//            new IsValidEmailForUser()
-        ));
-        if(count($violations) > 0){
-            $errorMessage = (string) $violations;
-            return new Response($errorMessage);
-        }
-        $isValidEmailForUserValidator = $this->container->get(Constraints\ValidEmailForUser::class);
-        $isEmailValid = $isValidEmailForUserValidator->execute($email);
-        if ($isEmailValid !== null){
-            return new Response($isEmailValid);
-        }
         $shareProject = $this->container->get(Sharing\Projects::class);
         $result = $shareProject->execute($email, $projectId, $request->query->get('attribute'));
         return $this->createResponse($result);
