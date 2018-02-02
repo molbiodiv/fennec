@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Email;
-use AppBundle\Validator\Constraints\IsValidEmailForUser;
+use AppBundle\Validator\Constraints;
 
 class APIController extends Controller
 {
