@@ -34,50 +34,46 @@ class Projects
     }
 
     public function execute($email, $projectId, $action){
+        $user = $this->manager->getRepository(FennecUser::class)->findOneBy(array(
+            'email' => $email
+        ));
+        $valid = $this->isValid($email, $user);
+        if($valid === true){
+            $project = $this->manager->getRepository(WebuserData::class)->findOneBy(array(
+                'webuserDataId' => $projectId
+            ));
+            $permission = $this->manager->getRepository(Permissions::class)->findOneBy(array(
+                'webuser' => $user->getId(),
+                'webuserData' => $projectId
+            ));
+            if($permission !== null){
+                $this->manager->remove($permission);
+            }
+            $permission = new Permissions();
+            $permission->setWebuser($user);
+            $permission->setWebuserData($project);
+            $permission->setPermission($action);
+            $this->manager->persist($permission);
+            $this->manager->flush();
+        }
+        return $response = [
+            'error' => ($valid === true ? false : true),
+            'message' => ($valid === true ? 'The permission '.$action.' was setted to user '.$user->getUsername().' successfully.' : $valid)
+        ];
+    }
+
+    private function isValid($email, $user){
         $validator = Validation::createValidator();
         $violations = $validator->validate($email, array(
             new Email(),
             new NotBlank()
         ));
         if(count($violations) > 0){
-            $errorMessage = (string) $violations;
-            return $response = [
-                'error' => true,
-                'message' => $errorMessage
-            ];
+            return (string) $violations;
         }
-        $user = $this->manager->getRepository(FennecUser::class)->findOneBy(array(
-            'email' => $email
-        ));
         if($user === null){
-            return $response = [
-                'error' => true,
-                'message'=> 'There exists no user for the email: '.$email
-            ];
+             return 'There exists no user for the email: '.$email;
         }
-        $project = $this->manager->getRepository(WebuserData::class)->findOneBy(array(
-            'webuserDataId' => $projectId
-        ));
-        $permission = $this->manager->getRepository(Permissions::class)->findOneBy(array(
-            'webuser' => $user->getId(),
-            'webuserData' => $projectId,
-            'permission' => $action
-        ));
-        if($permission !== null){
-            return $response = [
-                'error' => true,
-                'message'=> Projects::ERROR_PERMISSION_EXISTS
-            ];
-        }
-        $permission = new Permissions();
-        $permission->setWebuser($user);
-        $permission->setWebuserData($project);
-        $permission->setPermission($action);
-        $this->manager->persist($permission);
-        $this->manager->flush();
-        return $response = [
-            'error' => false,
-            'message' => "The permission '".$action."' of project ".$projectId." was granted to ".$user->getUsername()." successfully."
-        ];
+        return true;
     }
 }
