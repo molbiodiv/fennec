@@ -87,8 +87,8 @@ class ProjectsTest extends WebserviceTestCase
 
         //Test for error message if there is no user for the email
         $result = $this->sharingProjects->execute('thisIsNotValid@example.com', $project->getWebuserDataId(), 'view');
-        $this->assertFalse($result['error']);
-        $this->assertEquals('bla', $result['message']);
+        $this->assertTrue($result['error']);
+        $this->assertEquals('There exists no user for the email: thisIsNotValid@example.com', $result['message']);
 
         //Add permission 'view' for project to AnotherProjectsTestUser
         $this->sharingProjects->execute(ProjectsTest::ANOTHER_EMAIL, $project->getWebuserDataId(), 'view');
