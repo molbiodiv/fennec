@@ -13,6 +13,9 @@ use AppBundle\Entity\FennecUser;
 use AppBundle\Entity\Permissions;
 use AppBundle\Entity\WebuserData;
 use AppBundle\Service\DBVersion;
+use Symfony\Component\Validator\Validation;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Email;
 
 class Projects
 {
@@ -31,9 +34,27 @@ class Projects
     }
 
     public function execute($email, $projectId, $action){
+        $validator = Validation::createValidator();
+        $violations = $validator->validate($email, array(
+            new Email(),
+            new NotBlank()
+        ));
+        if(count($violations) > 0){
+            $errorMessage = (string) $violations;
+            return $response = [
+                'error' => true,
+                'message' => $errorMessage
+            ];
+        }
         $user = $this->manager->getRepository(FennecUser::class)->findOneBy(array(
             'email' => $email
         ));
+        if($user === null){
+            return $response = [
+                'error' => true,
+                'message'=> 'There exists no user for the email: '.$email
+            ];
+        }
         $project = $this->manager->getRepository(WebuserData::class)->findOneBy(array(
             'webuserDataId' => $projectId
         ));
@@ -43,7 +64,10 @@ class Projects
             'permission' => $action
         ));
         if($permission !== null){
-            return Projects::ERROR_PERMISSION_EXISTS;
+            return $response = [
+                'error' => true,
+                'message'=> Projects::ERROR_PERMISSION_EXISTS
+            ];
         }
         $permission = new Permissions();
         $permission->setWebuser($user);
@@ -51,7 +75,9 @@ class Projects
         $permission->setPermission($action);
         $this->manager->persist($permission);
         $this->manager->flush();
-        $message = "The permission '".$action."' of project ".$projectId." was granted to ".$user->getUsername()." successfully.";
-        return $message;
+        return $response = [
+            'error' => false,
+            'message' => "The permission '".$action."' of project ".$projectId." was granted to ".$user->getUsername()." successfully."
+        ];
     }
 }
