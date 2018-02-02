@@ -38,6 +38,9 @@ class APIController extends Controller
      * )
      * @SWG\Tag(name="Listing")
      *
+     * @param Request $request
+     * @return Response
+     *
      * @Route("/api/listing/organisms/", name="api_listing_organisms", options={"expose"=true}, methods={"GET"})
      */
     public function listingOrganismsAction(Request $request){
@@ -47,9 +50,31 @@ class APIController extends Controller
     }
 
     /**
+     * List traits.
+     * You can provide a case-insensitive part of the trait name or provide a limit.
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns a list of traits"
+     * )
+     * @SWG\Parameter(
+     *     name="search",
+     *     in="query",
+     *     type="string",
+     *     description="search term, part of the trait name (case insensitive)"
+     * )
+     * @SWG\Parameter(
+     *     name="limit",
+     *     in="query",
+     *     type="integer",
+     *     description="max number of traits to return"
+     * )
+     * @SWG\Tag(name="Listing")
+     *
      * @param Request $request
-     * @return Response $response
-     * @Route("/api/listing/traits", name="api_listing_traits", options={"expose"=true})
+     * @return Response
+     *
+     * @Route("/api/listing/traits", name="api_listing_traits", options={"expose"=true}, methods={"GET"})
      */
     public function listingTraitsAction(Request $request){
         $traits = $this->container->get(Listing\Traits::class);
