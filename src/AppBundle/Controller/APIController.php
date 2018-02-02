@@ -178,6 +178,11 @@ class APIController extends Controller
             $errorMessage = (string) $violations;
             return new Response($errorMessage);
         }
+        $isValidEmailForUserValidator = $this->container->get(Constraints\ValidEmailForUser::class);
+        $isEmailValid = $isValidEmailForUserValidator->execute($email);
+        if ($isEmailValid !== null){
+            return new Response($isEmailValid);
+        }
         $shareProject = $this->container->get(Sharing\Projects::class);
         $result = $shareProject->execute($email, $projectId, $request->query->get('attribute'));
         return $this->createResponse($result);
