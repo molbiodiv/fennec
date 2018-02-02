@@ -21,9 +21,6 @@ class Projects
 {
     private $manager;
 
-    const ERROR_NOT_LOGGED_IN = "Error. You are not logged in.";
-    const ERROR_PERMISSION_EXISTS = "Error. The permission for the user and the project exists.";
-
     /**
      * Projects constructor.
      * @param $dbversion
