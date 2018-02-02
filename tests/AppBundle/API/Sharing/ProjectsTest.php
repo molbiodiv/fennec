@@ -105,7 +105,7 @@ class ProjectsTest extends WebserviceTestCase
         $permissionAfterShare = $this->em->getRepository(Permissions::class)->findOneBy(array(
             'webuser' => $anotherUser
         ));
-        $this->assertEquals('view', $permissionAfterShare->getPermission());
+        $this->assertEquals('edit', $permissionAfterShare->getPermission());
 
     }
 }
