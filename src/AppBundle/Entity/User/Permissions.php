@@ -29,9 +29,9 @@ class Permissions
     }
 
     /**
-     * @var \AppBundle\Entity\FennecUser
+     * @var \AppBundle\UserDBEntity\FennecUser
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\FennecUser", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="AppBundle\UserDBEntity\FennecUser", cascade={"persist"})
      * @ORM\JoinColumn(name="webuser_id", referencedColumnName="id", nullable=false)
      */
     private $webuser;

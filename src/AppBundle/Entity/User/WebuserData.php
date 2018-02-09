@@ -44,9 +44,9 @@ class WebuserData
     private $webuserDataId;
 
     /**
-     * @var \AppBundle\Entity\FennecUser
+     * @var \AppBundle\UserDBEntity\FennecUser
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\FennecUser")
+     * @ORM\ManyToOne(targetEntity="AppBundle\UserDBEntity\FennecUser")
      * @ORM\JoinColumn(name="webuser_id", referencedColumnName="id", nullable=false)
      */
     private $webuser;
