@@ -43,12 +43,12 @@ class Db
     /**
      * @var int
      *
-     * @ORM\Column(name="db_id", type="integer")
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\SequenceGenerator(sequenceName="db_db_id_seq", allocationSize=1, initialValue=1)
      */
-    private $dbId;
+    private $id;
 
 
 
@@ -149,12 +149,12 @@ class Db
     }
 
     /**
-     * Get dbId.
+     * Get id.
      *
      * @return int
      */
-    public function getDbId()
+    public function getId()
     {
-        return $this->dbId;
+        return $this->id;
     }
 }

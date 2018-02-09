@@ -89,7 +89,7 @@ class ImportOrganismIDsCommand extends ContainerAwareCommand
         try{
             $needs_mapping = $input->getOption('mapping') !== null;
             $this->file = fopen($input->getArgument('file'), 'r');
-            $providerID = $this->getOrInsertProvider($input->getOption('provider'), $input->getOption('description'))->getDbId();
+            $providerID = $this->getOrInsertProvider($input->getOption('provider'), $input->getOption('description'))->getId();
             if($needs_mapping) {
                 $this->mapping = $this->getMapping($input->getOption('mapping'));
             }

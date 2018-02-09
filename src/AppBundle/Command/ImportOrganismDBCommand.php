@@ -120,7 +120,7 @@ class ImportOrganismDBCommand extends ContainerAwareCommand
             $this->em->persist($provider);
             $this->em->flush();
         }
-        return $provider->getDbId();
+        return $provider->getId();
     }
 
     /**

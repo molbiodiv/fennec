@@ -48,7 +48,7 @@ class TaxonomyNode
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Data\Db")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="db_id", referencedColumnName="db_id", nullable=false)
+     *   @ORM\JoinColumn(name="db_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $db;
