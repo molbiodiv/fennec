@@ -2,9 +2,9 @@
 
 namespace Tests;
 
-use AppBundle\Entity\FennecUser;
-use AppBundle\Entity\Permissions;
-use AppBundle\Entity\WebuserData;
+use AppBundle\Entity\User\FennecUser;
+use AppBundle\Entity\User\Permissions;
+use AppBundle\Entity\User\WebuserData;
 use Doctrine\ORM\EntityManager;
 
 class SetupFixtures
@@ -83,6 +83,7 @@ class SetupFixtures
             $webuser = new FennecUser();
             $webuser->setGithubAccessToken($oauth_id);
             $webuser->setUsername($oauth_id);
+            $webuser->setPassword('frikadelle');
             $webuser->setEmail($oauth_id);
             $this->em->persist($webuser);
         }
