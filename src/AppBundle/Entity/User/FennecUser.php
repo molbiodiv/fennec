@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace AppBundle\Entity\User;
 
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
@@ -8,9 +8,9 @@ use FOS\UserBundle\Model\User as BaseUser;
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\FennecUserRepository")
  * @ORM\Table(name="`fennec_user`")
- * @ORM\AttributeOverrides({
- *     @ORM\AttributeOverride(name="password",
- *          column=@ORM\Column(
+ * ORM\AttributeOverrides({
+ *     ORM\AttributeOverride(name="password",
+ *          column=ORM\Column(
  *              nullable=true
  *          ))
  *     })

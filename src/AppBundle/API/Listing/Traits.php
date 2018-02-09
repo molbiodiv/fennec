@@ -3,9 +3,9 @@
 namespace AppBundle\API\Listing;
 
 use AppBundle\API\Webservice;
-use AppBundle\Entity\FennecUser;
-use AppBundle\Entity\TraitCategoricalEntry;
-use AppBundle\Entity\TraitNumericalEntry;
+use AppBundle\Entity\User\FennecUser;
+use AppBundle\Entity\Data\TraitCategoricalEntry;
+use AppBundle\Entity\Data\TraitNumericalEntry;
 use AppBundle\Service\DBVersion;
 use \PDO as PDO;
 use phpDocumentor\Reflection\Types\Integer;

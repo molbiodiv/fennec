@@ -2,12 +2,12 @@
 
 namespace AppBundle\API\Listing;
 
-use AppBundle\Entity\FennecUser;
-use AppBundle\Entity\Organism;
-use AppBundle\Entity\TraitCategoricalEntry;
-use AppBundle\Entity\TraitNumericalEntry;
-use AppBundle\Entity\TraitType;
-use AppBundle\Entity\WebuserData;
+use AppBundle\Entity\Data\Organism;
+use AppBundle\Entity\Data\TraitNumericalEntry;
+use AppBundle\Entity\Data\TraitCategoricalEntry;
+use AppBundle\Entity\Data\TraitType;
+use AppBundle\Entity\User\FennecUser;
+use AppBundle\Entity\User\WebuserData;
 use AppBundle\Service\DBVersion;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 

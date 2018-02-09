@@ -24,13 +24,13 @@ class WebuserDataRepository extends EntityRepository
         )));
     }
 
-    public function getDataForUser($userId) {
+    public function getDataForUser(FennecUser $user) {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('IDENTITY(data.webuser) AS webuserId', 'p.permission', 'data.webuserDataId', 'data.importDate', 'data.importFilename', 'data.project')
             ->from('AppBundle\Entity\Permissions', 'p')
             ->innerJoin('AppBundle\Entity\WebuserData', 'data', 'WITH', 'p.webuserData = data.webuserDataId')
             ->where('p.webuser = :userId')
-            ->setParameter('userId', $userId);
+            ->setParameter('userId', $user->getId());
         $query = $qb->getQuery();
         return $query->getResult();
     }

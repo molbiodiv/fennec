@@ -2,10 +2,10 @@
 
 namespace AppBundle\API\Upload;
 
-use AppBundle\Entity\WebuserData;
-use AppBundle\Entity\FennecUser;
+use AppBundle\Entity\User\WebuserData;
+use AppBundle\Entity\User\FennecUser;
 use AppBundle\Service\DBVersion;
-use AppBundle\Entity\Permissions;
+use AppBundle\Entity\User\Permissions;
 use biomcs\BiomCS;
 
 /**
