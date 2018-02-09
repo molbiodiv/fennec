@@ -3,9 +3,9 @@
 namespace AppBundle\Command;
 
 
-use AppBundle\Entity\Db;
-use AppBundle\Entity\FennecDbxref;
-use AppBundle\Entity\Organism;
+use AppBundle\Entity\Data\Db;
+use AppBundle\Entity\Data\FennecDbxref;
+use AppBundle\Entity\Data\Organism;
 use AppBundle\API\Mapping;
 use AppBundle\Service\DBVersion;
 use Doctrine\ORM\EntityManager;

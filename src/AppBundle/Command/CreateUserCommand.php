@@ -3,7 +3,7 @@
 namespace AppBundle\Command;
 
 
-use AppBundle\Entity\FennecUser;
+use AppBundle\Entity\User\FennecUser;
 use AppBundle\Service\DBVersion;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;

@@ -3,7 +3,7 @@
 namespace AppBundle\Command;
 
 
-use AppBundle\Entity\TraitFormat;
+use AppBundle\Entity\Data\TraitFormat;
 use AppBundle\Service\DBVersion;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;

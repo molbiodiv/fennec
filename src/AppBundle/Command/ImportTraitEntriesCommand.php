@@ -3,11 +3,11 @@
 namespace AppBundle\Command;
 
 
-use AppBundle\Entity\TraitCategoricalEntry;
-use AppBundle\Entity\TraitCategoricalValue;
-use AppBundle\Entity\TraitCitation;
-use AppBundle\Entity\TraitNumericalEntry;
-use AppBundle\Entity\TraitType;
+use AppBundle\Entity\Data\TraitCategoricalEntry;
+use AppBundle\Entity\Data\TraitCategoricalValue;
+use AppBundle\Entity\Data\TraitCitation;
+use AppBundle\Entity\Data\TraitNumericalEntry;
+use AppBundle\Entity\Data\TraitType;
 use AppBundle\API\Mapping;
 use AppBundle\Service\DBVersion;
 use Doctrine\ORM\EntityManager;
