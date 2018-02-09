@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityRepository;
 class TraitTypeRepository extends EntityRepository
 {
     public function getNumber(){
-        $query = $this->getEntityManager()->createQuery('SELECT COUNT(tt.id) FROM AppBundle\Entity\TraitType tt');
+        $query = $this->getEntityManager()->createQuery('SELECT COUNT(tt.id) FROM AppBundle\Entity\Data\TraitType tt');
         return $query->getSingleScalarResult();
     }
 
@@ -24,7 +24,7 @@ class TraitTypeRepository extends EntityRepository
     public function getInfo($trait_type_id){
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('t.id AS traitTypeId', 't.type', 't.ontologyUrl', 'IDENTITY(t.traitFormat) AS trait_format_id', 't.description', 't.unit')
-            ->from('AppBundle\Entity\TraitType', 't')
+            ->from('AppBundle\Entity\Data\TraitType', 't')
             ->where('t.id = :trait_type_id')
             ->setParameter('trait_type_id', $trait_type_id);
         $query = $qb->getQuery();

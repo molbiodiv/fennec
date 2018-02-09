@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityRepository;
 class TraitNumericalEntryRepository extends EntityRepository
 {
     public function getNumber(): int {
-        $query = $this->getEntityManager()->createQuery('SELECT COUNT(t.id) FROM AppBundle\Entity\TraitNumericalEntry t WHERE t.deletionDate IS NULL ');
+        $query = $this->getEntityManager()->createQuery('SELECT COUNT(t.id) FROM AppBundle\Entity\Data\TraitNumericalEntry t WHERE t.deletionDate IS NULL ');
         return $query->getSingleScalarResult();
     }
 
@@ -26,7 +26,7 @@ class TraitNumericalEntryRepository extends EntityRepository
         $qb = $this->getEntityManager()->createQueryBuilder();
         if($fennec_ids !== null){
             $qb->select('IDENTITY(t.fennec) AS id', 't.value')
-                ->from('AppBundle\Entity\TraitNumericalEntry', 't')
+                ->from('AppBundle\Entity\Data\TraitNumericalEntry', 't')
                 ->where('t.traitType = :trait_type_id')
                 ->andWhere('t.deletionDate IS NULL')
                 ->andWhere('t.fennec IN (:fennecIds)')
@@ -34,7 +34,7 @@ class TraitNumericalEntryRepository extends EntityRepository
                 ->setParameter('fennecIds', $fennec_ids);
         } else {
             $qb->select('IDENTITY(t.fennec) AS id', 't.value')
-                ->from('AppBundle\Entity\TraitNumericalEntry', 't')
+                ->from('AppBundle\Entity\Data\TraitNumericalEntry', 't')
                 ->where('t.traitType = :trait_type_id')
                 ->andWhere('t.deletionDate IS NULL')
                 ->setParameter('trait_type_id', $trait_type_id);
@@ -60,7 +60,7 @@ class TraitNumericalEntryRepository extends EntityRepository
         $qb = $this->getEntityManager()->createQueryBuilder();
         if($fennec_ids !== null){
             $qb->select('count(DISTINCT IDENTITY(t.fennec))')
-                ->from('AppBundle\Entity\TraitNumericalEntry', 't')
+                ->from('AppBundle\Entity\Data\TraitNumericalEntry', 't')
                 ->where('t.traitType = :trait_type_id')
                 ->andWhere('t.deletionDate IS NULL')
                 ->andWhere('t.fennec IN (:fennecIds)')
@@ -68,7 +68,7 @@ class TraitNumericalEntryRepository extends EntityRepository
                 ->setParameter('fennecIds', $fennec_ids);
         } else {
             $qb->select('count(DISTINCT IDENTITY(t.fennec))')
-                ->from('AppBundle\Entity\TraitNumericalEntry', 't')
+                ->from('AppBundle\Entity\Data\TraitNumericalEntry', 't')
                 ->where('t.traitType = :trait_type_id')
                 ->andWhere('t.deletionDate IS NULL')
                 ->setParameter('trait_type_id', $trait_type_id);
@@ -82,8 +82,8 @@ class TraitNumericalEntryRepository extends EntityRepository
         $qb = $this->getEntityManager()->createQueryBuilder();
         if($fennec_ids !== null){
             $qb->select('IDENTITY(t.fennec) AS id', 't.value', 'traitCitation.citation')
-                ->from('AppBundle\Entity\TraitNumericalEntry', 't')
-                ->innerJoin('AppBundle\Entity\TraitCitation', 'traitCitation', 'WITH', 't.traitCitation = traitCitation.id')
+                ->from('AppBundle\Entity\Data\TraitNumericalEntry', 't')
+                ->innerJoin('AppBundle\Entity\Data\TraitCitation', 'traitCitation', 'WITH', 't.traitCitation = traitCitation.id')
                 ->where('IDENTITY(t.traitType) = :trait_type_id')
                 ->andWhere('t.deletionDate IS NULL')
                 ->andWhere('t.fennec IN (:fennecIds)')
@@ -91,8 +91,8 @@ class TraitNumericalEntryRepository extends EntityRepository
                 ->setParameter('fennecIds', $fennec_ids);
         } else {
             $qb->select('IDENTITY(t.fennec) AS id', 't.value', 'traitCitation.citation')
-                ->from('AppBundle\Entity\TraitNumericalEntry', 't')
-                ->innerJoin('AppBundle\Entity\TraitCitation', 'traitCitation', 'WITH', 't.traitCitation = traitCitation.id')
+                ->from('AppBundle\Entity\Data\TraitNumericalEntry', 't')
+                ->innerJoin('AppBundle\Entity\Data\TraitCitation', 'traitCitation', 'WITH', 't.traitCitation = traitCitation.id')
                 ->where('IDENTITY(t.traitType) = :trait_type_id')
                 ->andWhere('t.deletionDate IS NULL')
                 ->setParameter('trait_type_id', $trait_type_id);
@@ -116,8 +116,8 @@ class TraitNumericalEntryRepository extends EntityRepository
     public function getTraits($search, $limit){
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('IDENTITY(t.traitType) AS traitTypeId', 'traitType.type')
-            ->from('AppBundle\Entity\TraitNumericalEntry', 't')
-            ->innerJoin('AppBundle\Entity\TraitType', 'traitType', 'WITH', 't.traitType = traitType.id')
+            ->from('AppBundle\Entity\Data\TraitNumericalEntry', 't')
+            ->innerJoin('AppBundle\Entity\Data\TraitType', 'traitType', 'WITH', 't.traitType = traitType.id')
             ->where('lower(traitType.type) LIKE lower(:search)')
             ->groupBy('t.traitType', 'traitType.type')
             ->setParameter('search', $search)
@@ -129,7 +129,7 @@ class TraitNumericalEntryRepository extends EntityRepository
         for($i=0;$i<sizeof($result);$i++){
             $qb = $this->getEntityManager()->createQueryBuilder();
             $qb->select('COUNT(IDENTITY(t.traitType)) AS count')
-                ->from('AppBundle\Entity\TraitNumericalEntry', 't')
+                ->from('AppBundle\Entity\Data\TraitNumericalEntry', 't')
                 ->where('t.traitType = :traitTypeId')
                 ->setParameter('traitTypeId', $result[$i]['traitTypeId'])
                 ->groupBy('t.traitType');
@@ -144,9 +144,9 @@ class TraitNumericalEntryRepository extends EntityRepository
     public function getTraitEntry($traitEntryIds){
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('t.id AS id', 'IDENTITY(t.fennec) AS fennec', 't.originUrl', 't.value AS valueName', 'traitType.type AS typeName', 'traitType.unit AS unit', 'traitType.ontologyUrl AS typeDefinition', 'traitCitation.citation')
-            ->from('AppBundle\Entity\TraitNumericalEntry', 't')
-            ->innerJoin('AppBundle\Entity\TraitType', 'traitType', 'WITH', 't.traitType = traitType.id')
-            ->innerJoin('AppBundle\Entity\TraitCitation', 'traitCitation', 'WITH', 't.traitCitation = traitCitation.id')
+            ->from('AppBundle\Entity\Data\TraitNumericalEntry', 't')
+            ->innerJoin('AppBundle\Entity\Data\TraitType', 'traitType', 'WITH', 't.traitType = traitType.id')
+            ->innerJoin('AppBundle\Entity\Data\TraitCitation', 'traitCitation', 'WITH', 't.traitCitation = traitCitation.id')
             ->add('where', $qb->expr()->in('t.id', $traitEntryIds));
         $query = $qb->getQuery();
         $result = $query->getResult();

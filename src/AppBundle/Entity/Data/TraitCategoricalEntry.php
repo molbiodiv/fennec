@@ -56,9 +56,9 @@ class TraitCategoricalEntry
     private $id;
 
     /**
-     * @var \AppBundle\Entity\Organism
+     * @var \AppBundle\Entity\Data\Organism
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Organism")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Data\Organism")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="fennec_id", referencedColumnName="fennec_id", nullable=false)
      * })
@@ -66,9 +66,9 @@ class TraitCategoricalEntry
     private $fennec;
 
     /**
-     * @var \AppBundle\Entity\TraitCategoricalValue
+     * @var \AppBundle\Entity\Data\TraitCategoricalValue
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\TraitCategoricalValue")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Data\TraitCategoricalValue")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="trait_categorical_value_id", referencedColumnName="id", nullable=false)
      * })
@@ -76,9 +76,9 @@ class TraitCategoricalEntry
     private $traitCategoricalValue;
 
     /**
-     * @var \AppBundle\Entity\TraitCitation
+     * @var \AppBundle\Entity\Data\TraitCitation
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\TraitCitation")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Data\TraitCitation")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="trait_citation_id", referencedColumnName="id")
      * })
@@ -86,9 +86,9 @@ class TraitCategoricalEntry
     private $traitCitation;
 
     /**
-     * @var \AppBundle\Entity\TraitType
+     * @var \AppBundle\Entity\Data\TraitType
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\TraitType")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Data\TraitType")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="trait_type_id", referencedColumnName="id", nullable=false)
      * })
@@ -96,9 +96,9 @@ class TraitCategoricalEntry
     private $traitType;
 
     /**
-     * @var \AppBundle\UserDBEntity\FennecUser
+     * @var \AppBundle\Entity\User\FennecUser
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\UserDBEntity\FennecUser")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User\FennecUser")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="webuser_id", referencedColumnName="id", nullable=false)
      * })
@@ -216,11 +216,11 @@ class TraitCategoricalEntry
     /**
      * Set fennec.
      *
-     * @param \AppBundle\Entity\Organism|null $fennec
+     * @param \AppBundle\Entity\Data\Organism|null $fennec
      *
      * @return TraitCategoricalEntry
      */
-    public function setFennec(\AppBundle\Entity\Organism $fennec = null)
+    public function setFennec(\AppBundle\Entity\Data\Organism $fennec = null)
     {
         $this->fennec = $fennec;
 
@@ -230,7 +230,7 @@ class TraitCategoricalEntry
     /**
      * Get fennec.
      *
-     * @return \AppBundle\Entity\Organism|null
+     * @return \AppBundle\Entity\Data\Organism|null
      */
     public function getFennec()
     {
@@ -240,11 +240,11 @@ class TraitCategoricalEntry
     /**
      * Set traitCategoricalValue.
      *
-     * @param \AppBundle\Entity\TraitCategoricalValue|null $traitCategoricalValue
+     * @param \AppBundle\Entity\Data\TraitCategoricalValue|null $traitCategoricalValue
      *
      * @return TraitCategoricalEntry
      */
-    public function setTraitCategoricalValue(\AppBundle\Entity\TraitCategoricalValue $traitCategoricalValue = null)
+    public function setTraitCategoricalValue(\AppBundle\Entity\Data\TraitCategoricalValue $traitCategoricalValue = null)
     {
         $this->traitCategoricalValue = $traitCategoricalValue;
 
@@ -254,7 +254,7 @@ class TraitCategoricalEntry
     /**
      * Get traitCategoricalValue.
      *
-     * @return \AppBundle\Entity\TraitCategoricalValue|null
+     * @return \AppBundle\Entity\Data\TraitCategoricalValue|null
      */
     public function getTraitCategoricalValue()
     {
@@ -264,11 +264,11 @@ class TraitCategoricalEntry
     /**
      * Set traitCitation.
      *
-     * @param \AppBundle\Entity\TraitCitation|null $traitCitation
+     * @param \AppBundle\Entity\Data\TraitCitation|null $traitCitation
      *
      * @return TraitCategoricalEntry
      */
-    public function setTraitCitation(\AppBundle\Entity\TraitCitation $traitCitation = null)
+    public function setTraitCitation(\AppBundle\Entity\Data\TraitCitation $traitCitation = null)
     {
         $this->traitCitation = $traitCitation;
 
@@ -278,7 +278,7 @@ class TraitCategoricalEntry
     /**
      * Get traitCitation.
      *
-     * @return \AppBundle\Entity\TraitCitation|null
+     * @return \AppBundle\Entity\Data\TraitCitation|null
      */
     public function getTraitCitation()
     {
@@ -288,11 +288,11 @@ class TraitCategoricalEntry
     /**
      * Set traitType.
      *
-     * @param \AppBundle\Entity\TraitType|null $traitType
+     * @param \AppBundle\Entity\Data\TraitType|null $traitType
      *
      * @return TraitCategoricalEntry
      */
-    public function setTraitType(\AppBundle\Entity\TraitType $traitType = null)
+    public function setTraitType(\AppBundle\Entity\Data\TraitType $traitType = null)
     {
         $this->traitType = $traitType;
 
@@ -302,7 +302,7 @@ class TraitCategoricalEntry
     /**
      * Get traitType.
      *
-     * @return \AppBundle\Entity\TraitType|null
+     * @return \AppBundle\Entity\Data\TraitType|null
      */
     public function getTraitType()
     {
@@ -312,11 +312,11 @@ class TraitCategoricalEntry
     /**
      * Set webuser.
      *
-     * @param \AppBundle\Entity\FennecUser|null $webuser
+     * @param \AppBundle\Entity\User\FennecUser|null $webuser
      *
      * @return TraitCategoricalEntry
      */
-    public function setWebuser(\AppBundle\Entity\FennecUser $webuser = null)
+    public function setWebuser(\AppBundle\Entity\User\FennecUser $webuser = null)
     {
         $this->webuser = $webuser;
 
@@ -326,7 +326,7 @@ class TraitCategoricalEntry
     /**
      * Get webuser.
      *
-     * @return \AppBundle\Entity\FennecUser|null
+     * @return \AppBundle\Entity\User\FennecUser|null
      */
     public function getWebuser()
     {

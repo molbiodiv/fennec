@@ -13,14 +13,14 @@ use Doctrine\ORM\EntityRepository;
 class OrganismRepository extends EntityRepository
 {
     public function getNumber(): int {
-        $query = $this->getEntityManager()->createQuery('SELECT COUNT(o.fennecId) FROM AppBundle\Entity\Organism o');
+        $query = $this->getEntityManager()->createQuery('SELECT COUNT(o.fennecId) FROM AppBundle\Entity\Data\Organism o');
         return $query->getSingleScalarResult();
     }
 
     public function getListOfOrganisms($limit, $search): array {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('organism.fennecId', 'organism.scientificName')
-            ->from('AppBundle\Entity\Organism', 'organism')
+            ->from('AppBundle\Entity\Data\Organism', 'organism')
             ->where('LOWER(organism.scientificName) LIKE LOWER(:search)')
             ->setParameter('search', $search)
             ->setMaxResults($limit);
@@ -31,7 +31,7 @@ class OrganismRepository extends EntityRepository
     public function getDetailsOfOrganism($fennec_id){
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('organism')
-            ->from('AppBundle\Entity\Organism','organism')
+            ->from('AppBundle\Entity\Data\Organism','organism')
             ->where('organism.fennecId = :id')
             ->setParameter('id', $fennec_id);
         $query = $qb->getQuery();
@@ -59,7 +59,7 @@ class OrganismRepository extends EntityRepository
     private function getDBId($db_name){
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('db.dbId')
-            ->from('AppBundle\Entity\Db', 'db')
+            ->from('AppBundle\Entity\Data\Db', 'db')
             ->where('db.name = :dbName')
             ->setParameter('dbName', $db_name);
         $query = $qb->getQuery();
@@ -77,7 +77,7 @@ class OrganismRepository extends EntityRepository
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('d.identifier')
-            ->from('AppBundle\Entity\FennecDbxref', 'd')
+            ->from('AppBundle\Entity\Data\FennecDbxref', 'd')
             ->where('d.db = :dbId')
             ->andWhere('d.fennec = :fennecId')
             ->setParameter('dbId', $db_id)
@@ -127,9 +127,9 @@ class OrganismRepository extends EntityRepository
     private function getCategoricalTraits($fennec_ids){
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('t.id', 'IDENTITY(t.fennec) AS fennec', 'IDENTITY(t.traitType) AS traitTypeId', 'ttype.type AS traitType','ttype.unit','tformat.format')
-            ->from('AppBundle\Entity\TraitCategoricalEntry', 't')
-            ->innerJoin('AppBundle\Entity\TraitType','ttype','WITH', 't.traitType = ttype.id')
-            ->innerJoin('AppBundle\Entity\TraitFormat','tformat','WITH', 'ttype.traitFormat = tformat.id')
+            ->from('AppBundle\Entity\Data\TraitCategoricalEntry', 't')
+            ->innerJoin('AppBundle\Entity\Data\TraitType','ttype','WITH', 't.traitType = ttype.id')
+            ->innerJoin('AppBundle\Entity\Data\TraitFormat','tformat','WITH', 'ttype.traitFormat = tformat.id')
             ->where('t.deletionDate IS NULL')
             ->andWhere('t.fennec IN (:fennec_ids)')
             ->setParameter('fennec_ids', $fennec_ids);
@@ -140,9 +140,9 @@ class OrganismRepository extends EntityRepository
     private function getNumericalTraits($fennec_ids){
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('t.id', 'IDENTITY(t.fennec) AS fennec', 'IDENTITY(t.traitType) AS traitTypeId', 'ttype.type AS traitType','ttype.unit','tformat.format')
-            ->from('AppBundle\Entity\TraitNumericalEntry', 't')
-            ->innerJoin('AppBundle\Entity\TraitType','ttype','WITH', 't.traitType = ttype.id')
-            ->innerJoin('AppBundle\Entity\TraitFormat','tformat','WITH', 'ttype.traitFormat = tformat.id')
+            ->from('AppBundle\Entity\Data\TraitNumericalEntry', 't')
+            ->innerJoin('AppBundle\Entity\Data\TraitType','ttype','WITH', 't.traitType = ttype.id')
+            ->innerJoin('AppBundle\Entity\Data\TraitFormat','tformat','WITH', 'ttype.traitFormat = tformat.id')
             ->where('t.deletionDate IS NULL')
             ->andWhere('t.fennec IN (:fennecIds)')
             ->setParameter('fennecIds', $fennec_ids);
@@ -153,8 +153,8 @@ class OrganismRepository extends EntityRepository
     public function getOrganismByTrait($trait_type_id, $limit){
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('DISTINCT IDENTITY(t.fennec) AS fennecId', 'o.scientificName')
-            ->from('AppBundle\Entity\TraitCategoricalEntry', 't')
-            ->innerJoin('AppBundle\Entity\Organism','o','WITH', 't.fennec = o.fennecId')
+            ->from('AppBundle\Entity\Data\TraitCategoricalEntry', 't')
+            ->innerJoin('AppBundle\Entity\Data\Organism','o','WITH', 't.fennec = o.fennecId')
             ->where('t.traitType = :traitTypeId')
             ->setParameter('traitTypeId', $trait_type_id)
             ->setMaxResults($limit)
@@ -166,8 +166,8 @@ class OrganismRepository extends EntityRepository
 
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('DISTINCT IDENTITY(t.fennec) AS fennecId', 'o.scientificName')
-            ->from('AppBundle\Entity\TraitNumericalEntry', 't')
-            ->innerJoin('AppBundle\Entity\Organism','o','WITH', 't.fennec = o.fennecId')
+            ->from('AppBundle\Entity\Data\TraitNumericalEntry', 't')
+            ->innerJoin('AppBundle\Entity\Data\Organism','o','WITH', 't.fennec = o.fennecId')
             ->where('t.traitType = :traitTypeId')
             ->setParameter('traitTypeId', $trait_type_id)
             ->setMaxResults($limit)
@@ -180,7 +180,7 @@ class OrganismRepository extends EntityRepository
     public function getScientificNamesToFennecids($ids){
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('o.fennecId', 'o.scientificName')
-            ->from('AppBundle\Entity\Organism', 'o')
+            ->from('AppBundle\Entity\Data\Organism', 'o')
             ->where('o.fennecId IN (:ids)')
             ->setParameter('ids', $ids);
         $query = $qb->getQuery();
@@ -195,7 +195,7 @@ class OrganismRepository extends EntityRepository
     public function getFennecIdsToScientificNames($scinames){
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('o.fennecId', 'o.scientificName')
-            ->from('AppBundle\Entity\Organism', 'o')
+            ->from('AppBundle\Entity\Data\Organism', 'o')
             ->where('o.scientificName IN (:scinames)')
             ->setParameter('scinames', $scinames);
         $query = $qb->getQuery();
@@ -218,7 +218,7 @@ class OrganismRepository extends EntityRepository
     public function getFullIds(){
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('o.fennecId', 'o.scientificName')
-            ->from('AppBundle\Entity\Organism', 'o');
+            ->from('AppBundle\Entity\Data\Organism', 'o');
         $query = $qb->getQuery();
         $result = $query->getResult();
         $data = array();

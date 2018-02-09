@@ -44,15 +44,15 @@ class WebuserData
     private $webuserDataId;
 
     /**
-     * @var \AppBundle\UserDBEntity\FennecUser
+     * @var \AppBundle\Entity\User\FennecUser
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\UserDBEntity\FennecUser")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User\FennecUser")
      * @ORM\JoinColumn(name="webuser_id", referencedColumnName="id", nullable=false)
      */
     private $webuser;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Permissions", mappedBy="webuserData")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\User\Permissions", mappedBy="webuserData")
      */
     protected $permissions;
 
@@ -162,11 +162,11 @@ class WebuserData
     /**
      * Set webuser.
      *
-     * @param \AppBundle\Entity\FennecUser|null $webuser
+     * @param \AppBundle\Entity\User\FennecUser|null $webuser
      *
      * @return WebuserData
      */
-    public function setWebuser(\AppBundle\Entity\FennecUser $webuser = null)
+    public function setWebuser(\AppBundle\Entity\User\FennecUser $webuser = null)
     {
         $this->webuser = $webuser;
 
@@ -176,7 +176,7 @@ class WebuserData
     /**
      * Get webuser.
      *
-     * @return \AppBundle\Entity\FennecUser|null
+     * @return \AppBundle\Entity\User\FennecUser|null
      */
     public function getWebuser()
     {

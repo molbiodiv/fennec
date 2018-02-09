@@ -15,8 +15,8 @@ class TaxonomyNodeRepository extends EntityRepository
     public function getDatabases($fennec_id){
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('t.taxonomyNodeId', 'db.name')
-            ->from('AppBundle\Entity\TaxonomyNode', 't')
-            ->innerJoin('AppBundle\Entity\Db','db','WITH', 't.db = db.dbId')
+            ->from('AppBundle\Entity\Data\TaxonomyNode', 't')
+            ->innerJoin('AppBundle\Entity\Data\Db','db','WITH', 't.db = db.dbId')
             ->where('t.fennec = :fennec_id')
             ->setParameter('fennec_id', $fennec_id);
         $query = $qb->getQuery();
@@ -49,7 +49,7 @@ class TaxonomyNodeRepository extends EntityRepository
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('t.parentTaxonomyNodeId')
-            ->from('AppBundle\Entity\TaxonomyNode', 't')
+            ->from('AppBundle\Entity\Data\TaxonomyNode', 't')
             ->where('t.taxonomyNodeId = :taxonomyNodeId')
             ->setParameter('taxonomyNodeId', $taxonomy_node_id);
         $query = $qb->getQuery();
@@ -63,7 +63,7 @@ class TaxonomyNodeRepository extends EntityRepository
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('o.scientificName')
             ->from('AppBundle:Organism', 'o')
-            ->innerJoin('AppBundle\Entity\TaxonomyNode','t','WITH', 'o.fennecId = t.fennec')
+            ->innerJoin('AppBundle\Entity\Data\TaxonomyNode','t','WITH', 'o.fennecId = t.fennec')
             ->where('t.taxonomyNodeId = :taxonomyNodeId')
             ->setParameter('taxonomyNodeId', $taxonomy_node_id);
         $query = $qb->getQuery();

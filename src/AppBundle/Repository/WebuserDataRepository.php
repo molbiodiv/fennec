@@ -2,9 +2,9 @@
 
 namespace AppBundle\Repository;
 
-use AppBundle\Entity\FennecUser;
-use AppBundle\Entity\Permissions;
-use AppBundle\Entity\WebuserData;
+use AppBundle\Entity\User\FennecUser;
+use AppBundle\Entity\User\Permissions;
+use AppBundle\Entity\User\WebuserData;
 use Doctrine\ORM\EntityRepository;
 
 /**
@@ -27,8 +27,8 @@ class WebuserDataRepository extends EntityRepository
     public function getDataForUser(FennecUser $user) {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('IDENTITY(data.webuser) AS webuserId', 'p.permission', 'data.webuserDataId', 'data.importDate', 'data.importFilename', 'data.project')
-            ->from('AppBundle\Entity\Permissions', 'p')
-            ->innerJoin('AppBundle\Entity\WebuserData', 'data', 'WITH', 'p.webuserData = data.webuserDataId')
+            ->from('AppBundle\Entity\User\Permissions', 'p')
+            ->innerJoin('AppBundle\Entity\User\WebuserData', 'data', 'WITH', 'p.webuserData = data.webuserDataId')
             ->where('p.webuser = :userId')
             ->setParameter('userId', $user->getId());
         $query = $qb->getQuery();
@@ -38,7 +38,7 @@ class WebuserDataRepository extends EntityRepository
     public function getDataByProjectId($projectId) {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('IDENTITY(data.webuser) AS webuserId', 'data.webuserDataId', 'data.importDate', 'data.importFilename', 'data.project')
-            ->from('AppBundle\Entity\WebuserData', 'data')
+            ->from('AppBundle\Entity\User\WebuserData', 'data')
             ->where('data.webuserDataId = :projectId')
             ->setParameter('projectId', $projectId);
         $query = $qb->getQuery();

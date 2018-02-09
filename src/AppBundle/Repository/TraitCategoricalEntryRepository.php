@@ -14,7 +14,7 @@ class TraitCategoricalEntryRepository extends EntityRepository
 {
     public function getNumber(): int
     {
-        $query = $this->getEntityManager()->createQuery('SELECT COUNT(t.id) FROM AppBundle\Entity\TraitCategoricalEntry t WHERE t.deletionDate IS NULL ');
+        $query = $this->getEntityManager()->createQuery('SELECT COUNT(t.id) FROM AppBundle\Entity\Data\TraitCategoricalEntry t WHERE t.deletionDate IS NULL ');
         return $query->getSingleScalarResult();
     }
 
@@ -22,8 +22,8 @@ class TraitCategoricalEntryRepository extends EntityRepository
         $qb = $this->getEntityManager()->createQueryBuilder();
         if($fennec_ids !== null){
             $qb->select('IDENTITY(t.fennec) AS id', 'value.value')
-                ->from('AppBundle\Entity\TraitCategoricalEntry', 't')
-                ->innerJoin('AppBundle\Entity\TraitCategoricalValue', 'value', 'WITH', 't.traitCategoricalValue = value.id')
+                ->from('AppBundle\Entity\Data\TraitCategoricalEntry', 't')
+                ->innerJoin('AppBundle\Entity\Data\TraitCategoricalValue', 'value', 'WITH', 't.traitCategoricalValue = value.id')
                 ->where('t.traitType = :trait_type_id')
                 ->andWhere('t.fennec in (:fennec_ids)')
                 ->andWhere('t.deletionDate IS NULL')
@@ -31,8 +31,8 @@ class TraitCategoricalEntryRepository extends EntityRepository
                 ->setParameter('fennec_ids', $fennec_ids);
         } else {
             $qb->select('IDENTITY(t.fennec) AS id', 'value.value')
-                ->from('AppBundle\Entity\TraitCategoricalEntry', 't')
-                ->innerJoin('AppBundle\Entity\TraitCategoricalValue', 'value', 'WITH', 't.traitCategoricalValue = value.id')
+                ->from('AppBundle\Entity\Data\TraitCategoricalEntry', 't')
+                ->innerJoin('AppBundle\Entity\Data\TraitCategoricalValue', 'value', 'WITH', 't.traitCategoricalValue = value.id')
                 ->where('t.traitType = :trait_type_id')
                 ->andWhere('t.deletionDate IS NULL')
                 ->setParameter('trait_type_id', $trait_type_id);
@@ -63,7 +63,7 @@ class TraitCategoricalEntryRepository extends EntityRepository
         $qb = $this->getEntityManager()->createQueryBuilder();
         if($fennec_ids !== null){
             $qb->select('count(DISTINCT IDENTITY(t.fennec))')
-                ->from('AppBundle\Entity\TraitCategoricalEntry', 't')
+                ->from('AppBundle\Entity\Data\TraitCategoricalEntry', 't')
                 ->where('t.traitType = :trait_type_id')
                 ->andWhere('t.deletionDate IS NULL')
                 ->andWhere('t.fennec IN (:fennec_ids)')
@@ -71,7 +71,7 @@ class TraitCategoricalEntryRepository extends EntityRepository
                 ->setParameter('fennec_ids', $fennec_ids);
         } else {
             $qb->select('count(DISTINCT IDENTITY(t.fennec))')
-                ->from('AppBundle\Entity\TraitCategoricalEntry', 't')
+                ->from('AppBundle\Entity\Data\TraitCategoricalEntry', 't')
                 ->where('t.traitType = :trait_type_id')
                 ->setParameter('trait_type_id', $trait_type_id)
                 ->expr()->isNull('t.deletionDate');
@@ -90,9 +90,9 @@ class TraitCategoricalEntryRepository extends EntityRepository
         $qb = $this->getEntityManager()->createQueryBuilder();
         if($fennec_ids !== null){
             $qb->select('IDENTITY(t.fennec) AS id', 'traitCitation.citation', 'traitValue.value')
-                ->from('AppBundle\Entity\TraitCategoricalEntry', 't')
-                ->innerJoin('AppBundle\Entity\TraitCitation', 'traitCitation', 'WITH', 't.traitCitation = traitCitation.id')
-                ->innerJoin('AppBundle\Entity\TraitCategoricalValue', 'traitValue', 'WITH', 't.traitCategoricalValue = traitValue.id')
+                ->from('AppBundle\Entity\Data\TraitCategoricalEntry', 't')
+                ->innerJoin('AppBundle\Entity\Data\TraitCitation', 'traitCitation', 'WITH', 't.traitCitation = traitCitation.id')
+                ->innerJoin('AppBundle\Entity\Data\TraitCategoricalValue', 'traitValue', 'WITH', 't.traitCategoricalValue = traitValue.id')
                 ->where('t.traitType = :trait_type_id')
                 ->andWhere('t.fennec IN (:fennecIds)')
                 ->andWhere('t.deletionDate IS NULL')
@@ -100,9 +100,9 @@ class TraitCategoricalEntryRepository extends EntityRepository
                 ->setParameter('fennecIds', $fennec_ids);
         } else {
             $qb->select('IDENTITY(t.fennec) AS id', 'traitCitation.citation', 'traitValue.value')
-                ->from('AppBundle\Entity\TraitCategoricalEntry', 't')
-                ->innerJoin('AppBundle\Entity\TraitCitation', 'traitCitation', 'WITH', 't.traitCitation = traitCitation.id')
-                ->innerJoin('AppBundle\Entity\TraitCategoricalValue', 'traitValue', 'WITH', 't.traitCategoricalValue = traitValue.id')
+                ->from('AppBundle\Entity\Data\TraitCategoricalEntry', 't')
+                ->innerJoin('AppBundle\Entity\Data\TraitCitation', 'traitCitation', 'WITH', 't.traitCitation = traitCitation.id')
+                ->innerJoin('AppBundle\Entity\Data\TraitCategoricalValue', 'traitValue', 'WITH', 't.traitCategoricalValue = traitValue.id')
                 ->where('t.traitType = :trait_type_id')
                 ->andWhere('t.deletionDate IS NULL')
                 ->setParameter('trait_type_id', $trait_type_id);
@@ -126,8 +126,8 @@ class TraitCategoricalEntryRepository extends EntityRepository
     public function getTraits($search, $limit){
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('IDENTITY(t.traitType) AS traitTypeId', 'traitType.type')
-            ->from('AppBundle\Entity\TraitCategoricalEntry', 't')
-            ->innerJoin('AppBundle\Entity\TraitType', 'traitType', 'WITH', 't.traitType = traitType.id')
+            ->from('AppBundle\Entity\Data\TraitCategoricalEntry', 't')
+            ->innerJoin('AppBundle\Entity\Data\TraitType', 'traitType', 'WITH', 't.traitType = traitType.id')
             ->where('lower(traitType.type) LIKE lower(:search)')
             ->groupBy('t.traitType', 'traitType.type')
             ->setParameter('search', $search)
@@ -139,7 +139,7 @@ class TraitCategoricalEntryRepository extends EntityRepository
         for($i=0;$i<sizeof($result);$i++){
             $qb = $this->getEntityManager()->createQueryBuilder();
             $qb->select('COUNT(IDENTITY(t.traitType)) AS count')
-                ->from('AppBundle\Entity\TraitCategoricalEntry', 't')
+                ->from('AppBundle\Entity\Data\TraitCategoricalEntry', 't')
                 ->where('t.traitType = :traitTypeId')
                 ->setParameter('traitTypeId', $result[$i]['traitTypeId'])
                 ->groupBy('t.traitType');
@@ -154,10 +154,10 @@ class TraitCategoricalEntryRepository extends EntityRepository
     public function getTraitEntry($traitEntryIds){
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('t.id AS id', 'IDENTITY(t.fennec) AS fennec', 't.originUrl', 'traitValue.value AS valueName', 'traitValue.ontologyUrl AS valueDefinition', 'traitType.type AS typeName', 'traitType.unit AS unit', 'traitType.ontologyUrl AS typeDefinition', 'traitCitation.citation')
-            ->from('AppBundle\Entity\TraitCategoricalEntry', 't')
-            ->innerJoin('AppBundle\Entity\TraitCategoricalValue', 'traitValue', 'WITH', 't.traitCategoricalValue = traitValue.id')
-            ->innerJoin('AppBundle\Entity\TraitType', 'traitType', 'WITH', 't.traitType = traitType.id')
-            ->innerJoin('AppBundle\Entity\TraitCitation', 'traitCitation', 'WITH', 't.traitCitation = traitCitation.id')
+            ->from('AppBundle\Entity\Data\TraitCategoricalEntry', 't')
+            ->innerJoin('AppBundle\Entity\Data\TraitCategoricalValue', 'traitValue', 'WITH', 't.traitCategoricalValue = traitValue.id')
+            ->innerJoin('AppBundle\Entity\Data\TraitType', 'traitType', 'WITH', 't.traitType = traitType.id')
+            ->innerJoin('AppBundle\Entity\Data\TraitCitation', 'traitCitation', 'WITH', 't.traitCitation = traitCitation.id')
             ->add('where', $qb->expr()->in('t.id', $traitEntryIds));
         $query = $qb->getQuery();
         $result = $query->getResult();
