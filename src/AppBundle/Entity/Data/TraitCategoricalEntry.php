@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * TraitCategoricalEntry
  *
- * @ORM\Table(name="trait_categorical_entry", indexes={@ORM\Index(name="IDX_DDFBB816594DA73F", columns={"fennec_id"}), @ORM\Index(name="IDX_DDFBB8163B8FE7EB", columns={"trait_categorical_value_id"}), @ORM\Index(name="IDX_DDFBB81650F4882D", columns={"trait_citation_id"}), @ORM\Index(name="IDX_DDFBB816788909E7", columns={"trait_type_id"}), @ORM\Index(name="IDX_DDFBB81649279951", columns={"webuser_id"})})
+ * @ORM\Table(name="trait_categorical_entry")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Data\TraitCategoricalEntryRepository")
  */
 class TraitCategoricalEntry
@@ -96,14 +96,30 @@ class TraitCategoricalEntry
     private $traitType;
 
     /**
-     * @var \AppBundle\Entity\User\FennecUser
+     * @var \AppBundle\Entity\Data\Db
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User\FennecUser")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Data\Db")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="webuser_id", referencedColumnName="id", nullable=false)
+     *   @ORM\JoinColumn(name="db_id", referencedColumnName="id", nullable=false)
      * })
      */
-    private $webuser;
+    private $db;
+
+    /**
+     * @return Db
+     */
+    public function getDb()
+    {
+        return $this->db;
+    }
+
+    /**
+     * @param Db $db
+     */
+    public function setDb($db)
+    {
+        $this->db = $db;
+    }
 
 
 
@@ -307,29 +323,5 @@ class TraitCategoricalEntry
     public function getTraitType()
     {
         return $this->traitType;
-    }
-
-    /**
-     * Set webuser.
-     *
-     * @param \AppBundle\Entity\User\FennecUser|null $webuser
-     *
-     * @return TraitCategoricalEntry
-     */
-    public function setWebuser(\AppBundle\Entity\User\FennecUser $webuser = null)
-    {
-        $this->webuser = $webuser;
-
-        return $this;
-    }
-
-    /**
-     * Get webuser.
-     *
-     * @return \AppBundle\Entity\User\FennecUser|null
-     */
-    public function getWebuser()
-    {
-        return $this->webuser;
     }
 }
