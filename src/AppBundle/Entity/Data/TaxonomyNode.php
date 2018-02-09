@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * TaxonomyNode
  *
  * @ORM\Table(name="taxonomy_node", indexes={@ORM\Index(name="IDX_E79D6AF2A2BF053A", columns={"db_id"}), @ORM\Index(name="IDX_E79D6AF2594DA73F", columns={"fennec_id"}), @ORM\Index(name="IDX_E79D6AF27616678F", columns={"rank_id"})})
- * @ORM\Entity(repositoryClass="AppBundle\Repository\TaxonomyNodeRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\Data\TaxonomyNodeRepository")
  */
 class TaxonomyNode
 {

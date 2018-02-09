@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * TraitFormat
  *
  * @ORM\Table(name="trait_format", uniqueConstraints={@ORM\UniqueConstraint(name="trait_format_format_uniq", columns={"format"})})
- * @ORM\Entity(repositoryClass="AppBundle\Repository\TraitFormatRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\Data\TraitFormatRepository")
  */
 class TraitFormat
 {

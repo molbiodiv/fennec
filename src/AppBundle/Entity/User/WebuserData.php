@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * WebuserData
  *
  * @ORM\Table(name="webuser_data", indexes={@ORM\Index(name="IDX_EEEDEB2749279951", columns={"webuser_id"})})
- * @ORM\Entity(repositoryClass="AppBundle\Repository\WebuserDataRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\User\WebuserDataRepository")
  */
 class WebuserData
 {

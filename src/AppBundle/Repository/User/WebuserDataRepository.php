@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Repository;
+namespace AppBundle\Repository\User;
 
 use AppBundle\Entity\User\FennecUser;
 use AppBundle\Entity\User\Permissions;

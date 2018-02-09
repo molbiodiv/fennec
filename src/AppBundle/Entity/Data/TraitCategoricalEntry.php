@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * TraitCategoricalEntry
  *
  * @ORM\Table(name="trait_categorical_entry", indexes={@ORM\Index(name="IDX_DDFBB816594DA73F", columns={"fennec_id"}), @ORM\Index(name="IDX_DDFBB8163B8FE7EB", columns={"trait_categorical_value_id"}), @ORM\Index(name="IDX_DDFBB81650F4882D", columns={"trait_citation_id"}), @ORM\Index(name="IDX_DDFBB816788909E7", columns={"trait_type_id"}), @ORM\Index(name="IDX_DDFBB81649279951", columns={"webuser_id"})})
- * @ORM\Entity(repositoryClass="AppBundle\Repository\TraitCategoricalEntryRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\Data\TraitCategoricalEntryRepository")
  */
 class TraitCategoricalEntry
 {
