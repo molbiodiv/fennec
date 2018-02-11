@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace AppBundle\Entity\Data;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * TaxonomyNode
  *
  * @ORM\Table(name="taxonomy_node", indexes={@ORM\Index(name="IDX_E79D6AF2A2BF053A", columns={"db_id"}), @ORM\Index(name="IDX_E79D6AF2594DA73F", columns={"fennec_id"}), @ORM\Index(name="IDX_E79D6AF27616678F", columns={"rank_id"})})
- * @ORM\Entity(repositoryClass="AppBundle\Repository\TaxonomyNodeRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\Data\TaxonomyNodeRepository")
  */
 class TaxonomyNode
 {
@@ -44,19 +44,19 @@ class TaxonomyNode
     private $taxonomyNodeId;
 
     /**
-     * @var \AppBundle\Entity\Db
+     * @var \AppBundle\Entity\Data\Db
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Db")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Data\Db")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="db_id", referencedColumnName="db_id", nullable=false)
+     *   @ORM\JoinColumn(name="db_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $db;
 
     /**
-     * @var \AppBundle\Entity\Organism
+     * @var \AppBundle\Entity\Data\Organism
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Organism")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Data\Organism")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="fennec_id", referencedColumnName="fennec_id", nullable=false)
      * })
@@ -64,9 +64,9 @@ class TaxonomyNode
     private $fennec;
 
     /**
-     * @var \AppBundle\Entity\Rank
+     * @var \AppBundle\Entity\Data\Rank
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Rank")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Data\Rank")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="rank_id", referencedColumnName="rank_id")
      * })
@@ -160,11 +160,11 @@ class TaxonomyNode
     /**
      * Set db.
      *
-     * @param \AppBundle\Entity\Db|null $db
+     * @param \AppBundle\Entity\Data\Db|null $db
      *
      * @return TaxonomyNode
      */
-    public function setDb(\AppBundle\Entity\Db $db = null)
+    public function setDb(\AppBundle\Entity\Data\Db $db = null)
     {
         $this->db = $db;
 
@@ -174,7 +174,7 @@ class TaxonomyNode
     /**
      * Get db.
      *
-     * @return \AppBundle\Entity\Db|null
+     * @return \AppBundle\Entity\Data\Db|null
      */
     public function getDb()
     {
@@ -184,11 +184,11 @@ class TaxonomyNode
     /**
      * Set fennec.
      *
-     * @param \AppBundle\Entity\Organism|null $fennec
+     * @param \AppBundle\Entity\Data\Organism|null $fennec
      *
      * @return TaxonomyNode
      */
-    public function setFennec(\AppBundle\Entity\Organism $fennec = null)
+    public function setFennec(\AppBundle\Entity\Data\Organism $fennec = null)
     {
         $this->fennec = $fennec;
 
@@ -198,7 +198,7 @@ class TaxonomyNode
     /**
      * Get fennec.
      *
-     * @return \AppBundle\Entity\Organism|null
+     * @return \AppBundle\Entity\Data\Organism|null
      */
     public function getFennec()
     {
@@ -208,11 +208,11 @@ class TaxonomyNode
     /**
      * Set rank.
      *
-     * @param \AppBundle\Entity\Rank|null $rank
+     * @param \AppBundle\Entity\Data\Rank|null $rank
      *
      * @return TaxonomyNode
      */
-    public function setRank(\AppBundle\Entity\Rank $rank = null)
+    public function setRank(\AppBundle\Entity\Data\Rank $rank = null)
     {
         $this->rank = $rank;
 
@@ -222,7 +222,7 @@ class TaxonomyNode
     /**
      * Get rank.
      *
-     * @return \AppBundle\Entity\Rank|null
+     * @return \AppBundle\Entity\Data\Rank|null
      */
     public function getRank()
     {

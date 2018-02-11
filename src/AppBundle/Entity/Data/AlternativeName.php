@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace AppBundle\Entity\Data;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -30,9 +30,9 @@ class AlternativeName
     private $alternativeNameId;
 
     /**
-     * @var \AppBundle\Entity\Organism
+     * @var \AppBundle\Entity\Data\Organism
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Organism")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Data\Organism")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="fennec_id", referencedColumnName="fennec_id", nullable=false)
      * })
@@ -40,9 +40,9 @@ class AlternativeName
     private $fennec;
 
     /**
-     * @var \AppBundle\Entity\NameType
+     * @var \AppBundle\Entity\Data\NameType
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\NameType")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Data\NameType")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="name_type_id", referencedColumnName="name_type_id", nullable=false)
      * })
@@ -88,11 +88,11 @@ class AlternativeName
     /**
      * Set fennec.
      *
-     * @param \AppBundle\Entity\Organism|null $fennec
+     * @param \AppBundle\Entity\Data\Organism|null $fennec
      *
      * @return AlternativeName
      */
-    public function setFennec(\AppBundle\Entity\Organism $fennec = null)
+    public function setFennec(\AppBundle\Entity\Data\Organism $fennec = null)
     {
         $this->fennec = $fennec;
 
@@ -102,7 +102,7 @@ class AlternativeName
     /**
      * Get fennec.
      *
-     * @return \AppBundle\Entity\Organism|null
+     * @return \AppBundle\Entity\Data\Organism|null
      */
     public function getFennec()
     {
@@ -112,11 +112,11 @@ class AlternativeName
     /**
      * Set nameType.
      *
-     * @param \AppBundle\Entity\NameType|null $nameType
+     * @param \AppBundle\Entity\Data\NameType|null $nameType
      *
      * @return AlternativeName
      */
-    public function setNameType(\AppBundle\Entity\NameType $nameType = null)
+    public function setNameType(\AppBundle\Entity\Data\NameType $nameType = null)
     {
         $this->nameType = $nameType;
 
@@ -126,7 +126,7 @@ class AlternativeName
     /**
      * Get nameType.
      *
-     * @return \AppBundle\Entity\NameType|null
+     * @return \AppBundle\Entity\Data\NameType|null
      */
     public function getNameType()
     {

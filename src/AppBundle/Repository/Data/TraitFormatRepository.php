@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Repository;
+namespace AppBundle\Repository\Data;
 
 use Doctrine\ORM\EntityRepository;
 
@@ -15,7 +15,7 @@ class TraitFormatRepository extends EntityRepository
     public function getFormat($traitFormatId){
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('t.format')
-            ->from('AppBundle\Entity\TraitFormat', 't')
+            ->from('AppBundle\Entity\Data\TraitFormat', 't')
             ->where('t.id = :trait_format_id')
             ->setParameter('trait_format_id', $traitFormatId);
         $query = $qb->getQuery();

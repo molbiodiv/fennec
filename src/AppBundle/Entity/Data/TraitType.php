@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace AppBundle\Entity\Data;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * TraitType
  *
  * @ORM\Table(name="trait_type", uniqueConstraints={@ORM\UniqueConstraint(name="trait_type_type_uniq", columns={"type"})}, indexes={@ORM\Index(name="IDX_4778902CA8809D", columns={"trait_format_id"})})
- * @ORM\Entity(repositoryClass="AppBundle\Repository\TraitTypeRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\Data\TraitTypeRepository")
  */
 class TraitType
 {
@@ -51,9 +51,9 @@ class TraitType
     private $id;
 
     /**
-     * @var \AppBundle\Entity\TraitFormat
+     * @var \AppBundle\Entity\Data\TraitFormat
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\TraitFormat")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Data\TraitFormat")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="trait_format_id", referencedColumnName="id", nullable=false)
      * })
@@ -153,11 +153,11 @@ class TraitType
     /**
      * Set traitFormat.
      *
-     * @param \AppBundle\Entity\TraitFormat|null $traitFormat
+     * @param \AppBundle\Entity\Data\TraitFormat|null $traitFormat
      *
      * @return TraitType
      */
-    public function setTraitFormat(\AppBundle\Entity\TraitFormat $traitFormat = null)
+    public function setTraitFormat(\AppBundle\Entity\Data\TraitFormat $traitFormat = null)
     {
         $this->traitFormat = $traitFormat;
 
@@ -167,7 +167,7 @@ class TraitType
     /**
      * Get traitFormat.
      *
-     * @return \AppBundle\Entity\TraitFormat|null
+     * @return \AppBundle\Entity\Data\TraitFormat|null
      */
     public function getTraitFormat()
     {

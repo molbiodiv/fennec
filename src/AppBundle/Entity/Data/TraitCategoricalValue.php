@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace AppBundle\Entity\Data;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -37,9 +37,9 @@ class TraitCategoricalValue
     private $id;
 
     /**
-     * @var \AppBundle\Entity\TraitType
+     * @var \AppBundle\Entity\Data\TraitType
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\TraitType")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Data\TraitType")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="trait_type_id", referencedColumnName="id", nullable=false)
      * })
@@ -109,11 +109,11 @@ class TraitCategoricalValue
     /**
      * Set traitType.
      *
-     * @param \AppBundle\Entity\TraitType|null $traitType
+     * @param \AppBundle\Entity\Data\TraitType|null $traitType
      *
      * @return TraitCategoricalValue
      */
-    public function setTraitType(\AppBundle\Entity\TraitType $traitType = null)
+    public function setTraitType(\AppBundle\Entity\Data\TraitType $traitType = null)
     {
         $this->traitType = $traitType;
 
@@ -123,7 +123,7 @@ class TraitCategoricalValue
     /**
      * Get traitType.
      *
-     * @return \AppBundle\Entity\TraitType|null
+     * @return \AppBundle\Entity\Data\TraitType|null
      */
     public function getTraitType()
     {

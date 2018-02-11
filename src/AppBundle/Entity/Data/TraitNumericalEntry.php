@@ -1,16 +1,16 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace AppBundle\Entity\Data;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * TraitCategoricalEntry
+ * TraitNumericalEntry
  *
- * @ORM\Table(name="trait_categorical_entry", indexes={@ORM\Index(name="IDX_DDFBB816594DA73F", columns={"fennec_id"}), @ORM\Index(name="IDX_DDFBB8163B8FE7EB", columns={"trait_categorical_value_id"}), @ORM\Index(name="IDX_DDFBB81650F4882D", columns={"trait_citation_id"}), @ORM\Index(name="IDX_DDFBB816788909E7", columns={"trait_type_id"}), @ORM\Index(name="IDX_DDFBB81649279951", columns={"webuser_id"})})
- * @ORM\Entity(repositoryClass="AppBundle\Repository\TraitCategoricalEntryRepository")
+ * @ORM\Table(name="trait_numerical_entry")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\Data\TraitNumericalEntryRepository")
  */
-class TraitCategoricalEntry
+class TraitNumericalEntry
 {
     function __construct()
     {
@@ -51,14 +51,14 @@ class TraitCategoricalEntry
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @ORM\SequenceGenerator(sequenceName="trait_categorical_entry_id_seq", allocationSize=1, initialValue=1)
+     * @ORM\SequenceGenerator(sequenceName="trait_numerical_entry_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
 
     /**
-     * @var \AppBundle\Entity\Organism
+     * @var \AppBundle\Entity\Data\Organism
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Organism")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Data\Organism")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="fennec_id", referencedColumnName="fennec_id", nullable=false)
      * })
@@ -66,19 +66,16 @@ class TraitCategoricalEntry
     private $fennec;
 
     /**
-     * @var \AppBundle\Entity\TraitCategoricalValue
+     * @var string
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\TraitCategoricalValue")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="trait_categorical_value_id", referencedColumnName="id", nullable=false)
-     * })
+     * @ORM\Column(name="value", type="decimal", precision=1000, scale=10)
      */
-    private $traitCategoricalValue;
+    private $value;
 
     /**
-     * @var \AppBundle\Entity\TraitCitation
+     * @var \AppBundle\Entity\Data\TraitCitation
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\TraitCitation")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Data\TraitCitation")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="trait_citation_id", referencedColumnName="id")
      * })
@@ -86,9 +83,9 @@ class TraitCategoricalEntry
     private $traitCitation;
 
     /**
-     * @var \AppBundle\Entity\TraitType
+     * @var \AppBundle\Entity\Data\TraitType
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\TraitType")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Data\TraitType")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="trait_type_id", referencedColumnName="id", nullable=false)
      * })
@@ -96,14 +93,30 @@ class TraitCategoricalEntry
     private $traitType;
 
     /**
-     * @var \AppBundle\Entity\FennecUser
+     * @var \AppBundle\Entity\Data\Db
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\FennecUser")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Data\Db")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="webuser_id", referencedColumnName="id", nullable=false)
+     *   @ORM\JoinColumn(name="db_id", referencedColumnName="id", nullable=false)
      * })
      */
-    private $webuser;
+    private $db;
+
+    /**
+     * @return Db
+     */
+    public function getDb()
+    {
+        return $this->db;
+    }
+
+    /**
+     * @param Db $db
+     */
+    public function setDb($db)
+    {
+        $this->db = $db;
+    }
 
 
 
@@ -112,7 +125,7 @@ class TraitCategoricalEntry
      *
      * @param bool $private
      *
-     * @return TraitCategoricalEntry
+     * @return TraitNumericalEntry
      */
     public function setPrivate($private)
     {
@@ -136,7 +149,7 @@ class TraitCategoricalEntry
      *
      * @param string|null $originUrl
      *
-     * @return TraitCategoricalEntry
+     * @return TraitNumericalEntry
      */
     public function setOriginUrl($originUrl = null)
     {
@@ -160,7 +173,7 @@ class TraitCategoricalEntry
      *
      * @param \DateTime $creationDate
      *
-     * @return TraitCategoricalEntry
+     * @return TraitNumericalEntry
      */
     public function setCreationDate($creationDate)
     {
@@ -184,7 +197,7 @@ class TraitCategoricalEntry
      *
      * @param \DateTime|null $deletionDate
      *
-     * @return TraitCategoricalEntry
+     * @return TraitNumericalEntry
      */
     public function setDeletionDate($deletionDate = null)
     {
@@ -216,11 +229,11 @@ class TraitCategoricalEntry
     /**
      * Set fennec.
      *
-     * @param \AppBundle\Entity\Organism|null $fennec
+     * @param \AppBundle\Entity\Data\Organism|null $fennec
      *
-     * @return TraitCategoricalEntry
+     * @return TraitNumericalEntry
      */
-    public function setFennec(\AppBundle\Entity\Organism $fennec = null)
+    public function setFennec(\AppBundle\Entity\Data\Organism $fennec = null)
     {
         $this->fennec = $fennec;
 
@@ -230,45 +243,22 @@ class TraitCategoricalEntry
     /**
      * Get fennec.
      *
-     * @return \AppBundle\Entity\Organism|null
+     * @return \AppBundle\Entity\Data\Organism|null
      */
     public function getFennec()
     {
         return $this->fennec;
     }
 
-    /**
-     * Set traitCategoricalValue.
-     *
-     * @param \AppBundle\Entity\TraitCategoricalValue|null $traitCategoricalValue
-     *
-     * @return TraitCategoricalEntry
-     */
-    public function setTraitCategoricalValue(\AppBundle\Entity\TraitCategoricalValue $traitCategoricalValue = null)
-    {
-        $this->traitCategoricalValue = $traitCategoricalValue;
-
-        return $this;
-    }
-
-    /**
-     * Get traitCategoricalValue.
-     *
-     * @return \AppBundle\Entity\TraitCategoricalValue|null
-     */
-    public function getTraitCategoricalValue()
-    {
-        return $this->traitCategoricalValue;
-    }
 
     /**
      * Set traitCitation.
      *
-     * @param \AppBundle\Entity\TraitCitation|null $traitCitation
+     * @param \AppBundle\Entity\Data\TraitCitation|null $traitCitation
      *
-     * @return TraitCategoricalEntry
+     * @return TraitNumericalEntry
      */
-    public function setTraitCitation(\AppBundle\Entity\TraitCitation $traitCitation = null)
+    public function setTraitCitation(\AppBundle\Entity\Data\TraitCitation $traitCitation = null)
     {
         $this->traitCitation = $traitCitation;
 
@@ -278,7 +268,7 @@ class TraitCategoricalEntry
     /**
      * Get traitCitation.
      *
-     * @return \AppBundle\Entity\TraitCitation|null
+     * @return \AppBundle\Entity\Data\TraitCitation|null
      */
     public function getTraitCitation()
     {
@@ -288,11 +278,11 @@ class TraitCategoricalEntry
     /**
      * Set traitType.
      *
-     * @param \AppBundle\Entity\TraitType|null $traitType
+     * @param \AppBundle\Entity\Data\TraitType|null $traitType
      *
-     * @return TraitCategoricalEntry
+     * @return TraitNumericalEntry
      */
-    public function setTraitType(\AppBundle\Entity\TraitType $traitType = null)
+    public function setTraitType(\AppBundle\Entity\Data\TraitType $traitType = null)
     {
         $this->traitType = $traitType;
 
@@ -302,7 +292,7 @@ class TraitCategoricalEntry
     /**
      * Get traitType.
      *
-     * @return \AppBundle\Entity\TraitType|null
+     * @return \AppBundle\Entity\Data\TraitType|null
      */
     public function getTraitType()
     {
@@ -310,26 +300,26 @@ class TraitCategoricalEntry
     }
 
     /**
-     * Set webuser.
+     * Set value.
      *
-     * @param \AppBundle\Entity\FennecUser|null $webuser
+     * @param string $value
      *
-     * @return TraitCategoricalEntry
+     * @return TraitNumericalEntry
      */
-    public function setWebuser(\AppBundle\Entity\FennecUser $webuser = null)
+    public function setValue($value)
     {
-        $this->webuser = $webuser;
+        $this->value = $value;
 
         return $this;
     }
 
     /**
-     * Get webuser.
+     * Get value.
      *
-     * @return \AppBundle\Entity\FennecUser|null
+     * @return string
      */
-    public function getWebuser()
+    public function getValue()
     {
-        return $this->webuser;
+        return $this->value;
     }
 }

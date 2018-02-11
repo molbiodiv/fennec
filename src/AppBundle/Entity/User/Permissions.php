@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace AppBundle\Entity\User;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -29,9 +29,9 @@ class Permissions
     }
 
     /**
-     * @var \AppBundle\Entity\FennecUser
+     * @var \AppBundle\Entity\User\FennecUser
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\FennecUser", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User\FennecUser", cascade={"persist"})
      * @ORM\JoinColumn(name="webuser_id", referencedColumnName="id", nullable=false)
      */
     private $webuser;
@@ -42,7 +42,7 @@ class Permissions
     private $permission;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\WebuserData", inversedBy="permissions")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User\WebuserData", inversedBy="permissions")
      * @ORM\JoinColumn(name="webuser_data_id", referencedColumnName="webuser_data_id", nullable=false)
      */
     private $webuserData;

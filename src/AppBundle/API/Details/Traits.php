@@ -3,10 +3,10 @@
 namespace AppBundle\API\Details;
 
 use AppBundle\Service\DBVersion;
-use AppBundle\Entity\TraitCategoricalEntry;
-use AppBundle\Entity\TraitFormat;
-use AppBundle\Entity\TraitNumericalEntry;
-use AppBundle\Entity\TraitType;
+use AppBundle\Entity\Data\TraitCategoricalEntry;
+use AppBundle\Entity\Data\TraitFormat;
+use AppBundle\Entity\Data\TraitNumericalEntry;
+use AppBundle\Entity\Data\TraitType;
 
 /**
  * Web Service.

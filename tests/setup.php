@@ -21,20 +21,24 @@ class Setup extends  WebTestCase
 
     public function setUp()
     {
-        self::runCommand('doctrine:database:drop --if-exists --force');
-        self::runCommand('doctrine:database:create');
-        self::runCommand('doctrine:schema:update --force');
+        self::runCommand('doctrine:database:drop --if-exists --force --connection test_user');
+        self::runCommand('doctrine:database:drop --if-exists --force --connection test_data');
+        self::runCommand('doctrine:database:create --connection test_user');
+        self::runCommand('doctrine:database:create --connection test_data');
+        self::runCommand('doctrine:schema:create --em test_user');
+        self::runCommand('doctrine:schema:create --em test_data');
         $client = static::createClient();
         $dbs = $client->getContainer()->getParameter('dbal')['connections'];
-        $db = $dbs[$client->getContainer()->getParameter('dbal')['default_connection']];
+        $user_db = $dbs['test_user'];
+        $data_db = $dbs['test_data'];
         // Do not use doctrine:database:import as that can not handle pg_dumps properly (e.g. COPY)
         // at least not in doctrine version 2.7.1
-        echo exec('PGPASSWORD='.$db['password'].
+        echo exec('PGPASSWORD='.$data_db['password'].
             ' bash -c \'xzcat '.__DIR__.'/initial_testdata.sql.xz | psql -U '.
-            $db['user'].
-            ' -h '.$db['host'].
-            ' -p '.$db['port'].
-            ' -d '.$db['dbname'].'\'');
+            $data_db['user'].
+            ' -h '.$data_db['host'].
+            ' -p '.$data_db['port'].
+            ' -d '.$data_db['dbname'].'\'');
         $em = $client->getContainer()->get(DBVersion::class)->getEntityManager();
         $setupFixtures = new SetupFixtures($em);
         $setupFixtures->insertUserData();

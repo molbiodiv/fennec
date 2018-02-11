@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace AppBundle\Entity\Data;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * FennecDbxref
  *
  * @ORM\Table(name="fennec_dbxref", uniqueConstraints={@ORM\UniqueConstraint(name="fennec_dbxref_db_id_identifier_uniq", columns={"fennec_id", "db_id", "identifier"})})
- * @ORM\Entity(repositoryClass="AppBundle\Repository\FennecDbxrefRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\Data\FennecDbxrefRepository")
  */
 class FennecDbxref
 {
@@ -30,19 +30,19 @@ class FennecDbxref
     private $fennecDbxrefId;
 
     /**
-     * @var \AppBundle\Entity\Db
+     * @var \AppBundle\Entity\Data\Db
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Db")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Data\Db")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="db_id", referencedColumnName="db_id", nullable=false)
+     *   @ORM\JoinColumn(name="db_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $db;
 
     /**
-     * @var \AppBundle\Entity\Organism
+     * @var \AppBundle\Entity\Data\Organism
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Organism")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Data\Organism")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="fennec_id", referencedColumnName="fennec_id", nullable=false)
      * })
@@ -88,11 +88,11 @@ class FennecDbxref
     /**
      * Set db.
      *
-     * @param \AppBundle\Entity\Db|null $db
+     * @param \AppBundle\Entity\Data\Db|null $db
      *
      * @return FennecDbxref
      */
-    public function setDb(\AppBundle\Entity\Db $db = null)
+    public function setDb(\AppBundle\Entity\Data\Db $db = null)
     {
         $this->db = $db;
 
@@ -102,7 +102,7 @@ class FennecDbxref
     /**
      * Get db.
      *
-     * @return \AppBundle\Entity\Db|null
+     * @return \AppBundle\Entity\Data\Db|null
      */
     public function getDb()
     {
@@ -112,11 +112,11 @@ class FennecDbxref
     /**
      * Set fennec.
      *
-     * @param \AppBundle\Entity\Organism|null $fennec
+     * @param \AppBundle\Entity\Data\Organism|null $fennec
      *
      * @return FennecDbxref
      */
-    public function setFennec(\AppBundle\Entity\Organism $fennec = null)
+    public function setFennec(\AppBundle\Entity\Data\Organism $fennec = null)
     {
         $this->fennec = $fennec;
 
@@ -126,7 +126,7 @@ class FennecDbxref
     /**
      * Get fennec.
      *
-     * @return \AppBundle\Entity\Organism|null
+     * @return \AppBundle\Entity\Data\Organism|null
      */
     public function getFennec()
     {

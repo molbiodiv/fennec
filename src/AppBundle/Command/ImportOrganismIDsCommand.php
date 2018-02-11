@@ -3,9 +3,9 @@
 namespace AppBundle\Command;
 
 
-use AppBundle\Entity\Db;
-use AppBundle\Entity\FennecDbxref;
-use AppBundle\Entity\Organism;
+use AppBundle\Entity\Data\Db;
+use AppBundle\Entity\Data\FennecDbxref;
+use AppBundle\Entity\Data\Organism;
 use AppBundle\API\Mapping;
 use AppBundle\Service\DBVersion;
 use Doctrine\ORM\EntityManager;
@@ -89,7 +89,7 @@ class ImportOrganismIDsCommand extends ContainerAwareCommand
         try{
             $needs_mapping = $input->getOption('mapping') !== null;
             $this->file = fopen($input->getArgument('file'), 'r');
-            $providerID = $this->getOrInsertProvider($input->getOption('provider'), $input->getOption('description'))->getDbId();
+            $providerID = $this->getOrInsertProvider($input->getOption('provider'), $input->getOption('description'))->getId();
             if($needs_mapping) {
                 $this->mapping = $this->getMapping($input->getOption('mapping'));
             }
