@@ -20,6 +20,7 @@ class TraitEntriesTest extends WebserviceTestCase
         $this->em = $kernel->getContainer()
             ->get('doctrine')
             ->getManager('test_user');
+        $kernel->getContainer()->get('AppBundle\Service\DBVersion')->overwriteDBVersion('test_data');
         $this->traitEntries = $kernel->getContainer()->get(Details\TraitEntries::class);
         $this->resultForOneTraitEntry = [
             '47484' => [
