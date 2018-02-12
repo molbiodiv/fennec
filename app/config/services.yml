@@ -17,7 +17,7 @@ services:
         # but if a service is unused, it's removed anyway
         exclude: '../../src/AppBundle/{Entity,Repository,Security}'
     AppBundle\Service\DBVersion:
-        arguments: ['@twig', '@doctrine', '%doctrine.default_connection%']
+        arguments: ['@twig', '@doctrine', '%default_data_connection%']
         tags: [{name: kernel.event_listener, event: kernel.request}]
     AppBundle\Service\TwigProvider\Types:
         arguments: ['@twig']
