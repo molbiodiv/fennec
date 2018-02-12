@@ -18,6 +18,7 @@ class OrganismsOfProject
     const ERROR_NOT_LOGGED_IN = 'Error: User not logged in.';
 
     private $manager;
+    private $dbversion;
 
     /**
      * OrganismsOfProject constructor.
@@ -26,6 +27,7 @@ class OrganismsOfProject
     public function __construct(DBVersion $dbversion)
     {
         $this->manager = $dbversion->getEntityManager();
+        $this->dbversion = $dbversion->getConnectionName();
     }
 
 
@@ -36,7 +38,7 @@ class OrganismsOfProject
      * array('fennec_id_1', 'fennec_id_2');
      * </code>
      */
-    public function execute($projectId, $dimension, $user, $dbversion)
+    public function execute($projectId, $dimension, $user)
     {
         $result = array();
         if ($user === null) {
@@ -57,12 +59,12 @@ class OrganismsOfProject
                         if (is_array($entry['metadata']) and key_exists('fennec', $entry['metadata'])) {
                             $fennec = json_decode($entry['metadata']['fennec'], true);
                             if(is_array($fennec) and
-                                key_exists($dbversion, $fennec) and
-                                is_array($fennec[$dbversion]) and
-                                key_exists('fennec_id', $fennec[$dbversion]) and
-                                $fennec[$dbversion]['fennec_id'] !== null
+                                key_exists($this->dbversion, $fennec) and
+                                is_array($fennec[$this->dbversion]) and
+                                key_exists('fennec_id', $fennec[$this->dbversion]) and
+                                $fennec[$this->dbversion]['fennec_id'] !== null
                             ){
-                                array_push($fennec_ids, $fennec[$dbversion]['fennec_id']);
+                                array_push($fennec_ids, $fennec[$this->dbversion]['fennec_id']);
                             }
                         }
                     }
