@@ -45,6 +45,11 @@ class DBVersion
         return $this->orm->getManager($this->connectionName);
     }
 
+    public function overwriteDBVersion($dbversion){
+        $this->twig->addGlobal('dbversion', $dbversion);
+        $this->connectionName = $dbversion;
+    }
+
     /**
      * @return mixed
      */
