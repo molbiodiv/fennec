@@ -16,31 +16,37 @@ class OverviewTest extends WebserviceTestCase
     const USERID = 'listingOverviewTestUser';
     const PROVIDER = 'listingOverviewTestUser';
 
-    private $em;
+    private $emUser;
+    private $emData;
 
     public function setUp()
     {
         $kernel = self::bootKernel();
-        $this->em = $kernel->getContainer()
+        $this->emUser = $kernel->getContainer()
             ->get('doctrine')
-            ->getManager('test');
+            ->getManager('test_user');
+        $this->emData = $kernel->getContainer()
+            ->get('doctrine')
+            ->getManager('test_data');
     }
 
     public function tearDown()
     {
         parent::tearDown();
-        $this->em->close();
-        $this->em = null; // avoid memory leaks
+        $this->emData->close();
+        $this->emData = null; // avoid memory leaks
+        $this->emUser->close();
+        $this->emUser = null; // avoid memory leaks
 
     }
 
     public function testOverviewIfUserIsNotLoggedIn()
     {
         $user = null;
-        $projects = $this->em->getRepository(WebuserData::class)->getNumberOfProjects($user);
-        $organisms = $this->em->getRepository(Organism::class)->getNumber();
-        $traitEntries = $this->em->getRepository(TraitCategoricalEntry::class)->getNumber() + $this->em->getRepository(TraitNumericalEntry::class)->getNumber();
-        $traitTypes = $this->em->getRepository(TraitType::class)->getNumber();
+        $projects = $this->emUser->getRepository(WebuserData::class)->getNumberOfProjects($user);
+        $organisms = $this->emData->getRepository(Organism::class)->getNumber();
+        $traitEntries = $this->emData->getRepository(TraitCategoricalEntry::class)->getNumber() + $this->em->getRepository(TraitNumericalEntry::class)->getNumber();
+        $traitTypes = $this->emData->getRepository(TraitType::class)->getNumber();
         $result = [
             "projects" => $projects,
             "organisms" => $organisms,
@@ -57,13 +63,13 @@ class OverviewTest extends WebserviceTestCase
     }
 
     public function testOverviewIfUserIsLoggedIn(){
-        $user = $this->em->getRepository(FennecUser::class)->findOneBy(array(
+        $user = $this->emUser->getRepository(FennecUser::class)->findOneBy(array(
             "username" => OverviewTest::NICKNAME
         ));
-        $projects = $this->em->getRepository(WebuserData::class)->getNumberOfProjects($user);
-        $organisms = $this->em->getRepository(Organism::class)->getNumber();
-        $traitEntries = $this->em->getRepository(TraitCategoricalEntry::class)->getNumber() + $this->em->getRepository(TraitNumericalEntry::class)->getNumber();
-        $traitTypes = $this->em->getRepository(TraitType::class)->getNumber();
+        $projects = $this->emUser->getRepository(WebuserData::class)->getNumberOfProjects($user);
+        $organisms = $this->emData->getRepository(Organism::class)->getNumber();
+        $traitEntries = $this->emData->getRepository(TraitCategoricalEntry::class)->getNumber() + $this->em->getRepository(TraitNumericalEntry::class)->getNumber();
+        $traitTypes = $this->emData->getRepository(TraitType::class)->getNumber();
         $result = [
             "projects" => $projects,
             "organisms" => $organisms,

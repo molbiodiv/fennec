@@ -3,7 +3,7 @@
 namespace Tests\AppBundle\API\Listing;
 
 use Tests\AppBundle\API\WebserviceTestCase;
-use AppBundle\Entity\Organism;
+use AppBundle\Entity\Data\Organism;
 
 class OrganismsTest extends WebserviceTestCase
 {
@@ -15,7 +15,7 @@ class OrganismsTest extends WebserviceTestCase
 
         $this->em = $kernel->getContainer()
             ->get('doctrine')
-            ->getManager('test');
+            ->getManager('test_data');
 
     }
 

@@ -26,7 +26,7 @@ class UpdateProjectTest extends WebserviceTestCase
 
         $this->em = $kernel->getContainer()
             ->get('doctrine')
-            ->getManager('test');
+            ->getManager('test_user');
         $this->projectDetails = $kernel->getContainer()->get(Details\Projects::class);
         $this->updateProject = $kernel->getContainer()->get(Edit\UpdateProject::class);
     }

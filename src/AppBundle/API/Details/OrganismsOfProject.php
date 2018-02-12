@@ -26,7 +26,7 @@ class OrganismsOfProject
      */
     public function __construct(DBVersion $dbversion)
     {
-        $this->manager = $dbversion->getEntityManager();
+        $this->manager = $dbversion->getUserEntityManager();
         $this->dbversion = $dbversion->getConnectionName();
     }
 
