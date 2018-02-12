@@ -30,7 +30,7 @@ class OrganismTest extends WebserviceTestCase
     public function testExecute()
     {
         $organismId = 42;
-        $results = $this->em->getRepository(Entity\Organism::class)->getDetailsOforganism($organismId);
+        $results = $this->em->getRepository(Entity\Data\Organism::class)->getDetailsOforganism($organismId);
         $expected = array(
             "fennec_id" => 42,
             "scientific_name" => "Trebouxiophyceae sp. TP-2016a",

@@ -15,7 +15,7 @@ class OrganismsWithTraitTest extends WebserviceTestCase
 
         $this->em = $kernel->getContainer()
             ->get('doctrine')
-            ->getManager('test');
+            ->getManager('test_data');
 
     }
 
@@ -31,7 +31,7 @@ class OrganismsWithTraitTest extends WebserviceTestCase
     {
         $traitTypeId = 1;
         $limit = 100;
-        $results = $this->em->getRepository(Entity\Organism::class)->getOrganismByTrait($traitTypeId, $limit);
+        $results = $this->em->getRepository(Entity\Data\Organism::class)->getOrganismByTrait($traitTypeId, $limit);
         $this->assertEquals(100, count($results));
     }
 
@@ -39,7 +39,7 @@ class OrganismsWithTraitTest extends WebserviceTestCase
     {
         $traitTypeId = 3;
         $limit = 30000;
-        $results = $this->em->getRepository(Entity\Organism::class)->getOrganismByTrait($traitTypeId, $limit);
+        $results = $this->em->getRepository(Entity\Data\Organism::class)->getOrganismByTrait($traitTypeId, $limit);
         $this->assertEquals(23194, count($results));
     }
 
@@ -47,7 +47,7 @@ class OrganismsWithTraitTest extends WebserviceTestCase
     {
         $traitTypeId = 1;
         $limit = 10;
-        $results = $this->em->getRepository(Entity\Organism::class)->getOrganismByTrait($traitTypeId, $limit);
+        $results = $this->em->getRepository(Entity\Data\Organism::class)->getOrganismByTrait($traitTypeId, $limit);
         $this->assertEquals(10, count($results));
         $this->assertTrue(array_key_exists('fennecId', $results[0]));
         $this->assertTrue(array_key_exists('scientificName', $results[0]));
@@ -56,7 +56,7 @@ class OrganismsWithTraitTest extends WebserviceTestCase
     public function testNumericalTrait(){
         $traitTypeId = 7;
         $limit = 12;
-        $results = $this->em->getRepository(Entity\Organism::class)->getOrganismByTrait($traitTypeId, $limit);
+        $results = $this->em->getRepository(Entity\Data\Organism::class)->getOrganismByTrait($traitTypeId, $limit);
         $this->assertEquals(12, count($results));
         $this->assertTrue(array_key_exists('fennecId',$results[0]));
         $this->assertTrue(array_key_exists('scientificName',$results[0]));
