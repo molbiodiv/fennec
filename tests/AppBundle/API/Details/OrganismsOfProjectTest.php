@@ -40,11 +40,10 @@ class OrganismsOfProjectTest extends WebserviceTestCase
 
     public function testNotLoggedIn()
     {
-        $dbversion = $this->default_db;
         $projectId = 1;
         $dimension = "row";
         $user = null;
-        $results = $this->organismsOfProject->execute($projectId, $dimension, $user, $dbversion);
+        $results = $this->organismsOfProject->execute($projectId, $dimension, $user);
         $expected = array("error" => Details\OrganismsOfProject::ERROR_NOT_LOGGED_IN);
         $this->assertEquals($expected, $results, 'User is not loggend in, return error message');
     }
@@ -52,7 +51,6 @@ class OrganismsOfProjectTest extends WebserviceTestCase
 
     public function testOrganismsOfProjectWithRows()
     {
-        $dbversion = $this->default_db;
         $dimension = "rows";
         $user = $this->emUser->getRepository('AppBundle:FennecUser')->findOneBy(array(
             'username' => OrganismsOfProjectTest::NICKNAME
@@ -61,7 +59,7 @@ class OrganismsOfProjectTest extends WebserviceTestCase
             'webuser' => $user
         ))->getWebuserDataId();
 
-        $results = $this->organismsOfProject->execute($projectId, $dimension, $user, $dbversion);
+        $results = $this->organismsOfProject->execute($projectId, $dimension, $user);
         $expected = array(
             3, 42
         );
@@ -73,7 +71,6 @@ class OrganismsOfProjectTest extends WebserviceTestCase
 
     public function testOrganismsOfProjectWithColumns()
     {
-        $dbversion = $this->default_db;
         $dimension = "columns";
         $user = $this->emUser->getRepository('AppBundle:FennecUser')->findOneBy(array(
             'username' => OrganismsOfProjectTest::NICKNAME
@@ -81,7 +78,7 @@ class OrganismsOfProjectTest extends WebserviceTestCase
         $projectId = $this->emUser->getRepository('AppBundle:WebuserData')->findOneBy(array(
             'webuser' => $user
         ))->getWebuserDataId();
-        $results = $this->organismsOfProject->execute($projectId, $dimension, $user, $dbversion);
+        $results = $this->organismsOfProject->execute($projectId, $dimension, $user);
         $expected = array(
             1340, 1630
         );
@@ -91,13 +88,12 @@ class OrganismsOfProjectTest extends WebserviceTestCase
     }
 
     public function testNoValidUserOfProject(){
-        $dbversion = $this->default_db;
         $dimension = "rows";
         $user = $this->emUser->getRepository('AppBundle:FennecUser')->findOneBy(array(
             'username' => OrganismsOfProjectTest::NICKNAME
         ));
         $noValidProjectId = 15;
-        $results = $this->organismsOfProject->execute($noValidProjectId, $dimension, $user, $dbversion);
+        $results = $this->organismsOfProject->execute($noValidProjectId, $dimension, $user);
         $expected = array("error" => OrganismsOfProject::ERROR_PROJECT_NOT_FOUND);
         $this->assertEquals($expected, $results, 'Project does not belong to user, return error message');
 

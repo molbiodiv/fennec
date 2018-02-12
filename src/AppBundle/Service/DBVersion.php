@@ -12,6 +12,14 @@ class DBVersion
 
     private $connectionName;
 
+    /**
+     * @return mixed
+     */
+    public function getConnectionName()
+    {
+        return $this->connectionName;
+    }
+
     private $orm;
 
 
