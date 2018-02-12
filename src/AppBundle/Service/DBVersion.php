@@ -34,6 +34,7 @@ class DBVersion
         $this->twig = $twig;
         $this->defaultConnection = $defaultConnection;
         $this->orm = $orm;
+        $this->connectionName = $defaultConnection;
     }
 
     public function onKernelRequest(GetResponseEvent $event){
