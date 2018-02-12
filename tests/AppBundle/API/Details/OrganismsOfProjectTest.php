@@ -54,10 +54,10 @@ class OrganismsOfProjectTest extends WebserviceTestCase
     {
         $dbversion = $this->default_db;
         $dimension = "rows";
-        $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
+        $user = $this->emUser->getRepository('AppBundle:FennecUser')->findOneBy(array(
             'username' => OrganismsOfProjectTest::NICKNAME
         ));
-        $projectId = $this->em->getRepository('AppBundle:WebuserData')->findOneBy(array(
+        $projectId = $this->emUser->getRepository('AppBundle:WebuserData')->findOneBy(array(
             'webuser' => $user
         ))->getWebuserDataId();
 
@@ -75,10 +75,10 @@ class OrganismsOfProjectTest extends WebserviceTestCase
     {
         $dbversion = $this->default_db;
         $dimension = "columns";
-        $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
+        $user = $this->emUser->getRepository('AppBundle:FennecUser')->findOneBy(array(
             'username' => OrganismsOfProjectTest::NICKNAME
         ));
-        $projectId = $this->em->getRepository('AppBundle:WebuserData')->findOneBy(array(
+        $projectId = $this->emUser->getRepository('AppBundle:WebuserData')->findOneBy(array(
             'webuser' => $user
         ))->getWebuserDataId();
         $results = $this->organismsOfProject->execute($projectId, $dimension, $user, $dbversion);
@@ -93,7 +93,7 @@ class OrganismsOfProjectTest extends WebserviceTestCase
     public function testNoValidUserOfProject(){
         $dbversion = $this->default_db;
         $dimension = "rows";
-        $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
+        $user = $this->emUser->getRepository('AppBundle:FennecUser')->findOneBy(array(
             'username' => OrganismsOfProjectTest::NICKNAME
         ));
         $noValidProjectId = 15;
