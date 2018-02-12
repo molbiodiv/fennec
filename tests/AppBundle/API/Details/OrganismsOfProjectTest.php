@@ -11,16 +11,20 @@ class OrganismsOfProjectTest extends WebserviceTestCase
     const USERID = 'detailsOrganismsOfProjectTestUser';
     const PROVIDER = 'detailsOrganismsOfProjectTestUser';
 
-    private $em;
+    private $emData;
+    private $emUser;
     private $organismsOfProject;
 
     public function setUp()
     {
         $kernel = self::bootKernel();
 
-        $this->em = $kernel->getContainer()
+        $this->emData = $kernel->getContainer()
             ->get('doctrine')
-            ->getManager('test');
+            ->getManager('test_data');
+        $this->emUser = $kernel->getContainer()
+            ->get('doctrine')
+            ->getManager('test_user');
         $this->organismsOfProject = $kernel->getContainer()->get(Details\OrganismsOfProject::class);
     }
 
@@ -28,8 +32,10 @@ class OrganismsOfProjectTest extends WebserviceTestCase
     {
         parent::tearDown();
 
-        $this->em->close();
-        $this->em = null; // avoid memory leaks
+        $this->emData->close();
+        $this->emData = null; // avoid memory leaks
+        $this->emUser->close();
+        $this->emUser = null; // avoid memory leaks
     }
 
     public function testNotLoggedIn()

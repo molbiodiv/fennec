@@ -15,7 +15,7 @@ class OrganismTest extends WebserviceTestCase
 
         $this->em = $kernel->getContainer()
             ->get('doctrine')
-            ->getManager('test');
+            ->getManager('test_data');
 
     }
 
