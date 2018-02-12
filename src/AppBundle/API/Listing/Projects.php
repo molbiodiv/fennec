@@ -39,8 +39,7 @@ class Projects
         if ($user == null) {
             $result['error'] = Projects::ERROR_NOT_LOGGED_IN;
         } else {
-            $userId = $user->getId();
-            $projects = $this->manager->getRepository(WebuserData::class)->getDataForUser($userId);
+            $projects = $this->manager->getRepository(WebuserData::class)->getDataForUser($user);
             foreach ($projects as $p) {
                 $project = array();
                 $project['internal_project_id'] = $p['webuserDataId'];
