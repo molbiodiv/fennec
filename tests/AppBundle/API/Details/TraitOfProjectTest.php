@@ -21,7 +21,7 @@ class TraitOfProjectTest extends WebserviceTestCase
 
         $this->em = $kernel->getContainer()
             ->get('doctrine')
-            ->getManager('test');
+            ->getManager('test_user');
 
         $this->traitOfProject = $kernel->getContainer()->get(Details\TraitOfProject::class);
     }

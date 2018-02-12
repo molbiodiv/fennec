@@ -113,7 +113,7 @@ class OrganismRepository extends EntityRepository
                     'traitEntryIds' => [$trait_entry_id],
                     'fennec' => [$fennec_id],
                     'unit' => $unit
-                    ];
+                ];
             } else {
                 array_push($result[$type_cvterm_id]['traitEntryIds'], $trait_entry_id);
                 if (!in_array($fennec_id, $result[$type_cvterm_id]['fennec'])) {
