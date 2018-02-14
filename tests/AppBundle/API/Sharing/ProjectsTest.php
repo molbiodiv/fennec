@@ -15,6 +15,7 @@ class ProjectsTest extends WebserviceTestCase
 
     const NICKNAME = 'SharingProjectsTestUser';
     const EMAIL = 'SharingProjectsTestUser@bla.de';
+    const PASSWORD = 'SharingProjectsTestPassword';
     const ANOTHER_NICKNAME = 'AnotherSharingProjectsTestUser';
     const ANOTHER_EMAIL = 'AnotherSharingProjectsTestUser@bla.de';
 
@@ -41,9 +42,11 @@ class ProjectsTest extends WebserviceTestCase
         $user = new FennecUser();
         $user->setUsername(ProjectsTest::NICKNAME);
         $user->setEmail(ProjectsTest::EMAIL);
+        $user->setPassword(ProjectsTest::PASSWORD);
         $anotherUser = new FennecUser();
         $anotherUser->setUsername(ProjectsTest::ANOTHER_NICKNAME);
         $anotherUser->setEmail(ProjectsTest::ANOTHER_EMAIL);
+        $anotherUser->setPassword(ProjectsTest::PASSWORD);
 
         //Upload test data for SharingProjectsTestUser and AnotherSharingProjectsTestUser
         $_FILES = array(

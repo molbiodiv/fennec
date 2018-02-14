@@ -21,7 +21,7 @@ class Projects
      */
     public function __construct(DBVersion $dbversion)
     {
-        $this->manager = $dbversion->getEntityManager();
+        $this->manager = $dbversion->getUserEntityManager();
     }
 
     public function execute($email, $projectId, $action){

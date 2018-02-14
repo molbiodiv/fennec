@@ -28,7 +28,7 @@ class Projects
      */
     public function __construct(DBVersion $dbversion)
     {
-        $this->manager = $dbversion->getEntityManager();
+        $this->manager = $dbversion->getUserEntityManager();
         $this->required_biom1_toplevel_keys = array(
             'id',
             'format',
