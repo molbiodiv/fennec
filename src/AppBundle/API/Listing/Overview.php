@@ -14,7 +14,8 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 class Overview
 {
 
-    private $manager;
+    private $dataManager;
+    private $userManager;
 
     private $user;
     /**
@@ -24,7 +25,8 @@ class Overview
      */
     public function __construct(DBVersion $dbversion, TokenStorage $tokenStorage)
     {
-        $this->manager = $dbversion->getEntityManager();;
+        $this->dataManager = $dbversion->getEntityManager();;
+        $this->userManager = $dbversion->getUserEntityManager();;
         $user = $tokenStorage->getToken()->getUser();
         if (!$user instanceof FennecUser) {
             $user = null;
@@ -63,12 +65,12 @@ class Overview
      */
     public function execute(){
         return [
-            'projects' => $this->manager->getRepository(WebuserData::class)->getNumberOfProjects($this->user),
-            'organisms' => $this->manager->getRepository(Organism::class)->getNumber(),
+            'projects' => $this->userManager->getRepository(WebuserData::class)->getNumberOfProjects($this->user),
+            'organisms' => $this->dataManager->getRepository(Organism::class)->getNumber(),
             'trait_entries' =>
-                $this->manager->getRepository(TraitCategoricalEntry::class)->getNumber()
-                + $this->manager->getRepository(TraitNumericalEntry::class)->getNumber(),
-            'trait_types' => $this->manager->getRepository(TraitType::class)->getNumber(),
+                $this->dataManager->getRepository(TraitCategoricalEntry::class)->getNumber()
+                + $this->dataManager->getRepository(TraitNumericalEntry::class)->getNumber(),
+            'trait_types' => $this->dataManager->getRepository(TraitType::class)->getNumber(),
         ];
 
     }
