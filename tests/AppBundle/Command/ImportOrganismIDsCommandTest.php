@@ -87,7 +87,7 @@ class ImportOrganismIDsCommandTest extends KernelTestCase
         ));
 
         // reset of em is required. otherwise last rollback might still be in process
-        self::$kernel->getContainer()->get('doctrine')->resetManager();
+        self::$kernel->getContainer()->get('doctrine')->resetManager('test_data');
 
         $output = $this->commandTester->getDisplay();
         // Expect error due to unmappable organism
