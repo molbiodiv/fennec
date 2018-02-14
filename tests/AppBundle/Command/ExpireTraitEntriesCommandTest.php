@@ -66,7 +66,7 @@ class ExpireTraitEntriesCommandTest extends KernelTestCase
         $entry1->setTraitType($ttype);
         $entry1->setFennec($this->em->find('AppBundle:Organism', 725));
         $entry1->setTraitCategoricalValue($value1);
-        $entry1->setWebuser($this->em->find('AppBundle:FennecUser', 1));
+        $entry1->setDb($this->em->find('AppBundle:Db', 1));
         $entry1->setPrivate(false);
         $this->em->persist($entry1);
         $value2 = new TraitCategoricalValue();
@@ -77,7 +77,7 @@ class ExpireTraitEntriesCommandTest extends KernelTestCase
         $entry2->setTraitType($ttype);
         $entry2->setFennec($this->em->find('AppBundle:Organism', 213));
         $entry2->setTraitCategoricalValue($value2);
-        $entry2->setWebuser($this->em->find('AppBundle:FennecUser', 1));
+        $entry2->setDb($this->em->find('AppBundle:Db', 1));
         $entry2->setPrivate(false);
         $this->em->persist($entry2);
         $this->em->flush();
@@ -113,14 +113,14 @@ class ExpireTraitEntriesCommandTest extends KernelTestCase
         $entry1->setTraitType($ttype);
         $entry1->setFennec($this->em->find('AppBundle:Organism', 725));
         $entry1->setValue(13);
-        $entry1->setWebuser($this->em->find('AppBundle:FennecUser', 1));
+        $entry1->setDb($this->em->find('AppBundle:Db', 1));
         $entry1->setPrivate(false);
         $this->em->persist($entry1);
         $entry2 = new TraitNumericalEntry();
         $entry2->setTraitType($ttype);
         $entry2->setFennec($this->em->find('AppBundle:Organism', 213));
         $entry2->setValue(36429);
-        $entry2->setWebuser($this->em->find('AppBundle:FennecUser', 1));
+        $entry2->setDb($this->em->find('AppBundle:Db', 1));
         $entry2->setPrivate(false);
         $this->em->persist($entry2);
         $this->em->flush();
@@ -157,7 +157,7 @@ class ExpireTraitEntriesCommandTest extends KernelTestCase
         $entry1->setTraitType($ttype);
         $entry1->setFennec($this->em->find('AppBundle:Organism', 8));
         $entry1->setValue(0);
-        $entry1->setWebuser($this->em->find('AppBundle:FennecUser', 1));
+        $entry1->setDb($this->em->find('AppBundle:Db', 1));
         $entry1->setPrivate(false);
         $originalTime = new \DateTime("yesterday");
         $entry1->setDeletionDate($originalTime);
@@ -166,7 +166,7 @@ class ExpireTraitEntriesCommandTest extends KernelTestCase
         $entry2->setTraitType($ttype);
         $entry2->setFennec($this->em->find('AppBundle:Organism', 382));
         $entry2->setValue(36429);
-        $entry2->setWebuser($this->em->find('AppBundle:FennecUser', 1));
+        $entry2->setDb($this->em->find('AppBundle:Db', 1));
         $entry2->setPrivate(false);
         $this->em->persist($entry2);
         $this->em->flush();
