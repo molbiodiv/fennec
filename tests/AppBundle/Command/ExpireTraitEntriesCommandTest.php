@@ -4,10 +4,10 @@ namespace Tests\AppBundle\Command;
 
 
 use AppBundle\Command\ExpireTraitEntriesCommand;
-use AppBundle\Entity\TraitCategoricalEntry;
-use AppBundle\Entity\TraitCategoricalValue;
-use AppBundle\Entity\TraitNumericalEntry;
-use AppBundle\Entity\TraitType;
+use AppBundle\Entity\Data\TraitCategoricalEntry;
+use AppBundle\Entity\Data\TraitCategoricalValue;
+use AppBundle\Entity\Data\TraitNumericalEntry;
+use AppBundle\Entity\Data\TraitType;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;

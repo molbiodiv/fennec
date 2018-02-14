@@ -2,7 +2,7 @@
 
 namespace Tests\AppBundle\API\Edit;
 
-use AppBundle\Entity\FennecUser;
+use AppBundle\Entity\User\FennecUser;
 use Doctrine\ORM\EntityManagerInterface;
 use Tests\AppBundle\API\WebserviceTestCase;
 use AppBundle\API\Details;

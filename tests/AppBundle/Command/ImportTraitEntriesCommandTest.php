@@ -5,9 +5,9 @@ namespace Tests\AppBundle\Command;
 
 use AppBundle\API\Details\Organism;
 use AppBundle\Command\ImportTraitEntriesCommand;
-use AppBundle\Entity\TraitCategoricalEntry;
-use AppBundle\Entity\TraitFormat;
-use AppBundle\Entity\TraitType;
+use AppBundle\Entity\Data\TraitCategoricalEntry;
+use AppBundle\Entity\Data\TraitFormat;
+use AppBundle\Entity\Data\TraitType;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -144,9 +144,9 @@ class ImportTraitValuesCommandTest extends KernelTestCase
         $this->assertNull($this->em->getRepository('AppBundle:TraitCitation')->findOneBy(array(
             'citation' => 'iucn_fantasy3'
         )), 'before import there is no citation "iucn_fantasy3"');
-        $organism1 = new \AppBundle\Entity\Organism();
+        $organism1 = new \AppBundle\Entity\Data\Organism();
         $organism1->setScientificName('Duplicate');
-        $organism2 = new \AppBundle\Entity\Organism();
+        $organism2 = new \AppBundle\Entity\Data\Organism();
         $organism2->setScientificName('Duplicate');
         $this->em->persist($organism1);
         $this->em->persist($organism2);

@@ -3,9 +3,9 @@
 use Tests\AppBundle\API\WebserviceTestCase;
 use AppBundle\API\Sharing;
 use AppBundle\API\Upload;
-use AppBundle\Entity\FennecUser;
-use AppBundle\Entity\Permissions;
-use AppBundle\Entity\WebuserData;
+use AppBundle\Entity\User\FennecUser;
+use AppBundle\Entity\User\Permissions;
+use AppBundle\Entity\User\WebuserData;
 
 class ProjectsTest extends WebserviceTestCase
 {

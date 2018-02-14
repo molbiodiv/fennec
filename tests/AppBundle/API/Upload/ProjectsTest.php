@@ -3,7 +3,7 @@
 namespace Tests\AppBundle\API\Upload;
 
 use AppBundle\API\Upload\Projects;
-use AppBundle\Entity\FennecUser;
+use AppBundle\Entity\User\FennecUser;
 use Tests\AppBundle\API\WebserviceTestCase;
 use AppBundle\API\Upload;
 
