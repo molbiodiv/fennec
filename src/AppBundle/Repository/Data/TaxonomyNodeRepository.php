@@ -16,7 +16,7 @@ class TaxonomyNodeRepository extends EntityRepository
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('t.taxonomyNodeId', 'db.name')
             ->from('AppBundle\Entity\Data\TaxonomyNode', 't')
-            ->innerJoin('AppBundle\Entity\Data\Db','db','WITH', 't.db = db.dbId')
+            ->innerJoin('AppBundle\Entity\Data\Db','db','WITH', 't.db = db.id')
             ->where('t.fennec = :fennec_id')
             ->setParameter('fennec_id', $fennec_id);
         $query = $qb->getQuery();

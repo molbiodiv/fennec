@@ -41,7 +41,7 @@ class FennecDbxrefRepository extends EntityRepository
 
     private function getDbId($dbname){
         $qb = $this->getEntityManager()->createQueryBuilder();
-        $qb->select('db.dbId')
+        $qb->select('db.id')
             ->from('AppBundle:Db', 'db')
             ->where('db.name = :dbname')
             ->setParameter('dbname', $dbname);
