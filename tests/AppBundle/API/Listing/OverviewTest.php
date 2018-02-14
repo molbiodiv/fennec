@@ -2,13 +2,13 @@
 
 namespace Tests\AppBundle\API\Listing;
 
-use AppBundle\Entity\FennecUser;
+use AppBundle\Entity\User\FennecUser;
 use Tests\AppBundle\API\WebserviceTestCase;
-use AppBundle\Entity\WebuserData;
-use AppBundle\Entity\Organism;
-use AppBundle\Entity\TraitCategoricalEntry;
-use AppBundle\Entity\TraitNumericalEntry;
-use AppBundle\Entity\TraitType;
+use AppBundle\Entity\User\WebuserData;
+use AppBundle\Entity\Data\Organism;
+use AppBundle\Entity\Data\TraitCategoricalEntry;
+use AppBundle\Entity\Data\TraitNumericalEntry;
+use AppBundle\Entity\Data\TraitType;
 
 class OverviewTest extends WebserviceTestCase
 {
@@ -45,7 +45,7 @@ class OverviewTest extends WebserviceTestCase
         $user = null;
         $projects = $this->emUser->getRepository(WebuserData::class)->getNumberOfProjects($user);
         $organisms = $this->emData->getRepository(Organism::class)->getNumber();
-        $traitEntries = $this->emData->getRepository(TraitCategoricalEntry::class)->getNumber() + $this->em->getRepository(TraitNumericalEntry::class)->getNumber();
+        $traitEntries = $this->emData->getRepository(TraitCategoricalEntry::class)->getNumber() + $this->emData->getRepository(TraitNumericalEntry::class)->getNumber();
         $traitTypes = $this->emData->getRepository(TraitType::class)->getNumber();
         $result = [
             "projects" => $projects,
@@ -68,7 +68,7 @@ class OverviewTest extends WebserviceTestCase
         ));
         $projects = $this->emUser->getRepository(WebuserData::class)->getNumberOfProjects($user);
         $organisms = $this->emData->getRepository(Organism::class)->getNumber();
-        $traitEntries = $this->emData->getRepository(TraitCategoricalEntry::class)->getNumber() + $this->em->getRepository(TraitNumericalEntry::class)->getNumber();
+        $traitEntries = $this->emData->getRepository(TraitCategoricalEntry::class)->getNumber() + $this->emData->getRepository(TraitNumericalEntry::class)->getNumber();
         $traitTypes = $this->emData->getRepository(TraitType::class)->getNumber();
         $result = [
             "projects" => $projects,

@@ -24,7 +24,7 @@ class ProjectsTest extends WebserviceTestCase
 
         $this->em = $kernel->getContainer()
             ->get('doctrine')
-            ->getManager('test');
+            ->getManager('test_user');
         $this->uploadProjects = $kernel->getContainer()->get(Upload\Projects::class);
     }
 

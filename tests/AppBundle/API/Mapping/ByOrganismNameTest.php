@@ -18,7 +18,7 @@ class ByOrganismNameTest extends WebserviceTestCase
 
         $this->em = $kernel->getContainer()
             ->get('doctrine')
-            ->getManager('test');
+            ->getManager('test_data');
         $this->mappingByOrganismName = $kernel->getContainer()->get(Mapping\ByOrganismName::class);
 
     }

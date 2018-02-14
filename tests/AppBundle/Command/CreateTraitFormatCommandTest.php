@@ -13,7 +13,7 @@ class CreateTraitFormatCommandTest extends KernelTestCase
     {
         self::bootKernel();
 
-        $em = self::$kernel->getContainer()->get('doctrine')->getManager('test');
+        $em = self::$kernel->getContainer()->get('doctrine')->getManager('test_data');
         $testFormat = $em->getRepository('AppBundle:TraitFormat')->findOneBy(array(
             'format' => 'TestFormat'
         ));
