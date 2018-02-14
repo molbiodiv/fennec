@@ -3,7 +3,6 @@
 namespace Tests\AppBundle\Command;
 
 
-use AppBundle\API\Details\Organism;
 use AppBundle\Command\ImportTraitEntriesCommand;
 use AppBundle\Entity\Data\TraitCategoricalEntry;
 use AppBundle\Entity\Data\TraitFormat;
@@ -14,7 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
 
-class ImportTraitValuesCommandTest extends KernelTestCase
+class ImportTraitEntriesCommandTest extends KernelTestCase
 {
     /**
      * @var EntityManager
@@ -60,7 +59,7 @@ class ImportTraitValuesCommandTest extends KernelTestCase
         )), 'before import there is no citation "fantasy"');
         $this->commandTester->execute(array(
             'command' => $this->command->getName(),
-            '--user-id' => 1,
+            '--db-id' => 1,
             '--traittype' => 'Flower Color',
             'file' => __DIR__.'/files/flowerColors.tsv'
         ));
@@ -85,7 +84,7 @@ class ImportTraitValuesCommandTest extends KernelTestCase
         )), 'before import there is no citation "defaultFantasy"');
         $this->commandTester->execute(array(
             'command' => $this->command->getName(),
-            '--user-id' => 1,
+            '--db-id' => 1,
             '--traittype' => 'Flower Color',
             '--default-citation' => 'defaultFantasy',
             'file' => __DIR__.'/files/flowerColors_defaultCitation.tsv'
@@ -112,7 +111,7 @@ class ImportTraitValuesCommandTest extends KernelTestCase
         )), 'before import there is no citation "iucn_fantasy"');
         $this->commandTester->execute(array(
             'command' => $this->command->getName(),
-            '--user-id' => 1,
+            '--db-id' => 1,
             '--traittype' => 'IUCN Threat Status',
             'file' => __DIR__.'/files/iucnRedlistSciname.tsv',
             '--mapping' => 'scientific_name'
@@ -153,7 +152,7 @@ class ImportTraitValuesCommandTest extends KernelTestCase
         $this->em->flush();
         $this->commandTester->execute(array(
             'command' => $this->command->getName(),
-            '--user-id' => 1,
+            '--db-id' => 1,
             '--traittype' => 'IUCN Threat Status',
             'file' => __DIR__.'/files/iucnRedlistScinameNonUnique.tsv',
             '--mapping' => 'scientific_name'
@@ -172,7 +171,7 @@ class ImportTraitValuesCommandTest extends KernelTestCase
         // if skip-unmapped is set the trait entries without conflicts should be imported
         $this->commandTester->execute(array(
             'command' => $this->command->getName(),
-            '--user-id' => 1,
+            '--db-id' => 1,
             '--traittype' => 'IUCN Threat Status',
             'file' => __DIR__.'/files/iucnRedlistScinameNonUnique.tsv',
             '--mapping' => 'scientific_name',
@@ -198,7 +197,7 @@ class ImportTraitValuesCommandTest extends KernelTestCase
         )), 'before import there is no citation "eol_fantasy"');
         $this->commandTester->execute(array(
             'command' => $this->command->getName(),
-            '--user-id' => 1,
+            '--db-id' => 1,
             '--traittype' => 'Plant Habit',
             'file' => __DIR__ . '/files/plantHabitEOL.tsv',
             '--mapping' => 'EOL'
@@ -234,7 +233,7 @@ class ImportTraitValuesCommandTest extends KernelTestCase
         )), 'before import there is no citation "eol_fantasy2"');
         $this->commandTester->execute(array(
             'command' => $this->command->getName(),
-            '--user-id' => 1,
+            '--db-id' => 1,
             '--traittype' => 'Plant Habit',
             'file' => __DIR__.'/files/plantHabitEOL_missing.tsv',
             '--mapping' => 'EOL'
@@ -253,7 +252,7 @@ class ImportTraitValuesCommandTest extends KernelTestCase
         // check for correct application of --skip-unmapped flag
         $this->commandTester->execute(array(
             'command' => $this->command->getName(),
-            '--user-id' => 1,
+            '--db-id' => 1,
             '--traittype' => 'Plant Habit',
             'file' => __DIR__.'/files/plantHabitEOL_missing.tsv',
             '--mapping' => 'EOL',
@@ -290,7 +289,7 @@ class ImportTraitValuesCommandTest extends KernelTestCase
         $this->em->flush();
         $this->commandTester->execute(array(
             'command' => $this->command->getName(),
-            '--user-id' => 1,
+            '--db-id' => 1,
             '--traittype' => 'testPlantHeight',
             'file' => __DIR__ . '/files/plantHeightEOL.tsv',
             '--mapping' => 'EOL'
@@ -329,7 +328,7 @@ class ImportTraitValuesCommandTest extends KernelTestCase
         )), 'before import there is no citation "Long Table Default Citation"');
         $this->commandTester->execute(array(
             'command' => $this->command->getName(),
-            '--user-id' => 1,
+            '--db-id' => 1,
             '--default-citation' => "Long Table Default Citation",
             '--long-table' => true,
             'file' => __DIR__ . '/files/longTable.tsv'
@@ -354,7 +353,7 @@ class ImportTraitValuesCommandTest extends KernelTestCase
         $this->em->flush();
         $this->commandTester->execute(array(
             'command' => $this->command->getName(),
-            '--user-id' => 1,
+            '--db-id' => 1,
             '--default-citation' => "Long Table Default Citation",
             '--long-table' => true,
             'file' => __DIR__ . '/files/longTable.tsv'
@@ -406,7 +405,7 @@ class ImportTraitValuesCommandTest extends KernelTestCase
         )), 'before import there is no citation "Long Table Missing Values Default Citation"');
         $this->commandTester->execute(array(
             'command' => $this->command->getName(),
-            '--user-id' => 1,
+            '--db-id' => 1,
             '--default-citation' => "Long Table Missing Values Default Citation",
             '--long-table' => true,
             'file' => __DIR__ . '/files/longTable_missingValues.tsv'
