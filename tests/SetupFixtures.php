@@ -42,35 +42,35 @@ class SetupFixtures
         $this->insert_full_webuser_data($smallBiom, 'detailsProjectsTestUser', 'detailsProjectsTestUser', new \DateTime('2016-05-17T10:00:52+0000'), 'detailsProjectsTestFile.biom');
         $this->insert_full_webuser_data($smallBiom, 'listingOverviewTestUser', 'listingOverviewTestUser', new \DateTime('2016-10-06T08:07:40+0000'), 'listingOverviewTestFile.biom');
         $rows =  array(
-            ["id" => "OTU_1", "metadata" => ["fennec" => "{\"test\": {\"fennec_id\": null}}"]],
-            ["id" => "OTU_2", "metadata" => ["fennec" => "{\"test\": {\"fennec_id\": 3}}"]],
+            ["id" => "OTU_1", "metadata" => ["fennec" => "{\"test_data\": {\"fennec_id\": null}}"]],
+            ["id" => "OTU_2", "metadata" => ["fennec" => "{\"test_data\": {\"fennec_id\": 3}}"]],
             ["id" => "OTU_3", "metadata" => []],
-            ["id" => "OTU_4", "metadata" => ["fennec" => "{\"test\": {\"fennec_id\": 3}}"]],
-            ["id" => "OTU_5", "metadata" => ["fennec" => "{\"test\": {\"fennec_id\": 42}}"]]
+            ["id" => "OTU_4", "metadata" => ["fennec" => "{\"test_data\": {\"fennec_id\": 3}}"]],
+            ["id" => "OTU_5", "metadata" => ["fennec" => "{\"test_data\": {\"fennec_id\": 42}}"]]
         );
         $columns = array(
-            ["id" => "Sample_1", "metadata" => ["fennec" => "{\"test\": {\"fennec_id\": 1340}}"]],
-            ["id" => "Sample_2", "metadata" => ["fennec" => "{\"test\": {\"fennec_id\": 1630}}"]]
+            ["id" => "Sample_1", "metadata" => ["fennec" => "{\"test_data\": {\"fennec_id\": 1340}}"]],
+            ["id" => "Sample_2", "metadata" => ["fennec" => "{\"test_data\": {\"fennec_id\": 1630}}"]]
         );
         $this->insert_full_webuser_data(array_merge($smallBiom, array('rows'=>$rows, 'columns' => $columns)),'detailsOrganismsOfProjectTestUser', 'detailsOrganismsOfProjectTestUser', new \DateTime('2016-10-06T08:07:40+0000'), 'detailsOrganismsOfProjectFile.biom');
         $rows =  array(
-            ["id" => "OTU_1", "metadata" => ["fennec" => "{\"test\": {\"fennec_id\": 1340}}"]],
-            ["id" => "OTU_2", "metadata" => ["fennec" => "{\"test\": {\"fennec_id\": 1630}}"]],
-            ["id" => "OTU_3", "metadata" => ["fennec" => "{\"test\": {\"fennec_id\": 24718}}"]],
-            ["id" => "OTU_4", "metadata" => ["fennec" => "{\"test\": {\"fennec_id\": 73023}}"]],
-            ["id" => "OTU_5", "metadata" => ["fennec" => "{\"test\": {\"fennec_id\": 23057}}"]]
+            ["id" => "OTU_1", "metadata" => ["fennec" => "{\"test_data\": {\"fennec_id\": 1340}}"]],
+            ["id" => "OTU_2", "metadata" => ["fennec" => "{\"test_data\": {\"fennec_id\": 1630}}"]],
+            ["id" => "OTU_3", "metadata" => ["fennec" => "{\"test_data\": {\"fennec_id\": 24718}}"]],
+            ["id" => "OTU_4", "metadata" => ["fennec" => "{\"test_data\": {\"fennec_id\": 73023}}"]],
+            ["id" => "OTU_5", "metadata" => ["fennec" => "{\"test_data\": {\"fennec_id\": 23057}}"]]
         );
         $columns = array(
-            ["id" => "Sample_1", "metadata" => ["fennec" => "{\"test\": {\"fennec_id\": 1340}}"]],
-            ["id" => "Sample_2", "metadata" => ["fennec" => "{\"test\": {\"fennec_id\": 1630}}"]]
+            ["id" => "Sample_1", "metadata" => ["fennec" => "{\"test_data\": {\"fennec_id\": 1340}}"]],
+            ["id" => "Sample_2", "metadata" => ["fennec" => "{\"test_data\": {\"fennec_id\": 1630}}"]]
         );
         $this->insert_full_webuser_data(array_merge($smallBiom, array('rows'=>$rows, 'columns'=>$columns)),'detailsTraitOfProjectTestUser', 'detailsTraitOfProjectTestUser', new \DateTime('2016-10-06T08:07:40+0000'),'detailsTraitOfProjectFile.biom');
         $rows =  array(
-            ["id" => "OTU_1", "metadata" => ["fennec" => "{\"test\": {\"fennec_id\": 134097}}"]],
-            ["id" => "OTU_2", "metadata" => ["fennec" => "{\"test\": {\"fennec_id\": 163840}}"]],
-            ["id" => "OTU_3", "metadata" => ["fennec" => "{\"test\": {\"fennec_id\": 24718}}"]],
-            ["id" => "OTU_4", "metadata" => ["fennec" => "{\"test\": {\"fennec_id\": 73023}}"]],
-            ["id" => "OTU_5", "metadata" => ["fennec" => "{\"test\": {\"fennec_id\": 23057}}"]]
+            ["id" => "OTU_1", "metadata" => ["fennec" => "{\"test_data\": {\"fennec_id\": 134097}}"]],
+            ["id" => "OTU_2", "metadata" => ["fennec" => "{\"test_data\": {\"fennec_id\": 163840}}"]],
+            ["id" => "OTU_3", "metadata" => ["fennec" => "{\"test_data\": {\"fennec_id\": 24718}}"]],
+            ["id" => "OTU_4", "metadata" => ["fennec" => "{\"test_data\": {\"fennec_id\": 73023}}"]],
+            ["id" => "OTU_5", "metadata" => ["fennec" => "{\"test_data\": {\"fennec_id\": 23057}}"]]
         );
         $this->insert_full_webuser_data(array_merge($smallBiom, array('rows'=>$rows)),'UpdateProjectTestUser', 'UpdateProjectTestUser', new \DateTime('2016-10-06T08:07:40+0000'), 'updateProjectFile.biom');
     }
