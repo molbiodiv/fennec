@@ -32,6 +32,7 @@ addons:
   postgresql: "9.5"
 
 before_script:
+  - cp tests/.travis.parameters.yml app/config/parameters.yml
   - cp tests/.travis.parameters_test.yml app/config/parameters_test.yml
 
 script:
