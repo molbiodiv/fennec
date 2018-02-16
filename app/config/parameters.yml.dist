@@ -20,9 +20,8 @@ parameters:
     user_connection: "userdb"
     default_data_entity_manager: "1.0"
     user_entity_manager: "userdb"
+    versions: '1.0|2.0|test_data'
     dbal:
-        default_data_connection: '1.0'
-        user_connection: 'userdb'
         connections:
             'userdb':
                 driver: pdo_pgsql
@@ -42,8 +41,6 @@ parameters:
                 charset: UTF8
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
-        default_data_entity_manager: '1.0'
-        user_entity_manager: 'userdb'
         entity_managers:
             'userdb':
                 connection: 'userdb'
