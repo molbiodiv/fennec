@@ -9,16 +9,16 @@ parameters:
                 host:     testdb
                 port:     5432
                 dbname:   user_test
-                user:     fennectest
-                password: fennectest
+                user:     fennec_test
+                password: fennec_test
                 charset:  UTF8
             "test_data":
                 driver:   pdo_pgsql
                 host:     testdb
                 port:     5432
                 dbname:   data_test
-                user:     fennectest
-                password: fennectest
+                user:     fennec_test
+                password: fennec_test
                 charset:  UTF8
 
     default_data_entity_manager: "test_data"
