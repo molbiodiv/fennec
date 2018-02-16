@@ -17,9 +17,9 @@ parameters:
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
     default_data_connection: "1.0"
-    user_connection: "user"
+    user_connection: "userdb"
     default_data_entity_manager: "1.0"
-    user_entity_manager: "user"
+    user_entity_manager: "userdb"
     dbal:
         default_data_connection: '1.0'
         user_connection: 'userdb'
