@@ -39,7 +39,7 @@ class Setup extends  WebTestCase
             ' -h '.$data_db['host'].
             ' -p '.$data_db['port'].
             ' -d '.$data_db['dbname'].'\'');
-        $em = $client->getContainer()->get(DBVersion::class)->getEntityManager();
+        $em = $client->getContainer()->get('doctrine')->getManager('test_user');
         $setupFixtures = new SetupFixtures($em);
         $setupFixtures->insertUserData();
     }

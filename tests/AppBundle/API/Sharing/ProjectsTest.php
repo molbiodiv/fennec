@@ -3,9 +3,9 @@
 use Tests\AppBundle\API\WebserviceTestCase;
 use AppBundle\API\Sharing;
 use AppBundle\API\Upload;
-use AppBundle\Entity\FennecUser;
-use AppBundle\Entity\Permissions;
-use AppBundle\Entity\WebuserData;
+use AppBundle\Entity\User\FennecUser;
+use AppBundle\Entity\User\Permissions;
+use AppBundle\Entity\User\WebuserData;
 
 class ProjectsTest extends WebserviceTestCase
 {
@@ -15,6 +15,7 @@ class ProjectsTest extends WebserviceTestCase
 
     const NICKNAME = 'SharingProjectsTestUser';
     const EMAIL = 'SharingProjectsTestUser@bla.de';
+    const PASSWORD = 'SharingProjectsTestPassword';
     const ANOTHER_NICKNAME = 'AnotherSharingProjectsTestUser';
     const ANOTHER_EMAIL = 'AnotherSharingProjectsTestUser@bla.de';
 
@@ -24,7 +25,7 @@ class ProjectsTest extends WebserviceTestCase
 
         $this->em = $kernel->getContainer()
             ->get('doctrine')
-            ->getManager('test');
+            ->getManager('test_user');
         $this->sharingProjects = $kernel->getContainer()->get(Sharing\Projects::class);
         $this->uploadProjects = $kernel->getContainer()->get(Upload\Projects::class);
     }
@@ -41,9 +42,11 @@ class ProjectsTest extends WebserviceTestCase
         $user = new FennecUser();
         $user->setUsername(ProjectsTest::NICKNAME);
         $user->setEmail(ProjectsTest::EMAIL);
+        $user->setPassword(ProjectsTest::PASSWORD);
         $anotherUser = new FennecUser();
         $anotherUser->setUsername(ProjectsTest::ANOTHER_NICKNAME);
         $anotherUser->setEmail(ProjectsTest::ANOTHER_EMAIL);
+        $anotherUser->setPassword(ProjectsTest::PASSWORD);
 
         //Upload test data for SharingProjectsTestUser and AnotherSharingProjectsTestUser
         $_FILES = array(

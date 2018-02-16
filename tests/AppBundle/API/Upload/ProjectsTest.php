@@ -3,7 +3,7 @@
 namespace Tests\AppBundle\API\Upload;
 
 use AppBundle\API\Upload\Projects;
-use AppBundle\Entity\FennecUser;
+use AppBundle\Entity\User\FennecUser;
 use Tests\AppBundle\API\WebserviceTestCase;
 use AppBundle\API\Upload;
 
@@ -14,6 +14,7 @@ class ProjectsTest extends WebserviceTestCase
     const NICKNAME = 'UploadProjectTestUser';
     const USERID = 'UploadProjectTestUser';
     const PROVIDER = 'UploadProjectTest';
+    const PASSWORD = 'UploadProjectTestPassword';
 
     private $em;
     private $uploadProjects;
@@ -24,7 +25,7 @@ class ProjectsTest extends WebserviceTestCase
 
         $this->em = $kernel->getContainer()
             ->get('doctrine')
-            ->getManager('test');
+            ->getManager('test_user');
         $this->uploadProjects = $kernel->getContainer()->get(Upload\Projects::class);
     }
 
@@ -42,6 +43,7 @@ class ProjectsTest extends WebserviceTestCase
         $user = new FennecUser();
         $user->setUsername('UploadProjectTestUser');
         $user->setEmail('UploadProjectTestUser@test.de');
+        $user->setPassword(ProjectsTest::PASSWORD);
         $_FILES = array(
             array(
                 'name' => 'empty',
@@ -72,6 +74,7 @@ class ProjectsTest extends WebserviceTestCase
         $user = new FennecUser();
         $user->setUsername('UploadProjectTestUser');
         $user->setEmail('UploadProjectTestUser@test.de');
+        $user->setPassword(ProjectsTest::PASSWORD);
         $_FILES = array(
             array(
                 'name' => 'noJson',
@@ -99,6 +102,7 @@ class ProjectsTest extends WebserviceTestCase
         $user = new FennecUser();
         $user->setUsername('UploadProjectTestUser');
         $user->setEmail('UploadProjectTestUser@test.de');
+        $user->setPassword(ProjectsTest::PASSWORD);
         $_FILES = array(
             array(
                 'name' => 'noBiom.json',
@@ -126,6 +130,7 @@ class ProjectsTest extends WebserviceTestCase
         $user = new FennecUser();
         $user->setUsername('UploadBiomTestUser');
         $user->setEmail('UploadBiomTestUser@test.de');
+        $user->setPassword(ProjectsTest::PASSWORD);
         $_FILES = array(
             array(
                 'name' => 'simpleBiom.json',
@@ -145,6 +150,7 @@ class ProjectsTest extends WebserviceTestCase
         $user = new FennecUser();
         $user->setUsername('UploadHdf5TestUser');
         $user->setEmail('UploadHdf5TestUser@test.de');
+        $user->setPassword(ProjectsTest::PASSWORD);
         copy(__DIR__ . '/testFiles/simpleBiom.hdf5', __DIR__ . '/testFiles/simpleBiom.hdf5.backup');
         $_FILES = array(
             array(
@@ -165,6 +171,7 @@ class ProjectsTest extends WebserviceTestCase
         $user = new FennecUser();
         $user->setUsername('UploadOTUTestUser');
         $user->setEmail('UploadOTUTestUser@test.de');
+        $user->setPassword(ProjectsTest::PASSWORD);
         copy(__DIR__ . '/testFiles/otuTable.tsv', __DIR__ . '/testFiles/otuTable.tsv.backup');
         $_FILES = array(
             array(

@@ -30,11 +30,7 @@ class ListUserCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $connection_name = $input->getOption('connection');
-        if($connection_name == null) {
-            $connection_name = $this->getContainer()->get('doctrine')->getDefaultConnectionName();
-        }
-        $em  = $this->getContainer()->get(DBVersion::class)->getEntityManager();
+        $em  = $this->getContainer()->get(DBVersion::class)->getUserEntityManager();
         $users = $em->getRepository('AppBundle:FennecUser')->findAll();
         $table = new Table($output);
         $table->setHeaders(['user_id', 'firstName', 'lastName', 'username']);

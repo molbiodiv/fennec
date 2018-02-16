@@ -58,14 +58,14 @@ class OrganismRepository extends EntityRepository
 
     private function getDBId($db_name){
         $qb = $this->getEntityManager()->createQueryBuilder();
-        $qb->select('db.dbId')
+        $qb->select('db.id')
             ->from('AppBundle\Entity\Data\Db', 'db')
             ->where('db.name = :dbName')
             ->setParameter('dbName', $db_name);
         $query = $qb->getQuery();
         $result = $query->getArrayResult();
         for($i=0; $i < sizeof($result); $i++) {
-            $db_id = $result[$i]['dbId'];
+            $db_id = $result[$i]['id'];
         }
         if (!isset($db_id)) {
             return "";
@@ -113,7 +113,7 @@ class OrganismRepository extends EntityRepository
                     'traitEntryIds' => [$trait_entry_id],
                     'fennec' => [$fennec_id],
                     'unit' => $unit
-                    ];
+                ];
             } else {
                 array_push($result[$type_cvterm_id]['traitEntryIds'], $trait_entry_id);
                 if (!in_array($fennec_id, $result[$type_cvterm_id]['fennec'])) {

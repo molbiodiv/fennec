@@ -17,7 +17,7 @@ class ScinamesTest extends WebserviceTestCase
 
         $this->em = $kernel->getContainer()
             ->get('doctrine')
-            ->getManager('test');
+            ->getManager('test_data');
         $this->listingScinames = $kernel->getContainer()->get(Listing\Scinames::class);
 
     }

@@ -19,7 +19,7 @@ class TraitEntriesTest extends WebserviceTestCase
 
         $this->em = $kernel->getContainer()
             ->get('doctrine')
-            ->getManager('test');
+            ->getManager('test_user');
         $this->traitEntries = $kernel->getContainer()->get(Details\TraitEntries::class);
         $this->resultForOneTraitEntry = [
             '47484' => [

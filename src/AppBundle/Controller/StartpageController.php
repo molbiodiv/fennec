@@ -5,8 +5,8 @@ namespace AppBundle\Controller;
 use AppBundle\API\Listing;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class StartpageController extends Controller
 {
@@ -15,7 +15,7 @@ class StartpageController extends Controller
      */
     public function indexAction()
     {
-        $default_db = $this->getParameter('dbal')['default_connection'];
+        $default_db = $this->getParameter('default_data_connection');
         return $this->redirectToRoute('startpage', array('dbversion' => $default_db));
     }
 
@@ -24,15 +24,13 @@ class StartpageController extends Controller
      * @return Response
      * @Route("/startpage", name="startpage")
      */
-    public function startpageAction(Request $request, $dbversion){
+    public function startpageAction(Request $request){
         $oc = $this->container->get(Listing\Overview::class);
-        $query = $request->query;
-        $query->set('dbversion', $dbversion);
         $user = null;
         if($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')){
             $user = $this->get('security.token_storage')->getToken()->getUser();
         }
-        $overview = $oc->execute($query, $user);
+        $overview = $oc->execute();
         $title = "Welcome";
         if($user !== null){
             $title .= " ".$user->getUsername();
@@ -41,7 +39,6 @@ class StartpageController extends Controller
             'type' => 'startpage',
             'overview' => $overview,
             'title' => $title,
-            'dbversion' => $dbversion
         );
         return $this->render('startpage/index.html.twig', $twig_parameter);
     }

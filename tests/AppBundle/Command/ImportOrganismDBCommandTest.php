@@ -34,7 +34,7 @@ class ImportOrganismDBCommandTest extends KernelTestCase
 
         $this->command = $application->find('app:import-organism-db');
         $this->commandTester = new CommandTester($this->command);
-        $this->em = self::$kernel->getContainer()->get('doctrine')->getManager('test');
+        $this->em = self::$kernel->getContainer()->get('doctrine')->getManager('test_data');
     }
 
     public function testExecute()

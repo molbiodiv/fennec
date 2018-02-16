@@ -2,7 +2,7 @@
 
 namespace Tests\AppBundle\API\Mapping;
 
-use AppBundle\Entity\Organism;
+use AppBundle\Entity\Data\Organism;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Tests\AppBundle\API\WebserviceTestCase;
 use AppBundle\API\Mapping;
@@ -18,7 +18,7 @@ class ByOrganismNameTest extends WebserviceTestCase
 
         $this->em = $kernel->getContainer()
             ->get('doctrine')
-            ->getManager('test');
+            ->getManager('test_data');
         $this->mappingByOrganismName = $kernel->getContainer()->get(Mapping\ByOrganismName::class);
 
     }

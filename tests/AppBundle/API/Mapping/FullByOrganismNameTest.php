@@ -16,7 +16,7 @@ class FullByOrganismNameTest extends WebserviceTestCase
 
         $this->em = $kernel->getContainer()
             ->get('doctrine')
-            ->getManager('test');
+            ->getManager('test_data');
         $this->fullByOrganismName = $kernel->getContainer()->get(Mapping\FullByOrganismName::class);
 
     }
