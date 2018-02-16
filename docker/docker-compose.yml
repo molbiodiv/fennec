@@ -1,14 +1,22 @@
 version: '2'
 services:
-  db:
+  datadb:
     image: postgres:9.6
     environment:
-      POSTGRES_USER: fennec
-      POSTGRES_PASSWORD: fennec
-      POSTGRES_DB: fennec
+      POSTGRES_USER: fennec_data
+      POSTGRES_PASSWORD: fennec_data
+      POSTGRES_DB: fennec_data
+  userdb:
+    image: postgres:9.6
+    environment:
+      POSTGRES_USER: fennec_user
+      POSTGRES_PASSWORD: fennec_user
+      POSTGRES_DB: fennec_user
   web:
-    image: iimog/fennec
+    image: iimog/fennec:develop
+
     ports:
     - "8889:80"
     links:
-    - "db:db"
+    - "datadb:datadb"
+    - "userdb:userdb"
