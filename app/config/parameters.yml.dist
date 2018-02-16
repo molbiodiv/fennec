@@ -14,9 +14,6 @@ parameters:
     google_client_id:     ~
     google_client_secret: ~
 
-    demo_user_name:     demo
-    demo_user_password: demo
-
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
     default_data_connection: "1.0"
@@ -24,24 +21,61 @@ parameters:
     default_data_entity_manager: "1.0"
     user_entity_manager: "user"
     dbal:
-        default_connection: "1.0"
+        default_data_connection: '1.0'
+        user_connection: 'userdb'
         connections:
-            "1.0":
-                driver:   pdo_pgsql
-                host:     ~
-                port:     ~
-                dbname:   ~
-                user:     ~
-                password: ~
-                charset:  UTF8
-
+            'userdb':
+                driver: pdo_pgsql
+                host: db
+                port: 5432
+                dbname: fennec
+                user: fennec
+                password: fennec
+                charset: UTF8
+            '1.0':
+                driver: pdo_pgsql
+                host: db
+                port: 5432
+                dbname: fennec
+                user: fennec
+                password: fennec
+                charset: UTF8
+            '2.0':
+                driver: pdo_pgsql
+                host: testdb
+                port: 5432
+                dbname: fennectest
+                user: fennectest
+                password: fennectest
+                charset: UTF8
     orm:
-        auto_generate_proxy_classes: "%kernel.debug%"
-        default_entity_manager: "1.0"
+        auto_generate_proxy_classes: '%kernel.debug%'
+        default_data_entity_manager: '1.0'
+        user_entity_manager: 'userdb'
         entity_managers:
-            "1.0":
-                connection: "1.0"
+            'userdb':
+                connection: 'userdb'
                 naming_strategy: doctrine.orm.naming_strategy.underscore
-                auto_mapping: true
                 mappings:
-                    AppBundle: ~
+                    AppBundle:
+                        dir: '%kernel.project_dir%/src/AppBundle/Entity/User'
+                        type: annotation
+                        prefix: 'AppBundle\Entity\User'
+            '1.0':
+                connection: '1.0'
+                naming_strategy: doctrine.orm.naming_strategy.underscore
+                mappings:
+                    AppBundle:
+                        dir: '%kernel.project_dir%/src/AppBundle/Entity/Data'
+                        type: annotation
+                        prefix: 'AppBundle\Entity\Data'
+            '2.0':
+                connection: '2.0'
+                naming_strategy: doctrine.orm.naming_strategy.underscore
+                #auto_mapping: true
+                mappings:
+                    AppBundle:
+                        dir: '%kernel.project_dir%/src/AppBundle/Entity/Data'
+                        type: annotation
+                        prefix: 'AppBundle\Entity\Data'
+
