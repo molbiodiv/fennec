@@ -26,27 +26,19 @@ parameters:
         connections:
             'userdb':
                 driver: pdo_pgsql
-                host: db
+                host: userdb
                 port: 5432
-                dbname: fennec
-                user: fennec
-                password: fennec
+                dbname: fennec_user
+                user: fennec_user
+                password: fennec_user
                 charset: UTF8
             '1.0':
                 driver: pdo_pgsql
-                host: db
+                host: datadb
                 port: 5432
-                dbname: fennec
-                user: fennec
-                password: fennec
-                charset: UTF8
-            '2.0':
-                driver: pdo_pgsql
-                host: testdb
-                port: 5432
-                dbname: fennectest
-                user: fennectest
-                password: fennectest
+                dbname: fennec_data
+                user: fennec_data
+                password: fennec_data
                 charset: UTF8
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
@@ -69,13 +61,3 @@ parameters:
                         dir: '%kernel.project_dir%/src/AppBundle/Entity/Data'
                         type: annotation
                         prefix: 'AppBundle\Entity\Data'
-            '2.0':
-                connection: '2.0'
-                naming_strategy: doctrine.orm.naming_strategy.underscore
-                #auto_mapping: true
-                mappings:
-                    AppBundle:
-                        dir: '%kernel.project_dir%/src/AppBundle/Entity/Data'
-                        type: annotation
-                        prefix: 'AppBundle\Entity\Data'
-
