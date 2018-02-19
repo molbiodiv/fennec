@@ -3,7 +3,8 @@
 namespace AppBundle\Command;
 
 
-use AppBundle\Entity\TraitType;
+use AppBundle\Entity\Data\TraitType;
+use AppBundle\Service\DBVersion;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
@@ -35,8 +36,7 @@ class ListTraitTypeCommand extends ContainerAwareCommand
         if($connection_name == null) {
             $connection_name = $this->getContainer()->get('doctrine')->getDefaultConnectionName();
         }
-        $orm = $this->getContainer()->get('app.orm');
-        $em = $orm->getManagerForVersion($connection_name);
+        $em = $this->getContainer()->get(DBVersion::class)->getEntityManager();
         $traitTypes = $em->getRepository('AppBundle:TraitType')->findAll();
         $table = new Table($output);
         $table->setHeaders(['ID', 'type', 'format', 'description', 'ontology_url', 'unit']);

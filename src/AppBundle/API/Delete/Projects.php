@@ -2,10 +2,10 @@
 
 namespace AppBundle\API\Delete;
 
-use AppBundle\AppBundle;
-use AppBundle\Entity\WebuserData;
-use AppBundle\Entity\FennecUser;
+use AppBundle\Entity\User\WebuserData;
+use AppBundle\Entity\User\FennecUser;
 use AppBundle\Service\DBVersion;
+use AppBundle\Entity\User\Permissions;
 
 /**
  * Web Service.
@@ -23,7 +23,7 @@ class Projects
      */
     public function __construct(DBVersion $dbversion)
     {
-        $this->manager = $dbversion->getEntityManager();
+        $this->manager = $dbversion->getUserEntityManager();
     }
 
 
@@ -37,14 +37,29 @@ class Projects
     * array(array('project_id','import_date','OTUs','sample size'));
     * </code>
     */
-    public function execute(FennecUser $user = null, $projectId)
+    public function execute(FennecUser $user = null, $projectId, $attribute)
     {
         $result = array('deletedProjects' => 0);
         if ($user === null) {
             $result['error'] = Projects::ERROR_NOT_LOGGED_IN;
         } else {
-            $projects = $this->manager->getRepository(WebuserData::class)->findOneBy(array('webuser' => $user, 'webuserDataId' => $projectId));
-            $this->manager->remove($projects);
+            if($attribute === 'owner'){
+                $permission = $this->manager->getRepository(Permissions::class)->findBy(array(
+                    'webuserData' => $projectId
+                ));
+                foreach ($permission as $p){
+                    $this->manager->remove($p);
+                }
+                $projects = $this->manager->getRepository(WebuserData::class)->findOneBy(array('webuser' => $user, 'webuserDataId' => $projectId));
+                $this->manager->remove($projects);
+            } else {
+                $permission = $this->manager->getRepository(Permissions::class)->findOneBy(array(
+                    'webuser' => $user,
+                    'webuserData' => $projectId,
+                    'permission' => $attribute
+                ));
+                $this->manager->remove($permission);
+            }
             $this->manager->flush();
             $result['deletedProjects'] = 1;
         }

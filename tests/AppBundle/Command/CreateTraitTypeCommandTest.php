@@ -13,7 +13,7 @@ class CreateTraitTypeCommandTest extends KernelTestCase
     {
         self::bootKernel();
 
-        $em = self::$kernel->getContainer()->get('doctrine')->getManager('test');
+        $em = self::$kernel->getContainer()->get('doctrine')->getManager('test_data');
         $testType = $em->getRepository('AppBundle:TraitType')->findOneBy(array(
             'type' => 'TestCategoricalTrait'
         ));

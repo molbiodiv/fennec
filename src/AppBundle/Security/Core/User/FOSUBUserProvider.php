@@ -2,7 +2,7 @@
 
 namespace AppBundle\Security\Core\User;
 
-use AppBundle\Entity\FennecUser;
+use AppBundle\Entity\User\FennecUser;
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
 use HWI\Bundle\OAuthBundle\Security\Core\User\FOSUBUserProvider as BaseFOSUBProvider;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -38,7 +38,11 @@ class FOSUBUserProvider extends BaseFOSUBProvider
     public function loadUserByOAuthUserResponse(UserResponseInterface $response)
     {
         $userEmail = $response->getEmail();
+        $username = $response->getUsername();
         $user = $this->userManager->findUserByEmail($userEmail);
+        if($user === null){
+            $user = $this->userManager->findUserByUsername($username);
+        }
 
         //if null create new user and set it properties
         if(null === $user){

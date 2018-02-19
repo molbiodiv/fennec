@@ -11,16 +11,20 @@ class OrganismsOfProjectTest extends WebserviceTestCase
     const USERID = 'detailsOrganismsOfProjectTestUser';
     const PROVIDER = 'detailsOrganismsOfProjectTestUser';
 
-    private $em;
+    private $emData;
+    private $emUser;
     private $organismsOfProject;
 
     public function setUp()
     {
         $kernel = self::bootKernel();
 
-        $this->em = $kernel->getContainer()
+        $this->emData = $kernel->getContainer()
             ->get('doctrine')
-            ->getManager('test');
+            ->getManager('test_data');
+        $this->emUser = $kernel->getContainer()
+            ->get('doctrine')
+            ->getManager('test_user');
         $this->organismsOfProject = $kernel->getContainer()->get(Details\OrganismsOfProject::class);
     }
 
@@ -28,17 +32,18 @@ class OrganismsOfProjectTest extends WebserviceTestCase
     {
         parent::tearDown();
 
-        $this->em->close();
-        $this->em = null; // avoid memory leaks
+        $this->emData->close();
+        $this->emData = null; // avoid memory leaks
+        $this->emUser->close();
+        $this->emUser = null; // avoid memory leaks
     }
 
     public function testNotLoggedIn()
     {
-        $dbversion = $this->default_db;
         $projectId = 1;
         $dimension = "row";
         $user = null;
-        $results = $this->organismsOfProject->execute($projectId, $dimension, $user, $dbversion);
+        $results = $this->organismsOfProject->execute($projectId, $dimension, $user);
         $expected = array("error" => Details\OrganismsOfProject::ERROR_NOT_LOGGED_IN);
         $this->assertEquals($expected, $results, 'User is not loggend in, return error message');
     }
@@ -46,16 +51,15 @@ class OrganismsOfProjectTest extends WebserviceTestCase
 
     public function testOrganismsOfProjectWithRows()
     {
-        $dbversion = $this->default_db;
         $dimension = "rows";
-        $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
+        $user = $this->emUser->getRepository('AppBundle:FennecUser')->findOneBy(array(
             'username' => OrganismsOfProjectTest::NICKNAME
         ));
-        $projectId = $this->em->getRepository('AppBundle:WebuserData')->findOneBy(array(
+        $projectId = $this->emUser->getRepository('AppBundle:WebuserData')->findOneBy(array(
             'webuser' => $user
         ))->getWebuserDataId();
 
-        $results = $this->organismsOfProject->execute($projectId, $dimension, $user, $dbversion);
+        $results = $this->organismsOfProject->execute($projectId, $dimension, $user);
         $expected = array(
             3, 42
         );
@@ -67,15 +71,14 @@ class OrganismsOfProjectTest extends WebserviceTestCase
 
     public function testOrganismsOfProjectWithColumns()
     {
-        $dbversion = $this->default_db;
         $dimension = "columns";
-        $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
+        $user = $this->emUser->getRepository('AppBundle:FennecUser')->findOneBy(array(
             'username' => OrganismsOfProjectTest::NICKNAME
         ));
-        $projectId = $this->em->getRepository('AppBundle:WebuserData')->findOneBy(array(
+        $projectId = $this->emUser->getRepository('AppBundle:WebuserData')->findOneBy(array(
             'webuser' => $user
         ))->getWebuserDataId();
-        $results = $this->organismsOfProject->execute($projectId, $dimension, $user, $dbversion);
+        $results = $this->organismsOfProject->execute($projectId, $dimension, $user);
         $expected = array(
             1340, 1630
         );
@@ -85,13 +88,12 @@ class OrganismsOfProjectTest extends WebserviceTestCase
     }
 
     public function testNoValidUserOfProject(){
-        $dbversion = $this->default_db;
         $dimension = "rows";
-        $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
+        $user = $this->emUser->getRepository('AppBundle:FennecUser')->findOneBy(array(
             'username' => OrganismsOfProjectTest::NICKNAME
         ));
         $noValidProjectId = 15;
-        $results = $this->organismsOfProject->execute($noValidProjectId, $dimension, $user, $dbversion);
+        $results = $this->organismsOfProject->execute($noValidProjectId, $dimension, $user);
         $expected = array("error" => OrganismsOfProject::ERROR_PROJECT_NOT_FOUND);
         $this->assertEquals($expected, $results, 'Project does not belong to user, return error message');
 

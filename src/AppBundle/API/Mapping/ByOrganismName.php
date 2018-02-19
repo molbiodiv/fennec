@@ -2,7 +2,7 @@
 
 namespace AppBundle\API\Mapping;
 
-use AppBundle\Entity\FennecUser;
+use AppBundle\Entity\User\FennecUser;
 use AppBundle\Service\DBVersion;
 use Symfony\Component\HttpFoundation\ParameterBag;
 

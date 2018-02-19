@@ -10,7 +10,17 @@ class DBVersion
 
     private $defaultConnection;
 
+    private $userConnection;
+
     private $connectionName;
+
+    /**
+     * @return mixed
+     */
+    public function getConnectionName()
+    {
+        return $this->connectionName;
+    }
 
     private $orm;
 
@@ -21,11 +31,14 @@ class DBVersion
     public function __construct(
         \Twig_Environment $twig,
         \Doctrine\Bundle\DoctrineBundle\Registry $orm,
-        $defaultConnection
+        $defaultDataConnection,
+        $userConnection
     ) {
         $this->twig = $twig;
-        $this->defaultConnection = $defaultConnection;
+        $this->defaultConnection = $defaultDataConnection;
         $this->orm = $orm;
+        $this->userConnection = $userConnection;
+        $this->connectionName = $defaultDataConnection;
     }
 
     public function onKernelRequest(GetResponseEvent $event){
@@ -34,8 +47,7 @@ class DBVersion
         if(isset($params['dbversion'])){
             $dbversion = $params['dbversion'];
         } else {
-            $default_db = $this->defaultConnection;
-            $dbversion = $default_db;
+            $dbversion = $this->defaultConnection;
         }
         $this->twig->addGlobal('dbversion', $dbversion);
         $this->connectionName = $dbversion;
@@ -43,6 +55,23 @@ class DBVersion
 
     public function getEntityManager(){
         return $this->orm->getManager($this->connectionName);
+    }
+
+    public function getUserEntityManager(){
+       return $this->orm->getManager($this->userConnection);
+    }
+
+    public function overwriteDBVersion($dbversion){
+        $this->twig->addGlobal('dbversion', $dbversion);
+        $this->connectionName = $dbversion;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDefaultConnection()
+    {
+        return $this->defaultConnection;
     }
 
 }

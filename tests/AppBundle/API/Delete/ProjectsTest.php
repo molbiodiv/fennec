@@ -3,7 +3,7 @@
 namespace Tests\AppBundle\API\Delete;
 
 use Tests\AppBundle\API\WebserviceTestCase;
-use AppBundle\Entity\WebuserData;
+use AppBundle\Entity\User\WebuserData;
 use AppBundle\API\Delete;
 use AppBundle\API\Listing;
 
@@ -23,7 +23,7 @@ class ProjectsTest extends WebserviceTestCase
 
         $this->em = $kernel->getContainer()
             ->get('doctrine')
-            ->getManager('test');
+            ->getManager('test_user');
         $this->deleteProject = $kernel->getContainer()->get(Delete\Projects::class);
         $this->listingProject = $kernel->getContainer()->get(Listing\Projects::class);
 
@@ -41,7 +41,7 @@ class ProjectsTest extends WebserviceTestCase
         $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
             'username' => ProjectsTest::NICKNAME
         ));
-        $projectListing = $this->em->getRepository(WebuserData::class)->getDataForUser($user->getId());
+        $projectListing = $this->em->getRepository(WebuserData::class)->getDataForUser($user);
         $this->assertEquals(1, count($projectListing));
     }
 
@@ -52,10 +52,11 @@ class ProjectsTest extends WebserviceTestCase
         $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
             'username' => ProjectsTest::NICKNAME
         ));
-        $project = $this->em->getRepository(WebuserData::class)->getDataForUser($user->getId());
+        $project = $this->em->getRepository(WebuserData::class)->getDataForUser($user);
         $projectId = $project[0]['webuserDataId'];
         $expected = array("deletedProjects"=>1);
-        $results = $this->deleteProject->execute($user, $projectId);
+        $attribute = 'owner';
+        $results = $this->deleteProject->execute($user, $projectId, $attribute);
         $this->assertEquals($expected, $results);
     }
 

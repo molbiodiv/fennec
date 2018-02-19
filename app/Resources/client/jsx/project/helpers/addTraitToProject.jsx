@@ -18,10 +18,9 @@ function addTraitToProject(traitName, traitValues, traitCitations, biom, dimensi
     );
     biom.addMetadata({dimension: dimension, attribute: traitName, values: trait_metadata});
     biom.addMetadata({dimension: dimension, attribute: ['trait_citations', traitName], values: trait_citations});
-    let webserviceUrl = Routing.generate('api', {'namespace': 'edit', 'classname': 'updateProject', 'dbversion': dbversion});
+    let webserviceUrl = Routing.generate('api_edit_update_project', {'dbversion': dbversion});
     $.ajax(webserviceUrl, {
         data: {
-            "dbversion": dbVersion,
             "project_id": internalProjectId,
             "biom": biom.toString()
         },

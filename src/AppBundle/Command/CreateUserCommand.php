@@ -3,7 +3,8 @@
 namespace AppBundle\Command;
 
 
-use AppBundle\Entity\FennecUser;
+use AppBundle\Entity\User\FennecUser;
+use AppBundle\Service\DBVersion;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -29,7 +30,6 @@ class CreateUserCommand extends ContainerAwareCommand
         ->addArgument('password', InputArgument::REQUIRED, 'The password of the new user')
         ->addOption('super-admin', 'a', InputOption::VALUE_NONE, 'Set the user as admin user.')
         ->addOption('inactive', null, InputOption::VALUE_NONE, 'Set the user as inactive')
-        ->addOption('connection', 'c', InputOption::VALUE_REQUIRED, 'The database version')
         ->addOption('oauth_provider', 'p', InputOption::VALUE_REQUIRED, 'The oauth_provider (string), will be created if not exists', 'manually_created')
     ;
     }
@@ -41,12 +41,7 @@ class CreateUserCommand extends ContainerAwareCommand
             '===============',
             '',
         ]);
-        $connection_name = $input->getOption('connection');
-        if($connection_name == null) {
-            $connection_name = $this->getContainer()->get('doctrine')->getDefaultConnectionName();
-        }
-        $orm = $this->getContainer()->get('app.orm');
-        $em = $orm->getManagerForVersion($connection_name);
+        $em = $this->getContainer()->get(DBVersion::class)->getUserEntityManager();
         $user = $em->getRepository('AppBundle:FennecUser')->findOneBy([
             'username' => $input->getArgument('username')
         ]);

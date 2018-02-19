@@ -5,8 +5,8 @@ namespace AppBundle\API\Edit;
 
 use AppBundle\API\Webservice;
 use AppBundle\AppBundle;
-use AppBundle\Entity\FennecUser;
-use AppBundle\Entity\WebuserData;
+use AppBundle\Entity\User\FennecUser;
+use AppBundle\Entity\User\WebuserData;
 use AppBundle\Service\DBVersion;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
@@ -20,7 +20,7 @@ class UpdateProject
      */
     public function __construct(DBVersion $dbversion)
     {
-        $this->manager = $dbversion->getEntityManager();
+        $this->manager = $dbversion->getUserEntityManager();
     }
 
 

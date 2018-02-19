@@ -2,11 +2,9 @@
 
 namespace AppBundle\API\Details;
 
-use AppBundle\API\Webservice;
-use AppBundle\Entity\WebuserData;
-use AppBundle\Entity\FennecUser;
+use AppBundle\Entity\User\WebuserData;
+use AppBundle\Entity\User\FennecUser;
 use AppBundle\Service\DBVersion;
-use Symfony\Component\HttpFoundation\ParameterBag;
 
 /**
  * Web Service.
@@ -25,7 +23,7 @@ class Projects
      */
     public function __construct(DBVersion $dbversion)
     {
-        $this->manager = $dbversion->getEntityManager();
+        $this->manager = $dbversion->getUserEntityManager();
     }
 
 
@@ -47,7 +45,7 @@ class Projects
                 $result['error'] = Projects::PROJECT_NOT_FOUND_FOR_USER;
             }
             $userId = $user->getId();
-            $userData = $this->manager->getRepository(WebuserData::class)->getDataForUserByProjectId($project_id, $userId);
+            $userData = $this->manager->getRepository(WebuserData::class)->getDataByProjectId($project_id);
             if (count($userData) < 1) {
                 $result['error'] = Projects::PROJECT_NOT_FOUND_FOR_USER;
             }

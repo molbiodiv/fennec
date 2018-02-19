@@ -21,7 +21,7 @@ class TraitOfProjectTest extends WebserviceTestCase
 
         $this->em = $kernel->getContainer()
             ->get('doctrine')
-            ->getManager('test');
+            ->getManager('test_user');
 
         $this->traitOfProject = $kernel->getContainer()->get(Details\TraitOfProject::class);
     }
@@ -40,8 +40,7 @@ class TraitOfProjectTest extends WebserviceTestCase
         $projectId = 3;
         $user = null;
         $dimension = null;
-        $dbversion = $this->default_db;
-        $results = $this->traitOfProject->execute($traitTypeId, $projectId, $dimension, $user, $dbversion);
+        $results = $this->traitOfProject->execute($traitTypeId, $projectId, $dimension, $user);
         $expected = array("error" => 'Error: User not logged in.');
         $this->assertEquals($expected, $results, 'User is not loggend in, return error message');
     }
@@ -50,7 +49,6 @@ class TraitOfProjectTest extends WebserviceTestCase
     {
         $traitTypeId = 2;
         $dimension = 'rows';
-        $dbversion = $this->default_db;
         $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
             'username' => TraitOfProjectTest::NICKNAME
         ));
@@ -58,7 +56,7 @@ class TraitOfProjectTest extends WebserviceTestCase
             'webuser' => $user
         ))->getWebuserDataId();
 
-        $results = $this->traitOfProject->execute($traitTypeId, $projectId, $dimension, $user, $dbversion);
+        $results = $this->traitOfProject->execute($traitTypeId, $projectId, $dimension, $user);
         $expected = [
             "values" => [
                 "perennial" => ["1630"],
@@ -79,14 +77,13 @@ class TraitOfProjectTest extends WebserviceTestCase
     public function testGetAnotherTraitOfProject(){
         $traitTypeId = 4;
         $dimension = 'columns';
-        $dbversion = $this->default_db;
         $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
             'username' => TraitOfProjectTest::NICKNAME
         ));
         $projectId = $this->em->getRepository('AppBundle:WebuserData')->findOneBy(array(
             'webuser' => $user
         ))->getWebuserDataId();
-        $results = $this->traitOfProject->execute($traitTypeId, $projectId, $dimension, $user, $dbversion);
+        $results = $this->traitOfProject->execute($traitTypeId, $projectId, $dimension, $user);
         $expected = [
             "values" => [
                 "yellow" => ["1340", "1630"]
@@ -107,11 +104,10 @@ class TraitOfProjectTest extends WebserviceTestCase
         $traitTypeId = 1;
         $noValidProjectId = 20;
         $dimension = "row";
-        $dbversion = $this->default_db;
         $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
             'username' => TraitOfProjectTest::NICKNAME
         ));
-        $results = $this->traitOfProject->execute($traitTypeId, $noValidProjectId, $dimension, $user, $dbversion);
+        $results = $this->traitOfProject->execute($traitTypeId, $noValidProjectId, $dimension, $user);
         $expected = array("error" => Details\OrganismsOfProject::ERROR_PROJECT_NOT_FOUND);
         $this->assertEquals($expected, $results, 'Project does not belong to user, return error message');
 

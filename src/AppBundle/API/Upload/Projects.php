@@ -2,9 +2,10 @@
 
 namespace AppBundle\API\Upload;
 
-use AppBundle\Entity\WebuserData;
-use AppBundle\Entity\FennecUser;
+use AppBundle\Entity\User\WebuserData;
+use AppBundle\Entity\User\FennecUser;
 use AppBundle\Service\DBVersion;
+use AppBundle\Entity\User\Permissions;
 use biomcs\BiomCS;
 
 /**
@@ -27,7 +28,7 @@ class Projects
      */
     public function __construct(DBVersion $dbversion)
     {
-        $this->manager = $dbversion->getEntityManager();
+        $this->manager = $dbversion->getUserEntityManager();
         $this->required_biom1_toplevel_keys = array(
             'id',
             'format',
@@ -64,6 +65,11 @@ class Projects
                     $project->setWebuser($user);
                     $project->setImportFilename($_FILES[$i]['name']);
                     $this->manager->persist($project);
+                    $permission = new Permissions();
+                    $permission->setWebuser($user);
+                    $permission->setWebuserData($project);
+                    $permission->setPermission('owner');
+                    $this->manager->persist($permission);
                 }
                 $file = array(
                     "name" => $_FILES[$i]['name'],

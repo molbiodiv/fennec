@@ -1224,6 +1224,10 @@ boom@2.x.x:
   dependencies:
     hoek "2.x.x"
 
+bootbox@^4.4.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/bootbox/-/bootbox-4.4.0.tgz#ff7f898fb87d4527e547feb64158f88450d1a0c9"
+
 bootstrap-confirmation2@^2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/bootstrap-confirmation2/-/bootstrap-confirmation2-2.4.0.tgz#260fe9f20f2be69819b44ad2b4d23544a1655a51"
@@ -4130,9 +4134,19 @@ isstream@0.1.x, isstream@~0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
 
+jquery-confirm@^3.3.2:
+  version "3.3.2"
+  resolved "https://registry.yarnpkg.com/jquery-confirm/-/jquery-confirm-3.3.2.tgz#c80a7a1517c738f5e5735993bb168e938d08f582"
+  dependencies:
+    jquery ">=1.6"
+
 jquery-ui-dist@^1.12.1:
   version "1.12.1"
   resolved "https://registry.yarnpkg.com/jquery-ui-dist/-/jquery-ui-dist-1.12.1.tgz#5c0815d3cc6f90ff5faaf5b268a6e23b4ca904fa"
+
+jquery@>=1.6:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
 
 jquery@>=1.7, jquery@>=1.8, jquery@^3.2.1:
   version "3.2.1"

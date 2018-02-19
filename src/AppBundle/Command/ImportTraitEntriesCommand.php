@@ -3,12 +3,13 @@
 namespace AppBundle\Command;
 
 
-use AppBundle\Entity\TraitCategoricalEntry;
-use AppBundle\Entity\TraitCategoricalValue;
-use AppBundle\Entity\TraitCitation;
-use AppBundle\Entity\TraitNumericalEntry;
-use AppBundle\Entity\TraitType;
+use AppBundle\Entity\Data\TraitCategoricalEntry;
+use AppBundle\Entity\Data\TraitCategoricalValue;
+use AppBundle\Entity\Data\TraitCitation;
+use AppBundle\Entity\Data\TraitNumericalEntry;
+use AppBundle\Entity\Data\TraitType;
 use AppBundle\API\Mapping;
+use AppBundle\Service\DBVersion;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Config\Definition\Exception\Exception;
@@ -94,7 +95,7 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
         ->addArgument('file', InputArgument::REQUIRED, 'The path to the input csv file')
         ->addOption('connection', 'c', InputOption::VALUE_REQUIRED, 'The database version')
         ->addOption('traittype', 't', InputOption::VALUE_REQUIRED, 'The name of the trait type', null)
-        ->addOption('user-id', "u", InputOption::VALUE_REQUIRED, 'ID of the user importing the data', null)
+        ->addOption('db-id', "d", InputOption::VALUE_REQUIRED, 'ID of the source database', null)
         ->addOption('default-citation', null, InputOption::VALUE_REQUIRED, 'Default citation to use if not explicitly set in the citation column of the tsv file', null)
         ->addOption('mapping', "m", InputOption::VALUE_REQUIRED, 'Method of mapping for id column. If not set fennec_ids are assumed and no mapping is performed', null)
         ->addOption('public', 'p', InputOption::VALUE_NONE, 'import traits as public (default is private)')
@@ -117,12 +118,12 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
         // Logger has to be disabled, otherwise memory increases linearly
         $this->em->getConnection()->getConfiguration()->setSQLLogger(null);
         gc_enable();
-        $user = $this->em->getRepository('AppBundle:FennecUser')->find($input->getOption('user-id'));
-        if($user === null){
-            $output->writeln('<error>User with provided id does not exist in db.</error>');
+        $db = $this->em->getRepository('AppBundle:Db')->find($input->getOption('db-id'));
+        if($db === null){
+            $output->writeln('<error>Database with provided id does not exist in db.</error>');
             return;
         }
-        $userID = $user->getId();
+        $dbId = $db->getId();
         $lines = intval(exec('wc -l '.escapeshellarg($input->getArgument('file')).' 2>/dev/null'));
         $progress = new ProgressBar($output, $lines);
         $progress->start();
@@ -169,7 +170,7 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
                     }
                     for($i=1; $i<count($line); $i++){
                         if($line[$i] !== ''){
-                            $this->insertTraitEntry($fennec_id, $this->traitType[$i-1], $this->traitFormat[$i-1], $line[$i], '', $citationText, $userID, '', $input->getOption('public'));
+                            $this->insertTraitEntry($fennec_id, $this->traitType[$i-1], $this->traitFormat[$i-1], $line[$i], '', $citationText, $dbId, '', $input->getOption('public'));
                         }
                     }
                 } else {
@@ -180,7 +181,7 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
                     if ($citationText === "" && $input->hasOption('default-citation')) {
                         $citationText = $input->getOption('default-citation');
                     }
-                    $this->insertTraitEntry($fennec_id, $this->traitType[0], $this->traitFormat[0], $line[1], $line[2], $citationText, $userID,
+                    $this->insertTraitEntry($fennec_id, $this->traitType[0], $this->traitFormat[0], $line[1], $line[2], $citationText, $dbId,
                         $line[4], $input->getOption('public'));
                 }
                 $progress->advance();
@@ -264,8 +265,8 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
             $output->writeln('<error>No trait type given. Use --traittype or set --long-table</error>');
             return false;
         }
-        if ($input->getOption('user-id') === null) {
-            $output->writeln('<error>No user ID given. Use --user-id</error>');
+        if ($input->getOption('db-id') === null) {
+            $output->writeln('<error>No source database ID given. Use --db-id</error>');
             return false;
         }
         if(!file_exists($input->getArgument('file'))){
@@ -284,8 +285,7 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
         if ($this->connectionName === null) {
             $this->connectionName = $this->getContainer()->get('doctrine')->getDefaultConnectionName();
         }
-        $orm = $this->getContainer()->get('app.orm');
-        $this->em = $orm->getManagerForVersion($this->connectionName);
+        $this->em = $this->getContainer()->get(DBVersion::class)->getEntityManager();
     }
 
     /**
@@ -317,11 +317,11 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
      * @param string $value
      * @param string|null $valueOntology
      * @param string $citation
-     * @param int $userID fennecUser_id
+     * @param int $dbId dbId
      * @param string $originURL
      * @param boolean $public
      */
-    protected function insertTraitEntry($fennec_id, $traitType, $traitFormat, $value, $valueOntology, $citation, $userID, $originURL, $public)
+    protected function insertTraitEntry($fennec_id, $traitType, $traitFormat, $value, $valueOntology, $citation, $dbId, $originURL, $public)
     {
         $traitEntry = null;
         if ($traitFormat === "categorical_free") {
@@ -337,7 +337,7 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
         $traitEntry->setTraitCitation($traitCitation);
         $traitEntry->setOriginUrl($originURL);
         $traitEntry->setFennec($this->em->getReference('AppBundle:Organism', $fennec_id));
-        $traitEntry->setWebuser($this->em->getReference('AppBundle:FennecUser', $userID));
+        $traitEntry->setDb($this->em->getReference('AppBundle:Db', $dbId));
         $traitEntry->setPrivate(!$public);
         $this->em->persist($traitEntry);
         ++$this->insertedEntries;

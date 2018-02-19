@@ -2,8 +2,8 @@
 
 namespace AppBundle\API\Listing;
 
-use AppBundle\Entity\WebuserData;
-use AppBundle\Entity\FennecUser;
+use AppBundle\Entity\User\WebuserData;
+use AppBundle\Entity\User\FennecUser;
 use AppBundle\Service\DBVersion;
 
 /**
@@ -22,7 +22,7 @@ class Projects
      */
     public function __construct(DBVersion $dbversion)
     {
-        $this->manager = $dbversion->getEntityManager();
+        $this->manager = $dbversion->getUserEntityManager();
     }
 
 
@@ -39,8 +39,7 @@ class Projects
         if ($user == null) {
             $result['error'] = Projects::ERROR_NOT_LOGGED_IN;
         } else {
-            $userId = $user->getId();
-            $projects = $this->manager->getRepository(WebuserData::class)->getDataForUser($userId);
+            $projects = $this->manager->getRepository(WebuserData::class)->getDataForUser($user);
             foreach ($projects as $p) {
                 $project = array();
                 $project['internal_project_id'] = $p['webuserDataId'];
@@ -50,6 +49,7 @@ class Projects
                 $project['rows'] = $data['shape'][0];
                 $project['columns'] = $data['shape'][1];
                 $project['import_filename'] = $p['importFilename'];
+                $project['permissionStatus'] = $p['permission'];
                 $result['data'][] = $project;
             }
         }
