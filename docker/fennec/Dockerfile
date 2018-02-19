@@ -1,4 +1,5 @@
 FROM php:7.1-apache
+ARG BRANCH=master
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 RUN echo "deb http://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
@@ -10,7 +11,7 @@ RUN apt-get update \
 && docker-php-source delete
 RUN pecl install xdebug-2.5.0 \
     && docker-php-ext-enable xdebug
-RUN git clone --branch master --recursive https://github.com/molbiodiv/fennec /fennec
+RUN git clone --branch ${BRANCH} --recursive https://github.com/molbiodiv/fennec /fennec
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 COPY php.ini /usr/local/etc/php/
