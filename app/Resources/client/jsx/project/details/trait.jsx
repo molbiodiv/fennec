@@ -22,12 +22,13 @@ $('document').ready(async () => {
             method: "POST",
             success: function (data) {
                 let traits = [];
+                let number_of_unique_fennec_ids = _.uniq(fennec_ids).length
                 $.each(data, function (key, value) {
                     var thisTrait = {
                         id: key,
                         trait: value['traitType'],
                         count: value['traitEntryIds'].length,
-                        range: 100 * value['fennec'].length / fennec_ids.length
+                        range: 100 * value['fennec'].length / number_of_unique_fennec_ids
                     };
                     traits.push(thisTrait);
                 });
