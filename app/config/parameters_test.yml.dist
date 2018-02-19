@@ -1,23 +1,45 @@
 # This file is auto-generated during the composer install
 parameters:
+    versions: 'test_data'
+    default_data_connection: "test_data"
+    user_connection: "test_user"
     dbal:
-        default_connection: "test"
         connections:
-            "test":
+            "test_user":
                 driver:   pdo_pgsql
-                host:     ~
-                port:     ~
-                dbname:   ~
-                user:     ~
-                password: ~
+                host:     testdb
+                port:     5432
+                dbname:   user_test
+                user:     fennec_test
+                password: fennec_test
+                charset:  UTF8
+            "test_data":
+                driver:   pdo_pgsql
+                host:     testdb
+                port:     5432
+                dbname:   data_test
+                user:     fennec_test
+                password: fennec_test
                 charset:  UTF8
 
+    default_data_entity_manager: "test_data"
+    user_entity_manager: "test_user"
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
-        default_entity_manager: "test"
         entity_managers:
-            "test":
-                connection: "test"
+            'test_user':
+                connection: 'test_user'
                 naming_strategy: doctrine.orm.naming_strategy.underscore
                 mappings:
-                    AppBundle: ~
+                    AppBundle:
+                        dir: '%kernel.project_dir%/src/AppBundle/Entity/User'
+                        type: annotation
+                        prefix: 'AppBundle\Entity\User'
+            'test_data':
+                connection: 'test_data'
+                naming_strategy: doctrine.orm.naming_strategy.underscore
+                mappings:
+                    AppBundle:
+                        dir: '%kernel.project_dir%/src/AppBundle/Entity/Data'
+                        type: annotation
+                        prefix: 'AppBundle\Entity\Data'

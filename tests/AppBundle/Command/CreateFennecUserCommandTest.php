@@ -16,7 +16,7 @@ class CreateFennecUserCommandTest extends KernelTestCase
     {
         self::bootKernel();
 
-        $em = self::$kernel->getContainer()->get('doctrine')->getManager('test');
+        $em = self::$kernel->getContainer()->get('doctrine')->getManager('test_user');
         $testUser = $em->getRepository('AppBundle:FennecUser')->findOneBy(array(
             'username' => CreateFennecUserCommandTest::NICKNAME
         ));

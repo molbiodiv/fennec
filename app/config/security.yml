@@ -1,7 +1,7 @@
 # app/config/security.yml
 security:
     encoders:
-        AppBundle\Entity\FennecUser: bcrypt
+        AppBundle\Entity\User\FennecUser: bcrypt
 
 
     role_hierarchy:

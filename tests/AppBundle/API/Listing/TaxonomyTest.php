@@ -17,7 +17,7 @@ class TaxonomyTest extends WebserviceTestCase
 
         $this->em = $kernel->getContainer()
             ->get('doctrine')
-            ->getManager('test');
+            ->getManager('test_data');
         $this->listingTaxonomy = $kernel->getContainer()->get(Listing\Taxonomy::class);
 
     }

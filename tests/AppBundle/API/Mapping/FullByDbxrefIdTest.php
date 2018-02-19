@@ -17,7 +17,7 @@ class FullByDbxrefIdTest extends WebserviceTestCase
 
         $this->em = $kernel->getContainer()
             ->get('doctrine')
-            ->getManager('test');
+            ->getManager('test_data');
         $this->mappingFullByDbxrefId = $kernel->getContainer()->get(Mapping\FullByDbxrefId::class);
 
     }

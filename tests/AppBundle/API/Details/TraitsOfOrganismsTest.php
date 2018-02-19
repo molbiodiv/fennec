@@ -16,7 +16,7 @@ class TraitsOfOrganismsTest extends WebserviceTestCase
 
         $this->em = $kernel->getContainer()
             ->get('doctrine')
-            ->getManager('test');
+            ->getManager('test_data');
         $this->traitsOfOrganisms = $kernel->getContainer()->get(Details\TraitsOfOrganisms::class);
 
     }

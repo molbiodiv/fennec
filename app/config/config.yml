@@ -8,7 +8,6 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
-    versions: '1.0|2.0|test'
 
 framework:
     #esi:             ~
@@ -44,7 +43,7 @@ twig:
     strict_variables: "%kernel.debug%"
     globals:
         fennec_version: "%application_version%"
-        dbversions: "%dbal%"
+        dbversions: "%versions%"
         ga_tracking: "%ga_tracking%"
     form_themes: ['bootstrap_3_horizontal_layout.html.twig']
 
@@ -59,7 +58,7 @@ swiftmailer:
 fos_user:
     db_driver: orm
     firewall_name: main
-    user_class: AppBundle\Entity\FennecUser
+    user_class: AppBundle\Entity\User\FennecUser
     from_email:
         address: "hello@fennec.com"
         sender_name: "Fennec"
@@ -91,7 +90,7 @@ shivas_versioning:
 easy_admin:
     entities:
         FennecUser:
-            class: AppBundle\Entity\FennecUser
+            class: AppBundle\Entity\User\FennecUser
             label: 'User'
             list:
                 title: 'All Users'

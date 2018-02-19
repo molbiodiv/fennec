@@ -6,6 +6,7 @@
     <script type="text/javascript">
         var internalProjectId = '{{ internal_project_id }}';
         var phinchPreviewPath = '{{ asset('assets/Phinch/preview.html') }}';
+        var permission = '{{ attribute }}';
     </script>
     
     <script src="{{ asset('assets/js/project/details.js') }}"></script>
@@ -30,7 +31,9 @@
             <li role="presentation"><a class="project-link" href="#metadataOverview" role="tab" data-toggle="tab">Metadata overview</a></li>
             <li role="presentation"><a class="project-link" href="#inspect" role="tab" data-toggle="tab" id="inspect-with-phinch-tab">Inspect with Phinch</a></li>
             <li role="presentation"><a class="project-link" href="#traits" role="tab" data-toggle="tab">Traits</a></li>
-            <li role="presentation"><a class="project-link" href="#mapping" role="tab" data-toggle="tab">Mapping</a></li>
+            {% if (is_granted('edit', internal_project_id) or  is_granted('owner', internal_project_id)) %}
+                <li role="presentation"><a class="project-link" href="#mapping" role="tab" data-toggle="tab">Mapping</a></li>
+            {% endif %}
         </ul>
 
         <div class="tab-content">
@@ -39,7 +42,9 @@
                     <div class="panel-heading">
                         <h3 class="panel-title">
                             Project overview
-                            <button type="button" class="btn btn-default fa fa-pencil" onclick="$('#editProjectDialog').modal()"></button>
+                            {% if (is_granted('edit', internal_project_id) or  is_granted('owner', internal_project_id)) %}
+                                <button type="button" class="btn btn-default fa fa-pencil" onclick="$('#editProjectDialog').modal()"></button>
+                            {% endif %}
                         </h3>
                     </div>
                     <div class="panel-body">
@@ -61,11 +66,13 @@
                                         <button type="button" class="btn btn-primary" id="project-export-trait-citation-samples">tsv (trait citations samples)</button>
                                     </td>
                                 </tr>
-                                <tr><th scope="row">Edit</th>
-                                    <td id="project-overview-table-edit">
-                                        <button type="button" class="btn btn-primary" id="project-transpose">Transpose</button>
-                                    </td>
-                                </tr>
+                                {% if (is_granted('edit', internal_project_id) or  is_granted('owner', internal_project_id)) %}
+                                     <tr><th scope="row">Edit</th>
+                                        <td id="project-overview-table-edit">
+                                            <button type="button" class="btn btn-primary" id="project-transpose">Transpose</button>
+                                        </td>
+                                    </tr>
+                                {% endif %}
                             </tbody>
                         </table>
                     </div>
@@ -155,6 +162,7 @@
                 </div>
             </div>
 
+            {% if (is_granted('edit', internal_project_id) or  is_granted('owner', internal_project_id)) %}
             <!-- Mapping -->
             <div role="tabpanel" class="tab-pane" id="mapping">
                 <div class="panel panel-default">
@@ -198,6 +206,7 @@
                     </div>
                 </div>
             </div>
+        {% endif %}
         </div>
 
         <!-- Edit Dialog -->

@@ -1,0 +1,31 @@
+version: '2'
+services:
+  datadb:
+    image: postgres:9.6
+    environment:
+      POSTGRES_USER: fennec_data
+      POSTGRES_PASSWORD: fennec_data
+      POSTGRES_DB: fennec_data
+  userdb:
+    image: postgres:9.6
+    environment:
+      POSTGRES_USER: fennec_user
+      POSTGRES_PASSWORD: fennec_user
+      POSTGRES_DB: fennec_user
+  testdb:
+    image: postgres:9.6
+    environment:
+      POSTGRES_USER: fennec_test
+      POSTGRES_PASSWORD: fennec_test
+  web:
+    image: iimog/fennec:develop
+    ports:
+    - "8889:80"
+    - "3141:8000"
+    links:
+    - "datadb:datadb"
+    - "userdb:userdb"
+    - "testdb:testdb"
+    volumes:
+    # adjust this path
+    - "/docker-compose-dev.ymlpath/to/fennec:/fennec-dev"

@@ -24,7 +24,6 @@ class TraitOfProject
     {
         $this->manager = $dbversion->getEntityManager();
         $this->container = $container;
-
     }
 
 
@@ -33,15 +32,15 @@ class TraitOfProject
      * @returns array $result
      * see output of details/Traits.php
      */
-    public function execute($traitTypeId, $projectId, $dimension, $user, $dbversion)
+    public function execute($traitTypeId, $projectId, $dimension, $user, $include_citations = false)
     {
         $organismsOfProject = $this->container->get(Details\OrganismsOfProject::class);
-        $fennecIds = $organismsOfProject->execute($projectId, $dimension, $user, $dbversion);
+        $fennecIds = $organismsOfProject->execute($projectId, $dimension, $user);
         if (key_exists('error', $fennecIds)){
             return $fennecIds;
         }
         $traitsOfProject = $this->container->get(Details\Traits::class);
-        $results = $traitsOfProject->execute($traitTypeId, $fennecIds, $include_citations = false);
+        $results = $traitsOfProject->execute($traitTypeId, $fennecIds, $include_citations);
         return $results;
     }
 }

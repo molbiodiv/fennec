@@ -2,7 +2,9 @@
 
 namespace AppBundle\Controller;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\API\Listing;
 use AppBundle\API\Details;
@@ -10,7 +12,7 @@ use AppBundle\API\Delete;
 use AppBundle\API\Upload;
 use AppBundle\API\Mapping;
 use AppBundle\API\Edit;
-use Symfony\Component\HttpFoundation\Response;
+use AppBundle\API\Sharing;
 use Symfony\Component\Routing\Annotation\Route;
 
 class APIController extends Controller
@@ -66,9 +68,10 @@ class APIController extends Controller
      */
     public function deleteProjectsAction(Request $request){
         $projectId = $request->query->get('projectId');
+        $permission = $request->query->get('attribute');
         $deleteProjects = $this->container->get(Delete\Projects::class);
         $user = $this->getFennecUser();
-        $result = $deleteProjects->execute($user, $projectId);
+        $result = $deleteProjects->execute($user, $projectId, $permission);
         return $this->createResponse($result);
     }
 
@@ -91,7 +94,7 @@ class APIController extends Controller
      */
     public function detailsTraitsOfOrganismsAction(Request $request){
         $traitDetails = $this->container->get(Details\TraitsOfOrganisms::class);
-        $result = $traitDetails->execute($request->query->get('fennecIds'));
+        $result = $traitDetails->execute($request->request->get('fennecIds'));
         return $this->createResponse($result);
     }
 
@@ -114,7 +117,7 @@ class APIController extends Controller
     public function editUpdateProjectAction(Request $request){
         $updateProjects = $this->container->get(Edit\UpdateProject::class);
         $user = $this->getFennecUser();
-        $result = $updateProjects->execute($request->query->get('projectId'), $request->query->get('biom'), $user);
+        $result = $updateProjects->execute($request->request->get('projectId'), $request->request->get('biom'), $user);
         return $this->createResponse($result);
     }
 
@@ -125,7 +128,7 @@ class APIController extends Controller
      */
     public function mappingByDbxrefIdAction(Request $request){
         $mapping = $this->container->get(Mapping\ByDbxrefId::class);
-        $result = $mapping->execute($request->query->get('ids'), $request->query->get('db'));
+        $result = $mapping->execute($request->request->get('ids'), $request->request->get('db'));
         return $this->createResponse($result);
     }
 
@@ -136,12 +139,10 @@ class APIController extends Controller
      */
     public function mappingByOrganismNameAction(Request $request){
         $mapping = $this->container->get(Mapping\ByOrganismName::class);
-//        if(!$query->has('ids') || !is_array($query->get('ids')) || count($query->get('ids')) === 0 || !$query->has('db')){
-//            return array();
-//        }
         $result = $mapping->execute($request->query->get('ids'));
         return $this->createResponse($result);
     }
+
 
     /**
      * @param Request $request
@@ -151,6 +152,20 @@ class APIController extends Controller
     public function listingScinamesAction(Request $request){
         $listingScinames = $this->container->get(Listing\Scinames::class);
         $result = $listingScinames->execute($request->query->get('ids'));
+        return $this->createResponse($result);
+    }
+
+    /**
+     * @param Request $request
+     * @param $projectId
+     * @return Response $response
+     * @Security("is_granted('owner', projectId)")
+     * @Route("/api/sharing/projects/{projectId}", name="api_sharing_projects", options={"expose"=true})
+     */
+    public function shareProjectAction($projectId, Request $request){
+        $email = $request->query->get('email');
+        $shareProject = $this->container->get(Sharing\Projects::class);
+        $result = $shareProject->execute($email, $projectId, $request->query->get('attribute'));
         return $this->createResponse($result);
     }
 

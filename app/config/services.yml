@@ -16,14 +16,8 @@ services:
         # you can exclude directories or files
         # but if a service is unused, it's removed anyway
         exclude: '../../src/AppBundle/{Entity,Repository,Security}'
-    app.orm:
-        class: AppBundle\ORM
-        arguments: [ '@doctrine' ]
-    app.api.webservice:
-        class: AppBundle\API\Webservice
-        arguments: ['@app.orm','@security.token_storage']
     AppBundle\Service\DBVersion:
-        arguments: ['@twig', '@doctrine', '%doctrine.default_connection%']
+        arguments: ['@twig', '@doctrine', '%default_data_connection%','%user_connection%']
         tags: [{name: kernel.event_listener, event: kernel.request}]
     AppBundle\Service\TwigProvider\Types:
         arguments: ['@twig']
@@ -35,3 +29,5 @@ services:
         # Change the class according to the location of the FOSUBUserProvider class
         class: AppBundle\Security\Core\User\FOSUBUserProvider
         arguments: ['@fos_user.user_manager.default', {github: github_id}]
+    AppBundle\Security\Voter\ProjectVoter:
+        tags: [{name: security.voter}]

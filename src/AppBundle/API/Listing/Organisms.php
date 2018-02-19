@@ -3,7 +3,7 @@
 namespace AppBundle\API\Listing;
 
 use AppBundle\Service\DBVersion;
-use AppBundle\Entity\Organism;
+use AppBundle\Entity\Data\Organism;
 
 /**
  * Web Service.

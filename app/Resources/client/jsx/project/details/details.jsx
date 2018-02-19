@@ -63,10 +63,14 @@ $('document').ready(async function () {
  */
 function saveBiomToDB() {
     biom.write().then(function (biomJson) {
-        var webserviceUrl = Routing.generate('api_edit_update_project', {'biom': biomJson, 'projectId': internalProjectId, 'dbversion': dbversion});
+        var webserviceUrl = Routing.generate('api_edit_update_project', {'dbversion': dbversion});
         $.ajax({
             url: webserviceUrl,
-            type: "GET",
+            data: {
+                'biom': JSON.parse(biomJson),
+                'projectId': internalProjectId
+            },
+            type: 'POST',
             success: function () {
                 location.reload();
             }
@@ -170,10 +174,9 @@ function addMetadataObservation(event)
 }
 
 function updateProject() {
-    let webserviceUrl = Routing.generate('api', {'namespace': 'edit', 'classname': 'updateProject', 'dbversion': dbversion});
+    let webserviceUrl = Routing.generate('api_edit_update_project', {'dbversion': dbversion});
     $.ajax(webserviceUrl, {
         data: {
-            "dbversion": dbversion,
             "project_id": internalProjectId,
             "biom": biom.toString()
         },

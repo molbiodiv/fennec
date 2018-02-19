@@ -9,12 +9,17 @@
 namespace AppBundle\Controller;
 
 
-use AppBundle\Entity\FennecUser;
+use AppBundle\Entity\User\FennecUser;
 use AppBundle\API\Details;
+use AppBundle\Service\DBVersion;
+use phpDocumentor\Reflection\Types\String_;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 
 class ProjectController extends Controller
 {
@@ -38,10 +43,12 @@ class ProjectController extends Controller
     /**
      * @param $dbversion string
      * @param $project_id string
+     * @param $attribute string
      * @return Response
-     * @Route("/project/details/{project_id}", name="project_details", options={"expose" = true})
+     * @Security("is_granted(attribute, project_id)")
+     * @Route("/project/details/{project_id}/{attribute}", name="project_details", options={"expose" = true})
      */
-    public function detailsAction($dbversion, $project_id){
+    public function detailsAction($dbversion, $project_id, $attribute){
         $projectDetails = $this->container->get(Details\Projects::class);
         $user = $this->getFennecUser();
         $projectResult = $projectDetails->execute($project_id, $user);
@@ -52,7 +59,8 @@ class ProjectController extends Controller
                 'type' => 'project',
                 'title' => 'Projects',
                 'project' => $projectResult,
-                'internal_project_id' => $project_id
+                'internal_project_id' => $project_id,
+                'attribute' => $attribute
             ]
         );
     }
@@ -72,17 +80,12 @@ class ProjectController extends Controller
      * )
      */
     public function traitDetailsAction(Request $request, $dbversion, $project_id, $trait_type_id, $dimension){
-        $projectTraitDetails = $this->get('app.api.webservice')->factory('details', 'traitOfProject');
-        $query = $request->query;
-        $query->set('dbversion', $dbversion);
-        $query->set('internal_project_id', $project_id);
-        $query->set('trait_type_id', $trait_type_id);
-        $query->set('dimension', $dimension);
-        $query->set('include_citations', true);
-        $traitResult = $projectTraitDetails->execute($query, $this->getFennecUser());
-        $projectDetails = $this->get('app.api.webservice')->factory('details', 'projects');
-        $query->set('ids', array($project_id));
-        $projectResult = $projectDetails->execute($query, $this->getFennecUser());
+        $projectTraitDetails = $this->container->get(Details\TraitOfProject::class);
+        $includeCitations = true;
+        $user = $this->getFennecUser();
+        $traitResult = $projectTraitDetails->execute($trait_type_id, $project_id, $dimension, $user, $dbversion, $includeCitations);
+        $projectDetails = $this->container->get(Details\Projects::class);
+        $projectResult = $projectDetails->execute($project_id, $user);
         return $this->render(
             'project/traitDetails.html.twig',
             [

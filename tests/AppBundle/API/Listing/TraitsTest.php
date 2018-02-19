@@ -16,7 +16,7 @@ class TraitsTest extends WebserviceTestCase
 
         $this->em = $kernel->getContainer()
             ->get('doctrine')
-            ->getManager('test');
+            ->getManager('test_data');
         $this->listingTraits = $kernel->getContainer()->get(Listing\Traits::class);
 
     }

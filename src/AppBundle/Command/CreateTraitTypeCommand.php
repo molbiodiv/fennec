@@ -3,7 +3,8 @@
 namespace AppBundle\Command;
 
 
-use AppBundle\Entity\TraitType;
+use AppBundle\Entity\Data\TraitType;
+use AppBundle\Service\DBVersion;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -44,8 +45,7 @@ class CreateTraitTypeCommand extends ContainerAwareCommand
         if($connection_name == null) {
             $connection_name = $this->getContainer()->get('doctrine')->getDefaultConnectionName();
         }
-        $orm = $this->getContainer()->get('app.orm');
-        $em = $orm->getManagerForVersion($connection_name);
+        $em = $this->getContainer()->get(DBVersion::class)->getEntityManager();
         $format = $em->getRepository('AppBundle:TraitFormat')->findOneBy(['format' => $input->getOption('format')]);
         if($format == null){
             $output->writeln('<error>Provided TraitFormat (--format) does not exist: '.$input->getOption('format').'</error>');

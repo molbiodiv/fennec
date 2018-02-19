@@ -84,9 +84,13 @@ $('document').ready(async () => {
         if (uniq_ids.length === 0) {
             handleMappingResult(dimension, ids, [], method);
         } else {
-            var webserviceUrl = getWebserviceUrlForMethod(method, uniq_ids);
+            var webserviceUrl = getWebserviceUrlForMethod(method);
             $.ajax(webserviceUrl, {
                 method: 'POST',
+                data: {
+                    db: method,
+                    ids: uniq_ids
+                },
                 success: function (data) {
                     handleMappingResult(dimension, ids, data, method);
                 },
@@ -125,7 +129,7 @@ $('document').ready(async () => {
      * @param method
      * @return {string}
      */
-    function getWebserviceUrlForMethod(method, uniq_ids) {
+    function getWebserviceUrlForMethod(method) {
         let method2service = {
             'ncbi_taxonomy': 'byDbxrefId',
             'EOL': 'byDbxrefId',
@@ -133,7 +137,7 @@ $('document').ready(async () => {
             'organism_name': 'byOrganismName'
         };
         let route = 'api_mapping_' + method2service[method]
-        let webserviceUrl = Routing.generate(route, {'dbversion': dbversion, db: method, ids: uniq_ids});
+        let webserviceUrl = Routing.generate(route, {'dbversion': dbversion});
         return webserviceUrl;
     }
 

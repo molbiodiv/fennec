@@ -25,7 +25,7 @@
                 <font style="margin-right: 5px; font-size: 16px;">version: </font>
 
                 <select class="selectpicker" id="dbVersionPicker">
-                    {% for dbversion in dbversions.connections|keys %}
+                    {% for dbversion in dbversions|split('|') %}
                         <option data-icon="glyphicon-tag" value="{{ dbversion }}" > {{ dbversion }} </option>
                     {% endfor %}
                 </select>

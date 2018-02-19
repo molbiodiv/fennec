@@ -25,6 +25,6 @@ class ListUserCommandTest extends KernelTestCase
 
         // the output of the command in the console
         $output = $commandTester->getDisplay();
-        $this->assertContains('iucn_redlist_api', $output);
+        $this->assertContains('firstName', $output);
     }
 }

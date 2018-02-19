@@ -8,7 +8,6 @@ let biom
 
 $('document').ready(async () => {
     biom = await biomPromise
-    console.log(biom)
     getAndShowTraits('#trait-table', 'rows');
     getAndShowTraits('#trait-table-sample', 'columns');
 
@@ -17,9 +16,12 @@ $('document').ready(async () => {
         var fennec_ids = biom.getMetadata({dimension: dimension, attribute: ['fennec', dbversion, 'fennec_id']})
             .filter( element => element !== null );
         // Get traits for rows
-        var webserviceUrl = Routing.generate('api_details_traits_of_organisms', {'fennecIds': fennec_ids, 'dbversion': dbversion});
+        var webserviceUrl = Routing.generate('api_details_traits_of_organisms', {'dbversion': dbversion});
         $.ajax(webserviceUrl, {
             method: "POST",
+            data: {
+                'fennecIds': fennec_ids
+            },
             success: function (data) {
                 let traits = [];
                 let number_of_unique_fennec_ids = _.uniq(fennec_ids).length
@@ -40,7 +42,7 @@ $('document').ready(async () => {
     // Init traits of project table with values
     function initTraitsOfProjectTable(tableId, dimension, traits) {
         let metadataKeys = getMetadataKeys(biom, dimension)
-        $(tableId).DataTable({
+        let dataTableOptions = {
             data: traits,
             columns: [
                 {data: 'trait'},
@@ -96,7 +98,11 @@ $('document').ready(async () => {
                     }
                 }
             ]
-        });
+        };
+        if (permission === 'view'){
+            dataTableOptions.columnDefs[4].visible = false;
+        }
+        $(tableId).DataTable(dataTableOptions);
     }
 });
 

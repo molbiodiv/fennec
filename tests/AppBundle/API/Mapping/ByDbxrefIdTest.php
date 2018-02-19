@@ -17,7 +17,7 @@ class ByDbxrefIdTest extends WebserviceTestCase
 
         $this->em = $kernel->getContainer()
             ->get('doctrine')
-            ->getManager('test');
+            ->getManager('test_data');
         $this->mappingByDbxrefId = $kernel->getContainer()->get(Mapping\ByDbxrefId::class);
 
     }
