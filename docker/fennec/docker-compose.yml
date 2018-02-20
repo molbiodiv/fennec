@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
   datadb:
     image: postgres:9.6
@@ -13,7 +13,7 @@ services:
       POSTGRES_PASSWORD: fennec_user
       POSTGRES_DB: fennec_user
   web:
-    image: iimog/fennec:develop
+    image: iimog/fennec
 
     ports:
     - "8889:80"

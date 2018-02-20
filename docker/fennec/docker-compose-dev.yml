@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
   datadb:
     image: postgres:9.6
@@ -19,6 +19,8 @@ services:
       POSTGRES_PASSWORD: fennec_test
   web:
     image: iimog/fennec:develop
+    user: $UID
+    tty: true
     ports:
     - "8889:80"
     - "3141:8000"
@@ -28,4 +30,6 @@ services:
     - testdb
     volumes:
     - "../..:/fennec-dev"
+    working_dir: /fennec-dev
+    restart: unless-stopped
     command: php /fennec-dev/bin/console server:run 0.0.0.0:8000
