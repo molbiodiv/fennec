@@ -1,5 +1,7 @@
 FROM php:7.1-apache
 ARG BRANCH=master
+LABEL maintainer="markus.ankenbrand@uni-wuerzburg.de"
+
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 RUN echo "deb http://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
@@ -16,10 +18,10 @@ RUN git clone --branch ${BRANCH} --recursive https://github.com/molbiodiv/fennec
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 COPY php.ini /usr/local/etc/php/
 COPY parameters.yml /fennec/app/config/
-RUN cd /fennec; composer install
+RUN cd /fennec; composer install --no-interaction
 
 RUN npm install -g coffeescript@1.12.7
-RUN cd /fennec; yarn install
+RUN cd /fennec; yarn install --non-interactive
 RUN cd /fennec; ./node_modules/.bin/encore production
 # RUN cd /fennec; ./node_modules/.bin/encore dev
 RUN cd /fennec/web/assets/Phinch; coffee -o scripts src

@@ -22,10 +22,10 @@ services:
     ports:
     - "8889:80"
     - "3141:8000"
-    links:
-    - "datadb:datadb"
-    - "userdb:userdb"
-    - "testdb:testdb"
+    depends_on:
+    - datadb
+    - userdb
+    - testdb
     volumes:
-    # adjust this path
-    - "/docker-compose-dev.ymlpath/to/fennec:/fennec-dev"
+    - "../..:/fennec-dev"
+    command: php /fennec-dev/bin/console server:run 0.0.0.0:8000
