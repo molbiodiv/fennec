@@ -1,72 +1,90 @@
-# Fennec Web
+# Fennec
 ## About
-Fennec - Functional Exploration of Natural Networks and Ecological Communities.
-[![DOI](https://zenodo.org/badge/51136300.svg)](https://zenodo.org/badge/latestdoi/51136300)
-## Getting started
-If you want to learn how to use FENNEC or if you want to host your own instance please refer to the [official documentation](http://fennec.readthedocs.io/en/latest/).
-If you want to use the API please see the [API documentation](https://molbiodiv.github.io/fennec/doc/api/) (in development).
+FENNEC - Functional Exploration of Natural Networks and Ecological Communities.
 
-To get started with the development read on:
-### Install prerequisits
- - [composer](https://getcomposer.org/download/)
- - [node.js](https://nodejs.org/en/download/)
- - [yarn](https://yarnpkg.com/en/)
-### Clone source code and initialize packages
+The FENNEC is a tool that helps integrate trait data into ecological community analyses.
+For that purpose traits are aggregated from various sources.
+Those can then be mapped onto user provided community data.
+
+## What are you looking for?
+ - **I want to see FENNEC in action.** &rarr; [Public instance](https://fennec.molecular.eco)
+ - **I want to learn how to use FENNEC.** &rarr; [User manual](https://fennec.readthedocs.io/en/latest/)
+ - **I want to host my own instance of FENNEC.** &rarr; [Admin manual](https://fennec.readthedocs.io/en/latest/admin.html)
+ - **I want to access FENNEC data via API.** &rarr; [API doc](https://fennec.molecular.eco/api/doc) 
+ - **I want to improve/add features to FENNEC.** &rarr; [Read on](#setup-development-environment)
+ - **I want to read/cite the preprint describing FENNEC.** &rarr; [![bioRxiv](https://img.shields.io/badge/DOI-10.1101%2F194308-blue.svg)](https://doi.org/10.1101/194308)
+ - **I want to reference the source code of FENNEC.** &rarr; [![DOI](https://zenodo.org/badge/51136300.svg)](https://zenodo.org/badge/latestdoi/51136300) Please also cite our preprint.
+
+## Setup development environment
+So you want to contribute to the development of FENNEC - awesome!
+
+### Local setup
+As there are quite a few dependencies and setting everything up properly is highly dependent on the environment, we suggest using docker.
+A local setup is not impossible but all current developers use the docker setup.
+Therefore, we are best able to assist with that.
+If you really need a local setup have a look at the dockerfile to see how things are installed there.
+Also feel free to open issues with all the problems you encounter.
+
+### Docker setup
+You will clone the repository to your local computer and mount it in a fully functional FENNEC docker environment.
+This way you can develop locally (using your IDE of choice), view your changes immediately in a realistic running system.
+In addition you can transpile code and run the tests without installing additional dependencies.
+
+#### Prerequisites:
+ - [git](https://git-scm.com/)
+ - [docker](https://www.docker.com/)
+ - [docker compose](https://docs.docker.com/compose/)
+
+#### Clone source code and initialize containers
 ```{bash}
 git clone https://github.com/molbiodiv/fennec
 cd fennec
-yarn install
-composer install
+# your UID is used to run processes in the docker container so files in your repo are not owned by root
+export UID=$UID
+docker-compose up -d -f docker/fennec/docker-compose-dev.yml
+# Initialize databases (omit -d if you do not want to have the demo data in the web database)
+docker-compose -f docker/fennec/docker-compose-dev.yml exec web /fennec-dev/docker/fennec/init_dev.sh -d
 ```
-**Important: do not edit the js or css files in `web/assets` directly.
-They are generated with `./node_modules/.bin/encore` from `app/Resources/client`**
+Congratulations! You are good to go.
+Point your browser to [localhost:3141](http://localhost:3141).
 
-### Docker setup for development
-For development it is advisable to set up three docker containers:
-1. A fennec container to serve the development version (include the repo as a volume)
-2. A database container with data for interactive testing
-3. A database container to run the unit tests
+#### Configuration
 
-```{bash}
-docker pull iimog/fennec
-docker pull postgres:9.6
-docker run -d -e POSTGRES_USER=fennec -e POSTGRES_PASSWORD=fennec -e POSTGRES_DB=fennec --name fennec_db postgres:9.6
-docker run -d -e POSTGRES_USER=fennectest -e POSTGRES_PASSWORD=fennectest -e POSTGRES_DB=fennectest --name fennec_db_test postgres:9.6
-# Run from inside your fennec repository
-# publish the port where our php dev server will run (8000) instead of the apache (80)
-docker run -d -v $PWD:/fennec-dev -p 3141:8000 --link fennec_db:db --link fennec_db_test:testdb --name fennec iimog/fennec
+The default config files that were created with `init_dev.sh` should be ok to get started but you might want to update `app/config/parameters.yml` with:
+ - github_client_id
+ - github_client_secret
+ - ga_tracking
+ - secret
 
-# Optionally init the database with pre-existing data (fennec.sql.xz), replace 172.17.0.2 with the ip of the database container as determined by "docker inspect fennec_db"
-xzcat /tmp/fennec.sql.xz | psql -U fennec -h 172.17.0.2 -p 5432 -d fennec
-# Alternatively just init an empty db with the fennec schema
-#docker exec -it fennec php /fennec-dev/bin/console doctrine:schema:create
+The first two are required for "Login with GitHub", see [this guide](https://developer.github.com/apps/building-oauth-apps/creating-an-oauth-app/) for details.
+The third one is your []Google Analytics tracking ID](https://support.google.com/analytics/answer/1008080?hl=en), with an empty ID, Google Analytics will be disabled.
+The secret should be replaced with a random string as [documented by symfony](https://symfony.com/doc/3.4/reference/configuration/framework.html#secret).
 
-# Modify parameters.yml and parameters_test.yml in app/config
-# You can use 'fennec_db' as hostname in parameters.yml
-# If you want to run the phpunit test on your development machine you have to insert the ip address of the fennec_db_test in parameters_test.yml
+#### Source code
+##### php
+The structure of the project is that of a default symfony 3 application.
+Changes to the php code should be served immediately on [localhost:3141](http://localhost:3141) as we are using the development server.
 
-# Run the development server
-docker exec fennec php /fennec-dev/bin/console server:run 0.0.0.0:8000
+##### javascript and css
+The js(x) and (s)css code is located in `app/Resources/client`.
+**Important: do not edit the js or css files in `web/assets` directly.**
+They are generated with the following command (assuming your working directory is the fennec repo):
 ```
-
-Now you can point your browser to [http://localhost:3141]().
-
-### Test, LINT, generate API, ...
-Use gulp for all those things:
-```{bash}
-# phpunit testing
-vendor/bin/simple-phpunit
-
-# javascript testing (of helpers)
-npm test
-
-# transpile jsx to js and scss to css
-./node_modules/.bin/encore dev # or production
-# or
-# ./node_modules/.bin/encore production
+docker-compose -f docker/fennec/docker-compose-dev.yml exec web /fennec-dev/node_modules/.bin/encore dev
 ```
 
-Anything else should be in the [official documentation](http://fennec.readthedocs.io/en/latest/).
+##### phinch
+Beware that [phinch](https://github.com/PitchInteractiveInc/Phinch) is included as a git submodule so changes there should not be FENNEC specific.
+However, if you change the `.coffee` files or checkout another version via git re-generate the js files with:
+```
+docker-compose -f ~/projects/fennec/docker/fennec/docker-compose-dev.yml exec web coffee -o /fennec-dev/web/assets/Phinch/scripts /fennec-dev/web/assets/Phinch/src
+```
+
+#### Tests
+TODO how to run tests (simple-phpunit + mocha)
+
+#### Documentation
+TODO how to change docu (sphinx)
 
 ## Changes
 ### 0.9.0 <2017-11-03>
