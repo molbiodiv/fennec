@@ -109,3 +109,13 @@ easy_admin:
     design:
         brand_color: '#514535'
         color_scheme: 'light'
+
+nelmio_api_doc:
+    areas:
+        path_patterns: # an array of regexps
+            - ^/.*/api/.*
+    documentation:
+        info:
+            title: FENNEC
+            description: API
+            version: "%application_version%"

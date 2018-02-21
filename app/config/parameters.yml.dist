@@ -9,18 +9,17 @@ parameters:
 
     ga_tracking: ~
 
-    github_client_id:     ~
-    github_client_secret: ~
-    google_client_id:     ~
-    google_client_secret: ~
+    github_client_id:     dummy
+    github_client_secret: dummy
 
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
-    default_data_connection: "1.0"
+    default_data_connection: "default_data"
     user_connection: "userdb"
-    default_data_entity_manager: "1.0"
+    default_data_entity_manager: "default_data"
     user_entity_manager: "userdb"
-    versions: '1.0|2.0|test_data'
+    # db versions separated by | e.g. 'default_data|1.0|2.0|plants'
+    versions: 'default_data'
     dbal:
         connections:
             'userdb':
@@ -31,7 +30,7 @@ parameters:
                 user: fennec_user
                 password: fennec_user
                 charset: UTF8
-            '1.0':
+            'default_data':
                 driver: pdo_pgsql
                 host: datadb
                 port: 5432
@@ -50,8 +49,8 @@ parameters:
                         dir: '%kernel.project_dir%/src/AppBundle/Entity/User'
                         type: annotation
                         prefix: 'AppBundle\Entity\User'
-            '1.0':
-                connection: '1.0'
+            'default_data':
+                connection: 'default_data'
                 naming_strategy: doctrine.orm.naming_strategy.underscore
                 mappings:
                     AppBundle:
