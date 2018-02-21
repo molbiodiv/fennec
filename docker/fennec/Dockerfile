@@ -37,3 +37,6 @@ RUN echo "export LC_ALL=C.UTF-8" >>/etc/apache2/envvars
 RUN echo "export LANG=C.UTF-8" >>/etc/apache2/envvars
 RUN git clone https://github.com/molbiodiv/biom-conversion-server.git /tmp/biomcs
 RUN cd /tmp/biomcs && conda install --yes --file explicit-conda-spec.txt
+
+# Install sphinx to build documentation
+RUN conda install --yes sphinx
