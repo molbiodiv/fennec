@@ -81,7 +81,19 @@ docker-compose -f ~/projects/fennec/docker/fennec/docker-compose-dev.yml exec we
 ```
 
 #### Tests
-TODO how to run tests (simple-phpunit + mocha)
+##### php
+In order to run the php tests do this:
+```
+docker-compose -f ~/projects/fennec/docker/fennec/docker-compose-dev.yml exec web /fennec-dev/vendor/bin/simple-phpunit -c /fennec-dev/phpunit.xml.dist
+```
+This completely removes and re-creates the test database (this can take some time).
+
+##### javascript
+Currently, only the javascript helper files are unit tested.
+To run the tests execute this command:
+```
+docker-compose -f ~/projects/fennec/docker/fennec/docker-compose-dev.local.yml exec web yarn --cwd /fennec-dev test
+```
 
 #### Documentation
 TODO how to change docu (sphinx)
