@@ -96,7 +96,16 @@ docker-compose -f ~/projects/fennec/docker/fennec/docker-compose-dev.local.yml e
 ```
 
 #### Documentation
-TODO how to change docu (sphinx)
+If you want to contribute documentation you can do so by modifying the content of the `.rst` files in the `doc` directory.
+In case you want to check how the converted html files look you can build with.
+```
+docker-compose -f ~/projects/fennec/docker/fennec/docker-compose-dev.local.yml exec web bash -c "cd /fennec-dev/doc; make html"
+```
+Then open the (local) html file `doc/_build/html/index.html` in your favorite browser.
+As documentation is hosted at [readthedocs](https://readthedocs.org/) those files are not served by FENNEC.
+
+The api doc on the other hand is dynamically created from the php annotations in `src/AppBundle/Controller/APIController.php`.
+Those are served from [localhost:3141/api/doc](http://localhost:3141/api/doc).
 
 ## Changes
 ### 0.9.0 <2017-11-03>
