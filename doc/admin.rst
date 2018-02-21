@@ -334,7 +334,7 @@ First download the html pages of all organisms to an empty folder (sid ranges fr
         curl "http://scales.ckff.si/scaletool/index.php?menu=6&submenu=3&sid=$i" >$i.html
     done
 
-To extract all traits I wrote a short python script (using `Beautiful Soup<https://www.crummy.com/software/BeautifulSoup/>`_) available as `gist<https://gist.github.com/iimog/a6a36a7b03906f18ac490b0a4708224c>`_.
+To extract all traits I wrote a short python script (using `Beautiful Soup <https://www.crummy.com/software/BeautifulSoup/>`_) available as `gist <https://gist.github.com/iimog/a6a36a7b03906f18ac490b0a4708224c>`_.
 If you download that you can extract traits with this command::
 
     # Install beautiful soup (e.g. via "conda install beautifulsoup4")
@@ -380,7 +380,7 @@ Using mapping by scientific name those files can be imported directly (transfer 
 IUCN Redlist
 ^^^^^^^^^^^^
 
-IUCN redlist data can be conveniently downloaded using the `API<http://apiv3.iucnredlist.org/>`_.
+IUCN redlist data can be conveniently downloaded using the `API <http://apiv3.iucnredlist.org/>`_.
 Before you can query the API you need to register for a token.
 Also if you want to put this data into a public instance you have to make sure to always (automatically) update the data to the latest version in order to comply with the terms of use.
 For convenience there are some scripts that help with download and update of IUCN data.
