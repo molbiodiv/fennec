@@ -2,12 +2,16 @@ version: '3'
 services:
   datadb:
     image: postgres:9.6
+    volumes:
+    - "../volumes/datadb:/var/lib/postgresql/data"
     environment:
       POSTGRES_USER: fennec_data
       POSTGRES_PASSWORD: fennec_data
       POSTGRES_DB: fennec_data
   userdb:
     image: postgres:9.6
+    volumes:
+    - "../volumes/userdb:/var/lib/postgresql/data"
     environment:
       POSTGRES_USER: fennec_user
       POSTGRES_PASSWORD: fennec_user
