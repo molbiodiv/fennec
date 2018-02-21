@@ -22,7 +22,8 @@ class AppKernel extends Kernel
             new FOS\UserBundle\FOSUserBundle(),
             new Shivas\VersioningBundle\ShivasVersioningBundle(),
             new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
-            new EasyCorp\Bundle\EasyAdminBundle\EasyAdminBundle()
+            new EasyCorp\Bundle\EasyAdminBundle\EasyAdminBundle(),
+            new Nelmio\ApiDocBundle\NelmioApiDocBundle()
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
