@@ -60,6 +60,12 @@ The first two are required for "Login with GitHub", see [this guide](https://dev
 The third one is your []Google Analytics tracking ID](https://support.google.com/analytics/answer/1008080?hl=en), with an empty ID, Google Analytics will be disabled.
 The secret should be replaced with a random string as [documented by symfony](https://symfony.com/doc/3.4/reference/configuration/framework.html#secret).
 
+If you need to modify the docker-compose file (e.g. hard code your user id for better integration into your IDE, or for changing the db volume locations) you can do this:
+```
+cp docker/fennec/docker-compose-dev.yml ocker/fennec/docker-compose-dev.local.yml
+```
+This file is not under version control so you can modify it as you like and use this file after the `-f` parameter for all of the `docker-compose` commands.
+
 #### Source code
 ##### php
 The structure of the project is that of a default symfony 3 application.
