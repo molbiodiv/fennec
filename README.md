@@ -64,6 +64,10 @@ The secret should be replaced with a random string as [documented by symfony](ht
 ##### php
 The structure of the project is that of a default symfony 3 application.
 Changes to the php code should be served immediately on [localhost:3141](http://localhost:3141) as we are using the development server.
+If you need additional composer packages you can install them with
+```
+docker-compose -f ~/projects/fennec/docker/fennec/docker-compose-dev.local.yml exec web bash -c "cd /fennec-dev;COMPOSER_CACHE_DIR=/tmp composer require -n foo/bar:1.0.0"
+```
 
 ##### javascript and css
 The js(x) and (s)css code is located in `app/Resources/client`.
@@ -71,6 +75,10 @@ The js(x) and (s)css code is located in `app/Resources/client`.
 They are generated with the following command (assuming your working directory is the fennec repo):
 ```
 docker-compose -f docker/fennec/docker-compose-dev.yml exec web /fennec-dev/node_modules/.bin/encore dev
+```
+If you need additional npm packages you can install them with
+```
+docker-compose -f ~/projects/fennec/docker/fennec/docker-compose-dev.local.yml exec web bash -c "cd /fennec-dev;HOME=/tmp yarn add --non-interactive package@1.0.0"
 ```
 
 ##### phinch
