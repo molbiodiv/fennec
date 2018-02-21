@@ -25,3 +25,4 @@
 .web-server-pid
 util/.iucn_token
 docker/docker-compose-dev.yml
+docker/fennec/docker-compose-dev.local.yml
