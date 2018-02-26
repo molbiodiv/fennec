@@ -62,7 +62,7 @@ The secret should be replaced with a random string as [documented by symfony](ht
 
 If you need to modify the docker-compose file (e.g. hard code your user id for better integration into your IDE, or for changing the db volume locations) you can do this:
 ```
-cp docker/fennec/docker-compose-dev.yml ocker/fennec/docker-compose-dev.local.yml
+cp docker/fennec/docker-compose-dev.yml docker/fennec/docker-compose-dev.local.yml
 ```
 This file is not under version control so you can modify it as you like and use this file after the `-f` parameter for all of the `docker-compose` commands.
 
