@@ -41,7 +41,7 @@ git clone https://github.com/molbiodiv/fennec
 cd fennec
 # your UID is used to run processes in the docker container so files in your repo are not owned by root
 export UID=$UID
-docker-compose up -d -f docker/fennec/docker-compose-dev.yml
+docker-compose -f docker/fennec/docker-compose-dev.yml up -d
 # Initialize databases (omit -d if you do not want to have the demo data in the web database)
 docker-compose -f docker/fennec/docker-compose-dev.yml exec web /fennec-dev/docker/fennec/init_dev.sh -d
 ```
