@@ -24,7 +24,7 @@ class ProjectVoter extends Voter
 
     public function __construct(DBVersion $dbversion)
     {
-        $this->manager = $dbversion->getEntityManager();
+        $this->manager = $dbversion->getUserEntityManager();
     }
 
     protected function supports($attribute, $projectId)
