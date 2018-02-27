@@ -8,9 +8,9 @@ use FOS\UserBundle\Model\User as BaseUser;
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\User\FennecUserRepository")
  * @ORM\Table(name="`fennec_user`")
- * ORM\AttributeOverrides({
- *     ORM\AttributeOverride(name="password",
- *          column=ORM\Column(
+ * @ORM\AttributeOverrides({
+ *     @ORM\AttributeOverride(name="password",
+ *          column=@ORM\Column(
  *              nullable=true
  *          ))
  *     })
