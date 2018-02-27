@@ -39,7 +39,7 @@
         "ocramius/proxy-manager": "^2.0",
         "friendsofsymfony/user-bundle": "^2.0",
         "doctrine/doctrine-migrations-bundle": "^1.0",
-        "javiereguiluz/easyadmin-bundle": "^1.0",
+        "easycorp/easyadmin-bundle": "^1.0",
         "symfony/validator": "^4.0",
         "nelmio/api-doc-bundle": "^3.1"
     },
