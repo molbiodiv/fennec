@@ -33,7 +33,7 @@
         "hwi/oauth-bundle": "^0.5.3",
         "doctrine/dbal": "^2.6",
         "doctrine/common": "2.7.1",
-        "shivas/versioning-bundle": "^1.4",
+        "shivas/versioning-bundle": "^2.0",
         "symfony/web-server-bundle": "^3.3",
         "symfony/proxy-manager-bridge": "^3.3",
         "ocramius/proxy-manager": "^2.0",
