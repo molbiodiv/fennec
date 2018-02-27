@@ -67,7 +67,7 @@ function saveBiomToDB() {
         $.ajax({
             url: webserviceUrl,
             data: {
-                'biom': JSON.parse(biomJson),
+                'biom': biomJson,
                 'projectId': internalProjectId
             },
             type: 'POST',

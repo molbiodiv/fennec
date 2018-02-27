@@ -29,6 +29,7 @@ class UpdateProject
      */
     public function execute($projectId, $biom, FennecUser $user = null)
     {
+        $biom = json_decode($biom, true);
         if($biom === null || $projectId === null){
             return array('error' => 'Missing parameter "biom" or "projectId"');
         }
