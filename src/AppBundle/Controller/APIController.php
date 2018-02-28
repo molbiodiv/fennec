@@ -87,7 +87,7 @@ class APIController extends Controller
     /**
      * @param Request $request
      * @return Response $response
-     * @Route("/api/details/traitEntries/", name="api_details_trait_entries", options={"expose"=true})
+     * @Route("/api/details/traitEntries/", name="api_details_trait_entries", options={"expose"=true}, methods={"GET"})
      */
     public function detailsTraitEntriesAction(Request $request){
         $traitEntries = $this->container->get(Details\TraitEntries::class);
@@ -97,7 +97,7 @@ class APIController extends Controller
 
     /**
      * @return Response $response
-     * @Route("/api/listing/projects/", name="api_listing_projects", options={"expose"=true})
+     * @Route("/api/listing/projects/", name="api_listing_projects", options={"expose"=true}, methods={"GET", "POST"})
      */
     public function listingProjectsAction(){
         $projects = $this->container->get(Listing\Projects::class);
@@ -109,7 +109,7 @@ class APIController extends Controller
     /**
      * @param Request $request
      * @return Response $response
-     * @Route("/api/delete/projects/", name="api_delete_projects", options={"expose"=true})
+     * @Route("/api/delete/projects/", name="api_delete_projects", options={"expose"=true}, methods={"GET"})
      */
     public function deleteProjectsAction(Request $request){
         $projectId = $request->query->get('projectId');
@@ -123,7 +123,7 @@ class APIController extends Controller
     /**
      * @param Request $request
      * @return Response $response
-     * @Route("/api/upload/projects/", name="api_upload_projects", options={"expose"=true})
+     * @Route("/api/upload/projects/", name="api_upload_projects", options={"expose"=true}, methods={"POST"})
      */
     public function uploadProjectsAction(Request $request){
         $uploadProjects = $this->container->get(Upload\Projects::class);
@@ -135,7 +135,7 @@ class APIController extends Controller
     /**
      * @param Request $request
      * @return Response $response
-     * @Route("/api/details/traitsOfOrganisms/", name="api_details_traits_of_organisms", options={"expose"=true})
+     * @Route("/api/details/traitsOfOrganisms/", name="api_details_traits_of_organisms", options={"expose"=true}, methods={"POST"})
      */
     public function detailsTraitsOfOrganismsAction(Request $request){
         $traitDetails = $this->container->get(Details\TraitsOfOrganisms::class);
@@ -157,7 +157,7 @@ class APIController extends Controller
     /**
      * @param Request $request
      * @return Response $response
-     * @Route("/api/edit/updateProject/", name="api_edit_update_project", options={"expose"=true})
+     * @Route("/api/edit/updateProject/", name="api_edit_update_project", options={"expose"=true}, methods={"POST"})
      */
     public function editUpdateProjectAction(Request $request){
         $updateProjects = $this->container->get(Edit\UpdateProject::class);
@@ -169,7 +169,7 @@ class APIController extends Controller
     /**
      * @param Request $request
      * @return Response $response
-     * @Route("/api/mapping/byDbxrefId/", name="api_mapping_byDbxrefId", options={"expose"=true})
+     * @Route("/api/mapping/byDbxrefId/", name="api_mapping_byDbxrefId", options={"expose"=true}, methods={"POST"})
      */
     public function mappingByDbxrefIdAction(Request $request){
         $mapping = $this->container->get(Mapping\ByDbxrefId::class);
@@ -180,7 +180,7 @@ class APIController extends Controller
     /**
      * @param Request $request
      * @return Response $response
-     * @Route("/api/mapping/byOrganismName/", name="api_mapping_byOrganismName", options={"expose"=true})
+     * @Route("/api/mapping/byOrganismName/", name="api_mapping_byOrganismName", options={"expose"=true}, methods={"GET"})
      */
     public function mappingByOrganismNameAction(Request $request){
         $mapping = $this->container->get(Mapping\ByOrganismName::class);
@@ -192,7 +192,7 @@ class APIController extends Controller
     /**
      * @param Request $request
      * @return Response $response
-     * @Route("/api/listing/scinames/", name="api_listing_scinames", options={"expose"=true})
+     * @Route("/api/listing/scinames/", name="api_listing_scinames", options={"expose"=true}, methods={"GET"})
      */
     public function listingScinamesAction(Request $request){
         $listingScinames = $this->container->get(Listing\Scinames::class);
@@ -205,7 +205,7 @@ class APIController extends Controller
      * @param $projectId
      * @return Response $response
      * @Security("is_granted('owner', projectId)")
-     * @Route("/api/sharing/projects/{projectId}", name="api_sharing_projects", options={"expose"=true})
+     * @Route("/api/sharing/projects/{projectId}", name="api_sharing_projects", options={"expose"=true}, methods={"GET"})
      */
     public function shareProjectAction($projectId, Request $request){
         $email = $request->query->get('email');
