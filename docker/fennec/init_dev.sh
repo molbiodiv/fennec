@@ -1,6 +1,11 @@
 #!/bin/bash
 set -e
 
+if [[ -e .docker.initialized ]]
+then
+  exit 0
+fi
+
 export HOME=/tmp
 COMPOSER_CACHE_DIR=/tmp
 cd /fennec-dev
@@ -19,3 +24,5 @@ while getopts 'd' OPTION ; do
     *)   echo "Unknown parameter"
   esac
 done
+
+touch .docker.initialized
