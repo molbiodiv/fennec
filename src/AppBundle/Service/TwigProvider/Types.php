@@ -25,7 +25,7 @@ class Types
     }
 
     public function onKernelRequest(GetResponseEvent $event){
-        $this->twig->addGlobal('type', 'startpage');
+        $this->twig->addGlobal('fennecLayoutType', 'startpage');
     }
 
 
