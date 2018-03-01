@@ -109,6 +109,12 @@ class APIController extends Controller
      *     response=200,
      *     description="Returns the list of projects of the current user"
      * )
+     * @SWG\Parameter(
+     *     name="Cookie",
+     *     description="Currently you have to set the PHPSESSID cookie until api key authentication is implemented\nPHPSESSID=<your-phpsessid>",
+     *     type="string",
+     *     in="header"
+     * )
      * @SWG\Tag(name="Listing")
      * @return Response $response
      * @Route("/api/listing/projects", name="api_listing_projects", options={"expose"=true}, methods={"POST"})
@@ -273,7 +279,7 @@ class APIController extends Controller
 
     /**
      * Share one of your projects with another user
-     * 
+     *
      * @SWG\Response(
      *     response=200,
      *     description="Share a project with another user"
