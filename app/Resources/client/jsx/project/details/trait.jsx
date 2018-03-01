@@ -123,7 +123,7 @@ function addTraitToProjectTableAction(traitTypeId, dimension){
                 } else {
                     traitValues = condenseCategoricalTraitValues(data.values)
                 }
-                addTraitToProject(data.name, traitValues, data.citations, biom, dimension, dbversion, internalProjectId, () => window.location.reload())
+                addTraitToProject(data.type, traitValues, data.citations, biom, dimension, dbversion, internalProjectId, () => window.location.reload())
             }
         });
 }
