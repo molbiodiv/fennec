@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class APIController extends Controller
 {
     /**
-     * List organisms.
+     * Search for organisms by scientific name.
      * You can provide a case-insensitive part of the scientific name or provide a limit.
      *
      * @SWG\Response(
@@ -52,7 +52,7 @@ class APIController extends Controller
     }
 
     /**
-     * List traits.
+     * Search for traits by name.
      * You can provide a case-insensitive part of the trait name or provide a limit.
      *
      * @SWG\Response(
@@ -85,6 +85,8 @@ class APIController extends Controller
     }
 
     /**
+     * Show details of specific trait entries
+     *
      * @SWG\Response(
      *     response=200,
      *     description="Returns details of trait entries"
@@ -117,6 +119,8 @@ class APIController extends Controller
     }
 
     /**
+     * Delete one of your projects
+     *
      * @SWG\Response(
      *     response=200,
      *     description="Delete a given project"
@@ -136,6 +140,8 @@ class APIController extends Controller
     }
 
     /**
+     * Upload new projects
+     *
      * @SWG\Response(
      *     response=200,
      *     description="Returns success status for project upload"
@@ -153,9 +159,11 @@ class APIController extends Controller
     }
 
     /**
+     * Show all traits for a list of organisms
+     *
      * @SWG\Response(
      *     response=200,
-     *     description="Returns all trait for a list of organisms"
+     *     description="Returns all traits for a list of organisms"
      * )
      * @SWG\Tag(name="Details")
      * @param Request $request
@@ -169,6 +177,8 @@ class APIController extends Controller
     }
 
     /**
+     * Get trait details for one trait type in a given project
+     *
      * @SWG\Response(
      *     response=200,
      *     description="Returns details of a trait in the context of a project"
@@ -186,6 +196,8 @@ class APIController extends Controller
     }
 
     /**
+     * Update a project
+     *
      * @SWG\Response(
      *     response=200,
      *     description="Returns an error object indicating whether the update was successful"
@@ -203,6 +215,8 @@ class APIController extends Controller
     }
 
     /**
+     * Map database identifiers (e.g. NCBI taxids) to fennec_ids
+     *
      * @SWG\Response(
      *     response=200,
      *     description="Map a list of identifiers against those stored in fennec to get fennec_ids"
@@ -219,6 +233,8 @@ class APIController extends Controller
     }
 
     /**
+     * Map scientific names to fennec_ids
+     *
      * @SWG\Response(
      *     response=200,
      *     description="Map a list of scientific names against those stored in fennec to get fennec_ids"
@@ -236,6 +252,8 @@ class APIController extends Controller
 
 
     /**
+     * Get scientific names for a list of fennec_ids
+     *
      * @SWG\Response(
      *     response=200,
      *     description="List scientific names for fennec_ids"
@@ -252,6 +270,8 @@ class APIController extends Controller
     }
 
     /**
+     * Share one of your projects with another user
+     * 
      * @SWG\Response(
      *     response=200,
      *     description="Share a project with another user"
