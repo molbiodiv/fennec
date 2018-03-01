@@ -194,12 +194,16 @@ class APIController extends Controller
      * @SWG\Tag(name="Details")
      * @param Request $request
      * @return Response $response
-     * @Route("/api/details/traitOfProject", name="api_details_trait_of_project", options={"expose"=true}, methods={"GET"})
+     * @Route("/api/details/traitOfProject", name="api_details_trait_of_project", options={"expose"=true}, methods={"POST"})
      */
     public function detailsTraitOfProjectAction(Request $request){
         $traitDetails = $this->container->get(Details\TraitOfProject::class);
-        // TODO fix parameters
-        $result = $traitDetails->execute($request->query->get('fennecIds'));
+        $traitTypeId = $request->request->get('traitTypeId');
+        $projectId = $request->request->get('projectId');
+        $dimension = $request->request->get('dimension');
+        $user = $this->getFennecUser();
+        $includeCitations = ($request->request->has('includeCitations')) ? $request->request->get('includeCitations') : false;
+        $result = $traitDetails->execute($traitTypeId, $projectId, $dimension, $user, $includeCitations);
         return $this->createResponse($result);
     }
 

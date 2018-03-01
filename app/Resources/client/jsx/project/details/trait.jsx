@@ -108,8 +108,14 @@ $('document').ready(async () => {
 
 function addTraitToProjectTableAction(traitTypeId, dimension){
     $.ajax({
-            url: Routing.generate('api_details_trait_of_project', {'projectId': internalProjectId, 'traitTypeId': traitTypeId, 'includeCitations': true, 'dimension': dimension, 'dbversion': dbversion}),
+            url: Routing.generate('api_details_trait_of_project', {'dbversion': dbversion}),
             method: "POST",
+            data: {
+                'projectId': internalProjectId,
+                'traitTypeId': traitTypeId,
+                'includeCitations': true,
+                'dimension': dimension
+            },
             success: function (data) {
                 var traitValues;
                 if(data.trait_format === 'numerical'){
