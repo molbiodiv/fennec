@@ -36,4 +36,4 @@ services:
     - "../..:/fennec-dev"
     working_dir: /fennec-dev
     restart: unless-stopped
-    command: php /fennec-dev/bin/console server:run 0.0.0.0:8000
+    command: bash -c "bash /fennec-dev/docker/fennec/init_dev.sh -d && php /fennec-dev/bin/console server:run 0.0.0.0:8000"

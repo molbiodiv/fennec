@@ -37,13 +37,11 @@ In addition you can transpile code and run the tests without installing addition
 
 #### Clone source code and initialize containers
 ```{bash}
-git clone https://github.com/molbiodiv/fennec
+git clone https://github.com/molbiodiv/fennec --recursive
 cd fennec
 # your UID is used to run processes in the docker container so files in your repo are not owned by root
 export UID=$UID
 docker-compose -f docker/fennec/docker-compose-dev.yml up -d
-# Initialize databases (omit -d if you do not want to have the demo data in the web database)
-docker-compose -f docker/fennec/docker-compose-dev.yml exec web /fennec-dev/docker/fennec/init_dev.sh -d
 ```
 Congratulations! You are good to go.
 Point your browser to [localhost:3141](http://localhost:3141).
