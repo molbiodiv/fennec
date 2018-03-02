@@ -13,12 +13,13 @@ $('document').ready(async () => {
     let traitCitations = projectData.data('trait-citations');
     let dimension = projectData.data('dimension');
     let dbversion = $('#globals').data('dbversion');
+    let attribute = projectData.data('attribute');
 
     $('#add-trait-to-project-button').on('click', function () {
         addTraitToProject(traitName, traitValues, traitCitations, biom, dimension, dbversion, internalProjectId, () => showMessageDialog('Successfully added ' + traitName + ' to metadata.', 'success'));
     });
 
-    let projectUrl = Routing.generate('project_details', {'dbversion': dbversion, 'project_id': internalProjectId})+"#traits";
+    let projectUrl = Routing.generate('project_details', {'dbversion': dbversion, 'project_id': internalProjectId, 'attribute': attribute})+"#traits";
     let pageTitle = $('#page-title');
     pageTitle.html(
         `<a href="${projectUrl}"><i class="fa fa-arrow-circle-left" style="padding-right: 10px"></i></a>`+pageTitle.html()

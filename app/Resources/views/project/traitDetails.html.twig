@@ -13,10 +13,13 @@
             data-trait-format="{{ trait.format }}"
             data-trait-name="{{ trait.type }}"
             data-trait-citations="{{ trait.citations|json_encode|e('html_attr') }}"
+            data-attribute="{{ attribute }}"
     ></div>
     {% if trait.format == 'categorical_free' or trait.format == 'numerical' %}
     <div class='col-xs-12'>
+        {% if attribute != 'view' %}
         <button class="btn btn-primary" id="add-trait-to-project-button">Add trait to {% if dimension == 'rows' %}OTU{% else %}Sample{% endif %} metadata</button>
+        {% endif %}
         <div id='pieChart'></div>
         <div id='histogram'></div>
         <script src="{{ asset('assets/js/project/traitDetails.js') }}"></script>
