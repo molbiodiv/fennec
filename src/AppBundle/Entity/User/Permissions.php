@@ -31,7 +31,7 @@ class Permissions
     /**
      * @var \AppBundle\Entity\User\FennecUser
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User\FennecUser", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User\FennecUser", cascade={"persist"}, inversedBy="permissions")
      * @ORM\JoinColumn(name="webuser_id", referencedColumnName="id", nullable=false)
      */
     private $webuser;
