@@ -5,8 +5,7 @@ namespace AppBundle\API\Details;
 use AppBundle\API\Webservice;
 use AppBundle\Entity\User\FennecUser;
 use AppBundle\Service\DBVersion;
-use \PDO as PDO;
-use Symfony\Component\HttpFoundation\ParameterBag;
+use Doctrine\Common\Collections\Criteria;
 
 /**
  * Web Service.
@@ -33,6 +32,7 @@ class OrganismsOfProject
 
     /**
      * @inheritdoc
+     * @param FennecUser $user
      * @returns array $result
      * <code>
      * array('fennec_id_1', 'fennec_id_2');
@@ -44,12 +44,12 @@ class OrganismsOfProject
         if ($user === null) {
             $result['error'] = OrganismsOfProject::ERROR_NOT_LOGGED_IN;
         } else {
-            $project = $this->manager->getRepository('AppBundle:WebuserData')->findOneBy(array(
-                'webuser' => $user,
-                'webuserDataId' => $projectId
-            ));
+            $permissionCollection = $user->getPermissions();
+            $project = $this->manager->getRepository('AppBundle:WebuserData')->find($projectId);
+            $criteria = Criteria::create()->where(Criteria::expr()->eq("webuserData", $project));
+            $projectPermission = $permissionCollection->matching($criteria);
 
-            if($project === null){
+            if($projectPermission->isEmpty()){
                 $result['error'] = OrganismsOfProject::ERROR_PROJECT_NOT_FOUND;
             } else {
                 $entries = $project->getProject()[$dimension];
