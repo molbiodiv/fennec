@@ -54,7 +54,28 @@ class FennecUser extends BaseUser
      * @ORM\Column(type="string",nullable=true)
      */
     private $lastName;
-    
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\User\Permissions", mappedBy="webuser")
+     */
+    private $permissions;
+
+    /**
+     * @return mixed
+     */
+    public function getPermissions()
+    {
+        return $this->permissions;
+    }
+
+    /**
+     * @param mixed $permissions
+     */
+    public function setPermissions($permissions)
+    {
+        $this->permissions = $permissions;
+    }
+
     /**
      * @return mixed
      */
