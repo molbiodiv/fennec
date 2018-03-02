@@ -8,6 +8,7 @@ use AppBundle\AppBundle;
 use AppBundle\Entity\User\FennecUser;
 use AppBundle\Entity\User\WebuserData;
 use AppBundle\Service\DBVersion;
+use Doctrine\Common\Collections\Criteria;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
 class UpdateProject
@@ -39,8 +40,11 @@ class UpdateProject
         if($user === null){
             return array('error' => 'Could not update project. Not found for user.');
         }
-        $project = $this->manager->getRepository(WebuserData::class)->findOneBy(array('webuser' => $user, 'webuserDataId' => $projectId));
-        if($project === null){
+        $permissionCollection = $user->getPermissions();
+        $project = $this->manager->getRepository('AppBundle:WebuserData')->find($projectId);
+        $criteria = Criteria::create()->where(Criteria::expr()->eq("webuserData", $project))->andWhere(Criteria::expr()->neq("permission", "view"));
+        $projectPermission = $permissionCollection->matching($criteria);
+        if($projectPermission->isEmpty()){
             return array('error' => 'Could not update project. Not found for user.');
         }
         $project->setProject($biom);
