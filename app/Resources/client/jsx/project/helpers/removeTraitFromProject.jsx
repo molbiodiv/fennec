@@ -11,7 +11,7 @@ function removeTraitFromProject(traitName, biom, dimension, dbVersion,internalPr
     let webserviceUrl = Routing.generate('api_edit_update_project', {'dbversion': dbversion});
     $.ajax(webserviceUrl, {
         data: {
-            "project_id": internalProjectId,
+            "projectId": internalProjectId,
             "biom": biom.toString()
         },
         method: "POST",
