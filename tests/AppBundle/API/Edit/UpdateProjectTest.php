@@ -69,7 +69,7 @@ class UpdateProjectTest extends WebserviceTestCase
         // Now update the project
         $biom['id'] = 'Updated ID';
         $biom['comment'] = 'New comment';
-        $results = $this->updateProject->execute($projectId, $biom, $user);
+        $results = $this->updateProject->execute($projectId, json_encode($biom), $user);
         $this->assertNull($results['error']);
         $this->em->clear();
         $results = $this->projectDetails->execute($projectId,$user);

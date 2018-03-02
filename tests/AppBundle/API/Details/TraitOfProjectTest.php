@@ -40,7 +40,7 @@ class TraitOfProjectTest extends WebserviceTestCase
         $projectId = 3;
         $user = null;
         $dimension = null;
-        $results = $this->traitOfProject->execute($traitTypeId, $projectId, $dimension, $user);
+        $results = $this->traitOfProject->execute($traitTypeId, $projectId, $dimension, $user, false);
         $expected = array("error" => 'Error: User not logged in.');
         $this->assertEquals($expected, $results, 'User is not loggend in, return error message');
     }
@@ -56,7 +56,7 @@ class TraitOfProjectTest extends WebserviceTestCase
             'webuser' => $user
         ))->getWebuserDataId();
 
-        $results = $this->traitOfProject->execute($traitTypeId, $projectId, $dimension, $user);
+        $results = $this->traitOfProject->execute($traitTypeId, $projectId, $dimension, $user, false);
         $expected = [
             "values" => [
                 "perennial" => ["1630"],
@@ -83,7 +83,7 @@ class TraitOfProjectTest extends WebserviceTestCase
         $projectId = $this->em->getRepository('AppBundle:WebuserData')->findOneBy(array(
             'webuser' => $user
         ))->getWebuserDataId();
-        $results = $this->traitOfProject->execute($traitTypeId, $projectId, $dimension, $user);
+        $results = $this->traitOfProject->execute($traitTypeId, $projectId, $dimension, $user, false);
         $expected = [
             "values" => [
                 "yellow" => ["1340", "1630"]
@@ -107,7 +107,7 @@ class TraitOfProjectTest extends WebserviceTestCase
         $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
             'username' => TraitOfProjectTest::NICKNAME
         ));
-        $results = $this->traitOfProject->execute($traitTypeId, $noValidProjectId, $dimension, $user);
+        $results = $this->traitOfProject->execute($traitTypeId, $noValidProjectId, $dimension, $user, false);
         $expected = array("error" => Details\OrganismsOfProject::ERROR_PROJECT_NOT_FOUND);
         $this->assertEquals($expected, $results, 'Project does not belong to user, return error message');
 
