@@ -34,6 +34,7 @@ $('document').ready(async () => {
         drawPieChart(counts);
     } else if(traitFormat === 'numerical'){
         traitValues = condenseNumericalTraitValues(traitValues);
-        drawHistogram(Object.values(traitValues));
+        let traitForID = fennecIDs.map(x => traitValues[x] || 'NA');
+        drawHistogram(Object.values(traitForID));
     }
 });
