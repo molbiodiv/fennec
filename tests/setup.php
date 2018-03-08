@@ -23,10 +23,13 @@ class Setup extends  WebTestCase
     {
         self::runCommand('doctrine:database:drop --if-exists --force --connection test_user');
         self::runCommand('doctrine:database:drop --if-exists --force --connection test_data');
+        self::runCommand('doctrine:database:drop --if-exists --force --connection test_data2');
         self::runCommand('doctrine:database:create --connection test_user');
         self::runCommand('doctrine:database:create --connection test_data');
+        self::runCommand('doctrine:database:create --connection test_data2');
         self::runCommand('doctrine:schema:create --em test_user');
         self::runCommand('doctrine:schema:create --em test_data');
+        self::runCommand('doctrine:schema:create --em test_data2');
         $client = static::createClient();
         $dbs = $client->getContainer()->getParameter('dbal')['connections'];
         $user_db = $dbs['test_user'];
