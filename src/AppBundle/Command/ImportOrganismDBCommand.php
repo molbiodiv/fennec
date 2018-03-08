@@ -44,7 +44,7 @@ class ImportOrganismDBCommand extends ContainerAwareCommand
             "scientific_name\tdb_id\n\n"
         )
         ->addArgument('file', InputArgument::REQUIRED, 'The path to the input csv file')
-        ->addOption('connection', 'c', InputOption::VALUE_REQUIRED, 'The database version')
+        ->addOption('em', null, InputOption::VALUE_REQUIRED, 'The database version to use (default: from parameters.yml)')
         ->addOption('provider', 'p', InputOption::VALUE_REQUIRED, 'The name of the database provider (e.g. NCBI Taxonomy), will be added to the db if it does not already exist', null)
         //->addOption('mapping', "m", InputOption::VALUE_REQUIRED, 'Method of mapping for id column. If not set fennec_ids are assumed and no mapping is performed', null)
         ->addOption('description', 'd', InputOption::VALUE_REQUIRED, 'Description of the database provider (only used if the database did not already exist)', null)
@@ -173,11 +173,11 @@ class ImportOrganismDBCommand extends ContainerAwareCommand
      */
     protected function initConnection(InputInterface $input)
     {
-        $this->connectionName = $input->getOption('connection');
-        if ($this->connectionName === null) {
-            $this->connectionName = $this->getContainer()->get('doctrine')->getDefaultConnectionName();
+        $emVersion = $input->getOption('em');
+        if ($emVersion === null) {
+            $emVersion = $this->getContainer()->getParameter('default_data_entity_manager');
         }
-        $this->em = $this->getContainer()->get(DBVersion::class)->getEntityManager();
+        $this->em = $this->getContainer()->get(DBVersion::class)->getDataEntityManagerForVersion($emVersion);
     }
 
 }
