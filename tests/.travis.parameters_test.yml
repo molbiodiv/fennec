@@ -21,6 +21,14 @@ parameters:
                 user:     postgres
                 password: ''
                 charset:  UTF8
+            "test_data2":
+                driver:   pdo_pgsql
+                host:     localhost
+                port:     5432
+                dbname:   test_data2
+                user:     postgres
+                password: ''
+                charset:  UTF8
 
     default_data_entity_manager: "test_data"
     user_entity_manager: "test_user"
@@ -37,6 +45,14 @@ parameters:
                         prefix: 'AppBundle\Entity\User'
             'test_data':
                 connection: 'test_data'
+                naming_strategy: doctrine.orm.naming_strategy.underscore
+                mappings:
+                    AppBundle:
+                        dir: '%kernel.project_dir%/src/AppBundle/Entity/Data'
+                        type: annotation
+                        prefix: 'AppBundle\Entity\Data'
+            'test_data2':
+                connection: 'test_data2'
                 naming_strategy: doctrine.orm.naming_strategy.underscore
                 mappings:
                     AppBundle:
