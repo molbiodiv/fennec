@@ -57,6 +57,10 @@ class DBVersion
         return $this->orm->getManager($this->connectionName);
     }
 
+    public function getDataEntityManagerForVersion($dbversion){
+        return $this->orm->getManager($dbversion);
+    }
+
     public function getUserEntityManager(){
        return $this->orm->getManager($this->userConnection);
     }
