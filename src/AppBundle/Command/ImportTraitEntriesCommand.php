@@ -90,7 +90,8 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
             "fennec_id\tvalue\tvalue_ontology\tcitation\torigin_url\n\n".
             "or with --long-table option:\n".
             "#FennecID\tTraitType1\tTraitType2\t...\n".
-            "fennec_id\tTraitValue1\tTraitValue2\t...\n"
+            "fennec_id\tTraitValue1\tTraitValue2\t...\n\n".
+            "You need to provide a citation for each entry via --default-citation or via the respective column"
         )
         ->addArgument('file', InputArgument::REQUIRED, 'The path to the input csv file')
         ->addOption('connection', 'c', InputOption::VALUE_REQUIRED, 'The database version')
@@ -100,7 +101,7 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
         ->addOption('mapping', "m", InputOption::VALUE_REQUIRED, 'Method of mapping for id column. If not set fennec_ids are assumed and no mapping is performed', null)
         ->addOption('public', 'p', InputOption::VALUE_NONE, 'import traits as public (default is private)')
         ->addOption('skip-unmapped', 's', InputOption::VALUE_NONE, 'do not exit if a line can not be mapped (uniquely) to a fennec_id instead skip this entry', null)
-        ->addOption('long-table', null, InputOption::VALUE_NONE, 'The format of the table is long table', null)
+        ->addOption('long-table', null, InputOption::VALUE_NONE, 'The format of the table is long table. Important: you have to specify the citation via --default-citation', null)
     ;
     }
 
