@@ -25,7 +25,7 @@ class Overview
      */
     public function __construct(DBVersion $dbversion, TokenStorage $tokenStorage)
     {
-        $this->dataManager = $dbversion->getEntityManager();;
+        $this->dataManager = $dbversion->getDataEntityManager();;
         $this->userManager = $dbversion->getUserEntityManager();;
         $user = $tokenStorage->getToken()->getUser();
         if (!$user instanceof FennecUser) {

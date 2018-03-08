@@ -36,7 +36,7 @@ class Traits
      */
     public function __construct(DBVersion $dbversion)
     {
-        $this->manager = $dbversion->getEntityManager();
+        $this->manager = $dbversion->getDataEntityManager();
     }
 
     /**

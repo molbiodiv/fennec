@@ -41,7 +41,7 @@ class CreateTraitFormatCommand extends ContainerAwareCommand
         if($connection_name == null) {
             $connection_name = $this->getContainer()->get('doctrine')->getDefaultConnectionName();
         }
-        $em = $this->getContainer()->get(DBVersion::class)->getEntityManager();
+        $em = $this->getContainer()->get(DBVersion::class)->getDataEntityManager();
         $format = $em->getRepository('AppBundle:TraitFormat')->findOneBy(['format' => $input->getArgument('format')]);
         if($format != null){
             $output->writeln('<info>TraitFormat already exists, nothing to do.</info>');

@@ -228,7 +228,7 @@ class ImportOrganismIDsCommand extends ContainerAwareCommand
         if ($this->connectionName === null) {
             $this->connectionName = $this->getContainer()->get('doctrine')->getDefaultConnectionName();
         }
-        $this->em = $this->getContainer()->get(DBVersion::class)->getEntityManager();
+        $this->em = $this->getContainer()->get(DBVersion::class)->getDataEntityManager();
     }
 
     private function getMapping($method){

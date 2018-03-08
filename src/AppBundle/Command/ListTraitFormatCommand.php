@@ -34,7 +34,7 @@ class ListTraitFormatCommand extends ContainerAwareCommand
         if($connection_name == null) {
             $connection_name = $this->getContainer()->get('doctrine')->getDefaultConnectionName();
         }
-        $em = $this->getContainer()->get(DBVersion::class)->getEntityManager();
+        $em = $this->getContainer()->get(DBVersion::class)->getDataEntityManager();
         $traitFormats = $em->getRepository('AppBundle:TraitFormat')->findAll();
         $table = new Table($output);
         $table->setHeaders(['ID', 'format']);

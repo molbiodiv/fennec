@@ -22,7 +22,7 @@ class TraitOfProject
      */
     public function __construct(DBVersion $dbversion, ContainerInterface $container)
     {
-        $this->manager = $dbversion->getEntityManager();
+        $this->manager = $dbversion->getDataEntityManager();
         $this->container = $container;
     }
 

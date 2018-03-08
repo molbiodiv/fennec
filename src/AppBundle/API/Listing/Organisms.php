@@ -43,6 +43,6 @@ class Organisms
      */
     public function execute($limit, $search)
     {
-        return $this->dbversion->getEntityManager()->getRepository(Organism::class)->getListOfOrganisms($limit, $search);
+        return $this->dbversion->getDataEntityManager()->getRepository(Organism::class)->getListOfOrganisms($limit, $search);
     }
 }

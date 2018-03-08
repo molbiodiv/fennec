@@ -36,7 +36,7 @@ class ListTraitTypeCommand extends ContainerAwareCommand
         if($connection_name == null) {
             $connection_name = $this->getContainer()->get('doctrine')->getDefaultConnectionName();
         }
-        $em = $this->getContainer()->get(DBVersion::class)->getEntityManager();
+        $em = $this->getContainer()->get(DBVersion::class)->getDataEntityManager();
         $traitTypes = $em->getRepository('AppBundle:TraitType')->findAll();
         $table = new Table($output);
         $table->setHeaders(['ID', 'type', 'format', 'description', 'ontology_url', 'unit']);

@@ -23,7 +23,7 @@ class TraitEntries
      */
     public function __construct(DBVersion $dbversion)
     {
-        $this->manager = $dbversion->getEntityManager();
+        $this->manager = $dbversion->getDataEntityManager();
         $this->known_trait_formats = array('categorical_free', 'numerical');
     }
 

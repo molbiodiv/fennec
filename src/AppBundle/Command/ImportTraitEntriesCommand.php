@@ -287,7 +287,7 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
         if ($this->connectionName === null) {
             $this->connectionName = $this->getContainer()->get('doctrine')->getDefaultConnectionName();
         }
-        $this->em = $this->getContainer()->get(DBVersion::class)->getEntityManager();
+        $this->em = $this->getContainer()->get(DBVersion::class)->getDataEntityManager();
     }
 
     /**
