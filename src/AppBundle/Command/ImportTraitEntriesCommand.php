@@ -167,7 +167,7 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
                 if($input->getOption('long-table')){
                     $citationText = $input->getOption('default-citation');
                     if($citationText === null){
-                        $citationText = "";
+                        throw new \Exception('Error: No citation specified. For --long-table please use --default-citation');
                     }
                     for($i=1; $i<count($line); $i++){
                         if($line[$i] !== ''){
@@ -179,8 +179,12 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
                         throw new \Exception('Wrong number of elements in line. Expected: 5, Actual: '.count($line).': '.join(" ",$line));
                     }
                     $citationText = $line[3];
-                    if ($citationText === "" && $input->hasOption('default-citation')) {
-                        $citationText = $input->getOption('default-citation');
+                    if ($citationText === ""){
+                        if($input->getOption('default-citation') !== null) {
+                            $citationText = $input->getOption('default-citation');
+                        } else {
+                            throw new \Exception('Error: No citation specified in:\n'.join("\t",$line).'\nPlease specify citation in 4th column or use --default-citation');
+                        }
                     }
                     $this->insertTraitEntry($fennec_id, $this->traitType[0], $this->traitFormat[0], $line[1], $line[2], $citationText, $dbId,
                         $line[4], $input->getOption('public'));
