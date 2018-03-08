@@ -25,9 +25,11 @@ $('document').ready(async () => {
         `<a href="${projectUrl}"><i class="fa fa-arrow-circle-left" style="padding-right: 10px"></i></a>`+pageTitle.html()
     );
 
+    let fennecIDs = biom.getMetadata({dimension: dimension, attribute: ['fennec', dbversion, 'fennec_id']});
     if(traitFormat === 'categorical_free'){
         traitValues = condenseCategoricalTraitValues(traitValues);
-        let counts = _.countBy(traitValues);
+        let traitForID = fennecIDs.map(x => traitValues[x] || 'NA');
+        let counts = _.countBy(traitForID);
         counts['NA'] = biom.shape[0] - _.sum(Object.values(counts));
         drawPieChart(counts);
     } else if(traitFormat === 'numerical'){
