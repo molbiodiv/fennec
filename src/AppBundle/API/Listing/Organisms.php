@@ -40,30 +40,6 @@ class Organisms
      *     'scientific_name' => 'Dionaea muscipula'
      * );
      * </code>
-     *
-     * @api {get} /listing/organisms Organisms
-     * @apiName ListingOrganisms
-     * @apiGroup Listing
-     * @apiParam {String} dbversion Version of the internal fennec database
-     * @apiParam {Number} [limit=5] Limit number of results
-     * @apiParam {String} [search=""] Only return organisms where the scientific name matches this string (case insensitive)
-     * @apiVersion 0.8.0
-     * @apiSuccessExample {json} Success-Response:
-     *     HTTP/1.1 200 OK
-     *     [{
-     *       "fennec_id": 22457,
-     *       "scientific_name": "Bellis perennis"
-     *     }]
-     * @apiParamExample {json} Request-Example:
-     *     {
-     *       "dbversion": "1.0",
-     *       "limit": 2,
-     *       "search": "Bellis perennis"
-     *     }
-     * @apiSuccess {Array} results Array of result objects. Each result has keys fennec_id and scientific_name
-     * @apiExample {curl} Example usage:
-     *     curl http://fennec.molecular.eco/api/listing/organisms?dbversion=1.0&limit=1&search=bellis
-     * @apiSampleRequest http://fennec.molecular.eco/api/listing/organisms
      */
     public function execute($limit, $search)
     {
