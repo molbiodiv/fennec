@@ -43,7 +43,8 @@ class ImportTraitEntriesCommandTest extends KernelTestCase
     {
         $this->commandTester->execute(array(
             'command' => $this->command->getName(),
-            'file' => __DIR__ . '/files/emptyFile.tsv'
+            'file' => __DIR__ . '/files/emptyFile.tsv',
+            '--db-id' => 1
         ));
         // the output of the command in the console
         $output = $this->commandTester->getDisplay();
@@ -442,5 +443,30 @@ class ImportTraitEntriesCommandTest extends KernelTestCase
             'traitType' => $flowerColor,
             'fennec' => $this->em->getRepository('AppBundle:Organism')->find(54321)
         )), 'There is no entry for flowerColor and organism 54321');
+    }
+
+    public function testMissingCitation(){
+        $this->commandTester->execute(array(
+            'command' => $this->command->getName(),
+            '--db-id' => 1,
+            '--traittype' => 'Flower Color',
+            'file' => __DIR__.'/files/flowerColors_missingCitation.tsv'
+        ));
+        $this->assertGreaterThan(0, $this->commandTester->getStatusCode(), 'The command produces an error if there is no citation and no default-citation');
+        $output = $this->commandTester->getDisplay();
+        $this->assertContains('No citation specified', $output);
+    }
+
+    public function testMissingCitationLong(){
+        $this->commandTester->execute(array(
+            'command' => $this->command->getName(),
+            'file' => __DIR__ . '/files/longTable.tsv',
+            '--db-id' => 1,
+            '--long-table' => true
+        ));
+        // the output of the command in the console
+        $this->assertGreaterThan(0, $this->commandTester->getStatusCode(), 'The command produces an error if there is no default-citation with long-table');
+        $output = $this->commandTester->getDisplay();
+        $this->assertContains('No citation specified', $output);
     }
 }
