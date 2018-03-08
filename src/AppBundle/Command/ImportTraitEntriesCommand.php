@@ -113,7 +113,7 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
             '',
         ]);
         if(!$this->checkOptions($input, $output)){
-            return;
+            return 1;
         }
         $this->initConnection($input);
         // Logger has to be disabled, otherwise memory increases linearly
@@ -122,7 +122,7 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
         $db = $this->em->getRepository('AppBundle:Db')->find($input->getOption('db-id'));
         if($db === null){
             $output->writeln('<error>Database with provided id does not exist in db.</error>');
-            return;
+            return 1;
         }
         $dbId = $db->getId();
         $lines = intval(exec('wc -l '.escapeshellarg($input->getArgument('file')).' 2>/dev/null'));
@@ -139,7 +139,7 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
             $traitTypes = array_slice($line, 1);
         }
         if(!$this->checkTraitTypes($traitTypes, $output)){
-            return;
+            return 1;
         }
         $this->em->getConnection()->beginTransaction();
         try{
@@ -198,7 +198,7 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
         } catch (\Exception $e){
             $this->em->getConnection()->rollBack();
             $output->writeln('<error>'.$e->getMessage().'</error>');
-            return;
+            return 1;
         }
         fclose($file);
         $progress->finish();
