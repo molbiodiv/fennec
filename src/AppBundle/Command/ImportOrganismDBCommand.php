@@ -45,9 +45,9 @@ class ImportOrganismDBCommand extends ContainerAwareCommand
         )
         ->addArgument('file', InputArgument::REQUIRED, 'The path to the input csv file')
         ->addOption('connection', 'c', InputOption::VALUE_REQUIRED, 'The database version')
-        ->addOption('provider', 'p', InputOption::VALUE_REQUIRED, 'The name of the database provider (e.g. NCBI Taxonomy)', null)
+        ->addOption('provider', 'p', InputOption::VALUE_REQUIRED, 'The name of the database provider (e.g. NCBI Taxonomy), will be added to the db if it does not already exist', null)
         //->addOption('mapping', "m", InputOption::VALUE_REQUIRED, 'Method of mapping for id column. If not set fennec_ids are assumed and no mapping is performed', null)
-        ->addOption('description', 'd', InputOption::VALUE_REQUIRED, 'Description of the database provider', null)
+        ->addOption('description', 'd', InputOption::VALUE_REQUIRED, 'Description of the database provider (only used if the database did not already exist)', null)
         //->addOption('skip-unmapped', 's', InputOption::VALUE_NONE, 'do not exit if a line can not be mapped (uniquely) to a fennec_id instead skip this entry', null)
     ;
     }
@@ -65,7 +65,7 @@ class ImportOrganismDBCommand extends ContainerAwareCommand
         $this->initConnection($input);
         $this->em->getConnection()->getConfiguration()->setSQLLogger(null);
         gc_enable();
-        $provider = $this->getOrInsertProvider($input->getOption('provider'), $input->getOption('description'));
+        $provider = $this->getOrInsertProviderID($input->getOption('provider'), $input->getOption('description'));
         $lines = intval(exec('wc -l '.escapeshellarg($input->getArgument('file')).' 2>/dev/null'));
         $progress = new ProgressBar($output, $lines);
         $progress->start();
@@ -107,7 +107,7 @@ class ImportOrganismDBCommand extends ContainerAwareCommand
      * @param $description
      * @return int Db id of provider
      */
-    protected function getOrInsertProvider($name, $description)
+    protected function getOrInsertProviderID($name, $description)
     {
         $provider = $this->em->getRepository('AppBundle:Db')->findOneBy(array(
             'name' => $name

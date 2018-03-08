@@ -3,6 +3,7 @@
 namespace AppBundle\Command;
 
 
+use AppBundle\Entity\Data\Db;
 use AppBundle\Entity\Data\TraitCategoricalEntry;
 use AppBundle\Entity\Data\TraitCategoricalValue;
 use AppBundle\Entity\Data\TraitCitation;
@@ -96,12 +97,13 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
         ->addArgument('file', InputArgument::REQUIRED, 'The path to the input csv file')
         ->addOption('connection', 'c', InputOption::VALUE_REQUIRED, 'The database version')
         ->addOption('traittype', 't', InputOption::VALUE_REQUIRED, 'The name of the trait type', null)
-        ->addOption('db-id', "d", InputOption::VALUE_REQUIRED, 'ID of the source database', null)
         ->addOption('default-citation', null, InputOption::VALUE_REQUIRED, 'Default citation to use if not explicitly set in the citation column of the tsv file', null)
         ->addOption('mapping', "m", InputOption::VALUE_REQUIRED, 'Method of mapping for id column. If not set fennec_ids are assumed and no mapping is performed', null)
         ->addOption('public', 'p', InputOption::VALUE_NONE, 'import traits as public (default is private)')
         ->addOption('skip-unmapped', 's', InputOption::VALUE_NONE, 'do not exit if a line can not be mapped (uniquely) to a fennec_id instead skip this entry', null)
         ->addOption('long-table', null, InputOption::VALUE_NONE, 'The format of the table is long table. Important: you have to specify the citation via --default-citation', null)
+        ->addOption('provider', null, InputOption::VALUE_REQUIRED, 'The name of the database provider (e.g. TraitBank), will be added to the db if it does not already exist', null)
+        ->addOption('description', 'd', InputOption::VALUE_REQUIRED, 'Description of the database provider (only used if the database did not already exist)', null)
     ;
     }
 
@@ -119,12 +121,7 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
         // Logger has to be disabled, otherwise memory increases linearly
         $this->em->getConnection()->getConfiguration()->setSQLLogger(null);
         gc_enable();
-        $db = $this->em->getRepository('AppBundle:Db')->find($input->getOption('db-id'));
-        if($db === null){
-            $output->writeln('<error>Database with provided id does not exist in db.</error>');
-            return 1;
-        }
-        $dbId = $db->getId();
+        $dbId = $this->getOrInsertProviderID($input->getOption('provider'), $input->getOption('description'));
         $lines = intval(exec('wc -l '.escapeshellarg($input->getArgument('file')).' 2>/dev/null'));
         $progress = new ProgressBar($output, $lines);
         $progress->start();
@@ -270,8 +267,8 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
             $output->writeln('<error>No trait type given. Use --traittype or set --long-table</error>');
             return false;
         }
-        if ($input->getOption('db-id') === null) {
-            $output->writeln('<error>No source database ID given. Use --db-id</error>');
+        if ($input->getOption('provider') === null) {
+            $output->writeln('<error>No source database provider given. Use --provider</error>');
             return false;
         }
         if(!file_exists($input->getArgument('file'))){
@@ -346,5 +343,26 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
         $traitEntry->setPrivate(!$public);
         $this->em->persist($traitEntry);
         ++$this->insertedEntries;
+    }
+
+    /**
+     * @param $name
+     * @param $description
+     * @return int Db id of provider
+     */
+    protected function getOrInsertProviderID($name, $description)
+    {
+        $provider = $this->em->getRepository('AppBundle:Db')->findOneBy(array(
+            'name' => $name
+        ));
+        if($provider === null){
+            $provider = new Db();
+            $provider->setName($name);
+            $provider->setDate(new \DateTime());
+            $provider->setDescription($description);
+            $this->em->persist($provider);
+            $this->em->flush();
+        }
+        return $provider->getId();
     }
 }
