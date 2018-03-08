@@ -254,11 +254,11 @@ class APIController extends Controller
      * @SWG\Tag(name="Mapping")
      * @param Request $request
      * @return Response $response
-     * @Route("/api/mapping/byOrganismName", name="api_mapping_byOrganismName", options={"expose"=true}, methods={"GET"})
+     * @Route("/api/mapping/byOrganismName", name="api_mapping_byOrganismName", options={"expose"=true}, methods={"POST"})
      */
     public function mappingByOrganismNameAction(Request $request){
         $mapping = $this->container->get(Mapping\ByOrganismName::class);
-        $result = $mapping->execute($request->query->get('ids'));
+        $result = $mapping->execute($request->request->get('ids'));
         return $this->createResponse($result);
     }
 
