@@ -2,12 +2,14 @@
 
 namespace Tests\AppBundle\API\Listing;
 
+use AppBundle\Entity\Data\Db;
 use Tests\AppBundle\API\WebserviceTestCase;
 use AppBundle\Entity\Data\Organism;
 
 class OrganismsTest extends WebserviceTestCase
 {
     private $em;
+    private $em2;
     /**
      * @var AppBundle\API\Listing\Organisms
      */
@@ -26,6 +28,10 @@ class OrganismsTest extends WebserviceTestCase
             ->get('doctrine')
             ->getManager('test_data');
 
+        $this->em2 = $kernel->getContainer()
+            ->get('doctrine')
+            ->getManager('test_data2');
+
         $this->organismListing = $kernel->getContainer()->get('AppBundle\API\Listing\Organisms');
         $this->dbversion = $kernel->getContainer()->get('AppBundle\Service\DBVersion');
         $this->dbOnStart = $this->dbversion->getConnectionName();
@@ -37,6 +43,8 @@ class OrganismsTest extends WebserviceTestCase
 
         $this->em->close();
         $this->em = null; // avoid memory leaks
+        $this->em2->close();
+        $this->em2 = null; // avoid memory leaks
         $this->dbversion->overwriteDBVersion($this->dbOnStart);
     }
 
@@ -78,6 +86,18 @@ class OrganismsTest extends WebserviceTestCase
         $results = $this->organismListing->execute($limit, $search);
         $expected = array();
         $this->assertEquals($expected, $results);
+
+        $organism = new Organism();
+        $organism->setScientificName('Genus bla');
+        $this->em2->persist($organism);
+        $this->em2->flush();
+        $fennecId = $organism->getFennecId();
+        $results = $this->organismListing->execute($limit, $search);
+        $expected = array(
+            array("fennecId" => $fennecId, "scientificName" => "Genus bla")
+        );
+        $this->assertEquals($expected, $results);
+
         $this->dbversion->overwriteDBVersion('test_data');
     }
 }
