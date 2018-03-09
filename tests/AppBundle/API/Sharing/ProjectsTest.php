@@ -5,7 +5,7 @@ use AppBundle\API\Sharing;
 use AppBundle\API\Upload;
 use AppBundle\Entity\User\FennecUser;
 use AppBundle\Entity\User\Permissions;
-use AppBundle\Entity\User\WebuserData;
+use AppBundle\Entity\User\Project;
 
 class ProjectsTest extends WebserviceTestCase
 {
@@ -81,10 +81,10 @@ class ProjectsTest extends WebserviceTestCase
         $this->assertEquals('owner', $anotherPermission->getPermission());
 
 
-        $project = $this->em->getRepository(WebuserData::class)->findOneBy(array(
+        $project = $this->em->getRepository(Project::class)->findOneBy(array(
             'webuser' => $user
         ));
-        $anotherProject = $this->em->getRepository(WebuserData::class)->findOneBy(array(
+        $anotherProject = $this->em->getRepository(Project::class)->findOneBy(array(
             'webuser' => $anotherUser
         ));
 
@@ -108,7 +108,7 @@ class ProjectsTest extends WebserviceTestCase
         $this->assertEquals('edit', $anotherPermissionAfterShare->getPermission());
 
         //Add permission 'edit' for project to AnotherProjectsTestUser
-        $project = $this->em->getRepository(WebuserData::class)->findOneBy(array(
+        $project = $this->em->getRepository(Project::class)->findOneBy(array(
             'webuser' => $user
         ));
         $this->sharingProjects->execute(ProjectsTest::ANOTHER_EMAIL, $project->getWebuserDataId(), 'edit');

@@ -5,7 +5,7 @@ namespace AppBundle\API\Sharing;
 
 use AppBundle\Entity\User\FennecUser;
 use AppBundle\Entity\User\Permissions;
-use AppBundle\Entity\User\WebuserData;
+use AppBundle\Entity\User\Project;
 use AppBundle\Service\DBVersion;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -30,7 +30,7 @@ class Projects
         ));
         $valid = $this->isValid($email, $user);
         if($valid === true){
-            $project = $this->manager->getRepository(WebuserData::class)->findOneBy(array(
+            $project = $this->manager->getRepository(Project::class)->findOneBy(array(
                 'webuserDataId' => $projectId
             ));
             $permission = $this->manager->getRepository(Permissions::class)->findOneBy(array(

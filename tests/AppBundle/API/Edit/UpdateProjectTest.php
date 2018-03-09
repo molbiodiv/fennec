@@ -44,7 +44,7 @@ class UpdateProjectTest extends WebserviceTestCase
         $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
             'username' => UpdateProjectTest::NICKNAME
         ));
-        $projectId = $this->em->getRepository('AppBundle:WebuserData')->findOneBy(array(
+        $projectId = $this->em->getRepository('AppBundle:Project')->findOneBy(array(
             'webuser' => $user
         ))->getWebuserDataId();
         $results = $this->projectDetails->execute($projectId, $user);
@@ -61,7 +61,7 @@ class UpdateProjectTest extends WebserviceTestCase
         $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
             'username' => UpdateProjectTest::NICKNAME
         ));
-        $projectId = $this->em->getRepository('AppBundle:WebuserData')->findOneBy(array(
+        $projectId = $this->em->getRepository('AppBundle:Project')->findOneBy(array(
             'webuser' => $user
         ))->getWebuserDataId();
         $results = $this->projectDetails->execute($projectId,$user);

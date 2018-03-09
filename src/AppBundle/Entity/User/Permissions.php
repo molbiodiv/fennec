@@ -42,7 +42,7 @@ class Permissions
     private $permission;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User\WebuserData", inversedBy="permissions")
+     * @ORM\ManyToOne(targetEntity="Project", inversedBy="permissions")
      * @ORM\JoinColumn(name="webuser_data_id", referencedColumnName="webuser_data_id", nullable=false)
      */
     private $webuserData;

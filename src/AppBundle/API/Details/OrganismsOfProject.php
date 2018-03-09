@@ -45,7 +45,7 @@ class OrganismsOfProject
             $result['error'] = OrganismsOfProject::ERROR_NOT_LOGGED_IN;
         } else {
             $permissionCollection = $user->getPermissions();
-            $project = $this->manager->getRepository('AppBundle:WebuserData')->find($projectId);
+            $project = $this->manager->getRepository('AppBundle:Project')->find($projectId);
             $criteria = Criteria::create()->where(Criteria::expr()->eq("webuserData", $project));
             $projectPermission = $permissionCollection->matching($criteria);
 

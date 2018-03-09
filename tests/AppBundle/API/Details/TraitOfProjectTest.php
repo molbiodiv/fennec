@@ -52,7 +52,7 @@ class TraitOfProjectTest extends WebserviceTestCase
         $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
             'username' => TraitOfProjectTest::NICKNAME
         ));
-        $projectId = $this->em->getRepository('AppBundle:WebuserData')->findOneBy(array(
+        $projectId = $this->em->getRepository('AppBundle:Project')->findOneBy(array(
             'webuser' => $user
         ))->getWebuserDataId();
 
@@ -80,7 +80,7 @@ class TraitOfProjectTest extends WebserviceTestCase
         $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
             'username' => TraitOfProjectTest::NICKNAME
         ));
-        $projectId = $this->em->getRepository('AppBundle:WebuserData')->findOneBy(array(
+        $projectId = $this->em->getRepository('AppBundle:Project')->findOneBy(array(
             'webuser' => $user
         ))->getWebuserDataId();
         $results = $this->traitOfProject->execute($traitTypeId, $projectId, $dimension, $user, false);

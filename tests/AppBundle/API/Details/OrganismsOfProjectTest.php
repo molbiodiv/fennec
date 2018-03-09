@@ -55,7 +55,7 @@ class OrganismsOfProjectTest extends WebserviceTestCase
         $user = $this->emUser->getRepository('AppBundle:FennecUser')->findOneBy(array(
             'username' => OrganismsOfProjectTest::NICKNAME
         ));
-        $projectId = $this->emUser->getRepository('AppBundle:WebuserData')->findOneBy(array(
+        $projectId = $this->emUser->getRepository('AppBundle:Project')->findOneBy(array(
             'webuser' => $user
         ))->getWebuserDataId();
 
@@ -75,7 +75,7 @@ class OrganismsOfProjectTest extends WebserviceTestCase
         $user = $this->emUser->getRepository('AppBundle:FennecUser')->findOneBy(array(
             'username' => OrganismsOfProjectTest::NICKNAME
         ));
-        $projectId = $this->emUser->getRepository('AppBundle:WebuserData')->findOneBy(array(
+        $projectId = $this->emUser->getRepository('AppBundle:Project')->findOneBy(array(
             'webuser' => $user
         ))->getWebuserDataId();
         $results = $this->organismsOfProject->execute($projectId, $dimension, $user);

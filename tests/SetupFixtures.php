@@ -4,7 +4,7 @@ namespace Tests;
 
 use AppBundle\Entity\User\FennecUser;
 use AppBundle\Entity\User\Permissions;
-use AppBundle\Entity\User\WebuserData;
+use AppBundle\Entity\User\Project;
 use Doctrine\ORM\EntityManager;
 
 class SetupFixtures
@@ -87,7 +87,7 @@ class SetupFixtures
             $webuser->setEmail($oauth_id);
             $this->em->persist($webuser);
         }
-        $webuserData = new WebuserData();
+        $webuserData = new Project();
         $webuserData->setProject($project);
         $webuserData->setWebuser($webuser);
         $webuserData->setImportDate($import_date);

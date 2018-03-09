@@ -2,7 +2,7 @@
 
 namespace AppBundle\API\Delete;
 
-use AppBundle\Entity\User\WebuserData;
+use AppBundle\Entity\User\Project;
 use AppBundle\Entity\User\FennecUser;
 use AppBundle\Service\DBVersion;
 use AppBundle\Entity\User\Permissions;
@@ -50,7 +50,7 @@ class Projects
                 foreach ($permission as $p){
                     $this->manager->remove($p);
                 }
-                $projects = $this->manager->getRepository(WebuserData::class)->findOneBy(array('webuser' => $user, 'webuserDataId' => $projectId));
+                $projects = $this->manager->getRepository(Project::class)->findOneBy(array('webuser' => $user, 'webuserDataId' => $projectId));
                 $this->manager->remove($projects);
             } else {
                 $permission = $this->manager->getRepository(Permissions::class)->findOneBy(array(

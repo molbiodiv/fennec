@@ -2,7 +2,7 @@
 
 namespace AppBundle\API\Details;
 
-use AppBundle\Entity\User\WebuserData;
+use AppBundle\Entity\User\Project;
 use AppBundle\Entity\User\FennecUser;
 use AppBundle\Service\DBVersion;
 
@@ -45,12 +45,12 @@ class Projects
                 $result['error'] = Projects::PROJECT_NOT_FOUND_FOR_USER;
             }
             $userId = $user->getId();
-            $userData = $this->manager->getRepository(WebuserData::class)->getDataByProjectId($project_id);
+            $userData = $this->manager->getRepository(Project::class)->getDataByProjectId($project_id);
             if (count($userData) < 1) {
                 $result['error'] = Projects::PROJECT_NOT_FOUND_FOR_USER;
             }
             foreach ($userData as $project) {
-                /** @var WebuserData $project */
+                /** @var Projects $project */
                 $result['projects'][$project['webuserDataId']] = array(
                     'biom' => json_encode($project['project']),
                     'import_date' => $project['importDate'],

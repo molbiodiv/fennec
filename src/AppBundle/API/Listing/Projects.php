@@ -2,7 +2,7 @@
 
 namespace AppBundle\API\Listing;
 
-use AppBundle\Entity\User\WebuserData;
+use AppBundle\Entity\User\Project;
 use AppBundle\Entity\User\FennecUser;
 use AppBundle\Service\DBVersion;
 
@@ -39,7 +39,7 @@ class Projects
         if ($user == null) {
             $result['error'] = Projects::ERROR_NOT_LOGGED_IN;
         } else {
-            $projects = $this->manager->getRepository(WebuserData::class)->getDataForUser($user);
+            $projects = $this->manager->getRepository(Project::class)->getDataForUser($user);
             foreach ($projects as $p) {
                 $project = array();
                 $project['internal_project_id'] = $p['webuserDataId'];

@@ -8,9 +8,9 @@ use Doctrine\ORM\Mapping as ORM;
  * WebuserData
  *
  * @ORM\Table(name="webuser_data", indexes={@ORM\Index(name="IDX_EEEDEB2749279951", columns={"webuser_id"})})
- * @ORM\Entity(repositoryClass="AppBundle\Repository\User\WebuserDataRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\User\ProjectRepository")
  */
-class WebuserData
+class Project
 {
     /**
      * @var array
@@ -82,7 +82,7 @@ class WebuserData
      *
      * @param array $project
      *
-     * @return WebuserData
+     * @return Project
      */
     public function setProject($project)
     {
@@ -106,7 +106,7 @@ class WebuserData
      *
      * @param string|null $importFilename
      *
-     * @return WebuserData
+     * @return Project
      */
     public function setImportFilename($importFilename = null)
     {
@@ -130,7 +130,7 @@ class WebuserData
      *
      * @param \DateTime|null $importDate
      *
-     * @return WebuserData
+     * @return Project
      */
     public function setImportDate($importDate = null)
     {
@@ -164,7 +164,7 @@ class WebuserData
      *
      * @param \AppBundle\Entity\User\FennecUser|null $webuser
      *
-     * @return WebuserData
+     * @return Project
      */
     public function setWebuser(\AppBundle\Entity\User\FennecUser $webuser = null)
     {
