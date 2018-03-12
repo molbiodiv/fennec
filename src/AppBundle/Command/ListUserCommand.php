@@ -24,7 +24,6 @@ class ListUserCommand extends ContainerAwareCommand
         // the full command description shown when running the command with
         // the "--help" option
         ->setHelp("This command allows you to list all existing users...")
-        ->addOption('connection', 'c', InputOption::VALUE_REQUIRED, 'The database version')
     ;
     }
 

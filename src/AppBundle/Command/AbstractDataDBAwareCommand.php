@@ -12,7 +12,7 @@ use Symfony\Component\Console\Input\InputOption;
 abstract class AbstractDataDBAwareCommand extends ContainerAwareCommand
 {
     protected function configure(){
-        $this->addOption('em', null, InputOption::VALUE_REQUIRED, 'The database version to use (default: from parameters.yml)');
+        $this->addOption('dbversion', null, InputOption::VALUE_REQUIRED, 'The database version to use (default: default_data_entity_manager from parameters.yml)');
     }
 
     /**
@@ -21,7 +21,7 @@ abstract class AbstractDataDBAwareCommand extends ContainerAwareCommand
      */
     protected function initConnection(InputInterface $input)
     {
-        $emVersion = $input->getOption('em');
+        $emVersion = $input->getOption('dbversion');
         if ($emVersion === null) {
             $emVersion = $this->getContainer()->getParameter('default_data_entity_manager');
         }

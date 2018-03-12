@@ -97,7 +97,7 @@ class ImportOrganismDBCommandTest extends KernelTestCase
             'file' => __DIR__ . '/files/organismDB.tsv',
             '--provider' => 'organismDBWithoutFennecIDProvider',
             '--description' => 'organismDBWithoutFennecIDDescription',
-            '--em' => 'test_data2'
+            '--dbversion' => 'test_data2'
         ));
         $provider = $this->em2->getRepository('AppBundle:Db')->findOneBy(array(
             'name' => 'organismDBWithoutFennecIDProvider'

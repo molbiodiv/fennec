@@ -22,7 +22,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
-class ImportTraitEntriesCommand extends ContainerAwareCommand
+class ImportTraitEntriesCommand extends AbstractDataDBAwareCommand
 {
     const BATCH_SIZE = 10;
     /**
@@ -77,6 +77,7 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
 
     protected function configure()
     {
+        parent::configure();
         $this
         // the name of the command (the part after "bin/console")
         ->setName('app:import-trait-entries')
@@ -95,7 +96,6 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
             "You need to provide a citation for each entry via --default-citation or via the respective column"
         )
         ->addArgument('file', InputArgument::REQUIRED, 'The path to the input csv file')
-        ->addOption('connection', 'c', InputOption::VALUE_REQUIRED, 'The database version')
         ->addOption('traittype', 't', InputOption::VALUE_REQUIRED, 'The name of the trait type', null)
         ->addOption('default-citation', null, InputOption::VALUE_REQUIRED, 'Default citation to use if not explicitly set in the citation column of the tsv file', null)
         ->addOption('mapping', "m", InputOption::VALUE_REQUIRED, 'Method of mapping for id column. If not set fennec_ids are assumed and no mapping is performed', null)
@@ -117,7 +117,7 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
         if(!$this->checkOptions($input, $output)){
             return 1;
         }
-        $this->initConnection($input);
+        $this->em = $this->initConnection($input);
         // Logger has to be disabled, otherwise memory increases linearly
         $this->em->getConnection()->getConfiguration()->setSQLLogger(null);
         gc_enable();
@@ -276,18 +276,6 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
             return false;
         }
         return true;
-    }
-
-    /**
-     * @param InputInterface $input
-     */
-    protected function initConnection(InputInterface $input)
-    {
-        $this->connectionName = $input->getOption('connection');
-        if ($this->connectionName === null) {
-            $this->connectionName = $this->getContainer()->get('doctrine')->getDefaultConnectionName();
-        }
-        $this->em = $this->getContainer()->get(DBVersion::class)->getDataEntityManager();
     }
 
     /**

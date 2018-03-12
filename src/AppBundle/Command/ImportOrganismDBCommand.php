@@ -2,20 +2,17 @@
 
 namespace AppBundle\Command;
 
-
 use AppBundle\Entity\Data\Db;
 use AppBundle\Entity\Data\FennecDbxref;
 use AppBundle\Entity\Data\Organism;
-use AppBundle\Service\DBVersion;
 use Doctrine\ORM\EntityManager;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ImportOrganismDBCommand extends ContainerAwareCommand
+class ImportOrganismDBCommand extends AbstractDataDBAwareCommand
 {
     const BATCH_SIZE = 10;
     /**
@@ -23,13 +20,9 @@ class ImportOrganismDBCommand extends ContainerAwareCommand
      */
     private $em;
 
-    /**
-     * @var string
-     */
-    private $connectionName;
-
     protected function configure()
     {
+        parent::configure();
         $this
         // the name of the command (the part after "bin/console")
         ->setName('app:import-organism-db')
@@ -44,11 +37,8 @@ class ImportOrganismDBCommand extends ContainerAwareCommand
             "scientific_name\tdb_id\n\n"
         )
         ->addArgument('file', InputArgument::REQUIRED, 'The path to the input csv file')
-        ->addOption('em', null, InputOption::VALUE_REQUIRED, 'The database version to use (default: from parameters.yml)')
         ->addOption('provider', 'p', InputOption::VALUE_REQUIRED, 'The name of the database provider (e.g. NCBI Taxonomy), will be added to the db if it does not already exist', null)
-        //->addOption('mapping', "m", InputOption::VALUE_REQUIRED, 'Method of mapping for id column. If not set fennec_ids are assumed and no mapping is performed', null)
         ->addOption('description', 'd', InputOption::VALUE_REQUIRED, 'Description of the database provider (only used if the database did not already exist)', null)
-        //->addOption('skip-unmapped', 's', InputOption::VALUE_NONE, 'do not exit if a line can not be mapped (uniquely) to a fennec_id instead skip this entry', null)
     ;
     }
 
@@ -62,7 +52,7 @@ class ImportOrganismDBCommand extends ContainerAwareCommand
         if(!$this->checkOptions($input, $output)){
             return;
         }
-        $this->initConnection($input);
+        $this->em = $this->initConnection($input);
         $this->em->getConnection()->getConfiguration()->setSQLLogger(null);
         gc_enable();
         $provider = $this->getOrInsertProviderID($input->getOption('provider'), $input->getOption('description'));
@@ -167,17 +157,4 @@ class ImportOrganismDBCommand extends ContainerAwareCommand
         }
         return true;
     }
-
-    /**
-     * @param InputInterface $input
-     */
-    protected function initConnection(InputInterface $input)
-    {
-        $emVersion = $input->getOption('em');
-        if ($emVersion === null) {
-            $emVersion = $this->getContainer()->getParameter('default_data_entity_manager');
-        }
-        $this->em = $this->getContainer()->get(DBVersion::class)->getDataEntityManagerForVersion($emVersion);
-    }
-
 }
