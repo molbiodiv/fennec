@@ -27,6 +27,20 @@ class APIControllerTest extends WebTestCase
         $this->assertArrayHasKey('scientificName', $responseData[3], 'the fourth organism has a scientific_name');
     }
 
+    public function testListingOrganismsAlternativeDB()
+    {
+        $this->client->request('GET', '/test_data2/api/listing/organisms', array(
+            'limit' => 5,
+            'search' => 'rainbow'
+        ));
+        $response = $this->client->getResponse();
+        $this->assertEquals(200, $response->getStatusCode());
+        $responseData = json_decode($response->getContent(), true);
+        $this->assertEquals(5, count($responseData), 'the correct number of organisms are returned');
+        $this->assertArrayHasKey('fennecId', $responseData[1], 'the second organism has a fennec_id');
+        $this->assertArrayHasKey('scientificName', $responseData[3], 'the fourth organism has a scientific_name');
+    }
+
     public function testMappingByDbxrefId()
     {
         $this->client->request('POST', '/test_data/api/mapping/byDbxrefId', array(
