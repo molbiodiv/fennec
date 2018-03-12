@@ -2,9 +2,8 @@
 
 namespace Tests\AppBundle\API\Listing;
 
-use Symfony\Component\HttpFoundation\ParameterBag;
-use Tests\AppBundle\API\WebserviceTestCase;
 use AppBundle\API\Listing;
+use Tests\AppBundle\API\WebserviceTestCase;
 
 class ScinamesTest extends WebserviceTestCase
 {

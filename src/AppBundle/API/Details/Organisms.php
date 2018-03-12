@@ -2,8 +2,8 @@
 
 namespace AppBundle\API\Details;
 
-use AppBundle\Service\DBVersion;
 use AppBundle\Entity\Data\Organism;
+use AppBundle\Service\DBVersion;
 
 /**
  * Web Service.

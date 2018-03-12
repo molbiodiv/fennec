@@ -3,7 +3,6 @@
 namespace Test\AppBundle\API\Details;
 
 use AppBundle\API\Details;
-use Symfony\Component\HttpFoundation\ParameterBag;
 use Tests\AppBundle\API\WebserviceTestCase;
 
 class TraitOfProjectTest extends WebserviceTestCase

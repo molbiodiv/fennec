@@ -2,8 +2,8 @@
 
 namespace AppBundle\API\Details;
 
-use AppBundle\Entity\User\Project;
 use AppBundle\Entity\User\FennecUser;
+use AppBundle\Entity\User\Project;
 use AppBundle\Service\DBVersion;
 
 /**

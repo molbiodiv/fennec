@@ -3,24 +3,20 @@
 namespace AppBundle\Command;
 
 
+use AppBundle\API\Mapping;
 use AppBundle\Entity\Data\Db;
 use AppBundle\Entity\Data\TraitCategoricalEntry;
 use AppBundle\Entity\Data\TraitCategoricalValue;
 use AppBundle\Entity\Data\TraitCitation;
 use AppBundle\Entity\Data\TraitNumericalEntry;
 use AppBundle\Entity\Data\TraitType;
-use AppBundle\API\Mapping;
-use AppBundle\Service\DBVersion;
 use Doctrine\ORM\EntityManager;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\HttpFoundation\ParameterBag;
 
 class ImportTraitEntriesCommand extends AbstractDataDBAwareCommand
 {

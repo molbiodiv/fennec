@@ -4,7 +4,6 @@ namespace AppBundle\API\Listing;
 
 use AppBundle\Entity\Data\TaxonomyNode;
 use AppBundle\Service\DBVersion;
-use \PDO as PDO;
 
 /**
  * Web Service.

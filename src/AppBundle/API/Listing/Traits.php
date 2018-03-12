@@ -3,15 +3,9 @@
 namespace AppBundle\API\Listing;
 
 use AppBundle\API\Webservice;
-use AppBundle\Entity\User\FennecUser;
 use AppBundle\Entity\Data\TraitCategoricalEntry;
 use AppBundle\Entity\Data\TraitNumericalEntry;
 use AppBundle\Service\DBVersion;
-use \PDO as PDO;
-use phpDocumentor\Reflection\Types\Integer;
-use phpDocumentor\Reflection\Types\String_;
-use Symfony\Component\HttpFoundation\ParameterBag;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
  * Web Service.

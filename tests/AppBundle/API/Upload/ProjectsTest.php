@@ -2,10 +2,10 @@
 
 namespace Tests\AppBundle\API\Upload;
 
+use AppBundle\API\Upload;
 use AppBundle\API\Upload\Projects;
 use AppBundle\Entity\User\FennecUser;
 use Tests\AppBundle\API\WebserviceTestCase;
-use AppBundle\API\Upload;
 
 require_once __DIR__.'/overload_is_uploaded_file.php';
 

@@ -2,10 +2,8 @@
 
 namespace AppBundle\API\Details;
 
-use AppBundle\Entity\User\FennecUser;
-use AppBundle\Service\DBVersion;
-use Symfony\Component\HttpFoundation\ParameterBag;
 use AppBundle\Entity\Data\Organism;
+use AppBundle\Service\DBVersion;
 
 /**
  * Web Service.

@@ -2,10 +2,10 @@
 
 namespace Tests\AppBundle\API\Delete;
 
-use Tests\AppBundle\API\WebserviceTestCase;
-use AppBundle\Entity\User\Project;
 use AppBundle\API\Delete;
 use AppBundle\API\Listing;
+use AppBundle\Entity\User\Project;
+use Tests\AppBundle\API\WebserviceTestCase;
 
 class ProjectsTest extends WebserviceTestCase 
 {

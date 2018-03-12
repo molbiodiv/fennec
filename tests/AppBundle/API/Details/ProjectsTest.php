@@ -2,9 +2,8 @@
 
 namespace Test\AppBundle\API\Details;
 
-use Symfony\Component\HttpFoundation\ParameterBag;
-use Tests\AppBundle\API\WebserviceTestCase;
 use AppBundle\API\Details;
+use Tests\AppBundle\API\WebserviceTestCase;
 
 class ProjectsTest extends WebserviceTestCase
 {

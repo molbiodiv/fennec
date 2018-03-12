@@ -8,8 +8,8 @@
 
 namespace AppBundle\Security\Voter;
 
-use AppBundle\Entity\User\Project;
 use AppBundle\Entity\User\FennecUser;
+use AppBundle\Entity\User\Project;
 use AppBundle\Service\DBVersion;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;

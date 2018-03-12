@@ -9,13 +9,13 @@
 namespace AppBundle\Controller;
 
 
-use AppBundle\API\Listing;
 use AppBundle\API\Details;
-use Symfony\Component\HttpFoundation\Request;
+use AppBundle\API\Listing;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 class OrganismController extends Controller
 {

@@ -3,10 +3,10 @@
 namespace AppBundle\Command;
 
 
+use AppBundle\API\Mapping;
 use AppBundle\Entity\Data\Db;
 use AppBundle\Entity\Data\FennecDbxref;
 use AppBundle\Entity\Data\Organism;
-use AppBundle\API\Mapping;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Helper\Table;

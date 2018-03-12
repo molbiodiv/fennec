@@ -2,18 +2,18 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\API\Delete;
+use AppBundle\API\Details;
+use AppBundle\API\Edit;
+use AppBundle\API\Listing;
+use AppBundle\API\Mapping;
+use AppBundle\API\Sharing;
+use AppBundle\API\Upload;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Swagger\Annotations as SWG;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\API\Listing;
-use AppBundle\API\Details;
-use AppBundle\API\Delete;
-use AppBundle\API\Upload;
-use AppBundle\API\Mapping;
-use AppBundle\API\Edit;
-use AppBundle\API\Sharing;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class APIController extends Controller

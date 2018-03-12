@@ -2,11 +2,10 @@
 
 namespace Tests\AppBundle\API\Edit;
 
-use AppBundle\Entity\User\FennecUser;
-use Doctrine\ORM\EntityManagerInterface;
-use Tests\AppBundle\API\WebserviceTestCase;
 use AppBundle\API\Details;
 use AppBundle\API\Edit;
+use Doctrine\ORM\EntityManagerInterface;
+use Tests\AppBundle\API\WebserviceTestCase;
 
 class UpdateProjectTest extends WebserviceTestCase
 {

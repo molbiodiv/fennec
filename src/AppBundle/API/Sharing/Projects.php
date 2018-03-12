@@ -7,9 +7,8 @@ use AppBundle\Entity\User\FennecUser;
 use AppBundle\Entity\User\Permissions;
 use AppBundle\Entity\User\Project;
 use AppBundle\Service\DBVersion;
-use Symfony\Component\Validator\Validation;
-use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Validation;
 
 class Projects
 {

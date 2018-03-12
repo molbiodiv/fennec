@@ -3,8 +3,8 @@
 namespace AppBundle\API\Listing;
 
 use AppBundle\Entity\Data\Organism;
-use AppBundle\Entity\Data\TraitNumericalEntry;
 use AppBundle\Entity\Data\TraitCategoricalEntry;
+use AppBundle\Entity\Data\TraitNumericalEntry;
 use AppBundle\Entity\Data\TraitType;
 use AppBundle\Entity\User\FennecUser;
 use AppBundle\Entity\User\Project;

@@ -4,12 +4,9 @@ namespace AppBundle\API\Edit;
 
 
 use AppBundle\API\Webservice;
-use AppBundle\AppBundle;
 use AppBundle\Entity\User\FennecUser;
-use AppBundle\Entity\User\Project;
 use AppBundle\Service\DBVersion;
 use Doctrine\Common\Collections\Criteria;
-use Symfony\Component\HttpFoundation\ParameterBag;
 
 class UpdateProject
 {

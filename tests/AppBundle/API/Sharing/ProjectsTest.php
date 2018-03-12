@@ -1,11 +1,11 @@
 <?php
 
-use Tests\AppBundle\API\WebserviceTestCase;
 use AppBundle\API\Sharing;
 use AppBundle\API\Upload;
 use AppBundle\Entity\User\FennecUser;
 use AppBundle\Entity\User\Permissions;
 use AppBundle\Entity\User\Project;
+use Tests\AppBundle\API\WebserviceTestCase;
 
 class ProjectsTest extends WebserviceTestCase
 {

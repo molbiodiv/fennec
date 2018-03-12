@@ -2,10 +2,9 @@
 
 namespace Tests\AppBundle\API\Mapping;
 
-use AppBundle\Entity\Data\Organism;
-use Symfony\Component\HttpFoundation\ParameterBag;
-use Tests\AppBundle\API\WebserviceTestCase;
 use AppBundle\API\Mapping;
+use AppBundle\Entity\Data\Organism;
+use Tests\AppBundle\API\WebserviceTestCase;
 
 class ByOrganismNameTest extends WebserviceTestCase
 {

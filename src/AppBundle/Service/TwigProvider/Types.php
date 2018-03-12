@@ -8,7 +8,7 @@
 
 namespace AppBundle\Service\TwigProvider;
 
-use \Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
 
 class Types

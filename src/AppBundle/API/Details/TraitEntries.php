@@ -4,7 +4,6 @@ namespace AppBundle\API\Details;
 
 use AppBundle\Entity\Data\TraitCategoricalEntry;
 use AppBundle\Entity\Data\TraitNumericalEntry;
-use \PDO as PDO;
 use AppBundle\Service\DBVersion;
 
 /**

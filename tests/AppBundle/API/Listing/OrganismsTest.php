@@ -2,9 +2,8 @@
 
 namespace Tests\AppBundle\API\Listing;
 
-use AppBundle\Entity\Data\Db;
-use Tests\AppBundle\API\WebserviceTestCase;
 use AppBundle\Entity\Data\Organism;
+use Tests\AppBundle\API\WebserviceTestCase;
 
 class OrganismsTest extends WebserviceTestCase
 {

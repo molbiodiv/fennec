@@ -2,7 +2,7 @@
 
 namespace AppBundle\Service;
 
-use \Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
 class DBVersion
 {

@@ -2,13 +2,13 @@
 
 namespace Tests\AppBundle\API\Listing;
 
-use AppBundle\Entity\User\FennecUser;
-use Tests\AppBundle\API\WebserviceTestCase;
-use AppBundle\Entity\User\Project;
 use AppBundle\Entity\Data\Organism;
 use AppBundle\Entity\Data\TraitCategoricalEntry;
 use AppBundle\Entity\Data\TraitNumericalEntry;
 use AppBundle\Entity\Data\TraitType;
+use AppBundle\Entity\User\FennecUser;
+use AppBundle\Entity\User\Project;
+use Tests\AppBundle\API\WebserviceTestCase;
 
 class OverviewTest extends WebserviceTestCase
 {

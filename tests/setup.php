@@ -4,7 +4,6 @@ namespace Tests;
 
 require_once __DIR__.'/../app/autoload.php';
 
-use AppBundle\Service\DBVersion;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Console\Input\StringInput;
