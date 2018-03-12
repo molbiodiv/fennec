@@ -5,7 +5,7 @@
         $('#dbVersionPicker').on('changed.bs.select', function () {
             {% set previous_params = app.request.get('_route_params') %}
             var route = '{{ path(app.request.get('_route'), previous_params|merge({'dbversion': dbversion})) }}';
-            route = route.replace('dbversion', $('#dbVersionPicker').val());
+            route = route.replace('{{ dbversion }}', $('#dbVersionPicker').val());
             window.location.href = route;
         });
     });
