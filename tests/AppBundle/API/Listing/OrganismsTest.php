@@ -77,27 +77,4 @@ class OrganismsTest extends WebserviceTestCase
         );
         $this->assertEquals($expected, $results);
     }
-
-    public function testExecuteSecondaryDB()
-    {
-        $search = '%bla%';
-        $limit = 5;
-        $this->dbversion->overwriteDBVersion('test_data2');
-        $results = $this->organismListing->execute($limit, $search);
-        $expected = array();
-        $this->assertEquals($expected, $results);
-
-        $organism = new Organism();
-        $organism->setScientificName('Genus bla');
-        $this->em2->persist($organism);
-        $this->em2->flush();
-        $fennecId = $organism->getFennecId();
-        $results = $this->organismListing->execute($limit, $search);
-        $expected = array(
-            array("fennecId" => $fennecId, "scientificName" => "Genus bla")
-        );
-        $this->assertEquals($expected, $results);
-
-        $this->dbversion->overwriteDBVersion('test_data');
-    }
 }

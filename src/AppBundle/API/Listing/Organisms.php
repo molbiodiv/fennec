@@ -11,7 +11,7 @@ use AppBundle\Entity\Data\Organism;
  */
 class Organisms
 {
-    private $dbversion;
+    private $em;
 
     /**
      * Organisms constructor.
@@ -19,7 +19,7 @@ class Organisms
      */
     public function __construct(DBVersion $dbversion)
     {
-        $this->dbversion = $dbversion;
+        $this->em = $dbversion->getDataEntityManager();
     }
 
 
@@ -43,6 +43,6 @@ class Organisms
      */
     public function execute($limit, $search)
     {
-        return $this->dbversion->getDataEntityManager()->getRepository(Organism::class)->getListOfOrganisms($limit, $search);
+        return $this->em->getRepository(Organism::class)->getListOfOrganisms($limit, $search);
     }
 }
