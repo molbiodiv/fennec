@@ -29,6 +29,7 @@ class Setup extends  WebTestCase
         self::runCommand('doctrine:schema:create --em test_user');
         self::runCommand('doctrine:schema:create --em test_data');
         self::runCommand('doctrine:schema:create --em test_data2');
+        self::runCommand('doctrine:fixtures:load --em test_data2');
         $client = static::createClient();
         $dbs = $client->getContainer()->getParameter('dbal')['connections'];
         $user_db = $dbs['test_user'];
