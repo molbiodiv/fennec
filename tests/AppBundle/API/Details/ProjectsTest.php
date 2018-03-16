@@ -38,8 +38,8 @@ class ProjectsTest extends WebserviceTestCase
             'username' => ProjectsTest::NICKNAME
         ));
         $projectId = $this->em->getRepository('AppBundle:Project')->findOneBy(array(
-            'webuser' => $user
-        ))->getWebuserDataId();
+            'user' => $user
+        ))->getId();
         $results = $this->detailsProjects->execute($projectId, $user);
         $expected = '{'
             . '"id": "table_1", '

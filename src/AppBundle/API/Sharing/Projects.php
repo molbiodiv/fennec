@@ -30,18 +30,18 @@ class Projects
         $valid = $this->isValid($email, $user);
         if($valid === true){
             $project = $this->manager->getRepository(Project::class)->findOneBy(array(
-                'webuserDataId' => $projectId
+                'id' => $projectId
             ));
             $permission = $this->manager->getRepository(Permissions::class)->findOneBy(array(
-                'webuser' => $user->getId(),
-                'webuserData' => $projectId
+                'user' => $user->getId(),
+                'project' => $projectId
             ));
             if($permission !== null){
                 $this->manager->remove($permission);
             }
             $permission = new Permissions();
-            $permission->setWebuser($user);
-            $permission->setWebuserData($project);
+            $permission->setUser($user);
+            $permission->setProject($project);
             $permission->setPermission($action);
             $this->manager->persist($permission);
             $this->manager->flush();

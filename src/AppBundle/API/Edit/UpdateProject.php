@@ -39,7 +39,7 @@ class UpdateProject
         }
         $permissionCollection = $user->getPermissions();
         $project = $this->manager->getRepository('AppBundle:Project')->find($projectId);
-        $criteria = Criteria::create()->where(Criteria::expr()->eq("webuserData", $project))->andWhere(Criteria::expr()->neq("permission", "view"));
+        $criteria = Criteria::create()->where(Criteria::expr()->eq("project", $project))->andWhere(Criteria::expr()->neq("permission", "view"));
         $projectPermission = $permissionCollection->matching($criteria);
         if($projectPermission->isEmpty()){
             return array('error' => 'Could not update project. Not found for user.');

@@ -38,7 +38,7 @@ class CreateFennecUserCommandTest extends KernelTestCase
 
         // the output of the command in the console
         $output = $commandTester->getDisplay();
-        $this->assertContains('Webuser successfully created', $output);
+        $this->assertContains('User successfully created', $output);
 
         $testUser = $em->getRepository('AppBundle:FennecUser')->findOneBy(array(
             'username' => CreateFennecUserCommandTest::NICKNAME

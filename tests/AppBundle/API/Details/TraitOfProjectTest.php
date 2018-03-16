@@ -52,8 +52,8 @@ class TraitOfProjectTest extends WebserviceTestCase
             'username' => TraitOfProjectTest::NICKNAME
         ));
         $projectId = $this->em->getRepository('AppBundle:Project')->findOneBy(array(
-            'webuser' => $user
-        ))->getWebuserDataId();
+            'user' => $user
+        ))->getId();
 
         $results = $this->traitOfProject->execute($traitTypeId, $projectId, $dimension, $user, false);
         $expected = [
@@ -80,8 +80,8 @@ class TraitOfProjectTest extends WebserviceTestCase
             'username' => TraitOfProjectTest::NICKNAME
         ));
         $projectId = $this->em->getRepository('AppBundle:Project')->findOneBy(array(
-            'webuser' => $user
-        ))->getWebuserDataId();
+            'user' => $user
+        ))->getId();
         $results = $this->traitOfProject->execute($traitTypeId, $projectId, $dimension, $user, false);
         $expected = [
             "values" => [

@@ -46,7 +46,7 @@ class OrganismsOfProject
         } else {
             $permissionCollection = $user->getPermissions();
             $project = $this->manager->getRepository('AppBundle:Project')->find($projectId);
-            $criteria = Criteria::create()->where(Criteria::expr()->eq("webuserData", $project));
+            $criteria = Criteria::create()->where(Criteria::expr()->eq("project", $project));
             $projectPermission = $permissionCollection->matching($criteria);
 
             if($projectPermission->isEmpty()){

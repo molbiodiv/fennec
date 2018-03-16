@@ -72,48 +72,48 @@ class ProjectsTest extends WebserviceTestCase
 
         //Test if both users have the permission 'owner' on their own projects
         $permission = $this->em->getRepository(Permissions::class)->findOneBy(array(
-            'webuser' => $user
+            'user' => $user
         ));
         $anotherPermission = $this->em->getRepository(Permissions::class)->findOneBy(array(
-            'webuser' => $anotherUser
+            'user' => $anotherUser
         ));
         $this->assertEquals('owner', $permission->getPermission());
         $this->assertEquals('owner', $anotherPermission->getPermission());
 
 
         $project = $this->em->getRepository(Project::class)->findOneBy(array(
-            'webuser' => $user
+            'user' => $user
         ));
         $anotherProject = $this->em->getRepository(Project::class)->findOneBy(array(
-            'webuser' => $anotherUser
+            'user' => $anotherUser
         ));
 
         //Test for error message if there is no user for the email
-        $result = $this->sharingProjects->execute('thisIsNotValid@example.com', $project->getWebuserDataId(), 'view');
+        $result = $this->sharingProjects->execute('thisIsNotValid@example.com', $project->getId(), 'view');
         $this->assertTrue($result['error']);
         $this->assertEquals('There exists no user for the email: thisIsNotValid@example.com', $result['message']);
 
         //Add permission 'view' for project to AnotherProjectsTestUser
-        $this->sharingProjects->execute(ProjectsTest::ANOTHER_EMAIL, $project->getWebuserDataId(), 'view');
+        $this->sharingProjects->execute(ProjectsTest::ANOTHER_EMAIL, $project->getId(), 'view');
         $permissionAfterShare = $this->em->getRepository(Permissions::class)->findOneBy(array(
-            'webuser' => $anotherUser
+            'user' => $anotherUser
         ));
         $this->assertEquals('view', $permissionAfterShare->getPermission());
 
         //Add permission 'edit' for anotherProject to ProjectsTestUser
-        $this->sharingProjects->execute(ProjectsTest::EMAIL, $anotherProject->getWebuserDataId(), 'edit');
+        $this->sharingProjects->execute(ProjectsTest::EMAIL, $anotherProject->getId(), 'edit');
         $anotherPermissionAfterShare = $this->em->getRepository(Permissions::class)->findOneBy(array(
-            'webuser' => $user
+            'user' => $user
         ));
         $this->assertEquals('edit', $anotherPermissionAfterShare->getPermission());
 
         //Add permission 'edit' for project to AnotherProjectsTestUser
         $project = $this->em->getRepository(Project::class)->findOneBy(array(
-            'webuser' => $user
+            'user' => $user
         ));
-        $this->sharingProjects->execute(ProjectsTest::ANOTHER_EMAIL, $project->getWebuserDataId(), 'edit');
+        $this->sharingProjects->execute(ProjectsTest::ANOTHER_EMAIL, $project->getId(), 'edit');
         $permissionAfterShare = $this->em->getRepository(Permissions::class)->findOneBy(array(
-            'webuser' => $anotherUser
+            'user' => $anotherUser
         ));
         $this->assertEquals('edit', $permissionAfterShare->getPermission());
 

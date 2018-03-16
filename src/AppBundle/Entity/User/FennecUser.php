@@ -56,7 +56,7 @@ class FennecUser extends BaseUser
     private $lastName;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\User\Permissions", mappedBy="webuser")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\User\Permissions", mappedBy="user")
      */
     private $permissions;
 

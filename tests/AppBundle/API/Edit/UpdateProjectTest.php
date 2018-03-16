@@ -44,8 +44,8 @@ class UpdateProjectTest extends WebserviceTestCase
             'username' => UpdateProjectTest::NICKNAME
         ));
         $projectId = $this->em->getRepository('AppBundle:Project')->findOneBy(array(
-            'webuser' => $user
-        ))->getWebuserDataId();
+            'user' => $user
+        ))->getId();
         $results = $this->projectDetails->execute($projectId, $user);
         $biom = json_decode($results['projects'][$projectId]['biom'], true);
         // Check for initial state
@@ -61,8 +61,8 @@ class UpdateProjectTest extends WebserviceTestCase
             'username' => UpdateProjectTest::NICKNAME
         ));
         $projectId = $this->em->getRepository('AppBundle:Project')->findOneBy(array(
-            'webuser' => $user
-        ))->getWebuserDataId();
+            'user' => $user
+        ))->getId();
         $results = $this->projectDetails->execute($projectId,$user);
         $biom = json_decode($results['projects'][$projectId]['biom'], true);
         // Now update the project

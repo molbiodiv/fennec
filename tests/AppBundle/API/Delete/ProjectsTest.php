@@ -53,7 +53,7 @@ class ProjectsTest extends WebserviceTestCase
             'username' => ProjectsTest::NICKNAME
         ));
         $project = $this->em->getRepository(Project::class)->getDataForUser($user);
-        $projectId = $project[0]['webuserDataId'];
+        $projectId = $project[0]['id'];
         $expected = array("deletedProjects"=>1);
         $attribute = 'owner';
         $results = $this->deleteProject->execute($user, $projectId, $attribute);

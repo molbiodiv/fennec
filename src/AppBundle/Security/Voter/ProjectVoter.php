@@ -44,8 +44,8 @@ class ProjectVoter extends Voter
             return false;
         }
 
-        $project = $this->manager->getRepository('AppBundle:WebuserData')->findOneBy(array(
-            'webuserDataId' => $projectId
+        $project = $this->manager->getRepository('AppBundle:Project')->findOneBy(array(
+            'id' => $projectId
         ));
 
         switch ($attribute) {
@@ -77,13 +77,13 @@ class ProjectVoter extends Voter
     }
 
     private function isOwner(Project $project, FennecUser $user){
-        return $user === $project->getWebuser();
+        return $user === $project->getUser();
     }
 
     private function getPermission(Project $project, FennecUser $user){
         $permission = $this->manager->getRepository('AppBundle:Permissions')->findOneBy(array(
-            'webuserData' => $project->getWebuserDataId(),
-            'webuser' => $user->getId()
+            'project' => $project->getId(),
+            'user' => $user->getId()
         ));
         return $permission->getPermission();
     }

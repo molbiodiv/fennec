@@ -42,7 +42,7 @@ class Projects
             $projects = $this->manager->getRepository(Project::class)->getDataForUser($user);
             foreach ($projects as $p) {
                 $project = array();
-                $project['internal_project_id'] = $p['webuserDataId'];
+                $project['internal_project_id'] = $p['id'];
                 $data = $p['project'];
                 $project['id'] = $data['id'];
                 $project['import_date'] = $p['importDate']->format('Y-m-d H:i:s');

@@ -19,16 +19,16 @@ class ProjectRepository extends EntityRepository
             return 0;
         }
         return count($this->getEntityManager()->getRepository(Permissions::class)->findBy(array(
-            'webuser' => $user
+            'user' => $user
         )));
     }
 
     public function getDataForUser(FennecUser $user) {
         $qb = $this->getEntityManager()->createQueryBuilder();
-        $qb->select('IDENTITY(data.webuser) AS webuserId', 'p.permission', 'data.webuserDataId', 'data.importDate', 'data.importFilename', 'data.project')
-            ->from('AppBundle\Entity\User\Permissions', 'p')
-            ->innerJoin('AppBundle\Entity\User\Project', 'data', 'WITH', 'p.webuserData = data.webuserDataId')
-            ->where('p.webuser = :userId')
+        $qb->select('IDENTITY(project.user) AS userId', 'permissions.permission', 'project.id', 'project.importDate', 'project.importFilename', 'project.project')
+            ->from('AppBundle\Entity\User\Permissions', 'permissions')
+            ->innerJoin('AppBundle\Entity\User\Project', 'project', 'WITH', 'permissions.project = project.id')
+            ->where('permissions.user = :userId')
             ->setParameter('userId', $user->getId());
         $query = $qb->getQuery();
         return $query->getResult();
@@ -36,9 +36,9 @@ class ProjectRepository extends EntityRepository
 
     public function getDataByProjectId($projectId) {
         $qb = $this->getEntityManager()->createQueryBuilder();
-        $qb->select('IDENTITY(data.webuser) AS webuserId', 'data.webuserDataId', 'data.importDate', 'data.importFilename', 'data.project')
-            ->from('AppBundle\Entity\User\Project', 'data')
-            ->where('data.webuserDataId = :projectId')
+        $qb->select('IDENTITY(project.user) AS userId', 'project.id', 'project.importDate', 'project.importFilename', 'project.project')
+            ->from('AppBundle\Entity\User\Project', 'project')
+            ->where('project.id = :projectId')
             ->setParameter('projectId', $projectId);
         $query = $qb->getQuery();
         return $query->getResult();

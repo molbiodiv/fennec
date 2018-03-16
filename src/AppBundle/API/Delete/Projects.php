@@ -45,17 +45,17 @@ class Projects
         } else {
             if($attribute === 'owner'){
                 $permission = $this->manager->getRepository(Permissions::class)->findBy(array(
-                    'webuserData' => $projectId
+                    'project' => $projectId
                 ));
                 foreach ($permission as $p){
                     $this->manager->remove($p);
                 }
-                $projects = $this->manager->getRepository(Project::class)->findOneBy(array('webuser' => $user, 'webuserDataId' => $projectId));
+                $projects = $this->manager->getRepository(Project::class)->findOneBy(array('user' => $user, 'id' => $projectId));
                 $this->manager->remove($projects);
             } else {
                 $permission = $this->manager->getRepository(Permissions::class)->findOneBy(array(
-                    'webuser' => $user,
-                    'webuserData' => $projectId,
+                    'user' => $user,
+                    'project' => $projectId,
                     'permission' => $attribute
                 ));
                 $this->manager->remove($permission);
