@@ -9,6 +9,7 @@ use AppBundle\API\Listing;
 use AppBundle\API\Mapping;
 use AppBundle\API\Sharing;
 use AppBundle\API\Upload;
+use Nelmio\ApiDocBundle\Annotation\Operation;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Swagger\Annotations as SWG;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -184,12 +185,25 @@ class APIController extends Controller
 
     /**
      * Show all traits for a list of organisms
-     *
-     * @SWG\Response(
-     *     response=200,
-     *     description="Returns all traits for a list of organisms"
+     * @Operation(
+     *     consumes={"application/x-www-form-urlencoded"},
+     *     produces={"application/json"},
+     *     tags={"Details"},
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Returns all traits for a list of organisms"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="fennecIds[]",
+     *         in="formData",
+     *         type="array",
+     *         collectionFormat="multi",
+     *         items={
+     *            "type"="int"
+     *         },
+     *         description="fennec ids for which traits are desired"
+     *     )
      * )
-     * @SWG\Tag(name="Details")
      * @param Request $request
      * @return Response $response
      * @Route("/api/details/traitsOfOrganisms", name="api_details_traits_of_organisms", options={"expose"=true}, methods={"POST"})
