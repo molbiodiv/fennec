@@ -2,10 +2,10 @@
 
 namespace AppBundle\API\Upload;
 
-use AppBundle\Entity\User\WebuserData;
 use AppBundle\Entity\User\FennecUser;
-use AppBundle\Service\DBVersion;
 use AppBundle\Entity\User\Permissions;
+use AppBundle\Entity\User\Project;
+use AppBundle\Service\DBVersion;
 use biomcs\BiomCS;
 
 /**
@@ -60,14 +60,14 @@ class Projects
             for ($i=0; $i<sizeof($_FILES); $i++) {
                 $valid = $this->validateAndConvertFile($_FILES[$i]['tmp_name']);
                 if ($valid === true) {
-                    $project = new WebuserData();
+                    $project = new Project();
                     $project->setProject(json_decode(file_get_contents($_FILES[$i]['tmp_name'])));
-                    $project->setWebuser($user);
+                    $project->setUser($user);
                     $project->setImportFilename($_FILES[$i]['name']);
                     $this->manager->persist($project);
                     $permission = new Permissions();
-                    $permission->setWebuser($user);
-                    $permission->setWebuserData($project);
+                    $permission->setUser($user);
+                    $permission->setProject($project);
                     $permission->setPermission('owner');
                     $this->manager->persist($permission);
                 }

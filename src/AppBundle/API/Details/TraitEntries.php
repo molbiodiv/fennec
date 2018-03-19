@@ -4,7 +4,6 @@ namespace AppBundle\API\Details;
 
 use AppBundle\Entity\Data\TraitCategoricalEntry;
 use AppBundle\Entity\Data\TraitNumericalEntry;
-use \PDO as PDO;
 use AppBundle\Service\DBVersion;
 
 /**
@@ -23,7 +22,7 @@ class TraitEntries
      */
     public function __construct(DBVersion $dbversion)
     {
-        $this->manager = $dbversion->getEntityManager();
+        $this->manager = $dbversion->getDataEntityManager();
         $this->known_trait_formats = array('categorical_free', 'numerical');
     }
 

@@ -4,7 +4,6 @@ namespace AppBundle\API\Listing;
 
 use AppBundle\Entity\Data\TaxonomyNode;
 use AppBundle\Service\DBVersion;
-use \PDO as PDO;
 
 /**
  * Web Service.
@@ -21,7 +20,7 @@ class Taxonomy
      */
     public function __construct(DBVersion $dbversion)
     {
-        $this->manager = $dbversion->getEntityManager();
+        $this->manager = $dbversion->getDataEntityManager();
     }
 
 

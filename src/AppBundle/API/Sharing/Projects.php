@@ -5,11 +5,10 @@ namespace AppBundle\API\Sharing;
 
 use AppBundle\Entity\User\FennecUser;
 use AppBundle\Entity\User\Permissions;
-use AppBundle\Entity\User\WebuserData;
+use AppBundle\Entity\User\Project;
 use AppBundle\Service\DBVersion;
-use Symfony\Component\Validator\Validation;
-use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Validation;
 
 class Projects
 {
@@ -30,19 +29,19 @@ class Projects
         ));
         $valid = $this->isValid($email, $user);
         if($valid === true){
-            $project = $this->manager->getRepository(WebuserData::class)->findOneBy(array(
-                'webuserDataId' => $projectId
+            $project = $this->manager->getRepository(Project::class)->findOneBy(array(
+                'id' => $projectId
             ));
             $permission = $this->manager->getRepository(Permissions::class)->findOneBy(array(
-                'webuser' => $user->getId(),
-                'webuserData' => $projectId
+                'user' => $user->getId(),
+                'project' => $projectId
             ));
             if($permission !== null){
                 $this->manager->remove($permission);
             }
             $permission = new Permissions();
-            $permission->setWebuser($user);
-            $permission->setWebuserData($project);
+            $permission->setUser($user);
+            $permission->setProject($project);
             $permission->setPermission($action);
             $this->manager->persist($permission);
             $this->manager->flush();

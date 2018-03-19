@@ -55,9 +55,9 @@ class OrganismsOfProjectTest extends WebserviceTestCase
         $user = $this->emUser->getRepository('AppBundle:FennecUser')->findOneBy(array(
             'username' => OrganismsOfProjectTest::NICKNAME
         ));
-        $projectId = $this->emUser->getRepository('AppBundle:WebuserData')->findOneBy(array(
-            'webuser' => $user
-        ))->getWebuserDataId();
+        $projectId = $this->emUser->getRepository('AppBundle:Project')->findOneBy(array(
+            'user' => $user
+        ))->getId();
 
         $results = $this->organismsOfProject->execute($projectId, $dimension, $user);
         $expected = array(
@@ -75,9 +75,9 @@ class OrganismsOfProjectTest extends WebserviceTestCase
         $user = $this->emUser->getRepository('AppBundle:FennecUser')->findOneBy(array(
             'username' => OrganismsOfProjectTest::NICKNAME
         ));
-        $projectId = $this->emUser->getRepository('AppBundle:WebuserData')->findOneBy(array(
-            'webuser' => $user
-        ))->getWebuserDataId();
+        $projectId = $this->emUser->getRepository('AppBundle:Project')->findOneBy(array(
+            'user' => $user
+        ))->getId();
         $results = $this->organismsOfProject->execute($projectId, $dimension, $user);
         $expected = array(
             1340, 1630

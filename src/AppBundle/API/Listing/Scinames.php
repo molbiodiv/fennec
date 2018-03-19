@@ -3,10 +3,7 @@
 namespace AppBundle\API\Listing;
 
 use AppBundle\API\Webservice;
-use AppBundle\Entity\User\FennecUser;
 use AppBundle\Service\DBVersion;
-use \PDO as PDO;
-use Symfony\Component\HttpFoundation\ParameterBag;
 
 /**
  * Web Service.
@@ -22,7 +19,7 @@ class Scinames
      */
     public function __construct(DBVersion $dbversion)
     {
-        $this->manager = $dbversion->getEntityManager();
+        $this->manager = $dbversion->getDataEntityManager();
     }
 
 

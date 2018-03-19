@@ -2,6 +2,7 @@
     $('document').ready(function () {
         $('#project-table').DataTable( {
             ajax: {
+                method: 'POST',
                 url: '{{ path('api_listing_projects', {'dbversion': dbversion}) }}',
                 dataSrc: 'data',
                 complete: function(){

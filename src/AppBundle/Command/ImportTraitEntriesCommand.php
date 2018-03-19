@@ -3,25 +3,22 @@
 namespace AppBundle\Command;
 
 
+use AppBundle\API\Mapping;
+use AppBundle\Entity\Data\Db;
 use AppBundle\Entity\Data\TraitCategoricalEntry;
 use AppBundle\Entity\Data\TraitCategoricalValue;
 use AppBundle\Entity\Data\TraitCitation;
 use AppBundle\Entity\Data\TraitNumericalEntry;
 use AppBundle\Entity\Data\TraitType;
-use AppBundle\API\Mapping;
-use AppBundle\Service\DBVersion;
 use Doctrine\ORM\EntityManager;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\HttpFoundation\ParameterBag;
 
-class ImportTraitEntriesCommand extends ContainerAwareCommand
+class ImportTraitEntriesCommand extends AbstractDataDBAwareCommand
 {
     const BATCH_SIZE = 10;
     /**
@@ -76,6 +73,7 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
 
     protected function configure()
     {
+        parent::configure();
         $this
         // the name of the command (the part after "bin/console")
         ->setName('app:import-trait-entries')
@@ -90,17 +88,18 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
             "fennec_id\tvalue\tvalue_ontology\tcitation\torigin_url\n\n".
             "or with --long-table option:\n".
             "#FennecID\tTraitType1\tTraitType2\t...\n".
-            "fennec_id\tTraitValue1\tTraitValue2\t...\n"
+            "fennec_id\tTraitValue1\tTraitValue2\t...\n\n".
+            "You need to provide a citation for each entry via --default-citation or via the respective column"
         )
         ->addArgument('file', InputArgument::REQUIRED, 'The path to the input csv file')
-        ->addOption('connection', 'c', InputOption::VALUE_REQUIRED, 'The database version')
         ->addOption('traittype', 't', InputOption::VALUE_REQUIRED, 'The name of the trait type', null)
-        ->addOption('db-id', "d", InputOption::VALUE_REQUIRED, 'ID of the source database', null)
         ->addOption('default-citation', null, InputOption::VALUE_REQUIRED, 'Default citation to use if not explicitly set in the citation column of the tsv file', null)
         ->addOption('mapping', "m", InputOption::VALUE_REQUIRED, 'Method of mapping for id column. If not set fennec_ids are assumed and no mapping is performed', null)
         ->addOption('public', 'p', InputOption::VALUE_NONE, 'import traits as public (default is private)')
         ->addOption('skip-unmapped', 's', InputOption::VALUE_NONE, 'do not exit if a line can not be mapped (uniquely) to a fennec_id instead skip this entry', null)
-        ->addOption('long-table', null, InputOption::VALUE_NONE, 'The format of the table is long table', null)
+        ->addOption('long-table', null, InputOption::VALUE_NONE, 'The format of the table is long table. Important: you have to specify the citation via --default-citation', null)
+        ->addOption('provider', null, InputOption::VALUE_REQUIRED, 'The name of the database provider (e.g. TraitBank), will be added to the db if it does not already exist', null)
+        ->addOption('description', 'd', InputOption::VALUE_REQUIRED, 'Description of the database provider (only used if the database did not already exist)', null)
     ;
     }
 
@@ -112,18 +111,13 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
             '',
         ]);
         if(!$this->checkOptions($input, $output)){
-            return;
+            return 1;
         }
-        $this->initConnection($input);
+        $this->em = $this->initConnection($input);
         // Logger has to be disabled, otherwise memory increases linearly
         $this->em->getConnection()->getConfiguration()->setSQLLogger(null);
         gc_enable();
-        $db = $this->em->getRepository('AppBundle:Db')->find($input->getOption('db-id'));
-        if($db === null){
-            $output->writeln('<error>Database with provided id does not exist in db.</error>');
-            return;
-        }
-        $dbId = $db->getId();
+        $dbId = $this->getOrInsertProviderID($input->getOption('provider'), $input->getOption('description'));
         $lines = intval(exec('wc -l '.escapeshellarg($input->getArgument('file')).' 2>/dev/null'));
         $progress = new ProgressBar($output, $lines);
         $progress->start();
@@ -138,7 +132,7 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
             $traitTypes = array_slice($line, 1);
         }
         if(!$this->checkTraitTypes($traitTypes, $output)){
-            return;
+            return 1;
         }
         $this->em->getConnection()->beginTransaction();
         try{
@@ -166,7 +160,7 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
                 if($input->getOption('long-table')){
                     $citationText = $input->getOption('default-citation');
                     if($citationText === null){
-                        $citationText = "";
+                        throw new \Exception('Error: No citation specified. For --long-table please use --default-citation');
                     }
                     for($i=1; $i<count($line); $i++){
                         if($line[$i] !== ''){
@@ -178,8 +172,12 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
                         throw new \Exception('Wrong number of elements in line. Expected: 5, Actual: '.count($line).': '.join(" ",$line));
                     }
                     $citationText = $line[3];
-                    if ($citationText === "" && $input->hasOption('default-citation')) {
-                        $citationText = $input->getOption('default-citation');
+                    if ($citationText === ""){
+                        if($input->getOption('default-citation') !== null) {
+                            $citationText = $input->getOption('default-citation');
+                        } else {
+                            throw new \Exception('Error: No citation specified in:\n'.join("\t",$line).'\nPlease specify citation in 4th column or use --default-citation');
+                        }
                     }
                     $this->insertTraitEntry($fennec_id, $this->traitType[0], $this->traitFormat[0], $line[1], $line[2], $citationText, $dbId,
                         $line[4], $input->getOption('public'));
@@ -197,7 +195,7 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
         } catch (\Exception $e){
             $this->em->getConnection()->rollBack();
             $output->writeln('<error>'.$e->getMessage().'</error>');
-            return;
+            return 1;
         }
         fclose($file);
         $progress->finish();
@@ -265,8 +263,8 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
             $output->writeln('<error>No trait type given. Use --traittype or set --long-table</error>');
             return false;
         }
-        if ($input->getOption('db-id') === null) {
-            $output->writeln('<error>No source database ID given. Use --db-id</error>');
+        if ($input->getOption('provider') === null) {
+            $output->writeln('<error>No source database provider given. Use --provider</error>');
             return false;
         }
         if(!file_exists($input->getArgument('file'))){
@@ -274,18 +272,6 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
             return false;
         }
         return true;
-    }
-
-    /**
-     * @param InputInterface $input
-     */
-    protected function initConnection(InputInterface $input)
-    {
-        $this->connectionName = $input->getOption('connection');
-        if ($this->connectionName === null) {
-            $this->connectionName = $this->getContainer()->get('doctrine')->getDefaultConnectionName();
-        }
-        $this->em = $this->getContainer()->get(DBVersion::class)->getEntityManager();
     }
 
     /**
@@ -341,5 +327,26 @@ class ImportTraitEntriesCommand extends ContainerAwareCommand
         $traitEntry->setPrivate(!$public);
         $this->em->persist($traitEntry);
         ++$this->insertedEntries;
+    }
+
+    /**
+     * @param $name
+     * @param $description
+     * @return int Db id of provider
+     */
+    protected function getOrInsertProviderID($name, $description)
+    {
+        $provider = $this->em->getRepository('AppBundle:Db')->findOneBy(array(
+            'name' => $name
+        ));
+        if($provider === null){
+            $provider = new Db();
+            $provider->setName($name);
+            $provider->setDate(new \DateTime());
+            $provider->setDescription($description);
+            $this->em->persist($provider);
+            $this->em->flush();
+        }
+        return $provider->getId();
     }
 }

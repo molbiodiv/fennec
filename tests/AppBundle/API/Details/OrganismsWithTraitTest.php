@@ -2,8 +2,8 @@
 
 namespace Test\AppBundle\API\Details;
 
-use Tests\AppBundle\API\WebserviceTestCase;
 use AppBundle\Entity;
+use Tests\AppBundle\API\WebserviceTestCase;
 
 class OrganismsWithTraitTest extends WebserviceTestCase
 {

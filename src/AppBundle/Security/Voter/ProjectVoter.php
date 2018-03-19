@@ -8,8 +8,8 @@
 
 namespace AppBundle\Security\Voter;
 
-use AppBundle\Entity\User\WebuserData;
 use AppBundle\Entity\User\FennecUser;
+use AppBundle\Entity\User\Project;
 use AppBundle\Service\DBVersion;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
@@ -24,7 +24,7 @@ class ProjectVoter extends Voter
 
     public function __construct(DBVersion $dbversion)
     {
-        $this->manager = $dbversion->getEntityManager();
+        $this->manager = $dbversion->getUserEntityManager();
     }
 
     protected function supports($attribute, $projectId)
@@ -44,8 +44,8 @@ class ProjectVoter extends Voter
             return false;
         }
 
-        $project = $this->manager->getRepository('AppBundle:WebuserData')->findOneBy(array(
-            'webuserDataId' => $projectId
+        $project = $this->manager->getRepository('AppBundle:Project')->findOneBy(array(
+            'id' => $projectId
         ));
 
         switch ($attribute) {
@@ -60,7 +60,7 @@ class ProjectVoter extends Voter
         throw new \LogicException('This code should not be reached!');
     }
 
-    private function canView(WebuserData $project, FennecUser $user)
+    private function canView(Project $project, FennecUser $user)
     {
         if ($this->canEdit($project, $user)) {
             return true;
@@ -68,7 +68,7 @@ class ProjectVoter extends Voter
         return 'view' === $this->getPermission($project, $user);
     }
 
-    private function canEdit(WebuserData $project, FennecUser $user)
+    private function canEdit(Project $project, FennecUser $user)
     {
         if($this->isOwner($project, $user)){
             return true;
@@ -76,14 +76,14 @@ class ProjectVoter extends Voter
         return 'edit' === $this->getPermission($project, $user);
     }
 
-    private function isOwner(WebuserData $project, FennecUser $user){
-        return $user === $project->getWebuser();
+    private function isOwner(Project $project, FennecUser $user){
+        return $user === $project->getUser();
     }
 
-    private function getPermission(WebuserData $project, FennecUser $user){
+    private function getPermission(Project $project, FennecUser $user){
         $permission = $this->manager->getRepository('AppBundle:Permissions')->findOneBy(array(
-            'webuserData' => $project->getWebuserDataId(),
-            'webuser' => $user->getId()
+            'project' => $project->getId(),
+            'user' => $user->getId()
         ));
         return $permission->getPermission();
     }

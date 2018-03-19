@@ -8,13 +8,12 @@
 
 namespace AppBundle\Controller;
 
-use Symfony\Component\HttpFoundation\ParameterBag;
-use Symfony\Component\HttpFoundation\Request;
+use AppBundle\API\Details;
+use AppBundle\API\Listing;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use AppBundle\API\Listing;
-use AppBundle\API\Details;
 
 class TraitController extends Controller
 {

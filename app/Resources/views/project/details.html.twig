@@ -24,6 +24,7 @@
                 data-internal-project-id="{{ internal_project_id }}"
                 data-phinch-preview-path="{{ asset('assets/Phinch/preview.html') }}"
                 data-biom-raw="{{ project['projects'][internal_project_id]['biom']|e('html_attr') }}"
+                data-attribute="{{ attribute }}"
         ></div>
         <!-- Overview -->
         <ul class="nav nav-tabs" role="tablist">
@@ -149,13 +150,13 @@
                         <h4>OTUs</h4>
                         <table id="trait-table" class="table trait-table trait-table-striped table-bordered" width="100%" cellspacing="0">
                             <thead>
-                            <tr><th>trait</th><th>count</th><th>range</th><th>details</th><th>in biom</th><th>add to biom</th></tr>
+                            <tr><th>trait</th><th>count</th><th>coverage (absence/presence)</th><th>results</th><th>in biom</th><th>add to biom</th></tr>
                             </thead>
                         </table>
                         <h4>Samples</h4>
                         <table id="trait-table-sample" class="table trait-table trait-table-striped table-bordered" width="100%" cellspacing="0">
                             <thead>
-                            <tr><th>trait</th><th>count</th><th>range</th><th>details</th><th>in biom</th><th>add to biom</th></tr>
+                            <tr><th>trait</th><th>count</th><th>coverage (absence/presence)</th><th>results</th><th>in biom</th><th>add to biom</th></tr>
                             </thead>
                         </table>
                     </div>

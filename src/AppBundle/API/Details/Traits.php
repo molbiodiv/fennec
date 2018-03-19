@@ -2,11 +2,11 @@
 
 namespace AppBundle\API\Details;
 
-use AppBundle\Service\DBVersion;
 use AppBundle\Entity\Data\TraitCategoricalEntry;
 use AppBundle\Entity\Data\TraitFormat;
 use AppBundle\Entity\Data\TraitNumericalEntry;
 use AppBundle\Entity\Data\TraitType;
+use AppBundle\Service\DBVersion;
 
 /**
  * Web Service.
@@ -36,7 +36,7 @@ class Traits
      */
     public function __construct(DBVersion $dbversion)
     {
-        $this->manager = $dbversion->getEntityManager();
+        $this->manager = $dbversion->getDataEntityManager();
     }
 
     /**

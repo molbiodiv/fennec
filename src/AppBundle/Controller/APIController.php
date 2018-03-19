@@ -2,24 +2,24 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\API\Delete;
+use AppBundle\API\Details;
+use AppBundle\API\Edit;
+use AppBundle\API\Listing;
+use AppBundle\API\Mapping;
+use AppBundle\API\Sharing;
+use AppBundle\API\Upload;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Swagger\Annotations as SWG;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\API\Listing;
-use AppBundle\API\Details;
-use AppBundle\API\Delete;
-use AppBundle\API\Upload;
-use AppBundle\API\Mapping;
-use AppBundle\API\Edit;
-use AppBundle\API\Sharing;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class APIController extends Controller
 {
     /**
-     * List organisms.
+     * Search for organisms by scientific name.
      * You can provide a case-insensitive part of the scientific name or provide a limit.
      *
      * @SWG\Response(
@@ -43,7 +43,7 @@ class APIController extends Controller
      * @param Request $request
      * @return Response
      *
-     * @Route("/api/listing/organisms/", name="api_listing_organisms", options={"expose"=true}, methods={"GET"})
+     * @Route("/api/listing/organisms", name="api_listing_organisms", options={"expose"=true}, methods={"GET"})
      */
     public function listingOrganismsAction(Request $request){
         $organisms = $this->container->get(Listing\Organisms::class);
@@ -52,7 +52,7 @@ class APIController extends Controller
     }
 
     /**
-     * List traits.
+     * Search for traits by name.
      * You can provide a case-insensitive part of the trait name or provide a limit.
      *
      * @SWG\Response(
@@ -85,9 +85,16 @@ class APIController extends Controller
     }
 
     /**
+     * Show details of specific trait entries
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns details of trait entries"
+     * )
+     * @SWG\Tag(name="Details")
      * @param Request $request
      * @return Response $response
-     * @Route("/api/details/traitEntries/", name="api_details_trait_entries", options={"expose"=true})
+     * @Route("/api/details/traitEntries", name="api_details_trait_entries", options={"expose"=true}, methods={"GET"})
      */
     public function detailsTraitEntriesAction(Request $request){
         $traitEntries = $this->container->get(Details\TraitEntries::class);
@@ -96,8 +103,21 @@ class APIController extends Controller
     }
 
     /**
+     * List all of your projects
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns the list of projects of the current user"
+     * )
+     * @SWG\Parameter(
+     *     name="Cookie",
+     *     description="Currently you have to set the PHPSESSID cookie until api key authentication is implemented\nPHPSESSID=<your-phpsessid>",
+     *     type="string",
+     *     in="header"
+     * )
+     * @SWG\Tag(name="Listing")
      * @return Response $response
-     * @Route("/api/listing/projects/", name="api_listing_projects", options={"expose"=true})
+     * @Route("/api/listing/projects", name="api_listing_projects", options={"expose"=true}, methods={"POST"})
      */
     public function listingProjectsAction(){
         $projects = $this->container->get(Listing\Projects::class);
@@ -107,9 +127,16 @@ class APIController extends Controller
     }
 
     /**
+     * Delete one of your projects
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Delete a given project"
+     * )
+     * @SWG\Tag(name="Projects")
      * @param Request $request
      * @return Response $response
-     * @Route("/api/delete/projects/", name="api_delete_projects", options={"expose"=true})
+     * @Route("/api/delete/projects", name="api_delete_projects", options={"expose"=true}, methods={"GET"})
      */
     public function deleteProjectsAction(Request $request){
         $projectId = $request->query->get('projectId');
@@ -121,9 +148,16 @@ class APIController extends Controller
     }
 
     /**
+     * Upload new projects
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns success status for project upload"
+     * )
+     * @SWG\Tag(name="Projects")
      * @param Request $request
      * @return Response $response
-     * @Route("/api/upload/projects/", name="api_upload_projects", options={"expose"=true})
+     * @Route("/api/upload/projects", name="api_upload_projects", options={"expose"=true}, methods={"POST"})
      */
     public function uploadProjectsAction(Request $request){
         $uploadProjects = $this->container->get(Upload\Projects::class);
@@ -133,9 +167,16 @@ class APIController extends Controller
     }
 
     /**
+     * Show all traits for a list of organisms
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns all traits for a list of organisms"
+     * )
+     * @SWG\Tag(name="Details")
      * @param Request $request
      * @return Response $response
-     * @Route("/api/details/traitsOfOrganisms/", name="api_details_traits_of_organisms", options={"expose"=true})
+     * @Route("/api/details/traitsOfOrganisms", name="api_details_traits_of_organisms", options={"expose"=true}, methods={"POST"})
      */
     public function detailsTraitsOfOrganismsAction(Request $request){
         $traitDetails = $this->container->get(Details\TraitsOfOrganisms::class);
@@ -144,20 +185,39 @@ class APIController extends Controller
     }
 
     /**
+     * Get trait details for one trait type in a given project
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns details of a trait in the context of a project"
+     * )
+     * @SWG\Tag(name="Details")
      * @param Request $request
      * @return Response $response
-     * @Route("/api/details/traitOfProject/", name="api_details_trait_of_project", options={"expose"=true})
+     * @Route("/api/details/traitOfProject", name="api_details_trait_of_project", options={"expose"=true}, methods={"POST"})
      */
     public function detailsTraitOfProjectAction(Request $request){
         $traitDetails = $this->container->get(Details\TraitOfProject::class);
-        $result = $traitDetails->execute($request->query->get('fennecIds'));
+        $traitTypeId = $request->request->get('traitTypeId');
+        $projectId = $request->request->get('projectId');
+        $dimension = $request->request->get('dimension');
+        $user = $this->getFennecUser();
+        $includeCitations = ($request->request->has('includeCitations')) ? $request->request->get('includeCitations') : false;
+        $result = $traitDetails->execute($traitTypeId, $projectId, $dimension, $user, $includeCitations);
         return $this->createResponse($result);
     }
 
     /**
+     * Update a project
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns an error object indicating whether the update was successful"
+     * )
+     * @SWG\Tag(name="Projects")
      * @param Request $request
      * @return Response $response
-     * @Route("/api/edit/updateProject/", name="api_edit_update_project", options={"expose"=true})
+     * @Route("/api/edit/updateProject", name="api_edit_update_project", options={"expose"=true}, methods={"POST"})
      */
     public function editUpdateProjectAction(Request $request){
         $updateProjects = $this->container->get(Edit\UpdateProject::class);
@@ -167,9 +227,16 @@ class APIController extends Controller
     }
 
     /**
+     * Map database identifiers (e.g. NCBI taxids) to fennec_ids
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Map a list of identifiers against those stored in fennec to get fennec_ids"
+     * )
+     * @SWG\Tag(name="Mapping")
      * @param Request $request
      * @return Response $response
-     * @Route("/api/mapping/byDbxrefId/", name="api_mapping_byDbxrefId", options={"expose"=true})
+     * @Route("/api/mapping/byDbxrefId", name="api_mapping_byDbxrefId", options={"expose"=true}, methods={"POST"})
      */
     public function mappingByDbxrefIdAction(Request $request){
         $mapping = $this->container->get(Mapping\ByDbxrefId::class);
@@ -178,21 +245,35 @@ class APIController extends Controller
     }
 
     /**
+     * Map scientific names to fennec_ids
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Map a list of scientific names against those stored in fennec to get fennec_ids"
+     * )
+     * @SWG\Tag(name="Mapping")
      * @param Request $request
      * @return Response $response
-     * @Route("/api/mapping/byOrganismName/", name="api_mapping_byOrganismName", options={"expose"=true})
+     * @Route("/api/mapping/byOrganismName", name="api_mapping_byOrganismName", options={"expose"=true}, methods={"POST"})
      */
     public function mappingByOrganismNameAction(Request $request){
         $mapping = $this->container->get(Mapping\ByOrganismName::class);
-        $result = $mapping->execute($request->query->get('ids'));
+        $result = $mapping->execute($request->request->get('ids'));
         return $this->createResponse($result);
     }
 
 
     /**
+     * Get scientific names for a list of fennec_ids
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="List scientific names for fennec_ids"
+     * )
+     * @SWG\Tag(name="Listing")
      * @param Request $request
      * @return Response $response
-     * @Route("/api/listing/scinames/", name="api_listing_scinames", options={"expose"=true})
+     * @Route("/api/listing/scinames", name="api_listing_scinames", options={"expose"=true}, methods={"GET"})
      */
     public function listingScinamesAction(Request $request){
         $listingScinames = $this->container->get(Listing\Scinames::class);
@@ -201,11 +282,18 @@ class APIController extends Controller
     }
 
     /**
+     * Share one of your projects with another user
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Share a project with another user"
+     * )
+     * @SWG\Tag(name="Projects")
      * @param Request $request
      * @param $projectId
      * @return Response $response
      * @Security("is_granted('owner', projectId)")
-     * @Route("/api/sharing/projects/{projectId}", name="api_sharing_projects", options={"expose"=true})
+     * @Route("/api/sharing/projects/{projectId}", name="api_sharing_projects", options={"expose"=true}, methods={"GET"})
      */
     public function shareProjectAction($projectId, Request $request){
         $email = $request->query->get('email');

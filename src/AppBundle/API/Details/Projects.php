@@ -2,9 +2,11 @@
 
 namespace AppBundle\API\Details;
 
-use AppBundle\Entity\User\WebuserData;
 use AppBundle\Entity\User\FennecUser;
+use AppBundle\Entity\User\Project;
 use AppBundle\Service\DBVersion;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 
 /**
  * Web Service.
@@ -34,27 +36,28 @@ class Projects
     * array('project_id': {biomFile});
     * </code>
     */
-    public function execute($project_id, FennecUser $user = null)
+    public function execute($projectId, FennecUser $user = null)
     {
         $result = array('projects' => array());
         if ($user === null) {
             $result['error'] = Projects::ERROR_NOT_LOGGED_IN;
         } else {
-            $user = $this->manager->find('AppBundle:FennecUser', $user->getId());
-            if($user === null){
+            /**
+             * @var $project Project
+             */
+            $project = $this->manager->getRepository('AppBundle:Project')->find($projectId);
+            $criteria = Criteria::create()->where(Criteria::expr()->eq("project", $project));
+            /**
+             * @var $projectPermission Collection
+             */
+            $projectPermission = $user->getPermissions()->matching($criteria);
+            if($projectPermission->isEmpty()){
                 $result['error'] = Projects::PROJECT_NOT_FOUND_FOR_USER;
-            }
-            $userId = $user->getId();
-            $userData = $this->manager->getRepository(WebuserData::class)->getDataByProjectId($project_id);
-            if (count($userData) < 1) {
-                $result['error'] = Projects::PROJECT_NOT_FOUND_FOR_USER;
-            }
-            foreach ($userData as $project) {
-                /** @var WebuserData $project */
-                $result['projects'][$project['webuserDataId']] = array(
-                    'biom' => json_encode($project['project']),
-                    'import_date' => $project['importDate'],
-                    'import_filename' => $project['importFilename']
+            } else {
+                $result['projects'][$project->getId()] = array(
+                    'biom' => json_encode($project->getProject()),
+                    'import_date' => $project->getImportDate(),
+                    'import_filename' => $project->getImportFilename()
                 );
             }
         }

@@ -2,13 +2,13 @@
 
 namespace Tests\AppBundle\API\Listing;
 
-use AppBundle\Entity\User\FennecUser;
-use Tests\AppBundle\API\WebserviceTestCase;
-use AppBundle\Entity\User\WebuserData;
 use AppBundle\Entity\Data\Organism;
 use AppBundle\Entity\Data\TraitCategoricalEntry;
 use AppBundle\Entity\Data\TraitNumericalEntry;
 use AppBundle\Entity\Data\TraitType;
+use AppBundle\Entity\User\FennecUser;
+use AppBundle\Entity\User\Project;
+use Tests\AppBundle\API\WebserviceTestCase;
 
 class OverviewTest extends WebserviceTestCase
 {
@@ -43,7 +43,7 @@ class OverviewTest extends WebserviceTestCase
     public function testOverviewIfUserIsNotLoggedIn()
     {
         $user = null;
-        $projects = $this->emUser->getRepository(WebuserData::class)->getNumberOfProjects($user);
+        $projects = $this->emUser->getRepository(Project::class)->getNumberOfProjects($user);
         $organisms = $this->emData->getRepository(Organism::class)->getNumber();
         $traitEntries = $this->emData->getRepository(TraitCategoricalEntry::class)->getNumber() + $this->emData->getRepository(TraitNumericalEntry::class)->getNumber();
         $traitTypes = $this->emData->getRepository(TraitType::class)->getNumber();
@@ -66,7 +66,7 @@ class OverviewTest extends WebserviceTestCase
         $user = $this->emUser->getRepository(FennecUser::class)->findOneBy(array(
             "username" => OverviewTest::NICKNAME
         ));
-        $projects = $this->emUser->getRepository(WebuserData::class)->getNumberOfProjects($user);
+        $projects = $this->emUser->getRepository(Project::class)->getNumberOfProjects($user);
         $organisms = $this->emData->getRepository(Organism::class)->getNumber();
         $traitEntries = $this->emData->getRepository(TraitCategoricalEntry::class)->getNumber() + $this->emData->getRepository(TraitNumericalEntry::class)->getNumber();
         $traitTypes = $this->emData->getRepository(TraitType::class)->getNumber();

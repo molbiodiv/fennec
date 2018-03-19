@@ -3,7 +3,6 @@
 namespace AppBundle\Command;
 
 
-use AppBundle\Entity\User\FennecUser;
 use AppBundle\Service\DBVersion;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -57,6 +56,6 @@ class CreateUserCommand extends ContainerAwareCommand
         $superadmin = $input->getOption('super-admin');
         $manipulator = $this->getContainer()->get('fos_user.util.user_manipulator');
         $manipulator->create($username, $password, $email, !$inactive, $superadmin);
-        $output->writeln('<info>Webuser successfully created: '.$username.'</info>');
+        $output->writeln('<info>User successfully created: '.$username.'</info>');
     }
 }

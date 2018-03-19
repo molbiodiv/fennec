@@ -5,12 +5,12 @@ namespace AppBundle\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * WebuserData
+ * Project
  *
- * @ORM\Table(name="webuser_data", indexes={@ORM\Index(name="IDX_EEEDEB2749279951", columns={"webuser_id"})})
- * @ORM\Entity(repositoryClass="AppBundle\Repository\User\WebuserDataRepository")
+ * @ORM\Table(name="project", indexes={@ORM\Index(name="IDX_EEEDEB2749279951", columns={"user_id"})})
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\User\ProjectRepository")
  */
-class WebuserData
+class Project
 {
     /**
      * @var array
@@ -36,23 +36,23 @@ class WebuserData
     /**
      * @var int
      *
-     * @ORM\Column(name="webuser_data_id", type="integer")
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @ORM\SequenceGenerator(sequenceName="webuser_data_id_seq", allocationSize=1, initialValue=1)
+     * @ORM\SequenceGenerator(sequenceName="project_id_seq", allocationSize=1, initialValue=1)
      */
-    private $webuserDataId;
+    private $id;
 
     /**
      * @var \AppBundle\Entity\User\FennecUser
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User\FennecUser")
-     * @ORM\JoinColumn(name="webuser_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      */
-    private $webuser;
+    private $user;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\User\Permissions", mappedBy="webuserData")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\User\Permissions", mappedBy="project")
      */
     protected $permissions;
 
@@ -82,7 +82,7 @@ class WebuserData
      *
      * @param array $project
      *
-     * @return WebuserData
+     * @return Project
      */
     public function setProject($project)
     {
@@ -106,7 +106,7 @@ class WebuserData
      *
      * @param string|null $importFilename
      *
-     * @return WebuserData
+     * @return Project
      */
     public function setImportFilename($importFilename = null)
     {
@@ -130,7 +130,7 @@ class WebuserData
      *
      * @param \DateTime|null $importDate
      *
-     * @return WebuserData
+     * @return Project
      */
     public function setImportDate($importDate = null)
     {
@@ -150,36 +150,36 @@ class WebuserData
     }
 
     /**
-     * Get webuserDataId.
+     * Get id.
      *
      * @return int
      */
-    public function getWebuserDataId()
+    public function getId()
     {
-        return $this->webuserDataId;
+        return $this->id;
     }
 
     /**
-     * Set webuser.
+     * Set user.
      *
-     * @param \AppBundle\Entity\User\FennecUser|null $webuser
+     * @param \AppBundle\Entity\User\FennecUser|null $user
      *
-     * @return WebuserData
+     * @return Project
      */
-    public function setWebuser(\AppBundle\Entity\User\FennecUser $webuser = null)
+    public function setUser(\AppBundle\Entity\User\FennecUser $user = null)
     {
-        $this->webuser = $webuser;
+        $this->user = $user;
 
         return $this;
     }
 
     /**
-     * Get webuser.
+     * Get user.
      *
      * @return \AppBundle\Entity\User\FennecUser|null
      */
-    public function getWebuser()
+    public function getUser()
     {
-        return $this->webuser;
+        return $this->user;
     }
 }

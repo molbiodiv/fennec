@@ -4,17 +4,15 @@ namespace AppBundle\Command;
 
 
 use AppBundle\Entity\Data\TraitFormat;
-use AppBundle\Service\DBVersion;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CreateTraitFormatCommand extends ContainerAwareCommand
+class CreateTraitFormatCommand extends AbstractDataDBAwareCommand
 {
     protected function configure()
     {
+        parent::configure();
         $this
         // the name of the command (the part after "bin/console")
         ->setName('app:create-traitformat')
@@ -26,7 +24,6 @@ class CreateTraitFormatCommand extends ContainerAwareCommand
         // the "--help" option
         ->setHelp("This command allows you to create trait types...")
         ->addArgument('format', InputArgument::REQUIRED, 'The name of the new trait format')
-        ->addOption('connection', 'c', InputOption::VALUE_REQUIRED, 'The database version')
     ;
     }
 
@@ -37,11 +34,7 @@ class CreateTraitFormatCommand extends ContainerAwareCommand
             '===================',
             '',
         ]);
-        $connection_name = $input->getOption('connection');
-        if($connection_name == null) {
-            $connection_name = $this->getContainer()->get('doctrine')->getDefaultConnectionName();
-        }
-        $em = $this->getContainer()->get(DBVersion::class)->getEntityManager();
+        $em = $this->initConnection($input);
         $format = $em->getRepository('AppBundle:TraitFormat')->findOneBy(['format' => $input->getArgument('format')]);
         if($format != null){
             $output->writeln('<info>TraitFormat already exists, nothing to do.</info>');

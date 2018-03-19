@@ -8,9 +8,9 @@ use FOS\UserBundle\Model\User as BaseUser;
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\User\FennecUserRepository")
  * @ORM\Table(name="`fennec_user`")
- * ORM\AttributeOverrides({
- *     ORM\AttributeOverride(name="password",
- *          column=ORM\Column(
+ * @ORM\AttributeOverrides({
+ *     @ORM\AttributeOverride(name="password",
+ *          column=@ORM\Column(
  *              nullable=true
  *          ))
  *     })
@@ -54,7 +54,28 @@ class FennecUser extends BaseUser
      * @ORM\Column(type="string",nullable=true)
      */
     private $lastName;
-    
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\User\Permissions", mappedBy="user")
+     */
+    private $permissions;
+
+    /**
+     * @return mixed
+     */
+    public function getPermissions()
+    {
+        return $this->permissions;
+    }
+
+    /**
+     * @param mixed $permissions
+     */
+    public function setPermissions($permissions)
+    {
+        $this->permissions = $permissions;
+    }
+
     /**
      * @return mixed
      */

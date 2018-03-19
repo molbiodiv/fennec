@@ -2,8 +2,8 @@
 
 namespace Test\AppBundle\API\Details;
 
-use Tests\AppBundle\API\WebserviceTestCase;
 use AppBundle\API\Details;
+use Tests\AppBundle\API\WebserviceTestCase;
 
 class TraitsTest extends WebserviceTestCase
 {

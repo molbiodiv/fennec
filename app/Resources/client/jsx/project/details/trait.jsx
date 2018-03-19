@@ -8,10 +8,11 @@ let biom
 
 $('document').ready(async () => {
     biom = await biomPromise
-    getAndShowTraits('#trait-table', 'rows');
-    getAndShowTraits('#trait-table-sample', 'columns');
+    let attribute = $('#project-data').data('attribute');
+    getAndShowTraits('#trait-table', 'rows', attribute);
+    getAndShowTraits('#trait-table-sample', 'columns', attribute);
 
-    function getAndShowTraits(id, dimension){
+    function getAndShowTraits(id, dimension, attribute){
         // Extract row fennec_ids from biom
         var fennec_ids = biom.getMetadata({dimension: dimension, attribute: ['fennec', dbversion, 'fennec_id']})
             .filter( element => element !== null );
@@ -68,6 +69,7 @@ $('document').ready(async () => {
                     render: (data, type, full) => {
                         var href = Routing.generate('trait_details', {
                             'dbversion': dbversion,
+                            'attribute': attribute,
                             'trait_type_id': full.id
                         });
                         return '<a href="' + href + '">' + full.trait + '</a>';
@@ -80,7 +82,8 @@ $('document').ready(async () => {
                             'dbversion': dbversion,
                             'trait_type_id': full.id,
                             'project_id': internalProjectId,
-                            'dimension': dimension
+                            'dimension': dimension,
+                            'attribute': attribute
                         });
                         return '<a href="' + href + '"><i class="fa fa-search"></i></a>';
                     }
@@ -108,8 +111,14 @@ $('document').ready(async () => {
 
 function addTraitToProjectTableAction(traitTypeId, dimension){
     $.ajax({
-            url: Routing.generate('api_details_trait_of_project', {'projectId': internalProjectId, 'traitTypeId': traitTypeId, 'includeCitations': true, 'dimension': dimension, 'dbversion': dbversion}),
+            url: Routing.generate('api_details_trait_of_project', {'dbversion': dbversion}),
             method: "POST",
+            data: {
+                'projectId': internalProjectId,
+                'traitTypeId': traitTypeId,
+                'includeCitations': true,
+                'dimension': dimension
+            },
             success: function (data) {
                 var traitValues;
                 if(data.trait_format === 'numerical'){
@@ -117,7 +126,7 @@ function addTraitToProjectTableAction(traitTypeId, dimension){
                 } else {
                     traitValues = condenseCategoricalTraitValues(data.values)
                 }
-                addTraitToProject(data.name, traitValues, data.citations, biom, dimension, dbversion, internalProjectId, () => window.location.reload())
+                addTraitToProject(data.type, traitValues, data.citations, biom, dimension, dbversion, internalProjectId, () => window.location.reload())
             }
         });
 }

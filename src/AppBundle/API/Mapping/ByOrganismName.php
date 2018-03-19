@@ -2,9 +2,7 @@
 
 namespace AppBundle\API\Mapping;
 
-use AppBundle\Entity\User\FennecUser;
 use AppBundle\Service\DBVersion;
-use Symfony\Component\HttpFoundation\ParameterBag;
 
 class ByOrganismName
 {
@@ -16,7 +14,7 @@ class ByOrganismName
      */
     public function __construct(DBVersion $dbversion)
     {
-        $this->manager = $dbversion->getEntityManager();
+        $this->manager = $dbversion->getDataEntityManager();
     }
 
 

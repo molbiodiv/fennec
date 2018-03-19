@@ -4,17 +4,16 @@ namespace AppBundle\Command;
 
 
 use AppBundle\Entity\Data\TraitType;
-use AppBundle\Service\DBVersion;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CreateTraitTypeCommand extends ContainerAwareCommand
+class CreateTraitTypeCommand extends AbstractDataDBAwareCommand
 {
     protected function configure()
     {
+        parent::configure();
         $this
         // the name of the command (the part after "bin/console")
         ->setName('app:create-traittype')
@@ -26,7 +25,6 @@ class CreateTraitTypeCommand extends ContainerAwareCommand
         // the "--help" option
         ->setHelp("This command allows you to create trait types...")
         ->addArgument('traitname', InputArgument::REQUIRED, 'The name of the new trait type')
-        ->addOption('connection', 'c', InputOption::VALUE_REQUIRED, 'The database version')
         ->addOption('format', 'f', InputOption::VALUE_REQUIRED, 'The trait format (string), must already exist', 'categorical_free')
         ->addOption('description', 'd', InputOption::VALUE_REQUIRED, 'The description of this trait type', null)
         ->addOption('ontology_url', 'o', InputOption::VALUE_REQUIRED, 'The ontology url of this trait type', null)
@@ -41,11 +39,7 @@ class CreateTraitTypeCommand extends ContainerAwareCommand
             '=================',
             '',
         ]);
-        $connection_name = $input->getOption('connection');
-        if($connection_name == null) {
-            $connection_name = $this->getContainer()->get('doctrine')->getDefaultConnectionName();
-        }
-        $em = $this->getContainer()->get(DBVersion::class)->getEntityManager();
+        $em = $this->initConnection($input);
         $format = $em->getRepository('AppBundle:TraitFormat')->findOneBy(['format' => $input->getOption('format')]);
         if($format == null){
             $output->writeln('<error>Provided TraitFormat (--format) does not exist: '.$input->getOption('format').'</error>');

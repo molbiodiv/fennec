@@ -2,9 +2,8 @@
 
 namespace Test\AppBundle\API\Details;
 
-use Symfony\Component\HttpFoundation\ParameterBag;
-use Tests\AppBundle\API\WebserviceTestCase;
 use AppBundle\API\Details;
+use Tests\AppBundle\API\WebserviceTestCase;
 
 class ProjectsTest extends WebserviceTestCase
 {
@@ -38,9 +37,9 @@ class ProjectsTest extends WebserviceTestCase
         $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
             'username' => ProjectsTest::NICKNAME
         ));
-        $projectId = $this->em->getRepository('AppBundle:WebuserData')->findOneBy(array(
-            'webuser' => $user
-        ))->getWebuserDataId();
+        $projectId = $this->em->getRepository('AppBundle:Project')->findOneBy(array(
+            'user' => $user
+        ))->getId();
         $results = $this->detailsProjects->execute($projectId, $user);
         $expected = '{'
             . '"id": "table_1", '

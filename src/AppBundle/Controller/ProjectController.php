@@ -9,17 +9,13 @@
 namespace AppBundle\Controller;
 
 
-use AppBundle\Entity\User\FennecUser;
 use AppBundle\API\Details;
-use AppBundle\Service\DBVersion;
-use phpDocumentor\Reflection\Types\String_;
+use AppBundle\Entity\User\FennecUser;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 
 class ProjectController extends Controller
 {
@@ -66,20 +62,21 @@ class ProjectController extends Controller
     }
 
     /**
-     * @param $request Request
      * @param $dbversion string
      * @param $project_id string
+     * @param $attribute string
      * @param $trait_type_id
      * @param $dimension
+     * @Security("is_granted(attribute, project_id)")
      * @return Response
      * @Route(
-     *     "/project/details/{project_id}/trait/{trait_type_id}/{dimension}",
+     *     "/project/details/{project_id}/{attribute}/trait/{trait_type_id}/{dimension}",
      *     name="project_trait_details",
      *     options={"expose" = true},
      *     requirements={"dimension": "rows|columns"}
      * )
      */
-    public function traitDetailsAction(Request $request, $dbversion, $project_id, $trait_type_id, $dimension){
+    public function traitDetailsAction($attribute, $dbversion, $project_id, $trait_type_id, $dimension){
         $projectTraitDetails = $this->container->get(Details\TraitOfProject::class);
         $includeCitations = true;
         $user = $this->getFennecUser();
@@ -95,7 +92,8 @@ class ProjectController extends Controller
                 'trait' => $traitResult,
                 'project' => $projectResult,
                 'internal_project_id' => $project_id,
-                'dimension' => $dimension
+                'dimension' => $dimension,
+                'attribute' => $attribute
             ]
         );
     }

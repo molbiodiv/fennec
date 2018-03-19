@@ -2,9 +2,8 @@
 
 namespace Tests\AppBundle\API\Mapping;
 
-use Symfony\Component\HttpFoundation\ParameterBag;
-use Tests\AppBundle\API\WebserviceTestCase;
 use AppBundle\API\Mapping;
+use Tests\AppBundle\API\WebserviceTestCase;
 
 class FullByDbxrefIdTest extends WebserviceTestCase
 {

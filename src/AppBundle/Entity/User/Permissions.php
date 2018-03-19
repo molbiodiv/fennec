@@ -31,10 +31,10 @@ class Permissions
     /**
      * @var \AppBundle\Entity\User\FennecUser
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User\FennecUser", cascade={"persist"})
-     * @ORM\JoinColumn(name="webuser_id", referencedColumnName="id", nullable=false)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User\FennecUser", cascade={"persist"}, inversedBy="permissions")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      */
-    private $webuser;
+    private $user;
 
     /**
      * @ORM\Column(type="string")
@@ -42,25 +42,25 @@ class Permissions
     private $permission;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User\WebuserData", inversedBy="permissions")
-     * @ORM\JoinColumn(name="webuser_data_id", referencedColumnName="webuser_data_id", nullable=false)
+     * @ORM\ManyToOne(targetEntity="Project", inversedBy="permissions")
+     * @ORM\JoinColumn(name="project_id", referencedColumnName="id", nullable=false)
      */
-    private $webuserData;
+    private $project;
 
     /**
      * @return FennecUser
      */
-    public function getWebuser()
+    public function getUser()
     {
-        return $this->webuser;
+        return $this->user;
     }
 
     /**
-     * @param FennecUser $webuser
+     * @param FennecUser $user
      */
-    public function setWebuser($webuser)
+    public function setUser($user)
     {
-        $this->webuser = $webuser;
+        $this->user = $user;
     }
 
     /**
@@ -82,17 +82,17 @@ class Permissions
     /**
      * @return mixed
      */
-    public function getWebuserData()
+    public function getProject()
     {
-        return $this->webuserData;
+        return $this->project;
     }
 
     /**
-     * @param mixed $webuserData
+     * @param mixed $project
      */
-    public function setWebuserData($webuserData)
+    public function setProject($project)
     {
-        $this->webuserData = $webuserData;
+        $this->project = $project;
     }
 
 

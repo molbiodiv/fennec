@@ -2,11 +2,10 @@
 
 namespace Tests\AppBundle\API\Edit;
 
-use AppBundle\Entity\User\FennecUser;
-use Doctrine\ORM\EntityManagerInterface;
-use Tests\AppBundle\API\WebserviceTestCase;
 use AppBundle\API\Details;
 use AppBundle\API\Edit;
+use Doctrine\ORM\EntityManagerInterface;
+use Tests\AppBundle\API\WebserviceTestCase;
 
 class UpdateProjectTest extends WebserviceTestCase
 {
@@ -44,9 +43,9 @@ class UpdateProjectTest extends WebserviceTestCase
         $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
             'username' => UpdateProjectTest::NICKNAME
         ));
-        $projectId = $this->em->getRepository('AppBundle:WebuserData')->findOneBy(array(
-            'webuser' => $user
-        ))->getWebuserDataId();
+        $projectId = $this->em->getRepository('AppBundle:Project')->findOneBy(array(
+            'user' => $user
+        ))->getId();
         $results = $this->projectDetails->execute($projectId, $user);
         $biom = json_decode($results['projects'][$projectId]['biom'], true);
         // Check for initial state
@@ -61,15 +60,15 @@ class UpdateProjectTest extends WebserviceTestCase
         $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
             'username' => UpdateProjectTest::NICKNAME
         ));
-        $projectId = $this->em->getRepository('AppBundle:WebuserData')->findOneBy(array(
-            'webuser' => $user
-        ))->getWebuserDataId();
+        $projectId = $this->em->getRepository('AppBundle:Project')->findOneBy(array(
+            'user' => $user
+        ))->getId();
         $results = $this->projectDetails->execute($projectId,$user);
         $biom = json_decode($results['projects'][$projectId]['biom'], true);
         // Now update the project
         $biom['id'] = 'Updated ID';
         $biom['comment'] = 'New comment';
-        $results = $this->updateProject->execute($projectId, $biom, $user);
+        $results = $this->updateProject->execute($projectId, json_encode($biom), $user);
         $this->assertNull($results['error']);
         $this->em->clear();
         $results = $this->projectDetails->execute($projectId,$user);

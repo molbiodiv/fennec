@@ -3,11 +3,11 @@
 namespace AppBundle\API\Listing;
 
 use AppBundle\Entity\Data\Organism;
-use AppBundle\Entity\Data\TraitNumericalEntry;
 use AppBundle\Entity\Data\TraitCategoricalEntry;
+use AppBundle\Entity\Data\TraitNumericalEntry;
 use AppBundle\Entity\Data\TraitType;
 use AppBundle\Entity\User\FennecUser;
-use AppBundle\Entity\User\WebuserData;
+use AppBundle\Entity\User\Project;
 use AppBundle\Service\DBVersion;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
@@ -25,7 +25,7 @@ class Overview
      */
     public function __construct(DBVersion $dbversion, TokenStorage $tokenStorage)
     {
-        $this->dataManager = $dbversion->getEntityManager();;
+        $this->dataManager = $dbversion->getDataEntityManager();;
         $this->userManager = $dbversion->getUserEntityManager();;
         $user = $tokenStorage->getToken()->getUser();
         if (!$user instanceof FennecUser) {
@@ -65,7 +65,7 @@ class Overview
      */
     public function execute(){
         return [
-            'projects' => $this->userManager->getRepository(WebuserData::class)->getNumberOfProjects($this->user),
+            'projects' => $this->userManager->getRepository(Project::class)->getNumberOfProjects($this->user),
             'organisms' => $this->dataManager->getRepository(Organism::class)->getNumber(),
             'trait_entries' =>
                 $this->dataManager->getRepository(TraitCategoricalEntry::class)->getNumber()

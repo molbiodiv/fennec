@@ -7,7 +7,6 @@ use AppBundle\Service\DBVersion;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ListUserCommand extends ContainerAwareCommand
@@ -24,7 +23,6 @@ class ListUserCommand extends ContainerAwareCommand
         // the full command description shown when running the command with
         // the "--help" option
         ->setHelp("This command allows you to list all existing users...")
-        ->addOption('connection', 'c', InputOption::VALUE_REQUIRED, 'The database version')
     ;
     }
 

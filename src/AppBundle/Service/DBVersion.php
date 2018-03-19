@@ -2,7 +2,7 @@
 
 namespace AppBundle\Service;
 
-use \Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
 class DBVersion
 {
@@ -53,8 +53,12 @@ class DBVersion
         $this->connectionName = $dbversion;
     }
 
-    public function getEntityManager(){
+    public function getDataEntityManager(){
         return $this->orm->getManager($this->connectionName);
+    }
+
+    public function getDataEntityManagerForVersion($dbversion){
+        return $this->orm->getManager($dbversion);
     }
 
     public function getUserEntityManager(){
