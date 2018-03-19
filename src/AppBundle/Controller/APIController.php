@@ -91,6 +91,22 @@ class APIController extends Controller
      *     response=200,
      *     description="Returns details of trait entries"
      * )
+     * @SWG\Parameter(
+     *     name="trait_entry_ids[]",
+     *     in="query",
+     *     type="array",
+     *     collectionFormat="multi",
+     *     items={
+     *       "type": "int"
+     *     },
+     *     description="ids of the trait entries for which details are desired"
+     * )
+     * @SWG\Parameter(
+     *     name="trait_format",
+     *     in="query",
+     *     type="string",
+     *     description="trait format, usually one of 'numerical' or 'categorical_free'"
+     * )
      * @SWG\Tag(name="Details")
      * @param Request $request
      * @return Response $response
