@@ -20,6 +20,7 @@ So you want to contribute to the development of FENNEC - awesome!
 
 ### Local setup
 As there are quite a few dependencies and setting everything up properly is highly dependent on the environment, we suggest using docker.
+We provide ready to use docker containers with all dependencies bundled for easy setup and usage.
 A local setup is not impossible but all current developers use the docker setup.
 Therefore, we are best able to assist with that.
 If you really need a local setup have a look at the dockerfile to see how things are installed there.
