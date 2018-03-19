@@ -1,16 +1,32 @@
-<h3>
-    Upload projects in <a href="http://biom-format.org/documentation/format_versions/biom-1.0.html">biom format</a>
-    <i data-toggle="tooltip" title="Version 1.0 is stored as is, version 2.x is converted to 1.0 on the web server" class="fa fa-question-circle"></i>
-</h3>
 {% include 'project/overview.actions.html.twig' %}
-<form>
-    <input class="btn" id="project-fileupload" type="file" name="files[]" multiple>
-</form>
-<i class="fa fa-refresh fa-spin" style="font-size:24px; display:none" id="project-upload-busy-indicator"></i>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            Upload
+        </h3>
+    </div>
+    <div class="panel-body">
+        Supported formats are <a href="http://biom-format.org/documentation/format_versions/biom-1.0.html">biom</a> version 1.0 and version 2.1 or tsv format (observation matrix only).
+        Your project is converted to biom format version 1.0 on the web server. For tsv data you have to add metadata manually later.
+        More information is available in <a href="http://fennec.readthedocs.io/en/develop/user.html#upload-own-data">the documentation</a>.
+        If you want to try some example data you can use <a href="https://raw.githubusercontent.com/molbiodiv/fennec/master/doc/beta/Case%20Study%202017.biom">this biom file</a>.
+        <form>
+            <input class="btn fileinput" id="project-fileupload" type="file" name="files[]" style="display: none" multiple>
+            <label for="project-fileupload">Choose file(s)</label>
+        </form>
+        <i class="fa fa-refresh fa-spin" style="font-size:24px; display:none" id="project-upload-busy-indicator"></i>
+    </div>
+</div>
 
-<h3> My projects </h3>
-<table id="project-table" class="table project-table project-table-striped table-bordered" width="100%" cellspacing="0">
-    <thead>
-    <tr><th>ID</th><th>Import Filename</th><th>Import Date</th><th># OTUs</th><th># Samples</th><th>Status</th><th>Actions</th></tr>
-    </thead>
-</table>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title"> My projects </h3>
+    </div>
+    <div class="panel-body">
+        <table id="project-table" class="table project-table project-table-striped table-bordered" width="100%" cellspacing="0">
+            <thead>
+            <tr><th>ID</th><th>Import Filename</th><th>Import Date</th><th># OTUs</th><th># Samples</th><th>Status</th><th>Actions</th></tr>
+            </thead>
+        </table>
+    </div>
+</div>
