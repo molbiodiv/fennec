@@ -69,7 +69,7 @@ class APIController extends Controller
      *     name="limit",
      *     in="query",
      *     type="integer",
-     *     description="max number of traits to return"
+     *     description="max number of traits to return per trait format (so for databases with numerical and categorical traits you might receive twice this number)"
      * )
      * @SWG\Tag(name="Listing")
      *
