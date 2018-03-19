@@ -48,6 +48,10 @@ docker-compose -f docker/fennec/docker-compose-dev.yml up -d
 Congratulations! You are good to go.
 Point your browser to [localhost:3141](http://localhost:3141).
 
+**Important:** The first time you run `docker-compose up` all installation/initialization steps will be performed and a database with example data is created.
+After that the file `.docker.initialized` is created in the root of your repository which will skip the initialization on subsequent runs of `docker-compose up`.
+If you need re-initialization remove this file but be aware that this might fail if the database already contains data.
+
 #### Configuration
 
 The default config files that were created with `init_dev.sh` should be ok to get started but you might want to update `app/config/parameters.yml` with:
@@ -57,7 +61,7 @@ The default config files that were created with `init_dev.sh` should be ok to ge
  - secret
 
 The first two are required for "Login with GitHub", see [this guide](https://developer.github.com/apps/building-oauth-apps/creating-an-oauth-app/) for details.
-The third one is your []Google Analytics tracking ID](https://support.google.com/analytics/answer/1008080?hl=en), with an empty ID, Google Analytics will be disabled.
+The third one is your [Google Analytics tracking ID](https://support.google.com/analytics/answer/1008080?hl=en), with an empty ID, Google Analytics will be disabled.
 The secret should be replaced with a random string as [documented by symfony](https://symfony.com/doc/3.4/reference/configuration/framework.html#secret).
 
 If you need to modify the docker-compose file (e.g. hard code your user id for better integration into your IDE, or for changing the db volume locations) you can do this:
