@@ -270,6 +270,16 @@ class APIController extends Controller
      *     response=200,
      *     description="List scientific names for fennec_ids"
      * )
+     * @SWG\Parameter(
+     *     name="ids[]",
+     *     in="query",
+     *     type="array",
+     *     collectionFormat="multi",
+     *     items={
+     *       "type": "int"
+     *     },
+     *     description="List of fennec_ids for which the scientific name is desired"
+     * )
      * @SWG\Tag(name="Listing")
      * @param Request $request
      * @return Response $response
