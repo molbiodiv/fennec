@@ -97,6 +97,7 @@ class APIController extends Controller
      *     in="query",
      *     type="array",
      *     collectionFormat="multi",
+     *     required=true,
      *     items={
      *       "type": "int"
      *     },
@@ -106,6 +107,7 @@ class APIController extends Controller
      *     name="trait_format",
      *     in="query",
      *     type="string",
+     *     required=true,
      *     description="trait format, usually one of 'numerical' or 'categorical_free'"
      * )
      * @SWG\Tag(name="Details")
@@ -198,6 +200,7 @@ class APIController extends Controller
      *         in="formData",
      *         type="array",
      *         collectionFormat="multi",
+     *         required=true,
      *         items={
      *            "type"="int"
      *         },
@@ -217,11 +220,37 @@ class APIController extends Controller
     /**
      * Get trait details for one trait type in a given project
      *
-     * @SWG\Response(
-     *     response=200,
-     *     description="Returns details of a trait in the context of a project"
+     * @Operation(
+     *     consumes={"application/x-www-form-urlencoded"},
+     *     produces={"application/json"},
+     *     tags={"Details"},
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Returns details of a trait in the context of a project"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="traitTypeId",
+     *         in="formData",
+     *         type="integer",
+     *         required=true,
+     *         description="id of the desired trait type"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="projectId",
+     *         in="formData",
+     *         type="integer",
+     *         required=true,
+     *         description="id of the project"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="dimension",
+     *         in="formData",
+     *         type="string",
+     *         enum={"rows", "columns"},
+     *         required=true,
+     *         description="either rows or columns"
+     *     )
      * )
-     * @SWG\Tag(name="Details")
      * @param Request $request
      * @return Response $response
      * @Route("/api/details/traitOfProject", name="api_details_trait_of_project", options={"expose"=true}, methods={"POST"})
