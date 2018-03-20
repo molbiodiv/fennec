@@ -150,7 +150,16 @@ class APIController extends Controller
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Delete a given project"
+     *     description="Delete a given project",
+     *     examples = {
+     *     "application/json": {
+     *             "error": null
+     *         }
+     *     },
+     *     @SWG\Schema(
+     *         type="object",
+     *         @SWG\Property(property="error", type="string|null"),
+     *     )
      * )
      * @SWG\Parameter(
      *     name="projectId",
@@ -492,7 +501,18 @@ class APIController extends Controller
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Share a project with another user"
+     *     description="Share a project with another user",
+     *     examples = {
+     *     "application/json": {
+     *             "error": false,
+     *             "message": "The permission view was added to user demo successfully."
+     *         }
+     *     },
+     *     @SWG\Schema(
+     *         type="object",
+     *         @SWG\Property(property="error", type="boolean"),
+     *         @SWG\Property(property="message", type="string")
+     *     )
      * )
      * @SWG\Parameter(
      *     name="projectId",
