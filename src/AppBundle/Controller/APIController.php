@@ -591,7 +591,14 @@ class APIController extends Controller
      *
      * @SWG\Response(
      *     response=200,
-     *     description="List scientific names for fennec_ids"
+     *     description="List scientific names for fennec_ids",
+     *     examples={
+     *         "application/json"={
+     *              "1": "Citrus",
+     *              "56": "Neochloris aquatica",
+     *              "254": "Picea abies"
+     *          }
+     *     }
      * )
      * @SWG\Parameter(
      *     name="ids[]",
