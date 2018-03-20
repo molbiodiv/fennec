@@ -130,7 +130,7 @@ class APIController extends Controller
      * )
      * @SWG\Parameter(
      *     name="Cookie",
-     *     description="Currently you have to set the PHPSESSID cookie until api key authentication is implemented\nPHPSESSID=<your-phpsessid>",
+     *     description="Currently you have to set the PHPSESSID cookie until api key authentication is implemented. If you are logged in the web interface you can try it. PHPSESSID=<your-phpsessid>",
      *     type="string",
      *     in="header"
      * )
@@ -249,6 +249,19 @@ class APIController extends Controller
      *         enum={"rows", "columns"},
      *         required=true,
      *         description="either rows or columns"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="includeCitations",
+     *         in="formData",
+     *         type="boolean",
+     *         default=false,
+     *         description="include trait citations in the result"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="Cookie",
+     *         description="Currently you have to set the PHPSESSID cookie until api key authentication is implemented. If you are logged in the web interface you can try it. PHPSESSID=<your-phpsessid>",
+     *         type="string",
+     *         in="header"
      *     )
      * )
      * @param Request $request
