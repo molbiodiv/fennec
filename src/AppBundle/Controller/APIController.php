@@ -204,7 +204,38 @@ class APIController extends Controller
      *     tags={"Projects"},
      *     @SWG\Response(
      *         response=200,
-     *         description="Returns success status for project upload"
+     *         description="Returns success status for project upload",
+     *         examples={
+     *             "application/json": {
+     *                 "files": {
+     *                     {
+     *                         "name": "example.biom",
+     *                         "size": 128381,
+     *                         "error": null
+     *                     }
+     *                 }
+     *             }
+     *         },
+     *         @SWG\Schema(
+     *             @SWG\Property(
+     *                 property="files",
+     *                 type="array",
+     *                 @SWG\Items(
+     *                     @SWG\Property(
+     *                         property="name",
+     *                         type="string"
+     *                     ),
+     *                     @SWG\Property(
+     *                         property="size",
+     *                         type="integer",
+     *                     ),
+     *                     @SWG\Property(
+     *                         property="error",
+     *                         type="null|string",
+     *                     )
+     *                 )
+     *             )
+     *         )
      *     ),
      *     @SWG\Parameter(
      *         name="Cookie",
