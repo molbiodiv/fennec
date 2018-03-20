@@ -58,7 +58,21 @@ class APIController extends Controller
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Returns a list of traits"
+     *     description="Returns a list of traits",
+     *     examples={
+     *         "application/json"={
+     *             {
+     *               "traitTypeId": 1,
+     *               "type": "Plant Habit",
+     *               "frequency": 48842
+     *             },
+     *             {
+     *               "traitTypeId": 2,
+     *               "type": "Plant Life Cycle Habit",
+     *               "frequency": 16819
+     *             }
+     *         }
+     *     }
      * )
      * @SWG\Parameter(
      *     name="search",
