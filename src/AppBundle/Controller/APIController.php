@@ -433,6 +433,31 @@ class APIController extends Controller
      *     response=200,
      *     description="Share a project with another user"
      * )
+     * @SWG\Parameter(
+     *     name="projectId",
+     *     description="the id of the project to share",
+     *     type="integer",
+     *     in="path"
+     * )
+     * @SWG\Parameter(
+     *     name="email",
+     *     description="email of the fennec user with whom you want to share the project",
+     *     type="string",
+     *     in="query"
+     * )
+     * @SWG\Parameter(
+     *     name="attribute",
+     *     description="the permission you want to grant",
+     *     type="string",
+     *     enum={ "view", "edit" },
+     *     in="query"
+     * )
+     * @SWG\Parameter(
+     *     name="Cookie",
+     *     description="Currently you have to set the PHPSESSID cookie until api key authentication is implemented. If you are logged in the web interface you can try it. PHPSESSID=<your-phpsessid>",
+     *     type="string",
+     *     in="header"
+     * )
      * @SWG\Tag(name="Projects")
      * @param Request $request
      * @param $projectId
