@@ -25,7 +25,23 @@ class APIController extends Controller
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Returns a list of organisms"
+     *     description="Returns a list of organisms",
+     *     examples={
+     *         "application/json": {
+     *             {
+     *                 "fennecId": 4757,
+     *                 "scientificName": "Bellis"
+     *             },
+     *             {
+     *                 "fennecId": 4758,
+     *                 "scientificName": "Bellis perennis"
+     *             },
+     *             {
+     *                 "fennecId": 39715,
+     *                 "scientificName": "Bellis annua"
+     *             }
+     *         }
+     *     }
      * )
      * @SWG\Parameter(
      *     name="search",
