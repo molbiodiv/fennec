@@ -403,11 +403,25 @@ class APIController extends Controller
     /**
      * Map scientific names to fennec_ids
      *
-     * @SWG\Response(
-     *     response=200,
-     *     description="Map a list of scientific names against those stored in fennec to get fennec_ids"
+     * @Operation(
+     *     consumes={"application/x-www-form-urlencoded"},
+     *     tags={"Mapping"},
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Map a list of scientific names against those stored in fennec to get fennec_ids"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="ids[]",
+     *         in="formData",
+     *         type="array",
+     *         collectionFormat="multi",
+     *         items={
+     *             "type"="string"
+     *         },
+     *         required=true,
+     *         description="scientific names"
+     *     ),
      * )
-     * @SWG\Tag(name="Mapping")
      * @param Request $request
      * @return Response $response
      * @Route("/api/mapping/byOrganismName", name="api_mapping_byOrganismName", options={"expose"=true}, methods={"POST"})
