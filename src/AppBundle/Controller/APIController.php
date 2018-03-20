@@ -90,7 +90,35 @@ class APIController extends Controller
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Returns details of trait entries"
+     *     description="Returns details of trait entries",
+     *     examples={
+     *         "application/json"={
+     *              {
+     *                 "1": {
+     *                   "id": 1,
+     *                   "fennec": 55991,
+     *                   "originUrl": "http://apiv3.iucnredlist.org/api/v3/species/page/",
+     *                   "valueName": "LC",
+     *                   "valueDefinition": "http://www.iucnredlist.org/static/categories_criteria_2_3",
+     *                   "typeName": "IUCN Threat Status",
+     *                   "unit": null,
+     *                   "typeDefinition": "",
+     *                   "citation": "IUCN 2016. IUCN Red List of Threatened Species. Version 2016-2 <www.iucnredlist.org>"
+     *                 },
+     *                 "2": {
+     *                   "id": 2,
+     *                   "fennec": 90856,
+     *                   "originUrl": "http://apiv3.iucnredlist.org/api/v3/species/page/",
+     *                   "valueName": "NT",
+     *                   "valueDefinition": "http://www.iucnredlist.org/static/categories_criteria_2_3",
+     *                   "typeName": "IUCN Threat Status",
+     *                   "unit": null,
+     *                   "typeDefinition": "",
+     *                   "citation": "IUCN 2016. IUCN Red List of Threatened Species. Version 2016-2 <www.iucnredlist.org>"
+     *                 }
+     *              }
+     *          }
+     *     }
      * )
      * @SWG\Parameter(
      *     name="trait_entry_ids[]",
