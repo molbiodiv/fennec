@@ -154,7 +154,31 @@ class APIController extends Controller
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Returns the list of projects of the current user"
+     *     description="Returns the list of projects of the current user",
+     *     examples={
+     *         "application/json"={
+     *               "data": {
+     *                 {
+     *                   "internal_project_id": 2,
+     *                   "id": "No Table ID",
+     *                   "import_date": "2018-03-19 13:27:24",
+     *                   "rows": 1002,
+     *                   "columns": 446,
+     *                   "import_filename": "J.biom",
+     *                   "permissionStatus": "owner"
+     *                 },
+     *                 {
+     *                   "internal_project_id": 1,
+     *                   "id": "Case Study 2017",
+     *                   "import_date": "2018-03-19 12:57:20",
+     *                   "rows": 216,
+     *                   "columns": 324,
+     *                   "import_filename": "Case Study 2017.biom",
+     *                   "permissionStatus": "owner"
+     *                 }
+     *             }
+     *         }
+     *     }
      * )
      * @SWG\Parameter(
      *     name="Cookie",
