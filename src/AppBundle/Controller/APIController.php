@@ -250,13 +250,6 @@ class APIController extends Controller
      *     in="query"
      * )
      * @SWG\Parameter(
-     *     name="attribute",
-     *     description="permission status",
-     *     type="string",
-     *     enum={ "owner", "edit", "view" },
-     *     in="query"
-     * )
-     * @SWG\Parameter(
      *     name="Cookie",
      *     description="Currently you have to set the PHPSESSID cookie until api key authentication is implemented. If you are logged in the web interface you can try it. PHPSESSID=<your-phpsessid>",
      *     type="string",
@@ -269,10 +262,9 @@ class APIController extends Controller
      */
     public function deleteProjectsAction(Request $request){
         $projectId = $request->query->get('projectId');
-        $permission = $request->query->get('attribute');
         $deleteProjects = $this->container->get(Delete\Projects::class);
         $user = $this->getFennecUser();
-        $result = $deleteProjects->execute($user, $projectId, $permission);
+        $result = $deleteProjects->execute($user, $projectId);
         return $this->createResponse($result);
     }
 
