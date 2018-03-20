@@ -152,6 +152,25 @@ class APIController extends Controller
      *     response=200,
      *     description="Delete a given project"
      * )
+     * @SWG\Parameter(
+     *     name="projectId",
+     *     description="the id of the project to delete",
+     *     type="integer",
+     *     in="query"
+     * )
+     * @SWG\Parameter(
+     *     name="attribute",
+     *     description="permission status",
+     *     type="string",
+     *     enum={ "owner", "edit", "view" },
+     *     in="query"
+     * )
+     * @SWG\Parameter(
+     *     name="Cookie",
+     *     description="Currently you have to set the PHPSESSID cookie until api key authentication is implemented. If you are logged in the web interface you can try it. PHPSESSID=<your-phpsessid>",
+     *     type="string",
+     *     in="header"
+     * )
      * @SWG\Tag(name="Projects")
      * @param Request $request
      * @return Response $response
