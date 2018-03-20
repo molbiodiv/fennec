@@ -306,7 +306,32 @@ class APIController extends Controller
      *     tags={"Details"},
      *     @SWG\Response(
      *         response=200,
-     *         description="Returns details of a trait in the context of a project"
+     *         description="Returns details of a trait in the context of a project",
+     *         examples={
+     *            "application/json"={
+     *     {
+     *           "traitTypeId": 1,
+     *           "type": "Plant Habit",
+     *           "ontologyUrl": "http://eol.org/schema/terms/PlantHabit",
+     *           "trait_format_id": 1,
+     *           "description": "general growth form, including size and branching. Some organisms have different growth habits depending on environment or location",
+     *           "unit": null,
+     *           "format": "categorical_free",
+     *           "values": {
+     *             "forb/herb": {
+     *               3249,
+     *               109820,
+     *               2783
+     *             },
+     *             "climbing plant": {
+     *               20223
+     *             }
+     *           },
+     *           "numberOfOrganisms": 4
+     *         }
+     *     }
+     *     }
+     *
      *     ),
      *     @SWG\Parameter(
      *         name="traitTypeId",
