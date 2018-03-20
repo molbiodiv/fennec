@@ -369,7 +369,20 @@ class APIController extends Controller
      *     tags={"Mapping"},
      *     @SWG\Response(
      *         response=200,
-     *         description="Map a list of identifiers against those stored in fennec to get fennec_ids"
+     *         description="Map a list of identifiers against those stored in fennec to get fennec_ids",
+     *         examples={
+     *             "application/json":
+     *                 {
+     *                     "59430": 4757,
+     *                     "467843": 4758,
+     *                     "1234": null
+     *                 }
+     *
+     *         },
+     *         @SWG\Schema(
+     *             type="object",
+     *             @SWG\Property(property="source_id", type="array<int>|int|null", description="Mapping from source_id to fennec_id")
+     *         )
      *     ),
      *     @SWG\Parameter(
      *         name="ids[]",
@@ -408,7 +421,20 @@ class APIController extends Controller
      *     tags={"Mapping"},
      *     @SWG\Response(
      *         response=200,
-     *         description="Map a list of scientific names against those stored in fennec to get fennec_ids"
+     *         description="Map a list of scientific names against those stored in fennec to get fennec_ids",
+     *         examples={
+     *             "application/json":
+     *                 {
+     *                     "Bellis": 4757,
+     *                     "Bellis perennis": 4758,
+     *                     "Bla": null
+     *                 }
+     *
+     *         },
+     *         @SWG\Schema(
+     *             type="object",
+     *             @SWG\Property(property="scientific_name", type="array<int>|int|null", description="Mapping from scientific names to fennec_id")
+     *         )
      *     ),
      *     @SWG\Parameter(
      *         name="ids[]",
