@@ -322,11 +322,34 @@ class APIController extends Controller
     /**
      * Update a project
      *
-     * @SWG\Response(
-     *     response=200,
-     *     description="Returns an error object indicating whether the update was successful"
+     * @Operation(
+     *     consumes={"application/x-www-form-urlencoded"},
+     *     tags={"Projects"},
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Returns an error object indicating whether the update was successful"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="Cookie",
+     *         description="Currently you have to set the PHPSESSID cookie until api key authentication is implemented. If you are logged in the web interface you can try it. PHPSESSID=<your-phpsessid>",
+     *         type="string",
+     *         in="header"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="projectId",
+     *         in="formData",
+     *         type="integer",
+     *         required=true,
+     *         description="id of the project"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="biom",
+     *         description="json encoded string containing the updated project in biom version 1.0",
+     *         in="formData",
+     *         required=true,
+     *         type="string",
+     *     )
      * )
-     * @SWG\Tag(name="Projects")
      * @param Request $request
      * @return Response $response
      * @Route("/api/edit/updateProject", name="api_edit_update_project", options={"expose"=true}, methods={"POST"})
