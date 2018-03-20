@@ -364,11 +364,32 @@ class APIController extends Controller
     /**
      * Map database identifiers (e.g. NCBI taxids) to fennec_ids
      *
-     * @SWG\Response(
-     *     response=200,
-     *     description="Map a list of identifiers against those stored in fennec to get fennec_ids"
+     * @Operation(
+     *     consumes={"application/x-www-form-urlencoded"},
+     *     tags={"Mapping"},
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Map a list of identifiers against those stored in fennec to get fennec_ids"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="ids[]",
+     *         in="formData",
+     *         type="array",
+     *         collectionFormat="multi",
+     *         items={
+     *             "type"="string"
+     *         },
+     *         required=true,
+     *         description="ids from the source database (e.g. eol page_ids, ncbi taxids)"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="db",
+     *         description="name of the source database (e.g. EOL, ncbi_taxonomy)",
+     *         in="formData",
+     *         required=true,
+     *         type="string",
+     *     )
      * )
-     * @SWG\Tag(name="Mapping")
      * @param Request $request
      * @return Response $response
      * @Route("/api/mapping/byDbxrefId", name="api_mapping_byDbxrefId", options={"expose"=true}, methods={"POST"})
