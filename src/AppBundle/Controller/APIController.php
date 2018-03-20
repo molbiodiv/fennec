@@ -367,7 +367,18 @@ class APIController extends Controller
      *     tags={"Projects"},
      *     @SWG\Response(
      *         response=200,
-     *         description="Returns an error object indicating whether the update was successful"
+     *         description="Returns an error object indicating whether the update was successful",
+     *         examples={
+     *             "application/json":
+     *                 {
+     *                     "error": null
+     *                 }
+     *
+     *         },
+     *         @SWG\Schema(
+     *             type="object",
+     *             @SWG\Property(property="error", type="null|string")
+     *         )
      *     ),
      *     @SWG\Parameter(
      *         name="Cookie",
