@@ -188,11 +188,32 @@ class APIController extends Controller
     /**
      * Upload new projects
      *
-     * @SWG\Response(
-     *     response=200,
-     *     description="Returns success status for project upload"
+     * Due to limitation of this documentation frontend 'Try it' does not work here (files not uploaded).
+     *
+     * @Operation(
+     *     consumes={"multipart/form-data"},
+     *     tags={"Projects"},
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Returns success status for project upload"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="Cookie",
+     *         description="Currently you have to set the PHPSESSID cookie until api key authentication is implemented. If you are logged in the web interface you can try it. PHPSESSID=<your-phpsessid>",
+     *         type="string",
+     *         in="header"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="files",
+     *         description="Files to upload. Send as 'multipart/form-data'.",
+     *         in="formData",
+     *         required=true,
+     *         type="array",
+     *         items={
+     *             "type"="file"
+     *         }
+     *     )
      * )
-     * @SWG\Tag(name="Projects")
      * @param Request $request
      * @return Response $response
      * @Route("/api/upload/projects", name="api_upload_projects", options={"expose"=true}, methods={"POST"})
