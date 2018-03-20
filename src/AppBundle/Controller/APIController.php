@@ -556,7 +556,11 @@ class APIController extends Controller
      *                 {
      *                     "59430": 4757,
      *                     "467843": 4758,
-     *                     "1234": null
+     *                     "1234": null,
+     *                     "9876": {
+     *                         4567,
+     *                         7654
+     *                     }
      *                 }
      *
      *         },
@@ -608,7 +612,11 @@ class APIController extends Controller
      *                 {
      *                     "Bellis": 4757,
      *                     "Bellis perennis": 4758,
-     *                     "Bla": null
+     *                     "Bla": null,
+     *                     "ambiguous": {
+     *                          1234,
+     *                          4321
+     *                     }
      *                 }
      *
      *         },
