@@ -34,11 +34,18 @@ Now create a folder for the fennec instance on the target machine and download t
     If you want to have multiple fennec instances on the same host make sure to use different directory names.
     In the following it is assumed that ``docker-compose`` is always executed from inside your fennec directory.
 
-.. NOTE::
+Have a look at the ``docker-compose.yml`` file and edit it as needed (e.g. adjust the port you want to use).
+Now it is time to create and initialize the fennec instance::
 
-    When commands should be executed 'inside the docker container', that means that you should enter the ``fennec_web`` container via::
+    docker-compose up -d
+    # wait a couple of seconds to allow the databases to boot
+    # Now initialize the userdb and the default_data db
+    docker-compose exec web /fennec/bin/console doctrine:schema:create --em userdb
+    docker-compose exec web /fennec/bin/console doctrine:schema:create --em default_data
+    docker-compose exec web /fennec/bin/console doctrine:fixtures:load --em default_data -n
 
-        docker exec -it fennec_web /bin/bash
+Congratulations, Fennec is now running on http://localhost .
+However, Fennec does not contain any data, yet.
 
 Configuration
 -------------
