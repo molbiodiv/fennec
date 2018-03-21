@@ -204,11 +204,10 @@ The European and Mediterranean Plant Protection Organization (EPPO) provides a l
 This categorizations can be obtained as csv file from: https://gd.eppo.int/rppo/EPPO/categorization.csv
 In order to import this file into FENNEC execute those commands in the docker container::
 
-    curl "https://gd.eppo.int/rppo/EPPO/categorization.csv" >/tmp/eppo_categorization.csv
-    perl -pe 's/"//g' /tmp/eppo_categorization.csv | perl -F"," -ane 'print "$F[3]\t$F[1]\t\tEPPO (2017) EPPO Global Database (available online). https://gd.eppo.int\thttps://gd.eppo.int/rppo/EPPO/categorization.csv\n" if($F[6]=="")' >/tmp/eppo_categorization.tsv
-    /fennec/bin/console app:create-traittype --format categorical_free --description "List of invasive alien species by the European and Mediterranean Plant Protection Organization (EPPO)" --ontology_url "https://www.eppo.int/INVASIVE_PLANTS/ias_lists.htm" "EPPO Categorization"
-    /fennec/bin/console app:create-webuser EPPO # Note user-id for next command
-    /fennec/bin/console app:import-trait-entries --traittype "EPPO Categorization" --user-id 2 --mapping scientific_name --skip-unmapped --public --default-citation "EPPO (2017) EPPO Global Database (available online). https://gd.eppo.int" /tmp/eppo_categorization.tsv
+    curl "https://gd.eppo.int/rppo/EPPO/categorization.csv" >data/eppo_categorization.csv
+    perl -pe 's/"//g' data/eppo_categorization.csv | perl -F"," -ane 'print "$F[3]\t$F[1]\t\tEPPO (2017) EPPO Global Database (available online). https://gd.eppo.int\thttps://gd.eppo.int/rppo/EPPO/categorization.csv\n" if($F[6]=="")' >data/eppo_categorization.tsv
+    docker-compose exec web /fennec/bin/console app:create-traittype --format categorical_free --description "List of invasive alien species by the European and Mediterranean Plant Protection Organization (EPPO)" --ontology_url "https://www.eppo.int/INVASIVE_PLANTS/ias_lists.htm" "EPPO Categorization"
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "EPPO Categorization" --provider EPPO --description "European and Mediterranean Plant Protection Organization (EPPO) https://www.eppo.int/" --mapping scientific_name --skip-unmapped --public --default-citation "EPPO (2017) EPPO Global Database (available online). https://gd.eppo.int" /data/eppo_categorization.tsv
 
 World Crops Database
 ^^^^^^^^^^^^^^^^^^^^
