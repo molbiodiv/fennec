@@ -27,6 +27,8 @@ Now create a folder for the fennec instance on the target machine and download t
     # Get initial versions of the main configuration file and the contact page
     wget -O parameters.yml https://raw.githubusercontent.com/molbiodiv/fennec/master/app/config/parameters.yml.dist
     wget -O custom_contact.html.twig https://raw.githubusercontent.com/molbiodiv/fennec/master/app/Resources/views/misc/missing_contact.html.twig
+    # Create empty data folder with correct owner
+    mkdir data
 
 .. NOTE::
 
@@ -108,16 +110,15 @@ Loading organisms
 NCBI Taxonomy
 ^^^^^^^^^^^^^
 
-We will demonstrate loading organisms into the database using `NCBI Taxonomy <https://www.ncbi.nlm.nih.gov/taxonomy>`_.
+We will demonstrate loading organisms into the ``default_data`` database using `NCBI Taxonomy <https://www.ncbi.nlm.nih.gov/taxonomy>`_.
 Inside the docker container execute the following commands::
 
-    cd /tmp
-    curl ftp://ftp.ncbi.nih.gov/pub/taxonomy/taxdump.tar.gz >taxdump.tar.gz
-    tar xzvf taxdump.tar.gz
-    grep "scientific name" names.dmp | perl -F"\t" -ane 'print "$F[2]\t$F[0]\n"' >ncbi_organisms.tsv
-    /fennec/bin/console app:import-organism-db --provider ncbi_taxonomy --description "NCBI Taxonomy" /tmp/ncbi_organisms.tsv
+    curl ftp://ftp.ncbi.nih.gov/pub/taxonomy/taxdump.tar.gz >data/taxdump.tar.gz
+    tar xzvf data/taxdump.tar.gz -C data
+    grep "scientific name" data/names.dmp | perl -F"\t" -ane 'print "$F[2]\t$F[0]\n"' >data/ncbi_organisms.tsv
+    docker-compose exec web /fennec/bin/console app:import-organism-db --provider ncbi_taxonomy /data/ncbi_organisms.tsv
 
-The last step will take a couple of minutes but after that more than 1.6 million organisms will be stored in the database with their scientific name and NCBI taxid.
+The last step will take a couple of minutes but after that more than 1.7 million organisms will be stored in the database with their scientific name and NCBI taxid.
 
 .. ATTENTION::
 
@@ -131,13 +132,10 @@ The last step will take a couple of minutes but after that more than 1.6 million
 In order to add taxonomic relationships follow those steps::
 
     # Create a fennec_id to ncbi_taxid map (will be obsolete in the future)
-    PGPASSWORD=fennec psql -F $'\t' -At -h db -U fennec -c "SELECT fennec_id,identifier as  ncbi_taxid FROM fennec_dbxref, db WHERE fennec_dbxref.db_id=db.db_id AND db.name='ncbi_taxonomy'" >fennec2ncbi.tsv
-    # Synonyms are currently not used at all
-    # perl -F"\t" -ane 'BEGIN{open IN, "<fennec2ncbi.tsv";while(<IN>){chomp;($f,$n)=split(/\t/);$n2f{$n}=$f}} print "$n2f{$F[0]}\t$F[2]\t$F[6]\n" if($F[6] eq "synonym")' names.dmp >ncbi_synonyms.tsv
-    # python fennec-cli/bin/import_organism_names.py --db-host db ncbi_synonyms.tsv
-    perl -F"\t" -ane 'BEGIN{open IN, "<fennec2ncbi.tsv";while(<IN>){chomp;($f,$n)=split(/\t/);$n2f{$n}=$f}} print "$n2f{$F[0]}\t$n2f{$F[2]}\t$F[4]\n"' nodes.dmp >ncbi_taxonomy.tsv
-    git clone https://github.com/molbiodiv/fennec-cli
-    PGPASSWORD=fennec perl fennec-cli/bin/import_taxonomy.pl --input ncbi_taxonomy.tsv --provider ncbi_taxonomy --db-host db
+    docker-compose exec -T datadb psql -U fennec_data -F $'\t' -At -c "SELECT fennec_id,identifier as ncbi_taxid FROM fennec_dbxref, db WHERE fennec_dbxref.db_id=db.id AND db.name='ncbi_taxonomy';" >data/fennec2ncbi.tsv
+    perl -F"\t" -ane 'BEGIN{open IN, "<data/fennec2ncbi.tsv";while(<IN>){chomp;($f,$n)=split(/\t/);$n2f{$n}=$f}} print "$n2f{$F[0]}\t$n2f{$F[2]}\t$F[4]\n"' data/nodes.dmp >data/ncbi_taxonomy.tsv
+    wget -O data/import_taxonomy.pl https://raw.githubusercontent.com/molbiodiv/fennec-cli/master/bin/import_taxonomy.pl
+    docker-compose exec web perl /data/import_taxonomy.pl --input /data/ncbi_taxonomy.tsv --provider ncbi_taxonomy --db-host datadb --db-user fennec_data --db-password fennec_data --db-name fennec_data
 
 Again the last step will take some minutes (even after printing "Script finished") and needs a few GB of memory.
 
