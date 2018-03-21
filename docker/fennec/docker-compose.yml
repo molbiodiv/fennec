@@ -25,4 +25,6 @@ services:
       - userdb
     volumes:
     - "./data:/data"
+    - "./parameters.yml:/fennec/app/config/parameters.yml"
+    - "./custom_contact.html.twig:/fennec/app/Resources/views/misc/custom_contact.html.twig"
     restart: unless-stopped
