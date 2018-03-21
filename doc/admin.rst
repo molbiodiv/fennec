@@ -19,19 +19,20 @@ Docker setup
     Feel free to open an `issue <https://github.com/molbiodiv/fennec/issues>`_ if you encounter any problems.
 
 Install docker and docker compose according to the `documentation <https://docs.docker.com/>`_.
-Fennec consists of the web server running apache and php and at least one database.
-For the web server part a specific ``fennec`` container is available, for the database a generic ``postgres`` container is sufficient.
+Now create a folder for the fennec instance on the target machine and download the docker compose file::
 
-Now run the following commands::
+    mkdir fennec
+    cd fennec
+    wget https://raw.githubusercontent.com/molbiodiv/fennec/master/docker/fennec/docker-compose.yml
+    # Get initial versions of the main configuration file and the contact page
+    wget -O parameters.yml https://raw.githubusercontent.com/molbiodiv/fennec/master/app/config/parameters.yml.dist
+    wget -O custom_contact.html.twig https://raw.githubusercontent.com/molbiodiv/fennec/master/app/Resources/views/misc/missing_contact.html.twig
 
-    docker pull iimog/fennec
-    docker pull postgres:9.6
-    docker run -d -e POSTGRES_USER=fennec -e POSTGRES_PASSWORD=fennec -e POSTGRES_DB=fennec --name fennec_db postgres:9.6
-    docker run -d -p 8889:80 --link fennec_db:db --name fennec_web iimog/fennec
-    docker exec -it fennec_web php /fennec/bin/console doctrine:schema:create
+.. NOTE::
 
-The web server is now running on http://localhost:8889 .
-However, Fennec does not contain any data, yet.
+    The name of the folder is relevant because docker compose will use this as the project name.
+    If you want to have multiple fennec instances on the same host make sure to use different directory names.
+    In the following it is assumed that ``docker-compose`` is always executed from inside your fennec directory.
 
 .. NOTE::
 
