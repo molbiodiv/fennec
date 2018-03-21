@@ -85,9 +85,8 @@ That's it. Login with GitHub should now work.
 Contact Page
 ^^^^^^^^^^^^
 
-A dummy contact page is present but has to be replaced by one showing the real content.
-In order to do this create a file called ``custom_contact.html.twig``.
-You can put content like this for example::
+The content of ``custom_contact.html.twig`` is integrated into the contact page.
+You can modify it like this for example::
 
     <div class="row">
         <h1>Contact</h1>
@@ -95,11 +94,13 @@ You can put content like this for example::
         The source code is available on <a href="https://github.com/molbiodiv/fennec">GitHub</a>.
     </div>
 
-Next this file needs to be transferred to the docker container::
-
-    docker cp custom_contact.html.twig fennec_web:/fennec/app/Resources/views/misc/
-
 Please be aware that a proper contact page might be a legal requirement if you run a public instance.
+
+Google Analytics
+^^^^^^^^^^^^^^^^
+
+It is possible to monitor the traffic of your page with `Google Analytics <https://analytics.google.com>`_ which is disabled by default.
+If you want to enable it make sure that you are allowed to do this legally, and then add your tracking id to ``parameters.yml`` as value for ``ga_tracking``.
 
 Loading organisms
 -----------------
