@@ -12,7 +12,13 @@ If you want to extend or enhance Fennec have a look at the README in the reposit
 Docker setup
 ------------
 
-Install docker according to the `documentation <https://docs.docker.com/engine/installation/>`_.
+.. NOTE::
+
+    In order to make setup of new instances as easy as possible we describe the setup using docker compose.
+    If you do not want to use docker compose it is possible to do it with plain docker or even without docker.
+    Feel free to open an `issue <https://github.com/molbiodiv/fennec/issues>`_ if you encounter any problems.
+
+Install docker and docker compose according to the `documentation <https://docs.docker.com/>`_.
 Fennec consists of the web server running apache and php and at least one database.
 For the web server part a specific ``fennec`` container is available, for the database a generic ``postgres`` container is sufficient.
 
