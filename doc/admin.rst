@@ -191,10 +191,11 @@ Life Cycle Habit
 Next we can repeat these steps for the "Life Cycle Habit" trait:
 Again there is a file at opendata.eol.org::
 
-    curl http://opendata.eol.org/dataset/fedb8890-f943-4907-a36f-c7df4770a076/resource/e4eced0b-70f4-497f-9aa6-b1fd1212cfd9/download/life-cycle-habit.txt.gz | zcat >life-cycle-habit.txt
-    perl -F"\t" -ane 'print "$F[0]\t$F[4]\t$F[6]\tSupplier:$F[12];Citation:$F[15];Reference:$F[29];Source:$F[14]\t$F[13]\n" unless(/^EOL page ID/)' life-cycle-habit.txt >life-cycle-habit.tsv
-    /fennec/bin/console app:create-traittype --format categorical_free --description "Determined for type of life cycle being annual, binneal, perennial etc." --ontology_url "http://purl.obolibrary.org/obo/TO_0002725" "Life Cycle Habit"
-    /fennec/bin/console app:import-trait-entries --traittype "Life Cycle Habit" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" life-cycle-habit.tsv
+    wget -P data http://opendata.eol.org/dataset/fedb8890-f943-4907-a36f-c7df4770a076/resource/e4eced0b-70f4-497f-9aa6-b1fd1212cfd9/download/life-cycle-habit.txt.gz
+    gunzip data/life-cycle-habit.txt.gz
+    perl -F"\t" -ane 'print "$F[0]\t$F[4]\t$F[6]\tSupplier:$F[12];Citation:$F[15];Reference:$F[29];Source:$F[14]\t$F[13]\n" unless(/^EOL page ID/)' data/life-cycle-habit.txt >data/life-cycle-habit.tsv
+    docker-compose exec web /fennec/bin/console app:create-traittype --format categorical_free --description "Determined for type of life cycle being annual, binneal, perennial etc." --ontology_url "http://purl.obolibrary.org/obo/TO_0002725" "Life Cycle Habit"
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "Life Cycle Habit" --provider TraitBank --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /data/life-cycle-habit.tsv
 
 EPPO List of Invasive Alien Plants (Europe)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
