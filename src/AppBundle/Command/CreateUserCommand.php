@@ -9,6 +9,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\Question;
 
 class CreateUserCommand extends ContainerAwareCommand
 {
@@ -26,7 +27,7 @@ class CreateUserCommand extends ContainerAwareCommand
         ->setHelp("This command allows you to create users...")
         ->addArgument('username', InputArgument::REQUIRED, 'The username of the new user')
         ->addArgument('email', InputArgument::REQUIRED, 'The email address of the new user')
-        ->addArgument('password', InputArgument::REQUIRED, 'The password of the new user')
+        ->addArgument('password', InputArgument::OPTIONAL, 'The password of the new user')
         ->addOption('super-admin', 'a', InputOption::VALUE_NONE, 'Set the user as admin user.')
         ->addOption('inactive', null, InputOption::VALUE_NONE, 'Set the user as inactive')
     ;
@@ -51,6 +52,22 @@ class CreateUserCommand extends ContainerAwareCommand
         $username = $input->getArgument('username');
         $email = $input->getArgument('email');
         $password = $input->getArgument('password');
+
+        if(!$password){
+            // Inspired by example in symfony 3.4 docu: http://symfony.com/doc/3.4/components/console/helpers/questionhelper.html
+            $helper = $this->getHelper('question');
+            $question = new Question('Please enter your password: ');
+            $question->setValidator(function ($value) {
+                if (trim($value) == '') {
+                    throw new \Exception('The password cannot be empty');
+                }
+                return $value;
+            });
+            $question->setHidden(true);
+            $question->setMaxAttempts(20);
+            $password = $helper->ask($input, $output, $question);
+        }
+
         $inactive = $input->getOption('inactive');
         $superadmin = $input->getOption('super-admin');
         $manipulator = $this->getContainer()->get('fos_user.util.user_manipulator');
