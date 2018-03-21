@@ -70,26 +70,17 @@ Login with GitHub
 
 1. Register an OAuth App with your account following [this guide](https://developer.github.com/apps/building-integrations/setting-up-and-registering-oauth-apps/)
 2. As "Authorization callback URL" enter your domain or ip address with ``/login`` appended
-3. Modify ``/fennec/app/config/parameters.yml`` and add the respective values to ``github_client_id`` and ``github_client_secret``
+3. Modify ``parameters.yml`` and add the respective values to ``github_client_id`` and ``github_client_secret``
 
 That's it. Login with GitHub should now work.
 
-Login with Google
-^^^^^^^^^^^^^^^^^
+.. WARNING::
 
-1. Register an OAuth App with your account following [this guide](https://support.google.com/googleapi/answer/6158849?hl=en&ref_topic=7013279)
-2. If you want to set a redirect URI use your domain with path ``/login/check-google`` appended
-3. Modify ``/fennec/app/config/parameters.yml`` and add the respective values to ``google_client_id`` and ``google_client_secret``
+    After changes to ``parameters.yml`` it might be necessary to clear the cache::
 
-That's it. Login with Google should now work.
-
-Demo User
-^^^^^^^^^
-
-A single demo user can be configured via ``demo_user_name`` and ``demo_user_password`` in ``/fennec/app/config/parameters.yml``.
-Be aware that this is a single user and everyone using those credentials will share the data.
-Therefore it is possible for everyone to add, modify and delete projects.
-We intend to improve user handling in the future (including demo users) until then feel free to use the demo user as needed.
+        docker-compose restart
+        docker-compose exec -u www-data web /fennec/bin/console cache:clear --env prod
+        docker-compose exec -u www-data web /fennec/bin/console cache:warmup --env prod
 
 Contact Page
 ^^^^^^^^^^^^
