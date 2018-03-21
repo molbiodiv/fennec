@@ -134,7 +134,7 @@ In order to add taxonomic relationships follow those steps::
     # Create a fennec_id to ncbi_taxid map (will be obsolete in the future)
     docker-compose exec -T datadb psql -U fennec_data -F $'\t' -At -c "SELECT fennec_id,identifier as ncbi_taxid FROM fennec_dbxref, db WHERE fennec_dbxref.db_id=db.id AND db.name='ncbi_taxonomy';" >data/fennec2ncbi.tsv
     perl -F"\t" -ane 'BEGIN{open IN, "<data/fennec2ncbi.tsv";while(<IN>){chomp;($f,$n)=split(/\t/);$n2f{$n}=$f}} print "$n2f{$F[0]}\t$n2f{$F[2]}\t$F[4]\n"' data/nodes.dmp >data/ncbi_taxonomy.tsv
-    wget -O data/import_taxonomy.pl https://raw.githubusercontent.com/molbiodiv/fennec-cli/master/bin/import_taxonomy.pl
+    wget -P data https://raw.githubusercontent.com/molbiodiv/fennec-cli/master/bin/import_taxonomy.pl
     docker-compose exec web perl /data/import_taxonomy.pl --input /data/ncbi_taxonomy.tsv --provider ncbi_taxonomy --db-host datadb --db-user fennec_data --db-password fennec_data --db-name fennec_data
 
 Again the last step will take some minutes (even after printing "Script finished") and needs a few GB of memory.
@@ -149,13 +149,13 @@ For this purpose download `the hierarchy entries file <http://opendata.eol.org/d
 and add it to the docker container via ``docker cp hierarchyentries.tgz fennec_web:/tmp``
 (direct download via ``curl`` or ``wget`` produced errors in the past)::
 
-    cd /tmp
-    tar xzf hierarchyentries.tgz
+    wget -P data http://opendata.eol.org/dataset/da9635ec-71b6-4fb2-a4cb-518f71eeb45d/resource/dd1d5160-b56a-4541-ac88-494bc03b4bc8/download/hierarchyentries.tgz
+    tar xzvf data/hierarchyentries.tgz -C data
     # Now we create a file with two columns: 1) ncbi_taxid 2) eol_id
-    perl -F"\t" -ane 'print "$F[4]\t$F[1]\n" if($F[2] == 1172)' hierarchy_entries.tsv | perl -pe 's/"//g' | sort -u >ncbi2eol.tsv
-    /fennec/bin/console app:import-organism-ids --provider EOL --description "Encyclopedia of Life" --mapping ncbi_taxonomy --skip-unmapped ncbi2eol.tsv
+    perl -F"\t" -ane 'print "$F[4]\t$F[1]\n" if($F[2] == 1172)' data/hierarchy_entries.tsv | perl -pe 's/"//g' | sort -u >data/ncbi2eol.tsv
+    docker-compose exec web php -d memory_limit=2G /fennec/bin/console app:import-organism-ids --provider EOL --mapping ncbi_taxonomy --skip-unmapped /data/ncbi2eol.tsv
 
-Now you have 1.6 million organisms in the database of which roughly 170 thousand have a nice organism page provided by EOL.
+Now you have 1.7 million organisms in the database of which roughly 1.2 million have a nice organism page provided by EOL.
 
 Loading traits
 --------------
