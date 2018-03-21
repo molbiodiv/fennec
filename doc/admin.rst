@@ -145,9 +145,7 @@ EOL
 The Encyclopedia of Life is a great resource for organism information.
 Because of the nice API organism pages in Fennec are dynamically created from EOL content.
 In order to link organisms to EOL we need to add EOL page IDs.
-For this purpose download `the hierarchy entries file <http://opendata.eol.org/dataset/da9635ec-71b6-4fb2-a4cb-518f71eeb45d/resource/dd1d5160-b56a-4541-ac88-494bc03b4bc8/download/hierarchyentries.tgz>`_
-and add it to the docker container via ``docker cp hierarchyentries.tgz fennec_web:/tmp``
-(direct download via ``curl`` or ``wget`` produced errors in the past)::
+For this purpose we use `the hierarchy entries file <http://opendata.eol.org/dataset/da9635ec-71b6-4fb2-a4cb-518f71eeb45d/resource/dd1d5160-b56a-4541-ac88-494bc03b4bc8/download/hierarchyentries.tgz>`_::
 
     wget -P data http://opendata.eol.org/dataset/da9635ec-71b6-4fb2-a4cb-518f71eeb45d/resource/dd1d5160-b56a-4541-ac88-494bc03b4bc8/download/hierarchyentries.tgz
     tar xzvf data/hierarchyentries.tgz -C data
@@ -160,30 +158,21 @@ Now you have 1.7 million organisms in the database of which roughly 1.2 million 
 Loading traits
 --------------
 
-Initialize trait formats
-^^^^^^^^^^^^^^^^^^^^^^^^
-
-In the docker container execute::
-
-    /fennec/bin/console app:create-traitformat categorical_free
-    /fennec/bin/console app:create-traitformat numerical
-
 Plant Growth Habit
 ^^^^^^^^^^^^^^^^^^
 
 As a first example we want to load growth habit data for plants from eol.
-First download the `file from opendata.eol.org <http://opendata.eol.org/dataset/3cd2c5c3-67c8-496c-a838-98c99cfaadc3/resource/5ed0d6d3-4261-4c1b-a5cb-9c2e985a9989/download/growth-habit.txt.gz>`_.
-After copying the file to the docker container via ``docker cp growth-habit.txt.gz fennec_web:/tmp``::
+Those values are stored in this `file from opendata.eol.org <https://editors.eol.org/eol_php_code/applications/content_server/resources/eol_traits/growth-habit.txt.gz>`_::
 
-    gunzip growth-habit.txt.gz
+    wget -P data https://editors.eol.org/eol_php_code/applications/content_server/resources/eol_traits/growth-habit.txt.gz
+    gunzip data/growth-habit.txt.gz
     # We want to have a tsv with the following columns: eol_id, value, value_ontology, citation, origin_url
     # And citation consists of the columns "Supplier(12),Citation(15),Reference(29),Source(14)"
-    perl -F"\t" -ane 'print "$F[0]\t$F[4]\t$F[6]\tSupplier:$F[12];Citation:$F[15];Reference:$F[29];Source:$F[14]\t$F[13]\n" unless(/^EOL page ID/)' growth-habit.txt >growth-habit.tsv
-    /fennec/bin/console app:create-webuser EOL # Note user-id for later commands
-    /fennec/bin/console app:create-traittype --format categorical_free --description "general growth form, including size and branching. Some organisms have different growth habits depending on environment or location" --ontology_url "http://www.eol.org/data_glossary#http___eol_org_schema_terms_PlantHabit" "Plant Growth Habit"
-    /fennec/bin/console app:import-trait-entries --traittype "Plant Growth Habit" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" growth-habit.tsv
+    perl -F"\t" -ane 'print "$F[0]\t$F[4]\t$F[6]\tSupplier:$F[12];Citation:$F[15];Reference:$F[29];Source:$F[14]\t$F[13]\n" unless(/^EOL page ID/)' data/growth-habit.txt >data/growth-habit.tsv
+    docker-compose exec web /fennec/bin/console app:create-traittype --format categorical_free --description "general growth form, including size and branching. Some organisms have different growth habits depending on environment or location" --ontology_url "http://www.eol.org/data_glossary#http___eol_org_schema_terms_PlantHabit" "Plant Growth Habit"
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "Plant Growth Habit" --provider TraitBank --description "EOL TraitBank http://eol.org/info/516" --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /data/growth-habit.tsv
 
-More than 1 million of the entries are imported into the database.
+Almost 70 thousand of the entries are imported into the database.
 For the other EOL ids there is no organism in the database, therefore those are skipped (because of the ``--skip-unmapped`` parameter, otherwise the importer would fail).
 
 An important thing to note is that we are preparing the trait table by rearranging columns using ``perl``.
