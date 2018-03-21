@@ -50,6 +50,21 @@ However, Fennec does not contain any data, yet.
 Configuration
 -------------
 
+Create admin user
+^^^^^^^^^^^^^^^^^
+
+The admin user is able to manage other users and needs to be created via the command line.
+You can choose the username, email and password freely.
+If you do not provide the password as last argument you will be prompted for it.
+This avoids adding this sensible information to your command history.
+There will be no visual feedback while you type the password::
+
+    docker-compose exec web /fennec/bin/console app:create-user --super-admin <username> <email> [password]
+
+.. NOTE::
+
+    If you forget the password of the admin user you can create a new one and use the admin web interface to edit or delete the old account.
+
 Login with GitHub
 ^^^^^^^^^^^^^^^^^
 
