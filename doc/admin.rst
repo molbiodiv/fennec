@@ -332,53 +332,53 @@ This database (available at http://scales.ckff.si/scaletool/?menu=6&submenu=3 ) 
 As data download is not easily possible here is a guide on downloading all the data and extracting the traits:
 First download the html pages of all organisms to an empty folder (sid ranges from 1 to 162, determined by trial and error)::
 
-    for i in $(seq 1 163)
+    mkdir -p data/scales
+    for i in $(seq 1 162)
     do
-        curl "http://scales.ckff.si/scaletool/index.php?menu=6&submenu=3&sid=$i" >$i.html
+        curl "http://scales.ckff.si/scaletool/index.php?menu=6&submenu=3&sid=$i" >data/scales/$i.html
     done
 
 To extract all traits I wrote a short python script (using `Beautiful Soup <https://www.crummy.com/software/BeautifulSoup/>`_) available as `gist <https://gist.github.com/iimog/a6a36a7b03906f18ac490b0a4708224c>`_.
-If you download that you can extract traits with this command::
+You can extract traits with those commands::
 
     # Install beautiful soup (e.g. via "conda install beautifulsoup4")
-    # Inside the folder with the html files
+    cd data/scales
+    wget https://gist.githubusercontent.com/iimog/a6a36a7b03906f18ac490b0a4708224c/raw/b3bc7309ae13415c9d00ad469e948b8847312511/extract_scales_bee_traits_from_html.py
     python extract_scales_bee_traits_from_html.py
     # Get rid of colon in filenames
     rename 's/://g' *.tsv
     # Osmia rufa and Osmia bicornis are synonyms but bicornis is used by NCBI taxonomy while rufa is used by SCALES, therefore: rename globally:
     perl -i -pe 's/Osmia rufa/Osmia bicornis/g' *.tsv
+    cd -
 
 This will create a bunch of tsv files with categorical and numerical values for each trait as well as a file ``trait_types.tsv`` which lists all trait types with description.
-Using mapping by scientific name those files can be imported directly (transfer them to the docker container via ``docker cp`` if you did not execute the previous commands there)::
+Using mapping by scientific name those files can be imported directly::
 
     # Create trait types (incl. unit)
-    /fennec/bin/console app:create-traittype --format numerical --description "Average number of brood cells per nest" "Nest cells"
-    /fennec/bin/console app:create-traittype --format numerical --description "Approximate body length of female collection specimens" --unit "mm" "Body length: female"
-    /fennec/bin/console app:create-traittype --format numerical --description "Mean weight of a freshly hatched adult female" --unit "mg" "Adult weight: female"
-    /fennec/bin/console app:create-traittype --format numerical --description "Male/female rate of progeny" "Sex ratio"
-    /fennec/bin/console app:create-traittype --format categorical_free --description "Sex ratio categories: female biased (males/females<0.8), equal (males/females 0.8-1.3), male biased (males/females>1.3)" "Sex ratio (categorical)"
-    /fennec/bin/console app:create-traittype --format categorical_free "Larval food type"
-    /fennec/bin/console app:create-traittype --format categorical_free "Foraging mode"
-    /fennec/bin/console app:create-traittype --format categorical_free --description "Typical of a landscape species" "Landscape type"
-    /fennec/bin/console app:create-traittype --format categorical_free --description "Nest building material type" "Nest built of"
-    /fennec/bin/console app:create-traittype --format categorical_free --description "Trophic specialisation rank" "Trophic specialisation"
-    /fennec/bin/console app:create-traittype --format categorical_free --description "Taxonomic rank on which this organism is specialized on" "Specialized on"
-
-    # Create webuser
-    /fennec/bin/console app:create-webuser "SCALES_WaspsBeesDatabase" # Note user-id for next commands
+    docker-compose exec web /fennec/bin/console app:create-traittype --format numerical --description "Average number of brood cells per nest" "Nest cells"
+    docker-compose exec web /fennec/bin/console app:create-traittype --format numerical --description "Approximate body length of female collection specimens" --unit "mm" "Body length: female"
+    docker-compose exec web /fennec/bin/console app:create-traittype --format numerical --description "Mean weight of a freshly hatched adult female" --unit "mg" "Adult weight: female"
+    docker-compose exec web /fennec/bin/console app:create-traittype --format numerical --description "Male/female rate of progeny" "Sex ratio"
+    docker-compose exec web /fennec/bin/console app:create-traittype --format categorical_free --description "Sex ratio categories: female biased (males/females<0.8), equal (males/females 0.8-1.3), male biased (males/females>1.3)" "Sex ratio (categorical)"
+    docker-compose exec web /fennec/bin/console app:create-traittype --format categorical_free "Larval food type"
+    docker-compose exec web /fennec/bin/console app:create-traittype --format categorical_free "Foraging mode"
+    docker-compose exec web /fennec/bin/console app:create-traittype --format categorical_free --description "Typical of a landscape species" "Landscape type"
+    docker-compose exec web /fennec/bin/console app:create-traittype --format categorical_free --description "Nest building material type" "Nest built of"
+    docker-compose exec web /fennec/bin/console app:create-traittype --format categorical_free --description "Trophic specialisation rank" "Trophic specialisation"
+    docker-compose exec web /fennec/bin/console app:create-traittype --format categorical_free --description "Taxonomic rank on which this organism is specialized on" "Specialized on"
 
     # import
-    /fennec/bin/console app:import-trait-entries --traittype "Nest cells" --user-id 7 --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/tmp/Nest cells_numeric.tsv"
-    /fennec/bin/console app:import-trait-entries --traittype "Body length: female" --user-id 7 --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/tmp/Body length female_numeric.tsv"
-    /fennec/bin/console app:import-trait-entries --traittype "Adult weight: female" --user-id 7 --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/tmp/Adult weight female_numeric.tsv"
-    /fennec/bin/console app:import-trait-entries --traittype "Sex ratio" --user-id 7 --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/tmp/Sex ratio_numeric.tsv"
-    /fennec/bin/console app:import-trait-entries --traittype "Sex ratio (categorical)" --user-id 7 --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/tmp/Sex ratio_categorical.tsv"
-    /fennec/bin/console app:import-trait-entries --traittype "Larval food type" --user-id 7 --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/tmp/Larval food type_categorical.tsv"
-    /fennec/bin/console app:import-trait-entries --traittype "Foraging mode" --user-id 7 --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/tmp/Foraging mode_categorical.tsv"
-    /fennec/bin/console app:import-trait-entries --traittype "Landscape type" --user-id 7 --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/tmp/Landscape type_categorical.tsv"
-    /fennec/bin/console app:import-trait-entries --traittype "Nest built of" --user-id 7 --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/tmp/Nest built of_categorical.tsv"
-    /fennec/bin/console app:import-trait-entries --traittype "Trophic specialisation" --user-id 7 --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/tmp/Trophic specialisation_categorical.tsv"
-    /fennec/bin/console app:import-trait-entries --traittype "Specialized on" --user-id 7 --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/tmp/Trophic specialisation_numeric.tsv"
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "Nest cells" --provider SCALES_WaspsBeesDatabase --description "SCALES Wasps & Bees Database http://scales.ckff.si/scaletool/?menu=6&submenu=3" --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/data/scales/Nest cells_numeric.tsv"
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "Body length: female" --provider SCALES_WaspsBeesDatabase --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/data/scales/Body length female_numeric.tsv"
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "Adult weight: female" --provider SCALES_WaspsBeesDatabase --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/data/scales/Adult weight female_numeric.tsv"
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "Sex ratio" --provider SCALES_WaspsBeesDatabase --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/data/scales/Sex ratio_numeric.tsv"
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "Sex ratio (categorical)" --provider SCALES_WaspsBeesDatabase --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/data/scales/Sex ratio_categorical.tsv"
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "Larval food type" --provider SCALES_WaspsBeesDatabase --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/data/scales/Larval food type_categorical.tsv"
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "Foraging mode" --provider SCALES_WaspsBeesDatabase --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/data/scales/Foraging mode_categorical.tsv"
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "Landscape type" --provider SCALES_WaspsBeesDatabase --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/data/scales/Landscape type_categorical.tsv"
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "Nest built of" --provider SCALES_WaspsBeesDatabase --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/data/scales/Nest built of_categorical.tsv"
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "Trophic specialisation" --provider SCALES_WaspsBeesDatabase --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/data/scales/Trophic specialisation_categorical.tsv"
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "Specialized on" --provider SCALES_WaspsBeesDatabase --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/data/scales/Trophic specialisation_numeric.tsv"
 
 IUCN Redlist
 ^^^^^^^^^^^^
