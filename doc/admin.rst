@@ -387,20 +387,38 @@ IUCN redlist data can be conveniently downloaded using the `API <http://apiv3.iu
 Before you can query the API you need to register for a token.
 Also if you want to put this data into a public instance you have to make sure to always (automatically) update the data to the latest version in order to comply with the terms of use.
 For convenience there are some scripts that help with download and update of IUCN data.
-You first have to do some initial preparation and then add an entry to crontab (in the fennec container)::
+You have to do some initial preparation and then link additional files into the fennec container::
 
-    mkdir -p /iucn
-    cd /iucn
-    echo "YOUR IUCN API TOKEN" >.iucn_token
-    crontab -e
-    # Add the following line (without the # at the beginning of the line)
-    #17 * * * * cd /iucn;/fennec/util/check_download_update_iucn.sh >>iucn_cron.log 2>>iucn_cron.err
+    mkdir -p iucn
+    echo "YOUR IUCN API TOKEN" >iucn/.iucn_token
+
+Now edit the ``docker-compose.yml`` and add to the list of volumes for the ``web`` service::
+
+    - "./iucn:/iucn"
+
+Then rebuild your web container::
+
+    docker-compose stop web
+    docker-compose rm -f web
+    docker-compose up -d
+
+Now you can download and import/update the iucn data in your database with::
+
+    docker-compose exec web bash -c "cd /iucn;/fennec/util/check_download_update_iucn.sh"
 
 This will download the most current version of the IUCN red list via the api and add it to the fennec database.
-On the first run the webuser and traittype are automatically generated.
+On the first run the traittype is automatically generated.
 On subsequent runs if the version of IUCN is unchanged nothing happens and if there is a new version the old traits are expired and the new data is loaded.
 You will notice that only about half the entries could be mapped by their scientific name.
 One reason for that is that many species on the red list are species with a small population size endemic to a small geographic region.
+
+.. WARNING::
+
+    In order to comply with the terms of use of IUCN please add a cron job to your docker host.
+    Unfortunately cron does not work smoothly inside docker but you can try this as well if you feel like it.
+    Otherwise add an entry like this to your host via ``crontab -e`` (use the correct path)::
+
+        0 * * * * docker-compose -f /path/to/docker-compose.yml exec web bash -c "cd /iucn;/fennec/util/check_download_update_iucn.sh >>iucn_cron.log 2>>iucn_cron.err"
 
 Backup
 ------
