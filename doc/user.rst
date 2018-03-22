@@ -26,10 +26,10 @@ To upload a new project in biom format just click the ``Browse`` Button and sele
 .. image:: screenshots/projects.png
 
 Details on file formats are available in the "Import Project" section TODO:ref
-Upload this `demo biom file <https://raw.githubusercontent.com/molbiodiv/fennec/master/doc/beta/J.biom>`_ to follow along the tutorial.
-It consists of 446 samples of pollen with a total of 1002 OTUs.
+Use this :download:`demo biom file <example/CaseStudy2017.biom>` to follow along the tutorial.
+It consists of 324 samples of pollen with a total of 216 OTUs.
 
-To get to the project page click on the link in the first column of the project table `No Table ID`.
+To get to the project page click on the link in the first column of the project table `Case Study 2017`.
 This will bring you to the project details page.
 
 .. image:: screenshots/project_details.png
