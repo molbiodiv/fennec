@@ -220,13 +220,12 @@ The definition of crop used for the database is:
 To prepare the data for import into FENNEC (just the info that a plant is listed) execute::
 
     # Citation will be provided as default citation (therefore left empty here)
-    curl "http://world-crops.com/showcase/scientific-names/" | grep Abelmoschus | perl -pe 's/\|/\n/g;s/.*a href="([^"]+)" >([^<]+).*/$2\tlisted\t\t\t$1/g' | grep -v "</p>" | sort -u >/tmp/crops.tsv
-    /fennec/bin/console app:create-traittype --format categorical_free --description "The World Crops Database is a collection of cereals, fruits, vegetables and other crops that are grown by farmers all over the world. In this context crops are defined as 'Agricultural crops are plants that are grown or deliberately managed by man for certain purposes.'" --ontology_url "http://world-crops.com/" "World Crops Database"
-    /fennec/bin/console app:create-webuser "WorldCropsDatabase" # Note user-id for next command
-    /fennec/bin/console app:import-trait-entries --user-id 3 --default-citation "Hein Bijlmakers, 'World Crops Database', available online http://world-crops.com/showcase/scientific-names/ (retrieved $(date "+%Y-%m-%d"))" --traittype "World Crops Database" --mapping scientific_name --skip-unmapped /tmp/crops.tsv
+    curl "http://world-crops.com/showcase/scientific-names/" | grep Abelmoschus | perl -pe 's/\|/\n/g;s/.*a href="([^"]+)" >([^<]+).*/$2\tlisted\t\t\t$1/g' | grep -v "</p>" | sort -u >data/crops.tsv
+    docker-compose exec web /fennec/bin/console app:create-traittype --format categorical_free --description "The World Crops Database is a collection of cereals, fruits, vegetables and other crops that are grown by farmers all over the world. In this context crops are defined as 'Agricultural crops are plants that are grown or deliberately managed by man for certain purposes.'" --ontology_url "http://world-crops.com/" "World Crops Database"
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --provider WorldsCropDatabase --description "The World Crops Database http://world-crops.com/the-world-crops-database/" --default-citation "Hein Bijlmakers, 'World Crops Database', available online http://world-crops.com/showcase/scientific-names/ (retrieved $(date "+%Y-%m-%d"))" --traittype "World Crops Database" --mapping scientific_name --skip-unmapped /data/crops.tsv
 
 The database also contains categories like Vegetables, Cereals, Fruits, etc.
-So in the future those categories could be used as value instead of a generic "listed".
+So in principle those categories could be used as value instead of a generic "listed".
 
 More TraitBank plant traits
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
