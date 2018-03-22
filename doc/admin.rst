@@ -420,18 +420,6 @@ One reason for that is that many species on the red list are species with a smal
 
         0 * * * * docker-compose -f /path/to/docker-compose.yml exec web bash -c "cd /iucn;/fennec/util/check_download_update_iucn.sh >>iucn_cron.log 2>>iucn_cron.err"
 
-Backup
-------
-
-If you followed the setup above all fennec related data is on the host in the ``fennec`` directory.
-You should regularly create backup copies of this directory.
-However, you might want to additionally create dumps from the databases for easy import into other instances.
-To backup the databases just execute the following commands (repeat for all additional data databases)::
-
-    mkdir -p backup
-    docker-compose exec userdb pg_dump -U fennec_user --data-only --no-owner fennec_user | xz >backup/fennec_user.$(date +%F_%T).sql.xz
-    docker-compose exec datadb pg_dump -U fennec_data --data-only --no-owner fennec_data | xz >backup/fennec_data.$(date +%F_%T).sql.xz
-
 Multiple data databases
 -----------------------
 
@@ -492,6 +480,32 @@ In order to initialize the new database execute those commands::
 If your database does not show up in the web interface, double check that you added ``alternative_data`` to the ``versions`` in ``parameters.yml`` and clear the cache as explained above.
 From now on when you import data and you want it to end up in the ``alternative_data`` db you have to add ``--em alternative_data`` to the command.
 If you do not specify the ``--em`` option the value from ``default_data_entity_manager`` in ``parameters.yml`` will be used.
+
+Backup
+------
+
+If you followed the setup above all fennec related data is on the host in the ``fennec`` directory.
+You should regularly create backup copies of this directory.
+However, you might want to additionally create dumps from the databases for easy import into other instances.
+To backup the databases just execute the following commands (repeat for all additional data databases)::
+
+    mkdir -p backup
+    docker-compose exec userdb pg_dump -U fennec_user --data-only --no-owner fennec_user | xz >backup/fennec_user.$(date +%F_%T).sql.xz
+    docker-compose exec datadb pg_dump -U fennec_data --data-only --no-owner fennec_data | xz >backup/fennec_data.$(date +%F_%T).sql.xz
+    # docker-compose exec datadb pg_dump -U fennec_data --data-only --no-owner fennec_alt_data | xz >backup/fennec_alt_data.$(date +%F_%T).sql.xz
+
+Import database from dump
+-------------------------
+
+In order to import a database dump follow this steps (assuming you want to remove all old data before importing).
+You might want to do this in the ``alternative_data`` database (see above) instead of ``default_data``::
+
+    docker-compose exec web /fennec/bin/console doctrine:database:drop --force --connection default_data
+    docker-compose exec web /fennec/bin/console doctrine:database:create --connection default_data
+    docker-compose exec web /fennec/bin/console doctrine:schema:create --em default_data
+    # do not load fixtures otherwise there will be unique constraint violations
+    # replace the backup filename with an existing one
+    xzcat fennec_default_data.sql.xz | docker-compose exec -T datadb psql -U fennec_data -d fennec_data
 
 Upgrade
 -------
