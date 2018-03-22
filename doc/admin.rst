@@ -519,29 +519,15 @@ Upgrade
 
 To upgrade to a new version of FENNEC please review the change log and pay special attention to any breaking changes.
 Always make a full backup of your database (see above) and all files you modified before upgrading.
-The cleanest way to upgrade (if you are using docker) is by replacing the docker container with the latest version like this::
+If there were changes to the database schema special migration steps might be necessary.
+Double check the change log before you continue.
+The cleanest way to upgrade (if you are using the docker compose setup) is by replacing the docker container with the latest version like this::
 
-    # Backups of data files (for database see backup section above)
-    docker cp fennec_web:/fennec/app/config/parameters.yml parameters.yml
-    # If you modified your contact page
-    docker cp fennec_web:/fennec/app/Resources/views/misc/contact.html.twig contact.html.twig
-    # If you use the IUCN cron job
-    docker cp fennec_web:/iucn iucn
+    # Before you continue: Do the backup as described above!
+    docker-compose down
+    docker-compose pull
+    docker-compose up
 
-    # pull new image
-    docker pull iimog/fennec
-    # replace old docker container with new one
-    docker stop fennec_web
-    docker rename fennec_web fennec_web_legacy
-    docker run -d -p 8889:80 --link fennec_db:db --name fennec_web iimog/fennec
-
-    # put all files back into place
-    docker cp parameters.yml fennec_web:/fennec/app/config/parameters.yml
-    # If you modified your contact page
-    docker cp contact.html.twig fennec_web:/fennec/app/Resources/views/misc/contact.html.twig
-    # If you use the IUCN cron job
-    docker cp iucn fennec_web:/iucn
-    # You also have to re-create the crontab entry (see IUCN Redlist section)
-
-    # after carefully checking that everything works
-    docker rm fennec_web_legacy
+Thats it. The containers are replaced by the version specified in your ``docker-compose.yml`` file.
+So ``latest`` for the fennec container.
+You can pin the fennec container to a version or switch to develop by adding the desired label, e.g. ``:develop``.
