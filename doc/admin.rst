@@ -423,9 +423,14 @@ One reason for that is that many species on the red list are species with a smal
 Backup
 ------
 
-To backup the database just execute the following command (on the host, not inside of docker)::
+If you followed the setup above all fennec related data is on the host in the ``fennec`` directory.
+You should regularly create backup copies of this directory.
+However, you might want to additionally create dumps from the databases for easy import into other instances.
+To backup the databases just execute the following commands (repeat for all additional data databases)::
 
-    docker exec -it fennec_db pg_dump -U fennec fennec | xz >fennec.$(date +%F_%T).sql.xz
+    mkdir -p backup
+    docker-compose exec userdb pg_dump -U fennec_user --data-only --no-owner fennec_user | xz >backup/fennec_user.$(date +%F_%T).sql.xz
+    docker-compose exec datadb pg_dump -U fennec_data --data-only --no-owner fennec_data | xz >backup/fennec_data.$(date +%F_%T).sql.xz
 
 Upgrade
 -------
