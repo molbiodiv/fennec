@@ -233,7 +233,7 @@ More TraitBank plant traits
 A couple more interesting plant traits from TraitBank are available at http://opendata.eol.org/dataset/plantae
 This dataset consists of thirteen traits:
 
-* conservation status
+* conservation status (will not be imported because we use IUCN directly)
 * dispersal vector
 * flower color
 * invasive in
@@ -248,45 +248,41 @@ This dataset consists of thirteen traits:
 * vegetative spread rate
 
 Three of them are numerical (leaf area, plant height, and soil pH) they are discussed in the next section.
-In order to create the categorical trait types and import them into FENNEC just follow the steps below (inside the container)::
+In order to create the categorical trait types and import them into FENNEC just follow the steps below::
 
     # Download and prepare data
-    cd /tmp
-    curl http://opendata.eol.org/dataset/a44a37ad-27f5-45ef-8719-1a31ae4ed3e5/resource/c7c90510-402e-4ead-8204-d92c44723c1f/download/plantae.zip >plantae.zip
-    unzip plantae.zip
-    curl http://opendata.eol.org/dataset/a44a37ad-27f5-45ef-8719-1a31ae4ed3e5/resource/fb7e7de9-7ae9-4b63-8a64-d0a95f210da9/download/plantae-conservation-status.txt.gz >/tmp/Plantae/Plantae-conservation-status.txt.gz
-    curl http://opendata.eol.org/dataset/a44a37ad-27f5-45ef-8719-1a31ae4ed3e5/resource/67410c56-d9d9-4e60-a223-39334e0081d5/download/uses.txt.gz >/tmp/Plantae/Plantae-uses.txt.gz
-    for i in Plantae/*.txt.gz
+    wget http://opendata.eol.org/dataset/a44a37ad-27f5-45ef-8719-1a31ae4ed3e5/resource/c7c90510-402e-4ead-8204-d92c44723c1f/download/plantae.zip -O data/plantae.zip
+    unzip data/plantae.zip -d data
+    wget http://opendata.eol.org/dataset/a44a37ad-27f5-45ef-8719-1a31ae4ed3e5/resource/67410c56-d9d9-4e60-a223-39334e0081d5/download/uses.txt.gz -O data/Plantae/Plantae-uses.txt.gz
+    for i in data/Plantae/*.txt.gz
     do
         BASE=$(basename $i .txt.gz)
-        zcat $i | perl -F"\t" -ane 'print "$F[0]\t$F[4]\t$F[6]\tSupplier:$F[12];Citation:$F[15];Reference:$F[29];Source:$F[14]\t$F[13]\n" unless(/^EOL page ID/)' >$BASE.tsv
+        zcat $i | perl -F"\t" -ane 'print "$F[0]\t$F[4]\t$F[6]\tSupplier:$F[12];Citation:$F[15];Reference:$F[29];Source:$F[14]\t$F[13]\n" unless(/^EOL page ID/)' >data/$BASE.tsv
     done
 
     # Create trait types (description and ontology url from http://eol.org/data_glossary )
-    /fennec/bin/console app:create-traittype --format categorical_free --ontology_url "http://rs.tdwg.org/ontology/voc/SPMInfoItems#ConservationStatus" "Conservation Status"
-    /fennec/bin/console app:create-traittype --format categorical_free --description "A dispersal vector is an agent transporting seeds or other dispersal units. Dispersal vectors may include biotic factors, such as animals, or abiotic factors, such as the wind or the ocean." --ontology_url "http://eol.org/schema/terms/DispersalVector" "Dispersal Vector"
-    /fennec/bin/console app:create-traittype --format categorical_free --description "A flower anatomy and morphology trait (TO:0000499) which is associated with the color of the flower (PO:0009046)." --ontology_url "http://purl.obolibrary.org/obo/TO_0000537" "Flower Color"
-    /fennec/bin/console app:create-traittype --format categorical_free --description "Information about the jurisdictions where the taxon is considered to be an invasive organism due to its negative impact on human welfare or ecosystems." --ontology_url "http://eol.org/schema/terms/InvasiveRange" "Invasive In"
-    /fennec/bin/console app:create-traittype --format categorical_free --description "A vascular leaf anatomy and morphology trait (TO:0000748) which is associated with the color of leaf (PO:0025034)." --ontology_url "http://purl.obolibrary.org/obo/TO_0000326" "Leaf Color"
-    /fennec/bin/console app:create-traittype --format categorical_free --description "The process in which nitrogen is taken from its relatively inert molecular form (N2) in the atmosphere and converted into nitrogen compounds useful for other chemical processes, such as ammonia, nitrate and nitrogen dioxide." --ontology_url "http://purl.obolibrary.org/obo/GO_0009399" "Nitrogen Fixation"
-    /fennec/bin/console app:create-traittype --format categorical_free --description "Methods used to produce new plants from a parent plant." --ontology_url "http://eol.org/schema/terms/PropagationMethod" "Plant Propagation Method"
-    /fennec/bin/console app:create-traittype --format categorical_free --description "Tolerance to the high salt content in the growth medium." --ontology_url "http://purl.obolibrary.org/obo/TO_0006001" "Salt Tolerance"
-    /fennec/bin/console app:create-traittype --format categorical_free --description "The soil requirements (texture, moisture, chemistry) needed for a plant to establish and grow." --ontology_url "http://eol.org/schema/terms/SoilRequirements" "Soil Requirements"
-    /fennec/bin/console app:create-traittype --format categorical_free --description "The rate at which this plant can spread compared to other species with the same growth habit." --ontology_url "http://eol.org/schema/terms/VegetativeSpreadRate" "Vegetative Spread Rate"
-    /fennec/bin/console app:create-traittype --format categorical_free --description "The uses of the organism or products derived from the organism." --ontology_url "http://eol.org/schema/terms/Uses" "Uses"
+    docker-compose exec web /fennec/bin/console app:create-traittype --format categorical_free --description "A dispersal vector is an agent transporting seeds or other dispersal units. Dispersal vectors may include biotic factors, such as animals, or abiotic factors, such as the wind or the ocean." --ontology_url "http://eol.org/schema/terms/DispersalVector" "Dispersal Vector"
+    docker-compose exec web /fennec/bin/console app:create-traittype --format categorical_free --description "A flower anatomy and morphology trait (TO:0000499) which is associated with the color of the flower (PO:0009046)." --ontology_url "http://purl.obolibrary.org/obo/TO_0000537" "Flower Color"
+    docker-compose exec web /fennec/bin/console app:create-traittype --format categorical_free --description "Information about the jurisdictions where the taxon is considered to be an invasive organism due to its negative impact on human welfare or ecosystems." --ontology_url "http://eol.org/schema/terms/InvasiveRange" "Invasive In"
+    docker-compose exec web /fennec/bin/console app:create-traittype --format categorical_free --description "A vascular leaf anatomy and morphology trait (TO:0000748) which is associated with the color of leaf (PO:0025034)." --ontology_url "http://purl.obolibrary.org/obo/TO_0000326" "Leaf Color"
+    docker-compose exec web /fennec/bin/console app:create-traittype --format categorical_free --description "The process in which nitrogen is taken from its relatively inert molecular form (N2) in the atmosphere and converted into nitrogen compounds useful for other chemical processes, such as ammonia, nitrate and nitrogen dioxide." --ontology_url "http://purl.obolibrary.org/obo/GO_0009399" "Nitrogen Fixation"
+    docker-compose exec web /fennec/bin/console app:create-traittype --format categorical_free --description "Methods used to produce new plants from a parent plant." --ontology_url "http://eol.org/schema/terms/PropagationMethod" "Plant Propagation Method"
+    docker-compose exec web /fennec/bin/console app:create-traittype --format categorical_free --description "Tolerance to the high salt content in the growth medium." --ontology_url "http://purl.obolibrary.org/obo/TO_0006001" "Salt Tolerance"
+    docker-compose exec web /fennec/bin/console app:create-traittype --format categorical_free --description "The soil requirements (texture, moisture, chemistry) needed for a plant to establish and grow." --ontology_url "http://eol.org/schema/terms/SoilRequirements" "Soil Requirements"
+    docker-compose exec web /fennec/bin/console app:create-traittype --format categorical_free --description "The rate at which this plant can spread compared to other species with the same growth habit." --ontology_url "http://eol.org/schema/terms/VegetativeSpreadRate" "Vegetative Spread Rate"
+    docker-compose exec web /fennec/bin/console app:create-traittype --format categorical_free --description "The uses of the organism or products derived from the organism." --ontology_url "http://eol.org/schema/terms/Uses" "Uses"
 
     # Import traits
-    /fennec/bin/console app:import-trait-entries --traittype "Conservation Status" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-conservation-status.tsv
-    /fennec/bin/console app:import-trait-entries --traittype "Dispersal Vector" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-dispersal-vector.tsv
-    /fennec/bin/console app:import-trait-entries --traittype "Flower Color" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-flower-color.tsv
-    /fennec/bin/console app:import-trait-entries --traittype "Invasive In" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-invasive-in.tsv
-    /fennec/bin/console app:import-trait-entries --traittype "Leaf Color" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-leaf-color.tsv
-    /fennec/bin/console app:import-trait-entries --traittype "Nitrogen Fixation" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-nitrogen-fixation.tsv
-    /fennec/bin/console app:import-trait-entries --traittype "Plant Propagation Method" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-plant-propagation-method.tsv
-    /fennec/bin/console app:import-trait-entries --traittype "Salt Tolerance" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-salt-tolerance.tsv
-    /fennec/bin/console app:import-trait-entries --traittype "Soil Requirements" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-soil-requirements.tsv
-    /fennec/bin/console app:import-trait-entries --traittype "Vegetative Spread Rate" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-vegetative-spread-rate.tsv
-    /fennec/bin/console app:import-trait-entries --traittype "Uses" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-uses.tsv
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "Dispersal Vector" --provider TraitBank --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /data/Plantae-dispersal-vector.tsv
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "Flower Color" --provider TraitBank --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /data/Plantae-flower-color.tsv
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "Invasive In" --provider TraitBank --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /data/Plantae-invasive-in.tsv
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "Leaf Color" --provider TraitBank --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /data/Plantae-leaf-color.tsv
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "Nitrogen Fixation" --provider TraitBank --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /data/Plantae-nitrogen-fixation.tsv
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "Plant Propagation Method" --provider TraitBank --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /data/Plantae-plant-propagation-method.tsv
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "Salt Tolerance" --provider TraitBank --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /data/Plantae-salt-tolerance.tsv
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "Soil Requirements" --provider TraitBank --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /data/Plantae-soil-requirements.tsv
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "Vegetative Spread Rate" --provider TraitBank --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /data/Plantae-vegetative-spread-rate.tsv
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "Uses" --provider TraitBank --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /data/Plantae-uses.tsv
 
 
 By now you should have an idea on how importing categorical traits into FENNEC works.
