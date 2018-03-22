@@ -432,6 +432,67 @@ To backup the databases just execute the following commands (repeat for all addi
     docker-compose exec userdb pg_dump -U fennec_user --data-only --no-owner fennec_user | xz >backup/fennec_user.$(date +%F_%T).sql.xz
     docker-compose exec datadb pg_dump -U fennec_data --data-only --no-owner fennec_data | xz >backup/fennec_data.$(date +%F_%T).sql.xz
 
+Multiple data databases
+-----------------------
+
+It is possible to have multiple data databases in Fennec.
+This is useful, both to provide different versions and to provide specific databases for groups of organisms.
+While projects are always stored in the user database the data database to work on can be selected in the web interface.
+Users can map their organisms against different data databases (this information is stored independently).
+However traits mapped to the project are stored without distinguishing database versions.
+
+To create an additional database add to your ``parameters.yml`` (for a simpler presentation the irrelevant fractions of the file are not shown, denoted by ``# ...``)::
+
+    parameters:
+        # ...
+        user_connection: "userdb"
+        user_entity_manager: "userdb"
+        default_data_connection: "default_data"
+        default_data_entity_manager: "default_data"
+        versions: 'default_data|alternative_data'
+        dbal:
+            connections:
+                'userdb':
+                    # ...
+                'default_data':
+                    # ...
+                'alternative_data':
+                    driver: pdo_pgsql
+                    host: datadb
+                    port: 5432
+                    dbname: fennec_alt_data
+                    user: fennec_data
+                    password: fennec_data
+                    charset: UTF8
+        orm:
+            auto_generate_proxy_classes: '%kernel.debug%'
+            entity_managers:
+                'userdb':
+                    # ...
+                'default_data':
+                    # ...
+                'alternative_data':
+                    connection: 'alternative_data'
+                    naming_strategy: doctrine.orm.naming_strategy.underscore
+                    mappings:
+                        AppBundle:
+                            dir: '%kernel.project_dir%/src/AppBundle/Entity/Data'
+                            type: annotation
+                            prefix: 'AppBundle\Entity\Data'
+
+This adds a new database to the existing ``datadb`` docker container.
+You can also add another docker container to the ``docker-compose.yml`` file and configure the new database in there.
+In order to initialize the new database execute those commands::
+
+    docker-compose restart web
+    docker-compose exec web /fennec/bin/console doctrine:database:create --connection alternative_data
+    docker-compose exec web /fennec/bin/console doctrine:schema:create --em alternative_data
+    docker-compose exec web /fennec/bin/console doctrine:fixtures:load --em alternative_data -n
+
+If your database does not show up in the web interface, double check that you added ``alternative_data`` to the ``versions`` in ``parameters.yml`` and clear the cache as explained above.
+From now on when you import data and you want it to end up in the ``alternative_data`` db you have to add ``--em alternative_data`` to the command.
+If you do not specify the ``--em`` option the value from ``default_data_entity_manager`` in ``parameters.yml`` will be used.
+
 Upgrade
 -------
 
