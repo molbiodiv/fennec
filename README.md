@@ -14,12 +14,14 @@ Those can then be mapped onto user provided community data.
  - **I want to improve/add features to FENNEC.** &rarr; [Read on](#setup-development-environment)
  - **I want to read/cite the preprint describing FENNEC.** &rarr; [![bioRxiv](https://img.shields.io/badge/DOI-10.1101%2F194308-blue.svg)](https://doi.org/10.1101/194308)
  - **I want to reference the source code of FENNEC.** &rarr; [![DOI](https://zenodo.org/badge/51136300.svg)](https://zenodo.org/badge/latestdoi/51136300) Please also cite our preprint.
+ - **I want to find the docker image of FENNEC.** &rarr; [Docker Hub](https://hub.docker.com/r/iimog/fennec/)
 
 ## Setup development environment
 So you want to contribute to the development of FENNEC - awesome!
 
 ### Local setup
 As there are quite a few dependencies and setting everything up properly is highly dependent on the environment, we suggest using docker.
+We provide ready to use docker containers with all dependencies bundled for easy setup and usage.
 A local setup is not impossible but all current developers use the docker setup.
 Therefore, we are best able to assist with that.
 If you really need a local setup have a look at the dockerfile to see how things are installed there.
@@ -46,6 +48,10 @@ docker-compose -f docker/fennec/docker-compose-dev.yml up -d
 Congratulations! You are good to go.
 Point your browser to [localhost:3141](http://localhost:3141).
 
+**Important:** The first time you run `docker-compose up` all installation/initialization steps will be performed and a database with example data is created.
+After that the file `.docker.initialized` is created in the root of your repository which will skip the initialization on subsequent runs of `docker-compose up`.
+If you need re-initialization remove this file but be aware that this might fail if the database already contains data.
+
 #### Configuration
 
 The default config files that were created with `init_dev.sh` should be ok to get started but you might want to update `app/config/parameters.yml` with:
@@ -55,7 +61,7 @@ The default config files that were created with `init_dev.sh` should be ok to ge
  - secret
 
 The first two are required for "Login with GitHub", see [this guide](https://developer.github.com/apps/building-oauth-apps/creating-an-oauth-app/) for details.
-The third one is your []Google Analytics tracking ID](https://support.google.com/analytics/answer/1008080?hl=en), with an empty ID, Google Analytics will be disabled.
+The third one is your [Google Analytics tracking ID](https://support.google.com/analytics/answer/1008080?hl=en), with an empty ID, Google Analytics will be disabled.
 The secret should be replaced with a random string as [documented by symfony](https://symfony.com/doc/3.4/reference/configuration/framework.html#secret).
 
 If you need to modify the docker-compose file (e.g. hard code your user id for better integration into your IDE, or for changing the db volume locations) you can do this:

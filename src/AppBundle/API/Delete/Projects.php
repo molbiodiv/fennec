@@ -29,36 +29,33 @@ class Projects
 
     /**
     * @inheritdoc
-    * <code>
-    * array('dbversion'=>$dbversion, 'ids'=>array($id1, $id2));
-    * </code>
-    * @returns array $result
-    * <code>
-    * array(array('project_id','import_date','OTUs','sample size'));
-    * </code>
     */
-    public function execute(FennecUser $user = null, $projectId, $attribute)
+    public function execute(FennecUser $user = null, $projectId)
     {
         $result = array('deletedProjects' => 0);
         if ($user === null) {
             $result['error'] = Projects::ERROR_NOT_LOGGED_IN;
         } else {
-            if($attribute === 'owner'){
-                $permission = $this->manager->getRepository(Permissions::class)->findBy(array(
-                    'project' => $projectId
-                ));
-                foreach ($permission as $p){
-                    $this->manager->remove($p);
-                }
-                $projects = $this->manager->getRepository(Project::class)->findOneBy(array('user' => $user, 'id' => $projectId));
-                $this->manager->remove($projects);
+            $permission = $this->manager->getRepository(Permissions::class)->findOneBy(array(
+                'user' => $user,
+                'project' => $projectId
+            ));
+            if($permission === null){
+                $result['error'] = "There exists no permission for user ".$user->getId();
             } else {
-                $permission = $this->manager->getRepository(Permissions::class)->findOneBy(array(
-                    'user' => $user,
-                    'project' => $projectId,
-                    'permission' => $attribute
-                ));
-                $this->manager->remove($permission);
+                if($permission->getPermission() === 'owner'){
+                    $permission = $this->manager->getRepository(Permissions::class)->findBy(array(
+                        'project' => $projectId
+                    ));
+                    foreach ($permission as $p){
+                        $this->manager->remove($p);
+                    }
+                    $projects = $this->manager->getRepository(Project::class)->findOneBy(array('user' => $user, 'id' => $projectId));
+                    $this->manager->remove($projects);
+                } else {
+                    $this->manager->remove($permission);
+                }
+
             }
             $this->manager->flush();
             $result['deletedProjects'] = 1;

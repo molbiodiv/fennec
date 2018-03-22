@@ -6,3 +6,23 @@
   float: right;
   font-size: 1em;
 }
+
+.fileinput{
+  display: none;
+}
+
+.fileinput + label{
+  color: white;
+  background-color: $project;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 2px;
+  padding: 5px;
+  margin-top: 20px;
+}
+
+.fileinput:focus + label,
+.fileinput + label:hover {
+  background-color: darken($project, 10%);
+}
+

@@ -48,7 +48,7 @@ class Projects
         }
         return $response = [
             'error' => ($valid === true ? false : true),
-            'message' => ($valid === true ? 'The permission '.$action.' was setted to user '.$user->getUsername().' successfully.' : $valid)
+            'message' => ($valid === true ? 'The permission '.$action.' was added to user '.$user->getUsername().' successfully.' : $valid)
         ];
     }
 
