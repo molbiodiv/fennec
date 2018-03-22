@@ -107,6 +107,11 @@ If you want to enable it make sure that you are allowed to do this legally, and 
 Loading organisms
 -----------------
 
+The following sections describe in detail how to import organisms and traits into a Fennec database.
+Those are the commands used to import the ``default_data`` into the public instance.
+If you want to start with a mirror of this database without importing everything manually you can use :download:`this dump <example/fennec_default_data.sql.xz>`.
+Skip ahead to :ref:`import-db-reference-label`.
+
 NCBI Taxonomy
 ^^^^^^^^^^^^^
 
@@ -493,6 +498,8 @@ To backup the databases just execute the following commands (repeat for all addi
     docker-compose exec userdb pg_dump -U fennec_user --data-only --no-owner fennec_user | xz >backup/fennec_user.$(date +%F_%T).sql.xz
     docker-compose exec datadb pg_dump -U fennec_data --data-only --no-owner fennec_data | xz >backup/fennec_data.$(date +%F_%T).sql.xz
     # docker-compose exec datadb pg_dump -U fennec_data --data-only --no-owner fennec_alt_data | xz >backup/fennec_alt_data.$(date +%F_%T).sql.xz
+
+.. _import-db-reference-label:
 
 Import database from dump
 -------------------------
