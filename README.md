@@ -126,7 +126,7 @@ The api doc on the other hand is dynamically created from the php annotations in
 Those are served from [localhost:3141/api/doc](http://localhost:3141/api/doc).
 
 ## Changes
-### Next Release
+### 1.0.0 <2018-03-23>
  - Breaking change: Split database into user and data dbs (update schemas)
  - Add user management (FOSUserBundle)
  - Add sharing capability for projects
