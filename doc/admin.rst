@@ -483,8 +483,8 @@ In order to initialize the new database execute those commands::
     docker-compose exec web /fennec/bin/console doctrine:fixtures:load --em alternative_data -n
 
 If your database does not show up in the web interface, double check that you added ``alternative_data`` to the ``versions`` in ``parameters.yml`` and clear the cache as explained above.
-From now on when you import data and you want it to end up in the ``alternative_data`` db you have to add ``--em alternative_data`` to the command.
-If you do not specify the ``--em`` option the value from ``default_data_entity_manager`` in ``parameters.yml`` will be used.
+From now on when you import data and you want it to end up in the ``alternative_data`` db you have to add ``--dbversion alternative_data`` to the command.
+If you do not specify the ``--dbversion`` option the value from ``default_data_entity_manager`` in ``parameters.yml`` will be used.
 
 Backup
 ------

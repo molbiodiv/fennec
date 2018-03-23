@@ -126,7 +126,8 @@ The api doc on the other hand is dynamically created from the php annotations in
 Those are served from [localhost:3141/api/doc](http://localhost:3141/api/doc).
 
 ## Changes
-### Next Release
+### 1.0.0 <2018-03-23>
+ - Breaking change: Split database into user and data dbs (update schemas)
  - Add user management (FOSUserBundle)
  - Add sharing capability for projects
  - Add permission management for projects (view/edit)
@@ -135,6 +136,7 @@ Those are served from [localhost:3141/api/doc](http://localhost:3141/api/doc).
  - Improve auto-generated API documentation (NelmioApiDocBundle)
  - Improve development setup via docker-compose
  - Improve basic documentation (README)
+ - Fix trait proportions in table and charts (#103,#104)
 ### 0.9.0 <2017-11-03>
  - Add cron capability to docker (#101)
  - Add option to use google analytics
