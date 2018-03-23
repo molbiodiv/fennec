@@ -13,8 +13,8 @@ class StartpageControllerTest extends WebTestCase
         $client->request('GET', '/');
 
         $this->assertTrue(
-            $client->getResponse()->isRedirect('/test/startpage'),
-            'response is a redirect to /test/startpage'
+            $client->getResponse()->isRedirect('/test_data/startpage'),
+            'response is a redirect to /test_data/startpage'
         );
 
         $crawler = $client->followRedirect();

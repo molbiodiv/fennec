@@ -3,30 +3,24 @@
 namespace AppBundle\Command;
 
 
-use AppBundle\Entity\Db;
-use AppBundle\Entity\FennecDbxref;
-use AppBundle\Entity\Organism;
+use AppBundle\API\Mapping;
+use AppBundle\Entity\Data\Db;
+use AppBundle\Entity\Data\FennecDbxref;
+use AppBundle\Entity\Data\Organism;
 use Doctrine\ORM\EntityManager;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\HttpFoundation\ParameterBag;
 
-class ImportOrganismIDsCommand extends ContainerAwareCommand
+class ImportOrganismIDsCommand extends AbstractDataDBAwareCommand
 {
     /**
      * @var EntityManager
      */
     private $em;
-
-    /**
-     * @var string
-     */
-    private $connectionName;
 
     private $mapping;
 
@@ -42,6 +36,7 @@ class ImportOrganismIDsCommand extends ContainerAwareCommand
 
     protected function configure()
     {
+        parent::configure();
         $this
         // the name of the command (the part after "bin/console")
         ->setName('app:import-organism-ids')
@@ -57,7 +52,6 @@ class ImportOrganismIDsCommand extends ContainerAwareCommand
             "instead of fennec_id the first column can be something that is mappable to fennec_id via --mapping\n\n"
         )
         ->addArgument('file', InputArgument::REQUIRED, 'The path to the input csv file')
-        ->addOption('connection', 'c', InputOption::VALUE_REQUIRED, 'The database version')
         ->addOption('provider', 'p', InputOption::VALUE_REQUIRED, 'The name of the database provider (e.g. NCBI Taxonomy)', null)
         ->addOption('mapping', "m", InputOption::VALUE_REQUIRED, 'Method of mapping for id column. If not set fennec_ids are assumed and no mapping is performed', null)
         ->addOption('description', 'd', InputOption::VALUE_REQUIRED, 'Description of the database provider', null)
@@ -76,7 +70,7 @@ class ImportOrganismIDsCommand extends ContainerAwareCommand
         if(!$this->checkOptions($input, $output)){
             return;
         }
-        $this->initConnection($input);
+        $this->em = $this->initConnection($input);
         $this->em->getConnection()->getConfiguration()->setSQLLogger(null);
         gc_enable();
         $lines = intval(exec('wc -l '.escapeshellarg($input->getArgument('file')).' 2>/dev/null'));
@@ -87,7 +81,7 @@ class ImportOrganismIDsCommand extends ContainerAwareCommand
         try{
             $needs_mapping = $input->getOption('mapping') !== null;
             $this->file = fopen($input->getArgument('file'), 'r');
-            $providerID = $this->getOrInsertProvider($input->getOption('provider'), $input->getOption('description'))->getDbId();
+            $providerID = $this->getOrInsertProvider($input->getOption('provider'), $input->getOption('description'))->getId();
             if($needs_mapping) {
                 $this->mapping = $this->getMapping($input->getOption('mapping'));
             }
@@ -217,31 +211,13 @@ class ImportOrganismIDsCommand extends ContainerAwareCommand
         return true;
     }
 
-    /**
-     * @param InputInterface $input
-     */
-    protected function initConnection(InputInterface $input)
-    {
-        $this->connectionName = $input->getOption('connection');
-        if ($this->connectionName === null) {
-            $this->connectionName = $this->getContainer()->get('doctrine')->getDefaultConnectionName();
-        }
-        $orm = $this->getContainer()->get('app.orm');
-        $this->em = $orm->getManagerForVersion($this->connectionName);
-    }
-
     private function getMapping($method){
         if($method === 'scientific_name'){
-            $mapper = $this->getContainer()->get('app.api.webservice')->factory('mapping', 'fullByOrganismName');
-            $mapping = $mapper->execute(new ParameterBag(array(
-                'dbversion' => $this->connectionName
-            )), null);
+            $mapper = $this->getContainer()->get(Mapping\FullByOrganismName::class);
+            $mapping = $mapper->execute();
         } else {
-            $mapper = $this->getContainer()->get('app.api.webservice')->factory('mapping', 'fullByDbxrefId');
-            $mapping = $mapper->execute(new ParameterBag(array(
-                'dbversion' => $this->connectionName,
-                'db' => $method
-            )), null);
+            $mapper = $this->getContainer()->get(Mapping\FullByDbxrefId::class);
+            $mapping = $mapper->execute($method);
         }
         return $mapping;
     }

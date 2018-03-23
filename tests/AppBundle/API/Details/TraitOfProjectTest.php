@@ -2,10 +2,7 @@
 
 namespace Test\AppBundle\API\Details;
 
-use AppBundle\API\Details\OrganismsOfProject;
-use AppBundle\API\Webservice;
-use AppBundle\User\FennecUser;
-use Symfony\Component\HttpFoundation\ParameterBag;
+use AppBundle\API\Details;
 use Tests\AppBundle\API\WebserviceTestCase;
 
 class TraitOfProjectTest extends WebserviceTestCase
@@ -14,54 +11,103 @@ class TraitOfProjectTest extends WebserviceTestCase
     const USERID = 'detailsTraitOfProjectTestUser';
     const PROVIDER = 'detailsTraitOfProjectTestUser';
 
-    public function testExecute()
+    private $em;
+    private $traitOfProject;
+
+    public function setUp()
     {
-        $default_db = $this->default_db;
-        $projectListing = $this->webservice->factory('listing', 'projects');
-        $service = $this->webservice->factory('details', 'traitOfProject');
-        $this->user = new FennecUser(TraitOfProjectTest::USERID,TraitOfProjectTest::NICKNAME,TraitOfProjectTest::PROVIDER);
+        $kernel = self::bootKernel();
 
-        $results = $service->execute(new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => 1, 'internal_project_id' => 3)), null);
-        $expected = array("error" => Webservice::ERROR_NOT_LOGGED_IN);
+        $this->em = $kernel->getContainer()
+            ->get('doctrine')
+            ->getManager('test_user');
+
+        $this->traitOfProject = $kernel->getContainer()->get(Details\TraitOfProject::class);
+    }
+
+    public function tearDown()
+    {
+        parent::tearDown();
+
+        $this->em->close();
+        $this->em = null; // avoid memory leaks
+    }
+
+    public function testUserNotLoggedIn()
+    {
+        $traitTypeId = 1;
+        $projectId = 3;
+        $user = null;
+        $dimension = null;
+        $results = $this->traitOfProject->execute($traitTypeId, $projectId, $dimension, $user, false);
+        $expected = array("error" => 'Error: User not logged in.');
         $this->assertEquals($expected, $results, 'User is not loggend in, return error message');
+    }
 
-        $entries = $projectListing->execute(new ParameterBag(array('dbversion' => $default_db)), $this->user);
-        $id = $entries['data'][0]['internal_project_id'];
+    public function testOneTraitOfProject()
+    {
+        $traitTypeId = 2;
+        $dimension = 'rows';
+        $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
+            'username' => TraitOfProjectTest::NICKNAME
+        ));
+        $projectId = $this->em->getRepository('AppBundle:Project')->findOneBy(array(
+            'user' => $user
+        ))->getId();
 
-        $results = $service->execute(new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => 2, 'internal_project_id' => $id, 'dimension' => 'rows')), $this->user);
+        $results = $this->traitOfProject->execute($traitTypeId, $projectId, $dimension, $user, false);
         $expected = [
             "values" => [
-                "annual" => ["1340"],
-                "perennial" => ["1630"]
+                "perennial" => ["1630"],
+                "annual" => ["1340"]
             ],
-            "trait_type_id" => 2,
-            "name" => "Plant Life Cycle Habit",
-            "ontology_url" => "http://purl.obolibrary.org/obo/TO_0002725",
-            "trait_format" => "categorical_free",
-            "number_of_organisms" => 2,
+            "traitTypeId" => 2,
+            "type" => "Plant Life Cycle Habit",
+            "ontologyUrl" => "http://purl.obolibrary.org/obo/TO_0002725",
+            "format" => "categorical_free",
+            "trait_format_id" => 1,
+            "numberOfOrganisms" => 2,
             "description" => "Determined for type of life cycle being annual, biannual, perennial etc. [database_cross_reference: GR:pj]",
             "unit" => null
         ];
         $this->assertEquals($results, $expected, 'Example project, return trait details for rows');
+    }
 
-        $results = $service->execute(new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => 4, 'internal_project_id' => $id, 'dimension' => 'columns')), $this->user);
+    public function testGetAnotherTraitOfProject(){
+        $traitTypeId = 4;
+        $dimension = 'columns';
+        $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
+            'username' => TraitOfProjectTest::NICKNAME
+        ));
+        $projectId = $this->em->getRepository('AppBundle:Project')->findOneBy(array(
+            'user' => $user
+        ))->getId();
+        $results = $this->traitOfProject->execute($traitTypeId, $projectId, $dimension, $user, false);
         $expected = [
             "values" => [
-                "yellow" => ["1340","1630"]
+                "yellow" => ["1340", "1630"]
             ],
-            "trait_type_id" => 4,
-            "name" => "Flower Color",
-            "ontology_url" => "http://purl.obolibrary.org/obo/TO_0000537",
-            "trait_format" => "categorical_free",
-            "number_of_organisms" => 2,
+            "traitTypeId" => 4,
+            "type" => "Flower Color",
+            "ontologyUrl" => "http://purl.obolibrary.org/obo/TO_0000537",
+            "format" => "categorical_free",
+            "trait_format_id" => 1,
+            "numberOfOrganisms" => 2,
             "description" => "A flower morphology trait (TO:0000499) which is the color of the flower (PO:0009046)",
             "unit" => null
         ];
         $this->assertEquals($results, $expected, 'Example project, return trait details for columns');
+    }
 
-        $this->user = new FennecUser('noValidUserID',TraitOfProjectTest::NICKNAME,TraitOfProjectTest::PROVIDER);
-        $results = $service->execute(new ParameterBag(array('dbversion' => $default_db, 'trait_type_id' => 1, 'internal_project_id' => $id)), $this->user);
-        $expected = array("error" => OrganismsOfProject::ERROR_PROJECT_NOT_FOUND);
+    public function testNoValidUserForProject(){
+        $traitTypeId = 1;
+        $noValidProjectId = 20;
+        $dimension = "row";
+        $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
+            'username' => TraitOfProjectTest::NICKNAME
+        ));
+        $results = $this->traitOfProject->execute($traitTypeId, $noValidProjectId, $dimension, $user, false);
+        $expected = array("error" => Details\OrganismsOfProject::ERROR_PROJECT_NOT_FOUND);
         $this->assertEquals($expected, $results, 'Project does not belong to user, return error message');
 
     }

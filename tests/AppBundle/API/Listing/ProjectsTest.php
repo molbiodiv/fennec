@@ -2,9 +2,7 @@
 
 namespace Tests\AppBundle\API\Listing;
 
-use AppBundle\API\Webservice;
-use AppBundle\User\FennecUser;
-use Symfony\Component\HttpFoundation\ParameterBag;
+use AppBundle\API\Listing;
 use Tests\AppBundle\API\WebserviceTestCase;
 
 class ProjectsTest extends WebserviceTestCase
@@ -13,26 +11,39 @@ class ProjectsTest extends WebserviceTestCase
     const USERID = 'listingProjectsTestUser';
     const PROVIDER = 'listingProjectsTestUser';
 
-    public function testExecute()
-    {
-        $default_db = $this->default_db;
-        $service = $this->webservice->factory('listing', 'projects');
+    private $em;
+    private $listingProjects;
 
-        //Test for error returned by user is not logged in
-        $results = $service->execute(
-            new ParameterBag(array('dbversion' => $default_db)),
-            $this->user
-        );
-        $expected = array("error" => Webservice::ERROR_NOT_LOGGED_IN, "data" => array());
-        
+    public function setUp()
+    {
+        $kernel = self::bootKernel();
+
+        $this->em = $kernel->getContainer()
+            ->get('doctrine')
+            ->getManager('test_user');
+        $this->listingProjects = $kernel->getContainer()->get(Listing\Projects::class);
+    }
+
+    public function tearDown()
+    {
+        parent::tearDown();
+
+        $this->em->close();
+        $this->em = null; // avoid memory leaks
+    }
+
+    public function testIfUserIsNotLoggedIn()
+    {
+        $results = $this->listingProjects->execute();
+        $expected = array("error" => Listing\Projects::ERROR_NOT_LOGGED_IN, "data" => array());
         $this->assertEquals($expected, $results);
-        
-        //Test of correct project if the user has only one project
-        $this->user = new FennecUser(ProjectsTest::USERID,ProjectsTest::NICKNAME,ProjectsTest::PROVIDER);
-        $results = $service->execute(
-            new ParameterBag(array('dbversion' => $default_db)),
-            $this->user
-        );
+    }
+
+    public function testProjectIfUserIsLoggedIn(){
+        $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
+            'username' => ProjectsTest::NICKNAME
+        ));
+        $results = $this->listingProjects->execute($user);
         $expected = array("data" => array(
                 array(
                     "id" => "table_1",

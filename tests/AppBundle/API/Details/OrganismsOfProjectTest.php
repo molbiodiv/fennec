@@ -2,9 +2,7 @@
 
 namespace AppBundle\API\Details;
 
-use AppBundle\API\Webservice;
-use AppBundle\User\FennecUser;
-use Symfony\Component\HttpFoundation\ParameterBag;
+use AppBundle\API\Details;
 use Tests\AppBundle\API\WebserviceTestCase;
 
 class OrganismsOfProjectTest extends WebserviceTestCase
@@ -13,38 +11,89 @@ class OrganismsOfProjectTest extends WebserviceTestCase
     const USERID = 'detailsOrganismsOfProjectTestUser';
     const PROVIDER = 'detailsOrganismsOfProjectTestUser';
 
-    public function testExecute()
+    private $emData;
+    private $emUser;
+    private $organismsOfProject;
+
+    public function setUp()
     {
-        $default_db = $this->default_db;
-        $projectListing = $this->webservice->factory('listing', 'projects');
-        $service = $this->webservice->factory('details', 'OrganismsOfProject');
-        $this->user = new FennecUser(OrganismsOfProjectTest::USERID,OrganismsOfProjectTest::NICKNAME,OrganismsOfProjectTest::PROVIDER);
+        $kernel = self::bootKernel();
 
-        $results = $service->execute(new ParameterBag(array('dbversion' => $default_db)), null);
-        $expected = array("error" => Webservice::ERROR_NOT_LOGGED_IN);
+        $this->emData = $kernel->getContainer()
+            ->get('doctrine')
+            ->getManager('test_data');
+        $this->emUser = $kernel->getContainer()
+            ->get('doctrine')
+            ->getManager('test_user');
+        $this->organismsOfProject = $kernel->getContainer()->get(Details\OrganismsOfProject::class);
+    }
+
+    public function tearDown()
+    {
+        parent::tearDown();
+
+        $this->emData->close();
+        $this->emData = null; // avoid memory leaks
+        $this->emUser->close();
+        $this->emUser = null; // avoid memory leaks
+    }
+
+    public function testNotLoggedIn()
+    {
+        $projectId = 1;
+        $dimension = "row";
+        $user = null;
+        $results = $this->organismsOfProject->execute($projectId, $dimension, $user);
+        $expected = array("error" => Details\OrganismsOfProject::ERROR_NOT_LOGGED_IN);
         $this->assertEquals($expected, $results, 'User is not loggend in, return error message');
+    }
 
-        $entries = $projectListing->execute(new ParameterBag(array('dbversion' => $default_db)), $this->user);
-        $id = $entries['data'][0]['internal_project_id'];
 
-        $results = $service->execute(new ParameterBag(array('dbversion' => $default_db, 'internal_project_id' => $id, 'dimension' => 'rows')), $this->user);
+    public function testOrganismsOfProjectWithRows()
+    {
+        $dimension = "rows";
+        $user = $this->emUser->getRepository('AppBundle:FennecUser')->findOneBy(array(
+            'username' => OrganismsOfProjectTest::NICKNAME
+        ));
+        $projectId = $this->emUser->getRepository('AppBundle:Project')->findOneBy(array(
+            'user' => $user
+        ))->getId();
+
+        $results = $this->organismsOfProject->execute($projectId, $dimension, $user);
         $expected = array(
             3, 42
         );
         $this->assertEquals(2, count($results), 'Example project, return uniq organism ids for rows');
         $this->assertContains($expected[0], $results, 'Example project, return uniq organism ids for rows');
         $this->assertContains($expected[1], $results, 'Example project, return uniq organism ids for rows');
+    }
 
-        $results = $service->execute(new ParameterBag(array('dbversion' => $default_db, 'internal_project_id' => $id, 'dimension' => 'columns')), $this->user);
+
+    public function testOrganismsOfProjectWithColumns()
+    {
+        $dimension = "columns";
+        $user = $this->emUser->getRepository('AppBundle:FennecUser')->findOneBy(array(
+            'username' => OrganismsOfProjectTest::NICKNAME
+        ));
+        $projectId = $this->emUser->getRepository('AppBundle:Project')->findOneBy(array(
+            'user' => $user
+        ))->getId();
+        $results = $this->organismsOfProject->execute($projectId, $dimension, $user);
         $expected = array(
             1340, 1630
         );
         $this->assertEquals(2, count($results), 'Example project, return uniq organism ids for samples');
         $this->assertContains($expected[0], $results, 'Example project, return uniq organism ids for samples');
         $this->assertContains($expected[1], $results, 'Example project, return uniq organism ids for samples');
+    }
 
-        $this->user = new FennecUser('noValidUserID',OrganismsOfProjectTest::NICKNAME,OrganismsOfProjectTest::PROVIDER);
-        $results = $service->execute(new ParameterBag(array('dbversion' => $default_db, 'internal_project_id' => $id)), $this->user);
+    public function testNoValidUserOfProject(){
+        $dimension = "rows";
+        $user = $this->emUser->getRepository('AppBundle:FennecUser')->findOneBy(array(
+            'username' => OrganismsOfProjectTest::NICKNAME
+        ));
+        $noValidProjectId = 15;
+        $results = $this->organismsOfProject->execute($noValidProjectId, $dimension, $user);
         $expected = array("error" => OrganismsOfProject::ERROR_PROJECT_NOT_FOUND);
         $this->assertEquals($expected, $results, 'Project does not belong to user, return error message');
 

@@ -1,0 +1,39 @@
+version: '3'
+services:
+  datadb:
+    image: postgres:9.6
+    volumes:
+    - "../volumes/datadb:/var/lib/postgresql/data"
+    environment:
+      POSTGRES_USER: fennec_data
+      POSTGRES_PASSWORD: fennec_data
+      POSTGRES_DB: fennec_data
+  userdb:
+    image: postgres:9.6
+    volumes:
+    - "../volumes/userdb:/var/lib/postgresql/data"
+    environment:
+      POSTGRES_USER: fennec_user
+      POSTGRES_PASSWORD: fennec_user
+      POSTGRES_DB: fennec_user
+  testdb:
+    image: postgres:9.6
+    environment:
+      POSTGRES_USER: fennec_test
+      POSTGRES_PASSWORD: fennec_test
+  web:
+    image: iimog/fennec:develop
+    user: $UID
+    tty: true
+    ports:
+    - "8889:80"
+    - "3141:8000"
+    depends_on:
+    - datadb
+    - userdb
+    - testdb
+    volumes:
+    - "../..:/fennec-dev"
+    working_dir: /fennec-dev
+    restart: unless-stopped
+    command: bash -c "bash /fennec-dev/docker/fennec/init_dev.sh -d && php /fennec-dev/bin/console server:run 0.0.0.0:8000"

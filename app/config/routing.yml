@@ -1,9 +1,19 @@
+defaultPage:
+    path: /
+    controller: AppBundle\Controller\StartpageController::indexAction
+
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation
+    prefix: /{dbversion}/
+    requirements:
+      dbversion: '%versions%'
 
 fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
+
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
 
 hwi_oauth_redirect:
     resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
@@ -23,11 +33,20 @@ github_check:
 github_login:
     path: /connect/github
 
-google_login:
-    path: /connect/google
-
-google_check:
-    path: /login/check-google
-
 logout:
     path: /logout
+
+easy_admin_bundle:
+    resource: "@EasyAdminBundle/Controller/AdminController.php"
+    type: annotation
+    prefix: /admin
+
+app.swagger_ui:
+    path: /api/doc
+    methods: GET
+    defaults: { _controller: nelmio_api_doc.controller.swagger_ui }
+
+app.swagger:
+    path: /api/doc.json
+    methods: GET
+    defaults: { _controller: nelmio_api_doc.controller.swagger }

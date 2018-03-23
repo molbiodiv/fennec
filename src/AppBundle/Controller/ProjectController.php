@@ -9,9 +9,11 @@
 namespace AppBundle\Controller;
 
 
-use AppBundle\User\FennecUser;
-use Symfony\Component\HttpFoundation\Request;
+use AppBundle\API\Details;
+use AppBundle\Entity\User\FennecUser;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -21,7 +23,7 @@ class ProjectController extends Controller
      * @param $request Request
      * @param $dbversion string
      * @return Response
-     * @Route("/{dbversion}/project/overview", name="project_overview")
+     * @Route("/project/overview", name="project_overview")
      */
     public function overviewAction(Request $request, $dbversion){
         return $this->render(
@@ -35,18 +37,17 @@ class ProjectController extends Controller
     }
 
     /**
-     * @param $request Request
      * @param $dbversion string
      * @param $project_id string
+     * @param $attribute string
      * @return Response
-     * @Route("/{dbversion}/project/details/{project_id}", name="project_details", options={"expose" = true})
+     * @Security("is_granted(attribute, project_id)")
+     * @Route("/project/details/{project_id}/{attribute}", name="project_details", options={"expose" = true})
      */
-    public function detailsAction(Request $request, $dbversion, $project_id){
-        $projectDetails = $this->get('app.api.webservice')->factory('details', 'projects');
-        $query = $request->query;
-        $query->set('dbversion', $dbversion);
-        $query->set('ids', array($project_id));
-        $projectResult = $projectDetails->execute($query, $this->getFennecUser());
+    public function detailsAction($dbversion, $project_id, $attribute){
+        $projectDetails = $this->container->get(Details\Projects::class);
+        $user = $this->getFennecUser();
+        $projectResult = $projectDetails->execute($project_id, $user);
         return $this->render(
             'project/details.html.twig',
             [
@@ -54,37 +55,34 @@ class ProjectController extends Controller
                 'type' => 'project',
                 'title' => 'Projects',
                 'project' => $projectResult,
-                'internal_project_id' => $project_id
+                'internal_project_id' => $project_id,
+                'attribute' => $attribute
             ]
         );
     }
 
     /**
-     * @param $request Request
      * @param $dbversion string
      * @param $project_id string
+     * @param $attribute string
      * @param $trait_type_id
      * @param $dimension
+     * @Security("is_granted(attribute, project_id)")
      * @return Response
      * @Route(
-     *     "/{dbversion}/project/details/{project_id}/trait/{trait_type_id}/{dimension}",
+     *     "/project/details/{project_id}/{attribute}/trait/{trait_type_id}/{dimension}",
      *     name="project_trait_details",
      *     options={"expose" = true},
      *     requirements={"dimension": "rows|columns"}
      * )
      */
-    public function traitDetailsAction(Request $request, $dbversion, $project_id, $trait_type_id, $dimension){
-        $projectTraitDetails = $this->get('app.api.webservice')->factory('details', 'traitOfProject');
-        $query = $request->query;
-        $query->set('dbversion', $dbversion);
-        $query->set('internal_project_id', $project_id);
-        $query->set('trait_type_id', $trait_type_id);
-        $query->set('dimension', $dimension);
-        $query->set('include_citations', true);
-        $traitResult = $projectTraitDetails->execute($query, $this->getFennecUser());
-        $projectDetails = $this->get('app.api.webservice')->factory('details', 'projects');
-        $query->set('ids', array($project_id));
-        $projectResult = $projectDetails->execute($query, $this->getFennecUser());
+    public function traitDetailsAction($attribute, $dbversion, $project_id, $trait_type_id, $dimension){
+        $projectTraitDetails = $this->container->get(Details\TraitOfProject::class);
+        $includeCitations = true;
+        $user = $this->getFennecUser();
+        $traitResult = $projectTraitDetails->execute($trait_type_id, $project_id, $dimension, $user, $dbversion, $includeCitations);
+        $projectDetails = $this->container->get(Details\Projects::class);
+        $projectResult = $projectDetails->execute($project_id, $user);
         return $this->render(
             'project/traitDetails.html.twig',
             [
@@ -94,7 +92,8 @@ class ProjectController extends Controller
                 'trait' => $traitResult,
                 'project' => $projectResult,
                 'internal_project_id' => $project_id,
-                'dimension' => $dimension
+                'dimension' => $dimension,
+                'attribute' => $attribute
             ]
         );
     }
@@ -104,7 +103,7 @@ class ProjectController extends Controller
      */
     private function getFennecUser(){
         $user = null;
-        if($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')){
+        if($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')){
             $user = $this->get('security.token_storage')->getToken()->getUser();
         }
         return $user;

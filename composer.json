@@ -18,8 +18,8 @@
     },
     "require": {
         "php": ">=5.5.9",
-        "symfony/symfony": "3.3.*",
-        "doctrine/orm": "2.6.x-dev",
+        "symfony/symfony": "3.4.*",
+        "doctrine/orm": "^2.6",
         "doctrine/doctrine-bundle": "^1.6",
         "doctrine/doctrine-cache-bundle": "^1.2",
         "symfony/swiftmailer-bundle": "^3.0",
@@ -28,20 +28,26 @@
         "sensio/distribution-bundle": "^5.0",
         "sensio/framework-extra-bundle": "^3.0.2",
         "incenteev/composer-parameter-handler": "^2.0",
-        "friendsofsymfony/jsrouting-bundle": "^1.6",
+        "friendsofsymfony/jsrouting-bundle": "^2.1",
         "iimog/biom-conversion-server": "^1.0.4",
         "hwi/oauth-bundle": "^0.5.3",
-        "doctrine/dbal": "2.6.x-dev",
+        "doctrine/dbal": "^2.6",
         "doctrine/common": "2.7.1",
-        "shivas/versioning-bundle": "^1.4",
+        "shivas/versioning-bundle": "^2.0",
         "symfony/web-server-bundle": "^3.3",
         "symfony/proxy-manager-bridge": "^3.3",
-        "ocramius/proxy-manager": "^2.0"
+        "ocramius/proxy-manager": "^2.0",
+        "friendsofsymfony/user-bundle": "^2.0",
+        "doctrine/doctrine-migrations-bundle": "^1.0",
+        "easycorp/easyadmin-bundle": "^1.0",
+        "symfony/validator": "^4.0",
+        "nelmio/api-doc-bundle": "^3.1"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
         "symfony/phpunit-bridge": "^3.3",
-        "phpunit/phpunit": "^5.6"
+        "phpunit/phpunit": "^5.6",
+        "doctrine/doctrine-fixtures-bundle": "^3.0"
     },
     "scripts": {
         "symfony-scripts": [
@@ -66,8 +72,10 @@
         "symfony-web-dir": "web",
         "symfony-tests-dir": "tests",
         "symfony-assets-install": "relative",
-        "incenteev-parameters": {
+        "incenteev-parameters": [{
             "file": "app/config/parameters.yml"
-        }
+        },{
+	    "file": "app/config/parameters_test.yml"
+	}]
     }
 }

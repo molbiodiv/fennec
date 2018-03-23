@@ -2,59 +2,74 @@
 
 namespace AppBundle\API\Upload;
 
-use AppBundle\API\Webservice;
-use AppBundle\Entity\WebuserData;
-use AppBundle\User\FennecUser;
-use Symfony\Component\HttpFoundation\ParameterBag;
+use AppBundle\Entity\User\FennecUser;
+use AppBundle\Entity\User\Permissions;
+use AppBundle\Entity\User\Project;
+use AppBundle\Service\DBVersion;
 use biomcs\BiomCS;
 
 /**
  * Web Service.
  * Uploads Project biom files and save them in the database
  */
-class Projects extends Webservice
+class Projects
 {
     const ERROR_IN_REQUEST = "Error. There was an error in your request.";
     const ERROR_NOT_BIOM = "Error. Not a biom file.";
     const ERROR_DB_INSERT = "Error. Could not insert into database.";
+    const ERROR_NOT_LOGGED_IN = "Error. You are not logged in.";
 
-    public $required_biom1_toplevel_keys = array(
-        'id',
-        'format',
-        'format_url',
-        'type',
-        'generated_by',
-        'date',
-        'rows',
-        'columns',
-        'matrix_type',
-        'matrix_element_type',
-        'shape',
-        'data'
-    );
+    private $manager;
+
+    private $required_biom1_toplevel_keys;
+
+    /**
+     * Projects constructor.
+     */
+    public function __construct(DBVersion $dbversion)
+    {
+        $this->manager = $dbversion->getUserEntityManager();
+        $this->required_biom1_toplevel_keys = array(
+            'id',
+            'format',
+            'format_url',
+            'type',
+            'generated_by',
+            'date',
+            'rows',
+            'columns',
+            'matrix_type',
+            'matrix_element_type',
+            'shape',
+            'data'
+        );
+    }
+
 
     /**
      * @inheritdoc
      * @returns array result of file upload
      */
-    public function execute(ParameterBag $query, FennecUser $user = null)
+    public function execute(FennecUser $user = null)
     {
         ini_set('memory_limit', '512M');
-        $em = $this->getManagerFromQuery($query);
         $files = array();
         if ($user === null) {
-            $files = array("error" => WebService::ERROR_NOT_LOGGED_IN);
+            $files = array("error" => Projects::ERROR_NOT_LOGGED_IN);
         } else {
-            $create_if_not_exists = true;
-            $webuser = $user->getWebuser($em, $create_if_not_exists);
             for ($i=0; $i<sizeof($_FILES); $i++) {
                 $valid = $this->validateAndConvertFile($_FILES[$i]['tmp_name']);
                 if ($valid === true) {
-                    $project = new WebuserData();
+                    $project = new Project();
                     $project->setProject(json_decode(file_get_contents($_FILES[$i]['tmp_name'])));
-                    $project->setWebuser($webuser);
+                    $project->setUser($user);
                     $project->setImportFilename($_FILES[$i]['name']);
-                    $em->persist($project);
+                    $this->manager->persist($project);
+                    $permission = new Permissions();
+                    $permission->setUser($user);
+                    $permission->setProject($project);
+                    $permission->setPermission('owner');
+                    $this->manager->persist($permission);
                 }
                 $file = array(
                     "name" => $_FILES[$i]['name'],
@@ -64,7 +79,7 @@ class Projects extends Webservice
                 $files[] = $file;
             }
         }
-        $em->flush();
+        $this->manager->flush();
         return array("files" => $files);
     }
 

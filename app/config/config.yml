@@ -11,7 +11,7 @@ parameters:
 
 framework:
     #esi:             ~
-    #translator:      { fallbacks: ["%locale%"] }
+    translator:      { fallbacks: ["%locale%"] }
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -43,8 +43,9 @@ twig:
     strict_variables: "%kernel.debug%"
     globals:
         fennec_version: "%application_version%"
-        dbversions: "%dbal%"
+        dbversions: "%versions%"
         ga_tracking: "%ga_tracking%"
+    form_themes: ['bootstrap_3_horizontal_layout.html.twig']
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -54,9 +55,24 @@ swiftmailer:
     password:  "%mailer_password%"
     spool:     { type: memory }
 
+fos_user:
+    db_driver: orm
+    firewall_name: main
+    user_class: AppBundle\Entity\User\FennecUser
+    from_email:
+        address: "hello@fennec.com"
+        sender_name: "Fennec"
+    registration:
+        form:
+            type: AppBundle\Form\RegistrationFormType
+
 hwi_oauth:
     # list of names of the firewalls in which this bundle is active, this setting MUST be set
-    firewall_names: [secured_area]
+    firewall_names: [main]
+    fosub:
+        username_iterations: 30
+        properties:
+            github: github_id
     http_client:
         timeout: 10
     resource_owners:
@@ -67,14 +83,39 @@ hwi_oauth:
             scope:               'user:email,public_repo'
             options:
                 csrf:            true
-        google:
-            type:                google
-            client_id:           "%google_client_id%"
-            client_secret:       "%google_client_secret%"
-            scope:               "email"
-            options:
-                access_type:     offline
-                csrf:            true
 
 shivas_versioning:
     version_file:  version.yml
+
+easy_admin:
+    entities:
+        FennecUser:
+            class: AppBundle\Entity\User\FennecUser
+            label: 'User'
+            list:
+                title: 'All Users'
+            form:
+                fields:
+                    - 'username'
+                    - 'firstName'
+                    - 'lastName'
+                    - 'email'
+                    - 'enabled'
+                    - 'lastLogin'
+                    - { property: 'plainPassword', type: 'text', type_options: { required: false } }
+                    - { property: 'roles', type: 'choice', type_options: { multiple: true, choices: { 'ROLE_USER': 'ROLE_USER', 'ROLE_ADMIN': 'ROLE_ADMIN' } } }
+
+    site_name: 'Fennec Backend'
+    design:
+        brand_color: '#514535'
+        color_scheme: 'light'
+
+nelmio_api_doc:
+    areas:
+        path_patterns: # an array of regexps
+            - ^/.*/api/.*
+    documentation:
+        info:
+            title: FENNEC
+            description: API
+            version: "%application_version%"

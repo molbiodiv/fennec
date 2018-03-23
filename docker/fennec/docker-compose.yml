@@ -1,0 +1,30 @@
+version: '3'
+services:
+  datadb:
+    image: postgres:9.6
+    volumes:
+    - "./volumes/datadb:/var/lib/postgresql/data"
+    environment:
+      POSTGRES_USER: fennec_data
+      POSTGRES_PASSWORD: fennec_data
+      POSTGRES_DB: fennec_data
+  userdb:
+    image: postgres:9.6
+    volumes:
+    - "./volumes/userdb:/var/lib/postgresql/data"
+    environment:
+      POSTGRES_USER: fennec_user
+      POSTGRES_PASSWORD: fennec_user
+      POSTGRES_DB: fennec_user
+  web:
+    image: iimog/fennec
+    ports:
+    - "80:80"
+    depends_on:
+      - datadb
+      - userdb
+    volumes:
+    - "./data:/data"
+    - "./parameters.yml:/fennec/app/config/parameters.yml"
+    - "./custom_contact.html.twig:/fennec/app/Resources/views/misc/custom_contact.html.twig"
+    restart: unless-stopped

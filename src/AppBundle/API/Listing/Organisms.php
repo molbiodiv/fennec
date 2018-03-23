@@ -2,19 +2,26 @@
 
 namespace AppBundle\API\Listing;
 
-use AppBundle\API\Webservice;
-use AppBundle\User\FennecUser;
-use \PDO as PDO;
-use Symfony\Component\HttpFoundation\ParameterBag;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use AppBundle\Entity\Data\Organism;
+use AppBundle\Service\DBVersion;
 
 /**
  * Web Service.
  * Returns Organisms up to a limit in the given db version (matching a search criterion if supplied)
  */
-class Organisms extends Webservice
+class Organisms
 {
-    private $database;
+    private $em;
+
+    /**
+     * Organisms constructor.
+     * @param $dbversion
+     */
+    public function __construct(DBVersion $dbversion)
+    {
+        $this->em = $dbversion->getDataEntityManager();
+    }
+
 
     /**
      * @inheritdoc
@@ -33,59 +40,9 @@ class Organisms extends Webservice
      *     'scientific_name' => 'Dionaea muscipula'
      * );
      * </code>
-     *
-     * @api {get} /listing/organisms Organisms
-     * @apiName ListingOrganisms
-     * @apiGroup Listing
-     * @apiParam {String} dbversion Version of the internal fennec database
-     * @apiParam {Number} [limit=5] Limit number of results
-     * @apiParam {String} [search=""] Only return organisms where the scientific name matches this string (case insensitive)
-     * @apiVersion 0.8.0
-     * @apiSuccessExample {json} Success-Response:
-     *     HTTP/1.1 200 OK
-     *     [{
-     *       "fennec_id": 22457,
-     *       "scientific_name": "Bellis perennis"
-     *     }]
-     * @apiParamExample {json} Request-Example:
-     *     {
-     *       "dbversion": "1.0",
-     *       "limit": 2,
-     *       "search": "Bellis perennis"
-     *     }
-     * @apiSuccess {Array} results Array of result objects. Each result has keys fennec_id and scientific_name
-     * @apiExample {curl} Example usage:
-     *     curl http://fennec.molecular.eco/api/listing/organisms?dbversion=1.0&limit=1&search=bellis
-     * @apiSampleRequest http://fennec.molecular.eco/api/listing/organisms
      */
-    public function execute(ParameterBag $query, FennecUser $user = null)
+    public function execute($limit, $search)
     {
-        $this->database = $this->getManagerFromQuery($query)->getConnection();
-        $limit = 5;
-        if ($query->has('limit')) {
-            $limit = $query->get('limit');
-        }
-        $search = "%%";
-        if ($query->has('search')) {
-            $search = "%".$query->get('search')."%";
-        }
-        $query_get_organisms = <<<EOF
-SELECT *
-    FROM organism WHERE organism.scientific_name ILIKE :search LIMIT :limit
-EOF;
-        $stm_get_organisms = $this->database->prepare($query_get_organisms);
-        $stm_get_organisms->bindValue('search', $search);
-        $stm_get_organisms->bindValue('limit', $limit);
-        $stm_get_organisms->execute();
-
-        $data = array();
-
-        while ($row = $stm_get_organisms->fetch(PDO::FETCH_ASSOC)) {
-            $result = array();
-            $result['fennec_id'] = $row['fennec_id'];
-            $result['scientific_name'] = $row['scientific_name'];
-            $data[] = $result;
-        }
-        return $data;
+        return $this->em->getRepository(Organism::class)->getListOfOrganisms($limit, $search);
     }
 }

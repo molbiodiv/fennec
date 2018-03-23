@@ -3,52 +3,55 @@
 namespace AppBundle\API\Details;
 
 use AppBundle\API\Webservice;
-use AppBundle\User\FennecUser;
-use \PDO as PDO;
-use Symfony\Component\HttpFoundation\ParameterBag;
+use AppBundle\Entity\User\FennecUser;
+use AppBundle\Service\DBVersion;
+use Doctrine\Common\Collections\Criteria;
 
 /**
  * Web Service.
  * Returns all fennec_ids of a project
  */
-class OrganismsOfProject extends Webservice
+class OrganismsOfProject
 {
     const ERROR_PROJECT_NOT_FOUND = 'Error: Project not found.';
+    const ERROR_NOT_LOGGED_IN = 'Error: User not logged in.';
+
+    private $manager;
+    private $dbversion;
+
+    /**
+     * OrganismsOfProject constructor.
+     * @param $dbversion
+     */
+    public function __construct(DBVersion $dbversion)
+    {
+        $this->manager = $dbversion->getUserEntityManager();
+        $this->dbversion = $dbversion->getConnectionName();
+    }
+
 
     /**
      * @inheritdoc
+     * @param FennecUser $user
      * @returns array $result
      * <code>
      * array('fennec_id_1', 'fennec_id_2');
      * </code>
      */
-    public function execute(ParameterBag $query, FennecUser $user = null)
+    public function execute($projectId, $dimension, $user)
     {
-        $manager = $this->getManagerFromQuery($query);
-        $dbversion = $query->get('dbversion');
         $result = array();
         if ($user === null) {
-            $result['error'] = Webservice::ERROR_NOT_LOGGED_IN;
+            $result['error'] = OrganismsOfProject::ERROR_NOT_LOGGED_IN;
         } else {
-            $provider = $manager->getRepository('AppBundle:OauthProvider')->findOneBy(array(
-                'provider' => $user->getProvider()
-            ));
-            $user = $manager->getRepository('AppBundle:Webuser')->findOneBy(array(
-                'oauthId' => $user->getId(),
-                'oauthProvider' => $provider
-            ));
-            $project = $manager->getRepository('AppBundle:WebuserData')->findOneBy(array(
-                'webuser' => $user,
-                'webuserDataId' => $query->get('internal_project_id')
-            ));
+            $permissionCollection = $user->getPermissions();
+            $project = $this->manager->getRepository('AppBundle:Project')->find($projectId);
+            $criteria = Criteria::create()->where(Criteria::expr()->eq("project", $project));
+            $projectPermission = $permissionCollection->matching($criteria);
 
-            if($project === null){
+            if($projectPermission->isEmpty()){
                 $result['error'] = OrganismsOfProject::ERROR_PROJECT_NOT_FOUND;
             } else {
-                $dimension = 'rows';
-                if($query->has('dimension') && $query->get('dimension') == 'columns'){
-                    $dimension = 'columns';
-                }
                 $entries = $project->getProject()[$dimension];
                 $fennec_ids = array();
                 foreach ($entries as $entry){
@@ -56,12 +59,12 @@ class OrganismsOfProject extends Webservice
                         if (is_array($entry['metadata']) and key_exists('fennec', $entry['metadata'])) {
                             $fennec = json_decode($entry['metadata']['fennec'], true);
                             if(is_array($fennec) and
-                                key_exists($dbversion, $fennec) and
-                                is_array($fennec[$dbversion]) and
-                                key_exists('fennec_id', $fennec[$dbversion]) and
-                                $fennec[$dbversion]['fennec_id'] !== null
+                                key_exists($this->dbversion, $fennec) and
+                                is_array($fennec[$this->dbversion]) and
+                                key_exists('fennec_id', $fennec[$this->dbversion]) and
+                                $fennec[$this->dbversion]['fennec_id'] !== null
                             ){
-                                array_push($fennec_ids, $fennec[$dbversion]['fennec_id']);
+                                array_push($fennec_ids, $fennec[$this->dbversion]['fennec_id']);
                             }
                         }
                     }

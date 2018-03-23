@@ -2,18 +2,33 @@
 
 namespace AppBundle\API\Details;
 
-use AppBundle\API\Webservice;
-use AppBundle\Entity\WebuserData;
-use AppBundle\User\FennecUser;
-use Symfony\Component\HttpFoundation\ParameterBag;
+use AppBundle\Entity\User\FennecUser;
+use AppBundle\Entity\User\Project;
+use AppBundle\Service\DBVersion;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 
 /**
  * Web Service.
  * Returns a project according to the project ID.
  */
-class Projects extends Webservice
+class Projects
 {
     const PROJECT_NOT_FOUND_FOR_USER = "Error: At least one project could not be found for the current user.";
+    const ERROR_NOT_LOGGED_IN = "Error: You are not logged in.";
+
+    private $manager;
+
+    /**
+     * Projects constructor.
+     * @param $dbversion
+     */
+    public function __construct(DBVersion $dbversion)
+    {
+        $this->manager = $dbversion->getUserEntityManager();
+    }
+
+
     /**
     * @inheritdoc
     * @returns array $result
@@ -21,29 +36,25 @@ class Projects extends Webservice
     * array('project_id': {biomFile});
     * </code>
     */
-    public function execute(ParameterBag $query, FennecUser $user = null)
+    public function execute($projectId, FennecUser $user = null)
     {
-        $em = $this->getManagerFromQuery($query);
         $result = array('projects' => array());
-        $ids = $query->get('ids');
-        $placeholders = implode(',', array_fill(0, count($ids), '?'));
         if ($user === null) {
-            $result['error'] = Webservice::ERROR_NOT_LOGGED_IN;
+            $result['error'] = Projects::ERROR_NOT_LOGGED_IN;
         } else {
-            $webuser = $user->getWebuser($em);
-            if($webuser === null){
+            /**
+             * @var $project Project
+             */
+            $project = $this->manager->getRepository('AppBundle:Project')->find($projectId);
+            $criteria = Criteria::create()->where(Criteria::expr()->eq("project", $project));
+            /**
+             * @var $projectPermission Collection
+             */
+            $projectPermission = $user->getPermissions()->matching($criteria);
+            if($projectPermission->isEmpty()){
                 $result['error'] = Projects::PROJECT_NOT_FOUND_FOR_USER;
-            }
-            $webuserData = $webuser->getData()->filter(function($data) use($ids){
-                /** @var WebuserData $data */
-                return in_array($data->getWebuserDataId(), $ids);
-            });
-            if (count($webuserData) < 1) {
-                $result['error'] = Projects::PROJECT_NOT_FOUND_FOR_USER;
-            }
-            foreach ($webuserData as $project) {
-                /** @var WebuserData $project */
-                $result['projects'][$project->getWebuserDataId()] = array(
+            } else {
+                $result['projects'][$project->getId()] = array(
                     'biom' => json_encode($project->getProject()),
                     'import_date' => $project->getImportDate(),
                     'import_filename' => $project->getImportFilename()

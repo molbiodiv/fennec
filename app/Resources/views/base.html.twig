@@ -6,6 +6,7 @@
         {% block stylesheets %}
             {# Global styles bundled with webpack #}
             <link rel="stylesheet" href="{{ asset('assets/js/global.css') }}" />
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
             {# icon font via fontastic.me #}
             <link rel="stylesheet" href="{{ asset('assets/css/fennec-font.css') }}">
         {% endblock %}
@@ -34,7 +35,7 @@
                 });
             </script>
             <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-
+            <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
         {% endblock %}
         {% block body %}{% endblock %}
     </body>

@@ -32,30 +32,15 @@ table.dataTable.project-table thead .sorting_desc_disabled {
     text-decoration: none;
 }
 
-div#project-table_paginate > .pagination > .active > a,
-div#project-table_paginate > .pagination > .active > a:focus {
+div > .pagination > .active > a,
+div > .pagination > .active > a:focus {
     color: #FFF;
     cursor: pointer;
     background-color: $project;
     border-color: $project;
 }
 
-div#project-table_paginate > .pagination > .active > a:hover {
-    color: #FFF;
-    cursor: pointer;
-    background-color: darken($project, 10%);
-    border-color: darken($project, 10%);
-}
-
-div#projectDetails_otuTable_paginate > .pagination > .active > a,
-div#projectDetails_otuTable_paginate > .pagination > .active > a:focus {
-    color: #FFF;
-    cursor: pointer;
-    background-color: $project;
-    border-color: $project;
-}
-
-div#projectDetails_otuTable_paginate > .pagination > .active > a:hover {
+div > .pagination > .active > a:hover {
     color: #FFF;
     cursor: pointer;
     background-color: darken($project, 10%);

@@ -2,19 +2,17 @@
 
 namespace AppBundle\Command;
 
-
-use AppBundle\Entity\Db;
-use AppBundle\Entity\FennecDbxref;
-use AppBundle\Entity\Organism;
+use AppBundle\Entity\Data\Db;
+use AppBundle\Entity\Data\FennecDbxref;
+use AppBundle\Entity\Data\Organism;
 use Doctrine\ORM\EntityManager;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ImportOrganismDBCommand extends ContainerAwareCommand
+class ImportOrganismDBCommand extends AbstractDataDBAwareCommand
 {
     const BATCH_SIZE = 10;
     /**
@@ -22,13 +20,9 @@ class ImportOrganismDBCommand extends ContainerAwareCommand
      */
     private $em;
 
-    /**
-     * @var string
-     */
-    private $connectionName;
-
     protected function configure()
     {
+        parent::configure();
         $this
         // the name of the command (the part after "bin/console")
         ->setName('app:import-organism-db')
@@ -43,11 +37,8 @@ class ImportOrganismDBCommand extends ContainerAwareCommand
             "scientific_name\tdb_id\n\n"
         )
         ->addArgument('file', InputArgument::REQUIRED, 'The path to the input csv file')
-        ->addOption('connection', 'c', InputOption::VALUE_REQUIRED, 'The database version')
-        ->addOption('provider', 'p', InputOption::VALUE_REQUIRED, 'The name of the database provider (e.g. NCBI Taxonomy)', null)
-        //->addOption('mapping', "m", InputOption::VALUE_REQUIRED, 'Method of mapping for id column. If not set fennec_ids are assumed and no mapping is performed', null)
-        ->addOption('description', 'd', InputOption::VALUE_REQUIRED, 'Description of the database provider', null)
-        //->addOption('skip-unmapped', 's', InputOption::VALUE_NONE, 'do not exit if a line can not be mapped (uniquely) to a fennec_id instead skip this entry', null)
+        ->addOption('provider', 'p', InputOption::VALUE_REQUIRED, 'The name of the database provider (e.g. NCBI Taxonomy), will be added to the db if it does not already exist', null)
+        ->addOption('description', 'd', InputOption::VALUE_REQUIRED, 'Description of the database provider (only used if the database did not already exist)', null)
     ;
     }
 
@@ -61,10 +52,10 @@ class ImportOrganismDBCommand extends ContainerAwareCommand
         if(!$this->checkOptions($input, $output)){
             return;
         }
-        $this->initConnection($input);
+        $this->em = $this->initConnection($input);
         $this->em->getConnection()->getConfiguration()->setSQLLogger(null);
         gc_enable();
-        $provider = $this->getOrInsertProvider($input->getOption('provider'), $input->getOption('description'));
+        $provider = $this->getOrInsertProviderID($input->getOption('provider'), $input->getOption('description'));
         $lines = intval(exec('wc -l '.escapeshellarg($input->getArgument('file')).' 2>/dev/null'));
         $progress = new ProgressBar($output, $lines);
         $progress->start();
@@ -106,7 +97,7 @@ class ImportOrganismDBCommand extends ContainerAwareCommand
      * @param $description
      * @return int Db id of provider
      */
-    protected function getOrInsertProvider($name, $description)
+    protected function getOrInsertProviderID($name, $description)
     {
         $provider = $this->em->getRepository('AppBundle:Db')->findOneBy(array(
             'name' => $name
@@ -119,7 +110,7 @@ class ImportOrganismDBCommand extends ContainerAwareCommand
             $this->em->persist($provider);
             $this->em->flush();
         }
-        return $provider->getDbId();
+        return $provider->getId();
     }
 
     /**
@@ -166,18 +157,4 @@ class ImportOrganismDBCommand extends ContainerAwareCommand
         }
         return true;
     }
-
-    /**
-     * @param InputInterface $input
-     */
-    protected function initConnection(InputInterface $input)
-    {
-        $this->connectionName = $input->getOption('connection');
-        if ($this->connectionName === null) {
-            $this->connectionName = $this->getContainer()->get('doctrine')->getDefaultConnectionName();
-        }
-        $orm = $this->getContainer()->get('app.orm');
-        $this->em = $orm->getManagerForVersion($this->connectionName);
-    }
-
 }

@@ -3,30 +3,20 @@
 namespace AppBundle\Command;
 
 use Doctrine\ORM\EntityManager;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ExpireTraitEntriesCommand extends ContainerAwareCommand
+class ExpireTraitEntriesCommand extends AbstractDataDBAwareCommand
 {
     /**
      * @var EntityManager
      */
     private $em;
 
-    /**
-     * @var array<int> TraitType ids
-     */
-    private $traitType;
-
-    /**
-     * @var string
-     */
-    private $connectionName;
-
     protected function configure()
     {
+        parent::configure();
         $this
         // the name of the command (the part after "bin/console")
         ->setName('app:expire-trait-entries')
@@ -37,7 +27,6 @@ class ExpireTraitEntriesCommand extends ContainerAwareCommand
         // the full command description shown when running the command with
         // the "--help" option
         ->setHelp("This command allows you to expire all entries of a trait type...\n")
-        ->addOption('connection', 'c', InputOption::VALUE_REQUIRED, 'The database version')
         ->addOption('traittype', 't', InputOption::VALUE_REQUIRED, 'The name of the trait type', null)
     ;
     }
@@ -52,7 +41,7 @@ class ExpireTraitEntriesCommand extends ContainerAwareCommand
         if(!$this->checkOptions($input, $output)){
             return;
         }
-        $this->initConnection($input);
+        $this->em = $this->initConnection($input);
         // Logger has to be disabled, otherwise memory increases linearly
         $this->em->getConnection()->getConfiguration()->setSQLLogger(null);
         gc_enable();
@@ -96,18 +85,5 @@ class ExpireTraitEntriesCommand extends ContainerAwareCommand
             return false;
         }
         return true;
-    }
-
-    /**
-     * @param InputInterface $input
-     */
-    protected function initConnection(InputInterface $input)
-    {
-        $this->connectionName = $input->getOption('connection');
-        if ($this->connectionName === null) {
-            $this->connectionName = $this->getContainer()->get('doctrine')->getDefaultConnectionName();
-        }
-        $orm = $this->getContainer()->get('app.orm');
-        $this->em = $orm->getManagerForVersion($this->connectionName);
     }
 }

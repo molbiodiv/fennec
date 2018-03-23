@@ -4,26 +4,25 @@
 
 function appendTraitEntries(domElement, traitEntries, traitFormat){
     $.ajax({
-        url: Routing.generate('api', {'namespace': 'details', 'classname': 'TraitEntries'}),
+        url: Routing.generate('api_details_trait_entries', {'dbversion': dbversion}),
         data: {
-            "dbversion": dbversion,
             "trait_entry_ids": traitEntries,
             "trait_format": traitFormat
         },
         method: "GET",
         success: function(result){
             $.each(result, function (key, value) {
-                var realValue = value.value;
-                if(value.value === null){
-                    realValue = value.value_definition;
+                var realValue = value.valueName;
+                if(value.valueName === null){
+                    realValue = value.valueDefinition;
                 }
                 let unitString = ""
                 if(value.unit != null){
                     unitString = " $"+ value.unit +"$"
                 }
                 let traitCitationDiv = $('<div class="trait-citation">').text(value.citation).css({'font-size': '11px'})
-                let originUrl = $(`<a href="${value.origin_url}">`).text(" origin")
-                if(value.origin_url != ""){
+                let originUrl = $(`<a href="${value.originUrl}">`).text(" origin")
+                if(value.originUrl != ""){
                     traitCitationDiv.append(originUrl)
                 }
                 domElement.append($('<div>').text(realValue+unitString).append(traitCitationDiv));

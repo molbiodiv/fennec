@@ -63,14 +63,14 @@ $('document').ready(async function () {
  */
 function saveBiomToDB() {
     biom.write().then(function (biomJson) {
-        var webserviceUrl = Routing.generate('api', {'namespace': 'edit', 'classname': 'updateProject'});
-        $.ajax(webserviceUrl, {
+        var webserviceUrl = Routing.generate('api_edit_update_project', {'dbversion': dbversion});
+        $.ajax({
+            url: webserviceUrl,
             data: {
-                "dbversion": dbversion,
-                "project_id": internalProjectId,
-                "biom": biomJson
+                'biom': biomJson,
+                'projectId': internalProjectId
             },
-            method: "POST",
+            type: 'POST',
             success: function () {
                 location.reload();
             }
@@ -88,7 +88,7 @@ window.saveBiomToDB = saveBiomToDB;
  * @param {boolean} asHdf5
  */
 function exportProjectAsBiom(asHdf5) {
-    let conversionServerURL = Routing.generate('biomcs_convert');
+    let conversionServerURL = Routing.generate('biomcs_convert', {'dbversion': dbversion});
     let contentType = asHdf5 ? "application/octet-stream" : "text/plain";
     biom.write({conversionServer: conversionServerURL, asHdf5: asHdf5}).then(function (biomContent) {
         var blob = new Blob([biomContent], {type: contentType});
@@ -174,11 +174,10 @@ function addMetadataObservation(event)
 }
 
 function updateProject() {
-    let webserviceUrl = Routing.generate('api', {'namespace': 'edit', 'classname': 'updateProject'});
+    let webserviceUrl = Routing.generate('api_edit_update_project', {'dbversion': dbversion});
     $.ajax(webserviceUrl, {
         data: {
-            "dbversion": dbversion,
-            "project_id": internalProjectId,
+            "projectId": internalProjectId,
             "biom": biom.toString()
         },
         method: "POST",

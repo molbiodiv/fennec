@@ -2,8 +2,7 @@
 
 namespace Test\AppBundle\API\Details;
 
-use AppBundle\User\FennecUser;
-use Symfony\Component\HttpFoundation\ParameterBag;
+use AppBundle\API\Details;
 use Tests\AppBundle\API\WebserviceTestCase;
 
 class ProjectsTest extends WebserviceTestCase
@@ -12,16 +11,36 @@ class ProjectsTest extends WebserviceTestCase
     const USERID = 'detailsProjectsTestUser';
     const PROVIDER = 'detailsProjectsTestUser';
 
-    public function testExecute()
+    private $em;
+    private $detailsProjects;
+
+    public function setUp()
     {
-        //Test if the details of one project are returned correctly
-        $default_db = $this->default_db;
-        $service = $this->webservice->factory('details', 'projects');
-        $listingProjects = $this->webservice->factory('listing', 'projects');
-        $this->user = new FennecUser(ProjectsTest::USERID,ProjectsTest::NICKNAME,ProjectsTest::PROVIDER);
-        $entries = $listingProjects->execute(new ParameterBag(array('dbversion' => $default_db)), $this->user);
-        $id = $entries['data'][0]['internal_project_id'];
-        $results = $service->execute(new ParameterBag(array('dbversion' => $default_db, 'ids' => array($id))), $this->user);
+        $kernel = self::bootKernel();
+
+        $this->em = $kernel->getContainer()
+            ->get('doctrine')
+            ->getManager('test_user');
+        $this->detailsProjects = $kernel->getContainer()->get(Details\Projects::class);
+    }
+
+    public function tearDown()
+    {
+        parent::tearDown();
+
+        $this->em->close();
+        $this->em = null; // avoid memory leaks
+    }
+
+    public function testDetailsOfProject()
+    {
+        $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
+            'username' => ProjectsTest::NICKNAME
+        ));
+        $projectId = $this->em->getRepository('AppBundle:Project')->findOneBy(array(
+            'user' => $user
+        ))->getId();
+        $results = $this->detailsProjects->execute($projectId, $user);
         $expected = '{'
             . '"id": "table_1", '
             . '"data": [[0, 0, 120.0], [3, 1, 12.0], [5, 2, 20.0], [7, 3, 12.7], [8, 4, 16.0]], '
@@ -41,8 +60,8 @@ class ProjectsTest extends WebserviceTestCase
             . '"generated_by": "BIOM-Format 2.1", '
             . '"matrix_element_type": "float"'
             . '}';
-        $this->assertEquals(json_decode($expected,true), json_decode($results['projects'][$id]['biom'], true));
-        $this->assertEquals(new \DateTime('2016-05-17T10:00:52'), $results['projects'][$id]['import_date']);
-        $this->assertEquals('detailsProjectsTestFile.biom', $results['projects'][$id]['import_filename']);
+        $this->assertEquals(json_decode($expected,true), json_decode($results['projects'][$projectId]['biom'], true));
+        $this->assertEquals(new \DateTime('2016-05-17T10:00:52'), $results['projects'][$projectId]['import_date']);
+        $this->assertEquals('detailsProjectsTestFile.biom', $results['projects'][$projectId]['import_filename']);
     }
 }

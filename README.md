@@ -1,74 +1,142 @@
-# Fennec Web
+# Fennec
 ## About
-Fennec - Functional Exploration of Natural Networks and Ecological Communities.
-[![DOI](https://zenodo.org/badge/51136300.svg)](https://zenodo.org/badge/latestdoi/51136300)
-## Getting started
-If you want to learn how to use FENNEC or if you want to host your own instance please refer to the [official documentation](http://fennec.readthedocs.io/en/latest/).
-If you want to use the API please see the [API documentation](https://molbiodiv.github.io/fennec/doc/api/) (in development).
+FENNEC - Functional Exploration of Natural Networks and Ecological Communities.
 
-To get started with the development read on:
-### Install prerequisits
- - [composer](https://getcomposer.org/download/)
- - [node.js](https://nodejs.org/en/download/)
- - [yarn](https://yarnpkg.com/en/)
-### Clone source code and initialize packages
+The FENNEC is a tool that helps integrate trait data into ecological community analyses.
+For that purpose traits are aggregated from various sources.
+Those can then be mapped onto user provided community data.
+
+## What are you looking for?
+ - **I want to see FENNEC in action.** &rarr; [Public instance](https://fennec.molecular.eco)
+ - **I want to learn how to use FENNEC.** &rarr; [User manual](https://fennec.readthedocs.io/en/latest/)
+ - **I want to host my own instance of FENNEC.** &rarr; [Admin manual](https://fennec.readthedocs.io/en/latest/admin.html)
+ - **I want to access FENNEC data via API.** &rarr; [API doc](https://fennec.molecular.eco/api/doc) 
+ - **I want to improve/add features to FENNEC.** &rarr; [Read on](#setup-development-environment)
+ - **I want to read/cite the preprint describing FENNEC.** &rarr; [![bioRxiv](https://img.shields.io/badge/DOI-10.1101%2F194308-blue.svg)](https://doi.org/10.1101/194308)
+ - **I want to reference the source code of FENNEC.** &rarr; [![DOI](https://zenodo.org/badge/51136300.svg)](https://zenodo.org/badge/latestdoi/51136300) Please also cite our preprint.
+ - **I want to find the docker image of FENNEC.** &rarr; [Docker Hub](https://hub.docker.com/r/iimog/fennec/)
+
+## Setup development environment
+So you want to contribute to the development of FENNEC - awesome!
+
+### Local setup
+As there are quite a few dependencies and setting everything up properly is highly dependent on the environment, we suggest using docker.
+We provide ready to use docker containers with all dependencies bundled for easy setup and usage.
+A local setup is not impossible but all current developers use the docker setup.
+Therefore, we are best able to assist with that.
+If you really need a local setup have a look at the dockerfile to see how things are installed there.
+Also feel free to open issues with all the problems you encounter.
+
+### Docker setup
+You will clone the repository to your local computer and mount it in a fully functional FENNEC docker environment.
+This way you can develop locally (using your IDE of choice), view your changes immediately in a realistic running system.
+In addition you can transpile code and run the tests without installing additional dependencies.
+
+#### Prerequisites:
+ - [git](https://git-scm.com/)
+ - [docker](https://www.docker.com/)
+ - [docker compose](https://docs.docker.com/compose/)
+
+#### Clone source code and initialize containers
 ```{bash}
-git clone https://github.com/molbiodiv/fennec
+git clone https://github.com/molbiodiv/fennec --recursive
 cd fennec
-yarn install
-composer install
+# your UID is used to run processes in the docker container so files in your repo are not owned by root
+export UID=$UID
+docker-compose -f docker/fennec/docker-compose-dev.yml up -d
 ```
-**Important: do not edit the js or css files in `web/assets` directly.
-They are generated with `./node_modules/.bin/encore` from `app/Resources/client`**
+Congratulations! You are good to go.
+Point your browser to [localhost:3141](http://localhost:3141).
 
-### Docker setup for development
-For development it is advisable to set up three docker containers:
-1. A fennec container to serve the development version (include the repo as a volume)
-2. A database container with data for interactive testing
-3. A database container to run the unit tests
+**Important:** The first time you run `docker-compose up` all installation/initialization steps will be performed and a database with example data is created.
+After that the file `.docker.initialized` is created in the root of your repository which will skip the initialization on subsequent runs of `docker-compose up`.
+If you need re-initialization remove this file but be aware that this might fail if the database already contains data.
 
-```{bash}
-docker pull iimog/fennec
-docker pull postgres:9.6
-docker run -d -e POSTGRES_USER=fennec -e POSTGRES_PASSWORD=fennec -e POSTGRES_DB=fennec --name fennec_db postgres:9.6
-docker run -d -e POSTGRES_USER=fennectest -e POSTGRES_PASSWORD=fennectest -e POSTGRES_DB=fennectest --name fennec_db_test postgres:9.6
-# Run from inside your fennec repository
-# publish the port where our php dev server will run (8000) instead of the apache (80)
-docker run -d -v $PWD:/fennec-dev -p 3141:8000 --link fennec_db:db --link fennec_db_test:testdb --name fennec iimog/fennec
+#### Configuration
 
-# Optionally init the database with pre-existing data (fennec.sql.xz), replace 172.17.0.2 with the ip of the database container as determined by "docker inspect fennec_db"
-xzcat /tmp/fennec.sql.xz | psql -U fennec -h 172.17.0.2 -p 5432 -d fennec
-# Alternatively just init an empty db with the fennec schema
-#docker exec -it fennec php /fennec-dev/bin/console doctrine:schema:create
+The default config files that were created with `init_dev.sh` should be ok to get started but you might want to update `app/config/parameters.yml` with:
+ - github_client_id
+ - github_client_secret
+ - ga_tracking
+ - secret
 
-# Modify parameters.yml and parameters_test.yml in app/config
-# You can use 'fennec_db' as hostname in parameters.yml
-# If you want to run the phpunit test on your development machine you have to insert the ip address of the fennec_db_test in parameters_test.yml
+The first two are required for "Login with GitHub", see [this guide](https://developer.github.com/apps/building-oauth-apps/creating-an-oauth-app/) for details.
+The third one is your [Google Analytics tracking ID](https://support.google.com/analytics/answer/1008080?hl=en), with an empty ID, Google Analytics will be disabled.
+The secret should be replaced with a random string as [documented by symfony](https://symfony.com/doc/3.4/reference/configuration/framework.html#secret).
 
-# Run the development server
-docker exec fennec php /fennec-dev/bin/console server:run 0.0.0.0:8000
+If you need to modify the docker-compose file (e.g. hard code your user id for better integration into your IDE, or for changing the db volume locations) you can do this:
 ```
+cp docker/fennec/docker-compose-dev.yml docker/fennec/docker-compose-dev.local.yml
+```
+This file is not under version control so you can modify it as you like and use this file after the `-f` parameter for all of the `docker-compose` commands.
 
-Now you can point your browser to [http://localhost:3141]().
-
-### Test, LINT, generate API, ...
-Use gulp for all those things:
-```{bash}
-# phpunit testing
-vendor/bin/simple-phpunit
-
-# javascript testing (of helpers)
-npm test
-
-# transpile jsx to js and scss to css
-./node_modules/.bin/encore dev # or production
-# or
-# ./node_modules/.bin/encore production
+#### Source code
+##### php
+The structure of the project is that of a default symfony 3 application.
+Changes to the php code should be served immediately on [localhost:3141](http://localhost:3141) as we are using the development server.
+If you need additional composer packages you can install them with
+```
+docker-compose -f ~/projects/fennec/docker/fennec/docker-compose-dev.local.yml exec web bash -c "cd /fennec-dev;COMPOSER_CACHE_DIR=/tmp composer require -n foo/bar:1.0.0"
 ```
 
-Anything else should be in the [official documentation](http://fennec.readthedocs.io/en/latest/).
+##### javascript and css
+The js(x) and (s)css code is located in `app/Resources/client`.
+**Important: do not edit the js or css files in `web/assets` directly.**
+They are generated with the following command (assuming your working directory is the fennec repo):
+```
+docker-compose -f docker/fennec/docker-compose-dev.yml exec web /fennec-dev/node_modules/.bin/encore dev
+```
+If you need additional npm packages you can install them with
+```
+docker-compose -f ~/projects/fennec/docker/fennec/docker-compose-dev.local.yml exec web bash -c "cd /fennec-dev;HOME=/tmp yarn add --non-interactive package@1.0.0"
+```
+
+##### phinch
+Beware that [phinch](https://github.com/PitchInteractiveInc/Phinch) is included as a git submodule so changes there should not be FENNEC specific.
+However, if you change the `.coffee` files or checkout another version via git re-generate the js files with:
+```
+docker-compose -f ~/projects/fennec/docker/fennec/docker-compose-dev.yml exec web coffee -o /fennec-dev/web/assets/Phinch/scripts /fennec-dev/web/assets/Phinch/src
+```
+
+#### Tests
+##### php
+In order to run the php tests do this:
+```
+docker-compose -f ~/projects/fennec/docker/fennec/docker-compose-dev.yml exec web /fennec-dev/vendor/bin/simple-phpunit -c /fennec-dev/phpunit.xml.dist
+```
+This completely removes and re-creates the test database (this can take some time).
+
+##### javascript
+Currently, only the javascript helper files are unit tested.
+To run the tests execute this command:
+```
+docker-compose -f ~/projects/fennec/docker/fennec/docker-compose-dev.local.yml exec web yarn --cwd /fennec-dev test
+```
+
+#### Documentation
+If you want to contribute documentation you can do so by modifying the content of the `.rst` files in the `doc` directory.
+In case you want to check how the converted html files look you can build with.
+```
+docker-compose -f ~/projects/fennec/docker/fennec/docker-compose-dev.local.yml exec web bash -c "cd /fennec-dev/doc; make html"
+```
+Then open the (local) html file `doc/_build/html/index.html` in your favorite browser.
+As documentation is hosted at [readthedocs](https://readthedocs.org/) those files are not served by FENNEC.
+
+The api doc on the other hand is dynamically created from the php annotations in `src/AppBundle/Controller/APIController.php`.
+Those are served from [localhost:3141/api/doc](http://localhost:3141/api/doc).
 
 ## Changes
+### 1.0.0 <2018-03-23>
+ - Breaking change: Split database into user and data dbs (update schemas)
+ - Add user management (FOSUserBundle)
+ - Add sharing capability for projects
+ - Add permission management for projects (view/edit)
+ - Add admin interface for user management
+ - Improve data import documentation
+ - Improve auto-generated API documentation (NelmioApiDocBundle)
+ - Improve development setup via docker-compose
+ - Improve basic documentation (README)
+ - Fix trait proportions in table and charts (#103,#104)
 ### 0.9.0 <2017-11-03>
  - Add cron capability to docker (#101)
  - Add option to use google analytics

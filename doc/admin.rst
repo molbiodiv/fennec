@@ -12,62 +12,83 @@ If you want to extend or enhance Fennec have a look at the README in the reposit
 Docker setup
 ------------
 
-Install docker according to the `documentation <https://docs.docker.com/engine/installation/>`_.
-Fennec consists of the web server running apache and php and at least one database.
-For the web server part a specific ``fennec`` container is available, for the database a generic ``postgres`` container is sufficient.
+.. NOTE::
 
-Now run the following commands::
+    In order to make setup of new instances as easy as possible we describe the setup using docker compose.
+    If you do not want to use docker compose it is possible to do it with plain docker or even without docker.
+    Feel free to open an `issue <https://github.com/molbiodiv/fennec/issues>`_ if you encounter any problems.
 
-    docker pull iimog/fennec
-    docker pull postgres:9.6
-    docker run -d -e POSTGRES_USER=fennec -e POSTGRES_PASSWORD=fennec -e POSTGRES_DB=fennec --name fennec_db postgres:9.6
-    docker run -d -p 8889:80 --link fennec_db:db --name fennec_web iimog/fennec
-    docker exec -it fennec_web php /fennec/bin/console doctrine:schema:create
+Install docker and docker compose according to the `documentation <https://docs.docker.com/>`_.
+Now create a folder for the fennec instance on the target machine and download the docker compose file::
 
-The web server is now running on http://localhost:8889 .
-However, Fennec does not contain any data, yet.
+    mkdir fennec
+    cd fennec
+    wget https://raw.githubusercontent.com/molbiodiv/fennec/master/docker/fennec/docker-compose.yml
+    # Get initial versions of the main configuration file and the contact page
+    wget -O parameters.yml https://raw.githubusercontent.com/molbiodiv/fennec/master/app/config/parameters.yml.dist
+    wget -O custom_contact.html.twig https://raw.githubusercontent.com/molbiodiv/fennec/master/app/Resources/views/misc/missing_contact.html.twig
+    # Create empty data folder with correct owner
+    mkdir data
 
 .. NOTE::
 
-    When commands should be executed 'inside the docker container', that means that you should enter the ``fennec_web`` container via::
+    The name of the folder is relevant because docker compose will use this as the project name.
+    If you want to have multiple fennec instances on the same host make sure to use different directory names.
+    In the following it is assumed that ``docker-compose`` is always executed from inside your fennec directory.
 
-        docker exec -it fennec_web /bin/bash
+Have a look at the ``docker-compose.yml`` file and edit it as needed (e.g. adjust the port you want to use).
+Now it is time to create and initialize the fennec instance::
+
+    docker-compose up -d
+    # wait a couple of seconds to allow the databases to boot
+    # Now initialize the userdb and the default_data db
+    docker-compose exec web /fennec/bin/console doctrine:schema:create --em userdb
+    docker-compose exec web /fennec/bin/console doctrine:schema:create --em default_data
+    docker-compose exec web /fennec/bin/console doctrine:fixtures:load --em default_data -n
+
+Congratulations, Fennec is now running on http://localhost .
+However, Fennec does not contain any data, yet.
 
 Configuration
 -------------
+
+Create admin user
+^^^^^^^^^^^^^^^^^
+
+The admin user is able to manage other users and needs to be created via the command line.
+You can choose the username, email and password freely.
+If you do not provide the password as last argument you will be prompted for it.
+This avoids adding this sensible information to your command history.
+There will be no visual feedback while you type the password::
+
+    docker-compose exec web /fennec/bin/console app:create-user --super-admin <username> <email> [password]
+
+.. NOTE::
+
+    If you forget the password of the admin user you can create a new one and use the admin web interface to edit or delete the old account.
 
 Login with GitHub
 ^^^^^^^^^^^^^^^^^
 
 1. Register an OAuth App with your account following [this guide](https://developer.github.com/apps/building-integrations/setting-up-and-registering-oauth-apps/)
 2. As "Authorization callback URL" enter your domain or ip address with ``/login`` appended
-3. Modify ``/fennec/app/config/parameters.yml`` and add the respective values to ``github_client_id`` and ``github_client_secret``
+3. Modify ``parameters.yml`` and add the respective values to ``github_client_id`` and ``github_client_secret``
 
 That's it. Login with GitHub should now work.
 
-Login with Google
-^^^^^^^^^^^^^^^^^
+.. WARNING::
 
-1. Register an OAuth App with your account following [this guide](https://support.google.com/googleapi/answer/6158849?hl=en&ref_topic=7013279)
-2. If you want to set a redirect URI use your domain with path ``/login/check-google`` appended
-3. Modify ``/fennec/app/config/parameters.yml`` and add the respective values to ``google_client_id`` and ``google_client_secret``
+    After changes to ``parameters.yml`` it might be necessary to clear the cache::
 
-That's it. Login with Google should now work.
-
-Demo User
-^^^^^^^^^
-
-A single demo user can be configured via ``demo_user_name`` and ``demo_user_password`` in ``/fennec/app/config/parameters.yml``.
-Be aware that this is a single user and everyone using those credentials will share the data.
-Therefore it is possible for everyone to add, modify and delete projects.
-We intend to improve user handling in the future (including demo users) until then feel free to use the demo user as needed.
+        docker-compose restart
+        docker-compose exec -u www-data web /fennec/bin/console cache:clear --env prod
+        docker-compose exec -u www-data web /fennec/bin/console cache:warmup --env prod
 
 Contact Page
 ^^^^^^^^^^^^
 
-A dummy contact page is present but has to be replaced by one showing the real content.
-In order to do this create a file called ``custom_contact.html.twig``.
-You can put content like this for example::
+The content of ``custom_contact.html.twig`` is integrated into the contact page.
+You can modify it like this for example::
 
     <div class="row">
         <h1>Contact</h1>
@@ -75,28 +96,34 @@ You can put content like this for example::
         The source code is available on <a href="https://github.com/molbiodiv/fennec">GitHub</a>.
     </div>
 
-Next this file needs to be transferred to the docker container::
-
-    docker cp custom_contact.html.twig fennec_web:/fennec/app/Resources/views/misc/
-
 Please be aware that a proper contact page might be a legal requirement if you run a public instance.
+
+Google Analytics
+^^^^^^^^^^^^^^^^
+
+It is possible to monitor the traffic of your page with `Google Analytics <https://analytics.google.com>`_ which is disabled by default.
+If you want to enable it make sure that you are allowed to do this legally, and then add your tracking id to ``parameters.yml`` as value for ``ga_tracking``.
 
 Loading organisms
 -----------------
 
+The following sections describe in detail how to import organisms and traits into a Fennec database.
+Those are the commands used to import the ``default_data`` into the public instance.
+If you want to start with a mirror of this database without importing everything manually you can use :download:`this dump <example/fennec_default_data.sql.xz>`.
+Skip ahead to :ref:`import-db-reference-label`.
+
 NCBI Taxonomy
 ^^^^^^^^^^^^^
 
-We will demonstrate loading organisms into the database using `NCBI Taxonomy <https://www.ncbi.nlm.nih.gov/taxonomy>`_.
+We will demonstrate loading organisms into the ``default_data`` database using `NCBI Taxonomy <https://www.ncbi.nlm.nih.gov/taxonomy>`_.
 Inside the docker container execute the following commands::
 
-    cd /tmp
-    curl ftp://ftp.ncbi.nih.gov/pub/taxonomy/taxdump.tar.gz >taxdump.tar.gz
-    tar xzvf taxdump.tar.gz
-    grep "scientific name" names.dmp | perl -F"\t" -ane 'print "$F[2]\t$F[0]\n"' >ncbi_organisms.tsv
-    /fennec/bin/console app:import-organism-db --provider ncbi_taxonomy --description "NCBI Taxonomy" /tmp/ncbi_organisms.tsv
+    curl ftp://ftp.ncbi.nih.gov/pub/taxonomy/taxdump.tar.gz >data/taxdump.tar.gz
+    tar xzvf data/taxdump.tar.gz -C data
+    grep "scientific name" data/names.dmp | perl -F"\t" -ane 'print "$F[2]\t$F[0]\n"' >data/ncbi_organisms.tsv
+    docker-compose exec web /fennec/bin/console app:import-organism-db --provider ncbi_taxonomy /data/ncbi_organisms.tsv
 
-The last step will take a couple of minutes but after that more than 1.6 million organisms will be stored in the database with their scientific name and NCBI taxid.
+The last step will take a couple of minutes but after that more than 1.7 million organisms will be stored in the database with their scientific name and NCBI taxid.
 
 .. ATTENTION::
 
@@ -110,13 +137,10 @@ The last step will take a couple of minutes but after that more than 1.6 million
 In order to add taxonomic relationships follow those steps::
 
     # Create a fennec_id to ncbi_taxid map (will be obsolete in the future)
-    PGPASSWORD=fennec psql -F $'\t' -At -h db -U fennec -c "SELECT fennec_id,identifier as  ncbi_taxid FROM fennec_dbxref, db WHERE fennec_dbxref.db_id=db.db_id AND db.name='ncbi_taxonomy'" >fennec2ncbi.tsv
-    # Synonyms are currently not used at all
-    # perl -F"\t" -ane 'BEGIN{open IN, "<fennec2ncbi.tsv";while(<IN>){chomp;($f,$n)=split(/\t/);$n2f{$n}=$f}} print "$n2f{$F[0]}\t$F[2]\t$F[6]\n" if($F[6] eq "synonym")' names.dmp >ncbi_synonyms.tsv
-    # python fennec-cli/bin/import_organism_names.py --db-host db ncbi_synonyms.tsv
-    perl -F"\t" -ane 'BEGIN{open IN, "<fennec2ncbi.tsv";while(<IN>){chomp;($f,$n)=split(/\t/);$n2f{$n}=$f}} print "$n2f{$F[0]}\t$n2f{$F[2]}\t$F[4]\n"' nodes.dmp >ncbi_taxonomy.tsv
-    git clone https://github.com/molbiodiv/fennec-cli
-    PGPASSWORD=fennec perl fennec-cli/bin/import_taxonomy.pl --input ncbi_taxonomy.tsv --provider ncbi_taxonomy --db-host db
+    docker-compose exec -T datadb psql -U fennec_data -F $'\t' -At -c "SELECT fennec_id,identifier as ncbi_taxid FROM fennec_dbxref, db WHERE fennec_dbxref.db_id=db.id AND db.name='ncbi_taxonomy';" >data/fennec2ncbi.tsv
+    perl -F"\t" -ane 'BEGIN{open IN, "<data/fennec2ncbi.tsv";while(<IN>){chomp;($f,$n)=split(/\t/);$n2f{$n}=$f}} print "$n2f{$F[0]}\t$n2f{$F[2]}\t$F[4]\n"' data/nodes.dmp >data/ncbi_taxonomy.tsv
+    wget -P data https://raw.githubusercontent.com/molbiodiv/fennec-cli/master/bin/import_taxonomy.pl
+    docker-compose exec web perl /data/import_taxonomy.pl --input /data/ncbi_taxonomy.tsv --provider ncbi_taxonomy --db-host datadb --db-user fennec_data --db-password fennec_data --db-name fennec_data
 
 Again the last step will take some minutes (even after printing "Script finished") and needs a few GB of memory.
 
@@ -126,45 +150,34 @@ EOL
 The Encyclopedia of Life is a great resource for organism information.
 Because of the nice API organism pages in Fennec are dynamically created from EOL content.
 In order to link organisms to EOL we need to add EOL page IDs.
-For this purpose download `the hierarchy entries file <http://opendata.eol.org/dataset/da9635ec-71b6-4fb2-a4cb-518f71eeb45d/resource/dd1d5160-b56a-4541-ac88-494bc03b4bc8/download/hierarchyentries.tgz>`_
-and add it to the docker container via ``docker cp hierarchyentries.tgz fennec_web:/tmp``
-(direct download via ``curl`` or ``wget`` produced errors in the past)::
+For this purpose we use `the hierarchy entries file <http://opendata.eol.org/dataset/da9635ec-71b6-4fb2-a4cb-518f71eeb45d/resource/dd1d5160-b56a-4541-ac88-494bc03b4bc8/download/hierarchyentries.tgz>`_::
 
-    cd /tmp
-    tar xzf hierarchyentries.tgz
+    wget -P data http://opendata.eol.org/dataset/da9635ec-71b6-4fb2-a4cb-518f71eeb45d/resource/dd1d5160-b56a-4541-ac88-494bc03b4bc8/download/hierarchyentries.tgz
+    tar xzvf data/hierarchyentries.tgz -C data
     # Now we create a file with two columns: 1) ncbi_taxid 2) eol_id
-    perl -F"\t" -ane 'print "$F[4]\t$F[1]\n" if($F[2] == 1172)' hierarchy_entries.tsv | perl -pe 's/"//g' | sort -u >ncbi2eol.tsv
-    /fennec/bin/console app:import-organism-ids --provider EOL --description "Encyclopedia of Life" --mapping ncbi_taxonomy --skip-unmapped ncbi2eol.tsv
+    perl -F"\t" -ane 'print "$F[4]\t$F[1]\n" if($F[2] == 1172)' data/hierarchy_entries.tsv | perl -pe 's/"//g' | sort -u >data/ncbi2eol.tsv
+    docker-compose exec web php -d memory_limit=2G /fennec/bin/console app:import-organism-ids --provider EOL --mapping ncbi_taxonomy --skip-unmapped /data/ncbi2eol.tsv
 
-Now you have 1.6 million organisms in the database of which roughly 170 thousand have a nice organism page provided by EOL.
+Now you have 1.7 million organisms in the database of which roughly 1.2 million have a nice organism page provided by EOL.
 
 Loading traits
 --------------
-
-Initialize trait formats
-^^^^^^^^^^^^^^^^^^^^^^^^
-
-In the docker container execute::
-
-    /fennec/bin/console app:create-traitformat categorical_free
-    /fennec/bin/console app:create-traitformat numerical
 
 Plant Growth Habit
 ^^^^^^^^^^^^^^^^^^
 
 As a first example we want to load growth habit data for plants from eol.
-First download the `file from opendata.eol.org <http://opendata.eol.org/dataset/3cd2c5c3-67c8-496c-a838-98c99cfaadc3/resource/5ed0d6d3-4261-4c1b-a5cb-9c2e985a9989/download/growth-habit.txt.gz>`_.
-After copying the file to the docker container via ``docker cp growth-habit.txt.gz fennec_web:/tmp``::
+Those values are stored in this `file from opendata.eol.org <https://editors.eol.org/eol_php_code/applications/content_server/resources/eol_traits/growth-habit.txt.gz>`_::
 
-    gunzip growth-habit.txt.gz
+    wget -P data https://editors.eol.org/eol_php_code/applications/content_server/resources/eol_traits/growth-habit.txt.gz
+    gunzip data/growth-habit.txt.gz
     # We want to have a tsv with the following columns: eol_id, value, value_ontology, citation, origin_url
     # And citation consists of the columns "Supplier(12),Citation(15),Reference(29),Source(14)"
-    perl -F"\t" -ane 'print "$F[0]\t$F[4]\t$F[6]\tSupplier:$F[12];Citation:$F[15];Reference:$F[29];Source:$F[14]\t$F[13]\n" unless(/^EOL page ID/)' growth-habit.txt >growth-habit.tsv
-    /fennec/bin/console app:create-webuser EOL # Note user-id for later commands
-    /fennec/bin/console app:create-traittype --format categorical_free --description "general growth form, including size and branching. Some organisms have different growth habits depending on environment or location" --ontology_url "http://www.eol.org/data_glossary#http___eol_org_schema_terms_PlantHabit" "Plant Growth Habit"
-    /fennec/bin/console app:import-trait-entries --traittype "Plant Growth Habit" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" growth-habit.tsv
+    perl -F"\t" -ane 'print "$F[0]\t$F[4]\t$F[6]\tSupplier:$F[12];Citation:$F[15];Reference:$F[29];Source:$F[14]\t$F[13]\n" unless(/^EOL page ID/)' data/growth-habit.txt >data/growth-habit.tsv
+    docker-compose exec web /fennec/bin/console app:create-traittype --format categorical_free --description "general growth form, including size and branching. Some organisms have different growth habits depending on environment or location" --ontology_url "http://www.eol.org/data_glossary#http___eol_org_schema_terms_PlantHabit" "Plant Growth Habit"
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "Plant Growth Habit" --provider TraitBank --description "EOL TraitBank http://eol.org/info/516" --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /data/growth-habit.tsv
 
-More than 1 million of the entries are imported into the database.
+Almost 70 thousand of the entries are imported into the database.
 For the other EOL ids there is no organism in the database, therefore those are skipped (because of the ``--skip-unmapped`` parameter, otherwise the importer would fail).
 
 An important thing to note is that we are preparing the trait table by rearranging columns using ``perl``.
@@ -183,10 +196,11 @@ Life Cycle Habit
 Next we can repeat these steps for the "Life Cycle Habit" trait:
 Again there is a file at opendata.eol.org::
 
-    curl http://opendata.eol.org/dataset/fedb8890-f943-4907-a36f-c7df4770a076/resource/e4eced0b-70f4-497f-9aa6-b1fd1212cfd9/download/life-cycle-habit.txt.gz | zcat >life-cycle-habit.txt
-    perl -F"\t" -ane 'print "$F[0]\t$F[4]\t$F[6]\tSupplier:$F[12];Citation:$F[15];Reference:$F[29];Source:$F[14]\t$F[13]\n" unless(/^EOL page ID/)' life-cycle-habit.txt >life-cycle-habit.tsv
-    /fennec/bin/console app:create-traittype --format categorical_free --description "Determined for type of life cycle being annual, binneal, perennial etc." --ontology_url "http://purl.obolibrary.org/obo/TO_0002725" "Life Cycle Habit"
-    /fennec/bin/console app:import-trait-entries --traittype "Life Cycle Habit" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" life-cycle-habit.tsv
+    wget -P data http://opendata.eol.org/dataset/fedb8890-f943-4907-a36f-c7df4770a076/resource/e4eced0b-70f4-497f-9aa6-b1fd1212cfd9/download/life-cycle-habit.txt.gz
+    gunzip data/life-cycle-habit.txt.gz
+    perl -F"\t" -ane 'print "$F[0]\t$F[4]\t$F[6]\tSupplier:$F[12];Citation:$F[15];Reference:$F[29];Source:$F[14]\t$F[13]\n" unless(/^EOL page ID/)' data/life-cycle-habit.txt >data/life-cycle-habit.tsv
+    docker-compose exec web /fennec/bin/console app:create-traittype --format categorical_free --description "Determined for type of life cycle being annual, binneal, perennial etc." --ontology_url "http://purl.obolibrary.org/obo/TO_0002725" "Life Cycle Habit"
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "Life Cycle Habit" --provider TraitBank --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /data/life-cycle-habit.tsv
 
 EPPO List of Invasive Alien Plants (Europe)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -195,11 +209,10 @@ The European and Mediterranean Plant Protection Organization (EPPO) provides a l
 This categorizations can be obtained as csv file from: https://gd.eppo.int/rppo/EPPO/categorization.csv
 In order to import this file into FENNEC execute those commands in the docker container::
 
-    curl "https://gd.eppo.int/rppo/EPPO/categorization.csv" >/tmp/eppo_categorization.csv
-    perl -pe 's/"//g' /tmp/eppo_categorization.csv | perl -F"," -ane 'print "$F[3]\t$F[1]\t\tEPPO (2017) EPPO Global Database (available online). https://gd.eppo.int\thttps://gd.eppo.int/rppo/EPPO/categorization.csv\n" if($F[6]=="")' >/tmp/eppo_categorization.tsv
-    /fennec/bin/console app:create-traittype --format categorical_free --description "List of invasive alien species by the European and Mediterranean Plant Protection Organization (EPPO)" --ontology_url "https://www.eppo.int/INVASIVE_PLANTS/ias_lists.htm" "EPPO Categorization"
-    /fennec/bin/console app:create-webuser EPPO # Note user-id for next command
-    /fennec/bin/console app:import-trait-entries --traittype "EPPO Categorization" --user-id 2 --mapping scientific_name --skip-unmapped --public --default-citation "EPPO (2017) EPPO Global Database (available online). https://gd.eppo.int" /tmp/eppo_categorization.tsv
+    curl "https://gd.eppo.int/rppo/EPPO/categorization.csv" >data/eppo_categorization.csv
+    perl -pe 's/"//g' data/eppo_categorization.csv | perl -F"," -ane 'print "$F[3]\t$F[1]\t\tEPPO (2017) EPPO Global Database (available online). https://gd.eppo.int\thttps://gd.eppo.int/rppo/EPPO/categorization.csv\n" if($F[6]=="")' >data/eppo_categorization.tsv
+    docker-compose exec web /fennec/bin/console app:create-traittype --format categorical_free --description "List of invasive alien species by the European and Mediterranean Plant Protection Organization (EPPO)" --ontology_url "https://www.eppo.int/INVASIVE_PLANTS/ias_lists.htm" "EPPO Categorization"
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "EPPO Categorization" --provider EPPO --description "European and Mediterranean Plant Protection Organization (EPPO) https://www.eppo.int/" --mapping scientific_name --skip-unmapped --public --default-citation "EPPO (2017) EPPO Global Database (available online). https://gd.eppo.int" /data/eppo_categorization.tsv
 
 World Crops Database
 ^^^^^^^^^^^^^^^^^^^^
@@ -212,13 +225,12 @@ The definition of crop used for the database is:
 To prepare the data for import into FENNEC (just the info that a plant is listed) execute::
 
     # Citation will be provided as default citation (therefore left empty here)
-    curl "http://world-crops.com/showcase/scientific-names/" | grep Abelmoschus | perl -pe 's/\|/\n/g;s/.*a href="([^"]+)" >([^<]+).*/$2\tlisted\t\t\t$1/g' | grep -v "</p>" | sort -u >/tmp/crops.tsv
-    /fennec/bin/console app:create-traittype --format categorical_free --description "The World Crops Database is a collection of cereals, fruits, vegetables and other crops that are grown by farmers all over the world. In this context crops are defined as 'Agricultural crops are plants that are grown or deliberately managed by man for certain purposes.'" --ontology_url "http://world-crops.com/" "World Crops Database"
-    /fennec/bin/console app:create-webuser "WorldCropsDatabase" # Note user-id for next command
-    /fennec/bin/console app:import-trait-entries --user-id 3 --default-citation "Hein Bijlmakers, 'World Crops Database', available online http://world-crops.com/showcase/scientific-names/ (retrieved $(date "+%Y-%m-%d"))" --traittype "World Crops Database" --mapping scientific_name --skip-unmapped /tmp/crops.tsv
+    curl "http://world-crops.com/showcase/scientific-names/" | grep Abelmoschus | perl -pe 's/\|/\n/g;s/.*a href="([^"]+)" >([^<]+).*/$2\tlisted\t\t\t$1/g' | grep -v "</p>" | sort -u >data/crops.tsv
+    docker-compose exec web /fennec/bin/console app:create-traittype --format categorical_free --description "The World Crops Database is a collection of cereals, fruits, vegetables and other crops that are grown by farmers all over the world. In this context crops are defined as 'Agricultural crops are plants that are grown or deliberately managed by man for certain purposes.'" --ontology_url "http://world-crops.com/" "World Crops Database"
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --provider WorldsCropDatabase --description "The World Crops Database http://world-crops.com/the-world-crops-database/" --default-citation "Hein Bijlmakers, 'World Crops Database', available online http://world-crops.com/showcase/scientific-names/ (retrieved $(date "+%Y-%m-%d"))" --traittype "World Crops Database" --mapping scientific_name --skip-unmapped /data/crops.tsv
 
 The database also contains categories like Vegetables, Cereals, Fruits, etc.
-So in the future those categories could be used as value instead of a generic "listed".
+So in principle those categories could be used as value instead of a generic "listed".
 
 More TraitBank plant traits
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -226,7 +238,7 @@ More TraitBank plant traits
 A couple more interesting plant traits from TraitBank are available at http://opendata.eol.org/dataset/plantae
 This dataset consists of thirteen traits:
 
-* conservation status
+* conservation status (will not be imported because we use IUCN directly)
 * dispersal vector
 * flower color
 * invasive in
@@ -241,45 +253,41 @@ This dataset consists of thirteen traits:
 * vegetative spread rate
 
 Three of them are numerical (leaf area, plant height, and soil pH) they are discussed in the next section.
-In order to create the categorical trait types and import them into FENNEC just follow the steps below (inside the container)::
+In order to create the categorical trait types and import them into FENNEC just follow the steps below::
 
     # Download and prepare data
-    cd /tmp
-    curl http://opendata.eol.org/dataset/a44a37ad-27f5-45ef-8719-1a31ae4ed3e5/resource/c7c90510-402e-4ead-8204-d92c44723c1f/download/plantae.zip >plantae.zip
-    unzip plantae.zip
-    curl http://opendata.eol.org/dataset/a44a37ad-27f5-45ef-8719-1a31ae4ed3e5/resource/fb7e7de9-7ae9-4b63-8a64-d0a95f210da9/download/plantae-conservation-status.txt.gz >/tmp/Plantae/Plantae-conservation-status.txt.gz
-    curl http://opendata.eol.org/dataset/a44a37ad-27f5-45ef-8719-1a31ae4ed3e5/resource/67410c56-d9d9-4e60-a223-39334e0081d5/download/uses.txt.gz >/tmp/Plantae/Plantae-uses.txt.gz
-    for i in Plantae/*.txt.gz
+    wget http://opendata.eol.org/dataset/a44a37ad-27f5-45ef-8719-1a31ae4ed3e5/resource/c7c90510-402e-4ead-8204-d92c44723c1f/download/plantae.zip -O data/plantae.zip
+    unzip data/plantae.zip -d data
+    wget http://opendata.eol.org/dataset/a44a37ad-27f5-45ef-8719-1a31ae4ed3e5/resource/67410c56-d9d9-4e60-a223-39334e0081d5/download/uses.txt.gz -O data/Plantae/Plantae-uses.txt.gz
+    for i in data/Plantae/*.txt.gz
     do
         BASE=$(basename $i .txt.gz)
-        zcat $i | perl -F"\t" -ane 'print "$F[0]\t$F[4]\t$F[6]\tSupplier:$F[12];Citation:$F[15];Reference:$F[29];Source:$F[14]\t$F[13]\n" unless(/^EOL page ID/)' >$BASE.tsv
+        zcat $i | perl -F"\t" -ane 'print "$F[0]\t$F[4]\t$F[6]\tSupplier:$F[12];Citation:$F[15];Reference:$F[29];Source:$F[14]\t$F[13]\n" unless(/^EOL page ID/)' >data/$BASE.tsv
     done
 
     # Create trait types (description and ontology url from http://eol.org/data_glossary )
-    /fennec/bin/console app:create-traittype --format categorical_free --ontology_url "http://rs.tdwg.org/ontology/voc/SPMInfoItems#ConservationStatus" "Conservation Status"
-    /fennec/bin/console app:create-traittype --format categorical_free --description "A dispersal vector is an agent transporting seeds or other dispersal units. Dispersal vectors may include biotic factors, such as animals, or abiotic factors, such as the wind or the ocean." --ontology_url "http://eol.org/schema/terms/DispersalVector" "Dispersal Vector"
-    /fennec/bin/console app:create-traittype --format categorical_free --description "A flower anatomy and morphology trait (TO:0000499) which is associated with the color of the flower (PO:0009046)." --ontology_url "http://purl.obolibrary.org/obo/TO_0000537" "Flower Color"
-    /fennec/bin/console app:create-traittype --format categorical_free --description "Information about the jurisdictions where the taxon is considered to be an invasive organism due to its negative impact on human welfare or ecosystems." --ontology_url "http://eol.org/schema/terms/InvasiveRange" "Invasive In"
-    /fennec/bin/console app:create-traittype --format categorical_free --description "A vascular leaf anatomy and morphology trait (TO:0000748) which is associated with the color of leaf (PO:0025034)." --ontology_url "http://purl.obolibrary.org/obo/TO_0000326" "Leaf Color"
-    /fennec/bin/console app:create-traittype --format categorical_free --description "The process in which nitrogen is taken from its relatively inert molecular form (N2) in the atmosphere and converted into nitrogen compounds useful for other chemical processes, such as ammonia, nitrate and nitrogen dioxide." --ontology_url "http://purl.obolibrary.org/obo/GO_0009399" "Nitrogen Fixation"
-    /fennec/bin/console app:create-traittype --format categorical_free --description "Methods used to produce new plants from a parent plant." --ontology_url "http://eol.org/schema/terms/PropagationMethod" "Plant Propagation Method"
-    /fennec/bin/console app:create-traittype --format categorical_free --description "Tolerance to the high salt content in the growth medium." --ontology_url "http://purl.obolibrary.org/obo/TO_0006001" "Salt Tolerance"
-    /fennec/bin/console app:create-traittype --format categorical_free --description "The soil requirements (texture, moisture, chemistry) needed for a plant to establish and grow." --ontology_url "http://eol.org/schema/terms/SoilRequirements" "Soil Requirements"
-    /fennec/bin/console app:create-traittype --format categorical_free --description "The rate at which this plant can spread compared to other species with the same growth habit." --ontology_url "http://eol.org/schema/terms/VegetativeSpreadRate" "Vegetative Spread Rate"
-    /fennec/bin/console app:create-traittype --format categorical_free --description "The uses of the organism or products derived from the organism." --ontology_url "http://eol.org/schema/terms/Uses" "Uses"
+    docker-compose exec web /fennec/bin/console app:create-traittype --format categorical_free --description "A dispersal vector is an agent transporting seeds or other dispersal units. Dispersal vectors may include biotic factors, such as animals, or abiotic factors, such as the wind or the ocean." --ontology_url "http://eol.org/schema/terms/DispersalVector" "Dispersal Vector"
+    docker-compose exec web /fennec/bin/console app:create-traittype --format categorical_free --description "A flower anatomy and morphology trait (TO:0000499) which is associated with the color of the flower (PO:0009046)." --ontology_url "http://purl.obolibrary.org/obo/TO_0000537" "Flower Color"
+    docker-compose exec web /fennec/bin/console app:create-traittype --format categorical_free --description "Information about the jurisdictions where the taxon is considered to be an invasive organism due to its negative impact on human welfare or ecosystems." --ontology_url "http://eol.org/schema/terms/InvasiveRange" "Invasive In"
+    docker-compose exec web /fennec/bin/console app:create-traittype --format categorical_free --description "A vascular leaf anatomy and morphology trait (TO:0000748) which is associated with the color of leaf (PO:0025034)." --ontology_url "http://purl.obolibrary.org/obo/TO_0000326" "Leaf Color"
+    docker-compose exec web /fennec/bin/console app:create-traittype --format categorical_free --description "The process in which nitrogen is taken from its relatively inert molecular form (N2) in the atmosphere and converted into nitrogen compounds useful for other chemical processes, such as ammonia, nitrate and nitrogen dioxide." --ontology_url "http://purl.obolibrary.org/obo/GO_0009399" "Nitrogen Fixation"
+    docker-compose exec web /fennec/bin/console app:create-traittype --format categorical_free --description "Methods used to produce new plants from a parent plant." --ontology_url "http://eol.org/schema/terms/PropagationMethod" "Plant Propagation Method"
+    docker-compose exec web /fennec/bin/console app:create-traittype --format categorical_free --description "Tolerance to the high salt content in the growth medium." --ontology_url "http://purl.obolibrary.org/obo/TO_0006001" "Salt Tolerance"
+    docker-compose exec web /fennec/bin/console app:create-traittype --format categorical_free --description "The soil requirements (texture, moisture, chemistry) needed for a plant to establish and grow." --ontology_url "http://eol.org/schema/terms/SoilRequirements" "Soil Requirements"
+    docker-compose exec web /fennec/bin/console app:create-traittype --format categorical_free --description "The rate at which this plant can spread compared to other species with the same growth habit." --ontology_url "http://eol.org/schema/terms/VegetativeSpreadRate" "Vegetative Spread Rate"
+    docker-compose exec web /fennec/bin/console app:create-traittype --format categorical_free --description "The uses of the organism or products derived from the organism." --ontology_url "http://eol.org/schema/terms/Uses" "Uses"
 
     # Import traits
-    /fennec/bin/console app:import-trait-entries --traittype "Conservation Status" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-conservation-status.tsv
-    /fennec/bin/console app:import-trait-entries --traittype "Dispersal Vector" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-dispersal-vector.tsv
-    /fennec/bin/console app:import-trait-entries --traittype "Flower Color" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-flower-color.tsv
-    /fennec/bin/console app:import-trait-entries --traittype "Invasive In" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-invasive-in.tsv
-    /fennec/bin/console app:import-trait-entries --traittype "Leaf Color" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-leaf-color.tsv
-    /fennec/bin/console app:import-trait-entries --traittype "Nitrogen Fixation" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-nitrogen-fixation.tsv
-    /fennec/bin/console app:import-trait-entries --traittype "Plant Propagation Method" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-plant-propagation-method.tsv
-    /fennec/bin/console app:import-trait-entries --traittype "Salt Tolerance" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-salt-tolerance.tsv
-    /fennec/bin/console app:import-trait-entries --traittype "Soil Requirements" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-soil-requirements.tsv
-    /fennec/bin/console app:import-trait-entries --traittype "Vegetative Spread Rate" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-vegetative-spread-rate.tsv
-    /fennec/bin/console app:import-trait-entries --traittype "Uses" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-uses.tsv
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "Dispersal Vector" --provider TraitBank --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /data/Plantae-dispersal-vector.tsv
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "Flower Color" --provider TraitBank --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /data/Plantae-flower-color.tsv
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "Invasive In" --provider TraitBank --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /data/Plantae-invasive-in.tsv
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "Leaf Color" --provider TraitBank --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /data/Plantae-leaf-color.tsv
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "Nitrogen Fixation" --provider TraitBank --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /data/Plantae-nitrogen-fixation.tsv
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "Plant Propagation Method" --provider TraitBank --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /data/Plantae-plant-propagation-method.tsv
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "Salt Tolerance" --provider TraitBank --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /data/Plantae-salt-tolerance.tsv
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "Soil Requirements" --provider TraitBank --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /data/Plantae-soil-requirements.tsv
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "Vegetative Spread Rate" --provider TraitBank --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /data/Plantae-vegetative-spread-rate.tsv
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "Uses" --provider TraitBank --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /data/Plantae-uses.tsv
 
 
 By now you should have an idea on how importing categorical traits into FENNEC works.
@@ -303,21 +311,21 @@ To import the traits downloaded above in the plantae dataset from http://opendat
 
     # data preparation
     # For leaf area some values are numeric (unit mm^2 or cm^2) some categorical (large, medium, samll, ...) all methods are either measurement or average. Therefore all numeric values are used and converted to cm^2. Unit neads to be stripped from values.
-    zcat /tmp/Plantae/Plantae-leaf-area.txt.gz | perl -F"\t" -ane 'BEGIN{%factor=("cm^2" => 1, "mm^2" => 0.01)} $F[4]=~s/,//g;$F[4]=~s/ .*//g; print "$F[0]\t".($F[4] * $factor{$F[7]})."\t$F[6]\tSupplier:$F[12];Citation:$F[15];Reference:$F[29];Source:$F[14]\t$F[13]\n" unless(/^EOL page ID/ or $F[7] eq "")' >/tmp/Plantae-leaf-area.tsv
+    zcat data/Plantae/Plantae-leaf-area.txt.gz | perl -F"\t" -ane 'BEGIN{%factor=("cm^2" => 1, "mm^2" => 0.01)} $F[4]=~s/,//g;$F[4]=~s/ .*//g; print "$F[0]\t".($F[4] * $factor{$F[7]})."\t$F[6]\tSupplier:$F[12];Citation:$F[15];Reference:$F[29];Source:$F[14]\t$F[13]\n" unless(/^EOL page ID/ or $F[7] eq "")' >data/Plantae-leaf-area.tsv
     # For plant height we convert all units (cm, ft, inch, m) to cm and discard rows that use statistical method http://semanticscience.org/resource/SIO_001114 (max), retaining average, median and measurement
-    zcat /tmp/Plantae/Plantae-plant-height.txt.gz | perl -F"\t" -ane 'BEGIN{%factor=("cm" => 1, "m" => 100, "ft" => 30.48, "inch" => 2.54)} print "$F[0]\t".($F[4] * $factor{$F[7]})."\t$F[6]\tSupplier:$F[12];Citation:$F[15];Reference:$F[29];Source:$F[14]\t$F[13]\n" unless(/^EOL page ID/ or $F[17] eq "http://semanticscience.org/resource/SIO_001114")' >/tmp/Plantae-plant-height.tsv
+    zcat data/Plantae/Plantae-plant-height.txt.gz | perl -F"\t" -ane 'BEGIN{%factor=("cm" => 1, "m" => 100, "ft" => 30.48, "inch" => 2.54)} print "$F[0]\t".($F[4] * $factor{$F[7]})."\t$F[6]\tSupplier:$F[12];Citation:$F[15];Reference:$F[29];Source:$F[14]\t$F[13]\n" unless(/^EOL page ID/ or $F[17] eq "http://semanticscience.org/resource/SIO_001114")' >data/Plantae-plant-height.tsv
     # pH has no unit so that is not a problem. However the method here is either min or max. But we have both values for every EOL ID except 1114581 and 584907 (verify with zcat Plantae/Plantae-soil-pH.txt.gz | cut -f1,18 | sort -u | cut -f1 | sort | uniq -u ).
-    zcat /tmp/Plantae/Plantae-soil-pH.txt.gz | perl -F"\t" -ane 'print "$F[0]\t$F[4]\t$F[6]\tSupplier:$F[12];Citation:$F[15];Reference:$F[29];Source:$F[14]\t$F[13]\n" unless(/^EOL page ID/ or $F[0] eq "1114581" or $F[0] eq "584907")' >/tmp/Plantae-soil-pH.tsv
+    zcat data/Plantae/Plantae-soil-pH.txt.gz | perl -F"\t" -ane 'print "$F[0]\t$F[4]\t$F[6]\tSupplier:$F[12];Citation:$F[15];Reference:$F[29];Source:$F[14]\t$F[13]\n" unless(/^EOL page ID/ or $F[0] eq "1114581" or $F[0] eq "584907")' >data/Plantae-soil-pH.tsv
 
     # Create trait types (incl. unit)
-    /fennec/bin/console app:create-traittype --format numerical --description "A leaf anatomy and morphology trait (TO:0000748) which is associated with the total area of a leaf (PO:0025034)." --ontology_url "http://purl.obolibrary.org/obo/TO_0000540" --unit "cm^2" "Leaf Area"
-    /fennec/bin/console app:create-traittype --format numerical --description "A stature and vigor trait (TO:0000133) which is associated with the height of a whole plant (PO:0000003)." --ontology_url "http://purl.obolibrary.org/obo/TO_0000207" --unit "cm" "Plant Height"
-    /fennec/bin/console app:create-traittype --format numerical --description "The soil pH, of the top 12 inches of soil, within the plant’s known geographical range. For cultivars, the geographical range is defined as the area to which the cultivar is well adapted rather than marginally adapted." --ontology_url "http://eol.org/schema/terms/SoilPH" "Soil pH"
+    docker-compose exec web /fennec/bin/console app:create-traittype --format numerical --description "A leaf anatomy and morphology trait (TO:0000748) which is associated with the total area of a leaf (PO:0025034)." --ontology_url "http://purl.obolibrary.org/obo/TO_0000540" --unit "cm^2" "Leaf Area"
+    docker-compose exec web /fennec/bin/console app:create-traittype --format numerical --description "A stature and vigor trait (TO:0000133) which is associated with the height of a whole plant (PO:0000003)." --ontology_url "http://purl.obolibrary.org/obo/TO_0000207" --unit "cm" "Plant Height"
+    docker-compose exec web /fennec/bin/console app:create-traittype --format numerical --description "The soil pH, of the top 12 inches of soil, within the plant’s known geographical range. For cultivars, the geographical range is defined as the area to which the cultivar is well adapted rather than marginally adapted." --ontology_url "http://eol.org/schema/terms/SoilPH" "Soil pH"
 
     # import
-    /fennec/bin/console app:import-trait-entries --traittype "Leaf Area" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-leaf-area.tsv
-    /fennec/bin/console app:import-trait-entries --traittype "Plant Height" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-plant-height.tsv
-    /fennec/bin/console app:import-trait-entries --traittype "Soil pH" --user-id 1 --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /tmp/Plantae-soil-pH.tsv
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "Leaf Area" --provider TraitBank --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /data/Plantae-leaf-area.tsv
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "Plant Height" --provider TraitBank --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /data/Plantae-plant-height.tsv
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "Soil pH" --provider TraitBank --mapping EOL --skip-unmapped --public --default-citation "Data supplied by Encyclopedia of Life via http://opendata.eol.org/ under CC-BY" /data/Plantae-soil-pH.tsv
 
 This will import the numerical trait values into FENNEC.
 The count for "Distinct new values" will be displayed as 0 as this is specific for categorical values.
@@ -329,79 +337,197 @@ This database (available at http://scales.ckff.si/scaletool/?menu=6&submenu=3 ) 
 As data download is not easily possible here is a guide on downloading all the data and extracting the traits:
 First download the html pages of all organisms to an empty folder (sid ranges from 1 to 162, determined by trial and error)::
 
-    for i in $(seq 1 163)
+    mkdir -p data/scales
+    for i in $(seq 1 162)
     do
-        curl "http://scales.ckff.si/scaletool/index.php?menu=6&submenu=3&sid=$i" >$i.html
+        curl "http://scales.ckff.si/scaletool/index.php?menu=6&submenu=3&sid=$i" >data/scales/$i.html
     done
 
-To extract all traits I wrote a short python script (using `Beautiful Soup<https://www.crummy.com/software/BeautifulSoup/>`_) available as `gist<https://gist.github.com/iimog/a6a36a7b03906f18ac490b0a4708224c>`_.
-If you download that you can extract traits with this command::
+To extract all traits I wrote a short python script (using `Beautiful Soup <https://www.crummy.com/software/BeautifulSoup/>`_) available as `gist <https://gist.github.com/iimog/a6a36a7b03906f18ac490b0a4708224c>`_.
+You can extract traits with those commands::
 
     # Install beautiful soup (e.g. via "conda install beautifulsoup4")
-    # Inside the folder with the html files
+    cd data/scales
+    wget https://gist.githubusercontent.com/iimog/a6a36a7b03906f18ac490b0a4708224c/raw/b3bc7309ae13415c9d00ad469e948b8847312511/extract_scales_bee_traits_from_html.py
     python extract_scales_bee_traits_from_html.py
     # Get rid of colon in filenames
     rename 's/://g' *.tsv
     # Osmia rufa and Osmia bicornis are synonyms but bicornis is used by NCBI taxonomy while rufa is used by SCALES, therefore: rename globally:
     perl -i -pe 's/Osmia rufa/Osmia bicornis/g' *.tsv
+    cd -
 
 This will create a bunch of tsv files with categorical and numerical values for each trait as well as a file ``trait_types.tsv`` which lists all trait types with description.
-Using mapping by scientific name those files can be imported directly (transfer them to the docker container via ``docker cp`` if you did not execute the previous commands there)::
+Using mapping by scientific name those files can be imported directly::
 
     # Create trait types (incl. unit)
-    /fennec/bin/console app:create-traittype --format numerical --description "Average number of brood cells per nest" "Nest cells"
-    /fennec/bin/console app:create-traittype --format numerical --description "Approximate body length of female collection specimens" --unit "mm" "Body length: female"
-    /fennec/bin/console app:create-traittype --format numerical --description "Mean weight of a freshly hatched adult female" --unit "mg" "Adult weight: female"
-    /fennec/bin/console app:create-traittype --format numerical --description "Male/female rate of progeny" "Sex ratio"
-    /fennec/bin/console app:create-traittype --format categorical_free --description "Sex ratio categories: female biased (males/females<0.8), equal (males/females 0.8-1.3), male biased (males/females>1.3)" "Sex ratio (categorical)"
-    /fennec/bin/console app:create-traittype --format categorical_free "Larval food type"
-    /fennec/bin/console app:create-traittype --format categorical_free "Foraging mode"
-    /fennec/bin/console app:create-traittype --format categorical_free --description "Typical of a landscape species" "Landscape type"
-    /fennec/bin/console app:create-traittype --format categorical_free --description "Nest building material type" "Nest built of"
-    /fennec/bin/console app:create-traittype --format categorical_free --description "Trophic specialisation rank" "Trophic specialisation"
-    /fennec/bin/console app:create-traittype --format categorical_free --description "Taxonomic rank on which this organism is specialized on" "Specialized on"
-
-    # Create webuser
-    /fennec/bin/console app:create-webuser "SCALES_WaspsBeesDatabase" # Note user-id for next commands
+    docker-compose exec web /fennec/bin/console app:create-traittype --format numerical --description "Average number of brood cells per nest" "Nest cells"
+    docker-compose exec web /fennec/bin/console app:create-traittype --format numerical --description "Approximate body length of female collection specimens" --unit "mm" "Body length: female"
+    docker-compose exec web /fennec/bin/console app:create-traittype --format numerical --description "Mean weight of a freshly hatched adult female" --unit "mg" "Adult weight: female"
+    docker-compose exec web /fennec/bin/console app:create-traittype --format numerical --description "Male/female rate of progeny" "Sex ratio"
+    docker-compose exec web /fennec/bin/console app:create-traittype --format categorical_free --description "Sex ratio categories: female biased (males/females<0.8), equal (males/females 0.8-1.3), male biased (males/females>1.3)" "Sex ratio (categorical)"
+    docker-compose exec web /fennec/bin/console app:create-traittype --format categorical_free "Larval food type"
+    docker-compose exec web /fennec/bin/console app:create-traittype --format categorical_free "Foraging mode"
+    docker-compose exec web /fennec/bin/console app:create-traittype --format categorical_free --description "Typical of a landscape species" "Landscape type"
+    docker-compose exec web /fennec/bin/console app:create-traittype --format categorical_free --description "Nest building material type" "Nest built of"
+    docker-compose exec web /fennec/bin/console app:create-traittype --format categorical_free --description "Trophic specialisation rank" "Trophic specialisation"
+    docker-compose exec web /fennec/bin/console app:create-traittype --format categorical_free --description "Taxonomic rank on which this organism is specialized on" "Specialized on"
 
     # import
-    /fennec/bin/console app:import-trait-entries --traittype "Nest cells" --user-id 7 --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/tmp/Nest cells_numeric.tsv"
-    /fennec/bin/console app:import-trait-entries --traittype "Body length: female" --user-id 7 --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/tmp/Body length female_numeric.tsv"
-    /fennec/bin/console app:import-trait-entries --traittype "Adult weight: female" --user-id 7 --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/tmp/Adult weight female_numeric.tsv"
-    /fennec/bin/console app:import-trait-entries --traittype "Sex ratio" --user-id 7 --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/tmp/Sex ratio_numeric.tsv"
-    /fennec/bin/console app:import-trait-entries --traittype "Sex ratio (categorical)" --user-id 7 --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/tmp/Sex ratio_categorical.tsv"
-    /fennec/bin/console app:import-trait-entries --traittype "Larval food type" --user-id 7 --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/tmp/Larval food type_categorical.tsv"
-    /fennec/bin/console app:import-trait-entries --traittype "Foraging mode" --user-id 7 --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/tmp/Foraging mode_categorical.tsv"
-    /fennec/bin/console app:import-trait-entries --traittype "Landscape type" --user-id 7 --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/tmp/Landscape type_categorical.tsv"
-    /fennec/bin/console app:import-trait-entries --traittype "Nest built of" --user-id 7 --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/tmp/Nest built of_categorical.tsv"
-    /fennec/bin/console app:import-trait-entries --traittype "Trophic specialisation" --user-id 7 --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/tmp/Trophic specialisation_categorical.tsv"
-    /fennec/bin/console app:import-trait-entries --traittype "Specialized on" --user-id 7 --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/tmp/Trophic specialisation_numeric.tsv"
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "Nest cells" --provider SCALES_WaspsBeesDatabase --description "SCALES Wasps & Bees Database http://scales.ckff.si/scaletool/?menu=6&submenu=3" --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/data/scales/Nest cells_numeric.tsv"
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "Body length: female" --provider SCALES_WaspsBeesDatabase --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/data/scales/Body length female_numeric.tsv"
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "Adult weight: female" --provider SCALES_WaspsBeesDatabase --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/data/scales/Adult weight female_numeric.tsv"
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "Sex ratio" --provider SCALES_WaspsBeesDatabase --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/data/scales/Sex ratio_numeric.tsv"
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "Sex ratio (categorical)" --provider SCALES_WaspsBeesDatabase --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/data/scales/Sex ratio_categorical.tsv"
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "Larval food type" --provider SCALES_WaspsBeesDatabase --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/data/scales/Larval food type_categorical.tsv"
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "Foraging mode" --provider SCALES_WaspsBeesDatabase --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/data/scales/Foraging mode_categorical.tsv"
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "Landscape type" --provider SCALES_WaspsBeesDatabase --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/data/scales/Landscape type_categorical.tsv"
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "Nest built of" --provider SCALES_WaspsBeesDatabase --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/data/scales/Nest built of_categorical.tsv"
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "Trophic specialisation" --provider SCALES_WaspsBeesDatabase --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/data/scales/Trophic specialisation_categorical.tsv"
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --traittype "Specialized on" --provider SCALES_WaspsBeesDatabase --mapping scientific_name --skip-unmapped --public --default-citation "Budrys, E., Budriene., A. and Orlovskyte. S. 2014. Cavity-nesting wasps and bees database." "/data/scales/Trophic specialisation_numeric.tsv"
 
 IUCN Redlist
 ^^^^^^^^^^^^
 
-IUCN redlist data can be conveniently downloaded using the `API<http://apiv3.iucnredlist.org/>`_.
+IUCN redlist data can be conveniently downloaded using the `API <http://apiv3.iucnredlist.org/>`_.
 Before you can query the API you need to register for a token.
 Also if you want to put this data into a public instance you have to make sure to always (automatically) update the data to the latest version in order to comply with the terms of use.
 For convenience there are some scripts that help with download and update of IUCN data.
-You first have to do some initial preparation and then add an entry to crontab (in the fennec container)::
+You have to do some initial preparation and then link additional files into the fennec container::
 
-    mkdir -p /iucn
-    cd /iucn
-    echo "YOUR IUCN API TOKEN" >.iucn_token
-    crontab -e
-    # Add the following line (without the # at the beginning of the line)
-    #17 * * * * cd /iucn;/fennec/util/check_download_update_iucn.sh >>iucn_cron.log 2>>iucn_cron.err
+    mkdir -p iucn
+    echo "YOUR IUCN API TOKEN" >iucn/.iucn_token
+
+Now edit the ``docker-compose.yml`` and add to the list of volumes for the ``web`` service::
+
+    - "./iucn:/iucn"
+
+Then rebuild your web container::
+
+    docker-compose stop web
+    docker-compose rm -f web
+    docker-compose up -d
+
+Now you can download and import/update the iucn data in your database with::
+
+    docker-compose exec web bash -c "cd /iucn;/fennec/util/check_download_update_iucn.sh"
 
 This will download the most current version of the IUCN red list via the api and add it to the fennec database.
-On the first run the webuser and traittype are automatically generated.
+On the first run the traittype is automatically generated.
 On subsequent runs if the version of IUCN is unchanged nothing happens and if there is a new version the old traits are expired and the new data is loaded.
 You will notice that only about half the entries could be mapped by their scientific name.
 One reason for that is that many species on the red list are species with a small population size endemic to a small geographic region.
 
+.. WARNING::
+
+    In order to comply with the terms of use of IUCN please add a cron job to your docker host.
+    Unfortunately cron does not work smoothly inside docker but you can try this as well if you feel like it.
+    Otherwise add an entry like this to your host via ``crontab -e`` (use the correct path)::
+
+        0 * * * * docker-compose -f /path/to/docker-compose.yml exec web bash -c "cd /iucn;/fennec/util/check_download_update_iucn.sh >>iucn_cron.log 2>>iucn_cron.err"
+
+Multiple data databases
+-----------------------
+
+It is possible to have multiple data databases in Fennec.
+This is useful, both to provide different versions and to provide specific databases for groups of organisms.
+While projects are always stored in the user database the data database to work on can be selected in the web interface.
+Users can map their organisms against different data databases (this information is stored independently).
+However traits mapped to the project are stored without distinguishing database versions.
+
+To create an additional database add to your ``parameters.yml`` (for a simpler presentation the irrelevant fractions of the file are not shown, denoted by ``# ...``)::
+
+    parameters:
+        # ...
+        user_connection: "userdb"
+        user_entity_manager: "userdb"
+        default_data_connection: "default_data"
+        default_data_entity_manager: "default_data"
+        versions: 'default_data|alternative_data'
+        dbal:
+            connections:
+                'userdb':
+                    # ...
+                'default_data':
+                    # ...
+                'alternative_data':
+                    driver: pdo_pgsql
+                    host: datadb
+                    port: 5432
+                    dbname: fennec_alt_data
+                    user: fennec_data
+                    password: fennec_data
+                    charset: UTF8
+        orm:
+            auto_generate_proxy_classes: '%kernel.debug%'
+            entity_managers:
+                'userdb':
+                    # ...
+                'default_data':
+                    # ...
+                'alternative_data':
+                    connection: 'alternative_data'
+                    naming_strategy: doctrine.orm.naming_strategy.underscore
+                    mappings:
+                        AppBundle:
+                            dir: '%kernel.project_dir%/src/AppBundle/Entity/Data'
+                            type: annotation
+                            prefix: 'AppBundle\Entity\Data'
+
+This adds a new database to the existing ``datadb`` docker container.
+You can also add another docker container to the ``docker-compose.yml`` file and configure the new database in there.
+In order to initialize the new database execute those commands::
+
+    docker-compose restart web
+    docker-compose exec web /fennec/bin/console doctrine:database:create --connection alternative_data
+    docker-compose exec web /fennec/bin/console doctrine:schema:create --em alternative_data
+    docker-compose exec web /fennec/bin/console doctrine:fixtures:load --em alternative_data -n
+
+If your database does not show up in the web interface, double check that you added ``alternative_data`` to the ``versions`` in ``parameters.yml`` and clear the cache as explained above.
+From now on when you import data and you want it to end up in the ``alternative_data`` db you have to add ``--dbversion alternative_data`` to the command.
+If you do not specify the ``--dbversion`` option the value from ``default_data_entity_manager`` in ``parameters.yml`` will be used.
+
 Backup
 ------
 
-To backup the database just execute the following command (on the host, not inside of docker)::
+If you followed the setup above all fennec related data is on the host in the ``fennec`` directory.
+You should regularly create backup copies of this directory.
+However, you might want to additionally create dumps from the databases for easy import into other instances.
+To backup the databases just execute the following commands (repeat for all additional data databases)::
 
-    docker exec -it fennec_db pg_dump -U fennec fennec | xz >fennec.$(date +%F_%T).sql.xz
+    mkdir -p backup
+    docker-compose exec userdb pg_dump -U fennec_user --data-only --no-owner fennec_user | xz >backup/fennec_user.$(date +%F_%T).sql.xz
+    docker-compose exec datadb pg_dump -U fennec_data --data-only --no-owner fennec_data | xz >backup/fennec_data.$(date +%F_%T).sql.xz
+    # docker-compose exec datadb pg_dump -U fennec_data --data-only --no-owner fennec_alt_data | xz >backup/fennec_alt_data.$(date +%F_%T).sql.xz
+
+.. _import-db-reference-label:
+
+Import database from dump
+-------------------------
+
+In order to import a database dump follow this steps (assuming you want to remove all old data before importing).
+You might want to do this in the ``alternative_data`` database (see above) instead of ``default_data``::
+
+    docker-compose exec web /fennec/bin/console doctrine:database:drop --force --connection default_data
+    docker-compose exec web /fennec/bin/console doctrine:database:create --connection default_data
+    docker-compose exec web /fennec/bin/console doctrine:schema:create --em default_data
+    # do not load fixtures otherwise there will be unique constraint violations
+    # replace the backup filename with an existing one
+    xzcat fennec_default_data.sql.xz | docker-compose exec -T datadb psql -U fennec_data -d fennec_data
+
+Upgrade
+-------
+
+To upgrade to a new version of FENNEC please review the change log and pay special attention to any breaking changes.
+Always make a full backup of your database (see above) and all files you modified before upgrading.
+If there were changes to the database schema special migration steps might be necessary.
+Double check the change log before you continue.
+The cleanest way to upgrade (if you are using the docker compose setup) is by replacing the docker container with the latest version like this::
+
+    # Before you continue: Do the backup as described above!
+    docker-compose down
+    docker-compose pull
+    docker-compose up
+
+Thats it. The containers are replaced by the version specified in your ``docker-compose.yml`` file.
+So ``latest`` for the fennec container.
+You can pin the fennec container to a version or switch to develop by adding the desired label, e.g. ``:develop``.

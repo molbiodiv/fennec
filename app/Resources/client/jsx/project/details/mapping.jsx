@@ -86,12 +86,11 @@ $('document').ready(async () => {
         } else {
             var webserviceUrl = getWebserviceUrlForMethod(method);
             $.ajax(webserviceUrl, {
-                data: {
-                    dbversion: dbversion,
-                    ids: uniq_ids,
-                    db: method
-                },
                 method: 'POST',
+                data: {
+                    db: method,
+                    ids: uniq_ids
+                },
                 success: function (data) {
                     handleMappingResult(dimension, ids, data, method);
                 },
@@ -137,7 +136,8 @@ $('document').ready(async () => {
             'iucn_redlist': 'byDbxrefId',
             'organism_name': 'byOrganismName'
         };
-        let webserviceUrl = Routing.generate('api', {'namespace': 'mapping', 'classname': method2service[method]});
+        let route = 'api_mapping_' + method2service[method]
+        let webserviceUrl = Routing.generate(route, {'dbversion': dbversion});
         return webserviceUrl;
     }
 
@@ -193,14 +193,12 @@ $('document').ready(async () => {
      * @return {Promise.<void>}
      */
     function getScinames(fennec_ids){
-        let webserviceUrl = Routing.generate('api', {'namespace': 'listing', 'classname': 'scinames'});
+        let webserviceUrl = Routing.generate('api_listing_scinames', {'dbversion': dbversion});
         return $.ajax(webserviceUrl, {
+            method: 'GET',
             data: {
-                dbversion: dbversion,
-                ids: _.flatten(fennec_ids).filter(x => x !== null),
-                db: method
-            },
-            method: 'POST'
+                ids: _.flatten(fennec_ids).filter(x => x !== null)
+            }
         });
     }
 

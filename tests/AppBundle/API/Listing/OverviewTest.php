@@ -2,8 +2,12 @@
 
 namespace Tests\AppBundle\API\Listing;
 
-use AppBundle\User\FennecUser;
-use Symfony\Component\HttpFoundation\ParameterBag;
+use AppBundle\Entity\Data\Organism;
+use AppBundle\Entity\Data\TraitCategoricalEntry;
+use AppBundle\Entity\Data\TraitNumericalEntry;
+use AppBundle\Entity\Data\TraitType;
+use AppBundle\Entity\User\FennecUser;
+use AppBundle\Entity\User\Project;
 use Tests\AppBundle\API\WebserviceTestCase;
 
 class OverviewTest extends WebserviceTestCase
@@ -12,25 +16,72 @@ class OverviewTest extends WebserviceTestCase
     const USERID = 'listingOverviewTestUser';
     const PROVIDER = 'listingOverviewTestUser';
 
-    public function testExecute()
+    private $emUser;
+    private $emData;
+
+    public function setUp()
     {
-        //Test for overview if user is not logged in
-        $default_db = $this->default_db;
-        $overview = $this->webservice->factory('listing', 'overview');
-        $parameterBag = new ParameterBag(array('dbversion' => $default_db));
-        $results = $overview->execute($parameterBag, null);
+        $kernel = self::bootKernel();
+        $this->emUser = $kernel->getContainer()
+            ->get('doctrine')
+            ->getManager('test_user');
+        $this->emData = $kernel->getContainer()
+            ->get('doctrine')
+            ->getManager('test_data');
+    }
+
+    public function tearDown()
+    {
+        parent::tearDown();
+        $this->emData->close();
+        $this->emData = null; // avoid memory leaks
+        $this->emUser->close();
+        $this->emUser = null; // avoid memory leaks
+
+    }
+
+    public function testOverviewIfUserIsNotLoggedIn()
+    {
+        $user = null;
+        $projects = $this->emUser->getRepository(Project::class)->getNumberOfProjects($user);
+        $organisms = $this->emData->getRepository(Organism::class)->getNumber();
+        $traitEntries = $this->emData->getRepository(TraitCategoricalEntry::class)->getNumber() + $this->emData->getRepository(TraitNumericalEntry::class)->getNumber();
+        $traitTypes = $this->emData->getRepository(TraitType::class)->getNumber();
+        $result = [
+            "projects" => $projects,
+            "organisms" => $organisms,
+            "trait_entries" => $traitEntries,
+            "trait_types" => $traitTypes
+        ];
         $expected = array(
             "projects" => 0,
             "organisms" => 198102,
-            "trait_entries" => 91494+7074,
+            "trait_entries" => 91494 + 7074,
             "trait_types" => 7
         );
-        $this->assertEquals($expected, $results);
+        $this->assertEquals($expected, $result);
+    }
 
-        //Test of correct project if the user has only one project
-        $this->user = new FennecUser(OverviewTest::USERID,OverviewTest::NICKNAME,OverviewTest::PROVIDER);
-        $results = $overview->execute($parameterBag, $this->user);
-        $expected['projects'] = 1;
-        $this->assertEquals($expected, $results);
+    public function testOverviewIfUserIsLoggedIn(){
+        $user = $this->emUser->getRepository(FennecUser::class)->findOneBy(array(
+            "username" => OverviewTest::NICKNAME
+        ));
+        $projects = $this->emUser->getRepository(Project::class)->getNumberOfProjects($user);
+        $organisms = $this->emData->getRepository(Organism::class)->getNumber();
+        $traitEntries = $this->emData->getRepository(TraitCategoricalEntry::class)->getNumber() + $this->emData->getRepository(TraitNumericalEntry::class)->getNumber();
+        $traitTypes = $this->emData->getRepository(TraitType::class)->getNumber();
+        $result = [
+            "projects" => $projects,
+            "organisms" => $organisms,
+            "trait_entries" => $traitEntries,
+            "trait_types" => $traitTypes
+        ];
+        $expected = array(
+            "projects" => 1,
+            "organisms" => 198102,
+            "trait_entries" => 91494 + 7074,
+            "trait_types" => 7
+        );
+        $this->assertEquals($expected, $result);
     }
 }

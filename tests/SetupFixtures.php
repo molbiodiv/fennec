@@ -2,9 +2,9 @@
 
 namespace Tests;
 
-use AppBundle\Entity\OauthProvider;
-use AppBundle\Entity\Webuser;
-use AppBundle\Entity\WebuserData;
+use AppBundle\Entity\User\FennecUser;
+use AppBundle\Entity\User\Permissions;
+use AppBundle\Entity\User\Project;
 use Doctrine\ORM\EntityManager;
 
 class SetupFixtures
@@ -21,9 +21,9 @@ class SetupFixtures
 
     public function insertUserData()
     {
-        $this->insert_full_webuser_data($this->defaultBiom, 'listingProjectsTestUser', 'listingProjectsTestUser', new \DateTime('2016-05-17T10:00:52+0000'), 'listingProjectsTestFile.biom');
-        $this->insert_full_webuser_data($this->defaultBiom, 'ProjectRemoveTestUser', 'ProjectRemoveTestUser', new \DateTime('2016-05-17T10:00:52+0000'), 'removeProjectsTestFile.biom');
-        $this->insert_full_webuser_data($this->defaultBiom, 'detailsProjectsTestUser', 'detailsProjectsTestUser', new \DateTime('2016-05-17T10:00:52+0000'), 'detailsProjectsTestFile.biom');
+        $this->insert_full_user_data($this->defaultBiom, 'listingProjectsTestUser', new \DateTime('2016-05-17T10:00:52+0000'), 'listingProjectsTestFile.biom');
+        $this->insert_full_user_data($this->defaultBiom, 'ProjectRemoveTestUser', new \DateTime('2016-05-17T10:00:52+0000'), 'removeProjectsTestFile.biom');
+        $this->insert_full_user_data($this->defaultBiom, 'detailsProjectsTestUser', new \DateTime('2016-05-17T10:00:52+0000'), 'detailsProjectsTestFile.biom');
         $smallBiom = array_merge($this->defaultBiom, array(
             'shape' => [5,2],
             "rows" => [
@@ -39,65 +39,65 @@ class SetupFixtures
             ]
             )
         );
-        $this->insert_full_webuser_data($smallBiom, 'detailsProjectsTestUser', 'detailsProjectsTestUser', new \DateTime('2016-05-17T10:00:52+0000'), 'detailsProjectsTestFile.biom');
-        $this->insert_full_webuser_data($smallBiom, 'listingOverviewTestUser', 'listingOverviewTestUser', new \DateTime('2016-10-06T08:07:40+0000'), 'listingOverviewTestFile.biom');
+        $this->insert_full_user_data($smallBiom, 'detailsProjectsTestUser', new \DateTime('2016-05-17T10:00:52+0000'), 'detailsProjectsTestFile.biom');
+        $this->insert_full_user_data($smallBiom, 'listingOverviewTestUser', new \DateTime('2016-10-06T08:07:40+0000'), 'listingOverviewTestFile.biom');
         $rows =  array(
-            ["id" => "OTU_1", "metadata" => ["fennec" => "{\"test\": {\"fennec_id\": null}}"]],
-            ["id" => "OTU_2", "metadata" => ["fennec" => "{\"test\": {\"fennec_id\": 3}}"]],
+            ["id" => "OTU_1", "metadata" => ["fennec" => "{\"test_data\": {\"fennec_id\": null}}"]],
+            ["id" => "OTU_2", "metadata" => ["fennec" => "{\"test_data\": {\"fennec_id\": 3}}"]],
             ["id" => "OTU_3", "metadata" => []],
-            ["id" => "OTU_4", "metadata" => ["fennec" => "{\"test\": {\"fennec_id\": 3}}"]],
-            ["id" => "OTU_5", "metadata" => ["fennec" => "{\"test\": {\"fennec_id\": 42}}"]]
+            ["id" => "OTU_4", "metadata" => ["fennec" => "{\"test_data\": {\"fennec_id\": 3}}"]],
+            ["id" => "OTU_5", "metadata" => ["fennec" => "{\"test_data\": {\"fennec_id\": 42}}"]]
         );
         $columns = array(
-            ["id" => "Sample_1", "metadata" => ["fennec" => "{\"test\": {\"fennec_id\": 1340}}"]],
-            ["id" => "Sample_2", "metadata" => ["fennec" => "{\"test\": {\"fennec_id\": 1630}}"]]
+            ["id" => "Sample_1", "metadata" => ["fennec" => "{\"test_data\": {\"fennec_id\": 1340}}"]],
+            ["id" => "Sample_2", "metadata" => ["fennec" => "{\"test_data\": {\"fennec_id\": 1630}}"]]
         );
-        $this->insert_full_webuser_data(array_merge($smallBiom, array('rows'=>$rows, 'columns' => $columns)),'detailsOrganismsOfProjectTestUser', 'detailsOrganismsOfProjectTestUser', new \DateTime('2016-10-06T08:07:40+0000'), 'detailsOrganismsOfProjectFile.biom');
+        $this->insert_full_user_data(array_merge($smallBiom, array('rows'=>$rows, 'columns' => $columns)),'detailsOrganismsOfProjectTestUser', new \DateTime('2016-10-06T08:07:40+0000'), 'detailsOrganismsOfProjectFile.biom');
         $rows =  array(
-            ["id" => "OTU_1", "metadata" => ["fennec" => "{\"test\": {\"fennec_id\": 1340}}"]],
-            ["id" => "OTU_2", "metadata" => ["fennec" => "{\"test\": {\"fennec_id\": 1630}}"]],
-            ["id" => "OTU_3", "metadata" => ["fennec" => "{\"test\": {\"fennec_id\": 24718}}"]],
-            ["id" => "OTU_4", "metadata" => ["fennec" => "{\"test\": {\"fennec_id\": 73023}}"]],
-            ["id" => "OTU_5", "metadata" => ["fennec" => "{\"test\": {\"fennec_id\": 23057}}"]]
+            ["id" => "OTU_1", "metadata" => ["fennec" => "{\"test_data\": {\"fennec_id\": 1340}}"]],
+            ["id" => "OTU_2", "metadata" => ["fennec" => "{\"test_data\": {\"fennec_id\": 1630}}"]],
+            ["id" => "OTU_3", "metadata" => ["fennec" => "{\"test_data\": {\"fennec_id\": 24718}}"]],
+            ["id" => "OTU_4", "metadata" => ["fennec" => "{\"test_data\": {\"fennec_id\": 73023}}"]],
+            ["id" => "OTU_5", "metadata" => ["fennec" => "{\"test_data\": {\"fennec_id\": 23057}}"]]
         );
         $columns = array(
-            ["id" => "Sample_1", "metadata" => ["fennec" => "{\"test\": {\"fennec_id\": 1340}}"]],
-            ["id" => "Sample_2", "metadata" => ["fennec" => "{\"test\": {\"fennec_id\": 1630}}"]]
+            ["id" => "Sample_1", "metadata" => ["fennec" => "{\"test_data\": {\"fennec_id\": 1340}}"]],
+            ["id" => "Sample_2", "metadata" => ["fennec" => "{\"test_data\": {\"fennec_id\": 1630}}"]]
         );
-        $this->insert_full_webuser_data(array_merge($smallBiom, array('rows'=>$rows, 'columns'=>$columns)),'detailsTraitOfProjectTestUser', 'detailsTraitOfProjectTestUser', new \DateTime('2016-10-06T08:07:40+0000'),'detailsTraitOfProjectFile.biom');
+        $this->insert_full_user_data(array_merge($smallBiom, array('rows'=>$rows, 'columns'=>$columns)),'detailsTraitOfProjectTestUser', new \DateTime('2016-10-06T08:07:40+0000'),'detailsTraitOfProjectFile.biom');
         $rows =  array(
-            ["id" => "OTU_1", "metadata" => ["fennec" => "{\"test\": {\"fennec_id\": 134097}}"]],
-            ["id" => "OTU_2", "metadata" => ["fennec" => "{\"test\": {\"fennec_id\": 163840}}"]],
-            ["id" => "OTU_3", "metadata" => ["fennec" => "{\"test\": {\"fennec_id\": 24718}}"]],
-            ["id" => "OTU_4", "metadata" => ["fennec" => "{\"test\": {\"fennec_id\": 73023}}"]],
-            ["id" => "OTU_5", "metadata" => ["fennec" => "{\"test\": {\"fennec_id\": 23057}}"]]
+            ["id" => "OTU_1", "metadata" => ["fennec" => "{\"test_data\": {\"fennec_id\": 134097}}"]],
+            ["id" => "OTU_2", "metadata" => ["fennec" => "{\"test_data\": {\"fennec_id\": 163840}}"]],
+            ["id" => "OTU_3", "metadata" => ["fennec" => "{\"test_data\": {\"fennec_id\": 24718}}"]],
+            ["id" => "OTU_4", "metadata" => ["fennec" => "{\"test_data\": {\"fennec_id\": 73023}}"]],
+            ["id" => "OTU_5", "metadata" => ["fennec" => "{\"test_data\": {\"fennec_id\": 23057}}"]]
         );
-        $this->insert_full_webuser_data(array_merge($smallBiom, array('rows'=>$rows)),'UpdateProjectTestUser', 'UpdateProjectTestUser', new \DateTime('2016-10-06T08:07:40+0000'), 'updateProjectFile.biom');
+        $this->insert_full_user_data(array_merge($smallBiom, array('rows'=>$rows)),'UpdateProjectTestUser', new \DateTime('2016-10-06T08:07:40+0000'), 'updateProjectFile.biom');
     }
 
-    private function insert_full_webuser_data($project, $oauth_id, $provider, $import_date, $import_filename)
+    private function insert_full_user_data($project, $oauth_id, $import_date, $import_filename)
     {
-        $oauth_repo = $this->em->getRepository('AppBundle:OauthProvider');
-        $providerEntity = $oauth_repo->findOneBy(array('provider' => $provider));
-        if ($providerEntity === null) {
-            $providerEntity = new OauthProvider();
-            $providerEntity->setProvider($provider);
-            $this->em->persist($providerEntity);
+        $user_repo = $this->em->getRepository('AppBundle:FennecUser');
+        $user = $user_repo->findOneBy(array('github_access_token' => $oauth_id));
+        if ($user === null) {
+            $user = new FennecUser();
+            $user->setGithubAccessToken($oauth_id);
+            $user->setUsername($oauth_id);
+            $user->setPassword('frikadelle');
+            $user->setEmail($oauth_id);
+            $this->em->persist($user);
         }
-        $wuser_repo = $this->em->getRepository('AppBundle:Webuser');
-        $webuser = $wuser_repo->findOneBy(array('oauthProvider' => $providerEntity, 'oauthId' => $oauth_id));
-        if ($webuser === null) {
-            $webuser = new Webuser();
-            $webuser->setOauthProvider($providerEntity);
-            $webuser->setOauthId($oauth_id);
-            $this->em->persist($webuser);
-        }
-        $webuserData = new WebuserData();
-        $webuserData->setProject($project);
-        $webuserData->setWebuser($webuser);
-        $webuserData->setImportDate($import_date);
-        $webuserData->setImportFilename($import_filename);
-        $this->em->persist($webuserData);
+        $p = new Project();
+        $p->setProject($project);
+        $p->setUser($user);
+        $p->setImportDate($import_date);
+        $p->setImportFilename($import_filename);
+        $permission = new Permissions();
+        $permission->setPermission('owner');
+        $permission->setUser($user);
+        $permission->setProject($p);
+        $this->em->persist($permission);
+        $this->em->persist($p);
         $this->em->flush();
     }
 

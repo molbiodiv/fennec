@@ -3,3 +3,8 @@ parameters:
     github_client_secret: 'fake_github_secret'
     google_client_id:     'fake_google_id'
     google_client_secret: 'fake_google_secret'
+    versions: test_data
+    default_data_connection: "test_data"
+    user_connection: "test_user"
+    default_data_entity_manager: "test_data"
+    user_entity_manager: "test_user"

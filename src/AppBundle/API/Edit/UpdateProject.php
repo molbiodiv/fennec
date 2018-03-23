@@ -4,33 +4,49 @@ namespace AppBundle\API\Edit;
 
 
 use AppBundle\API\Webservice;
-use AppBundle\User\FennecUser;
-use Symfony\Component\HttpFoundation\ParameterBag;
+use AppBundle\Entity\User\FennecUser;
+use AppBundle\Service\DBVersion;
+use Doctrine\Common\Collections\Criteria;
 
-class UpdateProject extends Webservice
+class UpdateProject
 {
+    private $manager;
+
+    /**
+     * UpdateProject constructor.
+     * @param $dbversion
+     */
+    public function __construct(DBVersion $dbversion)
+    {
+        $this->manager = $dbversion->getUserEntityManager();
+    }
+
+
     /**
      * @inheritdoc
      */
-    public function execute(ParameterBag $query, FennecUser $user = null)
+    public function execute($projectId, $biom, FennecUser $user = null)
     {
-        $em = $this->getManagerFromQuery($query);
-        if(!$query->has('biom') || !$query->has('project_id')){
-            return array('error' => 'Missing parameter "biom" or "project_id"');
+        $biom = json_decode($biom, true);
+        if($biom === null || $projectId === null){
+            return array('error' => 'Missing parameter "biom" or "projectId"');
         }
         if($user == null){
             return array('error' => 'User not logged in');
         }
-        $webuser = $user->getWebuser($em);
-        if($webuser === null){
+        if($user === null){
             return array('error' => 'Could not update project. Not found for user.');
         }
-        $project = $em->getRepository('AppBundle:WebuserData')->findOneBy(array('webuser' => $webuser, 'webuserDataId' => $query->get('project_id')));
-        if($project === null){
+        $permissionCollection = $user->getPermissions();
+        $project = $this->manager->getRepository('AppBundle:Project')->find($projectId);
+        $criteria = Criteria::create()->where(Criteria::expr()->eq("project", $project))->andWhere(Criteria::expr()->neq("permission", "view"));
+        $projectPermission = $permissionCollection->matching($criteria);
+        if($projectPermission->isEmpty()){
             return array('error' => 'Could not update project. Not found for user.');
         }
-        $project->setProject(json_decode($query->get('biom'), true));
-        $em->flush();
+        $project->setProject($biom);
+        $this->manager->persist($project);
+        $this->manager->flush();
         return array('error' => null);
     }
 }

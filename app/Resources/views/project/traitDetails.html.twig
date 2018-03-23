@@ -1,6 +1,6 @@
 {% extends 'base.navigation.html.twig' %}
 {% block content %}
-<h2 class="page-header">{{ trait.name }} {% if trait.unit %}<small> (in ${{ trait.unit }}$)</small>{% endif %} of {% if dimension == 'rows' %}OTUs{% else %}Samples{% endif %}</h2>
+<h2 class="page-header">{{ trait.type }} {% if trait.unit %}<small> (in ${{ trait.unit }}$)</small>{% endif %} of {% if dimension == 'rows' %}OTUs{% else %}Samples{% endif %}</h2>
 <div class='row'>
     <div
             id="project-data"
@@ -10,13 +10,16 @@
             data-phinch-preview-path="{{ asset('assets/Phinch/preview.html') }}"
             data-biom-raw="{{ project['projects'][internal_project_id]['biom']|e('html_attr') }}"
             data-trait-values="{{ trait.values|json_encode|e('html_attr') }}"
-            data-trait-format="{{ trait.trait_format }}"
-            data-trait-name="{{ trait.name }}"
+            data-trait-format="{{ trait.format }}"
+            data-trait-name="{{ trait.type }}"
             data-trait-citations="{{ trait.citations|json_encode|e('html_attr') }}"
+            data-attribute="{{ attribute }}"
     ></div>
-    {% if trait.trait_format == 'categorical_free' or trait.trait_format == 'numerical' %}
+    {% if trait.format == 'categorical_free' or trait.format == 'numerical' %}
     <div class='col-xs-12'>
+        {% if attribute != 'view' %}
         <button class="btn btn-primary" id="add-trait-to-project-button">Add trait to {% if dimension == 'rows' %}OTU{% else %}Sample{% endif %} metadata</button>
+        {% endif %}
         <div id='pieChart'></div>
         <div id='histogram'></div>
         <script src="{{ asset('assets/js/project/traitDetails.js') }}"></script>

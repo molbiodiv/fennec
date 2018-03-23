@@ -3,17 +3,25 @@
 namespace AppBundle\API\Listing;
 
 use AppBundle\API\Webservice;
-use AppBundle\User\FennecUser;
-use \PDO as PDO;
-use Symfony\Component\HttpFoundation\ParameterBag;
+use AppBundle\Service\DBVersion;
 
 /**
  * Web Service.
  * Returns scientific names for the supplied fennec ids
  */
-class Scinames extends Webservice
+class Scinames
 {
-    private $database;
+    private $manager;
+
+    /**
+     * Scinames constructor.
+     * @param $dbversion
+     */
+    public function __construct(DBVersion $dbversion)
+    {
+        $this->manager = $dbversion->getDataEntityManager();
+    }
+
 
     /**
      * @inheritdoc
@@ -32,25 +40,8 @@ class Scinames extends Webservice
      * );
      * </code>
      */
-    public function execute(ParameterBag $query, FennecUser $user = null)
+    public function execute($ids)
     {
-        $this->database = $this->getManagerFromQuery($query)->getConnection();
-        if (!$query->has('ids') or !is_array($query->get('ids'))) {
-            return [];
-        }
-        $placeholders = implode(',', array_fill(0, count($query->get('ids')), '?'));
-        $query_get_organisms = <<<EOF
-SELECT fennec_id, scientific_name
-    FROM organism WHERE organism.fennec_id IN ({$placeholders})
-EOF;
-        $stm_get_organisms = $this->database->prepare($query_get_organisms);
-        $stm_get_organisms->execute($query->get('ids'));
-
-        $result = array();
-
-        while ($row = $stm_get_organisms->fetch(PDO::FETCH_ASSOC)) {
-            $result[$row['fennec_id']] = $row['scientific_name'];
-        }
-        return $result;
+        return $this->manager->getRepository('AppBundle:Organism')->getScientificNamesToFennecIds($ids);
     }
 }

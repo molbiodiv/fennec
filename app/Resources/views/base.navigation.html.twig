@@ -23,12 +23,12 @@
 
             <ul class="nav navbar-top-links navbar-right">
                 <font style="margin-right: 5px; font-size: 16px;">version: </font>
+
                 <select class="selectpicker" id="dbVersionPicker">
-                    {% for dbversion in dbversions.connections|keys %}
-                    <option data-icon="glyphicon-tag" value="{{ dbversion }}" > {{ dbversion }} </option>
+                    {% for dbversion in dbversions|split('|') %}
+                        <option data-icon="glyphicon-tag" value="{{ dbversion }}" > {{ dbversion }} </option>
                     {% endfor %}
                 </select>
-
 
                 <li class="dropdown">
                     <a class="dropdown-toggle navbar-custom navbar-icon-custom" data-toggle="dropdown" href="#" style="background-color: transparent;">
@@ -36,7 +36,10 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a href="https://fennec.readthedocs.io/en/latest/"><i class="fa fa-book"></i> Manual</a></li>
-                        <li><a href="{{ path('contact', {'dbversion': dbversion}) }}"><i class="fa fa-envelope"></i> Contact</a></li>
+                        <li><a href="https://github.com/molbiodiv/fennec"><i class="fa fa-github"></i> Repository</a></li>
+                        <li><a href="https://doi.org/10.1101/194308"><i class="fa fa-file-text-o"></i> Preprint</a></li>
+                        <li><a href="{{ path('contact', {'dbversion': dbversion}) }}"><i class="fa fa-envelope"></i> Contact/Imprint</a></li>
+                        <li><a href="{{ path('app.swagger_ui') }}"><i class="fa fa-terminal"></i> API doc</a></li>
                     </ul>
                     <!-- /.dropdown-help -->
                 </li>
@@ -48,12 +51,15 @@
                         <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        {% if app.user %}
-                            <li><a href="{{ path('logout') }}"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
+                        {% if is_granted('ROLE_USER') %}
+                            <li><a href="{{ path('fos_user_security_logout') }}"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
+                            {% if is_granted('ROLE_ADMIN')%}
+                                <li><a href="{{ path('easyadmin') }}"><i class="fa fa-lock fa-fw"></i> Admin Area</a> </li>
+                            {% endif %}
                         {% else %}
+                            <li><a href="{{ path('fos_user_security_login') }}"><i class="fa fa-sign-in fa-fw"></i> Login</a></li>
                             <li><a href="{{ path('github_login') }}"><i class="fa fa-github fa-fw"></i> Login with GitHub</a></li>
-                            <li><a href="{{ path('google_login') }}"><i class="fa fa-google fa-fw"></i> Login with Google</a></li>
-                            <li><a href="{{ path('login_demo') }}"><i class="fa fa-laptop fa-fw"></i> Demo User</a></li>
+                            <li><a href="{{ path('fos_user_registration_register') }}"><i class="fa fa-pencil-square-o fa-fw"></i> Register</a></li>
                         {%  endif %}
                     </ul>
                     <!-- /.dropdown-user -->
@@ -67,22 +73,22 @@
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
                         <li>
-                            <a class="sidebar-panel {{ type }}-link" href="{{ path('startpage', {'dbversion': dbversion}) }}"><i class="fa fa-home fa-fw"></i> Home</a>
+                            <a class="sidebar-panel {{ fennecLayoutType }}-link" href="{{ path('startpage', {'dbversion': dbversion  }) }}"><i class="fa fa-home fa-fw"></i> Home</a>
                         </li>
                         <li>
-                            <a href="{{ path('project_overview', {'dbversion': dbversion}) }}" class="sidebar-panel {{ type }}-link"><i class="fa fa-book fa-fw"></i> Projects</a>
+                            <a href="{{ path('project_overview', {'dbversion': dbversion }) }}" class="sidebar-panel {{ fennecLayoutType  }}-link"><i class="fa fa-book fa-fw"></i> Projects</a>
                         </li>
                         <li>
-                            <a href="{{ path('organism_search', {'dbversion': dbversion}) }}" class="sidebar-panel {{ type }}-link"><i class="fa fa-leaf fa-fw"></i> Organisms</a>
+                            <a href="{{ path('organism_search', {'dbversion': dbversion }) }}" class="sidebar-panel {{ fennecLayoutType }}-link"><i class="fa fa-leaf fa-fw"></i> Organisms</a>
                         </li>
                         <li>
-                            <a href="#" class="sidebar-panel {{ type }}-link"><i class="fa fa-globe fa-fw"></i> Traits<span class="fa arrow"></span></a>
+                            <a href="#" class="sidebar-panel {{ fennecLayoutType }}-link"><i class="fa fa-globe fa-fw"></i> Traits<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="{{ path('trait_overview', {'dbversion': dbversion}) }}" class="sidebar-panel {{ type }}-link"><i class="fa fa-eye fa-fw sidebar-{{ type }}"></i> Overview</a>
+                                    <a href="{{ path('trait_overview', {'dbversion': dbversion }) }}" class="sidebar-panel {{ fennecLayoutType }}-link"><i class="fa fa-eye fa-fw sidebar-{{ fennecLayoutType  }}"></i> Overview</a>
                                 </li>
                                 <li>
-                                    <a href="{{ path('trait_search', {'dbversion': dbversion}) }}" class="sidebar-panel {{ type }}-link"><i class="fa fa-search fa-fw sidebar-{{ type }}"></i> Search</a>
+                                    <a href="{{ path('trait_search', {'dbversion': dbversion  }) }}" class="sidebar-panel {{ fennecLayoutType   }}-link"><i class="fa fa-search fa-fw sidebar-{{ fennecLayoutType }}"></i> Search</a>
                                 </li>
                             </ul>
                         </li>
@@ -98,7 +104,7 @@
             {% if title is defined %}
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <h1 class="page-header" id="page-title">{{ title }} </h1>
+                    <h1 class="page-header" id="page-title">{{ title  }} </h1>
                 </div>
             </div>
             {% endif %}
