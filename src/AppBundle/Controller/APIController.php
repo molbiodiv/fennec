@@ -643,35 +643,38 @@ class APIController extends Controller
     /**
      * Get scientific names for a list of fennec_ids
      *
-     * @SWG\Response(
-     *     response=200,
-     *     description="List scientific names for fennec_ids",
-     *     examples={
-     *         "application/json"={
-     *              "1": "Citrus",
-     *              "56": "Neochloris aquatica",
-     *              "254": "Picea abies"
-     *          }
-     *     }
+     * @Operation(
+     *     consumes={"application/x-www-form-urlencoded"},
+     *     tags={"Listing"},
+     *     @SWG\Response(
+     *         response=200,
+     *         description="List scientific names for fennec_ids",
+     *         examples={
+     *             "application/json"={
+     *                  "1": "Citrus",
+     *                  "56": "Neochloris aquatica",
+     *                  "254": "Picea abies"
+     *              }
+     *         }
+     *     ),
+     *     @SWG\Parameter(
+     *         name="ids[]",
+     *         in="query",
+     *         type="array",
+     *         collectionFormat="multi",
+     *         items={
+     *           "type": "int"
+     *         },
+     *         description="List of fennec_ids for which the scientific name is desired"
+     *     )
      * )
-     * @SWG\Parameter(
-     *     name="ids[]",
-     *     in="query",
-     *     type="array",
-     *     collectionFormat="multi",
-     *     items={
-     *       "type": "int"
-     *     },
-     *     description="List of fennec_ids for which the scientific name is desired"
-     * )
-     * @SWG\Tag(name="Listing")
      * @param Request $request
      * @return Response $response
-     * @Route("/api/listing/scinames", name="api_listing_scinames", options={"expose"=true}, methods={"GET"})
+     * @Route("/api/listing/scinames", name="api_listing_scinames", options={"expose"=true}, methods={"POST"})
      */
     public function listingScinamesAction(Request $request){
         $listingScinames = $this->container->get(Listing\Scinames::class);
-        $result = $listingScinames->execute($request->query->get('ids'));
+        $result = $listingScinames->execute($request->request->get('ids'));
         return $this->createResponse($result);
     }
 
