@@ -36,10 +36,7 @@ RUN echo "export LANG=C.UTF-8" >>/etc/apache2/envvars
 RUN curl -sS https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh >miniconda.sh
 RUN chmod +x miniconda.sh
 RUN ./miniconda.sh -b -f -p /usr/local
-
+RUN conda install --yes -c bioconda biom-format=2.1.6
 # Install sphinx to build documentation
 RUN conda install --yes sphinx
 
-# Install biomcs
-RUN git clone https://github.com/molbiodiv/biom-conversion-server.git /tmp/biomcs
-RUN cd /tmp/biomcs && conda install --yes --file explicit-conda-spec.txt
