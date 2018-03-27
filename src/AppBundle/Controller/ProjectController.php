@@ -13,8 +13,10 @@ use AppBundle\API\Details;
 use AppBundle\Entity\User\FennecUser;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ProjectController extends Controller
@@ -34,6 +36,21 @@ class ProjectController extends Controller
                 'title' => 'Projects'
             ]
         );
+    }
+
+    /**
+     * @return Response
+     * @Route("/project/example_file", name="project_example_file", options={"expose" = true})
+     */
+    public function exampleFileAction(){
+        $file = __DIR__.'/static/example.biom';
+        $response = new BinaryFileResponse($file);
+        $response->headers->set('Content-Type', 'text/plain');
+        $response->setContentDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            'example.biom'
+        );
+        return $response;
     }
 
     /**
