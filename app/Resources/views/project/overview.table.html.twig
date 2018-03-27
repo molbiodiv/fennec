@@ -9,7 +9,7 @@
         Supported formats are <a href="http://biom-format.org/documentation/format_versions/biom-1.0.html">biom</a> version 1.0 and version 2.1 or tsv format (observation matrix only).
         Your project is converted to biom format version 1.0 on the web server. For tsv data you have to add metadata manually later.
         More information is available in <a href="http://fennec.readthedocs.io/en/develop/user.html#upload-own-data">the documentation</a>.
-        If you want to try some example data you can use <a href="https://raw.githubusercontent.com/molbiodiv/fennec/master/doc/beta/Case%20Study%202017.biom">this biom file</a>.
+        If you want to try some example data you can use this <a href="{{ path('project_example_file', {'dbversion': dbversion}) }}"><span class="fa fa-download"></span> biom file</a>.
         <form>
             <input class="btn fileinput" id="project-fileupload" type="file" name="files[]" style="display: none" multiple>
             <label for="project-fileupload">Choose file(s)</label>
