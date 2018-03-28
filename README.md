@@ -126,6 +126,8 @@ The api doc on the other hand is dynamically created from the php annotations in
 Those are served from [localhost:3141/api/doc](http://localhost:3141/api/doc).
 
 ## Changes
+### 1.0.2 <2018-03-28>
+ - Fix login via GitHub (#172)
 ### 1.0.1 <2018-03-27>
  - Breaking change: Change method of listing scinames API to POST
  - Update biom-format to 2.1.6
