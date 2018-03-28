@@ -31,6 +31,7 @@
         "friendsofsymfony/jsrouting-bundle": "^2.1",
         "iimog/biom-conversion-server": "^1.0.5",
         "hwi/oauth-bundle": "^0.5.3",
+        "kriswallsmith/buzz": "^0.16.1",
         "doctrine/dbal": "^2.6",
         "doctrine/common": "2.7.1",
         "shivas/versioning-bundle": "^2.0",
