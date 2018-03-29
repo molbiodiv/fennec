@@ -30,7 +30,7 @@ class FullByOrganismNameTest extends WebserviceTestCase
 
     public function testExecute()
     {
-        $result = $this->fullByOrganismName->execute();
+        $result = $this->fullByOrganismName->execute('test_data');
         $this->assertEquals(195203, count($result));
         $this->assertEquals(10, $result['Dunaliella tertiolecta']);
         $this->assertEquals([213,196104], $result['Onoclea sensibilis']);
