@@ -21,10 +21,16 @@ abstract class AbstractDataDBAwareCommand extends ContainerAwareCommand
      */
     protected function initConnection(InputInterface $input)
     {
+        $emVersion = $this->getDbVersion($input);
+        return $this->getContainer()->get(DBVersion::class)->getDataEntityManagerForVersion($emVersion);
+    }
+
+    protected function getDbVersion(InputInterface $input)
+    {
         $emVersion = $input->getOption('dbversion');
         if ($emVersion === null) {
             $emVersion = $this->getContainer()->getParameter('default_data_entity_manager');
         }
-        return $this->getContainer()->get(DBVersion::class)->getDataEntityManagerForVersion($emVersion);
+        return $emVersion;
     }
 }
