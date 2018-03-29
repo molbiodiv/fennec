@@ -7,7 +7,7 @@ use AppBundle\Service\DBVersion;
 
 class FullByOrganismName
 {
-    private $manager;
+    private $dbversion;
 
     /**
      * FullByOrganismName constructor.
@@ -15,15 +15,16 @@ class FullByOrganismName
      */
     public function __construct(DBVersion $dbversion)
     {
-        $this->manager = $dbversion->getDataEntityManager();
+        $this->dbversion = $dbversion;
     }
 
 
     /**
      * @inheritdoc
      */
-    public function execute()
+    public function execute($em_version)
     {
+        $this->dbversion->getDataEntityManagerForVersion($em_version);
         return $this->manager->getRepository('AppBundle:Organism')->getFullIds();
     }
 }

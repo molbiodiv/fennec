@@ -7,7 +7,7 @@ use AppBundle\Service\DBVersion;
 
 class FullByDbxrefId
 {
-    private $manager;
+    private $dbversion;
 
     /**
      * FullByDbxrefId constructor.
@@ -15,15 +15,15 @@ class FullByDbxrefId
      */
     public function __construct(DBVersion $dbversion)
     {
-        $this->manager = $dbversion->getDataEntityManager();
+        $this->dbversion = $dbversion;
     }
 
 
     /**
      * @inheritdoc
      */
-    public function execute($dbname)
+    public function execute($em_version, $dbname)
     {
-        return $this->manager->getRepository('AppBundle:FennecDbxref')->getFullIds($dbname);
+        return $this->dbversion->getDataEntityManagerForVersion($em_version)->getRepository('AppBundle:FennecDbxref')->getFullIds($dbname);
     }
 }
