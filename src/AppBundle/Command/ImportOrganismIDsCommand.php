@@ -83,7 +83,8 @@ class ImportOrganismIDsCommand extends AbstractDataDBAwareCommand
             $this->file = fopen($input->getArgument('file'), 'r');
             $providerID = $this->getOrInsertProvider($input->getOption('provider'), $input->getOption('description'))->getId();
             if($needs_mapping) {
-                $this->mapping = $this->getMapping($input->getOption('mapping'));
+                $dbversion = $this->getDbVersion($input);
+                $this->mapping = $this->getMapping($dbversion,$input->getOption('mapping'));
             }
             while(count($lines = $this->getNextBatchOfLines()) > 0){
                 foreach ($lines as $line) {
@@ -211,13 +212,13 @@ class ImportOrganismIDsCommand extends AbstractDataDBAwareCommand
         return true;
     }
 
-    private function getMapping($method){
+    private function getMapping($dbversion,$method){
         if($method === 'scientific_name'){
             $mapper = $this->getContainer()->get(Mapping\FullByOrganismName::class);
-            $mapping = $mapper->execute();
+            $mapping = $mapper->execute($dbversion);
         } else {
             $mapper = $this->getContainer()->get(Mapping\FullByDbxrefId::class);
-            $mapping = $mapper->execute($method);
+            $mapping = $mapper->execute($dbversion,$method);
         }
         return $mapping;
     }
