@@ -2,7 +2,6 @@
 
 namespace AppBundle\API\Mapping;
 
-use AppBundle\API\Webservice;
 use AppBundle\Service\DBVersion;
 
 class FullByOrganismName
@@ -24,7 +23,7 @@ class FullByOrganismName
      */
     public function execute($em_version)
     {
-        $this->dbversion->getDataEntityManagerForVersion($em_version);
-        return $this->manager->getRepository('AppBundle:Organism')->getFullIds();
+        $manager = $this->dbversion->getDataEntityManagerForVersion($em_version);
+        return $manager->getRepository('AppBundle:Organism')->getFullIds();
     }
 }
