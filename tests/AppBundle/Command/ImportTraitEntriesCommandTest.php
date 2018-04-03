@@ -530,7 +530,7 @@ class ImportTraitEntriesCommandTest extends KernelTestCase
             '--description' => 'traitEntryImporter test ImportByFennecID',
             '--traittype' => 'testNumericalTraitImportByFennecUserId',
             '--fennec-user-id' => '1',
-            'file' => __DIR__.'/files/plantHeightEOLByUser.tsv'
+            'file' => __DIR__.'/files/numericalTraitsByUser.tsv'
         ));
 
         // Tests after import
@@ -545,7 +545,7 @@ class ImportTraitEntriesCommandTest extends KernelTestCase
 
         $traitFileUploadEntry = $this->em->getRepository('AppBundle:TraitFileUpload')->findOneBy(array(
             'fennecUserId' => '1',
-            'filename' => 'plantHeightEOLByUser.tsv'
+            'filename' => 'numericalTraitsByUser.tsv'
         ));
         $this->assertNotNull($traitFileUploadEntry, 'After import there is a fileImportEntry for user 1 and plantHeightEOLByUser.tsv');
         $this->assertEquals($numEntry->getTraitFileUpload(), $traitFileUploadEntry, 'The connection between traitType and fileUpload is correct');
