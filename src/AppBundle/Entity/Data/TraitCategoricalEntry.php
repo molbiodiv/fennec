@@ -106,6 +106,28 @@ class TraitCategoricalEntry
     private $db;
 
     /**
+     * @ManyToOne(targetEntity="TraitFileUpload", inversedBy="traitCategoricalEntries")
+     * @JoinColumn(name="trait_file_upload_id", referencedColumnName="id")
+     */
+    private $traitFileUpload;
+
+    /**
+     * @return mixed
+     */
+    public function getTraitFileUpload()
+    {
+        return $this->traitFileUpload;
+    }
+
+    /**
+     * @param mixed $traitFileUpload
+     */
+    public function setTraitFileUpload($traitFileUpload)
+    {
+        $this->traitFileUpload = $traitFileUpload;
+    }
+
+    /**
      * @return Db
      */
     public function getDb()

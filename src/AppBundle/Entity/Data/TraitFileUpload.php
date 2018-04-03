@@ -60,11 +60,7 @@ class TraitFileUpload
     private $numericalTraitEntries;
 
     /**
-     * @ORM\ManyToMany(targetEntity="TraitCategoricalEntry")
-     * @ORM\JoinTable(name="trait_file_categorical_entries",
-     *      joinColumns={@ORM\JoinColumn(name="trait_file_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="trait_categorical_entry_id", referencedColumnName="id", unique=true)}
-     *      )
+     * @ORM\OneToMany(targetEntity="TraitCategoricalEntry", mappedBy="id")
      */
     private $categoricalTraitEntries;
 
