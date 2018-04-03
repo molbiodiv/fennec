@@ -106,8 +106,8 @@ class TraitCategoricalEntry
     private $db;
 
     /**
-     * @ManyToOne(targetEntity="TraitFileUpload", inversedBy="traitCategoricalEntries")
-     * @JoinColumn(name="trait_file_upload_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="TraitFileUpload", inversedBy="traitCategoricalEntries")
+     * @ORM\JoinColumn(name="trait_file_upload_id", referencedColumnName="id")
      */
     private $traitFileUpload;
 
