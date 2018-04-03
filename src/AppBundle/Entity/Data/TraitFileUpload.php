@@ -51,11 +51,7 @@ class TraitFileUpload
     private $fennecUserId;
 
     /**
-     * @ORM\ManyToMany(targetEntity="TraitNumericalEntry")
-     * @ORM\JoinTable(name="trait_file_numerical_entries",
-     *      joinColumns={@ORM\JoinColumn(name="trait_file_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="trait_numerical_entry_id", referencedColumnName="id", unique=true)}
-     *      )
+     * @ORM\OneToMany(targetEntity="TraitNumericalEntry", mappedBy="id")
      */
     private $numericalTraitEntries;
 

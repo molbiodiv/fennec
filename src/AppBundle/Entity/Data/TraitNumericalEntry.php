@@ -103,6 +103,28 @@ class TraitNumericalEntry
     private $db;
 
     /**
+     * @return mixed
+     */
+    public function getTraitFileUpload()
+    {
+        return $this->traitFileUpload;
+    }
+
+    /**
+     * @param mixed $traitFileUpload
+     */
+    public function setTraitFileUpload($traitFileUpload)
+    {
+        $this->traitFileUpload = $traitFileUpload;
+    }
+
+    /**
+     * @ORM\ManyToOne(targetEntity="TraitFileUpload", inversedBy="traitNumericalEntries")
+     * @ORM\JoinColumn(name="trait_file_upload_id", referencedColumnName="id")
+     */
+    private $traitFileUpload;
+
+    /**
      * @return Db
      */
     public function getDb()
