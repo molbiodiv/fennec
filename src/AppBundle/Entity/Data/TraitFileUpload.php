@@ -67,4 +67,109 @@ class TraitFileUpload
      *      )
      */
     private $categoricalTraitEntries;
+
+    /**
+     * @return string
+     */
+    public function getFilename()
+    {
+        return $this->filename;
+    }
+
+    /**
+     * @param string $filename
+     */
+    public function setFilename($filename)
+    {
+        $this->filename = $filename;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getImportDate()
+    {
+        return $this->importDate;
+    }
+
+    /**
+     * @param \DateTime $importDate
+     */
+    public function setImportDate($importDate)
+    {
+        $this->importDate = $importDate;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getDeletionDate()
+    {
+        return $this->deletionDate;
+    }
+
+    /**
+     * @param \DateTime|null $deletionDate
+     */
+    public function setDeletionDate($deletionDate)
+    {
+        $this->deletionDate = $deletionDate;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getFennecUserId()
+    {
+        return $this->fennecUserId;
+    }
+
+    /**
+     * @param int $fennecUserId
+     */
+    public function setFennecUserId($fennecUserId)
+    {
+        $this->fennecUserId = $fennecUserId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNumericalTraitEntries()
+    {
+        return $this->numericalTraitEntries;
+    }
+
+    /**
+     * @param mixed $numericalTraitEntries
+     */
+    public function setNumericalTraitEntries($numericalTraitEntries)
+    {
+        $this->numericalTraitEntries = $numericalTraitEntries;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCategoricalTraitEntries()
+    {
+        return $this->categoricalTraitEntries;
+    }
+
+    /**
+     * @param mixed $categoricalTraitEntries
+     */
+    public function setCategoricalTraitEntries($categoricalTraitEntries)
+    {
+        $this->categoricalTraitEntries = $categoricalTraitEntries;
+    }
+
 }
