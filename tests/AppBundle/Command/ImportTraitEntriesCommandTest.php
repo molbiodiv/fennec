@@ -471,7 +471,7 @@ class ImportTraitEntriesCommandTest extends KernelTestCase
         $this->assertContains('No citation specified', $output);
     }
 
-    public function testImportWithFennecUserId(){
+    public function testCategoricalTraitsImportWithFennecUserId(){
         // Tests before import
         $rainbow = $this->em->getRepository('AppBundle:TraitCategoricalValue')->findOneBy(array(
             'value' => 'user_rainbow'
@@ -508,5 +508,46 @@ class ImportTraitEntriesCommandTest extends KernelTestCase
         ));
         $this->assertNotNull($traitFileUploadEntry, 'After import there is a fileImportEntry for user 1 and flowerColorsByUser.tsv');
         $this->assertEquals($traitEntry->getTraitFileUpload(), $traitFileUploadEntry, 'The connection between traitType and fileUpload is correct');
+    }
+
+    public function testNumericalTraitsImportWithFennecUserId(){
+        // Tests before import
+        $this->assertNull($this->em->getRepository('AppBundle:TraitType')->findOneBy(array(
+            'type' => 'testNumericalTraitImportByFennecUserId'
+        )), 'before import there is no trait type called "testNumericalTraitImportByFennecUserId"');
+        $testImportTraitByUser = new TraitType();
+        $testImportTraitByUser->setType('testNumericalTraitImportByFennecUserId');
+        $testImportTraitByUser->setUnit('m');
+        $numericalFormat = $this->em->getRepository('AppBundle:TraitFormat')->findOneBy(['format' => 'numerical']);
+        $testImportTraitByUser->setTraitFormat($numericalFormat);
+        $this->em->persist($testImportTraitByUser);
+        $this->em->flush();
+
+        // Import
+        $this->commandTester->execute(array(
+            'command' => $this->command->getName(),
+            '--provider' => 'traitEntryImporter_testByFennecID',
+            '--description' => 'traitEntryImporter test ImportByFennecID',
+            '--traittype' => 'testNumericalTraitImportByFennecUserId',
+            '--fennec-user-id' => '1',
+            'file' => __DIR__.'/files/plantHeightEOLByUser.tsv'
+        ));
+
+        // Tests after import
+        $traitType = $this->em->getRepository('AppBundle:TraitType')->findOneBy(array(
+            'type' => 'testNumericalTraitImportByFennecUserId'
+        ));
+        $this->assertNotNull($traitType);
+        $numEntry = $this->em->getRepository('AppBundle:TraitNumericalEntry')->findOneBy(array(
+            'traitType' => $traitType
+        ));
+        $this->assertNotNull($numEntry, 'After import a numerical entry of type "testNumericalTraitImportByFennecUserId" exists');
+
+        $traitFileUploadEntry = $this->em->getRepository('AppBundle:TraitFileUpload')->findOneBy(array(
+            'fennecUserId' => '1',
+            'filename' => 'plantHeightEOLByUser.tsv'
+        ));
+        $this->assertNotNull($traitFileUploadEntry, 'After import there is a fileImportEntry for user 1 and plantHeightEOLByUser.tsv');
+        $this->assertEquals($numEntry->getTraitFileUpload(), $traitFileUploadEntry, 'The connection between traitType and fileUpload is correct');
     }
 }
