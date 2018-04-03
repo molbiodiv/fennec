@@ -8,6 +8,7 @@ use AppBundle\Entity\Data\Db;
 use AppBundle\Entity\Data\TraitCategoricalEntry;
 use AppBundle\Entity\Data\TraitCategoricalValue;
 use AppBundle\Entity\Data\TraitCitation;
+use AppBundle\Entity\Data\TraitFileUpload;
 use AppBundle\Entity\Data\TraitNumericalEntry;
 use AppBundle\Entity\Data\TraitType;
 use Doctrine\ORM\EntityManager;
@@ -135,6 +136,10 @@ class ImportTraitEntriesCommand extends AbstractDataDBAwareCommand
         }
         if(!$this->checkTraitTypes($traitTypes, $output)){
             return 1;
+        }
+        $traitFileUpload = null;
+        if($input->getOption('fennec-user-id') !== null){
+            $traitFileUpload = $this->createTraitFileUploadEntry(basename($input->getArgument('file')),$input->getOption('fennec-user-id'));
         }
         $this->em->getConnection()->beginTransaction();
         try{
@@ -350,5 +355,22 @@ class ImportTraitEntriesCommand extends AbstractDataDBAwareCommand
             $this->em->flush();
         }
         return $provider->getId();
+    }
+
+    /**
+     * @param string $filename
+     * @param int $fennecUserId
+     * @return TraitFileUpload
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    private function createTraitFileUploadEntry($filename, $fennecUserId){
+        $traitFileUpload = new TraitFileUpload();
+        $traitFileUpload->setFilename($filename);
+        $traitFileUpload->setFennecUserId($fennecUserId);
+        $traitFileUpload->setImportDate(new \DateTime());
+        $this->em->persist($traitFileUpload);
+        $this->em->flush();
+        return $traitFileUpload;
     }
 }
