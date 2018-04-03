@@ -547,7 +547,7 @@ class ImportTraitEntriesCommandTest extends KernelTestCase
             'fennecUserId' => '1',
             'filename' => 'numericalTraitsByUser.tsv'
         ));
-        $this->assertNotNull($traitFileUploadEntry, 'After import there is a fileImportEntry for user 1 and plantHeightEOLByUser.tsv');
+        $this->assertNotNull($traitFileUploadEntry, 'After import there is a fileImportEntry for user 1 and numericalTraitsByUser.tsv');
         $this->assertEquals($numEntry->getTraitFileUpload(), $traitFileUploadEntry, 'The connection between traitType and fileUpload is correct');
     }
 }
