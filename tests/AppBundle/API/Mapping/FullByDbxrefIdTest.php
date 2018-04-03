@@ -32,7 +32,7 @@ class FullByDbxrefIdTest extends WebserviceTestCase
     public function testByNcbiTaxonomy()
     {
         $dbname = 'ncbi_taxonomy';
-        $result = $this->mappingFullByDbxrefId->execute($dbname);
+        $result = $this->mappingFullByDbxrefId->execute('test_data',$dbname);
         $this->assertEquals(181839, count($result));
         $this->assertEquals(29, $result['3070']);
         $this->assertEquals(748, $result['3880']);
@@ -43,7 +43,7 @@ class FullByDbxrefIdTest extends WebserviceTestCase
     public function testByEOL()
     {
         $dbname = 'EOL';
-        $result = $this->mappingFullByDbxrefId->execute($dbname);
+        $result = $this->mappingFullByDbxrefId->execute('test_data',$dbname);
         $this->assertEquals(173027, count($result));
         $this->assertEquals(24571, $result['3812']);
         $this->assertEquals(148571, $result['994360']);

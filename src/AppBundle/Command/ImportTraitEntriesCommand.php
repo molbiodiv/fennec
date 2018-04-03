@@ -123,7 +123,8 @@ class ImportTraitEntriesCommand extends AbstractDataDBAwareCommand
         $progress->start();
         $needs_mapping = $input->getOption('mapping') !== null;
         if($needs_mapping) {
-            $this->mapping = $this->getMapping($input->getOption('mapping'));
+            $dbversion = $this->getDbVersion($input);
+            $this->mapping = $this->getMapping($dbversion,$input->getOption('mapping'));
         }
         $file = fopen($input->getArgument('file'), 'r');
         $traitTypes = array($input->getOption('traittype'));
@@ -241,13 +242,13 @@ class ImportTraitEntriesCommand extends AbstractDataDBAwareCommand
         return $traitCitation;
     }
 
-    private function getMapping($method){
+    private function getMapping($dbversion,$method){
         if($method === 'scientific_name'){
             $mapper = $this->getContainer()->get(Mapping\FullByOrganismName::class);
-            $mapping = $mapper->execute();
+            $mapping = $mapper->execute($dbversion);
         } else {
             $mapper = $this->getContainer()->get(Mapping\FullByDbxrefId::class);
-            $mapping = $mapper->execute($method);
+            $mapping = $mapper->execute($dbversion,$method);
         }
         return $mapping;
     }
