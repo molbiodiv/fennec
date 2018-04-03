@@ -472,9 +472,18 @@ class ImportTraitEntriesCommandTest extends KernelTestCase
     }
 
     public function testImportWithFennecUserId(){
-        $this->assertNull($this->em->getRepository('AppBundle:TraitCategoricalValue')->findOneBy(array(
+        // Tests before import
+        $rainbow = $this->em->getRepository('AppBundle:TraitCategoricalValue')->findOneBy(array(
             'value' => 'user_rainbow'
-        )), 'Before import there is no trait user_rainbow');
+        ));
+        $this->assertNull($rainbow, 'Before import there is no trait user_rainbow');
+        $fileImportEntry = $this->em->getRepository('AppBundle:TraitFileUpload')->findOneBy(array(
+            'fennecUserId' => '1',
+            'filename' => 'flowerColorsByUser.tsv'
+        ));
+        $this->assertNull($fileImportEntry, 'Before import there is no fileImportEntry for user 1 and flowerColorsByUser.tsv');
+
+        // Import
         $this->commandTester->execute(array(
             'command' => $this->command->getName(),
             '--provider' => 'traitEntryImporter_testByFennecID',
@@ -483,20 +492,21 @@ class ImportTraitEntriesCommandTest extends KernelTestCase
             '--fennec-user-id' => '1',
             'file' => __DIR__.'/files/flowerColorsByUser.tsv'
         ));
+
+        // Tests after import
         $rainbow = $this->em->getRepository('AppBundle:TraitCategoricalValue')->findOneBy(array(
             'value' => 'user_rainbow'
         ));
         $this->assertNotNull($rainbow);
         $traitEntry = $this->em->getRepository('AppBundle:TraitCategoricalEntry')->findOneBy(array(
-            'trait_categorical_value' => $rainbow
+            'traitCategoricalValue' => $rainbow
         ));
         $this->assertNotNull($traitEntry, 'After import a trait by a user there should be the related trait entry');
-        $fileImportEntry = $this->em->getRepository('AppBundle:TraitFileUpload')->findOneBy(array(
+        $traitFileUploadEntry = $this->em->getRepository('AppBundle:TraitFileUpload')->findOneBy(array(
             'fennecUserId' => '1',
             'filename' => 'flowerColorsByUser.tsv'
         ));
-        $this->assertEquals(4, count($this->em->getRepository('AppBundle:TraitCategoricalEntry')->findBy(array(
-            'traitCategoricalValue' => $rainbow
-        ))), 'There are four entries with flower color rainbow');
+        $this->assertNotNull($traitFileUploadEntry, 'After import there is a fileImportEntry for user 1 and flowerColorsByUser.tsv');
+        $this->assertEquals($traitEntry->getTraitFileUpload(), $traitFileUploadEntry, 'The connection between traitType and fileUpload is correct');
     }
 }
