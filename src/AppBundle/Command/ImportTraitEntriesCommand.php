@@ -100,6 +100,7 @@ class ImportTraitEntriesCommand extends AbstractDataDBAwareCommand
         ->addOption('long-table', null, InputOption::VALUE_NONE, 'The format of the table is long table. Important: you have to specify the citation via --default-citation', null)
         ->addOption('provider', null, InputOption::VALUE_REQUIRED, 'The name of the database provider (e.g. TraitBank), will be added to the db if it does not already exist', null)
         ->addOption('description', 'd', InputOption::VALUE_REQUIRED, 'Description of the database provider (only used if the database did not already exist)', null)
+        ->addOption('fennec-user-id', null, InputOption::VALUE_REQUIRED, 'The identifier of the user who uploads trait entries.', null)
     ;
     }
 
