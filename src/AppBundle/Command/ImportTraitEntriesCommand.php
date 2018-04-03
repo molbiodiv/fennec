@@ -333,6 +333,7 @@ class ImportTraitEntriesCommand extends AbstractDataDBAwareCommand
         $traitEntry->setFennec($this->em->getReference('AppBundle:Organism', $fennec_id));
         $traitEntry->setDb($this->em->getReference('AppBundle:Db', $dbId));
         $traitEntry->setPrivate(!$public);
+        $traitEntry->setTraitFileUpload($traitFileUpload);
         $this->em->persist($traitEntry);
         ++$this->insertedEntries;
     }
