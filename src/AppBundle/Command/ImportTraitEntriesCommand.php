@@ -171,7 +171,7 @@ class ImportTraitEntriesCommand extends AbstractDataDBAwareCommand
                     }
                     for($i=1; $i<count($line); $i++){
                         if($line[$i] !== ''){
-                            $this->insertTraitEntry($fennec_id, $this->traitType[$i-1], $this->traitFormat[$i-1], $line[$i], '', $citationText, $dbId, '', $input->getOption('public'));
+                            $this->insertTraitEntry($fennec_id, $this->traitType[$i-1], $this->traitFormat[$i-1], $line[$i], '', $citationText, $dbId, '', $input->getOption('public'), $traitFileUpload);
                         }
                     }
                 } else {
@@ -187,7 +187,7 @@ class ImportTraitEntriesCommand extends AbstractDataDBAwareCommand
                         }
                     }
                     $this->insertTraitEntry($fennec_id, $this->traitType[0], $this->traitFormat[0], $line[1], $line[2], $citationText, $dbId,
-                        $line[4], $input->getOption('public'));
+                        $line[4], $input->getOption('public'), $traitFileUpload);
                 }
                 $progress->advance();
                 $i++;
@@ -313,8 +313,9 @@ class ImportTraitEntriesCommand extends AbstractDataDBAwareCommand
      * @param int $dbId dbId
      * @param string $originURL
      * @param boolean $public
+     * @param TraitFileUpload|null $traitFileUpload
      */
-    protected function insertTraitEntry($fennec_id, $traitType, $traitFormat, $value, $valueOntology, $citation, $dbId, $originURL, $public)
+    protected function insertTraitEntry($fennec_id, $traitType, $traitFormat, $value, $valueOntology, $citation, $dbId, $originURL, $public, $traitFileUpload)
     {
         $traitEntry = null;
         if ($traitFormat === "categorical_free") {
