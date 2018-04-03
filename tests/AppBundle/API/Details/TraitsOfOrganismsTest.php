@@ -104,22 +104,22 @@ class TraitsOfOrganismsTest extends WebserviceTestCase
             '1' => [
                 'traitType' => 'Plant Habit',
                 'traitFormat' => 'categorical_free',
-                'traitEntryIds' => [23398, 28954, 28955, 28956, 28957],
-                'fennec' => [5514, 1262],
+                'traitEntryIds' => [28957, 28956, 28955, 28954, 23398],
+                'fennec' => [1262, 5514],
                 'unit' => null
             ],
             '2' => [
                 'traitType' => 'Plant Life Cycle Habit',
                 'traitFormat' => 'categorical_free',
-                'traitEntryIds' => [72164, 74215],
-                'fennec' => [5514, 1262],
+                'traitEntryIds' => [74215, 72164],
+                'fennec' => [1262, 5514],
                 'unit' => null
             ],
             '3' => [
                 'traitType' => 'IUCN Threat Status',
                 'traitFormat' => 'categorical_free',
-                'traitEntryIds' => [91532, 95880, 104870],
-                'fennec' => [1262, 25219, 5514],
+                'traitEntryIds' => [104870, 95880, 91532],
+                'fennec' => [5514, 25219, 1262],
                 'unit' => null
             ],
             '4' => [
