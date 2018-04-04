@@ -63,7 +63,7 @@ class TraitsTest extends WebserviceTestCase
             )
         );
         $traitType = 'TraitType';
-        $defaultCitation = 'DefaultCitation',
+        $defaultCitation = 'DefaultCitation';
         $mapping = null;
         $skipUnmapped = true;
         $results = $this->uploadTraits->execute($this->user, $traitType, $defaultCitation, $mapping, $skipUnmapped);
@@ -92,7 +92,7 @@ class TraitsTest extends WebserviceTestCase
             )
         );
         $traitType = 'TraitType';
-        $defaultCitation = 'DefaultCitation',
+        $defaultCitation = 'DefaultCitation';
         $mapping = null;
         $skipUnmapped = true;
         $results = $this->uploadTraits->execute($this->user, $traitType, $defaultCitation, $mapping, $skipUnmapped);
@@ -115,7 +115,7 @@ class TraitsTest extends WebserviceTestCase
             )
         );
         $traitType = 'Plant Growth Habit';
-        $defaultCitation = 'DefaultCitation',
+        $defaultCitation = 'uploadCategoricalTrait_defaultCitation';
         $mapping = null;
         $skipUnmapped = true;
         $results = $this->uploadTraits->execute($this->user, $traitType, $defaultCitation, $mapping, $skipUnmapped);
@@ -144,7 +144,7 @@ class TraitsTest extends WebserviceTestCase
             )
         );
         $traitType = 'Plant Height';
-        $defaultCitation = 'DefaultCitation',
+        $defaultCitation = 'uploadNumericalTrait_defaultCitation';
         $mapping = 'ncbi_taxonomy';
         $skipUnmapped = true;
         $results = $this->uploadTraits->execute($this->user, $traitType, $defaultCitation, $mapping, $skipUnmapped);
