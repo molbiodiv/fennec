@@ -77,21 +77,14 @@ class TraitsTest extends WebserviceTestCase
         $this->assertEquals($expected, $results);
     }
 
-    /**
-     * @depends testUploadEmptyFile
-     */
-    public function testUploadNoJSON()
+    public function testUploadNoTsv()
     {
-        $user = new FennecUser();
-        $user->setUsername('UploadProjectTestUser');
-        $user->setEmail('UploadProjectTestUser@test.de');
-        $user->setPassword(ProjectsTest::PASSWORD);
         $_FILES = array(
             array(
-                'name' => 'noJson',
+                'name' => 'noTsv',
                 'type' => 'text/plain',
-                'size' => 71,
-                'tmp_name' => __DIR__ . '/testFiles/noJson',
+                'size' => 583,
+                'tmp_name' => __DIR__ . '/testFiles/noTsv.tsv',
                 'error' => 0
             )
         );
