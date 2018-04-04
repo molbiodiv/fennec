@@ -15,18 +15,13 @@ class TraitsTest extends WebserviceTestCase
     const EMAIL = 'UploadTraitsTestUser@example.com';
     const PASSWORD = 'UploadTraitsTestUser';
 
-    private $user_em;
     private $data_em;
     private $uploadTraits;
-    private $user;
 
     public function setUp()
     {
         $kernel = self::bootKernel();
 
-        $this->user_em = $kernel->getContainer()
-            ->get('doctrine')
-            ->getManager('test_user');
         $this->data_em = $kernel->getContainer()
             ->get('doctrine')
             ->getManager('test_data');
@@ -35,8 +30,8 @@ class TraitsTest extends WebserviceTestCase
         $user->setUsername(TraitsTest::NICKNAME);
         $user->setEmail(TraitsTest::EMAIL);
         $user->setPassword(ProjectsTest::PASSWORD);
-        $this->user_em->persist($user);
-        $this->user_em->flush();
+        $this->user_db->persist($user);
+        $this->user_db->flush();
         $this->user = $user;
     }
 
@@ -45,9 +40,9 @@ class TraitsTest extends WebserviceTestCase
         parent::tearDown();
 
         $this->data_em->close();
-        $this->user_em->close();
+        $this->user_db->close();
         $this->data_em = null; // avoid memory leaks
-        $this->user_em = null; // avoid memory leaks
+        $this->user_db = null; // avoid memory leaks
     }
 
 
