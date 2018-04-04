@@ -162,6 +162,19 @@ class TraitsTest extends WebserviceTestCase
 
     public function testUploadNumericalTsv()
     {
+        // Tests before import
+        $this->assertNull($this->data_em->getRepository('AppBundle:TraitType')->findOneBy(array(
+            'type' => 'testNumericalTraitUpload'
+        )), 'before import there is no trait type called "testNumericalTraitUpload"');
+        $testImportTraitByUser = new TraitType();
+        $testImportTraitByUser->setType('testNumericalTraitUpload');
+        $testImportTraitByUser->setUnit('m');
+        $numericalFormat = $this->data_em->getRepository('AppBundle:TraitFormat')->findOneBy(['format' => 'numerical']);
+        $testImportTraitByUser->setTraitFormat($numericalFormat);
+        $this->data_em->persist($testImportTraitByUser);
+        $this->data_em->flush();
+
+        // Import
         $_FILES = array(
             array(
                 'name' => 'numericalTrait.tsv',
@@ -171,21 +184,38 @@ class TraitsTest extends WebserviceTestCase
                 'error' => 0
             )
         );
-        $traitType = 'Plant Height';
+        $traitType = 'testNumericalTraitUpload';
         $defaultCitation = 'uploadNumericalTrait_defaultCitation';
         $mapping = 'ncbi_taxonomy';
         $skipUnmapped = true;
         $results = $this->uploadTraits->execute($this->user, $traitType, $defaultCitation, $mapping, $skipUnmapped);
         $expected = array(
             "result" => array(
-                "Imported entries" => 7,
+                "Imported entries" => 3,
                 "Distinct new values" => 0,
                 "Distinct new citations" => 3,
-                "Skipped (no hit)" => 3,
+                "Skipped (no hit)" => 2,
                 "Skipped (multiple hits)" => 0
             ),
             "error" => null
         );
         $this->assertEquals($expected, $results);
+
+        // Tests after import
+        $traitType = $this->data_em->getRepository('AppBundle:TraitType')->findOneBy(array(
+            'type' => 'testNumericalTraitUpload'
+        ));
+        $this->assertNotNull($traitType);
+        $numEntry = $this->data_em->getRepository('AppBundle:TraitNumericalEntry')->findOneBy(array(
+            'traitType' => $traitType
+        ));
+        $this->assertNotNull($numEntry, 'After import a numerical entry of type "testNumericalTraitUpload" exists');
+
+        $traitFileUploadEntry = $this->data_em->getRepository('AppBundle:TraitFileUpload')->findOneBy(array(
+            'fennecUserId' => $this->user->getId(),
+            'filename' => 'numericalTrait.tsv'
+        ));
+        $this->assertNotNull($traitFileUploadEntry, 'After import there is a fileImportEntry for user 1 and numericalTraitsByUser.tsv');
+        $this->assertEquals($numEntry->getTraitFileUpload(), $traitFileUploadEntry, 'The connection between traitType and fileUpload is correct');
     }
 }
