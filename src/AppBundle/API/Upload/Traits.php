@@ -28,6 +28,9 @@ class Traits
 
 
     public function execute($user, $traitType, $defaultCitation, $mapping, $skipUnmapped){
+        if (!is_uploaded_file($_FILES[0]['tmp_name'])) {
+            return array("result"=>null,"error"=>"Error in request!");
+        }
         $content = file_get_contents($_FILES[0]['tmp_name']);
         [$return_code, $output] = $this->executeTraitImportCommand($content, $user, $traitType, $defaultCitation, $mapping, $skipUnmapped);
         $result = array("result" => null, "error" => null);
