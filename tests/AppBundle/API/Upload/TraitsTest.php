@@ -25,11 +25,22 @@ class TraitsTest extends WebserviceTestCase
         $this->data_em = $kernel->getContainer()
             ->get('doctrine')
             ->getManager('test_data');
+        $user_em = $kernel->getContainer()
+            ->get('doctrine')
+            ->getManager($this->user_db);
         $this->uploadTraits = $kernel->getContainer()->get(Upload\Traits::class);
-        $user = new FennecUser();
-        $user->setUsername(TraitsTest::NICKNAME);
-        $user->setEmail(TraitsTest::EMAIL);
-        $user->setPassword(ProjectsTest::PASSWORD);
+        $user = $user_em->getRepository('AppBundle:FennecUser')->findOneBy(array(
+            'username' => TraitsTest::NICKNAME,
+            'email' => TraitsTest::EMAIL
+        ));
+        if($user == null){
+            $user = new FennecUser();
+            $user->setUsername(TraitsTest::NICKNAME);
+            $user->setEmail(TraitsTest::EMAIL);
+            $user->setPassword(ProjectsTest::PASSWORD);
+            $user_em->persist($user);
+            $user_em->flush();
+        }
         $this->user = $user;
     }
 
@@ -53,7 +64,7 @@ class TraitsTest extends WebserviceTestCase
                 'error' => 0
             )
         );
-        $traitType = 'TraitType';
+        $traitType = 'Plant Habit';
         $defaultCitation = 'DefaultCitation';
         $mapping = null;
         $skipUnmapped = true;
@@ -82,7 +93,7 @@ class TraitsTest extends WebserviceTestCase
                 'error' => 0
             )
         );
-        $traitType = 'TraitType';
+        $traitType = 'Plant Habit';
         $defaultCitation = 'DefaultCitation';
         $mapping = null;
         $skipUnmapped = true;
@@ -117,18 +128,18 @@ class TraitsTest extends WebserviceTestCase
                 'error' => 0
             )
         );
-        $traitType = 'Plant Growth Habit';
+        $traitType = 'Plant Habit';
         $defaultCitation = 'uploadCategoricalTrait_defaultCitation';
         $mapping = null;
         $skipUnmapped = true;
         $results = $this->uploadTraits->execute($this->user, $traitType, $defaultCitation, $mapping, $skipUnmapped);
         $expected = array(
             "result" => array(
-                "Imported entries" => 5,
-                "Distinct new values" => 2,
-                "Distinct new citations" => 3,
-                "Skipped (no hit)" => 0,
-                "Skipped (multiple hits)" => 0
+                "Imported entries" => "5",
+                "Distinct new values" => "3",
+                "Distinct new citations" => "4",
+                "Skipped (no hit)" => "0",
+                "Skipped (multiple hits)" => "0"
             ),
             "error" => null
         );
@@ -139,11 +150,11 @@ class TraitsTest extends WebserviceTestCase
             'value' => 'uploadTraitTree'
         ));
         $this->assertNotNull($uploadTraitTree);
-        $traitEntry = $this->em->getRepository('AppBundle:TraitCategoricalEntry')->findOneBy(array(
+        $traitEntry = $this->data_em->getRepository('AppBundle:TraitCategoricalEntry')->findOneBy(array(
             'traitCategoricalValue' => $uploadTraitTree
         ));
         $this->assertNotNull($traitEntry, 'After import a trait by a user there should be the related trait entry');
-        $traitFileUploadEntry = $this->em->getRepository('AppBundle:TraitFileUpload')->findOneBy(array(
+        $traitFileUploadEntry = $this->data_em->getRepository('AppBundle:TraitFileUpload')->findOneBy(array(
             'fennecUserId' => $this->user->getId(),
             'filename' => 'categoricalTrait.tsv'
         ));
@@ -182,11 +193,11 @@ class TraitsTest extends WebserviceTestCase
         $results = $this->uploadTraits->execute($this->user, $traitType, $defaultCitation, $mapping, $skipUnmapped);
         $expected = array(
             "result" => array(
-                "Imported entries" => 3,
-                "Distinct new values" => 0,
-                "Distinct new citations" => 3,
-                "Skipped (no hit)" => 2,
-                "Skipped (multiple hits)" => 0
+                "Imported entries" => "3",
+                "Distinct new values" => "0",
+                "Distinct new citations" => "3",
+                "Skipped (no hit)" => "2",
+                "Skipped (multiple hits)" => "0"
             ),
             "error" => null
         );
