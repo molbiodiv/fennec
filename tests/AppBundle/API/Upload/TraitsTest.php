@@ -62,15 +62,17 @@ class TraitsTest extends WebserviceTestCase
                 'error' => 0
             )
         );
-        $results = $this->uploadTraits->execute($this->user);
+        $skipUnmapped = true;
+        $results = $this->uploadTraits->execute($this->user, 'TraitType', 'DefaultCitation', 'Mapping', $skipUnmapped);
         $expected = array(
-            "files" => array(
-                array(
-                    "name" => "empty",
-                    "size" => 0,
-                    "error" => Projects::ERROR_NOT_BIOM
-                )
-            )
+            "result" => array(
+                "Imported entries" => 0,
+                "Distinct new values" => 0,
+                "Distinct new citations" => 0,
+                "Skipped (no hit)" => 0,
+                "Skipped (multiple hits)" => 0
+            ),
+            "error" => null
         );
         $this->assertEquals($expected, $results);
     }
