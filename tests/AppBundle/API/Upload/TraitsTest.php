@@ -102,7 +102,8 @@ class TraitsTest extends WebserviceTestCase
             "result" => null,
             "error" => "Error could not import file. Line 1 does not have 5 columns."
         );
-        $this->assertEquals($expected, $results);
+        $this->assertEquals(null, $results["result"]);
+        $this->assertContains("Wrong number of elements in line. Expected: 5, Actual: 1", $results["error"]);
     }
 
     public function testUploadCategoricalTsv()
