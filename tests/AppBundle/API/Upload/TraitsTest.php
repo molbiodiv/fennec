@@ -3,7 +3,7 @@
 namespace Tests\AppBundle\API\Upload;
 
 use AppBundle\API\Upload;
-use AppBundle\API\Upload\Projects;
+use AppBundle\Entity\Data\TraitType;
 use AppBundle\Entity\User\FennecUser;
 use Tests\AppBundle\API\WebserviceTestCase;
 
@@ -30,8 +30,6 @@ class TraitsTest extends WebserviceTestCase
         $user->setUsername(TraitsTest::NICKNAME);
         $user->setEmail(TraitsTest::EMAIL);
         $user->setPassword(ProjectsTest::PASSWORD);
-        $this->user_db->persist($user);
-        $this->user_db->flush();
         $this->user = $user;
     }
 
@@ -40,9 +38,7 @@ class TraitsTest extends WebserviceTestCase
         parent::tearDown();
 
         $this->data_em->close();
-        $this->user_db->close();
         $this->data_em = null; // avoid memory leaks
-        $this->user_db = null; // avoid memory leaks
     }
 
 
