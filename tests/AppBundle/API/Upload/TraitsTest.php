@@ -105,6 +105,18 @@ class TraitsTest extends WebserviceTestCase
 
     public function testUploadCategoricalTsv()
     {
+        // Tests before import
+        $uploadTraitTree = $this->data_em->getRepository('AppBundle:TraitCategoricalValue')->findOneBy(array(
+            'value' => 'uploadTraitTree'
+        ));
+        $this->assertNull($uploadTraitTree, 'Before import there is no trait uploadTraitTree');
+        $fileImportEntry = $this->data_em->getRepository('AppBundle:TraitFileUpload')->findOneBy(array(
+            'fennecUserId' => $this->user->getId(),
+            'filename' => 'categoricalTrait.tsv'
+        ));
+        $this->assertNull($fileImportEntry, 'Before import there is no fileImportEntry for categoricalTrait.tsv');
+
+        // Import
         $_FILES = array(
             array(
                 'name' => 'categoricalTrait.tsv',
@@ -130,6 +142,22 @@ class TraitsTest extends WebserviceTestCase
             "error" => null
         );
         $this->assertEquals($expected, $results);
+
+        // Tests after import
+        $uploadTraitTree = $this->data_em->getRepository('AppBundle:TraitCategoricalValue')->findOneBy(array(
+            'value' => 'uploadTraitTree'
+        ));
+        $this->assertNotNull($uploadTraitTree);
+        $traitEntry = $this->em->getRepository('AppBundle:TraitCategoricalEntry')->findOneBy(array(
+            'traitCategoricalValue' => $uploadTraitTree
+        ));
+        $this->assertNotNull($traitEntry, 'After import a trait by a user there should be the related trait entry');
+        $traitFileUploadEntry = $this->em->getRepository('AppBundle:TraitFileUpload')->findOneBy(array(
+            'fennecUserId' => $this->user->getId(),
+            'filename' => 'categoricalTrait.tsv'
+        ));
+        $this->assertNotNull($traitFileUploadEntry, 'After import there is a fileImportEntry categoricalTrait.tsv');
+        $this->assertEquals($traitEntry->getTraitFileUpload(), $traitFileUploadEntry, 'The connection between traitType and fileUpload is correct');
     }
 
     public function testUploadNumericalTsv()
