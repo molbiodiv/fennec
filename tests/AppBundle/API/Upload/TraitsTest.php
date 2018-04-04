@@ -62,8 +62,11 @@ class TraitsTest extends WebserviceTestCase
                 'error' => 0
             )
         );
+        $traitType = 'TraitType';
+        $defaultCitation = 'DefaultCitation',
+        $mapping = null;
         $skipUnmapped = true;
-        $results = $this->uploadTraits->execute($this->user, 'TraitType', 'DefaultCitation', 'Mapping', $skipUnmapped);
+        $results = $this->uploadTraits->execute($this->user, $traitType, $defaultCitation, $mapping, $skipUnmapped);
         $expected = array(
             "result" => array(
                 "Imported entries" => 0,
@@ -88,107 +91,73 @@ class TraitsTest extends WebserviceTestCase
                 'error' => 0
             )
         );
-        $results = $this->uploadProjects->execute($user);
+        $traitType = 'TraitType';
+        $defaultCitation = 'DefaultCitation',
+        $mapping = null;
+        $skipUnmapped = true;
+        $results = $this->uploadTraits->execute($this->user, $traitType, $defaultCitation, $mapping, $skipUnmapped);
         $expected = array(
-            "files" => array(
-                array(
-                    "name" => "noJson",
-                    "size" => 71,
-                    "error" => Projects::ERROR_NOT_BIOM
-                )
-            )
+            "result" => null,
+            "error" => "Error could not import file. Line 1 does not have 5 columns."
         );
         $this->assertEquals($expected, $results);
     }
 
-    public function testUploadNoBIOM()
+    public function testUploadCategoricalTsv()
     {
-        $user = new FennecUser();
-        $user->setUsername('UploadProjectTestUser');
-        $user->setEmail('UploadProjectTestUser@test.de');
-        $user->setPassword(ProjectsTest::PASSWORD);
         $_FILES = array(
             array(
-                'name' => 'noBiom.json',
+                'name' => 'categoricalTrait.tsv',
                 'type' => 'text/plain',
-                'size' => 71,
-                'tmp_name' => __DIR__ . '/testFiles/noBiom.json',
+                'size' => 583,
+                'tmp_name' => __DIR__ . '/testFiles/categoricalTrait.tsv',
                 'error' => 0
             )
         );
-        $results = $this->uploadProjects->execute($user);
+        $traitType = 'Plant Growth Habit';
+        $defaultCitation = 'DefaultCitation',
+        $mapping = null;
+        $skipUnmapped = true;
+        $results = $this->uploadTraits->execute($this->user, $traitType, $defaultCitation, $mapping, $skipUnmapped);
         $expected = array(
-            "files" => array(
-                array(
-                    "name" => "noBiom.json",
-                    "size" => 71,
-                    "error" => Projects::ERROR_NOT_BIOM
-                )
-            )
+            "result" => array(
+                "Imported entries" => 5,
+                "Distinct new values" => 2,
+                "Distinct new citations" => 3,
+                "Skipped (no hit)" => 0,
+                "Skipped (multiple hits)" => 0
+            ),
+            "error" => null
         );
         $this->assertEquals($expected, $results);
     }
 
-    public function testUploadBiom()
+    public function testUploadNumericalTsv()
     {
-        $user = new FennecUser();
-        $user->setUsername('UploadBiomTestUser');
-        $user->setEmail('UploadBiomTestUser@test.de');
-        $user->setPassword(ProjectsTest::PASSWORD);
         $_FILES = array(
             array(
-                'name' => 'simpleBiom.json',
+                'name' => 'numericalTrait.tsv',
                 'type' => 'text/plain',
-                'size' => 1067,
-                'tmp_name' => __DIR__ . '/testFiles/simpleBiom.json',
+                'size' => 583,
+                'tmp_name' => __DIR__ . '/testFiles/numericalTrait.tsv',
                 'error' => 0
             )
         );
-        $results = $this->uploadProjects->execute($user);
-        $expected = array("files" => array(array("name" => "simpleBiom.json", "size" => 1067, "error" => null)));
-        $this->assertEquals($expected, $results);
-    }
-
-    public function testUploadSimpleBiomInHdf5()
-    {
-        $user = new FennecUser();
-        $user->setUsername('UploadHdf5TestUser');
-        $user->setEmail('UploadHdf5TestUser@test.de');
-        $user->setPassword(ProjectsTest::PASSWORD);
-        copy(__DIR__ . '/testFiles/simpleBiom.hdf5', __DIR__ . '/testFiles/simpleBiom.hdf5.backup');
-        $_FILES = array(
-            array(
-                'name' => 'simpleBiom.hdf5',
-                'type' => 'application/octet-stream',
-                'size' => 33840,
-                'tmp_name' => __DIR__ . '/testFiles/simpleBiom.hdf5',
-                'error' => 0
-            )
+        $traitType = 'Plant Height';
+        $defaultCitation = 'DefaultCitation',
+        $mapping = 'ncbi_taxonomy';
+        $skipUnmapped = true;
+        $results = $this->uploadTraits->execute($this->user, $traitType, $defaultCitation, $mapping, $skipUnmapped);
+        $expected = array(
+            "result" => array(
+                "Imported entries" => 7,
+                "Distinct new values" => 0,
+                "Distinct new citations" => 4,
+                "Skipped (no hit)" => 3,
+                "Skipped (multiple hits)" => 0
+            ),
+            "error" => null
         );
-        $results = $this->uploadProjects->execute($user);
-        $expected = array("files" => array(array("name" => "simpleBiom.hdf5", "size" => 33840, "error" => null)));
         $this->assertEquals($expected, $results);
-        rename(__DIR__ . '/testFiles/simpleBiom.hdf5.backup', __DIR__ . '/testFiles/simpleBiom.hdf5');
-    }
-
-    public function testUploadOtuTable(){
-        $user = new FennecUser();
-        $user->setUsername('UploadOTUTestUser');
-        $user->setEmail('UploadOTUTestUser@test.de');
-        $user->setPassword(ProjectsTest::PASSWORD);
-        copy(__DIR__ . '/testFiles/otuTable.tsv', __DIR__ . '/testFiles/otuTable.tsv.backup');
-        $_FILES = array(
-            array(
-                'name' => 'otuTable.tsv',
-                'type' => 'text/plain',
-                'size' => 67,
-                'tmp_name' => __DIR__ . '/testFiles/otuTable.tsv',
-                'error' => 0
-            )
-        );
-        $results = $this->uploadProjects->execute($user);
-        $expected = array("files"=>array(array("name" => "otuTable.tsv", "size" => 67, "error" => null)));
-        $this->assertEquals($expected, $results);
-        rename(__DIR__ . '/testFiles/otuTable.tsv.backup', __DIR__ . '/testFiles/otuTable.tsv');
     }
 }
