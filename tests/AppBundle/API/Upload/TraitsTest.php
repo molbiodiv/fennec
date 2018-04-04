@@ -152,7 +152,7 @@ class TraitsTest extends WebserviceTestCase
             "result" => array(
                 "Imported entries" => 7,
                 "Distinct new values" => 0,
-                "Distinct new citations" => 4,
+                "Distinct new citations" => 3,
                 "Skipped (no hit)" => 3,
                 "Skipped (multiple hits)" => 0
             ),
