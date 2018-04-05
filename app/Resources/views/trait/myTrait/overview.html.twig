@@ -2,6 +2,8 @@
 
 {% block content %}
     {% if app.user %}
+        {% include 'trait/myTrait/overview.actions.html.twig' %}
+        {% include 'trait/myTrait/upload.panel.html.twig' %}
         {% include 'trait/myTrait/overview.table.html.twig' %}
     {% else %}
         Please log in to see your projects
