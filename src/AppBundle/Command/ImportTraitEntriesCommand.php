@@ -293,7 +293,7 @@ class ImportTraitEntriesCommand extends AbstractDataDBAwareCommand
         foreach ($traitTypes as $type){
             $traitType = $this->em->getRepository('AppBundle:TraitType')->findOneBy(array('type' => $type));
             if ($traitType === null) {
-                $output->writeln('<error>TraitType does not exist in db: "'.$type.'". Check for typos or create with app:create-traittype.</error>');
+                $output->writeln("\n".'<error>Error: TraitType does not exist in db: "'.$type.'". Check for typos or create with app:create-traittype.</error>');
                 return false;
             }
             else{
