@@ -87,7 +87,7 @@ class ImportTraitEntriesCommand extends AbstractDataDBAwareCommand
         ->setHelp("This command allows you to create trait types...\n".
             "The tsv file has to have the following columns (only the first two are required to have a value):\n".
             "fennec_id\tvalue\tvalue_ontology\tcitation\torigin_url\n\n".
-            "or with --long-table option:\n".
+            "or with --wide-table option:\n".
             "#FennecID\tTraitType1\tTraitType2\t...\n".
             "fennec_id\tTraitValue1\tTraitValue2\t...\n\n".
             "You need to provide a citation for each entry via --default-citation or via the respective column"
@@ -98,7 +98,7 @@ class ImportTraitEntriesCommand extends AbstractDataDBAwareCommand
         ->addOption('mapping', "m", InputOption::VALUE_REQUIRED, 'Method of mapping for id column. If not set fennec_ids are assumed and no mapping is performed', null)
         ->addOption('public', 'p', InputOption::VALUE_NONE, 'import traits as public (default is private)')
         ->addOption('skip-unmapped', 's', InputOption::VALUE_NONE, 'do not exit if a line can not be mapped (uniquely) to a fennec_id instead skip this entry', null)
-        ->addOption('long-table', null, InputOption::VALUE_NONE, 'The format of the table is long table. Important: you have to specify the citation via --default-citation', null)
+        ->addOption('wide-table', null, InputOption::VALUE_NONE, 'The format of the table is wide table. Important: you have to specify the citation via --default-citation', null)
         ->addOption('provider', null, InputOption::VALUE_REQUIRED, 'The name of the database provider (e.g. TraitBank), will be added to the db if it does not already exist', null)
         ->addOption('description', 'd', InputOption::VALUE_REQUIRED, 'Description of the database provider (only used if the database did not already exist)', null)
         ->addOption('fennec-user-id', null, InputOption::VALUE_REQUIRED, 'The identifier of the user who uploads trait entries.', null)
@@ -130,7 +130,7 @@ class ImportTraitEntriesCommand extends AbstractDataDBAwareCommand
         }
         $file = fopen($input->getArgument('file'), 'r');
         $traitTypes = array($input->getOption('traittype'));
-        if($input->getOption('long-table')){
+        if($input->getOption('wide-table')){
             $line = fgetcsv($file, 0, "\t");
             $traitTypes = array_slice($line, 1);
         }
@@ -164,10 +164,10 @@ class ImportTraitEntriesCommand extends AbstractDataDBAwareCommand
                     }
                     $fennec_id = $this->mapping[$fennec_id];
                 }
-                if($input->getOption('long-table')){
+                if($input->getOption('wide-table')){
                     $citationText = $input->getOption('default-citation');
                     if($citationText === null){
-                        throw new \Exception('Error: No citation specified. For --long-table please use --default-citation');
+                        throw new \Exception('Error: No citation specified. For --wide-table please use --default-citation');
                     }
                     for($i=1; $i<count($line); $i++){
                         if($line[$i] !== ''){
@@ -266,8 +266,8 @@ class ImportTraitEntriesCommand extends AbstractDataDBAwareCommand
      */
     protected function checkOptions(InputInterface $input, OutputInterface $output)
     {
-        if ($input->getOption('traittype') === null && !$input->getOption('long-table')) {
-            $output->writeln('<error>No trait type given. Use --traittype or set --long-table</error>');
+        if ($input->getOption('traittype') === null && !$input->getOption('wide-table')) {
+            $output->writeln('<error>No trait type given. Use --traittype or set --wide-table</error>');
             return false;
         }
         if ($input->getOption('provider') === null) {
