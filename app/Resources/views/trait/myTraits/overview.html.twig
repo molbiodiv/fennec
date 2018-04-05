@@ -9,8 +9,12 @@
 
 {% block content %}
     {% if app.user %}
-        {% include 'trait/myTraits/upload.panel.html.twig' %}
-        {% include 'trait/myTraits/overview.table.html.twig' %}
+        {% if dbversion in dbversions_for_user_trait_upload %}
+            {% include 'trait/myTraits/upload.panel.html.twig' %}
+            {% include 'trait/myTraits/overview.table.html.twig' %}
+        {% else %}
+            This dbversion does not support upload of traits by users.
+        {% endif %}
     {% else %}
         Please log in to see your projects
     {% endif %}

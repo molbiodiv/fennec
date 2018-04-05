@@ -44,6 +44,7 @@ twig:
     globals:
         fennec_version: "%application_version%"
         dbversions: "%versions%"
+        dbversions_for_user_trait_upload: "%dbversions_for_user_trait_upload%"
         ga_tracking: "%ga_tracking%"
     form_themes: ['bootstrap_3_horizontal_layout.html.twig']
 
