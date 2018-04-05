@@ -426,7 +426,11 @@ class APIController extends Controller
             return $response;
         }
         $result = $uploadTraits->execute($user,$traitType,$defaultCitation,$mapping,$skipUnmapped);
-        return $this->createResponse($result);
+        $response = $this->createResponse($result);
+        if($result["error"] !== null){
+            $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+        return $response;
     }
 
     /**
