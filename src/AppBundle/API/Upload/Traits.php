@@ -67,11 +67,13 @@ class Traits
             '--dbversion' => $this->dbversion,
             '--traittype' => $traitType,
             '--default-citation' => $defaultCitation,
-            '--skip-unmapped' => $skipUnmapped,
             '--provider' => 'userImport',
         );
-        if($mapping !== null){
+        if($mapping){
             $input_parameters['--mapping'] = $mapping;
+        }
+        if($skipUnmapped){
+            $input_parameters['--skip-unmapped'] = true;
         }
 
         $input = new ArrayInput(array_merge(array(
