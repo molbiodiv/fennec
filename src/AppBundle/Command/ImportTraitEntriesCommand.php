@@ -180,7 +180,7 @@ class ImportTraitEntriesCommand extends AbstractDataDBAwareCommand
                     }
                     $citationText = $line[3];
                     if ($citationText === ""){
-                        if($input->getOption('default-citation') !== null) {
+                        if($input->getOption('default-citation')) {
                             $citationText = $input->getOption('default-citation');
                         } else {
                             throw new \Exception("\nError: No citation specified in:\n".join("\t",$line)."\nPlease specify citation in 4th column or use --default-citation");

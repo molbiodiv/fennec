@@ -66,14 +66,16 @@ class Traits
             '--fennec-user-id' => $user->getId(),
             '--dbversion' => $this->dbversion,
             '--traittype' => $traitType,
-            '--default-citation' => $defaultCitation,
             '--provider' => 'userImport',
         );
         if($mapping){
             $input_parameters['--mapping'] = $mapping;
         }
-        if($skipUnmapped){
+        if($skipUnmapped && $skipUnmapped !== "false"){
             $input_parameters['--skip-unmapped'] = true;
+        }
+        if($defaultCitation) {
+            $input_parameters['--default-citation'] = $defaultCitation;
         }
 
         $input = new ArrayInput(array_merge(array(
