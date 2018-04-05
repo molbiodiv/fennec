@@ -416,7 +416,7 @@ class APIController extends Controller
      */
     public function uploadTraitsAction(Request $request){
         $dbversion = $this->container->get(DBVersion::class)->getConnectionName();
-        if(in_array($dbversion, $this->container->getParameter('dbversionsForTraitUpload'))){
+        if(in_array($dbversion, $this->container->getParameter('dbversions_for_user_trait_upload'))){
             $uploadTraits = $this->container->get(Upload\Traits::class);
             $user = $this->getFennecUser();
             $post = $request->request;
