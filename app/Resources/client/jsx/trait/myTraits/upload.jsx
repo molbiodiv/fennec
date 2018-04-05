@@ -135,6 +135,7 @@ $('document').ready(function () {
     var currentFile;
     $('#trait-fileupload').on('change', function (e) {
         currentFile = e.target.files[0];
+        $('#trait-upload-filename').text(currentFile.name);
     });
     $('#trait-upload-submit-button').on('click', startTraitFileUpload);
 
