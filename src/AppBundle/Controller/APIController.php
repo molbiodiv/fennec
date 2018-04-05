@@ -412,7 +412,15 @@ class APIController extends Controller
      * @Route("/api/upload/traits", name="api_upload_traits", options={"expose"=true}, methods={"POST"})
      */
     public function uploadTraitsAction(Request $request){
-        return $this->createResponse(null);
+        $uploadTraits = $this->container->get(Upload\Traits::class);
+        $user = $this->getFennecUser();
+        $post = $request->request;
+        $traitType = $post->get('traitType');
+        $defaultCitation = $post->get('defaultCitation');
+        $mapping = $post->get('mapping');
+        $skipUnmapped = $post->get('skipUnmapped');
+        $result = $uploadTraits->execute($user,$traitType,$defaultCitation,$mapping,$skipUnmapped);
+        return $this->createResponse($result);
     }
 
     /**
