@@ -5,14 +5,19 @@
         </h3>
     </div>
     <div class="panel-body">
-        Supported formats are <a href="http://biom-format.org/documentation/format_versions/biom-1.0.html">biom</a> version 1.0 and version 2.1 or tsv format (observation matrix only).
-        Your project is converted to biom format version 1.0 on the web server. For tsv data you have to add metadata manually later.
+        Supported is tsv format.
         More information is available in <a href="http://fennec.readthedocs.io/en/develop/user.html#upload-own-data">the documentation</a>.
-        If you want to try some example data you can use this <a href="{{ path('project_example_file', {'dbversion': dbversion}) }}"><span class="fa fa-download"></span> biom file</a>.
+        Beware that all uploaded traits are public and can be used by all fennec users.
+        Make sure that you have the rights to distribute this data and that you include proper citation and attribution information.
         <form>
-            <input class="btn fileinput" id="project-fileupload" type="file" name="files[]" style="display: none" multiple>
-            <label for="project-fileupload">Choose file(s)</label>
+            Traittype: <input type="text" name="traitType"/><br>
+            Default citation: <input type="text" name="defaultCitation"/><br>
+            Mapping: <input type="text" name="mapping"/><br>
+            Skip unmapped: <input type="checkbox" name="skipUnmapped"/><br>
+            <input class="btn fileinput" id="trait-fileupload" type="file" name="file" style="display: none">
+            <label for="trait-fileupload">Choose file</label><br>
+            <button id="trait-upload-submit-button" class="btn" type="button">Submit</button>
         </form>
-        <i class="fa fa-refresh fa-spin" style="font-size:24px; display:none" id="project-upload-busy-indicator"></i>
+        <i class="fa fa-refresh fa-spin" style="font-size:24px; display:none" id="trait-upload-busy-indicator"></i>
     </div>
 </div>
