@@ -100,4 +100,17 @@ class TraitController extends Controller
             'trait' => $trait
         ]);
     }
+
+    /**
+     * @param $dbversion
+     * @return Response
+     * @Route("/myTraits", name="my_traits", options={"expose" = true})
+     */
+    public function myTraitAction($dbversion){
+        return $this->render('trait/myTrait/overview.html.twig', [
+            'type' => 'trait',
+            'dbversion' => $dbversion,
+            'title' => 'My Traits'
+        ]);
+    }
 }
