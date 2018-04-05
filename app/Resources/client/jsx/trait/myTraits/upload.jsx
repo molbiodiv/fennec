@@ -152,7 +152,7 @@ $('document').ready(function () {
         data.append('traitType', $('#trait-upload-traitType').val());
         data.append('defaultCitation', $('#trait-upload-defaultCitation').val());
         data.append('mapping', $('#trait-upload-mapping').val());
-        data.append('skipUnmapped', $('#trait-upload-skipUnmapped').val());
+        data.append('skipUnmapped', $('#trait-upload-skipUnmapped').prop( "checked" ));
         var url = Routing.generate('api_upload_traits', { 'dbversion': dbversion });
         $.ajax({
             url: url,
