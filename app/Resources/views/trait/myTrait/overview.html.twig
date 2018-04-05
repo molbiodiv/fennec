@@ -1,0 +1,9 @@
+{% extends 'base.navigation.html.twig' %}
+
+{% block content %}
+    {% if app.user %}
+        {% include 'trait/myTrait/overview.table.html.twig' %}
+    {% else %}
+        Please log in to see your projects
+    {% endif %}
+{% endblock %}
