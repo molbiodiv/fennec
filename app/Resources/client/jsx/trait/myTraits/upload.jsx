@@ -202,4 +202,15 @@ $('document').ready(function () {
             });
         }
     });
+
+    let methods = {none: "no mapping", ncbi_taxonomy: "NCBI taxid", scientific_name: "Scientific name", iucn_redlist: "IUCN id", EOL: "EOL id"};
+    $.each(methods, (key, value) => {
+        addOptionToSelectpicker(key, value, 'trait-upload-mapping');
+    })
+
+    $('.selectpicker').selectpicker('refresh')
+    function addOptionToSelectpicker(value, text, id) {
+        let option = $('<option>').prop('value', value).text(text)
+        $('#'+id).append(option)
+    }
 });
