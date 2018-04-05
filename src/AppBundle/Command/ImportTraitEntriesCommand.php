@@ -12,6 +12,7 @@ use AppBundle\Entity\Data\TraitFileUpload;
 use AppBundle\Entity\Data\TraitNumericalEntry;
 use AppBundle\Entity\Data\TraitType;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
@@ -139,7 +140,12 @@ class ImportTraitEntriesCommand extends AbstractDataDBAwareCommand
         }
         $traitFileUpload = null;
         if($input->getOption('fennec-user-id') !== null){
-            $traitFileUpload = $this->createTraitFileUploadEntry(basename($input->getArgument('file')),$input->getOption('fennec-user-id'));
+            $dbversion = $this->getDbVersion($input);
+            if(in_array($dbversion, $this->getContainer()->getParameter('dbversions_for_user_trait_upload'))){
+                $traitFileUpload = $this->createTraitFileUploadEntry(basename($input->getArgument('file')),$input->getOption('fennec-user-id'));
+            } else {
+                throw new Exception('This dbversion does not support upload of traits by users.');
+            }
         }
         $this->em->getConnection()->beginTransaction();
         try{
