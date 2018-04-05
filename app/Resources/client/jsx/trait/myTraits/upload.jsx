@@ -168,23 +168,13 @@ $('document').ready(function () {
             /* jshint unused:vars */
             success: function(data, textStatus, jqXHR)
             {
-                console.log(data);
-                return;
-                var successfulUploads = 0;
-                $.each(data.files, function(key, value){
-                    if(value.error !== null){
-                        showMessageDialog("Error uploading "+value.name+": "+value.error, 'alert-danger');
-                    } else {
-                        successfulUploads++;
-                    }
-                });
-                if(successfulUploads > 0){
-                    showMessageDialog(successfulUploads+" project"+(successfulUploads > 1 ? "s" : "")+" uploaded successfully", 'alert-success');
-                }
-                $('#project-table').DataTable({
-                    retrieve: true
-                }).ajax.reload();
-                $('#project-upload-busy-indicator').hide();
+                let imported = data["result"]["Imported entries"];
+                let skipped = parseInt(data["result"]["Skipped (no hit)"]) + parseInt(data["result"]["Skipped (multiple hits)"]);
+                showMessageDialog("Imported: "+imported+"\nSkipped: "+skipped, 'alert-success')
+                // $('#project-table').DataTable({
+                //     retrieve: true
+                // }).ajax.reload();
+                $('#trait-upload-busy-indicator').hide();
             },
             error: function(jqXHR, textStatus, errorThrown)
             {
