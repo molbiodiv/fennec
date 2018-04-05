@@ -1,0 +1,1 @@
+require('./myTraits/upload.jsx')

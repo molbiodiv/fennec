@@ -1,0 +1,17 @@
+{% extends 'base.navigation.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% if app.user %}
+        <script src="{{ asset('assets/js/trait/myTraits.js') }}"></script>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    {% if app.user %}
+        {% include 'trait/myTraits/upload.panel.html.twig' %}
+        {% include 'trait/myTraits/overview.table.html.twig' %}
+    {% else %}
+        Please log in to see your projects
+    {% endif %}
+{% endblock %}
