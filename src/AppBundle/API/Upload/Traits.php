@@ -43,8 +43,11 @@ class Traits
                 $result["result"][$key] = $value;
             }
         } else {
-            preg_match('/Error.*/', $output, $matches);
-            $result["error"] = $matches[0];
+            if(preg_match('/Error.*/', $output, $matches)){
+                $result["error"] = $matches[0];
+            } else {
+                $result["error"] = $output;
+            }
         }
         return $result;
     }
