@@ -149,14 +149,14 @@ class ImportTraitEntriesCommand extends AbstractDataDBAwareCommand
                 if($needs_mapping){
                     if(! array_key_exists($fennec_id,$this->mapping)){
                         if(!$input->getOption('skip-unmapped')){
-                            throw new \Exception('Error no mapping to fennec id found for: ' . $fennec_id);
+                            throw new \Exception("\nError no mapping to fennec id found for: " . $fennec_id);
                         }
                         ++$this->skippedNoHit;
                         $progress->advance();
                         continue;
                     } elseif (is_array($this->mapping[$fennec_id])){
                         if(!$input->getOption('skip-unmapped')){
-                            throw new \Exception('Error multiple mappings to fennec ids found for: ' . $fennec_id . ' (' . implode(',', $this->mapping[$fennec_id]) . ')');
+                            throw new \Exception("\nError multiple mappings to fennec ids found for: " . $fennec_id . ' (' . implode(',', $this->mapping[$fennec_id]) . ')');
                         }
                         ++$this->skippedMultiHits;
                         $progress->advance();
@@ -167,7 +167,7 @@ class ImportTraitEntriesCommand extends AbstractDataDBAwareCommand
                 if($input->getOption('wide-table')){
                     $citationText = $input->getOption('default-citation');
                     if($citationText === null){
-                        throw new \Exception('Error: No citation specified. For --wide-table please use --default-citation');
+                        throw new \Exception("\nError: No citation specified. For --wide-table please use --default-citation");
                     }
                     for($i=1; $i<count($line); $i++){
                         if($line[$i] !== ''){
@@ -176,14 +176,14 @@ class ImportTraitEntriesCommand extends AbstractDataDBAwareCommand
                     }
                 } else {
                     if(count($line) !== 5){
-                        throw new \Exception('Wrong number of elements in line. Expected: 5, Actual: '.count($line).': '.join(" ",$line));
+                        throw new \Exception("\nError: Wrong number of elements in line. Expected: 5, Actual: ".count($line).': '.join(" ",$line));
                     }
                     $citationText = $line[3];
                     if ($citationText === ""){
                         if($input->getOption('default-citation') !== null) {
                             $citationText = $input->getOption('default-citation');
                         } else {
-                            throw new \Exception('Error: No citation specified in:\n'.join("\t",$line).'\nPlease specify citation in 4th column or use --default-citation');
+                            throw new \Exception("\nError: No citation specified in:\n".join("\t",$line)."\nPlease specify citation in 4th column or use --default-citation");
                         }
                     }
                     $this->insertTraitEntry($fennec_id, $this->traitType[0], $this->traitFormat[0], $line[1], $line[2], $citationText, $dbId,
