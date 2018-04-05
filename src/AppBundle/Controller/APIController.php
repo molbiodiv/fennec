@@ -9,6 +9,7 @@ use AppBundle\API\Listing;
 use AppBundle\API\Mapping;
 use AppBundle\API\Sharing;
 use AppBundle\API\Upload;
+use AppBundle\Service\DBVersion;
 use Nelmio\ApiDocBundle\Annotation\Operation;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Swagger\Annotations as SWG;
@@ -409,28 +410,36 @@ class APIController extends Controller
      *     )
      * )
      * @param Request $request
+     * @param $dbversion
      * @return Response $response
      * @Route("/api/upload/traits", name="api_upload_traits", options={"expose"=true}, methods={"POST"})
      */
     public function uploadTraitsAction(Request $request){
-        $uploadTraits = $this->container->get(Upload\Traits::class);
-        $user = $this->getFennecUser();
-        $post = $request->request;
-        $traitType = $post->get('traitType');
-        $defaultCitation = $post->get('defaultCitation');
-        $mapping = $post->get('mapping');
-        $skipUnmapped = $post->get('skipUnmapped');
-        if($traitType === null){
-            $response = $this->createResponse('Missing option: traitType');
-            $response->setStatusCode(Response::HTTP_BAD_REQUEST);
+        $dbversion = $this->container->get(DBVersion::class)->getConnectionName();
+        if(in_array($dbversion, $this->container->getParameter('dbversionsForTraitUpload'))){
+            $uploadTraits = $this->container->get(Upload\Traits::class);
+            $user = $this->getFennecUser();
+            $post = $request->request;
+            $traitType = $post->get('traitType');
+            $defaultCitation = $post->get('defaultCitation');
+            $mapping = $post->get('mapping');
+            $skipUnmapped = $post->get('skipUnmapped');
+            if($traitType === null){
+                $response = $this->createResponse('Missing option: traitType');
+                $response->setStatusCode(Response::HTTP_BAD_REQUEST);
+                return $response;
+            }
+            $result = $uploadTraits->execute($user,$traitType,$defaultCitation,$mapping,$skipUnmapped);
+            $response = $this->createResponse($result);
+            if($result["error"] !== null){
+                $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
+            return $response;
+        } else {
+            $response = $this->createResponse('This dbversion does not support upload of traits by users.');
+            $response->setStatusCode(Response::HTTP_FORBIDDEN);
             return $response;
         }
-        $result = $uploadTraits->execute($user,$traitType,$defaultCitation,$mapping,$skipUnmapped);
-        $response = $this->createResponse($result);
-        if($result["error"] !== null){
-            $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
-        return $response;
     }
 
     /**
