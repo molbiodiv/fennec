@@ -16,6 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Exception\MissingOptionsException;
 
 class APIController extends Controller
 {
@@ -419,6 +420,11 @@ class APIController extends Controller
         $defaultCitation = $post->get('defaultCitation');
         $mapping = $post->get('mapping');
         $skipUnmapped = $post->get('skipUnmapped');
+        if($traitType === null){
+            $response = $this->createResponse('Missing option: traitType');
+            $response->setStatusCode(Response::HTTP_BAD_REQUEST);
+            return $response;
+        }
         $result = $uploadTraits->execute($user,$traitType,$defaultCitation,$mapping,$skipUnmapped);
         return $this->createResponse($result);
     }

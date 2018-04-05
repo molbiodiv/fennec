@@ -179,7 +179,7 @@
                 },
                 error: function(jqXHR, textStatus, errorThrown)
                 {
-                    showMessageDialog("There was an error: "+textStatus, 'alert-danger');
+                    showMessageDialog("There was an error: "+errorThrown+"\n"+jqXHR.responseText, 'alert-danger');
                     $('#project-upload-busy-indicator').hide();
                 }
             });
