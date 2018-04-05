@@ -35,15 +35,16 @@ class Traits
         [$return_code, $output] = $this->executeTraitImportCommand($content, $user, $traitType, $defaultCitation, $mapping, $skipUnmapped);
         $result = array("result" => null, "error" => null);
         if($return_code === 0){
-            preg_match_all('/\|.*/',$output,$treffer);
-            foreach($treffer[0] as $line){
+            preg_match_all('/\|.*/',$output,$matches);
+            foreach($matches[0] as $line){
                 [$idontcare, $key, $value] = explode('|', $line);
                 $key = trim($key);
                 $value = trim($value);
                 $result["result"][$key] = $value;
             }
         } else {
-            $result["error"] = $output;
+            preg_match('/Error:.*/', $output, $matches);
+            $result["error"] = $matches[0];
         }
         return $result;
     }
