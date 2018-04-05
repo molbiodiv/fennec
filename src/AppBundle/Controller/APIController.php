@@ -339,6 +339,82 @@ class APIController extends Controller
         return $this->createResponse($result);
     }
 
+
+    /**
+     * Upload new traits
+     *
+     * Due to limitation of this documentation frontend 'Try it' does not work here (files not uploaded).
+     *
+     * @Operation(
+     *     consumes={"multipart/form-data"},
+     *     tags={"Traits"},
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Returns success status for trait upload",
+     *         examples={
+     *             "application/json": {
+     *                 "result":  {
+     *                      "Distinct new values" : "3",
+     *                       "Distinct new citations" : "4",
+     *                       "Imported entries" : "5",
+     *                       "Skipped (no hit)" : "0",
+     *                       "Skipped (multiple hits)" : "0"
+     *                  },
+     *                 "error" : null
+     *             }
+     *         }
+     *     ),
+     *     @SWG\Parameter(
+     *         name="Cookie",
+     *         description="Currently you have to set the PHPSESSID cookie until api key authentication is implemented. If you are logged in the web interface you can try it. PHPSESSID=<your-phpsessid>",
+     *         type="string",
+     *         in="header"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="file",
+     *         description="File to upload. Send as 'multipart/form-data'.",
+     *         in="formData",
+     *         required=true,
+     *         type="file"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="traittype",
+     *         description="Type of trait which is uploaded.",
+     *         in="query",
+     *         required=true,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="defaultCitation",
+     *         description="Citation which is used if citation field is empty.",
+     *         in="query",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="mapping",
+     *         description="Mapping which is used to get fennecIds for the first column. Leave empty if first column are already fennecIds.",
+     *         in="query",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="skipUnmapped",
+     *         description="Do not die if there are lines which can not be mapped to fennec ids (just skip them). Ignored if mapping is not used.",
+     *         in="query",
+     *         required=false,
+     *         type="boolean",
+     *         default="false"
+     *     )
+     * )
+     * @param Request $request
+     * @return Response $response
+     * @Route("/api/upload/traits", name="api_upload_traits", options={"expose"=true}, methods={"POST"})
+     */
+    public function uploadTraitsAction(Request $request){
+        return $this->createResponse(null);
+    }
+
     /**
      * Show all traits for a list of organisms
      * @Operation(
