@@ -9,6 +9,8 @@ use AppBundle\Entity\Data\TraitType;
 use AppBundle\Entity\User\FennecUser;
 use Tests\AppBundle\API\WebserviceTestCase;
 
+require_once __DIR__.'/../Upload/overload_is_uploaded_file.php';
+
 class TraitFilesTest extends WebserviceTestCase
 {
     const NICKNAME = 'listingTraitFileser';
