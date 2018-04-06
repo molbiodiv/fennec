@@ -79,7 +79,7 @@ class TraitFilesTest extends WebserviceTestCase
         $defaultCitation = 'listingTraitFiles_defaultCitation';
         $mapping = null;
         $skipUnmapped = true;
-        $this->uploadTraits->execute($this->user, $traitType, $defaultCitation, $mapping, $skipUnmapped);
+        $this->uploadTraits->execute($user, $traitType, $defaultCitation, $mapping, $skipUnmapped);
 
         $result = $this->listingTraitFiles->execute($user);
         $this->assertEquals(null, $result["error"]);

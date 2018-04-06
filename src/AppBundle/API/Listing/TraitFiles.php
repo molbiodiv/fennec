@@ -36,7 +36,7 @@ class TraitFiles
     */
     public function execute(FennecUser $user = null)
     {
-        $result = array('data' => array());
+        $result = array('error' => null, 'data' => array());
         if ($user == null) {
             $result['error'] = Projects::ERROR_NOT_LOGGED_IN;
         } else {
