@@ -58,7 +58,7 @@ class TraitFileTest extends WebserviceTestCase
 
     public function testIfUserIsNotLoggedIn()
     {
-        $results = $this->deleteTraitFile->execute();
+        $results = $this->deleteTraitFile->execute(null, 1);
         $expected = array("error" => Delete\TraitFile::ERROR_NOT_LOGGED_IN, "success" => null);
         $this->assertEquals($expected, $results);
     }
