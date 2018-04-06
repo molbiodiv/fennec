@@ -63,7 +63,7 @@ class TraitFiles
                     }
                 }
                 $traitFile['entries'] = count($traits);
-                $result[] = $traitFile;
+                $result['data'][] = $traitFile;
             }
         }
         return $result;
