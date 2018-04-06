@@ -71,7 +71,7 @@ class TraitsTest extends WebserviceTestCase
                 "frequency" => 92
             )
         );
-        $this->assertEquals($expected, $results, 'Search without term and limit, result should be a list of all traits');
+        $this->assertArraySubset($expected, $results, 'Search without term and limit, result should be a list of all traits');
     }
 
     public function testTraitWhichDoesNotExist(){
