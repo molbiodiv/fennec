@@ -51,12 +51,12 @@ class TraitFileUpload
     private $fennecUserId;
 
     /**
-     * @ORM\OneToMany(targetEntity="TraitNumericalEntry", mappedBy="id")
+     * @ORM\OneToMany(targetEntity="TraitNumericalEntry", mappedBy="traitFileUpload")
      */
     private $numericalTraitEntries;
 
     /**
-     * @ORM\OneToMany(targetEntity="TraitCategoricalEntry", mappedBy="id")
+     * @ORM\OneToMany(targetEntity="TraitCategoricalEntry", mappedBy="traitFileUpload")
      */
     private $categoricalTraitEntries;
 

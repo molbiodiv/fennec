@@ -119,7 +119,7 @@ class TraitNumericalEntry
     }
 
     /**
-     * @ORM\ManyToOne(targetEntity="TraitFileUpload", inversedBy="traitNumericalEntries")
+     * @ORM\ManyToOne(targetEntity="TraitFileUpload", inversedBy="numericalTraitEntries")
      * @ORM\JoinColumn(name="trait_file_upload_id", referencedColumnName="id")
      */
     private $traitFileUpload;
