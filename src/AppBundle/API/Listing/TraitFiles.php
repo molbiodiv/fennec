@@ -54,12 +54,12 @@ class TraitFiles
                 $traits = $t->getCategoricalTraitEntries();
                 if(count($traits) > 0){
                     $traitFile['format'] = 'categorical';
-                    $traitFile['traitType'] = $traits[0]->getType();
+                    $traitFile['traitType'] = $traits[0]->getTraitType();
                 } else {
                     $traits = $t->getNumericalTraitEntries();
                     if(count($traits) > 0 ){
                         $traitFile['format'] = 'numerical';
-                        $traitFile['traitType'] = $traits[0]->getType();
+                        $traitFile['traitType'] = $traits[0]->getTraitType();
                     }
                 }
                 $traitFile['entries'] = count($traits);
