@@ -5,6 +5,8 @@ namespace Tests\AppBundle\API\Delete;
 use AppBundle\API\Listing;
 use AppBundle\API\Upload;
 use AppBundle\API\Delete;
+use AppBundle\Entity\Data\TraitType;
+use AppBundle\Entity\User\FennecUser;
 use Tests\AppBundle\API\WebserviceTestCase;
 
 class TraitFileTest extends WebserviceTestCase
@@ -79,7 +81,7 @@ class TraitFileTest extends WebserviceTestCase
         $traitType = new TraitType();
         $traitType->setType('testDeleteTraits_traitType');
         $traitType->setUnit('m');
-        $categoricalFormat = $this->data_em->getRepository('AppBundle:TraitFormat')->findOneBy(['format' => 'categorical']);
+        $categoricalFormat = $this->data_em->getRepository('AppBundle:TraitFormat')->findOneBy(['format' => 'categorical_free']);
         $traitType->setTraitFormat($categoricalFormat);
         $this->data_em->persist($traitType);
         $this->data_em->flush();
