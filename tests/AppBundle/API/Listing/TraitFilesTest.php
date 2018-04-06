@@ -4,6 +4,7 @@ namespace Tests\AppBundle\API\Listing;
 
 use AppBundle\API\Listing;
 use AppBundle\API\Upload;
+use AppBundle\Entity\User\FennecUser;
 use Tests\AppBundle\API\WebserviceTestCase;
 
 class TraitFilesTest extends WebserviceTestCase
