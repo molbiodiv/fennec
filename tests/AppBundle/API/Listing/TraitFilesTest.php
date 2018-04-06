@@ -111,7 +111,7 @@ class TraitFilesTest extends WebserviceTestCase
                 'name' => 'numericalTrait.tsv',
                 'type' => 'text/plain',
                 'size' => 583,
-                'tmp_name' => __DIR__ . '/testFiles/categoricalTrait.tsv',
+                'tmp_name' => __DIR__ . '/testFiles/numericalTrait.tsv',
                 'error' => 0
             )
         );
