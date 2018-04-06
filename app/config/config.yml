@@ -90,6 +90,8 @@ shivas_versioning:
 
 easy_admin:
     entities:
+        TraitFileUpload:
+            class: AppBundle\Entity\Data\TraitFileUpload
         FennecUser:
             class: AppBundle\Entity\User\FennecUser
             label: 'User'
