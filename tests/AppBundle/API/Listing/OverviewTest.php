@@ -57,7 +57,7 @@ class OverviewTest extends WebserviceTestCase
             "projects" => 0,
             "organisms" => 198102,
             "trait_entries" => 91494 + 7074,
-            "trait_types" => 7
+            "trait_types" => 8
         );
         $this->assertEquals($expected, $result);
     }
@@ -80,7 +80,7 @@ class OverviewTest extends WebserviceTestCase
             "projects" => 1,
             "organisms" => 198102,
             "trait_entries" => 91494 + 7074,
-            "trait_types" => 7
+            "trait_types" => 8
         );
         $this->assertEquals($expected, $result);
     }
