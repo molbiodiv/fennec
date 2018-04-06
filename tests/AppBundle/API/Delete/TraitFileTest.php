@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\AppBundle\API\Listing;
+namespace Tests\AppBundle\API\Delete;
 
 use AppBundle\API\Listing;
 use AppBundle\API\Upload;
@@ -11,11 +11,11 @@ class TraitFileTest extends WebserviceTestCase
 {
     const NICKNAME = 'deleteTraitFileUser';
     const PASSWORD = 'deleteTraitFileUser';
-    const EMAIL = 'listingTraitFileUploadUser@example.com';
+    const EMAIL = 'listingTraitFileUser@example.com';
 
     private $data_em;
     private $deleteTraitFile;
-    private $listingTraitFileUpload;
+    private $listingTraitFiles;
     private $uploadTraits;
 
     public function setUp()
@@ -28,7 +28,7 @@ class TraitFileTest extends WebserviceTestCase
         $user_em = $kernel->getContainer()
             ->get('doctrine')
             ->getManager($this->user_db);
-        $this->listingTraitFileUpload = $kernel->getContainer()->get(Listing\TraitsFileUpload::class);
+        $this->listingTraitFiles = $kernel->getContainer()->get(Listing\TraitFiles::class);
         $this->deleteTraitFile = $kernel->getContainer()->get(Delete\TraitFile::class);
         $this->uploadTraits = $kernel->getContainer()->get(Upload\Traits::class);
         $user = $user_em->getRepository('AppBundle:FennecUser')->findOneBy(array(
@@ -61,9 +61,9 @@ class TraitFileTest extends WebserviceTestCase
         $this->assertEquals($expected, $results);
     }
 
-    public function testTraitFileUploadsIfUserIsLoggedIn(){
+    public function testDeleteTraitFileIfUserIsLoggedIn(){
         $user = $this->user;
-        $result = $this->listingTraitFileUpload->execute($user);
+        $result = $this->listingTraitFiles->execute($user);
         $expected = array("error" => array(), "data" => array());
         $this->assertEquals($expected, $result);
          // Import categorical trait file
@@ -82,7 +82,7 @@ class TraitFileTest extends WebserviceTestCase
         $skipUnmapped = true;
         $this->uploadTraits->execute($this->user, $traitType, $defaultCitation, $mapping, $skipUnmapped);
 
-        $result = $this->listingTraitFileUpload->execute($user);
+        $result = $this->listingTraitFiles->execute($user);
         $this->assertEquals(null, $result["error"]);
         $this->assertEquals(1, count($result["data"]));
         $this->assertEquals("categoricalTrait.tsv", $result["data"][0]["filename"]);
@@ -90,13 +90,14 @@ class TraitFileTest extends WebserviceTestCase
         $this->assertEquals("5", $result["data"][0]["entries"]);
         $this->assertEquals("categorical", $result["data"][0]["format"]);
         $this->assertArrayHasKey("importDate", $result["data"][0]);
-        $this->assertEquals(5, count($result["data"][0]));
+        $this->assertArrayHasKey("traitFileId", $result["data"][0]);
+        $this->assertEquals(6, count($result["data"][0]));
 
         $traitFileId = $result["data"][0]["traitFileId"];
         $deleteResult = $this->deleteTraitFile->execute($traitFileId, $user);
         $expected = array("error" => null, "success" => "Delete trait file with id ".$traitFileId." successfully");
         $this->assertEquals($expected, $deleteResult);
-        $result = $this->listingTraitFileUpload->execute($user);
+        $result = $this->listingTraitFiles->execute($user);
         $this->assertEquals(array("error" => null, "data" => array()), $result);
 
 
