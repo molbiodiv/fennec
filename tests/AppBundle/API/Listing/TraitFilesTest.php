@@ -115,7 +115,13 @@ class TraitFilesTest extends WebserviceTestCase
                 'error' => 0
             )
         );
-        $traitType = 'Leaf size';
+        $traitType = new TraitType();
+        $traitType->setType('testListingTraitFile_numericalTraitType');
+        $numericalFormat = $this->data_em->getRepository(TraitFormat::class)->findOneBy(['format' => 'numerical']);
+        $traitType->setTraitFormat($numericalFormat);
+        $this->data_em->persist($traitType);
+        $this->data_em->flush();
+        $traitType = $traitType->getType();
         $defaultCitation = 'listingTraitFiles_defaultCitation';
         $mapping = 'ncbi_taxonomy';
         $skipUnmapped = true;
@@ -127,7 +133,7 @@ class TraitFilesTest extends WebserviceTestCase
         $this->assertEquals(null, $result["error"]);
         $this->assertEquals(2, count($result["data"]));
         $this->assertEquals("numericalTrait.tsv", $result["data"][1]["filename"]);
-        $this->assertEquals("Leaf size", $result["data"][1]["traitType"]);
+        $this->assertEquals("testListingTraitFile_numericalTraitType", $result["data"][1]["traitType"]);
         $this->assertEquals("3", $result["data"][1]["entries"]);
         $this->assertEquals("numerical", $result["data"][1]["format"]);
         $this->assertArrayHasKey("importDate", $result["data"][1]);
