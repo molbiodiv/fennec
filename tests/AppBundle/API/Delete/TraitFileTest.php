@@ -91,6 +91,8 @@ class TraitFileTest extends WebserviceTestCase
         $skipUnmapped = true;
         $this->uploadTraits->execute($this->user, $traitType, $defaultCitation, $mapping, $skipUnmapped);
 
+        self::$kernel->getContainer()->get('doctrine')->resetManager('test_data');
+
         $result = $this->listingTraitFiles->execute($user);
         $this->assertEquals(null, $result["error"]);
         $this->assertEquals(1, count($result["data"]));
@@ -103,12 +105,13 @@ class TraitFileTest extends WebserviceTestCase
         $this->assertEquals(6, count($result["data"][0]));
 
         $traitFileId = $result["data"][0]["traitFileId"];
-        $deleteResult = $this->deleteTraitFile->execute($traitFileId, $user);
-        $expected = array("error" => null, "success" => "Delete trait file with id ".$traitFileId." successfully");
+        $deleteResult = $this->deleteTraitFile->execute($user, $traitFileId);
+        $expected = array("error" => null, "success" => "Deleted trait file with id ".$traitFileId." successfully");
         $this->assertEquals($expected, $deleteResult);
+
+        self::$kernel->getContainer()->get('doctrine')->resetManager('test_data');
         $result = $this->listingTraitFiles->execute($user);
         $this->assertEquals(array("error" => null, "data" => array()), $result);
-
 
     }
 }
