@@ -60,9 +60,7 @@ class TraitFileUploadsTest extends WebserviceTestCase
     }
 
     public function testTraitFileUploadsIfUserIsLoggedIn(){
-        $user = $this->em->getRepository('AppBundle:FennecUser')->findOneBy(array(
-            'username' => ProjectsTest::NICKNAME
-        ));
+        $user = $this->user;
         $result = $this->listingTraitFileUpload->execute($user);
         $expected = array("error" => array(), "data" => array());
         $this->assertEquals($expected, $result);
@@ -78,22 +76,34 @@ class TraitFileUploadsTest extends WebserviceTestCase
             )
         );
         $traitType = 'Plant Habit';
-        $defaultCitation = 'uploadCategoricalTrait_defaultCitation';
+        $defaultCitation = 'listingTraitFileUploads_defaultCitation';
         $mapping = null;
         $skipUnmapped = true;
-        $results = $this->uploadTraits->execute($this->user, $traitType, $defaultCitation, $mapping, $skipUnmapped);
+        $this->uploadTraits->execute($this->user, $traitType, $defaultCitation, $mapping, $skipUnmapped);
 
+        $result = $this->listingTraitFileUpload->execute($user);
+        $this->assertEquals(null, $result["error"]);
+        $this->assertEquals("categoricalTrait.tsv", $result["data"]["filename"]);
+        $this->assertEquals("Plant Habit", $result["data"]["traitType"]);
+        $this->assertEquals("5", $result["data"]["entries"]);
+        $this->assertEquals("categorical", $result["data"]["format"]);
+        $this->assertArrayHasKey("importDate", $result["data"]);
+        $this->assertEquals(5, count($result["data"]));
 
-        $results = $this->listingProjects->execute($user);
-        $expected = array("data" => array(
-                array(
-                    "id" => "table_1",
-                    "rows" => 10,
-                    "columns" => 5,
-                    "import_filename" => "listingProjectsTestFile.biom"
-                )
+        // Import numerical trait file
+        $_FILES = array(
+            array(
+                'name' => 'numericalTrait.tsv',
+                'type' => 'text/plain',
+                'size' => 583,
+                'tmp_name' => __DIR__ . '/testFiles/categoricalTrait.tsv',
+                'error' => 0
             )
         );
-        $this->assertArraySubset($expected, $results);
+        $traitType = 'Leaf size';
+        $defaultCitation = 'listingTraitFileUploads_defaultCitation';
+        $mapping = 'ncbi_taxonomy';
+        $skipUnmapped = true;
+        $this->uploadTraits->execute($this->user, $traitType, $defaultCitation, $mapping, $skipUnmapped);
     }
 }
