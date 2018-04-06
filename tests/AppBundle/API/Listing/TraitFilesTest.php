@@ -69,7 +69,7 @@ class TraitFilesTest extends WebserviceTestCase
         $expected = array("error" => null, "data" => array());
         $this->assertEquals($expected, $result);
 
-         // Import categorical trait file
+        // Import categorical trait file
         $_FILES = array(
             array(
                 'name' => 'categoricalTrait.tsv',
@@ -90,6 +90,9 @@ class TraitFilesTest extends WebserviceTestCase
         $mapping = null;
         $skipUnmapped = true;
         $this->uploadTraits->execute($user, $traitType, $defaultCitation, $mapping, $skipUnmapped);
+
+        // reset db here
+        self::$kernel->getContainer()->get('doctrine')->resetManager('test_data');
 
         $result = $this->listingTraitFiles->execute($user);
         $this->assertEquals(null, $result["error"]);
@@ -117,6 +120,8 @@ class TraitFilesTest extends WebserviceTestCase
         $mapping = 'ncbi_taxonomy';
         $skipUnmapped = true;
         $this->uploadTraits->execute($this->user, $traitType, $defaultCitation, $mapping, $skipUnmapped);
+
+        self::$kernel->getContainer()->get('doctrine')->resetManager('test_data');
 
         $result = $this->listingTraitFiles->execute($user);
         $this->assertEquals(null, $result["error"]);
