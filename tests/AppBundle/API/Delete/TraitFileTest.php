@@ -64,7 +64,7 @@ class TraitFileTest extends WebserviceTestCase
     public function testDeleteTraitFileIfUserIsLoggedIn(){
         $user = $this->user;
         $result = $this->listingTraitFiles->execute($user);
-        $expected = array("error" => array(), "data" => array());
+        $expected = array("error" => null, "data" => array());
         $this->assertEquals($expected, $result);
          // Import categorical trait file
         $_FILES = array(
