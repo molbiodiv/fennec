@@ -77,7 +77,13 @@ class TraitFilesTest extends WebserviceTestCase
                 'error' => 0
             )
         );
-        $traitType = 'Plant Habit';
+        $traitType = new TraitType();
+        $traitType->setType('testListingTraitFile_traitType');
+        $categoricalFormat = $this->data_em->getRepository(TraitFormat::class)->findOneBy(['format' => 'categorical_free']);
+        $traitType->setTraitFormat($categoricalFormat);
+        $this->data_em->persist($traitType);
+        $this->data_em->flush();
+        $traitType = $traitType->getType();
         $defaultCitation = 'listingTraitFiles_defaultCitation';
         $mapping = null;
         $skipUnmapped = true;
@@ -87,7 +93,7 @@ class TraitFilesTest extends WebserviceTestCase
         $this->assertEquals(null, $result["error"]);
         $this->assertEquals(1, count($result["data"]));
         $this->assertEquals("categoricalTrait.tsv", $result["data"][0]["filename"]);
-        $this->assertEquals("Plant Habit", $result["data"][0]["traitType"]);
+        $this->assertEquals("testListingTraitFile_traitType", $result["data"][0]["traitType"]);
         $this->assertEquals("5", $result["data"][0]["entries"]);
         $this->assertEquals("categorical", $result["data"][0]["format"]);
         $this->assertArrayHasKey("importDate", $result["data"][0]);
