@@ -89,7 +89,8 @@ class TraitFileUploadsTest extends WebserviceTestCase
         $this->assertEquals("5", $result["data"][0]["entries"]);
         $this->assertEquals("categorical", $result["data"][0]["format"]);
         $this->assertArrayHasKey("importDate", $result["data"][0]);
-        $this->assertEquals(5, count($result["data"][0]));
+        $this->assertArrayHasKey("traitFileId", $result["data"][0]);
+        $this->assertEquals(6, count($result["data"][0]));
 
         // Import numerical trait file
         $_FILES = array(
@@ -115,6 +116,7 @@ class TraitFileUploadsTest extends WebserviceTestCase
         $this->assertEquals("5", $result["data"][1]["entries"]);
         $this->assertEquals("categorical", $result["data"][1]["format"]);
         $this->assertArrayHasKey("importDate", $result["data"][1]);
-        $this->assertEquals(5, count($result["data"][1]));
+        $this->assertArrayHasKey("traitFileId", $result["data"][1]);
+        $this->assertEquals(6, count($result["data"][1]));
     }
 }
