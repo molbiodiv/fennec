@@ -83,12 +83,13 @@ class TraitFileUploadsTest extends WebserviceTestCase
 
         $result = $this->listingTraitFileUpload->execute($user);
         $this->assertEquals(null, $result["error"]);
-        $this->assertEquals("categoricalTrait.tsv", $result["data"]["filename"]);
-        $this->assertEquals("Plant Habit", $result["data"]["traitType"]);
-        $this->assertEquals("5", $result["data"]["entries"]);
-        $this->assertEquals("categorical", $result["data"]["format"]);
-        $this->assertArrayHasKey("importDate", $result["data"]);
-        $this->assertEquals(5, count($result["data"]));
+        $this->assertEquals(1, count($result["data"]));
+        $this->assertEquals("categoricalTrait.tsv", $result["data"][0]["filename"]);
+        $this->assertEquals("Plant Habit", $result["data"][0]["traitType"]);
+        $this->assertEquals("5", $result["data"][0]["entries"]);
+        $this->assertEquals("categorical", $result["data"][0]["format"]);
+        $this->assertArrayHasKey("importDate", $result["data"][0]);
+        $this->assertEquals(5, count($result["data"][0]));
 
         // Import numerical trait file
         $_FILES = array(
@@ -105,5 +106,15 @@ class TraitFileUploadsTest extends WebserviceTestCase
         $mapping = 'ncbi_taxonomy';
         $skipUnmapped = true;
         $this->uploadTraits->execute($this->user, $traitType, $defaultCitation, $mapping, $skipUnmapped);
+
+        $result = $this->listingTraitFileUpload->execute($user);
+        $this->assertEquals(null, $result["error"]);
+        $this->assertEquals(2, count($result["data"]));
+        $this->assertEquals("numericalTrait.tsv", $result["data"][1]["filename"]);
+        $this->assertEquals("Plant Habit", $result["data"][1]["traitType"]);
+        $this->assertEquals("5", $result["data"][1]["entries"]);
+        $this->assertEquals("categorical", $result["data"][1]["format"]);
+        $this->assertArrayHasKey("importDate", $result["data"][1]);
+        $this->assertEquals(5, count($result["data"][1]));
     }
 }
