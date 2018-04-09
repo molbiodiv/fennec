@@ -1,5 +1,11 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h1 class="page-header" id="page-title">Your Profile </h1>
+    </div>
+</div>
+
 {{ form_start(form, { 'action': path('fos_user_profile_edit'), 'attr': { 'class': 'fos_user_profile_edit' } }) }}
     {{ form_widget(form) }}
     <div>
