@@ -43,9 +43,9 @@ $('document').ready(function () {
                 let imported = data["result"]["Imported entries"];
                 let skipped = parseInt(data["result"]["Skipped (no hit)"]) + parseInt(data["result"]["Skipped (multiple hits)"]);
                 showMessageDialog("Imported: "+imported+"\nSkipped: "+skipped, 'alert-success')
-                // $('#project-table').DataTable({
-                //     retrieve: true
-                // }).ajax.reload();
+                $('#trait-file-upload-table').DataTable({
+                    retrieve: true
+                }).ajax.reload();
                 $('#trait-upload-busy-indicator').hide();
             },
             error: function(jqXHR, textStatus, errorThrown)
