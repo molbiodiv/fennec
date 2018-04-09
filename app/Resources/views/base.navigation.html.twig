@@ -54,7 +54,7 @@
                         {% if is_granted('ROLE_USER') %}
                             <li><a>Signed in as<br><b>{{  app.user.username }}</b></a></li>
                             <li><hr></li>
-                            <li><a href="{{ path('fos_user_profile_show') }}"><i class="fa fa-sign-out fa-fw"></i> Your Profile</a></li>
+                            <li><a href="{{ path('fos_user_profile_edit') }}"><i class="fa fa-users fa-fw"></i> Your Profile</a></li>
                             <li><a href="{{ path('fos_user_security_logout') }}"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
                             {% if is_granted('ROLE_ADMIN')%}
                                 <li><a href="{{ path('easyadmin') }}"><i class="fa fa-lock fa-fw"></i> Admin Area</a> </li>
