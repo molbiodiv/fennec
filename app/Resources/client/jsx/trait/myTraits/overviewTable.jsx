@@ -7,7 +7,7 @@ $('document').ready(function () {
             url: Routing.generate('api_listing_trait_files', {'dbversion': dbversion}),
             dataSrc: 'data',
             complete: function(){
-                addProjectTableActionButtonFunctionality();
+                addTraitFileTableActionButtonFunctionality();
             }
         },
         columns: [
@@ -23,34 +23,34 @@ $('document').ready(function () {
                 targets: 0,
                 render: function (data, type, full, meta) {
                     // var href = Routing.generate('trait_file_details', {'dbversion': dbversion, 'traitFile_id': full.traitFileId});
-                    return '<a href="#">'+full.traitFileId+'</a>';
+                    return '<a href="#">'+full.filename+'</a>';
                 }
             },
             {
                 targets: -1,
                 render: function(data, type, full, meta){
-                    let actions = "<a class='btn fa fa-trash project-remove-button' data-toggle='confirFeditation' " +
+                    let actions = "<a class='btn fa fa-trash trait-file-remove-button' data-toggle='confirFeditation' " +
                     "data-btn-ok-label='Continue' data-btn-ok-icon='glyphicon glyphicon-share-alt' " +
                     "data-btn-ok-class='btn-success' data-btn-cancel-label='Stop' data-btn-cancel-icon='glyphicon glyphicon-ban-circle' " +
-                    "data-btn-cancel-class='btn-danger' data-title='This might be dangerous' data-content='Beware you could delete a shared project. If you continue, all permissions on this project will also be deleted.'></a>";
+                    "data-btn-cancel-class='btn-danger' data-title='This might be dangerous' data-content='Attention: If you continue, all trait entries of this file will be removed from the database.'></a>";
                     return actions;
                 }
             }
         ],
         drawCallback: function( settings ) {
-            addProjectTableActionButtonFunctionality();
+            addTraitFileTableActionButtonFunctionality();
         }
     } );
 
-    function addProjectTableActionButtonFunctionality() {
-        $('.project-remove-button').confirmation({
+    function addTraitFileTableActionButtonFunctionality() {
+        $('.trait-file-remove-button').confirmation({
             onConfirm: function (event, element) {
-                var table = $('#project-table').DataTable({
+                var table = $('#trait-file-upload-table').DataTable({
                     retrieve: true
                 });
                 var data = table.row($(this).parents('tr')).data();
-                var url = Routing.generate('api_delete_projects', {
-                    'projectId': data.internal_project_id,
+                var url = Routing.generate('api_delete_trait_file', {
+                    'traitFileId': data.traitFileId,
                     'dbversion': dbversion
                 });
                 $.ajax({
@@ -60,9 +60,8 @@ $('document').ready(function () {
                     dataType: 'json',
                     /* jshint unused:vars */
                     success: function (data, textStatus, jqXHR) {
-                        var deleted = data.deletedProjects;
-                        showMessageDialog(deleted + " project" + (deleted > 1 ? "s" : "") + " deleted successfully", 'alert-success');
-                        $('#project-table').DataTable({
+                        showMessageDialog(data.success, 'alert-success');
+                        $('#trait-file-upload-table').DataTable({
                             retrieve: true
                         }).ajax.reload();
                     },
