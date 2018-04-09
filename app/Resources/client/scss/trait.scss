@@ -1,0 +1,22 @@
+// Import variables
+@import "colors";
+
+.fileinput{
+  display: none;
+}
+
+.trait-fileinput + label{
+  color: white;
+  background-color: $trait;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 2px;
+  padding: 5px;
+  margin-top: 20px;
+}
+
+.fileinput:focus + label,
+.fileinput + label:hover {
+  background-color: darken($trait, 10%);
+}
+
