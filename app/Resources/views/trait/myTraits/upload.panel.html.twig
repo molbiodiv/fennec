@@ -9,14 +9,45 @@
         More information is available in <a href="http://fennec.readthedocs.io/en/develop/user.html#upload-own-data">the documentation</a>.
         Beware that all uploaded traits are public and can be used by all fennec users.
         Make sure that you have the rights to distribute this data and that you include proper citation and attribution information.
-        <form>
-            Traittype: <input type="text" name="traitType" id="trait-upload-traitType"/><br>
-            Default citation: <input type="text" name="defaultCitation" id="trait-upload-defaultCitation"/><br>
-            Mapping: <select class="selectpicker" id="trait-upload-mapping" data-style="btn-primary"></select><br>
-            Skip unmapped: <input type="checkbox" name="skipUnmapped" id="trait-upload-skipUnmapped"/><br>
-            <input class="btn fileinput" id="trait-fileupload" type="file" name="file" style="display: none">
-            <label for="trait-fileupload">Choose file</label><span style="margin-left: 15px;" id="trait-upload-filename"></span><br>
-            <button id="trait-upload-submit-button" class="btn" type="button">Submit</button>
+        <form class="form-horizontal" style="margin-top: 20px;">
+            <div class="form-group">
+                <label class="col-sm-1 control-label" for="trait-upload-traitType">Traittype:</label>
+                <div class="col-sm-2">
+                    <input class="form-control" type="text" name="traitType" id="trait-upload-traitType"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-1 control-label" for="trait-upload-defaultCitation">Default citation: </label>
+                <div class="col-sm-2">
+                    <input class="form-control" type="text" name="defaultCitation" id="trait-upload-defaultCitation"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-1 control-label" for="trait-upload-mapping">Mapping: </label>
+                <div class="col-sm-2">
+                    <select class="selectpicker form-control" id="trait-upload-mapping" data-style="btn-primary"></select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-1 col-sm-3">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="skipUnmapped" id="trait-upload-skipUnmapped"/>Skip unmapped
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-1 col-sm-3">
+                    <input class="btn fileinput" id="trait-fileupload" type="file" name="file" style="display: none">
+                    <label for="trait-fileupload">Choose file</label><span style="margin-left: 15px;" id="trait-upload-filename"></span><br>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-1 col-sm-2">
+                    <button id="trait-upload-submit-button" class="btn btn-organism" type="button">Submit</button>
+                </div>
+            </div>
         </form>
         <i class="fa fa-refresh fa-spin" style="font-size:24px; display:none" id="trait-upload-busy-indicator"></i>
     </div>
