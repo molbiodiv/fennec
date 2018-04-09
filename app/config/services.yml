@@ -22,6 +22,9 @@ services:
     AppBundle\Service\TwigProvider\Types:
         arguments: ['@twig']
         tags: [{name: kernel.event_listener, event: kernel.request}]
+    app.form.profile:
+        class: AppBundle\Form\UserEditType
+        tags: [{name: form.type, alias: app_user_profile }]
     app.form.registration:
         class: AppBundle\Form\RegistrationFormType
         tags: [{name: form.type, alias: app_user_registration }]

@@ -66,6 +66,9 @@ fos_user:
     registration:
         form:
             type: AppBundle\Form\RegistrationFormType
+    profile:
+        form:
+            type: AppBundle\Form\UserEditType
 
 hwi_oauth:
     # list of names of the firewalls in which this bundle is active, this setting MUST be set
