@@ -61,7 +61,6 @@ $('document').ready(function () {
         dataType: "json",
         success: function (data) {
             let allTraitTypes = data.map(x => x.type);
-            console.log(allTraitTypes);
             $("#trait-upload-traitType").autocomplete({
                 source: allTraitTypes
             });
