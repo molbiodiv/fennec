@@ -7,13 +7,15 @@
     <div class="row">
         <div class="col-lg-6">
             <div class="panel panel-default">
+                <div class="panel-heading panel-title">
+                    You use FENNEC for the first time and you want to learn the main features?
+                </div>
                 <div class="panel-body">
-                    <div class="col-xs-1" style="padding: 10px;">
-                        <i class="fa fa-question fa-5x text-right"></i>
+                    <div class="col-xs-1">
+                        <i class="fa fa-question fa-5x"></i>
                     </div>
                     <div class="col-xs-11 panel-text" style="padding: 20px;">
-                        You use FENNEC for the first time and you want to learn the main features? Then follow the user manual
-                        <a href="https://fennec.readthedocs.io/en/latest/user.html">here</a>.
+                        Then follow the user manual <a href="https://fennec.readthedocs.io/en/latest/user.html">in the documentation</a>.
                     </div>
                 </div>
             </div>
@@ -22,12 +24,15 @@
     <div class="row">
         <div class="col-lg-6">
             <div class="panel panel-default">
+                <div class="panel-heading panel-title">
+                    No idea what to do next?
+                </div>
                 <div class="panel-body">
-                    <div class="col-xs-1" style="padding: 10px;">
+                    <div class="col-xs-1">
                         <i class="fa fa-search fa-5x text-right"></i>
                     </div>
                     <div class="col-xs-11 panel-text" style="padding: 20px;">
-                        No idea what to do next? Explore FENNEC's <a href={{ path('trait_search', {'dbversion': dbversion  }) }}>trait database</a>
+                        Explore FENNEC's <a href={{ path('trait_search', {'dbversion': dbversion  }) }}>trait database</a>
                         and <a href="{{ path('organism_search', {'dbversion': dbversion}) }}">organism database</a>.
                     </div>
                 </div>
@@ -37,12 +42,15 @@
     <div class="row">
         <div class="col-lg-6">
             <div class="panel panel-default">
+                <div class="panel-heading panel-title">
+                     You already have a community data table?
+                </div>
                 <div class="panel-body">
-                    <div class="col-xs-1" style="padding: 10px;">
+                    <div class="col-xs-1">
                         <i class="fa fa-book fa-5x text-right"></i>
                     </div>
                     <div class="col-xs-11 panel-text" style="padding: 20px;">
-                        You already have a community data table? What are you waiting for? Upload your data
+                        What are you waiting for? Upload your data
                         <a href={{ path('project_overview', {'dbversion': dbversion  }) }}>here</a>.
                     </div>
                 </div>
@@ -52,12 +60,15 @@
     <div class="row">
         <div class="col-lg-6">
             <div class="panel panel-default">
+                <div class="panel-heading panel-title">
+                    You have trait information?
+                </div>
                 <div class="panel-body">
-                    <div class="col-xs-1" style="padding: 10px;">
+                    <div class="col-xs-1">
                         <i class="fa fa-table fa-5x text-right"></i>
                     </div>
                     <div class="col-xs-11 panel-text" style="padding: 20px;">
-                        You have trait information? Then upload your data and share it with other users
+                        Then upload your data and share it with other users
                         <a href={{ path('my_traits', {'dbversion': dbversion  }) }}>here</a>.
                     </div>
                 </div>
