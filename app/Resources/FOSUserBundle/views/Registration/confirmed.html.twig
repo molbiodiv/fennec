@@ -6,7 +6,7 @@
     <h1 class="page-header" id="page-title">{{ 'registration.confirmed'|trans({'%username%': user.username}) }}</h1>
     <div class="row">
         <div class="col-lg-6">
-            <div class="panel panel-default">
+            <div class="panel panel-user-guide" style="border: none;">
                 <div class="panel-heading panel-title">
                     You use FENNEC for the first time and you want to learn the main features?
                 </div>
@@ -14,7 +14,7 @@
                     <div class="col-xs-1">
                         <i class="fa fa-question fa-5x"></i>
                     </div>
-                    <div class="col-xs-11 panel-text" style="padding: 20px;">
+                    <div class="col-xs-11" style="padding: 20px;">
                         Then follow the user manual <a href="https://fennec.readthedocs.io/en/latest/user.html">in the documentation</a>.
                     </div>
                 </div>
@@ -23,7 +23,7 @@
     </div>
     <div class="row">
         <div class="col-lg-6">
-            <div class="panel panel-default">
+            <div class="panel panel-user-guide" style="border: none;">
                 <div class="panel-heading panel-title">
                     No idea what to do next?
                 </div>
@@ -31,7 +31,7 @@
                     <div class="col-xs-1">
                         <i class="fa fa-search fa-5x text-right"></i>
                     </div>
-                    <div class="col-xs-11 panel-text" style="padding: 20px;">
+                    <div class="col-xs-11" style="padding: 20px;">
                         Explore FENNEC's <a href={{ path('trait_search', {'dbversion': dbversion  }) }}>trait database</a>
                         and <a href="{{ path('organism_search', {'dbversion': dbversion}) }}">organism database</a>.
                     </div>
@@ -41,7 +41,7 @@
     </div>
     <div class="row">
         <div class="col-lg-6">
-            <div class="panel panel-default">
+            <div class="panel panel-user-guide" style="border: none;">
                 <div class="panel-heading panel-title">
                      You already have a community data table?
                 </div>
@@ -49,7 +49,7 @@
                     <div class="col-xs-1">
                         <i class="fa fa-book fa-5x text-right"></i>
                     </div>
-                    <div class="col-xs-11 panel-text" style="padding: 20px;">
+                    <div class="col-xs-11" style="padding: 20px;">
                         What are you waiting for? Upload your data
                         <a href={{ path('project_overview', {'dbversion': dbversion  }) }}>here</a>.
                     </div>
@@ -59,7 +59,7 @@
     </div>
     <div class="row">
         <div class="col-lg-6">
-            <div class="panel panel-default">
+            <div class="panel panel-user-guide" style="border: none;">
                 <div class="panel-heading panel-title">
                     You have trait information?
                 </div>
@@ -67,7 +67,7 @@
                     <div class="col-xs-1">
                         <i class="fa fa-table fa-5x text-right"></i>
                     </div>
-                    <div class="col-xs-11 panel-text" style="padding: 20px;">
+                    <div class="col-xs-11" style="padding: 20px;">
                         Then upload your data and share it with other users
                         <a href={{ path('my_traits', {'dbversion': dbversion  }) }}>here</a>.
                     </div>

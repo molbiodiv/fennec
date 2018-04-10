@@ -28,3 +28,10 @@
 .info-trait {
     color: darken($trait, 5%);
 }
+
+.panel-user-guide > .panel-heading {
+    background-color: $project;
+    border-color: darken($project, 5%);
+    color: #FFF;
+}
+
