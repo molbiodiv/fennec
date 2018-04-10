@@ -35,3 +35,21 @@
     background-color: darken($trait, 10%);
     border-color: darken($trait, 10%);
 }
+
+.btn-user {
+    color: #FFF;
+    background-color: $project;
+    border-color: $project;
+}
+
+.btn-user:hover {
+    color: #FFF;
+    background-color: darken($project, 10%);
+    border-color: darken($project, 10%);
+}
+
+.btn-user:focus {
+    color: #FFF;
+    background-color: darken($project, 10%);
+    border-color: darken($project, 10%);
+}
