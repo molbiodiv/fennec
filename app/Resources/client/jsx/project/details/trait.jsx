@@ -25,31 +25,28 @@ $('document').ready(async () => {
                 'fennecIds': fennec_ids
             },
             success: function (data) {
-                let traits = [];
-                let number_of_unique_fennec_ids = _.uniq(fennec_ids).length
-                let traitEntryIds = [];
-                $.each(data, function (key, value) {
-                    var thisTrait = {
-                        id: key,
-                        trait: value['traitType'],
-                        count: value['traitEntryIds'].length,
-                        range: 100 * value['fennec'].length / number_of_unique_fennec_ids
-                    };
-                    traitEntryIds.push(...value['traitEntryIds']);
-                    traits.push(thisTrait);
-                });
-                $(id).show();
-                initTraitsOfProjectTable(id, dimension, traits);
-                getTraitEntries(traitEntryIds);
+                getTraitEntries(data, id, dimension);
             }
         });
     }
 
-    function getTraitEntries(traitEntryIds){
-        if(traitEntryIds.length === 0){
+    function getTraitEntries(rawData, tableId, dimension){
+        if(rawData.length === 0){
+            showMessageDialog("No traits found", 'info')
             $('#trait-table-progress').hide();
             return;
         }
+        let traitEntryIds = []
+        let traitData = []
+        $.each(rawData, function (key, value) {
+            traitEntryIds = _.concat(traitEntryIds, value.traitEntryIds)
+            traitData.push({
+                'entries': value.traitEntryIds,
+                'traitType': value['traitType'],
+                'traitTypeId': key,
+                'fennec': value['fennec']
+            })
+        })
         var webserviceUrl = Routing.generate('api_details_trait_entries', {'dbversion': dbversion});
         $.ajax(webserviceUrl, {
             method: "POST",
@@ -58,7 +55,10 @@ $('document').ready(async () => {
                 'trait_format': 'categorical_free'
             },
             success: function (data) {
-                console.log(data);
+                let fullData = traitData.map(x => Object.assign({}, x, {
+                    entries: x.entries.map(traitEntryId => data[traitEntryId])
+                }))
+                initTraitsOfProjectTable(tableId, dimension, fullData)
                 $('#trait-table-progress').hide();
             }
         });
@@ -67,12 +67,15 @@ $('document').ready(async () => {
     // Init traits of project table with values
     function initTraitsOfProjectTable(tableId, dimension, traits) {
         let metadataKeys = getMetadataKeys(biom, dimension)
+        let fennec_ids = biom.getMetadata({dimension: dimension, attribute: ['fennec', dbversion, 'fennec_id']})
+        let number_of_unique_fennec_ids = _.uniq(fennec_ids).length
+        console.log(traits)
         let dataTableOptions = {
             data: traits,
             columns: [
-                {data: 'trait'},
-                {data: 'count'},
-                {data: 'range'},
+                {data: 'traitType'},
+                {data: null},
+                {data: null},
                 {data: null},
                 {data: null},
                 {data: null}
@@ -80,23 +83,28 @@ $('document').ready(async () => {
             order: [2, "desc"],
             columnDefs: [
                 {
-                    targets: 2,
-                    render: data =>
-                        '<span title="' + data / 100 + '"></span>' +
-                        '<div class="progress">' +
-                        '<div class="progress-bar progress-bar-trait" role="progressbar" style="width: ' + data + '%">' +
-                        Math.round(data) + '%</div></div>',
-                    type: 'title-numeric'
-                },
-                {
                     targets: 0,
                     render: (data, type, full) => {
                         var href = Routing.generate('trait_details', {
                             'dbversion': dbversion,
                             'attribute': attribute,
-                            'trait_type_id': full.id
+                            'trait_type_id': full.traitTypeId
                         });
-                        return '<a href="' + href + '">' + full.trait + '</a>';
+                        return '<a href="' + href + '">' + full.traitType + '</a>';
+                    }
+                },
+                {
+                    targets: 1,
+                    render: (data, type, full) => full.entries.length
+                },
+                {
+                    targets: 2,
+                    render: (data, type, full) => {
+                        let range = 100 * full['fennec'].length / number_of_unique_fennec_ids
+                        return '<span title="' + range / 100 + '"></span>' +
+                            '<div class="progress">' +
+                            '<div class="progress-bar progress-bar-trait" role="progressbar" style="width: ' + range + '%">' +
+                            Math.round(range) + '%</div></div>'
                     }
                 },
                 {
@@ -104,7 +112,7 @@ $('document').ready(async () => {
                     render: (data, type, full) => {
                         var href = Routing.generate('project_trait_details', {
                             'dbversion': dbversion,
-                            'trait_type_id': full.id,
+                            'trait_type_id': full.traitTypeId,
                             'project_id': internalProjectId,
                             'dimension': dimension,
                             'attribute': attribute
@@ -115,13 +123,13 @@ $('document').ready(async () => {
                 {
                     targets: 4,
                     render: (data, type, full) => {
-                        return _.indexOf(metadataKeys, full.trait) != -1 ? '<i class="fa fa-check"></i>' : ''
+                        return _.indexOf(metadataKeys, full.traitType) != -1 ? '<i class="fa fa-check"></i>' : ''
                     }
                 },
                 {
                     targets: 5,
                     render: (data, type, full) => {
-                        return _.indexOf(metadataKeys, full.trait) != -1 ? '<a onclick="removeTraitFromProjectTableAction('+"'"+full.trait+"','"+dimension+"'"+')"><i class="fa fa-trash"></i></a>' : '<a onclick="addTraitToProjectTableAction('+full.id+','+"'"+dimension+"'"+')"><i class="fa fa-plus"></i></a>';
+                        return _.indexOf(metadataKeys, full.traitType) != -1 ? '<a onclick="removeTraitFromProjectTableAction('+"'"+full.traitType+"','"+dimension+"'"+')"><i class="fa fa-trash"></i></a>' : '<a onclick="addTraitToProjectTableAction('+full.traitTypeId+','+"'"+dimension+"'"+')"><i class="fa fa-plus"></i></a>';
                     }
                 }
             ]
