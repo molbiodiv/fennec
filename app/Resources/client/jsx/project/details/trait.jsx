@@ -27,6 +27,7 @@ $('document').ready(async () => {
             success: function (data) {
                 let traits = [];
                 let number_of_unique_fennec_ids = _.uniq(fennec_ids).length
+                let traitEntryIds = [];
                 $.each(data, function (key, value) {
                     var thisTrait = {
                         id: key,
@@ -34,11 +35,31 @@ $('document').ready(async () => {
                         count: value['traitEntryIds'].length,
                         range: 100 * value['fennec'].length / number_of_unique_fennec_ids
                     };
+                    traitEntryIds.push(...value['traitEntryIds']);
                     traits.push(thisTrait);
                 });
-                $('#trait-table-progress').hide();
                 $(id).show();
                 initTraitsOfProjectTable(id, dimension, traits);
+                getTraitEntries(traitEntryIds);
+            }
+        });
+    }
+
+    function getTraitEntries(traitEntryIds){
+        if(traitEntryIds.length === 0){
+            $('#trait-table-progress').hide();
+            return;
+        }
+        var webserviceUrl = Routing.generate('api_details_trait_entries', {'dbversion': dbversion});
+        $.ajax(webserviceUrl, {
+            method: "POST",
+            data: {
+                'trait_entry_ids': traitEntryIds,
+                'trait_format': 'categorical_free'
+            },
+            success: function (data) {
+                console.log(data);
+                $('#trait-table-progress').hide();
             }
         });
     }
