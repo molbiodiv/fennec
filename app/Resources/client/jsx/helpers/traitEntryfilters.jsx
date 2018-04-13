@@ -15,7 +15,11 @@ export class TraitEntryFilter {
     }
 
     set filter(filter){
-        this._filter = filter
+        if(typeof(this.filter) === 'undefined'){
+            this._filter = filter;
+            return;
+        }
+        Object.assign(this.filter, filter)
     }
 
     applyFilter(){
