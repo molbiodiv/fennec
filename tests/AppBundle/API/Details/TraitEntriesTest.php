@@ -31,7 +31,10 @@ class TraitEntriesTest extends WebserviceTestCase
                 'valueDefinition' => 'http://eol.org/schema/terms/vine',
                 'citation' => 'Smithsonian Institution, National Museum of Narutal History, Department of Botany. http://collections.mnh.si.edu/search/botany/',
                 'unit' => null,
-                'originUrl' => 'http://eol.org/pages/5626774/data#data_point_15414795'
+                'originUrl' => 'http://eol.org/pages/5626774/data#data_point_15414795',
+                'traitFormat' => 'categorical_free',
+                'provider' => 'EOL',
+                'user' => null
             ]
         ];
         $this->resultForAnotherTraitEntry = [
@@ -44,7 +47,10 @@ class TraitEntriesTest extends WebserviceTestCase
                 'valueDefinition' => 'http://eol.org/schema/terms/subshrub',
                 'citation' => 'The PLANTS Database, United States Department of Agriculture, National Resources Conservation Service. http://plants.usda.gov/',
                 'unit' => null,
-                'originUrl' => 'http://eol.org/pages/231283/data#data_point_5580717'
+                'originUrl' => 'http://eol.org/pages/231283/data#data_point_5580717',
+                'traitFormat' => 'categorical_free',
+                'provider' => 'EOL',
+                'user' => null
             ]
         ];
 
@@ -106,20 +112,28 @@ class TraitEntriesTest extends WebserviceTestCase
                 'fennec' => 5818,
                 'originUrl' => '',
                 'valueName' => 279.0000000000,
+                'valueDefinition' => null,
                 'typeName' => 'Leaf size',
                 'unit' => 'mm^2',
                 'typeDefinition' => null,
-                'citation' => 'Source data from University of Groningen, Community and Conservation Ecology Group, NL (Steendam), Corresponding address: R.m.bekker@rug.nl'
+                'citation' => 'Source data from University of Groningen, Community and Conservation Ecology Group, NL (Steendam), Corresponding address: R.m.bekker@rug.nl',
+                'traitFormat' => 'numerical',
+                'provider' => 'EOL',
+                'user' => null
             ],
             '14136' => [
                 'id' => 14136,
                 'fennec' => 2866,
                 'originUrl' => '',
                 'valueName' => 376.7100000000,
+                'valueDefinition' => null,
                 'typeName' => 'Leaf mass',
                 'unit' => 'mg',
                 'typeDefinition' => null,
-                'citation' => 'Source data from Carl von Ossietzky university of Oldenburg, Landscape Ecology Group, DE (Kunzmann), E-Mail: dkunzmann@gmx.de'
+                'citation' => 'Source data from Carl von Ossietzky university of Oldenburg, Landscape Ecology Group, DE (Kunzmann), E-Mail: dkunzmann@gmx.de',
+                'traitFormat' => 'numerical',
+                'provider' => 'EOL',
+                'user' => null
             ]
         ];
         $this->assertEquals($expected, $results);
