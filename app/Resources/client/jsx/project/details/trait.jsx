@@ -58,6 +58,7 @@ $('document').ready(async () => {
                 let fullData = traitData.map(x => Object.assign({}, x, {
                     entries: x.entries.map(traitEntryId => data[traitEntryId])
                 }))
+                $(tableId).show();
                 initTraitsOfProjectTable(tableId, dimension, fullData)
                 $('#trait-table-progress').hide();
             }
@@ -69,7 +70,6 @@ $('document').ready(async () => {
         let metadataKeys = getMetadataKeys(biom, dimension)
         let fennec_ids = biom.getMetadata({dimension: dimension, attribute: ['fennec', dbversion, 'fennec_id']})
         let number_of_unique_fennec_ids = _.uniq(fennec_ids).length
-        console.log(traits)
         let dataTableOptions = {
             data: traits,
             columns: [
