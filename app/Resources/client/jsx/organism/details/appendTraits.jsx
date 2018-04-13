@@ -9,7 +9,7 @@ function appendTraitEntries(domElement, traitEntries, traitFormat){
             "trait_entry_ids": traitEntries,
             "trait_format": traitFormat
         },
-        method: "GET",
+        method: "POST",
         success: function(result){
             $.each(result, function (key, value) {
                 var realValue = value.valueName;
