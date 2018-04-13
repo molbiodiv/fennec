@@ -26,18 +26,16 @@ export class TraitEntryFilter {
         let filteredData = this.fullData
         if(this.filter.providerBlacklist.length > 0){
             filteredData = filteredData.map(traitType => {
-                return {
-                    traitType: traitType.traitType,
+                return Object.assign({}, traitType, {
                     entries: traitType.entries.filter(e => !this.filter.providerBlacklist.includes(e.provider))
-                }
+                })
             })
         }
         if(this.filter.userBlacklist.length > 0  && !this.filter.providerBlacklist.includes('userImport')){
             filteredData = filteredData.map(traitType => {
-                return {
-                    traitType: traitType.traitType,
+                return Object.assign({}, traitType, {
                     entries: traitType.entries.filter(e => !this.filter.userBlacklist.includes(e.user))
-                }
+                })
             })
         }
         filteredData = filteredData.filter(x => x.entries.length > 0)
