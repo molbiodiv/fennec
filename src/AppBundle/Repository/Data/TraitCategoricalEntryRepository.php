@@ -153,17 +153,20 @@ class TraitCategoricalEntryRepository extends EntityRepository
 
     public function getTraitEntry($traitEntryIds){
         $qb = $this->getEntityManager()->createQueryBuilder();
-        $qb->select('t.id AS id', 'IDENTITY(t.fennec) AS fennec', 't.originUrl', 'traitValue.value AS valueName', 'traitValue.ontologyUrl AS valueDefinition', 'traitType.type AS typeName', 'traitType.unit AS unit', 'traitType.ontologyUrl AS typeDefinition', 'traitCitation.citation')
+        $qb->select('t.id AS id', 'IDENTITY(t.fennec) AS fennec', 'traitFileUpload.fennecUserId AS user', 'db.name AS provider', 't.originUrl', 'traitValue.value AS valueName', 'traitValue.ontologyUrl AS valueDefinition', 'traitType.type AS typeName', 'traitType.unit AS unit', 'traitType.ontologyUrl AS typeDefinition', 'traitCitation.citation')
             ->from('AppBundle\Entity\Data\TraitCategoricalEntry', 't')
             ->innerJoin('AppBundle\Entity\Data\TraitCategoricalValue', 'traitValue', 'WITH', 't.traitCategoricalValue = traitValue.id')
             ->innerJoin('AppBundle\Entity\Data\TraitType', 'traitType', 'WITH', 't.traitType = traitType.id')
             ->innerJoin('AppBundle\Entity\Data\TraitCitation', 'traitCitation', 'WITH', 't.traitCitation = traitCitation.id')
+            ->leftJoin('AppBundle\Entity\Data\TraitFileUpload', 'traitFileUpload', 'WITH', 't.traitFileUpload = traitFileUpload.id')
+            ->leftJoin('AppBundle\Entity\Data\Db', 'db', 'WITH', 't.db = db.id')
             ->add('where', $qb->expr()->in('t.id', $traitEntryIds));
         $query = $qb->getQuery();
         $result = $query->getResult();
         $data = array();
         for($i=0;$i<sizeof($result);$i++) {
             $id = $result[$i]['id'];
+            $result[$i]['traitFormat'] = 'categorical_free';
             $data[$id] = $result[$i];
         }
         return $data;
