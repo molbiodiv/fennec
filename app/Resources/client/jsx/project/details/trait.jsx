@@ -3,16 +3,17 @@
 
 const addTraitToProject = require('../helpers/addTraitToProject');
 const removeTraitFromProject = require('../helpers/removeTraitFromProject');
-const biomPromise = require('./biom')
-let biom
+const biomPromise = require('./biom');
+let biom;
 
 $('document').ready(async () => {
-    biom = await biomPromise
+    biom = await biomPromise;
     let attribute = $('#project-data').data('attribute');
-    getAndShowTraits('#trait-table', 'rows', attribute);
-    getAndShowTraits('#trait-table-sample', 'columns', attribute);
+    $('#project-show-trait-otu').on('click', () => getAndShowTraits('#trait-table', 'rows', attribute));
+    $('#project-show-trait-sample').on('click', () => getAndShowTraits('#trait-table-sample', 'columns', attribute));
 
     function getAndShowTraits(id, dimension, attribute){
+        $('#trait-table-progress').show();
         // Extract row fennec_ids from biom
         var fennec_ids = biom.getMetadata({dimension: dimension, attribute: ['fennec', dbversion, 'fennec_id']})
             .filter( element => element !== null );
@@ -35,6 +36,8 @@ $('document').ready(async () => {
                     };
                     traits.push(thisTrait);
                 });
+                $('#trait-table-progress').hide();
+                $(id).show();
                 initTraitsOfProjectTable(id, dimension, traits);
             }
         });
