@@ -118,7 +118,7 @@ class TraitEntriesTest extends WebserviceTestCase
                 'typeDefinition' => null,
                 'citation' => 'Source data from University of Groningen, Community and Conservation Ecology Group, NL (Steendam), Corresponding address: R.m.bekker@rug.nl',
                 'traitFormat' => 'numerical',
-                'provider' => 'EOL',
+                'provider' => 'leda',
                 'user' => null
             ],
             '14136' => [
@@ -132,7 +132,7 @@ class TraitEntriesTest extends WebserviceTestCase
                 'typeDefinition' => null,
                 'citation' => 'Source data from Carl von Ossietzky university of Oldenburg, Landscape Ecology Group, DE (Kunzmann), E-Mail: dkunzmann@gmx.de',
                 'traitFormat' => 'numerical',
-                'provider' => 'EOL',
+                'provider' => 'leda',
                 'user' => null
             ]
         ];
