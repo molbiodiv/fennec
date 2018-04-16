@@ -20,6 +20,7 @@ parameters:
     user_entity_manager: "userdb"
     # db versions separated by | e.g. 'default_data|1.0|2.0|plants'
     versions: 'default_data'
+    dbversions_for_user_trait_upload: []
     dbal:
         connections:
             'userdb':

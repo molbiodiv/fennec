@@ -9,6 +9,7 @@ use AppBundle\API\Listing;
 use AppBundle\API\Mapping;
 use AppBundle\API\Sharing;
 use AppBundle\API\Upload;
+use AppBundle\Service\DBVersion;
 use Nelmio\ApiDocBundle\Annotation\Operation;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Swagger\Annotations as SWG;
@@ -16,6 +17,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Exception\MissingOptionsException;
 
 class APIController extends Controller
 {
@@ -118,64 +120,68 @@ class APIController extends Controller
     /**
      * Show details of specific trait entries
      *
-     * @SWG\Response(
-     *     response=200,
-     *     description="Returns details of trait entries",
-     *     examples={
-     *         "application/json"={
-     *              {
-     *                 "1": {
-     *                   "id": 1,
-     *                   "fennec": 55991,
-     *                   "originUrl": "http://apiv3.iucnredlist.org/api/v3/species/page/",
-     *                   "valueName": "LC",
-     *                   "valueDefinition": "http://www.iucnredlist.org/static/categories_criteria_2_3",
-     *                   "typeName": "IUCN Threat Status",
-     *                   "unit": null,
-     *                   "typeDefinition": "",
-     *                   "citation": "IUCN 2016. IUCN Red List of Threatened Species. Version 2016-2 <www.iucnredlist.org>"
-     *                 },
-     *                 "2": {
-     *                   "id": 2,
-     *                   "fennec": 90856,
-     *                   "originUrl": "http://apiv3.iucnredlist.org/api/v3/species/page/",
-     *                   "valueName": "NT",
-     *                   "valueDefinition": "http://www.iucnredlist.org/static/categories_criteria_2_3",
-     *                   "typeName": "IUCN Threat Status",
-     *                   "unit": null,
-     *                   "typeDefinition": "",
-     *                   "citation": "IUCN 2016. IUCN Red List of Threatened Species. Version 2016-2 <www.iucnredlist.org>"
-     *                 }
+     * @Operation(
+     *     consumes={"application/x-www-form-urlencoded"},
+     *     produces={"application/json"},
+     *     tags={"Details"},
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Returns details of trait entries",
+     *         examples={
+     *             "application/json"={
+     *                  {
+     *                     "1": {
+     *                       "id": 1,
+     *                       "fennec": 55991,
+     *                       "originUrl": "http://apiv3.iucnredlist.org/api/v3/species/page/",
+     *                       "valueName": "LC",
+     *                       "valueDefinition": "http://www.iucnredlist.org/static/categories_criteria_2_3",
+     *                       "typeName": "IUCN Threat Status",
+     *                       "unit": null,
+     *                       "typeDefinition": "",
+     *                       "citation": "IUCN 2016. IUCN Red List of Threatened Species. Version 2016-2 <www.iucnredlist.org>"
+     *                     },
+     *                     "2": {
+     *                       "id": 2,
+     *                       "fennec": 90856,
+     *                       "originUrl": "http://apiv3.iucnredlist.org/api/v3/species/page/",
+     *                       "valueName": "NT",
+     *                       "valueDefinition": "http://www.iucnredlist.org/static/categories_criteria_2_3",
+     *                       "typeName": "IUCN Threat Status",
+     *                       "unit": null,
+     *                       "typeDefinition": "",
+     *                       "citation": "IUCN 2016. IUCN Red List of Threatened Species. Version 2016-2 <www.iucnredlist.org>"
+     *                     }
+     *                  }
      *              }
-     *          }
-     *     }
+     *         }
+     *     ),
+     *     @SWG\Parameter(
+     *         name="trait_entry_ids[]",
+     *         in="formData",
+     *         type="array",
+     *         collectionFormat="multi",
+     *         required=true,
+     *         items={
+     *           "type": "int"
+     *         },
+     *         description="ids of the trait entries for which details are desired"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="trait_format",
+     *         in="formData",
+     *         type="string",
+     *         required=true,
+     *         description="trait format, usually one of 'numerical' or 'categorical_free'"
+     *     )
      * )
-     * @SWG\Parameter(
-     *     name="trait_entry_ids[]",
-     *     in="query",
-     *     type="array",
-     *     collectionFormat="multi",
-     *     required=true,
-     *     items={
-     *       "type": "int"
-     *     },
-     *     description="ids of the trait entries for which details are desired"
-     * )
-     * @SWG\Parameter(
-     *     name="trait_format",
-     *     in="query",
-     *     type="string",
-     *     required=true,
-     *     description="trait format, usually one of 'numerical' or 'categorical_free'"
-     * )
-     * @SWG\Tag(name="Details")
      * @param Request $request
      * @return Response $response
-     * @Route("/api/details/traitEntries", name="api_details_trait_entries", options={"expose"=true}, methods={"GET"})
+     * @Route("/api/details/traitEntries", name="api_details_trait_entries", options={"expose"=true}, methods={"POST"})
      */
     public function detailsTraitEntriesAction(Request $request){
         $traitEntries = $this->container->get(Details\TraitEntries::class);
-        $result = $traitEntries->execute($request->query->get('trait_entry_ids'), $request->query->get('trait_format'));
+        $result = $traitEntries->execute($request->request->get('trait_entry_ids'), $request->request->get('trait_format'));
         return $this->createResponse($result);
     }
 
@@ -228,6 +234,53 @@ class APIController extends Controller
     }
 
     /**
+     * List all of your uploaded trait files
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns the list of uploaded trait files of the current user",
+     *     examples={
+     *         "application/json"={
+     *               "data": {
+     *                 {
+     *                   "traitFileId": 2,
+     *                   "filename": "categoricalTraits.tsv",
+     *                   "importDate": "2018-03-19 13:27:24",
+     *                   "format": "categorical",
+     *                   "traitType": "Plant Growth Habit",
+     *                   "entries": 5
+     *                 },
+     *                 {
+     *                   "traitFileId": 13,
+     *                   "fileName": "numericalTraits.tsv",
+     *                   "importDate": "2018-03-19 12:57:20",
+     *                   "format": "numerical",
+     *                   "traitType": "Leaf size",
+     *                   "entries": 7
+     *                 },
+     *                "error": null
+     *             }
+     *         }
+     *     }
+     * )
+     * @SWG\Parameter(
+     *     name="Cookie",
+     *     description="Currently you have to set the PHPSESSID cookie until api key authentication is implemented. If you are logged in the web interface you can try it. PHPSESSID=<your-phpsessid>",
+     *     type="string",
+     *     in="header"
+     * )
+     * @SWG\Tag(name="Listing")
+     * @return Response $response
+     * @Route("/api/listing/traitFiles", name="api_listing_trait_files", options={"expose"=true}, methods={"POST"})
+     */
+    public function listingTraitFilesAction(){
+        $traitFiles = $this->container->get(Listing\TraitFiles::class);
+        $user = $this->getFennecUser();
+        $result = $traitFiles->execute($user);
+        return $this->createResponse($result);
+    }
+
+    /**
      * Delete one of your projects
      *
      * @SWG\Response(
@@ -265,6 +318,49 @@ class APIController extends Controller
         $deleteProjects = $this->container->get(Delete\Projects::class);
         $user = $this->getFennecUser();
         $result = $deleteProjects->execute($user, $projectId);
+        return $this->createResponse($result);
+    }
+
+    /**
+     * Delete one of your trait files
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Delete a given trait file",
+     *     examples = {
+     *     "application/json": {
+     *             "error": null,
+     *             "success": "Deleted trait file with id 5 successfully"
+     *         }
+     *     },
+     *     @SWG\Schema(
+     *         type="object",
+     *         @SWG\Property(property="error", type="string|null"),
+     *         @SWG\Property(property="success", type="string|null")
+     *     )
+     * )
+     * @SWG\Parameter(
+     *     name="traitFileId",
+     *     description="the id of the trait file to delete",
+     *     type="integer",
+     *     in="query"
+     * )
+     * @SWG\Parameter(
+     *     name="Cookie",
+     *     description="Currently you have to set the PHPSESSID cookie until api key authentication is implemented. If you are logged in the web interface you can try it. PHPSESSID=<your-phpsessid>",
+     *     type="string",
+     *     in="header"
+     * )
+     * @SWG\Tag(name="Traits")
+     * @param Request $request
+     * @return Response $response
+     * @Route("/api/delete/traitFile", name="api_delete_trait_file", options={"expose"=true}, methods={"GET"})
+     */
+    public function deleteTraitFileAction(Request $request){
+        $traitFileId = $request->query->get('traitFileId');
+        $deleteTraitFile = $this->container->get(Delete\TraitFile::class);
+        $user = $this->getFennecUser();
+        $result = $deleteTraitFile->execute($user, $traitFileId);
         return $this->createResponse($result);
     }
 
@@ -337,6 +433,107 @@ class APIController extends Controller
         $user = $this->getFennecUser();
         $result = $uploadProjects->execute($user);
         return $this->createResponse($result);
+    }
+
+
+    /**
+     * Upload new traits
+     *
+     * Due to limitation of this documentation frontend 'Try it' does not work here (files not uploaded).
+     *
+     * @Operation(
+     *     consumes={"multipart/form-data"},
+     *     tags={"Traits"},
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Returns success status for trait upload",
+     *         examples={
+     *             "application/json": {
+     *                 "result":  {
+     *                      "Distinct new values" : "3",
+     *                       "Distinct new citations" : "4",
+     *                       "Imported entries" : "5",
+     *                       "Skipped (no hit)" : "0",
+     *                       "Skipped (multiple hits)" : "0"
+     *                  },
+     *                 "error" : null
+     *             }
+     *         }
+     *     ),
+     *     @SWG\Parameter(
+     *         name="Cookie",
+     *         description="Currently you have to set the PHPSESSID cookie until api key authentication is implemented. If you are logged in the web interface you can try it. PHPSESSID=<your-phpsessid>",
+     *         type="string",
+     *         in="header"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="file",
+     *         description="File to upload. Send as 'multipart/form-data'.",
+     *         in="formData",
+     *         required=true,
+     *         type="file"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="traittype",
+     *         description="Type of trait which is uploaded.",
+     *         in="query",
+     *         required=true,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="defaultCitation",
+     *         description="Citation which is used if citation field is empty.",
+     *         in="query",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="mapping",
+     *         description="Mapping which is used to get fennecIds for the first column. Leave empty if first column are already fennecIds.",
+     *         in="query",
+     *         required=false,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="skipUnmapped",
+     *         description="Do not die if there are lines which can not be mapped to fennec ids (just skip them). Ignored if mapping is not used.",
+     *         in="query",
+     *         required=false,
+     *         type="boolean",
+     *         default="false"
+     *     )
+     * )
+     * @param Request $request
+     * @param $dbversion
+     * @return Response $response
+     * @Route("/api/upload/traits", name="api_upload_traits", options={"expose"=true}, methods={"POST"})
+     */
+    public function uploadTraitsAction(Request $request){
+        $dbversion = $this->container->get(DBVersion::class)->getConnectionName();
+        if(in_array($dbversion, $this->container->getParameter('dbversions_for_user_trait_upload'))){
+            $uploadTraits = $this->container->get(Upload\Traits::class);
+            $user = $this->getFennecUser();
+            $post = $request->request;
+            $traitType = $post->get('traitType');
+            $defaultCitation = $post->get('defaultCitation');
+            $mapping = $post->get('mapping');
+            $skipUnmapped = $post->get('skipUnmapped');
+            if($traitType === null){
+                $response = $this->createResponse('Missing option: traitType');
+                $response->setStatusCode(Response::HTTP_BAD_REQUEST);
+                return $response;
+            }
+            $result = $uploadTraits->execute($user,$traitType,$defaultCitation,$mapping,$skipUnmapped);
+            $response = $this->createResponse($result);
+            if($result["error"] !== null){
+                $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
+            return $response;
+        } else {
+            $response = $this->createResponse('This dbversion does not support upload of traits by users.');
+            $response->setStatusCode(Response::HTTP_FORBIDDEN);
+            return $response;
+        }
     }
 
     /**

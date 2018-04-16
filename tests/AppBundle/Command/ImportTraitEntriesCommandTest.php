@@ -321,7 +321,7 @@ class ImportTraitEntriesCommandTest extends KernelTestCase
             'The trait has been assigned to the correct organism');
     }
 
-    public function testImportOfLongTable(){
+    public function testImportOfWideTable(){
         $this->assertNull($this->em->getRepository('AppBundle:TraitType')->findOneBy(array(
             'type' => 'Long Table Trait'
         )), 'before import there is no trait type called "Long Table Trait"');
@@ -332,8 +332,8 @@ class ImportTraitEntriesCommandTest extends KernelTestCase
             'command' => $this->command->getName(),
             '--provider' => 'traitEntryImporter_test',
             '--default-citation' => "Long Table Default Citation",
-            '--long-table' => true,
-            'file' => __DIR__ . '/files/longTable.tsv'
+            '--wide-table' => true,
+            'file' => __DIR__ . '/files/wideTable.tsv'
         ));
         $output = $this->commandTester->getDisplay();
         $this->assertContains('TraitType does not exist in db: "Long Table Trait". Check for typos or create with app:create-traittype', $output);
@@ -341,32 +341,32 @@ class ImportTraitEntriesCommandTest extends KernelTestCase
             'citation' => 'Long Table Default Citation'
         )), 'after failed import there is still no citation "Long Table Default Citation"');
 
-        $longTableTraitType = new TraitType();
-        $longTableTraitType->setType('Long Table Trait');
-        $longTableTraitType->setUnit('m');
+        $wideTableTraitType = new TraitType();
+        $wideTableTraitType->setType('Long Table Trait');
+        $wideTableTraitType->setUnit('m');
         $numericalFormat = $this->em->getRepository('AppBundle:TraitFormat')->findOneBy(['format' => 'numerical']);
         if($numericalFormat === null){
             $numericalFormat = new TraitFormat();
             $numericalFormat->setFormat('numerical');
             $this->em->persist($numericalFormat);
         }
-        $longTableTraitType->setTraitFormat($numericalFormat);
-        $this->em->persist($longTableTraitType);
+        $wideTableTraitType->setTraitFormat($numericalFormat);
+        $this->em->persist($wideTableTraitType);
         $this->em->flush();
         $this->commandTester->execute(array(
             'command' => $this->command->getName(),
             '--provider' => 'traitEntryImporter_test',
             '--default-citation' => "Long Table Default Citation",
-            '--long-table' => true,
-            'file' => __DIR__ . '/files/longTable.tsv'
+            '--wide-table' => true,
+            'file' => __DIR__ . '/files/wideTable.tsv'
         ));
         $this->assertNotNull($this->em->getRepository('AppBundle:TraitCitation')->findOneBy(array(
             'citation' => 'Long Table Default Citation'
         )), 'after import there is a citation "Long Table Default Citation"');
 
         $this->assertEquals(4, count($this->em->getRepository('AppBundle:TraitNumericalEntry')->findBy(array(
-            'traitType' => $longTableTraitType
-        ))), 'There are four entries with type "longTableTrait"');
+            'traitType' => $wideTableTraitType
+        ))), 'There are four entries with type "wideTableTrait"');
         $sparklingValue = $this->em->getRepository('AppBundle:TraitCategoricalValue')->findOneBy(array(
             'value' => "sparkling"
         ));
@@ -401,7 +401,7 @@ class ImportTraitEntriesCommandTest extends KernelTestCase
             'The trait has been assigned to the correct trait type');
     }
 
-    public function testImportOfLongTableMissingValues(){
+    public function testImportOfWideTableMissingValues(){
         $this->assertNull($this->em->getRepository('AppBundle:TraitCitation')->findOneBy(array(
             'citation' => 'Long Table Missing Values Default Citation'
         )), 'before import there is no citation "Long Table Missing Values Default Citation"');
@@ -409,8 +409,8 @@ class ImportTraitEntriesCommandTest extends KernelTestCase
             'command' => $this->command->getName(),
             '--provider' => 'traitEntryImporter_test',
             '--default-citation' => "Long Table Missing Values Default Citation",
-            '--long-table' => true,
-            'file' => __DIR__ . '/files/longTable_missingValues.tsv'
+            '--wide-table' => true,
+            'file' => __DIR__ . '/files/wideTable_missingValues.tsv'
         ));
 
         $this->assertNotNull($this->em->getRepository('AppBundle:TraitCitation')->findOneBy(array(
@@ -461,13 +461,93 @@ class ImportTraitEntriesCommandTest extends KernelTestCase
     public function testMissingCitationLong(){
         $this->commandTester->execute(array(
             'command' => $this->command->getName(),
-            'file' => __DIR__ . '/files/longTable.tsv',
+            'file' => __DIR__ . '/files/wideTable.tsv',
             '--provider' => 'traitEntryImporter_test',
-            '--long-table' => true
+            '--wide-table' => true
         ));
         // the output of the command in the console
-        $this->assertGreaterThan(0, $this->commandTester->getStatusCode(), 'The command produces an error if there is no default-citation with long-table');
+        $this->assertGreaterThan(0, $this->commandTester->getStatusCode(), 'The command produces an error if there is no default-citation with wide-table');
         $output = $this->commandTester->getDisplay();
         $this->assertContains('No citation specified', $output);
+    }
+
+    public function testCategoricalTraitsImportWithFennecUserId(){
+        // Tests before import
+        $rainbow = $this->em->getRepository('AppBundle:TraitCategoricalValue')->findOneBy(array(
+            'value' => 'user_rainbow'
+        ));
+        $this->assertNull($rainbow, 'Before import there is no trait user_rainbow');
+        $fileImportEntry = $this->em->getRepository('AppBundle:TraitFileUpload')->findOneBy(array(
+            'fennecUserId' => '1',
+            'filename' => 'flowerColorsByUser.tsv'
+        ));
+        $this->assertNull($fileImportEntry, 'Before import there is no fileImportEntry for user 1 and flowerColorsByUser.tsv');
+
+        // Import
+        $this->commandTester->execute(array(
+            'command' => $this->command->getName(),
+            '--provider' => 'traitEntryImporter_testByFennecID',
+            '--description' => 'traitEntryImporter test ImportByFennecID',
+            '--traittype' => 'Flower Color',
+            '--fennec-user-id' => '1',
+            'file' => __DIR__.'/files/flowerColorsByUser.tsv'
+        ));
+
+        // Tests after import
+        $rainbow = $this->em->getRepository('AppBundle:TraitCategoricalValue')->findOneBy(array(
+            'value' => 'user_rainbow'
+        ));
+        $this->assertNotNull($rainbow);
+        $traitEntry = $this->em->getRepository('AppBundle:TraitCategoricalEntry')->findOneBy(array(
+            'traitCategoricalValue' => $rainbow
+        ));
+        $this->assertNotNull($traitEntry, 'After import a trait by a user there should be the related trait entry');
+        $traitFileUploadEntry = $this->em->getRepository('AppBundle:TraitFileUpload')->findOneBy(array(
+            'fennecUserId' => '1',
+            'filename' => 'flowerColorsByUser.tsv'
+        ));
+        $this->assertNotNull($traitFileUploadEntry, 'After import there is a fileImportEntry for user 1 and flowerColorsByUser.tsv');
+        $this->assertEquals($traitEntry->getTraitFileUpload(), $traitFileUploadEntry, 'The connection between traitType and fileUpload is correct');
+    }
+
+    public function testNumericalTraitsImportWithFennecUserId(){
+        // Tests before import
+        $this->assertNull($this->em->getRepository('AppBundle:TraitType')->findOneBy(array(
+            'type' => 'testNumericalTraitImportByFennecUserId'
+        )), 'before import there is no trait type called "testNumericalTraitImportByFennecUserId"');
+        $testImportTraitByUser = new TraitType();
+        $testImportTraitByUser->setType('testNumericalTraitImportByFennecUserId');
+        $testImportTraitByUser->setUnit('m');
+        $numericalFormat = $this->em->getRepository('AppBundle:TraitFormat')->findOneBy(['format' => 'numerical']);
+        $testImportTraitByUser->setTraitFormat($numericalFormat);
+        $this->em->persist($testImportTraitByUser);
+        $this->em->flush();
+
+        // Import
+        $this->commandTester->execute(array(
+            'command' => $this->command->getName(),
+            '--provider' => 'traitEntryImporter_testByFennecID',
+            '--description' => 'traitEntryImporter test ImportByFennecID',
+            '--traittype' => 'testNumericalTraitImportByFennecUserId',
+            '--fennec-user-id' => '1',
+            'file' => __DIR__.'/files/numericalTraitsByUser.tsv'
+        ));
+
+        // Tests after import
+        $traitType = $this->em->getRepository('AppBundle:TraitType')->findOneBy(array(
+            'type' => 'testNumericalTraitImportByFennecUserId'
+        ));
+        $this->assertNotNull($traitType);
+        $numEntry = $this->em->getRepository('AppBundle:TraitNumericalEntry')->findOneBy(array(
+            'traitType' => $traitType
+        ));
+        $this->assertNotNull($numEntry, 'After import a numerical entry of type "testNumericalTraitImportByFennecUserId" exists');
+
+        $traitFileUploadEntry = $this->em->getRepository('AppBundle:TraitFileUpload')->findOneBy(array(
+            'fennecUserId' => '1',
+            'filename' => 'numericalTraitsByUser.tsv'
+        ));
+        $this->assertNotNull($traitFileUploadEntry, 'After import there is a fileImportEntry for user 1 and numericalTraitsByUser.tsv');
+        $this->assertEquals($numEntry->getTraitFileUpload(), $traitFileUploadEntry, 'The connection between traitType and fileUpload is correct');
     }
 }

@@ -52,6 +52,9 @@
                     </a>
                     <ul class="dropdown-menu dropdown-user">
                         {% if is_granted('ROLE_USER') %}
+                            <li><a>Signed in as<br><b>{{  app.user.username }}</b></a></li>
+                            <li><hr></li>
+                            <li><a href="{{ path('fos_user_profile_edit') }}"><i class="fa fa-users fa-fw"></i> Your Profile</a></li>
                             <li><a href="{{ path('fos_user_security_logout') }}"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
                             {% if is_granted('ROLE_ADMIN')%}
                                 <li><a href="{{ path('easyadmin') }}"><i class="fa fa-lock fa-fw"></i> Admin Area</a> </li>
@@ -82,13 +85,16 @@
                             <a href="{{ path('organism_search', {'dbversion': dbversion }) }}" class="sidebar-panel {{ fennecLayoutType }}-link"><i class="fa fa-leaf fa-fw"></i> Organisms</a>
                         </li>
                         <li>
-                            <a href="#" class="sidebar-panel {{ fennecLayoutType }}-link"><i class="fa fa-globe fa-fw"></i> Traits<span class="fa arrow"></span></a>
+                            <a href="#" class="sidebar-panel {{ fennecLayoutType }}-link"><i class="fa fa-table fa-fw"></i> Traits<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
                                     <a href="{{ path('trait_overview', {'dbversion': dbversion }) }}" class="sidebar-panel {{ fennecLayoutType }}-link"><i class="fa fa-eye fa-fw sidebar-{{ fennecLayoutType  }}"></i> Overview</a>
                                 </li>
                                 <li>
                                     <a href="{{ path('trait_search', {'dbversion': dbversion  }) }}" class="sidebar-panel {{ fennecLayoutType   }}-link"><i class="fa fa-search fa-fw sidebar-{{ fennecLayoutType }}"></i> Search</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('my_traits', {'dbversion': dbversion  }) }}" class="sidebar-panel {{ fennecLayoutType   }}-link"><i class="fa fa-upload fa-fw sidebar-{{ fennecLayoutType }}"></i> My Traits</a>
                                 </li>
                             </ul>
                         </li>

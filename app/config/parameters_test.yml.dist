@@ -1,6 +1,7 @@
 # This file is auto-generated during the composer install
 parameters:
     versions: "test_data|test_data2"
+    dbversions_for_user_trait_upload: [test_data, test_data2]
     default_data_connection: "test_data"
     user_connection: "test_user"
     dbal:

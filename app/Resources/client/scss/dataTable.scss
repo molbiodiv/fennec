@@ -102,3 +102,107 @@ div#trait-table_paginate > .pagination > .active > a:hover {
     background-color: darken($trait, 10%);
     border-color: darken($trait, 10%);
 }
+
+
+table.dataTable.trait-file-upload-table thead .sorting,
+table.dataTable.trait-file-upload-table thead .sorting_asc,
+table.dataTable.trait-file-upload-table thead .sorting_desc,
+table.dataTable.trait-file-upload-table thead .sorting_asc_disabled,
+table.dataTable.trait-file-upload-table thead .sorting_desc_disabled {
+    background: $trait;
+    color: #F8F8F8;
+}
+
+.trait-file-upload-table-striped > tbody > tr:nth-of-type(2n){
+    background-color: lighten($trait, 66%);
+}
+
+.trait-file-upload-table-striped > tbody > tr:hover{
+    background-color: #EEE;
+}
+
+.trait-file-upload-table sorting_asc {
+    color: #F8F8F8;
+}
+
+/* Footer cells */
+.trait-file-upload-table tfoot th {
+    background: $trait;
+    color: #F8F8F8;
+}
+
+/* Define custom hover effect on links */
+.trait-file-upload-table a:focus, a:hover {
+    text-decoration: none;
+}
+
+div > .pagination > .active > a,
+div > .pagination > .active > a:focus {
+    color: #FFF;
+    cursor: pointer;
+    background-color: $trait;
+    border-color: $trait;
+}
+
+div > .pagination > .active > a:hover {
+    color: #FFF;
+    cursor: pointer;
+    background-color: darken($trait, 10%);
+    border-color: darken($trait, 10%);
+}
+
+.pagination > li > a,
+.pagination > li > a:focus,
+.pagination > li > a:hover,
+.pagination > li > span,
+.pagination > li > span:focus,
+.pagination > li > span:hover {
+    color: #777;
+}
+
+table.dataTable.trait-table thead .sorting,
+table.dataTable.trait-table thead .sorting_asc,
+table.dataTable.trait-table thead .sorting_desc,
+table.dataTable.trait-table thead .sorting_asc_disabled,
+table.dataTable.trait-table thead .sorting_desc_disabled {
+    background: $trait;
+    color: #F8F8F8;
+}
+
+.trait-table-striped > tbody > tr:nth-of-type(2n){
+    background-color: lighten($trait, 60%);
+}
+
+.trait-table-striped > tbody > tr:hover{
+    background-color: #EEE;
+}
+
+.trait-table sorting_asc {
+    color: #F8F8F8;
+}
+
+/* Footer cells */
+.trait-table tfoot th {
+    background: $trait;
+    color: #F8F8F8;
+}
+
+/* Define custom hover effect on links */
+.trait-table a:focus, a:hover {
+    text-decoration: none;
+}
+
+div#trait-table_paginate > .pagination > .active > a,
+div#trait-table_paginate > .pagination > .active > a:focus {
+    color: #FFF;
+    cursor: pointer;
+    background-color: $trait;
+    border-color: $trait;
+}
+
+div#trait-table_paginate > .pagination > .active > a:hover {
+    color: #FFF;
+    cursor: pointer;
+    background-color: darken($trait, 10%);
+    border-color: darken($trait, 10%);
+}

@@ -8,9 +8,14 @@
         </div>
         <div class="row">
             <div class="col-lg-12" id="startpage-text">
-                This is Fennec. It helps you add trait information from various sources to your community data.
-                You can upload your own communities or just explore the database of organisms and traits.
-                To see how many organisms and traits there are just look at the boxes below.
+                <p>
+                    This is Fennec. It helps you add trait information from various sources to your community data.
+                    You can upload your own communities or just explore the database of organisms and traits.
+                    To see how many organisms and traits there are just look at the boxes below.
+                </p>
+                <p>
+                    If you use FENNEC for the first time you can checkout <a href={{ path('fos_user_registration_confirmed', {'dbversion': dbversion}) }}>this</a> guide.
+                </p>
             </div>
         </div>
         {% include 'startpage/panelRow.html.twig' %}
