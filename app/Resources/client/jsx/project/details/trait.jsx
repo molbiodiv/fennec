@@ -1,6 +1,8 @@
 /* global internalProjectId */
 /* global dbversion */
 
+import {TraitEntryFilter} from "../../helpers/traitEntryfilters";
+
 const addTraitToProject = require('../helpers/addTraitToProject');
 const removeTraitFromProject = require('../helpers/removeTraitFromProject');
 const biomPromise = require('./biom');
@@ -36,31 +38,57 @@ $('document').ready(async () => {
             $('#trait-table-progress').hide();
             return;
         }
-        let traitEntryIds = []
+        let traitEntryIds = {'categorical_free': [], 'numerical': []}
         let traitData = []
         $.each(rawData, function (key, value) {
-            traitEntryIds = _.concat(traitEntryIds, value.traitEntryIds)
+            console.log(value)
+            let traitFormat = value['traitFormat']
+            traitEntryIds[traitFormat] = _.concat(traitEntryIds[traitFormat], value.traitEntryIds)
             traitData.push({
                 'entries': value.traitEntryIds,
                 'traitType': value['traitType'],
                 'traitTypeId': key,
-                'fennec': value['fennec']
+                'fennec': value['fennec'],
+                'traitFormat': traitFormat
             })
         })
         var webserviceUrl = Routing.generate('api_details_trait_entries', {'dbversion': dbversion});
         $.ajax(webserviceUrl, {
             method: "POST",
             data: {
-                'trait_entry_ids': traitEntryIds,
+                'trait_entry_ids': traitEntryIds['categorical_free'],
                 'trait_format': 'categorical_free'
             },
-            success: function (data) {
-                let fullData = traitData.map(x => Object.assign({}, x, {
-                    entries: x.entries.map(traitEntryId => data[traitEntryId])
-                }))
-                $(tableId).show();
-                initTraitsOfProjectTable(tableId, dimension, fullData)
-                $('#trait-table-progress').hide();
+            success: function (categorical_data) {
+                let fullData = traitData.map(x => {
+                    if(x.traitFormat !== 'categorical_free'){
+                        return x;
+                    }
+                    return Object.assign({}, x, {
+                        entries: x.entries.map(traitEntryId => categorical_data[traitEntryId])
+                    })
+                });
+                $.ajax(webserviceUrl, {
+                    method: "POST",
+                    data: {
+                        'trait_entry_ids': traitEntryIds['numerical'],
+                        'trait_format': 'numerical'
+                    },
+                    success: function(numerical_data){
+                        fullData = fullData.map(x => {
+                            if(x.traitFormat !== 'numerical'){
+                                return x;
+                            }
+                            return Object.assign({}, x, {
+                                entries: x.entries.map(traitEntryId => numerical_data[traitEntryId])
+                            })
+                        });
+                        $(tableId).show();
+                        window.traitEntryFilter = new TraitEntryFilter(fullData)
+                        initTraitsOfProjectTable(tableId, dimension, window.traitEntryFilter.applyFilter())
+                        $('#trait-table-progress').hide();
+                    }
+                })
             }
         });
     }
