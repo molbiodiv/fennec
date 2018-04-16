@@ -158,7 +158,7 @@ class APIController extends Controller
      *     ),
      *     @SWG\Parameter(
      *         name="trait_entry_ids[]",
-     *         in="query",
+     *         in="formData",
      *         type="array",
      *         collectionFormat="multi",
      *         required=true,
@@ -169,7 +169,7 @@ class APIController extends Controller
      *     ),
      *     @SWG\Parameter(
      *         name="trait_format",
-     *         in="query",
+     *         in="formData",
      *         type="string",
      *         required=true,
      *         description="trait format, usually one of 'numerical' or 'categorical_free'"
