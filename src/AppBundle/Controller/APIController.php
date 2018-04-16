@@ -230,6 +230,53 @@ class APIController extends Controller
     }
 
     /**
+     * List all of your uploaded trait files
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns the list of uploaded trait files of the current user",
+     *     examples={
+     *         "application/json"={
+     *               "data": {
+     *                 {
+     *                   "traitFileId": 2,
+     *                   "filename": "categoricalTraits.tsv",
+     *                   "importDate": "2018-03-19 13:27:24",
+     *                   "format": "categorical",
+     *                   "traitType": "Plant Growth Habit",
+     *                   "entries": 5
+     *                 },
+     *                 {
+     *                   "traitFileId": 13,
+     *                   "fileName": "numericalTraits.tsv",
+     *                   "importDate": "2018-03-19 12:57:20",
+     *                   "format": "numerical",
+     *                   "traitType": "Leaf size",
+     *                   "entries": 7
+     *                 },
+     *                "error": null
+     *             }
+     *         }
+     *     }
+     * )
+     * @SWG\Parameter(
+     *     name="Cookie",
+     *     description="Currently you have to set the PHPSESSID cookie until api key authentication is implemented. If you are logged in the web interface you can try it. PHPSESSID=<your-phpsessid>",
+     *     type="string",
+     *     in="header"
+     * )
+     * @SWG\Tag(name="Listing")
+     * @return Response $response
+     * @Route("/api/listing/traitFiles", name="api_listing_trait_files", options={"expose"=true}, methods={"POST"})
+     */
+    public function listingTraitFilesAction(){
+        $traitFiles = $this->container->get(Listing\TraitFiles::class);
+        $user = $this->getFennecUser();
+        $result = $traitFiles->execute($user);
+        return $this->createResponse($result);
+    }
+
+    /**
      * Delete one of your projects
      *
      * @SWG\Response(
@@ -267,6 +314,49 @@ class APIController extends Controller
         $deleteProjects = $this->container->get(Delete\Projects::class);
         $user = $this->getFennecUser();
         $result = $deleteProjects->execute($user, $projectId);
+        return $this->createResponse($result);
+    }
+
+    /**
+     * Delete one of your trait files
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Delete a given trait file",
+     *     examples = {
+     *     "application/json": {
+     *             "error": null,
+     *             "success": "Deleted trait file with id 5 successfully"
+     *         }
+     *     },
+     *     @SWG\Schema(
+     *         type="object",
+     *         @SWG\Property(property="error", type="string|null"),
+     *         @SWG\Property(property="success", type="string|null")
+     *     )
+     * )
+     * @SWG\Parameter(
+     *     name="traitFileId",
+     *     description="the id of the trait file to delete",
+     *     type="integer",
+     *     in="query"
+     * )
+     * @SWG\Parameter(
+     *     name="Cookie",
+     *     description="Currently you have to set the PHPSESSID cookie until api key authentication is implemented. If you are logged in the web interface you can try it. PHPSESSID=<your-phpsessid>",
+     *     type="string",
+     *     in="header"
+     * )
+     * @SWG\Tag(name="Traits")
+     * @param Request $request
+     * @return Response $response
+     * @Route("/api/delete/traitFile", name="api_delete_trait_file", options={"expose"=true}, methods={"GET"})
+     */
+    public function deleteTraitFileAction(Request $request){
+        $traitFileId = $request->query->get('traitFileId');
+        $deleteTraitFile = $this->container->get(Delete\TraitFile::class);
+        $user = $this->getFennecUser();
+        $result = $deleteTraitFile->execute($user, $traitFileId);
         return $this->createResponse($result);
     }
 
