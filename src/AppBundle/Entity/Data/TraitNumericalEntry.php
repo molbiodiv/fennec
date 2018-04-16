@@ -77,7 +77,7 @@ class TraitNumericalEntry
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Data\TraitCitation")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="trait_citation_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="trait_citation_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $traitCitation;
