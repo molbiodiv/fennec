@@ -206,6 +206,27 @@ function removeTraitFromProjectTableAction(traitName, dimension){
     removeTraitFromProject(traitName, biom, dimension, dbversion, internalProjectId, () => window.location.reload())
 }
 
+function applyTraitEntryFilter(){
+    let provider = $('#trait-filter-by-provider').val()
+    let user = $('#trait-filter-by-user').val()
+    let minCoverage = $('#trait-filter-by-coverage').slider("values")[0]
+    let maxCoverage = $('#trait-filter-by-coverage').slider("values")[1]
+    let format = $('#trait-filter-by-format').val()
+    let userBlacklist = [user]
+    let providerBlacklist = [provider]
+    console.log(userBlacklist, providerBlacklist)
+    let filter = {
+        providerBlacklist: providerBlacklist,
+        userBlacklist: userBlacklist
+    }
+    traitEntryFilter.filter = filter
+    console.log(traitEntryFilter)
+    let table = $('#trait-table').DataTable()
+    table.clear()
+    table.rows.add(traitEntryFilter.applyFilter())
+    table._draw()
+}
+
 // Make action functions global for now in order to work with the onclick string
 global.addTraitToProjectTableAction = addTraitToProjectTableAction;
 global.removeTraitFromProjectTableAction = removeTraitFromProjectTableAction;
