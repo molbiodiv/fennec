@@ -15,6 +15,13 @@ $('document').ready(async () => {
     $('#project-show-trait-otu').on('click', () => getAndShowTraits('#trait-table', 'rows', attribute));
     $('#project-show-trait-sample').on('click', () => getAndShowTraits('#trait-table-sample', 'columns', attribute));
 
+    $('#trait-filter-by-coverage').slider({
+        range: true,
+        min: 0,
+        max: 100,
+        values: [20, 70]
+    });
+
     function getAndShowTraits(id, dimension, attribute){
         $('#trait-table-progress').show();
         // Extract row fennec_ids from biom
@@ -85,8 +92,11 @@ $('document').ready(async () => {
                             })
                         });
                         $(tableId).show();
-                        window.traitEntryFilter = new TraitEntryFilter(fullData)
-                        initTraitsOfProjectTable(tableId, dimension, window.traitEntryFilter.applyFilter())
+                        $('#panel-trait-table').show();
+                        $('#panel-trait-filters').show();
+                        console.log(fullData)
+                        traitEntryFilter = new TraitEntryFilter(fullData)
+                        initTraitsOfProjectTable(tableId, dimension, traitEntryFilter.applyFilter())
                         $('#trait-table-progress').hide();
                     }
                 })
