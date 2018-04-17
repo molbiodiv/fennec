@@ -7,13 +7,15 @@ const addTraitToProject = require('../helpers/addTraitToProject');
 const removeTraitFromProject = require('../helpers/removeTraitFromProject');
 const biomPromise = require('./biom');
 let biom;
+let traitData = {}
+let traitEntryFilter = new TraitEntryFilter(traitData);
 
 $('document').ready(async () => {
     biom = await biomPromise;
     let attribute = $('#project-data').data('attribute');
-    let traitEntryFilter;
     $('#project-show-trait-otu').on('click', () => getAndShowTraits('#trait-table', 'rows', attribute));
     $('#project-show-trait-sample').on('click', () => getAndShowTraits('#trait-table-sample', 'columns', attribute));
+    $('#trait-filter-apply').on('click', () => applyTraitEntryFilter());
 
     $('#trait-filter-by-coverage').slider({
         range: true,
