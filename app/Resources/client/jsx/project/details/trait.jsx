@@ -49,7 +49,6 @@ $('document').ready(async () => {
         let traitEntryIds = {'categorical_free': [], 'numerical': []}
         let traitData = []
         $.each(rawData, function (key, value) {
-            console.log(value)
             let traitFormat = value['traitFormat']
             traitEntryIds[traitFormat] = _.concat(traitEntryIds[traitFormat], value.traitEntryIds)
             traitData.push({
@@ -94,7 +93,6 @@ $('document').ready(async () => {
                         $(tableId).show();
                         $('#panel-trait-table').show();
                         $('#panel-trait-filters').show();
-                        console.log(fullData)
                         traitEntryFilter = new TraitEntryFilter(fullData)
                         initTraitsOfProjectTable(tableId, dimension, traitEntryFilter.applyFilter())
                         $('#trait-table-progress').hide();
