@@ -6,7 +6,8 @@ export class TraitEntryFilter {
         this.fullData = fullData
         this.filter = {
             providerBlacklist: [],
-            userBlacklist: []
+            userBlacklist: [],
+            traitFormatBlacklist: []
         }
     }
 
@@ -35,6 +36,13 @@ export class TraitEntryFilter {
             filteredData = filteredData.map(traitType => {
                 return Object.assign({}, traitType, {
                     entries: traitType.entries.filter(e => !this.filter.userBlacklist.includes(e.user))
+                })
+            })
+        }
+        if(this.filter.traitFormatBlacklist.length >= 0){
+            filteredData = filteredData.map(traitType => {
+                return Object.assign({}, traitType, {
+                    entries: traitType.entries.filter(e => !this.filter.traitFormatBlacklist.includes(e.traitFormat))
                 })
             })
         }

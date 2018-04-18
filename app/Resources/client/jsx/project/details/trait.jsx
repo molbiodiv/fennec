@@ -214,13 +214,13 @@ function applyTraitEntryFilter(){
     let format = $('#trait-filter-by-format').val()
     let userBlacklist = [user]
     let providerBlacklist = [provider]
-    console.log(userBlacklist, providerBlacklist)
+    let traitFormatBlacklist = [format]
     let filter = {
         providerBlacklist: providerBlacklist,
-        userBlacklist: userBlacklist
+        userBlacklist: userBlacklist,
+        traitFormatBlacklist: traitFormatBlacklist
     }
     traitEntryFilter.filter = filter
-    console.log(traitEntryFilter)
     let table = $('#trait-table').DataTable()
     table.clear()
     table.rows.add(traitEntryFilter.applyFilter())
