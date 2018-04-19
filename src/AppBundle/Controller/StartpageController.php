@@ -42,4 +42,25 @@ class StartpageController extends Controller
         );
         return $this->render('startpage/index.html.twig', $twig_parameter);
     }
+
+    /**
+     * @return Response
+     * @Route("/info", name="fennec_info")
+     */
+    public function fennecInfoAction(){
+        $user = null;
+        $title = "About FENNEC";
+        if($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')){
+            $user = $this->get('security.token_storage')->getToken()->getUser();
+        }
+        $title = "Welcome";
+        if($user !== null){
+            $title .= " ".$user->getUsername();
+        }
+        $twig_parameter = array(
+            'type' => 'startpage',
+            'title' => $title
+        );
+        return $this->render('startpage/info.html.twig', $twig_parameter);
+    }
 }
