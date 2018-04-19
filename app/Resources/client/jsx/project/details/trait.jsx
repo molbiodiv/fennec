@@ -224,7 +224,7 @@ function applyTraitEntryFilter(){
     let table = $('#trait-table').DataTable()
     table.clear()
     table.rows.add(traitEntryFilter.applyFilter())
-    table._draw()
+    table.draw()
 }
 
 // Make action functions global for now in order to work with the onclick string
