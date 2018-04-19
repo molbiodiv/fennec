@@ -343,7 +343,7 @@ First download the html pages of all organisms to an empty folder (sid ranges fr
         curl "http://scales.ckff.si/scaletool/index.php?menu=6&submenu=3&sid=$i" >data/scales/$i.html
     done
 
-To extract all traits I wrote a short python script (using `Beautiful Soup <https://www.crummy.com/software/BeautifulSoup/>`_) available as `gist <https://gist.github.com/iimog/a6a36a7b03906f18ac490b0a4708224c>`_.
+To extract all traits I wrote a short python script (using `Beautiful Soup <https://www.crummy.com/software/BeautifulSoup/>`_) available `as gist <https://gist.github.com/iimog/a6a36a7b03906f18ac490b0a4708224c>`_.
 You can extract traits with those commands::
 
     # Install beautiful soup (e.g. via "conda install beautifulsoup4")
@@ -446,7 +446,7 @@ In column 278 there is the trait "pathogenic in mammals" that we will import.
 Additionally, we will import the traits "bacterial shape", "oxygen requirements", "cell arrangement", and "habitat".
 Those are split over multiple columns each. E.g. "oxygen requirements" is in columns 275, 276, 277, and 292 (oxygenreq=facultative, oxygenreq=strictaero, oxygenreq=strictanaero, oxygenreq=microaerophilic)
 We will combine them to a single categorical trait with levels "facultative", "strictaero", "strictanaero", "microaerophilic".
-For this purpose we use a little perl script available as a `gist <https://gist.github.com/iimog/0424de0b4efbfe73ef2e9092f8969c06>`_
+For this purpose we use a little perl script available as `a gist <https://gist.github.com/iimog/0424de0b4efbfe73ef2e9092f8969c06>`_
 Data preparation::
 
     mkdir -p data/protraits
@@ -454,7 +454,7 @@ Data preparation::
     wget http://protraits.irb.hr/data/ProTraits_binaryIntegratedPr0.90.txt
     wget https://gist.githubusercontent.com/iimog/0424de0b4efbfe73ef2e9092f8969c06/raw/c563320e7ae42c0421c0de6cec14151412c6c4d5/extract_protraits.pl
     cut -f2-110 ProTraits_binaryIntegratedPr0.90.txt >protraits_metabolism.tsv
-    cut -f2,278 ProTraits_binaryIntegratedPr0.90.txt | tail -n+2 | perl -pe 's/$/\t\t\t/' >pathogenic_in_mammals.tsv
+    cut -f2,278 ProTraits_binaryIntegratedPr0.90.txt | tail -n+2 | perl -pe 's/$/\t\t\t/' | grep -v '\?' >pathogenic_in_mammals.tsv
     perl extract_protraits.pl ProTraits_binaryIntegratedPr0.90.txt 281 282 283 284 285 | perl -pe 's/shape=//' >bacterial_shape.tsv
     perl extract_protraits.pl ProTraits_binaryIntegratedPr0.90.txt 275 276 277 292 | perl -pe 's/oxygenreq=//' >oxygenreq.tsv
     perl extract_protraits.pl ProTraits_binaryIntegratedPr0.90.txt 218 219 220 221 222 294 | perl -pe 's/cellarrangement=//' >bacterial_cellarrangement.tsv
@@ -486,7 +486,7 @@ Create the according trait types and import them into fennec::
      --traittype "pathogenic in mammals" --skip-unmapped /data/protraits/pathogenic_in_mammals.tsv
     docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --env prod --provider ProTraits --description "The ProTraits atlas of prokaryotic traits"\
      --mapping ncbi_taxonomy --public --default-citation '"The landscape of microbial phenotypic traits and associated genes", Maria Brbic, Matija Piskorec, Vedrana Vidulin, Anita Krisko, Tomislav Smuc, Fran Supek. Nucleic Acids Research (2016). https://doi.org/10.1093/nar/gkw964'\
-     --traittype "bacterial shape" --skip-unmapped /data/protraits/bacterial shape.tsv
+     --traittype "bacterial shape" --skip-unmapped /data/protraits/bacterial_shape.tsv
     docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --env prod --provider ProTraits --description "The ProTraits atlas of prokaryotic traits"\
      --mapping ncbi_taxonomy --public --default-citation '"The landscape of microbial phenotypic traits and associated genes", Maria Brbic, Matija Piskorec, Vedrana Vidulin, Anita Krisko, Tomislav Smuc, Fran Supek. Nucleic Acids Research (2016). https://doi.org/10.1093/nar/gkw964'\
      --traittype "oxygen requirements" --skip-unmapped /data/protraits/oxygenreq.tsv
@@ -496,6 +496,16 @@ Create the according trait types and import them into fennec::
     docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --env prod --provider ProTraits --description "The ProTraits atlas of prokaryotic traits"\
      --mapping ncbi_taxonomy --public --default-citation '"The landscape of microbial phenotypic traits and associated genes", Maria Brbic, Matija Piskorec, Vedrana Vidulin, Anita Krisko, Tomislav Smuc, Fran Supek. Nucleic Acids Research (2016). https://doi.org/10.1093/nar/gkw964'\
      --traittype "habitat" --skip-unmapped /data/protraits/habitat.tsv
+
+.. WARNING::
+
+    Import of the wide table data massively inflates the trait values stored in the database.
+    Unfortunately most of the values are ``?`` which is not valuable information.
+    In order to avoid importing those uninformative trait values it is planned to add a ``--ignore-values`` parameter to the ``import-trait-entries`` command.
+    As this is not implemented yet, you can remove those entries manually with these commands::
+
+        docker-compose exec web /fennec/bin/console doctrine:query:sql --connection default_data "DELETE FROM trait_categorical_entry WHERE trait_categorical_value_id IN (SELECT id FROM trait_categorical_value WHERE value='?');"
+        docker-compose exec web /fennec/bin/console doctrine:query:sql --connection default_data "DELETE FROM trait_categorical_value WHERE value='?';"
 
 Multiple data databases
 -----------------------
