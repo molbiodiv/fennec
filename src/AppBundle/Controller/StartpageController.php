@@ -58,7 +58,6 @@ class StartpageController extends Controller
             $title .= " ".$user->getUsername();
         }
         $twig_parameter = array(
-            'type' => 'startpage',
             'title' => $title
         );
         return $this->render('startpage/info.html.twig', $twig_parameter);
