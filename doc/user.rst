@@ -4,6 +4,8 @@
 User manual
 ===========
 
+.. _quick-start-reference-label:
+
 Quick start
 -----------
 
@@ -15,8 +17,7 @@ The first thing you see is the startpage
 The boxes show the number of organisms and trait entries in the current database.
 You can explore the organisms and traits in the database by using the navigation on the left hand side.
 However, in order to analyze projects it is necessary to log in (in the top right corner).
-You can login using your GitHub or Google account.
-Some instances also provide a demo user (look on the page for information).
+You can login using your GitHub account or register a free Fennec account.
 
 After login navigate to projects.
 If it is your first login the project table will be empty.
@@ -25,7 +26,7 @@ To upload a new project in biom format just click the ``Browse`` Button and sele
 
 .. image:: screenshots/projects.png
 
-Details on file formats are available in the "Import Project" section TODO:ref
+Details on file formats are available in the :ref:`upload-own-data-reference-label` section.
 Use this :download:`demo biom file <example/CaseStudy2017.biom>` to follow along the tutorial.
 It consists of 324 samples of pollen with a total of 216 OTUs.
 
@@ -42,7 +43,6 @@ So head to the mapping tab and select:
 Map ``OTUs`` by ``ncbi_taxid`` on ``NCBI taxid`` and click ``GO``.
 
 The result of the mapping will be displayed below where a click on ``Save in database`` will make this mapping persistent.
-For more details about mapping see the section in the tutorial TODO:ref
 
 .. image:: screenshots/project_mapping.png
 
@@ -62,6 +62,9 @@ The traits you added can be selected in the top right corner of each visualizati
 .. image:: screenshots/project_phinch.png
 
 Download of the enriched community data is possible in different formats via the ``Project overview`` tab.
+For a more in depth analysis of this dataset see the :ref:`pollen-case-study-reference-label`.
+
+.. _upload-own-data-reference-label:
 
 Upload own data
 ---------------
@@ -173,3 +176,31 @@ Now select some visualizations and play around with the settings.
     If you want to use this feature as well upload this :download:`otu_taxonomy.tsv <example/otu_taxonomy.tsv>` file as additional OTU metadata.
     Don't worry, new metadata is added and will only overwrite existing metadata if it uses the same column name.
 
+Traits
+^^^^^^
+
+Coming soon.
+
+.. NOTE::
+
+    You can already load project specific metadata using the ``Metadata overview`` tab on the project details page.
+
+Case Studies
+------------
+
+This section shows possible use cases of Fennec by demonstrating the analysis of real world datasets.
+More case studies are always welcome so if you want to add one feel free to suggest one.
+We will gladly assist you in preparing and integrating everything (contact: markus.ankenbrand@uni-wuerzburg.de ).
+
+.. _pollen-case-study-reference-label:
+
+Pollination Ecology
+^^^^^^^^^^^^^^^^^^^
+
+This case study uses data from `Sickel et al. 2015 <https://doi.org/10.1186/s12898-015-0051-y>`_.
+This is the data set also used for the :ref:`quick-start-reference-label` guide.
+
+Microbiome Study
+^^^^^^^^^^^^^^^^
+
+This case study uses data from `Song et al. 2013 <https://doi.org/10.7554/eLife.00458>`_.
