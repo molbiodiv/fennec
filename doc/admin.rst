@@ -425,6 +425,78 @@ One reason for that is that many species on the red list are species with a smal
 
         0 * * * * docker-compose -f /path/to/docker-compose.yml exec web bash -c "cd /iucn;/fennec/util/check_download_update_iucn.sh >>iucn_cron.log 2>>iucn_cron.err"
 
+Bacterial Traits from ProTraits
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+From the protraits website at http://protraits.irb.hr/ :
+
+    *The ProTraits atlas of prokaryotic traits describes environmental preferences of microbes, interactions with other organisms (including pathogenicity), biochemical phenotypes, resistance to chemicals and other stressors, and utility in industrial applications.*
+
+ProTraits contains 424 phenotypic traits and covers 3,046 bacterial or archeal species.
+Phenotypes are assigned to microbes using machine learning, using free text available in the scientific literature or the internet.
+Other sources for trait inference utilized in the ProTraits pipeline are genomic data, see their publication for details:
+
+    `"The landscape of microbial phenotypic traits and associated genes" <https://doi.org/10.1093/nar/gkw964>`_, *Maria Brbic, Matija Piskorec, Vedrana Vidulin, Anita Krisko, Tomislav Smuc, Fran Supek. Nucleic Acids Research (2016).*
+
+We use selected traits from the file `ProTraits_binaryIntegratedPr0.90.txt <http://protraits.irb.hr/data/ProTraits_binaryIntegratedPr0.90.txt>`_.
+This is a large table with traits as columns and species as rows (with NCBI taxid in column 2).
+Each cell contains ``1``, ``0`` or ``?`` denoting a positive label, a negative label, or neither positive nor negative label (at precision >= 0.9) for that organism/trait combination.
+The columns 3 to 110 contain metabolic traits (we will import them in wide table format).
+In column 278 there is the trait "pathogenic in mammals" that we will import.
+Additionally, we will import the traits "bacterial shape", "oxygen requirements", "cell arrangement", and "habitat".
+Those are split over multiple columns each. E.g. "oxygen requirements" is in columns 275, 276, 277, and 292 (oxygenreq=facultative, oxygenreq=strictaero, oxygenreq=strictanaero, oxygenreq=microaerophilic)
+We will combine them to a single categorical trait with levels "facultative", "strictaero", "strictanaero", "microaerophilic".
+For this purpose we use a little perl script available as a `gist <https://gist.github.com/iimog/0424de0b4efbfe73ef2e9092f8969c06>`_
+Data preparation::
+
+    mkdir -p data/protraits
+    cd data/protraits
+    wget http://protraits.irb.hr/data/ProTraits_binaryIntegratedPr0.90.txt
+    wget https://gist.githubusercontent.com/iimog/0424de0b4efbfe73ef2e9092f8969c06/raw/c563320e7ae42c0421c0de6cec14151412c6c4d5/extract_protraits.pl
+    cut -f2-110 ProTraits_binaryIntegratedPr0.90.txt >protraits_metabolism.tsv
+    cut -f2,278 ProTraits_binaryIntegratedPr0.90.txt | tail -n+2 | perl -pe 's/$/\t\t\t/' >pathogenic_in_mammals.tsv
+    perl extract_protraits.pl ProTraits_binaryIntegratedPr0.90.txt 281 282 283 284 285 | perl -pe 's/shape=//' >bacterial_shape.tsv
+    perl extract_protraits.pl ProTraits_binaryIntegratedPr0.90.txt 275 276 277 292 | perl -pe 's/oxygenreq=//' >oxygenreq.tsv
+    perl extract_protraits.pl ProTraits_binaryIntegratedPr0.90.txt 218 219 220 221 222 294 | perl -pe 's/cellarrangement=//' >bacterial_cellarrangement.tsv
+    perl extract_protraits.pl ProTraits_binaryIntegratedPr0.90.txt 234 235 236 237 238 290 295 305 | perl -pe 's/habitat=//' >habitat.tsv
+    cd -
+
+Create the according trait types and import them into fennec::
+
+    # Create trait types for metabolism
+    for i in $(cut -f2- data/protraits/protraits_metabolism.tsv | head -n1)
+    do
+	    docker-compose exec web /fennec/bin/console app:create-traittype --env prod --format categorical_free $i
+    done
+    # Create additional trait types
+    docker-compose exec web /fennec/bin/console app:create-traittype --env prod --format categorical_free "pathogenic in mammals"
+    docker-compose exec web /fennec/bin/console app:create-traittype --env prod --format categorical_free "bacterial shape"
+    docker-compose exec web /fennec/bin/console app:create-traittype --env prod --format categorical_free "oxygen requirements"
+    docker-compose exec web /fennec/bin/console app:create-traittype --env prod --format categorical_free "bacterial cell arrangement"
+    docker-compose exec web /fennec/bin/console app:create-traittype --env prod --format categorical_free "habitat"
+
+    # Import metabolism in wide format
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --env prod --provider ProTraits --description "The ProTraits atlas of prokaryotic traits"\
+     --mapping ncbi_taxonomy --public --default-citation '"The landscape of microbial phenotypic traits and associated genes", Maria Brbic, Matija Piskorec, Vedrana Vidulin, Anita Krisko, Tomislav Smuc, Fran Supek. Nucleic Acids Research (2016). https://doi.org/10.1093/nar/gkw964'\
+     --wide-table --skip-unmapped /data/protraits/protraits_metabolism.tsv
+
+    # Import the other traits
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --env prod --provider ProTraits --description "The ProTraits atlas of prokaryotic traits"\
+     --mapping ncbi_taxonomy --public --default-citation '"The landscape of microbial phenotypic traits and associated genes", Maria Brbic, Matija Piskorec, Vedrana Vidulin, Anita Krisko, Tomislav Smuc, Fran Supek. Nucleic Acids Research (2016). https://doi.org/10.1093/nar/gkw964'\
+     --traittype "pathogenic in mammals" --skip-unmapped /data/protraits/pathogenic_in_mammals.tsv
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --env prod --provider ProTraits --description "The ProTraits atlas of prokaryotic traits"\
+     --mapping ncbi_taxonomy --public --default-citation '"The landscape of microbial phenotypic traits and associated genes", Maria Brbic, Matija Piskorec, Vedrana Vidulin, Anita Krisko, Tomislav Smuc, Fran Supek. Nucleic Acids Research (2016). https://doi.org/10.1093/nar/gkw964'\
+     --traittype "bacterial shape" --skip-unmapped /data/protraits/bacterial shape.tsv
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --env prod --provider ProTraits --description "The ProTraits atlas of prokaryotic traits"\
+     --mapping ncbi_taxonomy --public --default-citation '"The landscape of microbial phenotypic traits and associated genes", Maria Brbic, Matija Piskorec, Vedrana Vidulin, Anita Krisko, Tomislav Smuc, Fran Supek. Nucleic Acids Research (2016). https://doi.org/10.1093/nar/gkw964'\
+     --traittype "oxygen requirements" --skip-unmapped /data/protraits/oxygenreq.tsv
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --env prod --provider ProTraits --description "The ProTraits atlas of prokaryotic traits"\
+     --mapping ncbi_taxonomy --public --default-citation '"The landscape of microbial phenotypic traits and associated genes", Maria Brbic, Matija Piskorec, Vedrana Vidulin, Anita Krisko, Tomislav Smuc, Fran Supek. Nucleic Acids Research (2016). https://doi.org/10.1093/nar/gkw964'\
+     --traittype "bacterial cell arrangement" --skip-unmapped /data/protraits/bacterial_cellarrangement.tsv
+    docker-compose exec web php -d memory_limit=1G /fennec/bin/console app:import-trait-entries --env prod --provider ProTraits --description "The ProTraits atlas of prokaryotic traits"\
+     --mapping ncbi_taxonomy --public --default-citation '"The landscape of microbial phenotypic traits and associated genes", Maria Brbic, Matija Piskorec, Vedrana Vidulin, Anita Krisko, Tomislav Smuc, Fran Supek. Nucleic Acids Research (2016). https://doi.org/10.1093/nar/gkw964'\
+     --traittype "habitat" --skip-unmapped /data/protraits/habitat.tsv
+
 Multiple data databases
 -----------------------
 
