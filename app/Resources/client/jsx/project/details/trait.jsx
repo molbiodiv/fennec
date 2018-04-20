@@ -214,19 +214,19 @@ function applyTraitEntryFilter(){
     let userBlacklist = [user]
     let providerBlacklist = []
     let traitFormatBlacklist = []
-    if($('#trait-filter-by-ncbi').checked){
+    if($('#trait-filter-by-ncbi').prop("checked")){
         providerBlacklist.push($('#trait-filter-by-ncbi').val())
     }
-    if($('#trait-filter-by-iucn').checked){
+    if($('#trait-filter-by-iucn').prop("checked")){
         providerBlacklist.push($('#trait-filter-by-iucn').val())
     }
-    if($('#trait-filter-by-eol').checked){
+    if($('#trait-filter-by-eol').prop("checked")){
         providerBlacklist.push($('#trait-filter-by-eol').val())
     }
-    if($('#trait-filter-by-eppo').checked){
+    if($('#trait-filter-by-eppo').prop("checked")){
         providerBlacklist.push($('#trait-filter-by-eppo').val())
     }
-    if($('#trait-filter-by-leda').checked){
+    if($('#trait-filter-by-leda').prop("checked")){
         providerBlacklist.push($('#trait-filter-by-leda').val())
     }
     if(format != "none"){
