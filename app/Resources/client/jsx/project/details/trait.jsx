@@ -207,14 +207,26 @@ function removeTraitFromProjectTableAction(traitName, dimension){
 }
 
 function applyTraitEntryFilter(){
-    let provider = $('#trait-filter-by-provider').val()
     let user = $('#trait-filter-by-user').val()
-    let minCoverage = $('#trait-filter-by-coverage').slider("values")[0]
-    let maxCoverage = $('#trait-filter-by-coverage').slider("values")[1]
     let format = $('#trait-filter-by-format').val()
     let userBlacklist = [user]
-    let providerBlacklist = [provider]
-    let traitFormatBlacklist
+    let providerBlacklist = []
+    let traitFormatBlacklist = []
+    if($('#trait-filter-by-ncbi').checked){
+        providerBlacklist.push($('#trait-filter-by-ncbi').val())
+    }
+    if($('#trait-filter-by-iucn').checked){
+        providerBlacklist.push($('#trait-filter-by-iucn').val())
+    }
+    if($('#trait-filter-by-eol').checked){
+        providerBlacklist.push($('#trait-filter-by-eol').val())
+    }
+    if($('#trait-filter-by-eppo').checked){
+        providerBlacklist.push($('#trait-filter-by-eppo').val())
+    }
+    if($('#trait-filter-by-leda').checked){
+        providerBlacklist.push($('#trait-filter-by-leda').val())
+    }
     if(format != "both"){
         traitFormatBlacklist = [format]
     }
