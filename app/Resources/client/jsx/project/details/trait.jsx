@@ -229,7 +229,7 @@ function applyTraitEntryFilter(){
     if($('#trait-filter-by-leda').checked){
         providerBlacklist.push($('#trait-filter-by-leda').val())
     }
-    if(format != "both"){
+    if(format != "none"){
         traitFormatBlacklist = [format]
     }
     let filter = {
@@ -241,7 +241,7 @@ function applyTraitEntryFilter(){
     let table = $('#trait-table').DataTable()
     table.clear()
     table.rows.add(traitEntryFilter.applyFilter())
-    table._draw()
+    table.draw()
 }
 
 // Make action functions global for now in order to work with the onclick string
