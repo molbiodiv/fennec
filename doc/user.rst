@@ -307,7 +307,7 @@ Pollination Network
 
 Coming soon...
 
-This case study uses data from `Bell et al. 2017 <https://doi.org/10.3732/Fapps.1600124>`_.
+This case study uses data from `Bell et al. 2017 <https://doi.org/10.3732/apps.1600124>`_.
 Use this :download:`biom file <example/Bell_et_al_2017_ITS2.biom>` to reproduce this analysis.
 
 
