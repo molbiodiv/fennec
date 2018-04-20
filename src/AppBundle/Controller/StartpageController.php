@@ -53,10 +53,6 @@ class StartpageController extends Controller
         if($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')){
             $user = $this->get('security.token_storage')->getToken()->getUser();
         }
-        $title = "Welcome";
-        if($user !== null){
-            $title .= " ".$user->getUsername();
-        }
         $twig_parameter = array(
             'title' => $title
         );
