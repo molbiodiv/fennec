@@ -302,12 +302,16 @@ However this is not a limitation of Fennec but of the underlying data
 Pollination Network
 ^^^^^^^^^^^^^^^^^^^
 
+Coming soon...
+
 This case study uses data from `Bell et al. 2017 <https://doi.org/10.3732/Fapps.1600124>`_.
 Use this :download:`biom file <example/Bell_et_al_2017_ITS2.biom>` to reproduce this analysis.
 
 
 Microbiome Study
 ^^^^^^^^^^^^^^^^
+
+Coming soon...
 
 This case study uses data from `Song et al. 2013 <https://doi.org/10.7554/eLife.00458>`_.
 Use this :download:`biom file <example/Song_et_al_2013.biom>` to reproduce this analysis.
