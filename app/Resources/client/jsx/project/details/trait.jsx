@@ -60,6 +60,7 @@ $('document').ready(async () => {
         }
         let traitEntryIds = {'categorical_free': [], 'numerical': []}
         let traitData = []
+        let provider = []
         $.each(rawData, function (key, value) {
             let traitFormat = value['traitFormat']
             traitEntryIds[traitFormat] = _.concat(traitEntryIds[traitFormat], value.traitEntryIds)
@@ -79,6 +80,7 @@ $('document').ready(async () => {
                 'trait_format': 'categorical_free'
             },
             success: function (categorical_data) {
+                let providerCategoricalEntries = _.uniq(Object.values(categorical_data).map(x => x.provider));
                 let fullData = traitData.map(x => {
                     if(x.traitFormat !== 'categorical_free'){
                         return x;
@@ -94,6 +96,9 @@ $('document').ready(async () => {
                         'trait_format': 'numerical'
                     },
                     success: function(numerical_data){
+                        let providerNumericalEntries = _.uniq(Object.values(numerical_data).map(x => x.provider));
+                        let provider = _.uniq(providerCategoricalEntries, providerNumericalEntries)
+                        console.log(provider)
                         fullData = fullData.map(x => {
                             if(x.traitFormat !== 'numerical'){
                                 return x;
@@ -106,6 +111,7 @@ $('document').ready(async () => {
                         $('#panel-trait-table').show();
                         $('#panel-trait-filters').show();
                         traitEntryFilter = new TraitEntryFilter(fullData)
+                        window.fullData = fullData
                         initTraitsOfProjectTable(tableId, dimension, traitEntryFilter.applyFilter())
                         $('#trait-table-progress').hide();
                     }
@@ -120,6 +126,7 @@ $('document').ready(async () => {
         let fennec_ids = biom.getMetadata({dimension: dimension, attribute: ['fennec', dbversion, 'fennec_id']})
         let number_of_unique_fennec_ids = _.uniq(fennec_ids).length
         let dataTableOptions = {
+            destroy: true,
             data: traits,
             columns: [
                 {data: 'traitType'},
