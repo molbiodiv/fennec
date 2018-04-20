@@ -13,8 +13,8 @@ let traitEntryFilter = new TraitEntryFilter(traitData);
 $('document').ready(async () => {
     biom = await biomPromise;
     let attribute = $('#project-data').data('attribute');
-    $('#project-show-trait-otu').on('click', () => getAndShowTraits('#trait-table', 'rows', attribute));
-    $('#project-show-trait-sample').on('click', () => getAndShowTraits('#trait-table-sample', 'columns', attribute));
+    $('#project-show-trait-otu').on('click', () => getAndShowTraits('#trait-table', 'rows'));
+    $('#project-show-trait-sample').on('click', () => getAndShowTraits('#trait-table-sample', 'columns'));
     $('#trait-filter-apply').on('click', () => applyTraitEntryFilter());
 
     $('#trait-filter-by-coverage').slider({
@@ -24,7 +24,9 @@ $('document').ready(async () => {
         values: [20, 70]
     });
 
-    function getAndShowTraits(id, dimension, attribute){
+    function getAndShowTraits(id, dimension){
+        $('#panel-trait-table').hide();
+        $('#panel-trait-filters').hide();
         $('#trait-table-progress').show();
         // Extract row fennec_ids from biom
         var fennec_ids = biom.getMetadata({dimension: dimension, attribute: ['fennec', dbversion, 'fennec_id']})
