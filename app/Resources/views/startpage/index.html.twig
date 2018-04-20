@@ -1,24 +1,31 @@
 {% extends 'base.navigation.html.twig' %}
 
 {% block content %}
-    <div class="col-lg-1"></div>
-    <div class="col-lg-10">
+        {#<div class="row">#}
+            {#<div class="col-lg-12">#}
+                {#{% include 'startpage/panelRow.html.twig' %}#}
+            {#</div>#}
+            {#<img src="{{ asset('assets/img/fennec.svg') }}" class="center-block" id="startpage-logo"/>#}
+        {#</div>#}
+        {#<hr>#}
         <div class="row">
-            <img src="{{ asset('assets/img/fennec.svg') }}" class="center-block" id="startpage-logo"/>
-        </div>
-        <div class="row">
-            <div class="col-lg-12" id="startpage-text">
-                <p>
-                    This is Fennec. It helps you add trait information from various sources to your community data.
-                    You can upload your own communities or just explore the database of organisms and traits.
-                    To see how many organisms and traits there are just look at the boxes below.
-                </p>
-                <p>
-                    If you use FENNEC for the first time you can checkout <a href={{ path('fos_user_registration_confirmed', {'dbversion': dbversion}) }}>this</a> guide.
-                </p>
+            <div class="col-xs-4" style="margin-top: 150px;">
+                <h1 class="title-about-fennec" align="right">FENNEC</h1>
+                <div id="startpage-subtitle" align="right">
+                    Functional Exploration of Natural Networks <br>and Ecological Communities
+                </div>
+            </div>
+            <div class="col-xs-5" id="startpage-text" style="margin-top: 170px;">
+                This is Fennec. It helps you add trait information from various sources to your community data.
+                You can upload your own communities or just explore the database of organisms and traits.
+                To see how many organisms and traits there are just look at the boxes below.
+                If you use FENNEC for the first time you can checkout <a href={{ path('fos_user_registration_confirmed', {'dbversion': dbversion}) }}>this</a> guide.
+
             </div>
         </div>
-        {% include 'startpage/panelRow.html.twig' %}
-    </div>
-    <div class="col-lg-1"></div>
+        {#<div class="row">#}
+            {#<div class="col-lg-12" id="startpage-text">#}
+                {#{% include 'startpage/info-panels.html.twig' %}#}
+            {#</div>#}
+        {#</div>#}
 {% endblock %}
