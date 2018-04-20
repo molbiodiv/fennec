@@ -17,6 +17,14 @@ $('document').ready(async () => {
     $('#project-show-trait-sample').on('click', () => getAndShowTraits('#trait-table-sample', 'columns'));
     $('#trait-filter-apply').on('click', () => applyTraitEntryFilter());
 
+    $('#trait-filter-by-userdb').on('change', () => {
+        if($('#trait-filter-by-userdb').prop("checked")){
+            $('#trait-filter-by-userdb-card').show()
+        } else {
+            $('#trait-filter-by-userdb-card').hide()
+        }
+    })
+
     $('#trait-filter-by-coverage').slider({
         range: true,
         min: 0,
