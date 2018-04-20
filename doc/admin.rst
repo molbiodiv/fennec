@@ -37,6 +37,9 @@ Now create a folder for the fennec instance on the target machine and download t
     In the following it is assumed that ``docker-compose`` is always executed from inside your fennec directory.
 
 Have a look at the ``docker-compose.yml`` file and edit it as needed (e.g. adjust the port you want to use).
+Another important thing to note is that by default the web image is ``iimog/fennec`` which is automatically build from the ``master`` branch of the fennec repository on GitHub.
+Therefore, this image might contain changes that are not yet part of an official stable release.
+If you want to have a specific Fennec version instead you can add that version to the image, like ``iimog/fennec:v1.0.3`` or to get the latest development version you can use the tag develop, like ``iimog/fennec:develop``.
 Now it is time to create and initialize the fennec instance::
 
     docker-compose up -d
