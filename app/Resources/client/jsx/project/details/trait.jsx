@@ -214,7 +214,10 @@ function applyTraitEntryFilter(){
     let format = $('#trait-filter-by-format').val()
     let userBlacklist = [user]
     let providerBlacklist = [provider]
-    let traitFormatBlacklist = [format]
+    let traitFormatBlacklist
+    if(format != "both"){
+        traitFormatBlacklist = [format]
+    }
     let filter = {
         providerBlacklist: providerBlacklist,
         userBlacklist: userBlacklist,
