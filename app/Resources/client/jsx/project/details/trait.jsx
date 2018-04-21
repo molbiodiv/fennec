@@ -34,6 +34,7 @@ $('document').ready(async () => {
 
     function getAndShowTraits(id, dimension){
         $('#panel-trait-table').hide();
+        $('#trait-filter-by-provider-card').empty()
         $('#panel-trait-filters').hide();
         $('#trait-table-progress').show();
         // Extract row fennec_ids from biom
@@ -116,7 +117,6 @@ $('document').ready(async () => {
                         $('#panel-trait-table').show();
                         $('#panel-trait-filters').show();
                         traitEntryFilter = new TraitEntryFilter(fullData)
-                        window.fullData = fullData
                         initTraitsOfProjectTable(tableId, dimension, traitEntryFilter.applyFilter())
                         $('#trait-table-progress').hide();
                     }
