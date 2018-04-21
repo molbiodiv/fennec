@@ -97,8 +97,13 @@ $('document').ready(async () => {
                     },
                     success: function(numerical_data){
                         let providerNumericalEntries = _.uniq(Object.values(numerical_data).map(x => x.provider));
-                        let provider = _.uniq(providerCategoricalEntries, providerNumericalEntries)
-                        console.log(provider)
+                        let provider = providerCategoricalEntries.concat(providerNumericalEntries)
+                        $.each(provider, function(key, value){
+                            $('#trait-filter-by-provider-card').append("<input class='form-check-input' type='checkbox' " +
+                                "id='trait-filter-by-"+value+"' value='"+value+"'> "+value+" <br>")
+                        })
+                        $('#trait-filter-by-provider-card').append("<input class='form-check-input' type='checkbox' " +
+                            "id='trait-filter-by-userdb' value='userImport'> user import<br>")
                         fullData = fullData.map(x => {
                             if(x.traitFormat !== 'numerical'){
                                 return x;
