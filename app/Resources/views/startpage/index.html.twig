@@ -8,22 +8,85 @@
             {#<img src="{{ asset('assets/img/fennec.svg') }}" class="center-block" id="startpage-logo"/>#}
         {#</div>#}
         {#<hr>#}
-        <div class="row">
-            <div class="col-xs-5" style="margin-top: 150px;">
-                <h1 class="title-about-fennec" align="right">FENNEC</h1>
-                <div id="startpage-subtitle" align="right">
-                    Functional Exploration of Natural Networks <br>and Ecological Communities
-                </div>
-            </div>
-            <div class="col-xs-4" id="startpage-text" style="margin-top: 170px;">
-                FENNEC is a platform for adding trait information from various sources to your community data.
-
-                You can upload your own community data tables or just explore the database of organisms and traits.
+    <div class="row">
+        <div class="col-xs-5" style="margin-top: 150px;">
+            <h1 class="title-about-fennec" align="right">FENNEC</h1>
+            <div id="startpage-subtitle" align="right">
+                Functional Exploration of Natural Networks <br>and Ecological Communities
             </div>
         </div>
-        {#<div class="row">#}
-            {#<div class="col-lg-12" id="startpage-text">#}
-                {#{% include 'startpage/info-panels.html.twig' %}#}
-            {#</div>#}
-        {#</div>#}
+        <div class="col-xs-4" id="startpage-text" style="margin-top: 170px;">
+            FENNEC is a platform for adding trait information from various sources to your community data.
+
+            You can upload your own community data tables or just explore the database of organisms and traits.
+        </div>
+    </div>
+    <div class="container" style="margin-top: 40px;">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="blockquote-box clearfix">
+                    <div class="square pull-left">
+                        <i class="fa fa-upload fa-5x"></i>
+                    </div>
+                    <h4>Community</h4>
+                    <p>
+                        Add your trait data to the public database and share it with other users.
+                    </p>
+                </div>
+                <div class="blockquote-box blockquote-primary clearfix">
+                    <div class="square pull-left">
+                        <i class="fa fa-mouse-pointer fa-5x"></i>
+                    </div>
+                    <h4>Beta Version</h4>
+                    <p>
+                        Check out new pre-released features of FENNEC that are not published yet.
+                    </p>
+                </div>
+                <div class="blockquote-box blockquote-success clearfix">
+                    <div class="square pull-left">
+                        <i class="fa fa-comments fa-5x"></i>
+                    </div>
+                    <h4>Feedback</h4>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a
+                        ante.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="blockquote-box blockquote-info clearfix">
+                    <div class="square pull-left">
+                        <i class="fa fa-info fa-5x"></i>
+                    </div>
+                    <h4>FAQ</h4>
+                    <p>
+                        Check out this FAQ
+                    </p>
+                </div>
+                <div class="blockquote-box blockquote-warning clearfix">
+                    <div class="square pull-left">
+                        <span class="glyphicon glyphicon-warning-sign glyphicon-lg"></span>
+                    </div>
+                    <h4>
+                        Warning</h4>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a
+                        ante.
+                    </p>
+                </div>
+                <div class="blockquote-box blockquote-danger clearfix">
+                    <div class="square pull-left">
+                        <span class="glyphicon glyphicon-record glyphicon-lg"></span>
+                    </div>
+                    <h4>
+                        Danger</h4>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a
+                        ante.
+                    </p>
+                </div>
+            </div>
+        </div>
+    {% include 'startpage/panelRow.html.twig' %}
+    </div>
 {% endblock %}
