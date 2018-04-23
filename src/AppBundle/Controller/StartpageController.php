@@ -54,7 +54,8 @@ class StartpageController extends Controller
             $user = $this->get('security.token_storage')->getToken()->getUser();
         }
         $twig_parameter = array(
-            'title' => $title
+            'title' => $title,
+            'type' => 'info'
         );
         return $this->render('startpage/info.html.twig', $twig_parameter);
     }
