@@ -101,10 +101,8 @@ $('document').ready(async () => {
                         let provider = providerCategoricalEntries.concat(providerNumericalEntries)
                         $.each(provider, function(key, value){
                             $('#trait-filter-by-provider-card').append("<input class='form-check-input' type='checkbox' " +
-                                "id='trait-filter-by-"+value+"' value='"+value+"'> "+value+" <br>")
+                                "id='trait-filter-by-"+value+"' value='"+value+"' checked> "+value+" <br>")
                         })
-                        $('#trait-filter-by-provider-card').append("<input class='form-check-input' type='checkbox' " +
-                            "id='trait-filter-by-userdb' value='userImport'> user import<br>")
                         fullData = fullData.map(x => {
                             if(x.traitFormat !== 'numerical'){
                                 return x;
