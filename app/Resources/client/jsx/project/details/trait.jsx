@@ -231,9 +231,9 @@ function applyTraitEntryFilter(){
     let format = $('#trait-filter-by-format').val()
     let userBlacklist = [user]
     let providerBlacklist = []
-    let traitFormatBlacklist = []
+    let traitFormatBlacklist = [format]
     $.each($('#trait-filter-by-provider-card :input'), function(key, value){
-        if(value.checked){
+        if(!value.checked){
             providerBlacklist.push(value.value)
         }
     })
