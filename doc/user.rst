@@ -1,3 +1,5 @@
+.. include:: <isonum.txt>
+
 .. user:
 .. _user:
 
@@ -50,6 +52,13 @@ Now that the OTUs are mapped to organisms in the database switching to the ``Tra
 By clicking on the icon in the details column for a trait (e.g. ``Plant Habit``) you come to a page summarizing the trait values in this community.
 On this page trait values of all species present in any of the samples are summarized (without taking abundance into account).
 The trait values can be added to the project either via the ``Add trait to OTU metadata`` button on this page or the ``+`` icon in the trait table.
+
+.. NOTE::
+
+    When you add a trait to your project all trait entries from the Fennec database for this trait type and all organisms in the project are retrieved.
+    If there are multiple values for a single organism they are collapsed (e.g. for categorical traits "red", "blue", "red" |rarr| "blue/red", for numerical traits the mean is used: 3.0, 5.0 |rarr| 4.0)
+    Then this aggregated value is added as metadata with the trait type as key.
+    Additionally, all individual citations are added to the "trait_citation" metadata key.
 
 .. image:: screenshots/project_traits.png
 
@@ -222,7 +231,7 @@ Three exemplary topics are to be addressed in this case study, with the first re
    Using pollen data collected by bees, presence of both types can be monitored by mapping conservation relevant traits to the network data.
    Further, pollination services by the bee species to both types can be identified.
 3. **Which plants visited by the bees show agricultural relevance to humans and what is their relative amount compared to the remaining plant species?**
-   Bees provide pollination services to agriculturally relevant plants (`Klatt et al. 2013 <https://doi.org/10.1098/rspb.2013.2440>`_).
+   Bees provide pollination services to agriculturally relevant plants (`Bosch and Kemp 2002 <https://doi.org/10.1079/BER2001139>`_, `Gruber et al. 2011 <https://doi.org/10.1007/s13592-011-0059-z>`_, `Klatt et al. 2013 <https://doi.org/10.1098/rspb.2013.2440>`_).
    Using traits such as *agricultural usage* allows to identify how specific the respective bees were in visiting such plants.
    On the other hand, solitary bees are important agents to ensure the pollination of wild plant species (`Garibaldi et al. 2013 <https://doi.org/10.1126/science.1230200>`_), and using these traits it can be monitored whether the bees are mainly attracted to mass flowering crops or also visit other plants in agriculturally shaped landscapes.
 
