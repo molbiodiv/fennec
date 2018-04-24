@@ -15,6 +15,8 @@ Those can then be mapped onto user provided community data.
  - **I want to read/cite the preprint describing FENNEC.** &rarr; [![bioRxiv](https://img.shields.io/badge/DOI-10.1101%2F194308-blue.svg)](https://doi.org/10.1101/194308)
  - **I want to reference the source code of FENNEC.** &rarr; [![DOI](https://zenodo.org/badge/51136300.svg)](https://zenodo.org/badge/latestdoi/51136300) Please also cite our preprint.
  - **I want to find the docker image of FENNEC.** &rarr; [Docker Hub](https://hub.docker.com/r/iimog/fennec/)
+ - **I want to see the TravisCI build of FENNEC.** &rarr; [![Build Status](https://travis-ci.org/molbiodiv/fennec.svg?branch=master)](https://travis-ci.org/molbiodiv/fennec)
+ - **I want to test new features of FENNEC.** &rarr; [Beta Version](https://beta.fennec.molecular.eco)
 
 ## Setup development environment
 So you want to contribute to the development of FENNEC - awesome!
@@ -126,6 +128,10 @@ The api doc on the other hand is dynamically created from the php annotations in
 Those are served from [localhost:3141/api/doc](http://localhost:3141/api/doc).
 
 ## Changes
+### 1.0.4 <2018-04-24>
+ - Update startpage design
+ - Add guide for new users (#194)
+ - Change version to database (#190)
 ### 1.0.3 <2018-03-29>
  - Fix dbversion of mapping in import commands (#175)
 ### 1.0.2 <2018-03-28>

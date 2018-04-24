@@ -36,11 +36,18 @@ body {
 }
 
 #page-wrapper {
-  background: $background;
+  background: url("../../../../web/assets/img/fennec_cover.png"), $background;
+  background-size: cover;
+  background-position: 200px;
   min-height: calc(100vh - 51px);
   max-width: 100%;
   overflow: auto;
 }
+
+//#page-wrapper #page-wrapper-startpage {
+//  background: url("../../../../web/assets/img/fennec.svg"),#2b3137;
+//}
+
 
 #wrapper {
   background: $navigation;

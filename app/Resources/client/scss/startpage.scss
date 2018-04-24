@@ -1,3 +1,11 @@
+@import "colors";
+
+.title-about-fennec {
+  font-family: -apple-system,system-ui,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+  font-size: 72px;
+  font-weight: 300;
+}
+
 #startpage-logo {
   margin-top: 20px;
   margin-bottom: 20px;
@@ -6,7 +14,17 @@
 
 #startpage-text {
   margin-bottom: 40px;
-  font-size: x-large;
+  font-size: 26px;
+  font-family: -apple-system,system-ui,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+  font-weight: 300;
+}
+
+#startpage-subtitle {
+  margin-bottom: 40px;
+  font-size: 20px;
+  font-family: -apple-system,system-ui,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+  font-weight: 300;
+  font-variant: small-caps;
 }
 
 .startpage-panel-description {
@@ -15,4 +33,75 @@
 
 .panel-text {
   font-size: large;
+}
+
+.glyphicon-lg {
+  font-size:3em
+}
+
+.blockquote-box {
+  margin-bottom:25px
+}
+.blockquote-box .square {
+  width:100px;
+  min-height:50px;
+  margin-right:22px;
+  text-align:center!important;
+  background-color:$navigation;
+  padding:20px 0;
+  border-radius: 4px;
+}
+
+.blockquote-box.blockquote-beta {
+  border-color: $navigation;
+}
+
+.blockquote-box.blockquote-beta .square {
+  background-color:$navigation;
+  color:#FFF
+}
+
+.blockquote-box.blockquote-organisms {
+  border-color:$navigation
+}
+
+.blockquote-box.blockquote-organisms .square {
+  background-color:$navigation;
+  color:#FFF
+}
+
+.blockquote-box.blockquote-traits {
+  border-color:$navigation
+}
+
+.blockquote-box.blockquote-traits .square {
+  background-color:$navigation;
+  color:#FFF
+}
+
+.blockquote-box.blockquote-analysis {
+  border-color:$navigation;
+}
+
+.blockquote-box.blockquote-analysis .square {
+  background-color:$navigation;
+  color:#FFF
+}
+
+.blockquote-box.blockquote-upload {
+  border-color:$navigation;
+}
+
+.blockquote-box.blockquote-upload .square {
+  background-color:$navigation;
+  color:#FFF
+}
+
+.blockquote-box.blockquote-contribute {
+  border-color:$navigation;
+}
+
+.blockquote-box.blockquote-contribute .square {
+  background-color:$navigation;
+  color:#FFF
 }
