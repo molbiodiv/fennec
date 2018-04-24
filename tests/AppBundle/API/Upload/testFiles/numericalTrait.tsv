@@ -1,0 +1,5 @@
+3044	0.7		uploadTrait_fancyNumericalTrait	http://example.com/plantHeight6875647
+1906380	0.7		uploadTrait fancyNumericalTrait	http://example.com/plantHeight6875647
+3266	0.7			http://example.com/plantHeight6875647
+no	1e-2		eol_fantasy_number	http://example.com/plantHeight11887710
+does_not_exist	133		eol_fantasy_number	http://example.com/plantHeight1094535

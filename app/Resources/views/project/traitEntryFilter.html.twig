@@ -1,0 +1,71 @@
+<div class="row">
+    <aside class="col-sm-4">
+        <p>Filter 1</p>
+        <div class="card">
+            <article class="card-group-item">
+                <header class="card-header">
+                    <h6 class="title">Filter by Provider </h6>
+                </header>
+                <div class="filter-content">
+                    <div class="card-body">
+                        <label class="form-check">
+                            <input class="form-check-input" type="text" id="trait-filter-by-provider" value="">
+                        </label>
+                    </div>
+                </div>
+            </article>
+            <article class="card-group-item">
+                <header class="card-header">
+                    <h6 class="title">Filter by User</h6>
+                </header>
+                <div class="filter-content">
+                    <div class="card-body">
+                        <label class="form-check">
+                            <input class="form-check-input" type="text" id="trait-filter-by-user" value="">
+                        </label>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </aside>
+    <aside class="col-sm-4">
+        <p>Filter 2</p>
+        <div class="card">
+            <article class="card-group-item">
+                <header class="card-header"><h6 class="title">Similar category </h6></header>
+                <div class="filter-content">
+                    <div class="card-body">
+                        <div id="trait-filter-by-coverage">
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </aside>
+    <aside class="col-sm-4">
+        <p>Filter  3</p>
+        <div class="card">
+            <article class="card-group-item">
+                <header class="card-header">
+                    <h6 class="title">Filter by Trait Format</h6>
+                </header>
+                <div class="filter-content">
+                    <div class="card-body">
+                        <div class="form-row">
+                            <select class="selectpicker" id="trait-filter-by-format" data-style="btn-primary">
+                                <option value="numerical">numerical</option>
+                                <option value="categorical_free">categorical</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </aside>
+</div>
+<div class="row" style="margin-top: 20px;">
+    <div class="col-lg-6">
+        <input class="btn btn-trait" type="button" id="trait-filter-apply" value="Apply Filters">
+    </div>
+</div>
+

@@ -6,6 +6,7 @@ namespace Tests\AppBundle\Command;
 use AppBundle\Command\ExpireTraitEntriesCommand;
 use AppBundle\Entity\Data\TraitCategoricalEntry;
 use AppBundle\Entity\Data\TraitCategoricalValue;
+use AppBundle\Entity\Data\TraitCitation;
 use AppBundle\Entity\Data\TraitNumericalEntry;
 use AppBundle\Entity\Data\TraitType;
 use Doctrine\ORM\EntityManager;
@@ -58,6 +59,9 @@ class ExpireTraitEntriesCommandTest extends KernelTestCase
         $ttype->setType('expireCategoricalTrait');
         $ttype->setTraitFormat($this->em->getRepository('AppBundle:TraitFormat')->findOneBy(array('format' => 'categorical_free')));
         $this->em->persist($ttype);
+        $citation = new TraitCitation();
+        $citation->setCitation('Test citation for expireCategoricalTrait');
+        $this->em->persist($citation);
         $value1 = new TraitCategoricalValue();
         $value1->setValue('value1');
         $value1->setTraitType($ttype);
@@ -68,6 +72,7 @@ class ExpireTraitEntriesCommandTest extends KernelTestCase
         $entry1->setTraitCategoricalValue($value1);
         $entry1->setDb($this->em->find('AppBundle:Db', 1));
         $entry1->setPrivate(false);
+        $entry1->setTraitCitation($citation);
         $this->em->persist($entry1);
         $value2 = new TraitCategoricalValue();
         $value2->setValue('value2');
@@ -79,6 +84,7 @@ class ExpireTraitEntriesCommandTest extends KernelTestCase
         $entry2->setTraitCategoricalValue($value2);
         $entry2->setDb($this->em->find('AppBundle:Db', 1));
         $entry2->setPrivate(false);
+        $entry2->setTraitCitation($citation);
         $this->em->persist($entry2);
         $this->em->flush();
         $entries = $this->em->getRepository('AppBundle:TraitCategoricalEntry')->findBy(array(
@@ -109,12 +115,16 @@ class ExpireTraitEntriesCommandTest extends KernelTestCase
         $ttype->setType('expireNumericalTrait');
         $ttype->setTraitFormat($this->em->getRepository('AppBundle:TraitFormat')->findOneBy(array('format' => 'numerical')));
         $this->em->persist($ttype);
+        $citation = new TraitCitation();
+        $citation->setCitation('Test citation for expireNumericalTrait');
+        $this->em->persist($citation);
         $entry1 = new TraitNumericalEntry();
         $entry1->setTraitType($ttype);
         $entry1->setFennec($this->em->find('AppBundle:Organism', 725));
         $entry1->setValue(13);
         $entry1->setDb($this->em->find('AppBundle:Db', 1));
         $entry1->setPrivate(false);
+        $entry1->setTraitCitation($citation);
         $this->em->persist($entry1);
         $entry2 = new TraitNumericalEntry();
         $entry2->setTraitType($ttype);
@@ -122,6 +132,7 @@ class ExpireTraitEntriesCommandTest extends KernelTestCase
         $entry2->setValue(36429);
         $entry2->setDb($this->em->find('AppBundle:Db', 1));
         $entry2->setPrivate(false);
+        $entry2->setTraitCitation($citation);
         $this->em->persist($entry2);
         $this->em->flush();
         $entries = $this->em->getRepository('AppBundle:TraitNumericalEntry')->findBy(array(
@@ -153,12 +164,16 @@ class ExpireTraitEntriesCommandTest extends KernelTestCase
         $ttype->setType('preserveDeletionDate');
         $ttype->setTraitFormat($this->em->getRepository('AppBundle:TraitFormat')->findOneBy(array('format' => 'numerical')));
         $this->em->persist($ttype);
+        $citation = new TraitCitation();
+        $citation->setCitation('Test citation for preserveDeletionDate');
+        $this->em->persist($citation);
         $entry1 = new TraitNumericalEntry();
         $entry1->setTraitType($ttype);
         $entry1->setFennec($this->em->find('AppBundle:Organism', 8));
         $entry1->setValue(0);
         $entry1->setDb($this->em->find('AppBundle:Db', 1));
         $entry1->setPrivate(false);
+        $entry1->setTraitCitation($citation);
         $originalTime = new \DateTime("yesterday");
         $entry1->setDeletionDate($originalTime);
         $this->em->persist($entry1);
@@ -168,6 +183,7 @@ class ExpireTraitEntriesCommandTest extends KernelTestCase
         $entry2->setValue(36429);
         $entry2->setDb($this->em->find('AppBundle:Db', 1));
         $entry2->setPrivate(false);
+        $entry2->setTraitCitation($citation);
         $this->em->persist($entry2);
         $this->em->flush();
         $alreadyDeletedEntry = $this->em->getRepository('AppBundle:TraitNumericalEntry')->findOneBy(array(
