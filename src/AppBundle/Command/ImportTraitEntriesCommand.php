@@ -8,9 +8,11 @@ use AppBundle\Entity\Data\Db;
 use AppBundle\Entity\Data\TraitCategoricalEntry;
 use AppBundle\Entity\Data\TraitCategoricalValue;
 use AppBundle\Entity\Data\TraitCitation;
+use AppBundle\Entity\Data\TraitFileUpload;
 use AppBundle\Entity\Data\TraitNumericalEntry;
 use AppBundle\Entity\Data\TraitType;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
@@ -86,7 +88,7 @@ class ImportTraitEntriesCommand extends AbstractDataDBAwareCommand
         ->setHelp("This command allows you to create trait types...\n".
             "The tsv file has to have the following columns (only the first two are required to have a value):\n".
             "fennec_id\tvalue\tvalue_ontology\tcitation\torigin_url\n\n".
-            "or with --long-table option:\n".
+            "or with --wide-table option:\n".
             "#FennecID\tTraitType1\tTraitType2\t...\n".
             "fennec_id\tTraitValue1\tTraitValue2\t...\n\n".
             "You need to provide a citation for each entry via --default-citation or via the respective column"
@@ -97,9 +99,10 @@ class ImportTraitEntriesCommand extends AbstractDataDBAwareCommand
         ->addOption('mapping', "m", InputOption::VALUE_REQUIRED, 'Method of mapping for id column. If not set fennec_ids are assumed and no mapping is performed', null)
         ->addOption('public', 'p', InputOption::VALUE_NONE, 'import traits as public (default is private)')
         ->addOption('skip-unmapped', 's', InputOption::VALUE_NONE, 'do not exit if a line can not be mapped (uniquely) to a fennec_id instead skip this entry', null)
-        ->addOption('long-table', null, InputOption::VALUE_NONE, 'The format of the table is long table. Important: you have to specify the citation via --default-citation', null)
+        ->addOption('wide-table', null, InputOption::VALUE_NONE, 'The format of the table is wide table. Important: you have to specify the citation via --default-citation', null)
         ->addOption('provider', null, InputOption::VALUE_REQUIRED, 'The name of the database provider (e.g. TraitBank), will be added to the db if it does not already exist', null)
         ->addOption('description', 'd', InputOption::VALUE_REQUIRED, 'Description of the database provider (only used if the database did not already exist)', null)
+        ->addOption('fennec-user-id', null, InputOption::VALUE_REQUIRED, 'The identifier of the user who uploads trait entries.', null)
     ;
     }
 
@@ -128,12 +131,21 @@ class ImportTraitEntriesCommand extends AbstractDataDBAwareCommand
         }
         $file = fopen($input->getArgument('file'), 'r');
         $traitTypes = array($input->getOption('traittype'));
-        if($input->getOption('long-table')){
+        if($input->getOption('wide-table')){
             $line = fgetcsv($file, 0, "\t");
             $traitTypes = array_slice($line, 1);
         }
         if(!$this->checkTraitTypes($traitTypes, $output)){
             return 1;
+        }
+        $traitFileUpload = null;
+        if($input->getOption('fennec-user-id') !== null){
+            $dbversion = $this->getDbVersion($input);
+            if(in_array($dbversion, $this->getContainer()->getParameter('dbversions_for_user_trait_upload'))){
+                $traitFileUpload = $this->createTraitFileUploadEntry(basename($input->getArgument('file')),$input->getOption('fennec-user-id'));
+            } else {
+                throw new Exception('This dbversion does not support upload of traits by users.');
+            }
         }
         $this->em->getConnection()->beginTransaction();
         try{
@@ -143,14 +155,14 @@ class ImportTraitEntriesCommand extends AbstractDataDBAwareCommand
                 if($needs_mapping){
                     if(! array_key_exists($fennec_id,$this->mapping)){
                         if(!$input->getOption('skip-unmapped')){
-                            throw new \Exception('Error no mapping to fennec id found for: ' . $fennec_id);
+                            throw new \Exception("\nError no mapping to fennec id found for: " . $fennec_id);
                         }
                         ++$this->skippedNoHit;
                         $progress->advance();
                         continue;
                     } elseif (is_array($this->mapping[$fennec_id])){
                         if(!$input->getOption('skip-unmapped')){
-                            throw new \Exception('Error multiple mappings to fennec ids found for: ' . $fennec_id . ' (' . implode(',', $this->mapping[$fennec_id]) . ')');
+                            throw new \Exception("\nError multiple mappings to fennec ids found for: " . $fennec_id . ' (' . implode(',', $this->mapping[$fennec_id]) . ')');
                         }
                         ++$this->skippedMultiHits;
                         $progress->advance();
@@ -158,30 +170,30 @@ class ImportTraitEntriesCommand extends AbstractDataDBAwareCommand
                     }
                     $fennec_id = $this->mapping[$fennec_id];
                 }
-                if($input->getOption('long-table')){
+                if($input->getOption('wide-table')){
                     $citationText = $input->getOption('default-citation');
                     if($citationText === null){
-                        throw new \Exception('Error: No citation specified. For --long-table please use --default-citation');
+                        throw new \Exception("\nError: No citation specified. For --wide-table please use --default-citation");
                     }
                     for($i=1; $i<count($line); $i++){
                         if($line[$i] !== ''){
-                            $this->insertTraitEntry($fennec_id, $this->traitType[$i-1], $this->traitFormat[$i-1], $line[$i], '', $citationText, $dbId, '', $input->getOption('public'));
+                            $this->insertTraitEntry($fennec_id, $this->traitType[$i-1], $this->traitFormat[$i-1], $line[$i], '', $citationText, $dbId, '', $input->getOption('public'), $traitFileUpload);
                         }
                     }
                 } else {
                     if(count($line) !== 5){
-                        throw new \Exception('Wrong number of elements in line. Expected: 5, Actual: '.count($line).': '.join(" ",$line));
+                        throw new \Exception("\nError: Wrong number of elements in line. Expected: 5, Actual: ".count($line).': '.join(" ",$line));
                     }
                     $citationText = $line[3];
                     if ($citationText === ""){
-                        if($input->getOption('default-citation') !== null) {
+                        if($input->getOption('default-citation')) {
                             $citationText = $input->getOption('default-citation');
                         } else {
-                            throw new \Exception('Error: No citation specified in:\n'.join("\t",$line).'\nPlease specify citation in 4th column or use --default-citation');
+                            throw new \Exception("\nError: No citation specified in:\n".join("\t",$line)."\nPlease specify citation in 4th column or use --default-citation");
                         }
                     }
                     $this->insertTraitEntry($fennec_id, $this->traitType[0], $this->traitFormat[0], $line[1], $line[2], $citationText, $dbId,
-                        $line[4], $input->getOption('public'));
+                        $line[4], $input->getOption('public'), $traitFileUpload);
                 }
                 $progress->advance();
                 $i++;
@@ -260,8 +272,8 @@ class ImportTraitEntriesCommand extends AbstractDataDBAwareCommand
      */
     protected function checkOptions(InputInterface $input, OutputInterface $output)
     {
-        if ($input->getOption('traittype') === null && !$input->getOption('long-table')) {
-            $output->writeln('<error>No trait type given. Use --traittype or set --long-table</error>');
+        if ($input->getOption('traittype') === null && !$input->getOption('wide-table')) {
+            $output->writeln('<error>No trait type given. Use --traittype or set --wide-table</error>');
             return false;
         }
         if ($input->getOption('provider') === null) {
@@ -287,7 +299,7 @@ class ImportTraitEntriesCommand extends AbstractDataDBAwareCommand
         foreach ($traitTypes as $type){
             $traitType = $this->em->getRepository('AppBundle:TraitType')->findOneBy(array('type' => $type));
             if ($traitType === null) {
-                $output->writeln('<error>TraitType does not exist in db: "'.$type.'". Check for typos or create with app:create-traittype.</error>');
+                $output->writeln("\n".'<error>Error: TraitType does not exist in db: "'.$type.'". Check for typos or create with app:create-traittype.</error>');
                 return false;
             }
             else{
@@ -307,8 +319,9 @@ class ImportTraitEntriesCommand extends AbstractDataDBAwareCommand
      * @param int $dbId dbId
      * @param string $originURL
      * @param boolean $public
+     * @param TraitFileUpload|null $traitFileUpload
      */
-    protected function insertTraitEntry($fennec_id, $traitType, $traitFormat, $value, $valueOntology, $citation, $dbId, $originURL, $public)
+    protected function insertTraitEntry($fennec_id, $traitType, $traitFormat, $value, $valueOntology, $citation, $dbId, $originURL, $public, $traitFileUpload)
     {
         $traitEntry = null;
         if ($traitFormat === "categorical_free") {
@@ -326,6 +339,7 @@ class ImportTraitEntriesCommand extends AbstractDataDBAwareCommand
         $traitEntry->setFennec($this->em->getReference('AppBundle:Organism', $fennec_id));
         $traitEntry->setDb($this->em->getReference('AppBundle:Db', $dbId));
         $traitEntry->setPrivate(!$public);
+        $traitEntry->setTraitFileUpload($traitFileUpload);
         $this->em->persist($traitEntry);
         ++$this->insertedEntries;
     }
@@ -349,5 +363,22 @@ class ImportTraitEntriesCommand extends AbstractDataDBAwareCommand
             $this->em->flush();
         }
         return $provider->getId();
+    }
+
+    /**
+     * @param string $filename
+     * @param int $fennecUserId
+     * @return TraitFileUpload
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    private function createTraitFileUploadEntry($filename, $fennecUserId){
+        $traitFileUpload = new TraitFileUpload();
+        $traitFileUpload->setFilename($filename);
+        $traitFileUpload->setFennecUserId($fennecUserId);
+        $traitFileUpload->setImportDate(new \DateTime());
+        $this->em->persist($traitFileUpload);
+        $this->em->flush();
+        return $traitFileUpload;
     }
 }

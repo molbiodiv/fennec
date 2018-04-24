@@ -77,7 +77,7 @@ class TraitNumericalEntry
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Data\TraitCitation")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="trait_citation_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="trait_citation_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $traitCitation;
@@ -101,6 +101,28 @@ class TraitNumericalEntry
      * })
      */
     private $db;
+
+    /**
+     * @return mixed
+     */
+    public function getTraitFileUpload()
+    {
+        return $this->traitFileUpload;
+    }
+
+    /**
+     * @param mixed $traitFileUpload
+     */
+    public function setTraitFileUpload($traitFileUpload)
+    {
+        $this->traitFileUpload = $traitFileUpload;
+    }
+
+    /**
+     * @ORM\ManyToOne(targetEntity="TraitFileUpload", inversedBy="numericalTraitEntries")
+     * @ORM\JoinColumn(name="trait_file_upload_id", referencedColumnName="id")
+     */
+    private $traitFileUpload;
 
     /**
      * @return Db

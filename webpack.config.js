@@ -24,6 +24,7 @@ Encore
     .addEntry('organism/search', ['./app/Resources/client/jsx/organism/search.jsx'])
     .addEntry('trait/browse', ['./app/Resources/client/jsx/trait/browse.jsx'])
     .addEntry('trait/search', ['./app/Resources/client/jsx/trait/search.jsx'])
+    .addEntry('trait/myTraits', ['./app/Resources/client/jsx/trait/myTraits.jsx'])
     .enableSassLoader()
     .createSharedEntry('global', [
         'babel-polyfill',

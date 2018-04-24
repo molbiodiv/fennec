@@ -52,7 +52,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'Fennec'
-copyright = '2017, Markus J. Ankenbrand, Sonja Hohlfeld, Frank Foerster, Alexander Keller'
+copyright = '2018, Markus J. Ankenbrand, Sonja Hohlfeld, Frank Foerster, Alexander Keller'
 author = 'Markus J. Ankenbrand, Sonja Hohlfeld, Frank Foerster, Alexander Keller'
 
 # The version info for the project you're documenting, acts as replacement for

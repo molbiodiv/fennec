@@ -34,6 +34,9 @@ class TraitEntries
      */
     public function execute($traitEntryIds, $traitFormat)
     {
+        if ($traitEntryIds === null || count($traitEntryIds) === 0){
+            return (array());
+        }
         if (!in_array($traitFormat, $this->known_trait_formats)) {
             return (array('error' => TraitEntries::ERROR_UNKNOWN_TRAIT_FORMAT));
         }

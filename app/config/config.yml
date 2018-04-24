@@ -44,6 +44,7 @@ twig:
     globals:
         fennec_version: "%application_version%"
         dbversions: "%versions%"
+        dbversions_for_user_trait_upload: "%dbversions_for_user_trait_upload%"
         ga_tracking: "%ga_tracking%"
     form_themes: ['bootstrap_3_horizontal_layout.html.twig']
 
@@ -65,6 +66,9 @@ fos_user:
     registration:
         form:
             type: AppBundle\Form\RegistrationFormType
+    profile:
+        form:
+            type: AppBundle\Form\UserEditType
 
 hwi_oauth:
     # list of names of the firewalls in which this bundle is active, this setting MUST be set
@@ -89,6 +93,8 @@ shivas_versioning:
 
 easy_admin:
     entities:
+        TraitFileUpload:
+            class: AppBundle\Entity\Data\TraitFileUpload
         FennecUser:
             class: AppBundle\Entity\User\FennecUser
             label: 'User'

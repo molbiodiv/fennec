@@ -26,9 +26,9 @@ class Setup extends  WebTestCase
         self::runCommand('doctrine:database:create --connection test_user');
         self::runCommand('doctrine:database:create --connection test_data');
         self::runCommand('doctrine:database:create --connection test_data2');
-        self::runCommand('doctrine:schema:create --em test_user');
-        self::runCommand('doctrine:schema:create --em test_data');
-        self::runCommand('doctrine:schema:create --em test_data2');
+        self::runCommand('doctrine:schema:update --force --em test_user');
+        self::runCommand('doctrine:schema:update --force --em test_data');
+        self::runCommand('doctrine:schema:update --force --em test_data2');
         self::runCommand('doctrine:fixtures:load --em test_data2');
         $client = static::createClient();
         $dbs = $client->getContainer()->getParameter('dbal')['connections'];
@@ -49,7 +49,7 @@ class Setup extends  WebTestCase
 
     protected static function runCommand($command)
     {
-        $command = sprintf('%s --quiet', $command);
+        $command = sprintf('%s --no-interaction', $command);
 
         return self::getApplication()->run(new StringInput($command));
     }
