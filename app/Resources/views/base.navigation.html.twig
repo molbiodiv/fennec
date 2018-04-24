@@ -102,18 +102,16 @@
         </nav>
         
         <div id="page-wrapper">
-            <div id="page-wrapper-{{ type }}">
-                {% if title is defined and type != "startpage" %}
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <h1 class="page-header" id="page-title">{{ title  }} </h1>
-                        </div>
+            {% if title is defined and fennecLayoutType != "startpage" %}
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <h1 class="page-header" id="page-title">{{ title  }} </h1>
                     </div>
-                {% endif %}
-                <div id="global-message-area"></div>
-                {% block content %}
-                {% endblock %}
-            </div>
+                </div>
+            {% endif %}
+            <div id="global-message-area"></div>
+            {% block content %}
+            {% endblock %}
         </div>
     </div>
     {% include 'googleAnalytics/dialog.html.twig' %}
