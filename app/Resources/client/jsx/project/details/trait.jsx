@@ -13,9 +13,17 @@ let traitEntryFilter = new TraitEntryFilter(traitData);
 $('document').ready(async () => {
     biom = await biomPromise;
     let attribute = $('#project-data').data('attribute');
-    $('#project-show-trait-otu').on('click', () => getAndShowTraits('#trait-table', 'rows', attribute));
-    $('#project-show-trait-sample').on('click', () => getAndShowTraits('#trait-table-sample', 'columns', attribute));
+    $('#project-show-trait-otu').on('click', () => getAndShowTraits('#trait-table', 'rows'));
+    $('#project-show-trait-sample').on('click', () => getAndShowTraits('#trait-table-sample', 'columns'));
     $('#trait-filter-apply').on('click', () => applyTraitEntryFilter());
+
+    $('#trait-filter-by-userdb').on('change', () => {
+        if($('#trait-filter-by-userdb').prop("checked")){
+            $('#trait-filter-by-userdb-card').show()
+        } else {
+            $('#trait-filter-by-userdb-card').hide()
+        }
+    })
 
     $('#trait-filter-by-coverage').slider({
         range: true,
@@ -24,7 +32,10 @@ $('document').ready(async () => {
         values: [20, 70]
     });
 
-    function getAndShowTraits(id, dimension, attribute){
+    function getAndShowTraits(id, dimension){
+        $('#panel-trait-table').hide();
+        $('#trait-filter-by-provider-card').empty()
+        $('#panel-trait-filters').hide();
         $('#trait-table-progress').show();
         // Extract row fennec_ids from biom
         var fennec_ids = biom.getMetadata({dimension: dimension, attribute: ['fennec', dbversion, 'fennec_id']})
@@ -50,6 +61,7 @@ $('document').ready(async () => {
         }
         let traitEntryIds = {'categorical_free': [], 'numerical': []}
         let traitData = []
+        let provider = []
         $.each(rawData, function (key, value) {
             let traitFormat = value['traitFormat']
             traitEntryIds[traitFormat] = _.concat(traitEntryIds[traitFormat], value.traitEntryIds)
@@ -69,6 +81,7 @@ $('document').ready(async () => {
                 'trait_format': 'categorical_free'
             },
             success: function (categorical_data) {
+                let providerCategoricalEntries = _.uniq(Object.values(categorical_data).map(x => x.provider));
                 let fullData = traitData.map(x => {
                     if(x.traitFormat !== 'categorical_free'){
                         return x;
@@ -84,6 +97,12 @@ $('document').ready(async () => {
                         'trait_format': 'numerical'
                     },
                     success: function(numerical_data){
+                        let providerNumericalEntries = _.uniq(Object.values(numerical_data).map(x => x.provider));
+                        let provider = providerCategoricalEntries.concat(providerNumericalEntries)
+                        $.each(provider, function(key, value){
+                            $('#trait-filter-by-provider-card').append("<input class='form-check-input' type='checkbox' " +
+                                "id='trait-filter-by-"+value+"' value='"+value+"' checked> "+value+" <br>")
+                        })
                         fullData = fullData.map(x => {
                             if(x.traitFormat !== 'numerical'){
                                 return x;
@@ -110,6 +129,7 @@ $('document').ready(async () => {
         let fennec_ids = biom.getMetadata({dimension: dimension, attribute: ['fennec', dbversion, 'fennec_id']})
         let number_of_unique_fennec_ids = _.uniq(fennec_ids).length
         let dataTableOptions = {
+            destroy: true,
             data: traits,
             columns: [
                 {data: 'traitType'},
@@ -207,14 +227,16 @@ function removeTraitFromProjectTableAction(traitName, dimension){
 }
 
 function applyTraitEntryFilter(){
-    let provider = $('#trait-filter-by-provider').val()
     let user = $('#trait-filter-by-user').val()
-    let minCoverage = $('#trait-filter-by-coverage').slider("values")[0]
-    let maxCoverage = $('#trait-filter-by-coverage').slider("values")[1]
     let format = $('#trait-filter-by-format').val()
     let userBlacklist = [user]
-    let providerBlacklist = [provider]
+    let providerBlacklist = []
     let traitFormatBlacklist = [format]
+    $.each($('#trait-filter-by-provider-card :input'), function(key, value){
+        if(!value.checked){
+            providerBlacklist.push(value.value)
+        }
+    })
     let filter = {
         providerBlacklist: providerBlacklist,
         userBlacklist: userBlacklist,
