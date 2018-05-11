@@ -32,7 +32,7 @@ class ProjectController extends Controller
             'project/overview.html.twig',
             [
                 'dbversion' => $dbversion,
-                'type' => 'project',
+                'fennecLayoutType' => 'project',
                 'title' => 'Projects'
             ]
         );
@@ -69,7 +69,7 @@ class ProjectController extends Controller
             'project/details.html.twig',
             [
                 'dbversion' => $dbversion,
-                'type' => 'project',
+                'fennecLayoutType' => 'project',
                 'title' => 'Projects',
                 'project' => $projectResult,
                 'internal_project_id' => $project_id,
@@ -104,7 +104,7 @@ class ProjectController extends Controller
             'project/traitDetails.html.twig',
             [
                 'dbversion' => $dbversion,
-                'type' => 'project',
+                'fennecLayoutType' => 'project',
                 'title' => 'Trait of Project',
                 'trait' => $traitResult,
                 'project' => $projectResult,

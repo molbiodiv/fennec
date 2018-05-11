@@ -36,7 +36,7 @@ class StartpageController extends Controller
             $title .= " ".$user->getUsername();
         }
         $twig_parameter = array(
-            'type' => 'startpage',
+            'fennecLayoutType' => 'startpage',
             'overview' => $overview,
             'title' => $title,
         );
@@ -55,7 +55,7 @@ class StartpageController extends Controller
         }
         $twig_parameter = array(
             'title' => $title,
-            'type' => 'info'
+            'fennecLayoutType' => 'info'
         );
         return $this->render('startpage/info.html.twig', $twig_parameter);
     }
