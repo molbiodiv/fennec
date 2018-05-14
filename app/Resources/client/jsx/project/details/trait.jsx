@@ -187,8 +187,8 @@ $('document').ready(async () => {
                 },
                 {
                     targets: 5,
-                    render: (data, type, full) => {
-                        return _.indexOf(metadataKeys, full.traitType) != -1 ? '<a onclick="removeTraitFromProjectTableAction('+"'"+full.traitType+"','"+dimension+"'"+')"><i class="fa fa-trash"></i></a>' : '<a onclick="addTraitToProjectTableAction('+full.traitTypeId+','+"'"+dimension+"'"+')"><i class="fa fa-plus"></i></a>';
+                    render: (data, type, full, meta) => {
+                        return _.indexOf(metadataKeys, full.traitType) != -1 ? '<a onclick="removeTraitFromProjectTableAction('+"'"+full.traitType+"','"+dimension+"'"+')"><i class="fa fa-trash"></i></a>' : '<a onclick="addTraitToProjectTableAction('+meta.row+','+"'"+dimension+"'"+')"><i class="fa fa-plus"></i></a>';
                     }
                 }
             ]
@@ -200,26 +200,23 @@ $('document').ready(async () => {
     }
 });
 
-function addTraitToProjectTableAction(traitTypeId, dimension){
-    $.ajax({
-            url: Routing.generate('api_details_trait_of_project', {'dbversion': dbversion}),
-            method: "POST",
-            data: {
-                'projectId': internalProjectId,
-                'traitTypeId': traitTypeId,
-                'includeCitations': true,
-                'dimension': dimension
-            },
-            success: function (data) {
-                var traitValues;
-                if(data.trait_format === 'numerical'){
-                    traitValues = condenseNumericalTraitValues(data.values)
-                } else {
-                    traitValues = condenseCategoricalTraitValues(data.values)
-                }
-                addTraitToProject(data.type, traitValues, data.citations, biom, dimension, dbversion, internalProjectId, () => window.location.reload())
-            }
-        });
+function addTraitToProjectTableAction(rowIndex, dimension){
+    let data = traitEntryFilter.applyFilter()[rowIndex]
+    let traitValues = {}
+    _.uniq(data.entries.map(x => x.valueName)).map(x => {traitValues[x] = []})
+    let citations = {}
+    _.uniq(data.entries.map(x => x.fennec)).map(x => {citations[x] = []})
+    for(let e of data.entries){
+        citations[e.fennec].push({citation: e.citation, value: e.valueName})
+        traitValues[e.valueName].push(e.fennec)
+        traitValues[e.valueName] = _.uniq(traitValues[e.valueName])
+    }
+    if(data.trait_format === 'numerical'){
+        traitValues = condenseNumericalTraitValues(traitValues)
+    } else {
+        traitValues = condenseCategoricalTraitValues(traitValues)
+    }
+    addTraitToProject(data.traitType, traitValues, citations, biom, dimension, dbversion, internalProjectId, () => window.location.reload())
 }
 
 function removeTraitFromProjectTableAction(traitName, dimension){

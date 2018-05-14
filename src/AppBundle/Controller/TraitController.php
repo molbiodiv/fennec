@@ -23,7 +23,7 @@ class TraitController extends Controller
      * @Route("/trait/search", name="trait_search")
      */
     public function searchAction(Request $request, $dbversion){
-        return $this->render('trait/search.html.twig', ['type' => 'trait', 'dbversion' => $dbversion, 'title' => 'Trait Search']);
+        return $this->render('trait/search.html.twig', ['fennecLayoutType' => 'trait', 'dbversion' => $dbversion, 'title' => 'Trait Search']);
     }
 
     /**
@@ -44,7 +44,7 @@ class TraitController extends Controller
         return $this->render(
             'trait/overview.html.twig',
             [
-                'type' => 'trait',
+                'fennecLayoutType' => 'trait',
                 'dbversion' => $dbversion,
                 'title' => 'Trait Overview',
                 'traits' => $traits
@@ -70,7 +70,7 @@ class TraitController extends Controller
         return $this->render(
             'trait/result.html.twig',
             [
-                'type' => 'trait',
+                'fennecLayoutType' => 'trait',
                 'dbversion' => $dbversion,
                 'title' => 'Trait Overview',
                 'search' => $query->get('search'),
@@ -94,7 +94,7 @@ class TraitController extends Controller
             array_walk($trait['values'], function(&$val, $key) { $val = count($val); });
         }
         return $this->render('trait/details.html.twig', [
-            'type' => 'trait',
+            'fennecLayoutType' => 'trait',
             'dbversion' => $dbversion,
             'title' => 'Trait Details',
             'trait' => $trait
@@ -108,7 +108,7 @@ class TraitController extends Controller
      */
     public function myTraitAction($dbversion){
         return $this->render('trait/myTraits/overview.html.twig', [
-            'type' => 'trait',
+            'fennecLayoutType' => 'trait',
             'dbversion' => $dbversion,
             'title' => 'My Traits'
         ]);

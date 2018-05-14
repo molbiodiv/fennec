@@ -26,7 +26,7 @@ class OrganismController extends Controller
      * @Route("/organism/search", name="organism_search")
      */
     public function searchAction(Request $request, $dbversion){
-        return $this->render('organism/search.html.twig', ['type' => 'organism', 'dbversion' => $dbversion, 'title' => 'Organism Search']);
+        return $this->render('organism/search.html.twig', ['fennecLayoutType' => 'organism', 'dbversion' => $dbversion, 'title' => 'Organism Search']);
     }
 
     /**
@@ -50,7 +50,7 @@ class OrganismController extends Controller
         }
         $result = $organisms->execute($limit, $search);
         return $this->render('organism/result.html.twig', [
-            'type' => 'organism',
+            'fennecLayoutType' => 'organism',
             'dbversion' => $dbversion,
             'title' => 'Organism Result',
             'search' => $query->get('search'),
@@ -78,7 +78,7 @@ class OrganismController extends Controller
         $traits = $this->container->get(Details\TraitsOfOrganisms::class);
         $traitResult = $traits->execute(array($fennec_id));
         return $this->render('organism/details.html.twig', [
-            'type' => 'organism',
+            'fennecLayoutType' => 'organism',
             'dbversion' => $dbversion,
             'organism' => $organismResult,
             'taxonomy' => $taxonomyResult,
@@ -112,7 +112,7 @@ class OrganismController extends Controller
         $trait = $this->container->get(Details\Traits::class);
         $traitResult = $trait->execute($trait_type_id, $fennec_ids, $include_citations);
         return $this->render('organism/byTrait.html.twig', [
-            'type' => 'organism',
+            'fennecLayoutType' => 'organism',
             'dbversion' => $dbversion,
             'title' => 'Organisms with Trait',
             'trait' => $traitResult,

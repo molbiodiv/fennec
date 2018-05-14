@@ -15,7 +15,7 @@ class MiscController extends Controller
      */
     public function startpageAction($dbversion){
         $twig_parameter = array(
-            'type' => 'contact',
+            'fennecLayoutType' => 'contact',
             'dbversion' => $dbversion
         );
         return $this->render('misc/contact.html.twig', $twig_parameter);
