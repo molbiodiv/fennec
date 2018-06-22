@@ -128,6 +128,9 @@ The api doc on the other hand is dynamically created from the php annotations in
 Those are served from [localhost:3141/api/doc](http://localhost:3141/api/doc).
 
 ## Changes
+### 1.0.5 <2018-06-22>
+ - Fix graphical glitch on small screen (#201)
+ - Improve Phinch navigation (#202, #203)
 ### 1.0.4 <2018-04-24>
  - Update startpage design
  - Add guide for new users (#194)
