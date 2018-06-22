@@ -1,4 +1,4 @@
-FROM php:7.1-apache
+FROM php:7.1.18-apache-jessie
 ARG BRANCH=master
 LABEL maintainer="markus.ankenbrand@uni-wuerzburg.de"
 
