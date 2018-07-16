@@ -17,7 +17,8 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
+import os
+on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
@@ -35,7 +36,7 @@ extensions = [
 ]
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ['_templates']
+#templates_path = ['_templates']
 
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
@@ -52,8 +53,8 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'Fennec'
-copyright = '2018, Markus J. Ankenbrand, Sonja Hohlfeld, Frank Foerster, Alexander Keller'
-author = 'Markus J. Ankenbrand, Sonja Hohlfeld, Frank Foerster, Alexander Keller'
+copyright = '2018, Markus J. Ankenbrand, Sonja Hohlfeld, Lorenz Weber, Frank Foerster, Alexander Keller'
+author = 'Markus J. Ankenbrand, Sonja Hohlfeld, Lorenz Weber, Frank Foerster, Alexander Keller'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -105,7 +106,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 # show_authors = False
 
 # The name of the Pygments (syntax highlighting) style to use.
-pygments_style = 'sphinx'
+# pygments_style = 'sphinx'
 
 # A list of ignored prefixes for module index sorting.
 # modindex_common_prefix = []
@@ -119,19 +120,18 @@ todo_include_todos = False
 
 # -- Options for HTML output ----------------------------------------------
 
-# The theme to use for HTML and HTML Help pages.  See the documentation for
-# a list of builtin themes.
-#
-html_theme = 'sphinx_rtd_theme'
+if not on_rtd:  # only import and set the theme if we're building docs locally
+    html_theme = "sphinx_rtd_theme"
+    html_theme_path = ['_themes']
+
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
-#
-# html_theme_options = {}
+#html_theme_options = {}
 
 # Add any paths that contain custom themes here, relative to this directory.
-html_theme_path = ['_themes']
+# html_theme_path = ['_themes']
 
 # The name for this set of Sphinx documents.
 # "<project> v<release> documentation" by default.
