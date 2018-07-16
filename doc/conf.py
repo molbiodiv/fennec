@@ -36,7 +36,7 @@ extensions = [
 ]
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ['_templates']
+#templates_path = ['_templates']
 
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
@@ -53,8 +53,8 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'Fennec'
-copyright = '2018, Markus J. Ankenbrand, Sonja Hohlfeld, Frank Foerster, Alexander Keller'
-author = 'Markus J. Ankenbrand, Sonja Hohlfeld, Frank Foerster, Alexander Keller'
+copyright = '2018, Markus J. Ankenbrand, Sonja Hohlfeld, Lorenz Weber, Frank Foerster, Alexander Keller'
+author = 'Markus J. Ankenbrand, Sonja Hohlfeld, Lorenz Weber, Frank Foerster, Alexander Keller'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -121,7 +121,6 @@ todo_include_todos = False
 # -- Options for HTML output ----------------------------------------------
 
 if not on_rtd:  # only import and set the theme if we're building docs locally
-    import sphinx_rtd_theme
     html_theme = "sphinx_rtd_theme"
     html_theme_path = ['_themes']
 
