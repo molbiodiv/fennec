@@ -12,8 +12,8 @@ Those can then be mapped onto user provided community data.
  - **I want to host my own instance of FENNEC.** &rarr; [Admin manual](https://fennec.readthedocs.io/en/latest/admin.html)
  - **I want to access FENNEC data via API.** &rarr; [API doc](https://fennec.molecular.eco/api/doc) 
  - **I want to improve/add features to FENNEC.** &rarr; [Read on](#setup-development-environment)
- - **I want to read/cite the preprint describing FENNEC.** &rarr; [![bioRxiv](https://img.shields.io/badge/DOI-10.1101%2F194308-blue.svg)](https://doi.org/10.1101/194308)
- - **I want to reference the source code of FENNEC.** &rarr; [![DOI](https://zenodo.org/badge/51136300.svg)](https://zenodo.org/badge/latestdoi/51136300) Please also cite our preprint.
+ - **I want to read/cite the article describing FENNEC.** &rarr; [![MEE](https://img.shields.io/badge/DOI-10.1111%2F2041--210X.13060-blue.svg)](https://doi.org/10.1111/2041-210X.13060)
+ - **I want to reference the source code of FENNEC.** &rarr; [![DOI](https://zenodo.org/badge/51136300.svg)](https://zenodo.org/badge/latestdoi/51136300) Please also cite our article.
  - **I want to find the docker image of FENNEC.** &rarr; [Docker Hub](https://hub.docker.com/r/iimog/fennec/)
  - **I want to see the TravisCI build of FENNEC.** &rarr; [![Build Status](https://travis-ci.org/molbiodiv/fennec.svg?branch=master)](https://travis-ci.org/molbiodiv/fennec)
  - **I want to test new features of FENNEC.** &rarr; [Beta Version](https://beta.fennec.molecular.eco)
