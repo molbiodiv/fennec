@@ -104,6 +104,7 @@ function exportProjectAsBiom(asHdf5) {
 function exportPseudoTaxTable() {
     let contentType = "text/plain";
     let tax = _.cloneDeep(biom.getMetadata({dimension: 'rows', attribute: 'taxonomy'}));
+    tax = tax.map(x => x === null ? [] : x);
     let header = ['OTUID', 'kingdom', 'phylum', 'class', 'order', 'family', 'genus', 'species'];
     let nextLevel = _.max(tax.map(elem => elem.length));
     let otuids = biom.rows.map(r => r.id);
