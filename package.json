@@ -52,7 +52,7 @@
     "metismenu": "^2.7.0",
     "mocha": "^7.1.1",
     "papaparse": "^4.3.5",
-    "plotly.js": "^1.29.3",
+    "plotly.js": "^1.53.0",
     "popper.js": "^1.12.9",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
