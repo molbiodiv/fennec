@@ -50,7 +50,7 @@
     "jquery-ui-dist": "^1.12.1",
     "lodash": "^4.17.4",
     "metismenu": "^2.7.0",
-    "mocha": "^3.5.0",
+    "mocha": "^7.1.1",
     "papaparse": "^4.3.5",
     "plotly.js": "^1.29.3",
     "popper.js": "^1.12.9",
