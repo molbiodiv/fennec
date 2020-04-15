@@ -14,6 +14,7 @@ before_install:
 
 install:
   - conda install --yes numpy scipy h5py
+  - pip install cython --user
   - pip install biom-format --user
   - cp tests/.travis.parameters.yml app/config/parameters.yml
   - composer install
