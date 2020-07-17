@@ -48,7 +48,7 @@
     "jquery": "^3.2.1",
     "jquery-confirm": "^3.3.2",
     "jquery-ui-dist": "^1.12.1",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.19",
     "metismenu": "^2.7.0",
     "mocha": "^7.1.1",
     "papaparse": "^4.3.5",
