@@ -51,7 +51,7 @@
     "lodash": "^4.17.19",
     "metismenu": "^2.7.0",
     "mocha": "^7.1.1",
-    "papaparse": "^4.3.5",
+    "papaparse": "^5.2.0",
     "plotly.js": "^1.53.0",
     "popper.js": "^1.12.9",
     "react": "^15.6.1",
