@@ -28,7 +28,7 @@
     "babel-preset-react": "^6.16.0",
     "bootstrap-sass": "^3.3.7",
     "chai": "^3.5.0",
-    "node-sass": "^4.5.3",
+    "node-sass": "^7.0.0",
     "rewire": "^2.5.2",
     "sass-loader": "^6.0.6"
   },
